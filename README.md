@@ -2,7 +2,7 @@
 
 Dash components for bioinformatics
 
-# Progress
+## Progress
 
 #### Bioinformatics charts
 
