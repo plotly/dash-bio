@@ -11,12 +11,13 @@
     "build:all": "yarn build:js & yarn build:py",
     "build:all-dev": "yarn build:js-dev & yarn build:py"
   },
-  "author": "Jack Luo",
+  "author": "Shammamah Hossain",
   "license": "UNLICENSED",
   "dependencies": {
     "ramda": "^0.25.0",
     "react": "^16.4.2",
-    "react-dom": "^16.4.2"
+      "react-dom": "^16.4.2",
+      "react-sequence-viewer": "^0.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
