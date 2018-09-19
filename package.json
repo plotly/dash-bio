@@ -16,8 +16,9 @@
   "dependencies": {
     "ramda": "^0.25.0",
     "react": "^16.4.2",
-      "react-dom": "^16.4.2",
-      "react-sequence-viewer": "^0.2.2"
+    "react-dom": "^16.4.2",
+    "react-sequence-viewer": "^0.2.2",
+    "yarn": "^1.9.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

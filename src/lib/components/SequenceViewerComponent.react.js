@@ -6,6 +6,7 @@ import ReactSequenceViewer from 'react-sequence-viewer';
  *
  */
 export default class SequenceViewerComponent extends Component {
+
     render() {
 	const {id, sequence,
 	       showLineNumbers,
@@ -15,7 +16,8 @@ export default class SequenceViewerComponent extends Component {
 	       search,
 	       title,
 	       sequenceMaxHeight,
-	       badge} = this.props;
+	       badge,
+	       selection} = this.props;
 
 	const options = {
 	    showLineNumbers: showLineNumbers,
@@ -25,11 +27,11 @@ export default class SequenceViewerComponent extends Component {
 	    search: search,
 	    title: title,
 	    sequenceMaxHeight: sequenceMaxHeight,
-	    badge: badge
+	    badge: badge,
+	    selection: selection
 	};
 
 	const seq = this.props.sequence;
-	    
 	
 	return (
 		<div id={id}>
@@ -50,5 +52,10 @@ SequenceViewerComponent.propTypes = {
     title: PropTypes.string,
     sequenceMaxHeight: PropTypes.string,
     badge: PropTypes.bool,
+    selection: PropTypes.arrayOf(PropTypes.shape({
+	low: PropTypes.number,
+	high: PropTypes.number,
+	color: PropTypes.string
+    })),
     setProps: PropTypes.func
 }
