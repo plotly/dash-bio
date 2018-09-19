@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactSequenceViewer from 'react-sequence-viewer';
 
+// required according to react-sequence-viewer readme
+import jquery from 'jquery';
+window.jQuery = jquery;
+
 /**
  *
  */
@@ -17,7 +21,8 @@ export default class SequenceViewerComponent extends Component {
 	       title,
 	       sequenceMaxHeight,
 	       badge,
-	       selection} = this.props;
+	       selection,
+	       coverage} = this.props;
 
 	const options = {
 	    showLineNumbers: showLineNumbers,
@@ -28,9 +33,11 @@ export default class SequenceViewerComponent extends Component {
 	    title: title,
 	    sequenceMaxHeight: sequenceMaxHeight,
 	    badge: badge,
-	    selection: selection
+	    coverage: coverage
 	};
 
+	
+	
 	const seq = this.props.sequence;
 	
 	return (
@@ -56,6 +63,15 @@ SequenceViewerComponent.propTypes = {
 	low: PropTypes.number,
 	high: PropTypes.number,
 	color: PropTypes.string
+    })),
+    coverage: PropTypes.arrayOf(PropTypes.shape({
+	start: PropTypes.number,
+	end: PropTypes.number,
+	color: PropTypes.string,
+	bgcolor: PropTypes.string,
+	underscore: PropTypes.bool,
+	tooltip: PropTypes.string,
+	onclick: PropTypes.func
     })),
     setProps: PropTypes.func
 }
