@@ -7,21 +7,23 @@
     "start": "webpack-serve ./webpack.serve.config.js --open",
     "build:js-dev": "webpack --mode development",
     "build:js": "webpack --mode production",
-    "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && copyfiles package.json dash_bio",
-    "build:all": "yarn build:js & yarn build:py",
-    "build:all-dev": "yarn build:js-dev & yarn build:py"
+    "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && copyfiles package.json dash_bio && python -c \"import dash; dash.development.component_loader.generate_classes('dash_bio', 'dash_bio/metadata.json')\"",
+    "build:all": "npm run build:js & npm run build:py",
+    "build:all-dev": "npm run build:js-dev & npm run build:py"
   },
-  "author": "Jack Luo",
-  "license": "UNLICENSED",
+  "author": "Chitra Narayanan narayanan.chitra@gmail.com",
+  "license": "MIT",
   "dependencies": {
+    "molecule-3d-for-react": "^0.4.5",
     "ramda": "^0.25.0",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2"
+    "react": "15.4.2",
+    "react-dom": "15.4.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "copyfiles": "^2.0.0",
@@ -30,9 +32,10 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react": "^7.9.1",
+    "npm": "^6.1.0",
     "react-docgen": "^2.20.1",
     "style-loader": "^0.21.0",
-    "webpack": "^4.16.5",
+    "webpack": "^4.8.3",
     "webpack-cli": "^2.1.3",
     "webpack-serve": "^1.0.2"
   },
