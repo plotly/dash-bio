@@ -1,0 +1,99 @@
+{
+  "src/lib/components/DashIdeogram.react.js": {
+    "description": "DashIdeogram displays the genome of organisms,\r\nand allows the user to manipulate and view it easily.",
+    "displayName": "DashIdeogram",
+    "methods": [
+      {
+        "name": "clearDiv",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this compnent in Dash callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash specific prop type"
+      },
+      "organism": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The organism, whos genome is to be viewed and manipulated",
+        "defaultValue": {
+          "value": "\"human\"",
+          "computed": false
+        }
+      },
+      "showBandLabels": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Enable or disable the band labels"
+      },
+      "orientation": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The orientation of the chromesomes either being vertical or horizontal"
+      },
+      "dataDir": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The directory where data is taken from to create the genome graphs.",
+        "defaultValue": {
+          "value": "'https://unpkg.com/ideogram@0.13.0/dist/data/bands/native/'",
+          "computed": false
+        }
+      },
+      "container": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "CSS styling and the id of the container holding the Ideogram in react-ideogram.js"
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The input's inline styles"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The class of the input element",
+        "defaultValue": {
+          "value": "\"App\"",
+          "computed": false
+        }
+      },
+      "label": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The label"
+      }
+    }
+  }
+}

@@ -1,6 +1,5 @@
-/* eslint-disable import/prefer-default-export */
-import ExampleComponent from './components/ExampleComponent.react';
+import DashIdeogram from './components/DashIdeogram.react.js';
 
 export {
-    ExampleComponent
+    DashIdeogram
 };

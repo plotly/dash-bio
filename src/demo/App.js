@@ -1,34 +1,39 @@
-/* eslint no-magic-numbers: 0 */
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import * as R from 'ramda';
-
-import {ExampleComponent} from '../lib';
+import React, { Component } from 'react';
+import './App.css';
+import ReactIdeogram from '../lib/components/react-ideogram'
 
 class App extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            value: ''
-        }
-        this.setProps = this.setProps.bind(this);
-    }
+  constructor(props) {
+      super(props);
 
-    setProps(newProps) {
-        this.setState(newProps);
-    }
+      this.state = {
+              organism: 'mouse',
+              showBandLabels: false,
+              orientation: 'vertical',
+              container: '#ideogram-container',                                                               
+              dataDir: 'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/'
+      };
+  }
 
-    render() {
-        return (
-            <div>
-                <ExampleComponent
-                    setProps={this.setProps}
-                    {...this.state}
-                />
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className="App">
+            <h4>state: {JSON.stringify(this.state)}</h4>
+
+            <p>Change component state (React way)</p>
+            <button onClick={e => this.setState({organism: 'mouse'})}>Mouse</button>
+            <button onClick={e => this.setState({organism: 'human'})}>Human</button>
+            <button onClick={e => this.setState({orientation: 'vertical'})}>Vert</button>
+            <button onClick={e => this.setState({orientation: 'horizontal'})}>Horiz</button>
+            <button onClick={e => this.setState({showBandLabels: true})}>Bands</button>
+            <button onClick={e => this.setState({showBandLabels: false})}>No Bands</button>
+
+
+            <ReactIdeogram config={this.state} />
+      </div>
+    );
+  }
 }
 
 export default App;
