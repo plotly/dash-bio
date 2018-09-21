@@ -1,10 +1,13 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  height: 100vh;
+  overflow: auto
 }
 
 .App #ideogram-container {
-  height: 400px;
-  width: 400px;
+  height: 100vh;
+
+  overflow: auto
 }
 
 @keyframes App-logo-spin {

@@ -1,5 +1,6 @@
-import DashIdeogram from './components/DashIdeogram.react.js';
+import DashIdeogram from './components/DashIdeogram.React.js';
 
 export {
     DashIdeogram
+
 };

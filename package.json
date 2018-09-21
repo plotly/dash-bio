@@ -14,7 +14,7 @@
   "author": "Matthew Chan mattewchan@plot.ly",
   "license": "MIT",
   "dependencies": {
-    "ideogram": "^1.2.0",
+    "ideogram": "^1.3.0",
     "ramda": "^0.25.0",
     "react": "15.4.2",
     "react-dom": "15.4.2"
