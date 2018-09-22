@@ -36,12 +36,14 @@ selection = [10, 20, 'blue']
 app.layout = html.Div([
     dash_bio.SequenceViewerComponent(
         id='sequence-viewer',
-        title="yay",
+        title="This is a protein",
         wrapAminoAcids=True,
         search=True,
         sequence=sequence,
 #        selection=selection,
-        coverage=coverage
+        coverage=coverage,
+#        coverage_n_clicks=[0]*len(coverage),
+#        coverage_n_clicks_timestamp=[0]*len(coverage)
     ),
 
     "For selection",
@@ -69,7 +71,11 @@ app.layout = html.Div([
         ],
         values=['wrap']
     ),
-    
+
+    html.Div(
+        id='test-div',
+        children=''
+    ),
 ])
 
 
@@ -104,6 +110,14 @@ def update_wrap_amino_acids(wrap):
         return True
     return False
 
+"""
+@app.callback(
+    Output('test-div', 'children'),
+    [Input('sequence-viewer', 'coverage_n_clicks')]
+)
+def show_onclick_info(cov):
+    return cov
+"""
 
 if __name__ == '__main__':
     app.run_server(debug=True)
