@@ -63,6 +63,13 @@ sec_structure = [
     [107, 109, "turn"]
 ]
 
+codes = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
+         'ILE': 'I', 'PRO': 'P', 'THR': 'T', 'PHE': 'F', 'ASN': 'N',
+         'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W',
+         'ALA': 'A', 'VAL': 'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M'}
+codes = dict((codes[k], k) for k in codes)
+print(codes)
+
 coverage = []
 
 for s in sec_structure:
@@ -89,6 +96,7 @@ app.layout = html.Div([
         search=True,
         sequence=sequence,
         coverage=coverage,
+#        selection=selection
     ),
 
     dcc.RangeSlider(
@@ -99,14 +107,24 @@ app.layout = html.Div([
         value=[10, 20]
     ),
 
-    dash_bio.ExampleComponent(
-        id='test-input',
-        label='sequence title',
-        value='title'
+    "Selection information: ",
+    html.Div(
+        id='test-selection'
+    ),
+    
+    "Coverage info: ",
+    html.Div(
+        id='test-coverage'
     ),
 
+    "Mouse sel: ",
     html.Div(
-        id='test-div'
+        id='test-mouse-selection'
+    ),
+
+    "Subpart sel: ",
+    html.Div(
+        id='test-subpart-selection'
     )
 ])
     
@@ -120,7 +138,22 @@ def update_sel(v):
 
 
 @app.callback(
-    Output('test-div', 'children'),
+    Output('test-selection', 'children'),
+    [Input('sequence-viewer', 'selection')]
+)
+def get_aa_comp(v):
+    subsequence = sequence[v[0]:v[1]]
+    amino_acids = list(set(list(subsequence)))
+    summary = []
+    for aa in amino_acids:
+        summary.append(
+            html.Tr([html.Td(codes[aa]), html.Td(str(subsequence.count(aa)))])
+        )
+    return html.Table(summary)
+
+
+@app.callback(
+    Output('test-coverage', 'children'),
     [Input('sequence-viewer', 'coverageClicked')]
 )
 def update_coverage(v):
@@ -133,8 +166,24 @@ def update_coverage(v):
             if(len(s) > 2):
                 return cov['tooltip']
             else:
-                return ""
+                return "No additional information."
     return sequence[cov['start']:cov['end']]
+
+
+@app.callback(
+    Output('test-mouse-selection', 'children'),
+    [Input('sequence-viewer', 'mouseSelection')]
+)
+def update_mouse_sel(v):
+    return v
+
+
+@app.callback(
+    Output('test-subpart-selection', 'children'),
+    [Input('sequence-viewer', 'subpartSelected')]
+)
+def update_subpart_sel(v):
+    return v
 
 
 if __name__ == '__main__':
