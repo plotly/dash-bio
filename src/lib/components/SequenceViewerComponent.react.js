@@ -18,34 +18,50 @@ export default class SequenceViewerComponent extends Component {
 
     componentDidMount() {
 	const {coverage,
+	       selection,
+	       onMouseSelection,
+	       onSubpartSelected,
+	       subpartSelected,
+	       mouseSelection,
 	       setProps} = this.props;
+
 	var cov = coverage;
-	var i;
-	for(i = 0; i < cov.length; i++) {
-	    const v = i;
-	    cov[i].onclick = (e) => setProps({
-		coverageClicked: v
-	    });
+	if(coverage) {
+	    var i;
+	    for(i = 0; i < cov.length; i++) {
+		const v = i;
+		cov[i].onclick = (e) => setProps({
+		    coverageClicked: v
+		});
+	    }
 	}
+
+	const oms = (e) =>  {
+	    console.warn("Mouse selection");
+	    setProps({
+		mouseSelection: e.detail
+	    });
+	    console.log(e.detail);
+	}
+	const oss = (e) => {
+	    console.warn("Subpart selection");
+	    setProps({
+		subpartSelected: e.detail
+	    });
+	    console.log(e.detail);
+	}
+
 	setProps({
-	    coverage: cov
+	    coverage: cov,
+	    onMouseSelection: oms,
+	    onSubpartSelected: oss
 	});
     }
 
     render() {
-	const {id, sequence,
-	       showLineNumbers,
-	       wrapAminoAcids,
-	       charsPerLine,
-	       toolbar,
-	       search,
-	       title,
-	       sequenceMaxHeight,
-	       badge,
-	       selection,
-	       coverage,
-	       setProps} = this.props;
-
+	
+	const id = this.props.id;
+	
 	const options = {
 	    showLineNumbers: this.props.showLineNumbers,
 	    wrapAminoAcids: this.props.wrapAminoAcids,
@@ -55,12 +71,14 @@ export default class SequenceViewerComponent extends Component {
 	    title: this.props.title,
 	    sequenceMaxHeight: this.props.sequenceMaxHeight,
 	    badge: this.props.badge,
-	    //	    selection: this.props.selection,
-	    coverage: coverage
-	};	
+	    selection: this.props.selection,
+	    onMouseSelection: this.props.onMouseSelection,
+	    onSubpartSelected: this.props.onSubpartSelected,
+	    coverage: this.props.coverage,
+	};
 
 	const seq = this.props.sequence;
-	
+
 	return (
 		<div id={id}>
 		<ReactSequenceViewer sequence={seq} {...options} />
@@ -95,5 +113,9 @@ SequenceViewerComponent.propTypes = {
 	onclick: PropTypes.func
     })),
     coverageClicked: PropTypes.number,
+    mouseSelection: PropTypes.string,
+    subpartSelected: PropTypes.string,
+    onMouseSelection: PropTypes.func,
+    onSubpartSelected: PropTypes.func,
     setProps: PropTypes.func
 }
