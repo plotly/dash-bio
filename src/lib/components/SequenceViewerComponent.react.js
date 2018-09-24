@@ -16,6 +16,22 @@ export default class SequenceViewerComponent extends Component {
 	this.state = {}
     }
 
+    componentWillMount() {
+	const {coverage,
+	       setProps} = this.props;
+	var cov = coverage;
+	var i;
+	for(i = 0; i < cov.length; i++) {
+	    const v = i;
+	    cov[i].onclick = (e) => setProps({
+		coverageClicked: v
+	    });
+	}
+	setProps({
+	    coverage: cov
+	});
+    }
+
     render() {
 	const {id, sequence,
 	       showLineNumbers,
@@ -39,9 +55,10 @@ export default class SequenceViewerComponent extends Component {
 	    title: this.props.title,
 	    sequenceMaxHeight: this.props.sequenceMaxHeight,
 	    badge: this.props.badge,
-	    selection: this.props.selection,
+	    //	    selection: this.props.selection,
+	    coverage: coverage
 	};	
-	
+
 	const seq = this.props.sequence;
 	
 	return (
@@ -49,14 +66,6 @@ export default class SequenceViewerComponent extends Component {
 		<ReactSequenceViewer sequence={seq} {...options} />
 		</div>
 	);
-    }
-
-    componentWillReceiveProps(nextProps){
-	console.warn(this.props.selection);
-	console.warn(nextProps.selection);
-	if(nextProps.selection!==this.props.selection){
-	    console.log("different");
-	}
     }
 }
 
@@ -76,6 +85,15 @@ SequenceViewerComponent.propTypes = {
 	high: PropTypes.number,
 	color: PropTypes.string
     })),
-    coverage: PropTypes.func,
+    coverage: PropTypes.arrayOf(PropTypes.shape({
+	start: PropTypes.number,
+	end: PropTypes.number,
+	color: PropTypes.string,
+	bgcolor: PropTypes.string,
+	tooltip: PropTypes.string,
+	underscore: PropTypes.bool,
+	onclick: PropTypes.func
+    })),
+    coverageClicked: PropTypes.number,
     setProps: PropTypes.func
 }

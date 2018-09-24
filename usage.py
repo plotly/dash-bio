@@ -16,7 +16,7 @@ highlightColor = 'blue'
 coverage = [
     dict(
         start=0,
-        end=10,
+        end=11,
         color="#000000",
         bgcolor="#00ff00",
         tooltip="hi",
@@ -24,10 +24,24 @@ coverage = [
     ),
     dict(
         start=11,
-        end=len(sequence) - 1,
+        end=23,
         color="#ff0000",
         bgcolor="#0000ff",
         underscore=True
+    ),
+    dict(
+        start=23,
+        end=50,
+        color="#ff00ff",
+        bgcolor="#ffffff",
+        underscore=False
+    ),
+    dict(
+        start=50,
+        end=len(sequence) - 1,
+        color="#0f0f0f",
+        bgcolor="#ff00d1",
+        underscore=False
     )
 ]
 
@@ -40,6 +54,7 @@ app.layout = html.Div([
         wrapAminoAcids=True,
         search=True,
         sequence=sequence,
+        coverage=coverage,
     ),
 
     dcc.RangeSlider(
@@ -69,6 +84,7 @@ app.layout = html.Div([
 def update_selection_low_high(v):
     return v
 
+
 @app.callback(
     Output('sequence-viewer', 'selection'),
     [Input('slider', 'value')]
@@ -76,12 +92,15 @@ def update_selection_low_high(v):
 def update_sel(v):
     return [v[0], v[1], highlightColor]
 
+
 @app.callback(
     Output('test-div', 'children'),
-    [Input('slider', 'value')]
+    [Input('sequence-viewer', 'coverageClicked')]
 )
-def update_selection(v):
-    return sequence[v[0]:v[1]]
+def update_coverage(v):
+    cov = coverage[v]
+    return sequence[cov['start']:cov['end']]
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
