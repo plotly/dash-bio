@@ -124,7 +124,10 @@ def update_sel(v):
     [Input('sequence-viewer', 'coverageClicked')]
 )
 def update_coverage(v):
-    cov = coverage[v]
+    try:
+        cov = coverage[v]
+    except TypeError:
+        return ""
     for s in sec_structure:
         if(s[0] == cov['start']):
             if(len(s) > 2):
