@@ -16,7 +16,7 @@ export default class SequenceViewerComponent extends Component {
 	this.state = {}
     }
 
-    componentWillMount() {
+    componentDidMount() {
 	const {coverage,
 	       setProps} = this.props;
 	var cov = coverage;
