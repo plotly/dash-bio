@@ -40,84 +40,49 @@ app.layout = html.Div([
         wrapAminoAcids=True,
         search=True,
         sequence=sequence,
-#        selection=selection,
-        coverage=coverage,
-#        coverage_n_clicks=[0]*len(coverage),
-#        coverage_n_clicks_timestamp=[0]*len(coverage)
     ),
 
-    "For selection",
     dcc.RangeSlider(
-        id='seq-selection',
-        count=1,
+        id='slider',
         min=0,
         max=len(sequence),
         step=1,
         value=[10, 20]
     ),
 
-    "For coverage",
-    dcc.Slider(
-        id='coverage',
-        min=0,
-        max=len(sequence)
-    ),
-    
-    "For wrap amino acids",
-    dcc.Checklist(
-        id='wrap-amino-acids',
-        options=[
-            {'label': 'Wrap amino acids', 'value': 'wrap'}
-        ],
-        values=['wrap']
+    dash_bio.ExampleComponent(
+        id='test-input',
+        label='sequence title',
+        value='title'
     ),
 
     html.Div(
-        id='test-div',
-        children=''
-    ),
+        id='test-div'
+    )
 ])
-
+    
+ 
+@app.callback(
+    Output('sequence-viewer', 'title'),
+    [Input('test-input', 'value')]
+)
+def update_selection_low_high(v):
+    return v
 
 @app.callback(
     Output('sequence-viewer', 'selection'),
-    [Input('seq-selection', 'value')]
+    [Input('slider', 'value')]
 )
-def update_selection_low_high(selection):
-    return [selection[0], selection[1], highlightColor]
+def update_sel(v):
+    return [v[0], v[1], highlightColor]
 
-
-@app.callback(
-        Output('sequence-viewer', 'coverage'),
-        [Input('coverage', 'value')],
-)
-def update_coverage_division(a):
-    coverage[0].update(
-        end=a
-    )
-    coverage[1].update(
-        start=a
-    )
-    return coverage
-
-
-@app.callback(
-    Output('sequence-viewer', 'wrapAminoAcids'),
-    [Input('wrap-amino-acids', 'values')]
-)
-def update_wrap_amino_acids(wrap):
-    if(len(wrap) > 0):
-        return True
-    return False
-
-"""
 @app.callback(
     Output('test-div', 'children'),
-    [Input('sequence-viewer', 'coverage_n_clicks')]
+    [Input('slider', 'value')]
 )
-def show_onclick_info(cov):
-    return cov
-"""
+def update_selection(v):
+    return sequence[v[0]:v[1]]
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+

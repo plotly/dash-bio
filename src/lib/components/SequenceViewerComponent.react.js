@@ -11,6 +11,11 @@ window.jQuery = jquery;
  */
 export default class SequenceViewerComponent extends Component {
 
+    constructor(props) {
+	super(props);
+	this.state = {}
+    }
+
     render() {
 	const {id, sequence,
 	       showLineNumbers,
@@ -25,51 +30,17 @@ export default class SequenceViewerComponent extends Component {
 	       coverage,
 	       setProps} = this.props;
 
-	this.props.setProps({id: 'hey'});
-	
-	/*
-	var onClickFunctions = []
-
-	function update_clicks_timestamp(i, current_nclicks, current_timestamp){
-	    current_nclicks[i] = current_nclicks[i] + 1;
-	    current_timestamp[i] = Date.now();
-	    function f() {
-		return ({
-		    coverage_n_clicks: current_nclicks,
-		    coverage_n_clicks_timestamp: current_timestamp
-		});
-	    }
-	    return f;
-
-	}
-
-	var i;
-	for (i = 0; i < coverage.length; i++){
-	    var current_nclicks = this.props.coverage_n_clicks;
-	    var current_timestamp = this.props.coverage_n_clicks_timestamp;
-	    onClickFunctions.push(update_clicks_timestamp(i, this.props.coverage_n_clicks, this.props.coverage_n_clicks_timestamp));
-	}
-
-	// update the onclick function
-	var cov = coverage;
-	var i;
-	for(i = 0; i < coverage.length; i++){
-	    cov[i] = coverage[i];
-	    cov[i].onclick = onClickFunctions[i]
-	}
-	*/
 	const options = {
-	    showLineNumbers: showLineNumbers,
-	    wrapAminoAcids: wrapAminoAcids,
-	    charsPerLine: charsPerLine,
-	    toolbar: toolbar,
-	    search: search,
-	    title: title,
-	    sequenceMaxHeight: sequenceMaxHeight,
-	    badge: badge,
-	    coverage: coverage
-	};
-	
+	    showLineNumbers: this.props.showLineNumbers,
+	    wrapAminoAcids: this.props.wrapAminoAcids,
+	    charsPerLine: this.props.charsPerLine,
+	    toolbar: this.props.toolbar,
+	    search: this.props.search,
+	    title: this.props.title,
+	    sequenceMaxHeight: this.props.sequenceMaxHeight,
+	    badge: this.props.badge,
+	    selection: this.props.selection,
+	};	
 	
 	const seq = this.props.sequence;
 	
@@ -78,6 +49,14 @@ export default class SequenceViewerComponent extends Component {
 		<ReactSequenceViewer sequence={seq} {...options} />
 		</div>
 	);
+    }
+
+    componentWillReceiveProps(nextProps){
+	console.warn(this.props.selection);
+	console.warn(nextProps.selection);
+	if(nextProps.selection!==this.props.selection){
+	    console.log("different");
+	}
     }
 }
 
@@ -97,15 +76,6 @@ SequenceViewerComponent.propTypes = {
 	high: PropTypes.number,
 	color: PropTypes.string
     })),
-    coverage: PropTypes.arrayOf(PropTypes.shape({
-	start: PropTypes.number,
-	end: PropTypes.number,
-	color: PropTypes.string,
-	bgcolor: PropTypes.string,
-	underscore: PropTypes.bool,
-	tooltip: PropTypes.string,
-    })),
-//    coverage_n_clicks: PropTypes.arrayOf(PropTypes.number),
-//    coverage_n_clicks_timestamp: PropTypes.arrayOf(PropTypes.number),
-//    setProps: PropTypes.func
+    coverage: PropTypes.func,
+    setProps: PropTypes.func
 }
