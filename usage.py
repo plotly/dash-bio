@@ -27,12 +27,30 @@ cov_colors = {
         "tooltip": "Alpha helix"
     },
     "turn": {
-        "color": "#0f0f0f",
-        "bgcolor": "#ffff00",
+        "color": "#ffff00",
+        "bgcolor": "#0f0f0f",
         "underscore": True,
         "tooltip": "Turn"
     }
 }
+
+legend = [
+    {
+        'name': 'Beta strand',
+        'color': '#ff0000',
+        'underscore': False
+    },
+    {
+        'name': 'Alpha helix',
+        'color': '#00ff00',
+        'underscore': True
+    },
+    {
+        'name': 'Turn',
+        'color': '#ffff00',
+        'underscore': True
+    }
+]
 
 sec_structure = [
     [0, 26],
@@ -68,7 +86,6 @@ codes = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
          'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W',
          'ALA': 'A', 'VAL': 'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M'}
 codes = dict((codes[k], k) for k in codes)
-print(codes)
 
 coverage = []
 
@@ -96,6 +113,7 @@ app.layout = html.Div([
         search=True,
         sequence=sequence,
         coverage=coverage,
+        legend=legend,
 #        selection=selection
     ),
 
@@ -127,8 +145,9 @@ app.layout = html.Div([
         id='test-subpart-selection'
     )
 ])
-    
- 
+
+
+'''
 @app.callback(
     Output('sequence-viewer', 'selection'),
     [Input('slider', 'value')]
@@ -150,6 +169,7 @@ def get_aa_comp(v):
             html.Tr([html.Td(codes[aa]), html.Td(str(subsequence.count(aa)))])
         )
     return html.Table(summary)
+'''
 
 
 @app.callback(

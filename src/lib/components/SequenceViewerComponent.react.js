@@ -61,7 +61,7 @@ export default class SequenceViewerComponent extends Component {
     render() {
 	
 	const id = this.props.id;
-	
+
 	const options = {
 	    showLineNumbers: this.props.showLineNumbers,
 	    wrapAminoAcids: this.props.wrapAminoAcids,
@@ -71,12 +71,18 @@ export default class SequenceViewerComponent extends Component {
 	    title: this.props.title,
 	    sequenceMaxHeight: this.props.sequenceMaxHeight,
 	    badge: this.props.badge,
-	    selection: this.props.selection,
 	    onMouseSelection: this.props.onMouseSelection,
 	    onSubpartSelected: this.props.onSubpartSelected,
-	    coverage: this.props.coverage,
+	    legend: this.props.legend
 	};
 
+	if(this.props.coverage){
+	    options.coverage = this.props.coverage;
+	}
+	if(this.props.selection){
+	    options.selection = this.props.selection;
+	}
+	
 	const seq = this.props.sequence;
 
 	return (
@@ -175,6 +181,16 @@ SequenceViewerComponent.propTypes = {
 	onclick: PropTypes.func
     })),
 
+    /**
+     * A legend corresponding to the color codes above (optionally displayed).
+     */
+    legend: PropTypes.arrayOf(PropTypes.shape({
+	name: PropTypes.string,
+	color: PropTypes.string,
+	underscore: PropTypes.bool
+    })),
+	
+    
     /**
      * Contains the index of the section that was clicked last in 
      * the coverage.
