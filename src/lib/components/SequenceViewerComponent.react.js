@@ -13,14 +13,13 @@ export default class SequenceViewerComponent extends Component {
 
     constructor(props) {
 	super(props);
-	this.state = {}
     }
 
     componentDidMount() {
 	const {coverage,
 	       selection,
-	       onMouseSelection,
-	       onSubpartSelected,
+//	       onMouseSelection,
+//	       onSubpartSelected,
 	       subpartSelected,
 	       mouseSelection,
 	       setProps} = this.props;
@@ -35,30 +34,29 @@ export default class SequenceViewerComponent extends Component {
 		});
 	    }
 	}
-
-	const oms = (e) =>  {
-	    console.warn("Mouse selection");
-	    setProps({
-		mouseSelection: e.detail
-	    });
-	    console.log(e.detail);
-	}
-	const oss = (e) => {
-	    console.warn("Subpart selection");
-	    setProps({
-		subpartSelected: e.detail
-	    });
-	    console.log(e.detail);
-	}
-
+	
 	setProps({
 	    coverage: cov,
-	    onMouseSelection: oms,
-	    onSubpartSelected: oss
 	});
     }
 
     render() {
+
+	this.props.onMouseSelection = (e) => {
+	    if(e.detail) {
+		console.warn(e.detail);
+		//this.props.setProps({mouseSelection: e.detail[0]['start']});
+	    }
+	}
+	this.props.onSubpartSelected = (e) => {
+	    if(e.detail) {
+		console.warn(e.detail);
+		//this.props.setProps({subpartSelected: e.detail[0]['start']});
+	    }
+	}
+
+	console.log(this.props.mouseSelection);
+	console.log(this.props.subpartSelected);
 	
 	const id = this.props.id;
 
@@ -200,13 +198,13 @@ SequenceViewerComponent.propTypes = {
     /**
      * A string containing the mouse selection.
      */
-    mouseSelection: PropTypes.string,
+    mouseSelection: PropTypes.number,
 
     /**
      * A string containing all of the highlighted sections when 
      * using the search bar.
      */
-    subpartSelected: PropTypes.string,
+    subpartSelected: PropTypes.number,
 
     /**
      * A function acting as an event handler for mouse selection. 
