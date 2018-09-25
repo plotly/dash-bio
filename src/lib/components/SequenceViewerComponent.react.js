@@ -18,8 +18,6 @@ export default class SequenceViewerComponent extends Component {
     componentDidMount() {
 	const {coverage,
 	       selection,
-//	       onMouseSelection,
-//	       onSubpartSelected,
 	       subpartSelected,
 	       mouseSelection,
 	       setProps} = this.props;
@@ -40,24 +38,24 @@ export default class SequenceViewerComponent extends Component {
 	});
     }
 
+    shouldComponentUpdate(newProps, newState) {
+	// TODO compare all props; if everything but subpartSelected/mouseSelection has
+	// not changed, return false
+    }
+    
     render() {
 
 	this.props.onMouseSelection = (e) => {
 	    if(e.detail) {
-		console.warn(e.detail);
-		//this.props.setProps({mouseSelection: e.detail[0]['start']});
+		this.props.setProps({mouseSelection: e.detail[0]['sequence']});
 	    }
 	}
 	this.props.onSubpartSelected = (e) => {
 	    if(e.detail) {
-		console.warn(e.detail);
-		//this.props.setProps({subpartSelected: e.detail[0]['start']});
+		this.props.setProps({subpartSelected: e.detail[0]['sequence']});
 	    }
 	}
 
-	console.log(this.props.mouseSelection);
-	console.log(this.props.subpartSelected);
-	
 	const id = this.props.id;
 
 	const options = {
@@ -198,13 +196,13 @@ SequenceViewerComponent.propTypes = {
     /**
      * A string containing the mouse selection.
      */
-    mouseSelection: PropTypes.number,
+    mouseSelection: PropTypes.string,
 
     /**
      * A string containing all of the highlighted sections when 
      * using the search bar.
      */
-    subpartSelected: PropTypes.number,
+    subpartSelected: PropTypes.string,
 
     /**
      * A function acting as an event handler for mouse selection. 
