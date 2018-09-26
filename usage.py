@@ -13,35 +13,27 @@ app.css.config.serve_locally = True
 
 data = np.loadtxt('data.txt')
 
-rgm = [
-    {'group': 1,
-     'annotation': 'A',
-     'color': 'blue'},
-    {'group': 3,
-     'annotation': 'B',
-     'color': 'red'}
-]
-
-cgm = [
-    {'group': 1,
-     'annotation': 'X',
-     'color': 'pink'},
-    {'group': 3,
-     'annotation': 'Y',
-     'color': 'green'}
-]
-
-
 fig_options = dict(
     data=data, id='sample', cluster='all',
     optimalLeafOrder=False,
     displayRatio=[0.5, 0.5],
     columnLabels=None, rowLabels=None,
     colorThreshold=dict(row=9, col=55),
-    rowGroupMarker=rgm, colGroupMarker=cgm
+    height=500, width=800,
+    annotationFont=dict(
+        color='red',
+        size=12
+    )
 )
 
 app.layout = html.Div([
+    html.Div(
+        id='header',
+        children=[
+            'Dash Clustergram'
+        ]
+    ),
+
     html.Div(
         id='clustergram-wrapper',
         children=[
@@ -51,46 +43,51 @@ app.layout = html.Div([
         ]
     ),
 
-    dcc.Checklist(
-        id='cluster-checklist',
-        options=[
-            {'label': 'row clustering', 'value': 'row'},
-            {'label': 'column clustering', 'value': 'col'}
-        ],
-        values=['row', 'col']
-    ),
-
     html.Div(
-        id='add-group-markers',
+        id='options',
         children=[
-            dcc.Dropdown(
-                id='row-or-col-group',
+            dcc.Checklist(
+                id='cluster-checklist',
                 options=[
-                    {'label': 'Row group', 'value': 'row'},
-                    {'label': 'Column group', 'value': 'col'}
+                    {'label': 'row clustering', 'value': 'row'},
+                    {'label': 'column clustering', 'value': 'col'}
+                ],
+                values=['row', 'col']
+            ),
+            
+            html.Div(
+                id='add-group-markers',
+                children=[
+                    dcc.Dropdown(
+                        id='row-or-col-group',
+                        options=[
+                            {'label': 'Row group', 'value': 'row'},
+                            {'label': 'Column group', 'value': 'col'}
+                        ]
+                    ),
+                    dcc.Input(
+                        id='group-number',
+                        placeholder='group number',
+                        type='number',
+                        value=''
+                    ),
+                    dcc.Input(
+                        id='annotation',
+                        placeholder='annotation',
+                        type='text',
+                        value=''
+                    ),
+                    dcc.Input(
+                        id='color',
+                        placeholder='color',
+                        type='text',
+                        value=''
+                    ),
+                    html.Button(
+                        id='submit-group-marker',
+                        children='submit'
+                    )
                 ]
-            ),
-            dcc.Input(
-                id='group-number',
-                placeholder='group number',
-                type='text',
-                value=''
-            ),
-            dcc.Input(
-                id='annotation',
-                placeholder='annotation',
-                type='text',
-                value=''
-            ),
-            dcc.Input(
-                id='color',
-                placeholder='color',
-                type='text',
-                value=''
-            ),
-            html.Button(
-                id='submit-group-marker',
-                children='submit'
             )
         ]
     )
@@ -121,10 +118,15 @@ def cluster_row(v, nclicks, rowOrCol, groupNum, annotation, color):
         color=color
     )
     if(rowOrCol == 'row'):
-        fig_options['rowGroupMarker'].append(marker)
+        try:
+            fig_options['rowGroupMarker'].append(marker)
+        except KeyError:
+            fig_options['rowGroupMarker'] = [marker]
     elif(rowOrCol == 'col'):
-        fig_options['colGroupMarker'].append(marker)
-
+        try:
+            fig_options['colGroupMarker'].append(marker)
+        except KeyError:
+            fig_options['colGroupMarker'] = [marker]
     return dash_bio.ClustergramComponent(**fig_options)
 
 
