@@ -231,6 +231,7 @@ class Clustergram(object):
             cdt['line'] = dict(
                 width=1
             )
+            cdt['hoverinfo'] = 'y'
             fig.append_trace(cdt, 1, 2)
 
         # row dendrogram (displays on left side)
@@ -239,6 +240,7 @@ class Clustergram(object):
             rdt['line'] = dict(
                 width=1
             )
+            rdt['hoverinfo'] = 'x'
             fig.append_trace(rdt, 2, 1)
 
         # display row dendrogram sideways
