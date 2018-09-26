@@ -1,0 +1,30 @@
+body {
+    font-family: Helvetica, sans-serif;
+    background:#aaaaff;
+    padding: 0px;
+}
+
+#header {
+    width: calc(100% - 40px);
+    height:auto;
+    position: static;
+    margin-top:0px;
+    margin-left:0px;
+    font-size:36pt;
+    padding: 20px;
+    background:blue;
+    color:#ffffff;
+}
+
+#options {
+    width: 250px;
+    position: absolute;
+    top:250px;
+    right:100px;
+}
+
+#clustergram-wrapper {
+    height: 500px;
+    margin-top:20px;
+    margin-left:20px;
+}

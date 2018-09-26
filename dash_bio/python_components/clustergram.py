@@ -107,8 +107,8 @@ class Clustergram(object):
             colGroupMarker=[],    # same as above
             tickFont=dict(),
             annotationFont=dict(),
-            paperBgColor='rgb(0,0,0,0)',
-            plotBgColor='rgb(0,0,0,0)',
+            paperBgColor='rgba(0,0,0,0)',
+            plotBgColor='rgba(0,0,0,0)',
             height=500,
             width=500
     ):

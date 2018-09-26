@@ -23,7 +23,8 @@ fig_options = dict(
     annotationFont=dict(
         color='red',
         size=12
-    )
+    ),
+    paperBgColor='rgb(0,0,255)'
 )
 
 app.layout = html.Div([
@@ -112,11 +113,14 @@ def cluster_row(v, nclicks, rowOrCol, groupNum, annotation, color):
         fig_options.update(
             cluster=v[0]
         )
-    marker = dict(
-        group=int(groupNum),
-        annotation=annotation,
-        color=color
-    )
+    try:
+        marker = dict(
+            group=int(groupNum),
+            annotation=annotation,
+            color=color
+        )
+    except ValueError:
+        pass
     if(rowOrCol == 'row'):
         try:
             fig_options['rowGroupMarker'].append(marker)
