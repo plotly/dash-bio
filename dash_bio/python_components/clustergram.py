@@ -285,7 +285,7 @@ class Clustergram(object):
                 ticktext=self._rowLabels,
                 tickfont=self._tickFont,
                 showticklabels=True,
-                side='left',
+                side='right',
                 showline=False,
                 range=[min(tickvals_row), max(tickvals_row)]
             )
