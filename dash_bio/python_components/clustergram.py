@@ -72,6 +72,10 @@ class Clustergram(object):
                                         (the text annotation), and 'color'
                                         (color in rgb format used to label the
                                         group).
+    :param (dict) tickFont: The font options for ticks.
+    :param (dict) annotationFont: The font options for annotations.
+    :param (int) height: The height of the graph, in px (default 500).
+    :param (int) width: The width of the graph, in px (default 500).
 """
 
     def __init__(
@@ -96,7 +100,11 @@ class Clustergram(object):
             displayRatio=0.2,
             imputeFunction=None,
             rowGroupMarker=[],    # group number, annotation, color
-            colGroupMarker=[]     # same as above
+            colGroupMarker=[],    # same as above
+            tickFont=dict(),
+            annotationFont=dict(),
+            height=500,
+            width=500
     ):
         self._data = data
         self._rowLabels = rowLabels
@@ -115,6 +123,10 @@ class Clustergram(object):
         self._imputeFunction = imputeFunction
         self._rowGroupMarker = rowGroupMarker
         self._colGroupMarker = colGroupMarker
+        self._tickFont = tickFont
+        self._annotationFont = annotationFont
+        self._height = height
+        self._width = width
 
         if(self._cluster == 'row'):
             if(isinstance(displayRatio, list)):
@@ -249,6 +261,7 @@ class Clustergram(object):
                 tickmode='array',
                 tickvals=tickvals_col,
                 ticktext=self._columnLabels,
+                tickfont=self._tickFont,
                 showticklabels=True,
                 side='bottom',
                 showline=False,
@@ -260,6 +273,7 @@ class Clustergram(object):
                 tickmode='array',
                 tickvals=tickvals_row,
                 ticktext=self._rowLabels,
+                tickfont=self._tickFont,
                 showticklabels=True,
                 side='left',
                 showline=False,
@@ -405,6 +419,12 @@ class Clustergram(object):
         for cgl in colGroupLabels:
             fig.append_trace(cgl, 4, 2)
 
+        # finally add height and width
+        fig['layout'].update(
+            height=self._height,
+            width=self._width
+        )
+            
         return fig
             
     def _scale(
@@ -762,7 +782,9 @@ class Clustergram(object):
                 x=0.5, y=1/2*(ymin + ymax),
                 xref='x6', yref='y6',
                 text=rgm['annotation'],
-                showarrow=False
+                font=self._annotationFont,
+                showarrow=False,
+                xanchor='left'
             ))
             
         for cgm in self._colGroupMarker:
@@ -789,6 +811,7 @@ class Clustergram(object):
                 x=1/2*(xmin + xmax), y=-0.5,
                 xref='x8', yref='y8',
                 text=cgm['annotation'],
+                font=self._annotationFont,
                 showarrow=False
             ))
             
