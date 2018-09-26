@@ -85,8 +85,8 @@ class Clustergram(object):
     def __init__(
             self,
             data=None,
-            rowLabels=[],
-            columnLabels=[],
+            rowLabels=None,
+            columnLabels=None,
             standardize='none',
             cluster='all',
             rowDist='euclidean',
@@ -131,8 +131,8 @@ class Clustergram(object):
         self._colGroupMarker = colGroupMarker
         self._tickFont = tickFont
         self._annotationFont = annotationFont
-        self._paperBgColor = paperBgColor,
-        self._plotBgColor = plotBgColor,
+        self._paperBgColor = paperBgColor
+        self._plotBgColor = plotBgColor
         self._height = height
         self._width = width
 
@@ -239,7 +239,7 @@ class Clustergram(object):
             cdt['line'] = dict(
                 width=1
             )
-            cdt['hoverinfo'] = 'y'
+            cdt['hoverinfo'] = 'y+name'
             fig.append_trace(cdt, 1, 2)
 
         # row dendrogram (displays on left side)
@@ -248,7 +248,7 @@ class Clustergram(object):
             rdt['line'] = dict(
                 width=1
             )
-            rdt['hoverinfo'] = 'x'
+            rdt['hoverinfo'] = 'x+name'
             fig.append_trace(rdt, 2, 1)
 
         # display row dendrogram sideways
@@ -356,7 +356,7 @@ class Clustergram(object):
         
         # height adjustment for column dendrogram
         fig['layout']['yaxis1'].update(domain=[1-colRatio, 1])
-        fig['layout']['yaxis2'].update(domain=[0.95-colRatio, 0.95])
+        fig['layout']['yaxis2'].update(domain=[1-colRatio, 1])
         fig['layout']['yaxis4'].update(domain=[0, 0.95-colRatio])
         fig['layout']['yaxis5'].update(domain=[0, 0.95-colRatio])
 
