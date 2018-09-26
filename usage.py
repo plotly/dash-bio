@@ -203,7 +203,13 @@ def update_mouse_sel(v):
     [Input('sequence-viewer', 'subpartSelected')]
 )
 def update_subpart_sel(v):
-    return v
+    test = []
+    for sel in v:
+        test.append("Start: %d " % sel['start'])
+        test.append("End: %d " % sel['end'])
+        test.append("Sequence: %s" % sel['sequence'])
+        test.append(html.Br())
+    return test
 
 
 if __name__ == '__main__':
