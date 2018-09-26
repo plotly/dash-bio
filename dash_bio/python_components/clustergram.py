@@ -397,7 +397,7 @@ class Clustergram(object):
         # padding between group label line and dendrogram
         fig['layout']['xaxis6'].update(
             domain=[0.95, 1],
-            range=[-0.5, 1]
+            range=[-5, 1]
         )
 
         # group labels for column dendrogram
@@ -412,7 +412,7 @@ class Clustergram(object):
             )
         fig['layout']['yaxis8'].update(
             domain=[0.95-colRatio, 1-colRatio],
-            range=[-1, 0.5]
+            range=[-0.5, 0.5]
         )
         
         # get group label annotations and label traces
