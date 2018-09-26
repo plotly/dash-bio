@@ -74,6 +74,10 @@ class Clustergram(object):
                                         group).
     :param (dict) tickFont: The font options for ticks.
     :param (dict) annotationFont: The font options for annotations.
+    :param (string) paperBgColor: The background color of the paper on the
+                                  graph (default transparent).
+    :param (string) plotBgColor: The background color of the subplots on the
+                                 graph (default transparent).
     :param (int) height: The height of the graph, in px (default 500).
     :param (int) width: The width of the graph, in px (default 500).
 """
@@ -103,6 +107,8 @@ class Clustergram(object):
             colGroupMarker=[],    # same as above
             tickFont=dict(),
             annotationFont=dict(),
+            paperBgColor='rgb(0,0,0,0)',
+            plotBgColor='rgb(0,0,0,0)',
             height=500,
             width=500
     ):
@@ -125,6 +131,8 @@ class Clustergram(object):
         self._colGroupMarker = colGroupMarker
         self._tickFont = tickFont
         self._annotationFont = annotationFont
+        self._paperBgColor = paperBgColor,
+        self._plotBgColor = plotBgColor,
         self._height = height
         self._width = width
 
@@ -421,6 +429,12 @@ class Clustergram(object):
         for cgl in colGroupLabels:
             fig.append_trace(cgl, 4, 2)
 
+        # set background colors
+        fig['layout'].update(
+            paper_bgcolor=self._paperBgColor,
+            plot_bgcolor=self._plotBgColor
+        )
+            
         # finally add height and width
         fig['layout'].update(
             height=self._height,
