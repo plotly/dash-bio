@@ -13,6 +13,16 @@ export default class SequenceViewerComponent extends Component {
 
     constructor(props) {
 	super(props);
+	this.props.onMouseSelection = (e) => {
+	    if(e.detail) {
+		this.props.setProps({mouseSelection: e.detail['selection']});
+	    }
+	}
+	this.props.onSubpartSelected = (e) => {
+	    if(e.detail) {
+		this.props.setProps({subpartSelected: e.detail});
+	    }
+	}
     }
 
     componentDidMount() {
@@ -44,20 +54,9 @@ export default class SequenceViewerComponent extends Component {
     }
     
     render() {
-
-	this.props.onMouseSelection = (e) => {
-	    if(e.detail) {
-		this.props.setProps({mouseSelection: e.detail[0]['sequence']});
-	    }
-	}
-	this.props.onSubpartSelected = (e) => {
-	    if(e.detail) {
-		this.props.setProps({subpartSelected: e.detail[0]['sequence']});
-	    }
-	}
-
+	
 	const id = this.props.id;
-
+	
 	const options = {
 	    showLineNumbers: this.props.showLineNumbers,
 	    wrapAminoAcids: this.props.wrapAminoAcids,
@@ -202,7 +201,11 @@ SequenceViewerComponent.propTypes = {
      * A string containing all of the highlighted sections when 
      * using the search bar.
      */
-    subpartSelected: PropTypes.string,
+    subpartSelected: PropTypes.arrayOf(PropTypes.shape({
+	'start': PropTypes.number,
+	'end': PropTypes.number,
+	'sequence': PropTypes.string
+    })),
 
     /**
      * A function acting as an event handler for mouse selection. 
