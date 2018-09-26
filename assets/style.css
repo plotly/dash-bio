@@ -1,0 +1,22 @@
+body {
+    font-family: Helvetica, sans-serif;
+}
+
+#header {
+    width: calc(100% - 40px);
+    height: auto;
+    margin: 0px;
+    font-size: 36px;
+    padding: 20px;
+    background: maroon;
+    color: #ffffff;
+}
+
+.inputSearchSeq {
+    font-size: 14px;
+    width: 100px;
+    padding:5px;
+    border-radius:3px;
+    border: solid 1px grey;
+    margin-left: 10px;
+}

@@ -106,6 +106,12 @@ for s in sec_structure:
 selection = [10, 20, 'blue']
 
 app.layout = html.Div([
+
+    html.Div(
+        id='header',
+        children=["Dash sequence viewer"]
+    ),  
+    
     dash_bio.SequenceViewerComponent(
         id='sequence-viewer',
         title="Insulin ",
@@ -203,6 +209,8 @@ def update_mouse_sel(v):
     [Input('sequence-viewer', 'subpartSelected')]
 )
 def update_subpart_sel(v):
+    if(v is None):
+        return ''
     test = []
     for sel in v:
         test.append("Start: %d " % sel['start'])
