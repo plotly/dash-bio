@@ -275,7 +275,9 @@ class Clustergram(object):
                 showticklabels=True,
                 side='bottom',
                 showline=False,
-                range=[min(tickvals_col), max(tickvals_col)]
+                range=[min(tickvals_col)-5, max(tickvals_col)+5]
+                # workaround for autoscale issues above; otherwise
+                # the graph cuts off and must be scaled manually
             )
 
         if(len(tickvals_row) > 0):
