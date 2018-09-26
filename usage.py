@@ -16,15 +16,14 @@ data = np.loadtxt('data.txt')
 fig_options = dict(
     data=data, id='sample', cluster='all',
     optimalLeafOrder=False,
-    displayRatio=[0.5, 0.5],
+    displayRatio=0.15,
     columnLabels=None, rowLabels=None,
     colorThreshold=dict(row=9, col=55),
-    height=500, width=800,
+    height=800, width=800,
     annotationFont=dict(
-        color='red',
+        color='grey',
         size=12
     ),
-    paperBgColor='rgb(0,0,255)'
 )
 
 app.layout = html.Div([
