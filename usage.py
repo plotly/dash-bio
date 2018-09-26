@@ -13,16 +13,20 @@ app.css.config.serve_locally = True
 
 data = np.loadtxt('data.txt')
 
+cL = [chr(i+65) for i in range(len(data[0]))]
+rL = [chr(i+65) for i in range(len(data))]
+
+
 fig_options = dict(
     data=data, id='sample', cluster='all',
     optimalLeafOrder=False,
-    displayRatio=0.15,
-    columnLabels=None, rowLabels=None,
+    displayRatio=[0.15, 0.2],
+    columnLabels=cL, rowLabels=None,
     colorThreshold=dict(row=9, col=55),
-    height=800, width=800,
+    height=500, width=800,
     annotationFont=dict(
-        color='grey',
-        size=12
+        color='black',
+        size=10
     ),
 )
 
