@@ -37,20 +37,17 @@ export default class SequenceViewerComponent extends Component {
 	    var i;
 	    for(i = 0; i < cov.length; i++) {
 		const v = i;
-		cov[i].onclick = (e) => setProps({
-		    coverageClicked: v
-		});
+		cov[i].onclick = (e) => {
+		    setProps({
+			coverageClicked: v
+		    });
+		}
 	    }
 	}
 	
 	setProps({
 	    coverage: cov,
 	});
-    }
-
-    shouldComponentUpdate(newProps, newState) {
-	// TODO compare all props; if everything but subpartSelected/mouseSelection has
-	// not changed, return false
     }
     
     render() {
@@ -68,6 +65,8 @@ export default class SequenceViewerComponent extends Component {
 	    badge: this.props.badge,
 	    onMouseSelection: this.props.onMouseSelection,
 	    onSubpartSelected: this.props.onSubpartSelected,
+	    coverage: this.props.coverage,
+	    selection: this.props.selection,
 	    legend: this.props.legend
 	};
 
