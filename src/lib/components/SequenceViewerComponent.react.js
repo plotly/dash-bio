@@ -78,27 +78,30 @@ export default class SequenceViewerComponent extends Component {
 	    return true;
 	}
 
-	// go through selection
-	for (var propertyName in selection) {
-	    if(nextProps.selection[propertyName] !==
-	       selection[propertyName]){
-		return true;
+	if(selection != null){
+	    // go through selection
+	    for (var propertyName in selection) {
+		if(nextProps.selection[propertyName] !==
+		   selection[propertyName]){
+		    return true;
+		}
 	    }
 	}
 
-
-	// go through coverage
-	// save some time by comparing lengths first
-	if(coverage.length != nextProps.coverage.length){
-	    return true;
-	}
-	// otherwise, go through all of the coverage and compare
-	var i;
-	for(i = 0; i < coverage.length; i++){
-	    for(var propertyName in coverage[i]) {
-		if(nextProps.coverage[i][propertyName] !==
-		   coverage[i][propertyName]){
-		    return true;
+	if(coverage != null){
+	    // go through coverage
+	    // save some time by comparing lengths first
+	    if(coverage.length != nextProps.coverage.length){
+		return true;
+	    }
+	    // otherwise, go through all of the coverage and compare
+	    var i;
+	    for(i = 0; i < coverage.length; i++){
+		for(var propertyName in coverage[i]) {
+		    if(nextProps.coverage[i][propertyName] !==
+		       coverage[i][propertyName]){
+			return true;
+		    }
 		}
 	    }
 	}

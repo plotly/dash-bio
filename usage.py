@@ -110,55 +110,121 @@ app.layout = html.Div([
     html.Div(
         id='header',
         children=["Dash sequence viewer"]
-    ),  
+    ),
+
+    html.Div(
+        id='sequence-viewer-container',
+        children=[
+            dash_bio.SequenceViewerComponent(
+                id='sequence-viewer',
+                title="Insulin ",
+                wrapAminoAcids=True,
+                search=True,
+                sequence=sequence,
+                coverage=coverage,
+                legend=legend,
+                selection=[]
+            ),
+        ]
+    ),
+
+    html.Div(
+        id='controls-container',
+        children=[
+
+            dcc.RadioItems(
+                id='selection-or-coverage',
+                options=[
+                    {'label': 'Enable selection', 'value': 'sel'},
+                    {'label': 'Enable coverage', 'value': 'cov'}
+                ],
+                value='cov'
+            ),
+
+            html.Div(
+                id='sel-slider-container',
+                children=[
+                    "Selection slider",
+                    dcc.RangeSlider(
+                        id='sel-slider',
+                        min=0,
+                        max=len(sequence),
+                        step=1,
+                        value=[10, 20]
+                    ),
+                ]
+            )
+        ]
+    ),
     
-    dash_bio.SequenceViewerComponent(
-        id='sequence-viewer',
-        title="Insulin ",
-        wrapAminoAcids=True,
-        search=True,
-        sequence=sequence,
-        coverage=coverage,
-        legend=legend,
-#        selection=selection
-    ),
-
-    dcc.RangeSlider(
-        id='slider',
-        min=0,
-        max=len(sequence),
-        step=1,
-        value=[10, 20]
-    ),
-
-    "Selection information: ",
     html.Div(
-        id='test-selection'
-    ),
-    
-    "Coverage info: ",
-    html.Div(
-        id='test-coverage'
-    ),
+        id='info-container',
+        children=[
+            html.Span(
+                "Selection information: ",
+                style={
+                    'font-weight': 'bold'
+                }
+            ),
+            html.Div(
+                id='test-selection'
+            ),
+            html.Br(),
+            
+            html.Span(
+                "Coverage info: ",
+                style={
+                    'font-weight': 'bold'
+                }
+            ),
+            html.Div(
+                id='test-coverage'
+            ),
+            html.Br(),
 
-    "Mouse sel: ",
-    html.Div(
-        id='test-mouse-selection'
-    ),
+            html.Span(
+                "Mouse sel: ",
+                style={
+                    'font-weight': 'bold'
+                }
+            ),
+            html.Div(
+                id='test-mouse-selection'
+            ),
+            html.Br(),
 
-    "Subpart sel: ",
-    html.Div(
-        id='test-subpart-selection'
+            html.Span(
+                "Subpart sel: ",
+                style={
+                    'font-weight': 'bold'
+                }
+            ),
+            html.Div(
+                id='test-subpart-selection'
+            )
+        ]
     )
 ])
 
 
-'''
+@app.callback(
+    Output('sel-slider', 'disabled'),
+    [Input('selection-or-coverage', 'value')]
+)
+def enable_disable_slider(v):
+    if(v == 'sel'):
+        return False
+    return True
+
+
 @app.callback(
     Output('sequence-viewer', 'selection'),
-    [Input('slider', 'value')]
+    [Input('sel-slider', 'value'),
+     Input('selection-or-coverage', 'value')]
 )
-def update_sel(v):
+def update_sel(v, v2):
+    if(v2 != 'sel'):
+        return []
     return [v[0], v[1], highlightColor]
 
 
@@ -167,6 +233,8 @@ def update_sel(v):
     [Input('sequence-viewer', 'selection')]
 )
 def get_aa_comp(v):
+    if(len(v) < 2):
+        return ''
     subsequence = sequence[v[0]:v[1]]
     amino_acids = list(set(list(subsequence)))
     summary = []
@@ -175,7 +243,6 @@ def get_aa_comp(v):
             html.Tr([html.Td(codes[aa]), html.Td(str(subsequence.count(aa)))])
         )
     return html.Table(summary)
-'''
 
 
 @app.callback(

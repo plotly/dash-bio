@@ -20,3 +20,41 @@ body {
     border: solid 1px grey;
     margin-left: 10px;
 }
+#sequence-viewer-container{
+    width: 400px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    padding: 10px;
+    margin:20px;
+}
+
+#controls-container {
+    width:150px;
+    position: absolute;
+    top: 110px;
+    left: 500px;
+    height:155px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    padding: 10px;
+    padding-top:30px;
+}
+
+#sel-slider-container {
+    width: 100px;
+    padding: 10px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    margin: 10px;
+    margin-top:30px;
+}
+		   
+#info-container {
+    width: 600px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    padding: 20px;
+    position: absolute;
+    top: 350px;
+    left: 30px;
+}
