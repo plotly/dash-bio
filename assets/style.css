@@ -1,6 +1,6 @@
 body {
     font-family: Helvetica, sans-serif;
-    background:#aaaaff;
+    background:#ffffff;
     padding: 0px;
 }
 
@@ -17,10 +17,13 @@ body {
 }
 
 #options {
-    width: 250px;
+    width: 170px;
     position: absolute;
     top:250px;
     right:100px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 #clustergram-wrapper {

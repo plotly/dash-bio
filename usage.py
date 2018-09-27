@@ -52,12 +52,17 @@ app.layout = html.Div([
         children=[
             dcc.Checklist(
                 id='cluster-checklist',
+                labelStyle={
+                    'padding-right': '30px'
+                },
                 options=[
-                    {'label': 'row clustering', 'value': 'row'},
-                    {'label': 'column clustering', 'value': 'col'}
+                    {'label': 'Row clustering', 'value': 'row'},
+                    {'label': 'Column clustering', 'value': 'col'}
                 ],
                 values=['row', 'col']
             ),
+
+            html.Br(),
             
             html.Div(
                 id='add-group-markers',
@@ -89,10 +94,22 @@ app.layout = html.Div([
                     ),
                     html.Button(
                         id='submit-group-marker',
-                        children='submit'
+                        children='submit',
+                        n_clicks=0,
+                        n_clicks_timestamp=0
                     )
                 ]
+            ),
+
+            html.Button(
+                id='remove-all-group-markers',
+                children=[
+                    "Remove all group markers"
+                ],
+                n_clicks=0,
+                n_clicks_timestamp=0
             )
+            
         ]
     )
 ])
@@ -101,13 +118,17 @@ app.layout = html.Div([
 @app.callback(
     Output('clustergram-wrapper', 'children'),
     inputs=[Input('cluster-checklist', 'values'),
-            Input('submit-group-marker', 'n_clicks')],
+            Input('submit-group-marker', 'n_clicks'),
+            Input('remove-all-group-markers', 'n_clicks')],
     state=[State('row-or-col-group', 'value'),
            State('group-number', 'value'),
            State('annotation', 'value'),
-           State('color', 'value')]
+           State('color', 'value'),
+           State('submit-group-marker', 'n_clicks_timestamp'),
+           State('remove-all-group-markers', 'n_clicks_timestamp')]
 )
-def cluster_row(v, nclicks, rowOrCol, groupNum, annotation, color):
+def cluster_row(v, nclicks, removeAll, rowOrCol, groupNum, annotation, color,
+                submitTime, removeTime):
     if(len(v) > 1):
         fig_options.update(
             cluster='all'
@@ -116,6 +137,10 @@ def cluster_row(v, nclicks, rowOrCol, groupNum, annotation, color):
         fig_options.update(
             cluster=v[0]
         )
+    if(removeTime > submitTime):
+        fig_options['rowGroupMarker'] = []
+        fig_options['colGroupMarker'] = []
+        return dash_bio.ClustergramComponent(**fig_options)
     try:
         marker = dict(
             group=int(groupNum),
