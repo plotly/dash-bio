@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from dash_bio import ExampleComponent  # pylint: disable=no-name-in-module
+from my_dash_component import ExampleComponent  # pylint: disable=no-name-in-module
 
 
 class Tests(IntegrationTests):
