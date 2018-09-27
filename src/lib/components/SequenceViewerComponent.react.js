@@ -50,6 +50,63 @@ export default class SequenceViewerComponent extends Component {
 	});
     }
     
+    shouldComponentUpdate(nextProps, nextState){
+	const {
+	    showLineNumbers,
+	    wrapAminoAcids,
+	    charsPerLine,
+	    toolbar,
+	    search,
+	    title,
+	    sequenceMaxHeight,
+	    badge,
+	    coverage,
+	    selection,
+	    legend
+	} = this.props;
+	
+	if(showLineNumbers != nextProps.showLineNumbers ||
+	   wrapAminoAcids != nextProps.wrapAminoAcids ||
+	   charsPerLine != nextProps.charsPerLine ||
+	   toolbar != nextProps.toolbar ||
+	   search != nextProps.search ||
+	   title != nextProps.title ||
+	   sequenceMaxHeight != nextProps.sequenceMaxHeight ||
+	   badge != nextProps.badge ||
+	   legend != nextProps.legend 
+	  ){
+	    return true;
+	}
+
+	// go through selection
+	for (var propertyName in selection) {
+	    if(nextProps.selection[propertyName] !==
+	       selection[propertyName]){
+		return true;
+	    }
+	}
+
+
+	// go through coverage
+	// save some time by comparing lengths first
+	if(coverage.length != nextProps.coverage.length){
+	    return true;
+	}
+	// otherwise, go through all of the coverage and compare
+	var i;
+	for(i = 0; i < coverage.length; i++){
+	    for(var propertyName in coverage[i]) {
+		if(nextProps.coverage[i][propertyName] !==
+		   coverage[i][propertyName]){
+		    return true;
+		}
+	    }
+	}
+
+	// if everything is the same, do not update
+	return false;	
+    }
+    
     render() {
 	
 	const id = this.props.id;
@@ -70,13 +127,13 @@ export default class SequenceViewerComponent extends Component {
 	    legend: this.props.legend
 	};
 
-	if(this.props.coverage){
+/*	if(this.props.coverage){
 	    options.coverage = this.props.coverage;
 	}
 	if(this.props.selection){
 	    options.selection = this.props.selection;
 	}
-	
+*/	
 	const seq = this.props.sequence;
 
 	return (
