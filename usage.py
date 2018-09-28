@@ -41,8 +41,11 @@ app.layout = html.Div([
     html.Div(
         id='clustergram-wrapper',
         children=[
-            dash_bio.ClustergramComponent(
-                **fig_options
+            dcc.Graph(
+                id='clustergram',
+                figure=dash_bio.ClustergramComponent(
+                    **fig_options
+                )
             )
         ]
     ),
@@ -116,7 +119,7 @@ app.layout = html.Div([
 
 
 @app.callback(
-    Output('clustergram-wrapper', 'children'),
+    Output('clustergram', 'figure'),
     inputs=[Input('cluster-checklist', 'values'),
             Input('submit-group-marker', 'n_clicks'),
             Input('remove-all-group-markers', 'n_clicks')],
