@@ -17,7 +17,8 @@
     "ramda": "^0.25.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "speck": "git+https://github.com/wwwtyro/speck.git"
+    "speck": "git+https://github.com/wwwtyro/speck.git",
+    "yarn": "^1.10.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
