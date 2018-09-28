@@ -4,6 +4,7 @@ import numpy as np
 import scipy as scp
 import scipy.cluster.hierarchy as sch
 import scipy.spatial as scs
+from sklearn.preprocessing import Imputer
 from random import shuffle
 
 import plotly.graph_objs as go
@@ -155,6 +156,13 @@ class Clustergram(object):
             self._hideLabels.append('xaxis5')
         
         # preprocessing data
+        if(self._imputeFunction is not None):
+            imp = Imputer(
+                missing_values=self._imputeFunction['missingValues'],
+                strategy=self._imputeFunction['strategy'],
+                axis=self._imputeFunction['axis']
+            )
+            self._data = imp.fit_transform(self._data)
         if(logTransform):
             self._data = np.log2(self._data)
         if(standardize in ['row', 'column']):
@@ -237,7 +245,7 @@ class Clustergram(object):
         for cdt in col_dendro_traces:
             cdt['name'] = ("Col Cluster %d" % col_dendro_traces.index(cdt))
             cdt['line'] = dict(
-                width=1
+                width=0.1
             )
             cdt['hoverinfo'] = 'y+name'
             fig.append_trace(cdt, 1, 2)
