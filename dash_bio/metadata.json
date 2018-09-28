@@ -33,5 +33,229 @@
         "description": "Dash-assigned callback that should be called whenever any of the\nproperties change"
       }
     }
+  },
+  "src/lib/components/SequenceViewerComponent.react.js": {
+    "description": "",
+    "displayName": "SequenceViewerComponent",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "sequence": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The amino acid sequence that will be displayed."
+      },
+      "showLineNumbers": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to display line numbers."
+      },
+      "wrapAminoAcids": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to display the list of amino acids\nas broken up into separate lines of a fixed length set by \ncharsPerLine."
+      },
+      "charsPerLine": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The number of amino acids that will display per line."
+      },
+      "toolbar": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to display a toolbar at the top\nthat allows the user to choose the number of letters per line."
+      },
+      "search": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to include a search bar in\nthe header. This supports regex."
+      },
+      "title": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that displays at the top of the component."
+      },
+      "sequenceMaxHeight": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The maximum height of the sequence; default \"400px\"."
+      },
+      "badge": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to display a badge showing the\namino acid count at the top of the component beside the title."
+      },
+      "selection": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "low": {
+                "name": "number",
+                "required": false
+              },
+              "high": {
+                "name": "number",
+                "required": false
+              },
+              "color": {
+                "name": "string",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "A highlighted section of the sequence; the color of the highlight \ncan also be defined. Takes a list of format [min, max, color] where \nmin is a number that represents the starting index of the selection, \nmax is a number that represents the stopping index of the selection, \nand color is a string that defines the highlight color.\nCannot be used at the same time as coverage."
+      },
+      "coverage": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "start": {
+                "name": "number",
+                "required": false
+              },
+              "end": {
+                "name": "number",
+                "required": false
+              },
+              "color": {
+                "name": "string",
+                "required": false
+              },
+              "bgcolor": {
+                "name": "string",
+                "required": false
+              },
+              "tooltip": {
+                "name": "string",
+                "required": false
+              },
+              "underscore": {
+                "name": "bool",
+                "required": false
+              },
+              "onclick": {
+                "name": "func",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "A coverage of the entire sequence; each section of the sequence\ncan have its own text color, background color, tooltip (on hover),\nand an optional underscore. The props start and end represent the\nbeginning and terminating indices of the section in question.\nCannot be used at the same time as selection."
+      },
+      "legend": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "name": {
+                "name": "string",
+                "required": false
+              },
+              "color": {
+                "name": "string",
+                "required": false
+              },
+              "underscore": {
+                "name": "bool",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "A legend corresponding to the color codes above (optionally displayed)."
+      },
+      "coverageClicked": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Contains the index of the section that was clicked last in \nthe coverage."
+      },
+      "mouseSelection": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string containing the mouse selection."
+      },
+      "subpartSelected": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "start": {
+                "name": "number",
+                "required": false
+              },
+              "end": {
+                "name": "number",
+                "required": false
+              },
+              "sequence": {
+                "name": "string",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "A string containing all of the highlighted sections when \nusing the search bar."
+      },
+      "onMouseSelection": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "A function acting as an event handler for mouse selection."
+      },
+      "onSubpartSelected": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "A function acting as an event handler for highlight when using\nthe search bar."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
+      }
+    }
   }
 }
