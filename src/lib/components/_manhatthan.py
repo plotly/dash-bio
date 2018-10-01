@@ -118,7 +118,7 @@ def create_manhattan(
     plotly_js graph_objs.
         Default = "red"
     # ...
-    Example 1:
+    Example 1: Random Manhattan Plot
     '''
     dataframe = pd.DataFrame(
         np.random.randint(0,100,size=(100, 3)),
@@ -619,7 +619,4 @@ class _ManhattanPlot(object):
 
         layout.shapes = horizontallines
 
-        return {
-            "data": data_to_plot,
-            "layout": layout,
-        }
+        return go.Figure(data=data_to_plot, layout=layout)

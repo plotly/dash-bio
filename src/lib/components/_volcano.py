@@ -111,7 +111,7 @@ def create_volcano(
     plotly_js graph_objs.
         Default = "red"
     # ...
-    Example 1:
+    Example 1: Random Volcano Plot
     '''
     dataframe = pd.DataFrame(
         np.random.randint(0,100,size=(100, 2)),
@@ -523,7 +523,4 @@ class _VolcanoPlot(object):
 
         layout.shapes = lines
 
-        return {
-            "data": data_to_plot,
-            "layout": layout,
-        }
+        return go.Figure(data=data_to_plot, layout=layout)
