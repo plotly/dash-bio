@@ -7,7 +7,8 @@ import numpy as np
 import plotly.offline as offline
 import plotly.graph_objs as go
 
-def create_volcano(
+
+def create_manhattan(
         dataframe,
         chrm="CHR",
         bp="BP",
@@ -18,6 +19,7 @@ def create_volcano(
         logp=True,
         title="Manhattan Plot",
         showgrid=True,
+        xlabel=None,
         ylabel='-log10(p)',
         point_size=5,
         showlegend=True,
@@ -32,7 +34,8 @@ def create_volcano(
         highlight_color="red",
 ):
     """
-    Returns figure for a foo plot.
+    Returns a figure for a manhanntan plot.
+
     :param dataframe: A pandas dataframe which must contain at least the
         following  three columns:
             - the chromosome number
@@ -51,10 +54,6 @@ def create_volcano(
     such  as peak heights, bayes factors, test statistics. If it is not a
     p-value, make sure to set logp = FALSE.
         Default p = "P"
-    :param effect_size: A string denoting the column name for the effect
-    size. This column must be numeric or integer. Should not have
-    missing, or NaN values.
-        Default effect_size = "EFFECTSIZE"
     :param snp: A string denoting the column name for the SNP names
     (e.g. rs number). More generally, this column could be anything that
     identifies each point being plotted. For example, in an
@@ -81,22 +80,26 @@ def create_volcano(
         Default = True
     :param title: Title of the graph.
         Default = "Manhattan Plot"
+    :param showgrid: Boolean indicating whether gridlines should be shown.
+        Default = True
+    :param xlabel: Label of the x axis.
+        Default = None
     :param ylabel: Label of the y axis.
         Default = "-log10(p)"
     :param point_size: Size of the points of the Scatter plot.
         Default = 5
+    :param showlegend: Boolean indicating whether legends should be shown.
+        Default = True
     :param col: Color of the point of the Scatter plot. Can be in any color
     format accepted by plotly_js graph_objs.
         Default = None
-    :param effect_size_line: A boolean which must be False to deactivate the
-    option, or a list/array containing the upper and lower bounds of the
-    effect size values. (Significant data point will have lower value than
-    the lower bound or higher value than the higher bound). Keeping the
-    default value will result in assigning the list [-1, 1] to the argument.
-        Default = None
-    :param effect_size_line_color: Color of the effect size lines.
+    :param suggestiveline_value: A boolean which must be False to deactivate
+    the option, or a numerical value corresponding to the p-value at which
+    the line should be drawn, the line has no influence on the data points.
+        Default = -np.log10(1e-8)
+    :param suggestiveline_color: Color of the suggestive line.
         Default = "grey"
-    :param effect_size_line_width: Width of the effect size lines.
+    :param suggestiveline_width: Width of the suggestive line.
         Default = 2
     :param genomewideline_value: A boolean which must be False to deactivate
     the option, or a numerical value corresponding to the p-value above which
@@ -140,6 +143,7 @@ def create_volcano(
     return vp.figure(
         title=title,
         showgrid=showgrid,
+        xlabel=xlabel,
         ylabel=ylabel,
         point_size=point_size,
         showlegend=showlegend,
@@ -188,6 +192,7 @@ class _ManhattanPlot(object):
             logp=True
     ):
         """
+        :return: An object with a pandas dataframe
         :param x: A pandas dataframe which must contain at least the
         following  three columns:
             - the chromosome number
@@ -201,34 +206,35 @@ class _ManhattanPlot(object):
         position.
         Default is bp = "BP". This column must be float or integer.
         :param p: A string denoting the column name for the float quantity
-        to be plotted on the y-axis. Default is p = "P". This column must be
-        float or integer.
+        to be plotted on the y-axis. This column must be numeric.
         This does not have to be a p-value. It can be any numeric quantity
-        such  as peak heights, bayes factors, test
-        statistics. If it is not a p-value, make sure to set logp = FALSE.
+        such  as peak heights, bayes factors, test statistics. If it is not a
+        p-value, make sure to set logp = FALSE.
+            Default p = "P"
         :param snp: A string denoting the column name for the SNP names
         (e.g. rs number). More generally, this column could be anything that
         identifies each point being plotted. For example, in an
         Epigenomewide association study (EWAS) this could be the probe name
         or cg number. This column should be a character. This argument is
         optional, however it is necessary to specify if you want to
-        highlight points on the plot using
-        the highlight argument in the manhattanly function
+        highlight points on the plot using the highlight argument in the
+        figure method.
+            Default = "SNP"
         :param gene: A string denoting the column name for the GENE names.
         This column could be a string or a float.
         More generally this could be any annotation information that you
         want to include in the plot.
-        This argument is optional.
+            Default = "GENE"
         :param annotation: A string denoting the column name for an annotation.
         This column could be a string or a float.
         This could be any annotation information that you want to include
         in the plot (e.g. zscore, effect size, minor allele frequency).
-        This argument is optional.
+            Default = None
         :param logp: If True the -log10 of the p-value is plotted.
         It isn't very useful to plot raw p-values, however plotting the raw
         value could be useful for other genome-wide plots, for example,
         peak heights, bayes factors, test statistics, other "scores" etc.
-        :return: An object with a pandas dataframe
+            Default = True
         """
         # checking the validity of the arguments
 
@@ -372,6 +378,7 @@ class _ManhattanPlot(object):
             self,
             title="Manhattan Plot",
             showgrid=True,
+            xlabel=None,
             ylabel='-log10(p)',
             point_size=5,
             showlegend=True,
@@ -386,22 +393,50 @@ class _ManhattanPlot(object):
             highlight_color="red",
     ):
         """
-        :param title:
-        :param showgrid:
-        :param ylabel:
-        :param point_size:
-        :param showlegend:
-        :param col:
-        :param suggestiveline_value:
-        :param suggestiveline_color:
-        :param suggestiveline_width:
-        :param genomewideline_value:
-        :param genomewideline_color:
-        :param genomewideline_width:
-        :param highlight:
-        :param highlight_color:
-        :return:
+        :param title: Title of the graph.
+            Default = "Manhattan Plot"
+        :param showgrid: Boolean indicating whether gridlines should be shown.
+            Default = True
+        :param xlabel: Label of the x axis.
+            Default = None
+        :param ylabel: Label of the y axis.
+            Default = "-log10(p)"
+        :param point_size: Size of the points of the Scatter plot.
+            Default = 5
+        :param showlegend: Boolean indicating whether legends should be shown.
+            Default = True
+        :param col: Color of the point of the Scatter plot. Can be in any color
+        format accepted by plotly_js graph_objs.
+            Default = None
+        :param suggestiveline_value: A boolean which must be False to
+        deactivate the option, or a numerical value corresponding to the
+        p-value at which the line should be drawn, the line has no influence
+        on the data points.
+            Default = -np.log10(1e-8)
+        :param suggestiveline_color: Color of the suggestive line.
+            Default = "grey"
+        :param suggestiveline_width: Width of the suggestive line.
+            Default = 2
+        :param genomewideline_value: A boolean which must be False to
+        deactivate the option, or a numerical value corresponding to the
+        p-value above which the  data points are considered significant.
+            Default = -np.log10(5e-8)
+        :param genomewideline_color: Color of the genome wide line. Can be in
+        any color format accepted by plotly_js graph_objs
+            Default = "red"
+        :param genomewideline_width: Width of the genome wide line.
+            Default = 1
+        :param highlight: Boolean turning on/off the highlighting of data
+        points considered significant.
+            Default = True
+        :param highlight_color: Color of the data points highlighted because
+        considered as significant Can be in any color format accepted by
+        plotly_js graph_objs.
+            Default = "red"
+
+        :return: a figure formatted for plotly.graph_objs
         """
+
         # Initialize plot
         xmin = min(self.data[self.pos].values)
         xmax = max(self.data[self.pos].values)
@@ -498,7 +533,7 @@ class _ManhattanPlot(object):
             layout = go.Layout(
                 title=title,
                 xaxis={
-                    'title': self.xlabel,
+                    'title': self.xlabel if xlabel is None else xlabel,
                     'showgrid': showgrid,
                     'range': [xmin, xmax],
                 },

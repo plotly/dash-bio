@@ -31,7 +31,7 @@ def create_volcano(
         highlight_color="red"
 ):
     """
-    Returns figure for a foo plot.
+    Returns a figure for a volcano plot.
 
     :param dataframe: A pandas dataframe which must contain at least the
         following  two columns:
@@ -182,35 +182,45 @@ class _VolcanoPlot(object):
     ):
         """
         :param x: A pandas dataframe which must contain at least the
-        following  three columns:
-            - the chromosome number
-            - genomic base-pair position
-            - a numeric quantity to plot such as a p-value or zscore
+            following  two columns:
+                - a numeric quantity to plot such as a p-value or zscore
+                - a numeric quantity measuring of the strength of association,
+                typically an odds ratio, regression coefficient or log fold
+                change. It is referred here as `effect size`.
+        :param p: A string denoting the column name for the float quantity
+        to be plotted on the y-axis. This column must be numeric.
+        This does not have to be a p-value. It can be any numeric quantity
+        such  as peak heights, bayes factors, test statistics. If it is not a
+        p-value, make sure to set logp = FALSE.
+            Default p = "P"
         :param effect_size: A string denoting the column name for the effect
-        size. Default is effect_size = "EFFECTSIZE". This column must be
-        numericor integer. Should not have missing, or NaN values.
+        size. This column must be numeric or integer. Should not have
+        missing, or NaN values.
+            Default effect_size = "EFFECTSIZE"
         :param snp: A string denoting the column name for the SNP names
         (e.g. rs number). More generally, this column could be anything that
         identifies each point being plotted. For example, in an
         Epigenomewide association study (EWAS) this could be the probe name
         or cg number. This column should be a character. This argument is
         optional, however it is necessary to specify if you want to
-        highlight points on the plot using
-        the highlight argument in the figure method
+        highlight points on the plot using the highlight argument in the
+        figure method.
+            Default = "SNP"
         :param gene: A string denoting the column name for the GENE names.
         This column could be a string or a float.
         More generally this could be any annotation information that you
         want to include in the plot.
-        This argument is optional.
+            Default = "GENE"
         :param annotation: A string denoting the column name for an annotation.
         This column could be a string or a float.
         This could be any annotation information that you want to include
         in the plot (e.g. zscore, effect size, minor allele frequency).
-        This argument is optional.
+            Default = None
         :param logp: If True the -log10 of the p-value is plotted.
         It isn't very useful to plot raw p-values, however plotting the raw
         value could be useful for other genome-wide plots, for example,
         peak heights, bayes factors, test statistics, other "scores" etc.
+            Default = True
         :return: An object with a pandas dataframe
         """
         # checking the validity of the arguments
@@ -306,21 +316,46 @@ class _VolcanoPlot(object):
             highlight_color="red",
     ):
         """
+        :param title: Title of the graph.
+            Default = "Volcano Plot"
+        :param xlabel: Label of the x axis.
+            Default = None
+        :param ylabel: Label of the y axis.
+            Default = "-log10(p)"
+        :param point_size: Size of the points of the Scatter plot.
+            Default = 5
+        :param col: Color of the point of the Scatter plot. Can be in any color
+        format accepted by plotly_js graph_objs.
+            Default = None
+        :param effect_size_line: A boolean which must be False to deactivate
+        the option, or a list/array containing the upper and lower bounds of
+        the effect size values. (Significant data point will have lower value
+        than the lower bound or higher value than the higher bound). Keeping
+        the default value will result in assigning the list [-1, 1]
+        to the argument.
+            Default = None
+        :param effect_size_line_color: Color of the effect size lines.
+            Default = "grey"
+        :param effect_size_line_width: Width of the effect size lines.
+            Default = 2
+        :param genomewideline_value: A boolean which must be False to
+        deactivate the option, or a numerical value corresponding to the
+        p-value above which the  data points are considered significant.
+            Default = -np.log10(5e-8)
+        :param genomewideline_color: Color of the genome wide line. Can be in
+        any color format accepted by plotly_js graph_objs
+            Default = "red"
+        :param genomewideline_width: Width of the genome wide line.
+            Default = 1
+        :param highlight: Boolean turning on/off the highlighting of data
+        points considered significant.
+            Default = True
+        :param highlight_color: Color of the data points highlighted because
+        considered as significant Can be in any color format accepted by
+        plotly_js graph_objs.
+            Default = "red"
 
-        :param title:
-        :param xlabel:
-        :param ylabel:
-        :param point_size:
-        :param col:
-        :param effect_size_line:
-        :param effect_size_line_color:
-        :param effect_size_line_width:
-        :param genomewideline_value:
-        :param genomewideline_color:
-        :param genomewideline_width:
-        :param highlight:
-        :param highlight_color:
-        :return:
+        :return: a figure formatted for plotly.graph_objs
         """
 
         if xlabel is None:
