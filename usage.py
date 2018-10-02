@@ -22,13 +22,17 @@ fig_options = dict(
     optimalLeafOrder=False,
     displayRatio=[0.15, 0.2],
     columnLabels=cL, rowLabels=None,
-    colorThreshold=dict(row=9, col=55),
+    colorThreshold=dict(row=9, col=28),
     height=1000, width=800,
-    colorMap=[[0.5, 'rgb(255,120,120)'],
-              [0.0, 'rgb(0,0,0)'],
-              [1.0, 'rgb(0,255,0)']],
+    colorMap=[[0.0, 'rgb(0,100,0)'],
+              [0.5, 'rgb(0,255,0)'],
+              [1.0, 'rgb(255,0,255)']],
+    colorList={
+        'row': ['rgb(255,0,0)', 'rgb(100,2,10)', 'rgb(255,10,255)'],
+        'col': ['rgb(0,255,0)', 'rgb(150,0,150)', 'rgb(200, 50, 0)']
+    },
     annotationFont=dict(
-        color='black',
+        color='white',
         size=10
     ),
     logTransform=True,
