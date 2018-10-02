@@ -12,7 +12,7 @@ app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
 data = np.genfromtxt('data.txt', delimiter='\t')
-data = data[:100]
+data = data[:150]
 cL = [chr(i+65) for i in range(len(data[0]))]
 rL = [chr(i+65) for i in range(len(data))]
 
@@ -22,7 +22,7 @@ fig_options = dict(
     optimalLeafOrder=False,
     displayRatio=[0.15, 0.2],
     columnLabels=cL, rowLabels=None,
-    colorThreshold=dict(row=9, col=28),
+    colorThreshold=dict(row=9, col=55),
     height=1000, width=800,
     colorMap=[[0.0, 'rgb(0,150,150)'],
               [0.5, 'rgb(0,0,100)'],
