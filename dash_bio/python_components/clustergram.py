@@ -249,7 +249,7 @@ class Clustergram(object):
         for cdt in col_dendro_traces:
             cdt['name'] = ("Col Cluster %d" % col_dendro_traces.index(cdt))
             cdt['line'] = dict(
-                width=1
+                width=0.3
             )
             cdt['hoverinfo'] = 'y+name'
             fig.append_trace(cdt, 1, 2)
@@ -258,7 +258,7 @@ class Clustergram(object):
         for rdt in row_dendro_traces:
             rdt['name'] = ("Row Cluster %d" % row_dendro_traces.index(rdt))
             rdt['line'] = dict(
-                width=1
+                width=0.3
             )
             rdt['hoverinfo'] = 'x+name'
             fig.append_trace(rdt, 2, 1)
