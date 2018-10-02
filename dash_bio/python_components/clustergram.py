@@ -658,17 +658,18 @@ class Clustergram(object):
             i += 1
 
         colorList = []
-
+        bgColor = 'rgb(0,0,0)'
+        
         # each element in 'cycles' contains a full cycle of 6 colors
         # (at most)
         # so, we need 6 times the number of cycles
         n = 6*len(cycles)
 
         # fill in the user-provided color list if possible
-        if(self._colorList is not None):
+        if(self._colorList is not None and dim in self._colorList):
             colorList = self._colorList[dim]
-
-            if(len(colorList) < n):
+            # if there aren't enough colors, repeat the list
+            if(len(colorList) < n and len(colorList) > 0):
                 colorList = colorList * (int(n/len(colorList)) + 1)
         
         else:
@@ -715,10 +716,14 @@ class Clustergram(object):
             
         # this will be returned
         colors = []
+
+        # get the color for the background trace, is one is supplied
+        if(self._colorList is not None and 'bg' in self._colorList):
+            bgColor = self._colorList['bg']
         
         # the sequence
         seq = ['g', 'r', 'c', 'm', 'y', 'k']
-        
+
         for i in range(len(cycles)):
             tmp = []
             for s in seq:
@@ -731,7 +736,7 @@ class Clustergram(object):
                 # may need to change this color
                 # depending on which are generated
                 tmp.insert(index,
-                           {'color': 'rgb(250,250,250)',
+                           {'color': bgColor,
                             'cluster': -1})
 
             colors = colors + tmp

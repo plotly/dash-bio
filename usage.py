@@ -24,12 +24,13 @@ fig_options = dict(
     columnLabels=cL, rowLabels=None,
     colorThreshold=dict(row=9, col=28),
     height=1000, width=800,
-    colorMap=[[0.0, 'rgb(0,100,0)'],
-              [0.5, 'rgb(0,255,0)'],
-              [1.0, 'rgb(255,0,255)']],
+    colorMap=[[0.0, 'rgb(0,150,150)'],
+              [0.5, 'rgb(0,0,100)'],
+              [1.0, 'rgb(0,0,255)']],
     colorList={
-        'row': ['rgb(255,0,0)', 'rgb(100,2,10)', 'rgb(255,10,255)'],
-        'col': ['rgb(0,255,0)', 'rgb(150,0,150)', 'rgb(200, 50, 0)']
+        'row': ['rgb(0,0,100)', 'rgb(0,0,255)', 'rgb(0,150,150)'],
+        'col': ['rgb(0,0,255)', 'rgb(0,150,150)', 'rgb(0,0,100)'],
+        'bg': 'rgb(190,190,255)'
     },
     annotationFont=dict(
         color='white',
