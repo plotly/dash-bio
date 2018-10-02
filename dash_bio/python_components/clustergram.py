@@ -45,6 +45,8 @@ class Clustergram(object):
                                     leaf order that maximizes the similarity
                                     between neighbouring leaves
     :param (list) colorMap: Optional colorscale for dendrogram tree
+    :param (dict) colorList: Optional list of colors to use for row and col
+                             dendrograms
     :param (double) displayRange: Standardized values from the dataset that
                                   are below the negative of this value will
                                   be colored with one shade, and the values
@@ -99,6 +101,7 @@ class Clustergram(object):
             colorMap=[[0.0, 'rgb(255,0,0)'],
                       [0.5, 'rgb(0,0,0)'],
                       [1.0, 'rgb(0,255,0)']],
+            colorList=None,
             displayRange=3,
             symmetricValue=True,
             logTransform=False,
@@ -124,6 +127,7 @@ class Clustergram(object):
         self._colorThreshold = colorThreshold
         self._optimalLeafOrder = optimalLeafOrder
         self._colorMap = colorMap
+        self._colorList = colorList
         self._displayRange = displayRange
         self._symmetricValue = symmetricValue
         self._displayRatio = displayRatio
@@ -245,7 +249,7 @@ class Clustergram(object):
         for cdt in col_dendro_traces:
             cdt['name'] = ("Col Cluster %d" % col_dendro_traces.index(cdt))
             cdt['line'] = dict(
-                width=0.1
+                width=1
             )
             cdt['hoverinfo'] = 'y+name'
             fig.append_trace(cdt, 1, 2)
@@ -311,14 +315,14 @@ class Clustergram(object):
         fig['layout'].update(
             showlegend=False
         )
-            
+
         # heatmap
         heat_data = self._data
 
         # symmetrize the heatmap about zero, if necessary
         if(self._symmetricValue):
             heat_data = np.subtract(heat_data, np.mean(heat_data))
-
+        
         # row heatmap
         heatmap = go.Heatmap(
             x=tickvals_col,
@@ -530,7 +534,7 @@ class Clustergram(object):
                                   color_threshold=self._colorThreshold['col'],
                                   labels=self._columnLabels, no_plot=True)
             self._columnLabels = scp.array(Pcol['ivl'])
-            trace_list['col'] = self._colorDendroClusters(Pcol)
+            trace_list['col'] = self._colorDendroClusters(Pcol, 'col')
             
         if Zrow is not None:
             Prow = sch.dendrogram(Zrow, orientation='left',
@@ -543,13 +547,14 @@ class Clustergram(object):
                 'color_list': Prow['color_list']
             }
             self._rowLabels = scp.array(Prow['ivl'])
-            trace_list['row'] = self._colorDendroClusters(Prow_tmp)
+            trace_list['row'] = self._colorDendroClusters(Prow_tmp, 'row')
 
         return trace_list
     
     def _colorDendroClusters(
             self,
-            P
+            P,
+            dim
     ):
         """
         Colors each cluster below the color threshold separately.
@@ -557,6 +562,7 @@ class Clustergram(object):
         :param (dict) P: The x and y values of the dendrogram traces,
                          along with the list of trace colors returned
                          by sch.dendrogram
+        :param (string) dim: The dimension of the clusters.
         
         :rtype (list): The list of colored traces for the dendrogram.
         """
@@ -566,30 +572,24 @@ class Clustergram(object):
         icoord = scp.array(P['icoord'])
         dcoord = scp.array(P['dcoord'])
 
-        colorList = self._clusterColors(P['color_list'])
-            
-        # make each cluster its own trace to preserve color threshold
-        # feature; collect into sets
-        clust_colors = list(set(colorList))
-            
+        colorList = self._clusterColors(P['color_list'], dim)
+        
         # dict w/ keys being the color code and values being another dict
         # specifying icoords and dcoords for that cluster
         clusters = {}
 
-        for i in range(len(clust_colors)):
-            # the current color
-            c = clust_colors[i]
-                
-            clusters[c] = {
+        for i in range(len(colorList)):
+            # the current trace
+            c = colorList[i]
+            clusters[str(c['cluster'])] = {
+                'color': c['color'],
                 'icoords': [icoord[j] for j in range(len(icoord))
-                            if colorList[j] == c],
+                            if colorList[j]['cluster'] == c['cluster']],
                 'dcoords': [dcoord[j] for j in range(len(dcoord))
-                            if colorList[j] == c]
+                            if colorList[j]['cluster'] == c['cluster']]
             }
 
-        for i in range(len(clust_colors)):
-            # the current color
-            c = clust_colors[i]
+        for c in clusters:
             
             # all of the coordinates
             icoords = clusters[c]['icoords']
@@ -606,25 +606,27 @@ class Clustergram(object):
                 # append nan to prevent links
                 x = np.append(x, np.nan)
                 y = np.append(y, np.nan)
-
+        
             traces.append(dict(
                 x=x,
                 y=y,
                 type='scatter',
                 mode='lines',
-                marker=dict(color=c)
+                marker=dict(color=clusters[c]['color'])
             ))
-                
+
         return traces
 
     def _clusterColors(
             self,
-            clist
+            clist,
+            dim
     ):
         '''
         Returns a set of n unique colours for each cluster in the dendrogram.
         
         :param (list) clist: The color list returned by dendrogram.
+        :param (sring) dim: The dimension of the clusters to color.
         
         :rtype (list): A list of RGB strings.
         '''
@@ -655,51 +657,62 @@ class Clustergram(object):
             # finally, increment the counter
             i += 1
 
-        # each element in 'cycles' contains a full cycle of 6 colors (at most)
+        colorList = []
+
+        # each element in 'cycles' contains a full cycle of 6 colors
+        # (at most)
         # so, we need 6 times the number of cycles
-
         n = 6*len(cycles)
+
+        # fill in the user-provided color list if possible
+        if(self._colorList is not None):
+            colorList = self._colorList[dim]
+
+            if(len(colorList) < n):
+                colorList = colorList * (int(n/len(colorList)) + 1)
         
-        # first, get the number of divisions
-        # take cube root of n, since we will need to make
-        # at least n^3 unique colors (filling 3 spots)
-        base = int(np.cbrt(n)) + 1
-        # rgb values to use
-        vals = np.linspace(0, 255, base).astype(int)
-
-        # pure rgb, including black
-        pure = []
-        # mixes of 2 pure rgb values
-        mixed = []
-        # other colors
-        other = []
-        
-        for i in range(np.power(base, 3) - 1):
-
-            # the color represented in n-ary
-            c = str(np.base_repr(i, base=base, padding=3))[-3:]
-
-            r = int(vals[int(c[0])])
-            g = int(vals[int(c[1])])
-            b = int(vals[int(c[2])])
-
-            # color, represented as a string
-            color = "rgb(%d,%d,%d)" % (r, g, b)
+        else:
+            # first, get the number of divisions
+            # take cube root of n, since we will need to make
+            # at least n^3 unique colors (filling 3 spots)
+            base = int(np.cbrt(n)) + 1
+            # rgb values to use
+            vals = np.linspace(0, 255, base).astype(int)
             
-            # priority is all of the pure colors
-            if((r == 255 or g == 255 or b == 255) and r + g + b == 255):
-                pure.append(color)
-            # then, all of the mixtures of pure colors
-            elif((r == 0 or g == 0 or b == 0) and r + g + b == 510):
-                mixed.append(color)
-            # all of the intermediate colors that are created
-            else:
-                other.append(color)
+            # pure rgb, including black
+            pure = []
+            # mixes of 2 pure rgb values
+            mixed = []
+            # other colors
+            other = []
+            
+            for i in range(np.power(base, 3) - 1):
 
-        # avoid similarity of colors
-        shuffle(other)
-        # we have all the unique colors to use
-        colorList = pure+mixed+other
+                # the color represented in n-ary
+                c = str(np.base_repr(i, base=base, padding=3))[-3:]
+                
+                r = int(vals[int(c[0])])
+                g = int(vals[int(c[1])])
+                b = int(vals[int(c[2])])
+                
+                # color, represented as a string
+                color = "rgb(%d,%d,%d)" % (r, g, b)
+                
+                # priority is all of the pure colors
+                if((r == 255 or g == 255 or b == 255) and r + g + b == 255):
+                    pure.append(color)
+                    # then, all of the mixtures of pure colors
+                elif((r == 0 or g == 0 or b == 0) and r + g + b == 510):
+                    mixed.append(color)
+                    # all of the intermediate colors that are created
+                else:
+                    other.append(color)
+
+            # avoid similarity of colors
+            shuffle(other)
+
+            colorList = pure + mixed + other
+            
         # this will be returned
         colors = []
         
@@ -710,13 +723,16 @@ class Clustergram(object):
             tmp = []
             for s in seq:
                 for j in range(cycles[i].count(s)):
-                    tmp.append(colorList[i*6 + seq.index(s)])
+                    tmp.append({'color': colorList[i*6 + seq.index(s)],
+                                'cluster': i*6 + seq.index(s)})
             # get all indices of 'b', the links above threshold
             bs = [j for j in range(len(cycles[i])) if cycles[i][j] == 'b']
             for index in bs:
                 # may need to change this color
                 # depending on which are generated
-                tmp.insert(index, 'rgb(150,150,150)')
+                tmp.insert(index,
+                           {'color': 'rgb(250,250,250)',
+                            'cluster': -1})
 
             colors = colors + tmp
 
@@ -739,7 +755,7 @@ class Clustergram(object):
         :rtype (tuple): The sorted row dendrogram clusters and
                         column dendrogram clusters.
         """
-        
+
         tmp_rdt = []
         tmp_cdt = []
 
