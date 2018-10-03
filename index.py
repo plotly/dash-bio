@@ -41,7 +41,7 @@ def display_app(pathname):
         return html.Div(
             className="container",
             children=[
-                html.H1("Dash Design Kit Review App"),
+                html.H1("Dash Bio Review App"),
                 html.Ol(
                     [
                         html.Li(
