@@ -1,4 +1,5 @@
 import dash_bio
+from dash_bio.helpers import proteinReader as pr
 import dash
 from dash.dependencies import Input, Output
 import dash_html_components as html
@@ -9,7 +10,9 @@ app = dash.Dash('')
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
-sequence = 'MALWMRLLPL LALLALWGPD PAAAFVNQHL CGSHLVEALY LVCGERGFFY TPKTRREAED LQVGQVELGG GPGAGSLQPL ALEGSLQKRG IVEQCCTSIC SLYQLENYCN'.replace(' ', '')
+insulin = pr.readFasta('insulin.fasta', folder='proteins')
+print(insulin['description'])
+sequence = insulin['sequence']
 
 highlightColor = 'blue'
 
@@ -80,12 +83,6 @@ sec_structure = [
     [106, 107],
     [107, 109, "turn"]
 ]
-
-codes = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
-         'ILE': 'I', 'PRO': 'P', 'THR': 'T', 'PHE': 'F', 'ASN': 'N',
-         'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W',
-         'ALA': 'A', 'VAL': 'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M'}
-codes = dict((codes[k], k) for k in codes)
 
 coverage = []
 
@@ -236,11 +233,12 @@ def get_aa_comp(v):
     if(len(v) < 2):
         return ''
     subsequence = sequence[v[0]:v[1]]
-    amino_acids = list(set(list(subsequence)))
+    aminoAcids = list(set(subsequence))
     summary = []
-    for aa in amino_acids:
+    for aa in aminoAcids:
         summary.append(
-            html.Tr([html.Td(codes[aa]), html.Td(str(subsequence.count(aa)))])
+            html.Tr([html.Td(pr.translateSeq(aa)[0]),
+                     html.Td(str(subsequence.count(aa)))])
         )
     return html.Table(summary)
 
