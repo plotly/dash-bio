@@ -1,7 +1,10 @@
 # Switch into a virtual environment
 # pip install -r requirements.txt
+plotly
 dash
 dash-core-components
 dash-html-components
 dash-renderer
 gunicorn
+numpy
+pandas

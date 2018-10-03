@@ -1,5 +1,5 @@
 from __future__ import print_function as _
-
+from __future__ import absolute_import
 import os as _os
 import sys as _sys
 import json
