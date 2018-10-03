@@ -1,0 +1,56 @@
+version: 2
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test-themes
+
+jobs:
+  test-themes:
+    working_directory: ~/repo
+
+    docker:
+      - image: circleci/python:3.6-node-browsers
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Python requirements cache
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+
+      - restore_cache:
+          name: Node dependencies cache
+          key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
+
+      - run:
+          name: Create virtualenv
+          command: |
+            python3 -m venv venv
+
+      - run:
+          name: Install dependencies
+          command: |
+            . venv/bin/activate
+            pip install -r requirements.txt --quiet
+            npm install --quiet
+
+      - save_cache:
+            key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+            paths:
+              - "venv"
+
+      - run:
+          name: Integration Tests
+          command: |
+            . venv/bin/activate
+            python -W ignore -m unittest tests.test_integration
+          when: always
+
+      - store_artifacts:
+          path: seleniumShot.png
+          destination: screenshot
+
+      - store_artifacts:
+          path: /tmp/artifacts
