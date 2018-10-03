@@ -2,7 +2,6 @@ import dash
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_design_kit
 import logging
 import os
 
@@ -31,7 +30,7 @@ app.layout = html.Div(
     children=[
         dcc.Location(id="location"),
         html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_design_kit.Graph(id="graph")),
+        html.Div(style={"display": "none"}, children=dcc.Graph(id="graph")),
     ]
 )
 
