@@ -100,10 +100,6 @@ def readFasta(
             # add to list
             proteins.append(protein)
 
-        # return the protein if there is just one in the file
-        if(len(proteins) == 1):
-            return proteins[0]
-
         return proteins
 
 
