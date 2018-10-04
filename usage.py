@@ -1,7 +1,7 @@
 import dash_bio
 from dash_bio.helpers import proteinReader as pr
 import dash
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 
@@ -10,118 +10,59 @@ app = dash.Dash('')
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
-insulin = pr.readFasta('insulin.fasta', folder='proteins')
-print(insulin['description'])
-sequence = insulin['sequence']
+proteinFolder = 'proteins'
+sequence = '-'
 
 highlightColor = 'blue'
 
-cov_colors = {
-    "beta strand": {
-        "color": "#ff0000",
-        "bgcolor": "#0000ff",
-        "underscore": False,
-        "tooltip": "Beta strand"
-    },
-    "helix": {
-        "color": "#00ff00",
-        "bgcolor": "#000000",
-        "underscore": True,
-        "tooltip": "Alpha helix"
-    },
-    "turn": {
-        "color": "#ffff00",
-        "bgcolor": "#0f0f0f",
-        "underscore": True,
-        "tooltip": "Turn"
-    }
-}
-
-legend = [
-    {
-        'name': 'Beta strand',
-        'color': '#ff0000',
-        'underscore': False
-    },
-    {
-        'name': 'Alpha helix',
-        'color': '#00ff00',
-        'underscore': True
-    },
-    {
-        'name': 'Turn',
-        'color': '#ffff00',
-        'underscore': True
-    }
-]
-
-sec_structure = [
-    [0, 26],
-    [26, 29, "beta strand"],
-    [29, 33],
-    [33, 43, "helix"],
-    [43, 44],
-    [44, 46, "helix"],
-    [46, 48],
-    [48, 50, "beta strand"],
-    [50, 56],
-    [56, 58, "beta strand"],
-    [58, 59],
-    [59, 66, "turn"],
-    [66, 74],
-    [74, 76, "beta strand"],
-    [76, 79],
-    [79, 81, "helix"],
-    [81, 84],
-    [84, 86, "turn"],
-    [86, 91],
-    [91, 97, "helix"],
-    [97, 98],
-    [98, 101, "beta strand"],
-    [101, 102],
-    [102, 106, "helix"],
-    [106, 107],
-    [107, 109, "turn"]
-]
-
-coverage = []
-
-for s in sec_structure:
-    section_dict = dict(
-        start=s[0],
-        end=s[1],
-        color="#000000",
-        bgcolor="#ffffff",
-        underscore=False
-    )
-    if(len(s) > 2):
-        settings = cov_colors[s[2]]
-        for key in settings:
-            section_dict[key] = settings[key]
-    coverage.append(section_dict)
-
-selection = [10, 20, 'blue']
+selection = [10, 20, highlightColor]
 
 app.layout = html.Div([
 
     html.Div(
         id='header',
-        children=["Dash sequence viewer"]
+        children=[
+            "Dash sequence viewer",
+            
+            
+        ]
     ),
-
+    html.Div(
+        id='fasta-upload',
+        children=[
+            dcc.Upload(
+                id='upload-fasta-data',
+                children=html.Div([
+                    "Drag and Drop or ",
+                    html.A("Select file")
+                ]),
+                style={
+                    'width': '100%',
+                    'height': '50px',
+                    'lineHeight': '60px',
+                    'borderWidth': '1px',
+                    'borderStyle': 'dashed',
+                    'borderRadius': '5px',
+                    'textAlign': 'center',
+                }
+            ),
+            html.Div(
+                id='upload-data-output'
+            )
+        ]
+    ),
+    
     html.Div(
         id='sequence-viewer-container',
         children=[
             dash_bio.SequenceViewerComponent(
                 id='sequence-viewer',
-                title="Insulin ",
+                title="",
                 wrapAminoAcids=True,
                 search=True,
-                sequence=sequence,
-                coverage=coverage,
-                legend=legend,
+                sequence='-',
                 selection=[]
-            ),
+            )
         ]
     ),
 
@@ -135,7 +76,7 @@ app.layout = html.Div([
                     {'label': 'Enable selection', 'value': 'sel'},
                     {'label': 'Enable coverage', 'value': 'cov'}
                 ],
-                value='cov'
+                value='sel'
             ),
 
             html.Div(
@@ -150,6 +91,20 @@ app.layout = html.Div([
                         value=[10, 20]
                     ),
                 ]
+            ),
+
+            html.Div(
+                id='protein-dropdown-container',
+                children=[
+                    "Protein to view",
+                    dcc.Dropdown(
+                        id='protein-dropdown',
+                        options=[
+                            {'label': 1, 'value': 0}
+                        ],
+                        value=0
+                    )
+                ]
             )
         ]
     ),
@@ -157,6 +112,17 @@ app.layout = html.Div([
     html.Div(
         id='info-container',
         children=[
+            html.Span(
+                "Description: ",
+                style={
+                    'font-weight': 'bold'
+                }
+            ),
+            html.Div(
+                id='desc-info'
+            ),
+            html.Br(),
+            
             html.Span(
                 "Selection information: ",
                 style={
@@ -215,6 +181,25 @@ def enable_disable_slider(v):
 
 
 @app.callback(
+    Output('protein-dropdown', 'options'),
+    [Input('upload-fasta-data', 'filename')]
+)
+def update_protein_options(fn):
+    dropdownOptions = [
+        {'label': 1, 'value': 0}
+    ]
+    proteins = pr.readFasta(fn, folder=proteinFolder)
+    if(type(proteins) is list):
+        dropdownOptions = []
+        for i in range(len(proteins)):
+            dropdownOptions.append(dict(
+                label=i+1,
+                value=i
+            ))
+    return dropdownOptions
+
+
+@app.callback(
     Output('sequence-viewer', 'selection'),
     [Input('sel-slider', 'value'),
      Input('selection-or-coverage', 'value')]
@@ -227,12 +212,14 @@ def update_sel(v, v2):
 
 @app.callback(
     Output('test-selection', 'children'),
-    [Input('sequence-viewer', 'selection')]
+    [Input('sequence-viewer', 'selection')],
+    state=[State('sequence-viewer', 'sequence')]
 )
-def get_aa_comp(v):
+def get_aa_comp(v, seq):
     if(len(v) < 2):
         return ''
-    subsequence = sequence[v[0]:v[1]]
+    
+    subsequence = seq[v[0]:v[1]]
     aminoAcids = list(set(subsequence))
     summary = []
     for aa in aminoAcids:
@@ -244,29 +231,74 @@ def get_aa_comp(v):
 
 
 @app.callback(
-    Output('test-coverage', 'children'),
-    [Input('sequence-viewer', 'coverageClicked')]
-)
-def update_coverage(v):
-    try:
-        cov = coverage[v]
-    except TypeError:
-        return ""
-    for s in sec_structure:
-        if(s[0] == cov['start']):
-            if(len(s) > 2):
-                return cov['tooltip']
-            else:
-                return "No additional information."
-    return sequence[cov['start']:cov['end']]
-
-
-@app.callback(
     Output('test-mouse-selection', 'children'),
     [Input('sequence-viewer', 'mouseSelection')]
 )
 def update_mouse_sel(v):
     return v
+
+
+@app.callback(
+    Output('sequence-viewer-container', 'children'),
+    [Input('upload-fasta-data', 'filename'),
+     Input('protein-dropdown', 'value')]
+)
+def open_file(fn, p):
+    print(p)
+    protein = pr.readFasta(fn, folder=proteinFolder)[p]
+    if(type(protein) is list):
+        protein = protein[0]
+    sequence = protein['sequence']
+    try:
+        title = protein['description']['accession']
+    except KeyError:
+        title = ''
+
+    return [
+        dash_bio.SequenceViewerComponent(
+            id='sequence-viewer',
+            title=title,
+            wrapAminoAcids=True,
+            search=True,
+            sequence=sequence,
+            selection=[]
+        )
+    ]
+
+
+@app.callback(
+    Output('sel-slider-container', 'children'),
+    [Input('sequence-viewer', 'sequence')]
+)
+def update_slider_values(seq):
+    return[
+        "Selection slider",
+        dcc.RangeSlider(
+            id='sel-slider',
+            min=0,
+            max=len(seq),
+            step=1,
+            value=[0, 0]
+        )
+    ]
+
+
+@app.callback(
+    Output('desc-info', 'children'),
+    [Input('upload-fasta-data', 'filename'),
+     Input('protein-dropdown', 'value')],
+)
+def update_desc_info(fn, p):
+    print(p)
+    protein = pr.readFasta(fn, folder=proteinFolder)[p]
+    desc = []
+    for key in protein['description']:
+        tmp = key
+        tmp += ': '
+        tmp += protein['description'][key]
+        desc.append(tmp)
+        desc.append(html.Br())
+    return desc
 
 
 @app.callback(

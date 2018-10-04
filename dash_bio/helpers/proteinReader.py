@@ -46,8 +46,13 @@ def readFasta(
         folder='.'
 ):
     proteins = []
+    fullPath = ''
     
-    fullPath = os.path.join(folder, fname)
+    try:
+        fullPath = os.path.join(folder, fname)
+    except TypeError:
+        return proteins
+    
     with open(fullPath, 'r') as f:
 
         bare = False

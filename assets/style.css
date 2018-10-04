@@ -1,7 +1,10 @@
 body {
     font-family: Helvetica, sans-serif;
 }
-
+::-webkit-scrollbar{
+    width: 0px;
+    height: 0px;
+}
 #header {
     width: calc(100% - 40px);
     height: auto;
@@ -20,12 +23,18 @@ body {
     border: solid 1px grey;
     margin-left: 10px;
 }
+#fasta-upload{
+    width: 400px;
+    margin: 20px;
+    padding: 10px;
+}
 #sequence-viewer-container{
     width: 400px;
     border: solid 1px grey;
     border-radius: 5px;
     padding: 10px;
     margin:20px;
+    overflow:scroll;
 }
 
 #controls-container {
@@ -33,7 +42,7 @@ body {
     position: absolute;
     top: 110px;
     left: 500px;
-    height:155px;
+    height:200px;
     border: solid 1px grey;
     border-radius: 5px;
     padding: 10px;
@@ -50,11 +59,13 @@ body {
 }
 		   
 #info-container {
-    width: 600px;
+    width: 400px;
+    height: 500px;
     border: solid 1px grey;
+    overflow:scroll;
     border-radius: 5px;
     padding: 20px;
     position: absolute;
-    top: 350px;
-    left: 30px;
+    top: 110px;
+    left: 700px;
 }
