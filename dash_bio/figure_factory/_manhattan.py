@@ -34,27 +34,29 @@ def create_manhattan(
         highlight_color="red",
 ):
     """
-    Returns a figure for a manhanntan plot.
+    Returns a figure for a manhattan plot.
 
-    :param dataframe: A pandas dataframe which must contain at least the
+    :param (dataFrame) dataframe: A pandas dataframe which must contain at
+    least the
         following  three columns:
             - the chromosome number
             - genomic base-pair position
             - a numeric quantity to plot such as a p-value or zscore
-    :param chrm: A string denoting the column name for the chromosome.
-    Default is chr = "CHR". This column must be float or integer.
+    :param (string) chrm: A string denoting the column name for the chromosome.
+    This column must be float or integer.
     Minimum number of chromosomes required is 1. If you have X, Y,
     or MT  chromosomes, be sure to renumber these 23, 24, 25, etc.
-    :param bp: A string denoting the column name for the chromosomal
+        Default = "CHR"
+    :param (string) bp: A string denoting the column name for the chromosomal
     position.
-    Default is bp = "BP". This column must be float or integer.
-    :param p: A string denoting the column name for the float quantity
+        Default = "BP"
+    :param (string) p: A string denoting the column name for the float quantity
     to be plotted on the y-axis. This column must be numeric.
     This does not have to be a p-value. It can be any numeric quantity
     such  as peak heights, bayes factors, test statistics. If it is not a
     p-value, make sure to set logp = FALSE.
         Default p = "P"
-    :param snp: A string denoting the column name for the SNP names
+    :param (string) snp: A string denoting the column name for the SNP names
     (e.g. rs number). More generally, this column could be anything that
     identifies each point being plotted. For example, in an
     Epigenomewide association study (EWAS) this could be the probe name
@@ -63,58 +65,62 @@ def create_manhattan(
     highlight points on the plot using the highlight argument in the
     figure method.
         Default = "SNP"
-    :param gene: A string denoting the column name for the GENE names.
+    :param (string) gene: A string denoting the column name for the GENE names.
     This column could be a string or a float.
     More generally this could be any annotation information that you
     want to include in the plot.
         Default = "GENE"
-    :param annotation: A string denoting the column name for an annotation.
-    This column could be a string or a float.
+    :param (string) annotation: A string denoting the column name for an
+    annotation. This column could be a string or a float.
     This could be any annotation information that you want to include
     in the plot (e.g. zscore, effect size, minor allele frequency).
         Default = None
-    :param logp: If True the -log10 of the p-value is plotted.
+    :param (bool) logp: If True the -log10 of the p-value is plotted.
     It isn't very useful to plot raw p-values, however plotting the raw
     value could be useful for other genome-wide plots, for example,
     peak heights, bayes factors, test statistics, other "scores" etc.
         Default = True
-    :param title: Title of the graph.
+    :param (string) title: Title of the graph.
         Default = "Manhattan Plot"
-    :param showgrid: Boolean indicating whether gridlines should be shown.
+    :param (bool) showgrid: Boolean indicating whether gridlines should be
+    shown.
         Default = True
-    :param xlabel: Label of the x axis.
+    :param (string) xlabel: Label of the x axis.
         Default = None
-    :param ylabel: Label of the y axis.
+    :param (string) ylabel: Label of the y axis.
         Default = "-log10(p)"
-    :param point_size: Size of the points of the Scatter plot.
+    :param (number) point_size: Size of the points of the Scatter plot.
         Default = 5
-    :param showlegend: Boolean indicating whether legends should be shown.
+    :param (bool) showlegend: Boolean indicating whether legends should be
+    shown.
         Default = True
-    :param col: Color of the point of the Scatter plot. Can be in any color
-    format accepted by plotly_js graph_objs.
+    :param (color) col: Color of the point of the Scatter plot. Can be in any
+    color format accepted by plotly_js graph_objs.
         Default = None
-    :param suggestiveline_value: A boolean which must be False to deactivate
-    the option, or a numerical value corresponding to the p-value at which
-    the line should be drawn, the line has no influence on the data points.
+    :param (bool/number) suggestiveline_value: A boolean which must be False to
+    deactivate the option, or a numerical value corresponding to the p-value
+    at which the line should be drawn, the line has no influence on the data
+    points.
         Default = -np.log10(1e-8)
-    :param suggestiveline_color: Color of the suggestive line.
+    :param (color) suggestiveline_color: Color of the suggestive line.
         Default = "grey"
-    :param suggestiveline_width: Width of the suggestive line.
+    :param (number) suggestiveline_width: Width of the suggestive line.
         Default = 2
-    :param genomewideline_value: A boolean which must be False to deactivate
+    :param (bool/number) genomewideline_value: A boolean which must be False to
+    deactivate
     the option, or a numerical value corresponding to the p-value above which
     the  data points are considered significant.
         Default = -np.log10(5e-8)
-    :param genomewideline_color: Color of the genome wide line. Can be in any
-    color format accepted by plotly_js graph_objs
+    :param (color) genomewideline_color: Color of the genome wide line. Can
+    be in any color format accepted by plotly_js graph_objs
         Default = "red"
-    :param genomewideline_width: Width of the genome wide line.
+    :param (number) genomewideline_width: Width of the genome wide line.
         Default = 1
-    :param highlight: Boolean turning on/off the highlighting of data points
+    :param (bool) highlight: turning on/off the highlighting of data points
     considered significant.
         Default = True
-    :param highlight_color: Color of the data points highlighted because
-    considered as significant Can be in any color format accepted by
+    :param (color) highlight_color: Color of the data points highlighted
+    because considered as significant Can be in any color format accepted by
     plotly_js graph_objs.
         Default = "red"
     # ...
@@ -193,44 +199,46 @@ class _ManhattanPlot(object):
     ):
         """
         :return: An object with a pandas dataframe
-        :param x: A pandas dataframe which must contain at least the
-        following  three columns:
-            - the chromosome number
-            - genomic base-pair position
-            - a numeric quantity to plot such as a p-value or zscore
-        :param chrm: A string denoting the column name for the chromosome.
-        Default is chr = "CHR". This column must be float or integer.
+        :param (dataFrame) x: A pandas dataframe which must contain at
+        least the
+            following  three columns:
+                - the chromosome number
+                - genomic base-pair position
+                - a numeric quantity to plot such as a p-value or zscore
+        :param (string) chrm: A string denoting the column name for the
+        chromosome. This column must be float or integer.
         Minimum number of chromosomes required is 1. If you have X, Y,
         or MT  chromosomes, be sure to renumber these 23, 24, 25, etc.
-        :param bp: A string denoting the column name for the chromosomal
-        position.
-        Default is bp = "BP". This column must be float or integer.
-        :param p: A string denoting the column name for the float quantity
-        to be plotted on the y-axis. This column must be numeric.
+            Default = "CHR"
+        :param (string) bp: A string denoting the column name for the
+        chromosomal position.
+            Default = "BP"
+        :param (string) p: A string denoting the column name for the float
+        quantity to be plotted on the y-axis. This column must be numeric.
         This does not have to be a p-value. It can be any numeric quantity
         such  as peak heights, bayes factors, test statistics. If it is not a
         p-value, make sure to set logp = FALSE.
             Default p = "P"
-        :param snp: A string denoting the column name for the SNP names
-        (e.g. rs number). More generally, this column could be anything that
-        identifies each point being plotted. For example, in an
+        :param (string) snp: A string denoting the column name for the SNP
+        names (e.g. rs number). More generally, this column could be anything
+        that identifies each point being plotted. For example, in an
         Epigenomewide association study (EWAS) this could be the probe name
         or cg number. This column should be a character. This argument is
         optional, however it is necessary to specify if you want to
         highlight points on the plot using the highlight argument in the
         figure method.
             Default = "SNP"
-        :param gene: A string denoting the column name for the GENE names.
-        This column could be a string or a float.
+        :param (string) gene: A string denoting the column name for the GENE
+        names. This column could be a string or a float.
         More generally this could be any annotation information that you
         want to include in the plot.
             Default = "GENE"
-        :param annotation: A string denoting the column name for an annotation.
-        This column could be a string or a float.
+        :param (string) annotation: A string denoting the column name for an
+        annotation. This column could be a string or a float.
         This could be any annotation information that you want to include
         in the plot (e.g. zscore, effect size, minor allele frequency).
             Default = None
-        :param logp: If True the -log10 of the p-value is plotted.
+        :param (bool) logp: If True the -log10 of the p-value is plotted.
         It isn't very useful to plot raw p-values, however plotting the raw
         value could be useful for other genome-wide plots, for example,
         peak heights, bayes factors, test statistics, other "scores" etc.
@@ -393,45 +401,48 @@ class _ManhattanPlot(object):
             highlight_color="red",
     ):
         """
-        :param title: Title of the graph.
+        :param (string) title: Title of the graph.
             Default = "Manhattan Plot"
-        :param showgrid: Boolean indicating whether gridlines should be shown.
+        :param (bool) showgrid: Boolean indicating whether gridlines should be
+        shown.
             Default = True
-        :param xlabel: Label of the x axis.
+        :param (string) xlabel: Label of the x axis.
             Default = None
-        :param ylabel: Label of the y axis.
+        :param (string) ylabel: Label of the y axis.
             Default = "-log10(p)"
-        :param point_size: Size of the points of the Scatter plot.
+        :param (number) point_size: Size of the points of the Scatter plot.
             Default = 5
-        :param showlegend: Boolean indicating whether legends should be shown.
+        :param (bool) showlegend: Boolean indicating whether legends should be
+        shown.
             Default = True
-        :param col: Color of the point of the Scatter plot. Can be in any color
-        format accepted by plotly_js graph_objs.
+        :param (color) col: Color of the point of the Scatter plot. Can be in
+        any color format accepted by plotly_js graph_objs.
             Default = None
-        :param suggestiveline_value: A boolean which must be False to
-        deactivate the option, or a numerical value corresponding to the
-        p-value at which the line should be drawn, the line has no influence
-        on the data points.
+        :param (bool/number) suggestiveline_value: A boolean which must be
+        False to deactivate the option, or a numerical value corresponding to
+        the p-value at which the line should be drawn, the line has no
+        influence on the data points.
             Default = -np.log10(1e-8)
-        :param suggestiveline_color: Color of the suggestive line.
+        :param (color) suggestiveline_color: Color of the suggestive line.
             Default = "grey"
-        :param suggestiveline_width: Width of the suggestive line.
+        :param (number) suggestiveline_width: Width of the suggestive line.
             Default = 2
-        :param genomewideline_value: A boolean which must be False to
-        deactivate the option, or a numerical value corresponding to the
-        p-value above which the  data points are considered significant.
+        :param (bool/number) genomewideline_value: A boolean which must be
+        False to deactivate
+        the option, or a numerical value corresponding to the p-value above
+        which the  data points are considered significant.
             Default = -np.log10(5e-8)
-        :param genomewideline_color: Color of the genome wide line. Can be in
-        any color format accepted by plotly_js graph_objs
+        :param (color) genomewideline_color: Color of the genome wide line. Can
+        be in any color format accepted by plotly_js graph_objs
             Default = "red"
-        :param genomewideline_width: Width of the genome wide line.
+        :param (number) genomewideline_width: Width of the genome wide line.
             Default = 1
-        :param highlight: Boolean turning on/off the highlighting of data
-        points considered significant.
+        :param (bool) highlight: turning on/off the highlighting of data points
+        considered significant.
             Default = True
-        :param highlight_color: Color of the data points highlighted because
-        considered as significant Can be in any color format accepted by
-        plotly_js graph_objs.
+        :param (color) highlight_color: Color of the data points highlighted
+        because considered as significant Can be in any color format accepted
+        by plotly_js graph_objs.
             Default = "red"
 
         :return: a figure formatted for plotly.graph_objs
@@ -589,8 +600,7 @@ class _ManhattanPlot(object):
 
                 tmp = data[data[self.index] == i]
 
-                chromo = tmp[self.chrName].unique()  # Get chromosome name for
-                # labeling
+                chromo = tmp[self.chrName].unique()  # Get chromosome name
 
                 hover_text = _get_hover_text(
                     data,
