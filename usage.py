@@ -171,6 +171,50 @@ app.layout = html.Div([
 ])
 
 
+# sequence viewer display
+@app.callback(
+    Output('sequence-viewer-container', 'children'),
+    [Input('upload-fasta-data', 'contents'),
+     Input('protein-dropdown', 'value')]
+)
+def update_sequence(upload_contents, p):
+    data = ''
+    try:
+        content_type, content_string = upload_contents.split(',')
+        data = base64.b64decode(content_string).decode('UTF-8')
+    except AttributeError:
+        pass
+    if data == '':
+        return [
+            dash_bio.SequenceViewerComponent(
+                id='sequence-viewer',
+                title='',
+                wrapAminoAcids=True,
+                search=True,
+                sequence='-',
+                selection=[]
+            )
+        ]
+    protein = pr.readFasta(dataString=data)[p]
+    sequence = protein['sequence']
+    try:
+        title = protein['description']['accession']
+    except KeyError:
+        title = ''
+
+    return [
+        dash_bio.SequenceViewerComponent(
+            id='sequence-viewer',
+            title=title,
+            wrapAminoAcids=True,
+            search=True,
+            sequence=sequence,
+            selection=[]
+        )
+    ]
+
+
+# controls
 @app.callback(
     Output('sel-slider', 'disabled'),
     [Input('selection-or-coverage', 'value')]
@@ -190,34 +234,6 @@ def update_sel(v, v2):
     if(v2 != 'sel'):
         return []
     return [v[0], v[1], highlightColor]
-
-
-@app.callback(
-    Output('test-selection', 'children'),
-    [Input('sequence-viewer', 'selection')],
-    state=[State('sequence-viewer', 'sequence')]
-)
-def get_aa_comp(v, seq):
-    if(len(v) < 2):
-        return ''
-    
-    subsequence = seq[v[0]:v[1]]
-    aminoAcids = list(set(subsequence))
-    summary = []
-    for aa in aminoAcids:
-        summary.append(
-            html.Tr([html.Td(pr.translateSeq(aa)[0]),
-                     html.Td(str(subsequence.count(aa)))])
-        )
-    return html.Table(summary)
-
-
-@app.callback(
-    Output('test-mouse-selection', 'children'),
-    [Input('sequence-viewer', 'mouseSelection')]
-)
-def update_mouse_sel(v):
-    return v
 
 
 @app.callback(
@@ -246,6 +262,53 @@ def update_protein_options(upload_contents):
 
 
 @app.callback(
+    Output('sel-slider-container', 'children'),
+    [Input('sequence-viewer', 'sequence')]
+)
+def update_slider_values(seq):
+    return[
+        "Selection slider",
+        dcc.RangeSlider(
+            id='sel-slider',
+            min=0,
+            max=len(seq),
+            step=1,
+            value=[0, 0]
+        )
+    ]
+
+
+# info display
+@app.callback(
+    Output('test-selection', 'children'),
+    [Input('sequence-viewer', 'selection')],
+    state=[State('sequence-viewer', 'sequence')]
+)
+def get_aa_comp(v, seq):
+    if(len(v) < 2):
+        return ''
+    
+    subsequence = seq[v[0]:v[1]]
+    aminoAcids = list(set(subsequence))
+    summary = []
+    for aa in aminoAcids:
+        summary.append(
+            html.Tr([html.Td(pr.translateSeq(aa)[0]),
+                     html.Td(str(subsequence.count(aa)))])
+        )
+    return html.Table(summary)
+
+
+@app.callback(
+    Output('test-mouse-selection', 'children'),
+    [Input('sequence-viewer', 'mouseSelection')]
+)
+def update_mouse_sel(v):
+    print(v)
+    return v
+
+
+@app.callback(
     Output('desc-info', 'children'),
     [Input('upload-fasta-data', 'contents'),
      Input('protein-dropdown', 'value')],
@@ -270,57 +333,6 @@ def update_desc_info(upload_contents, p):
         desc.append(tmp)
         desc.append(html.Br())
     return desc
-
-
-@app.callback(
-    Output('sequence-viewer-container', 'children'),
-    [Input('upload-fasta-data', 'contents'),
-     Input('protein-dropdown', 'value')]
-)
-def update_sequence(upload_contents, p):
-    data = ''
-    try:
-        content_type, content_string = upload_contents.split(',')
-        data = base64.b64decode(content_string).decode('UTF-8')
-    except AttributeError:
-        pass
-    if data == '':
-        return "Upload a file above to get started."
-    protein = pr.readFasta(dataString=data)[p]
-    sequence = protein['sequence']
-    try:
-        title = protein['description']['accession']
-    except KeyError:
-        title = ''
-
-    return [
-        dash_bio.SequenceViewerComponent(
-            id='sequence-viewer',
-            title=title,
-            wrapAminoAcids=True,
-            search=True,
-            sequence=sequence,
-            selection=[]
-        )
-    ]
-
-
-@app.callback(
-    Output('sel-slider-container', 'children'),
-    [Input('sequence-viewer', 'sequence')]
-)
-def update_slider_values(seq):
-    return[
-        "Selection slider",
-        dcc.RangeSlider(
-            id='sel-slider',
-            min=0,
-            max=len(seq),
-            step=1,
-            value=[0, 0]
-        )
-    ]
-
 
 
 @app.callback(
