@@ -4,7 +4,9 @@ import pandas as pd
 import dash_html_components as html
 import dash_core_components as dcc
 
-from ._volcano import create_volcano
+import dash_bio
+
+from dash_bio.figure_factory._volcano import create_volcano
 
 df = pd.read_csv("tests/dash/HapMap.csv")  # Load the data
 
