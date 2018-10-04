@@ -1,6 +1,7 @@
 import dash_bio
 from dash_bio.helpers import proteinReader as pr
 import dash
+import base64
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
@@ -181,25 +182,6 @@ def enable_disable_slider(v):
 
 
 @app.callback(
-    Output('protein-dropdown', 'options'),
-    [Input('upload-fasta-data', 'filename')]
-)
-def update_protein_options(fn):
-    dropdownOptions = [
-        {'label': 1, 'value': 0}
-    ]
-    proteins = pr.readFasta(fn, folder=proteinFolder)
-    if(type(proteins) is list):
-        dropdownOptions = []
-        for i in range(len(proteins)):
-            dropdownOptions.append(dict(
-                label=i+1,
-                value=i
-            ))
-    return dropdownOptions
-
-
-@app.callback(
     Output('sequence-viewer', 'selection'),
     [Input('sel-slider', 'value'),
      Input('selection-or-coverage', 'value')]
@@ -239,15 +221,72 @@ def update_mouse_sel(v):
 
 
 @app.callback(
+    Output('protein-dropdown', 'options'),
+    [Input('upload-fasta-data', 'contents')]
+)
+def update_protein_options(upload_contents):
+    dropdownOptions = [
+        {'label': 1, 'value': 0}
+    ]
+    data = ''
+    try:
+        content_type, content_string = upload_contents.split(',')
+        data = base64.b64decode(content_string).decode('UTF-8')
+    except AttributeError:
+        pass
+    proteins = pr.readFasta(dataString=data)
+    if(type(proteins) is list):
+        dropdownOptions = []
+        for i in range(len(proteins)):
+            dropdownOptions.append(dict(
+                label=i+1,
+                value=i
+            ))
+    return dropdownOptions
+
+
+@app.callback(
+    Output('desc-info', 'children'),
+    [Input('upload-fasta-data', 'contents'),
+     Input('protein-dropdown', 'value')],
+)
+def update_desc_info(upload_contents, p):
+    data = ''
+
+    try:
+        content_type, content_string = upload_contents.split(',')
+        data = base64.b64decode(content_string).decode('UTF-8')
+    except AttributeError:
+        pass
+    if data == '':
+        return []
+    
+    protein = pr.readFasta(dataString=data)[p]
+    desc = []
+    for key in protein['description']:
+        tmp = key
+        tmp += ': '
+        tmp += protein['description'][key]
+        desc.append(tmp)
+        desc.append(html.Br())
+    return desc
+
+
+@app.callback(
     Output('sequence-viewer-container', 'children'),
-    [Input('upload-fasta-data', 'filename'),
+    [Input('upload-fasta-data', 'contents'),
      Input('protein-dropdown', 'value')]
 )
-def open_file(fn, p):
-    print(p)
-    protein = pr.readFasta(fn, folder=proteinFolder)[p]
-    if(type(protein) is list):
-        protein = protein[0]
+def update_sequence(upload_contents, p):
+    data = ''
+    try:
+        content_type, content_string = upload_contents.split(',')
+        data = base64.b64decode(content_string).decode('UTF-8')
+    except AttributeError:
+        pass
+    if data == '':
+        return "Upload a file above to get started."
+    protein = pr.readFasta(dataString=data)[p]
     sequence = protein['sequence']
     try:
         title = protein['description']['accession']
@@ -282,23 +321,6 @@ def update_slider_values(seq):
         )
     ]
 
-
-@app.callback(
-    Output('desc-info', 'children'),
-    [Input('upload-fasta-data', 'filename'),
-     Input('protein-dropdown', 'value')],
-)
-def update_desc_info(fn, p):
-    print(p)
-    protein = pr.readFasta(fn, folder=proteinFolder)[p]
-    desc = []
-    for key in protein['description']:
-        tmp = key
-        tmp += ': '
-        tmp += protein['description'][key]
-        desc.append(tmp)
-        desc.append(html.Br())
-    return desc
 
 
 @app.callback(

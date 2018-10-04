@@ -42,65 +42,71 @@ _aminoAcids = {'C': 'CYS',
 
 
 def readFasta(
-        fname,
-        folder='.'
+        fname='',
+        folder='.',
+        dataString=''
 ):
     proteins = []
-    fullPath = ''
+    rawDataString = ''
+    bare = False
     
-    try:
-        fullPath = os.path.join(folder, fname)
-    except TypeError:
-        return proteins
+    if(len(fname) > 0):
+        fullPath = ''
+        try:
+            fullPath = os.path.join(folder, fname)
+        except TypeError:
+            return proteins
+        
+        with open(fullPath, 'r') as f:
+            rawDataString = ('').join(f.readlines())
+
+    else:
+        rawDataString = dataString
+        
+    if('>') not in rawDataString:
+        bare = True
+        
+    # get all the different amino acids
+    lines = (rawDataString.split('>'))
     
-    with open(fullPath, 'r') as f:
-
-        bare = False
+    for l in lines:
+        tmp = l.replace('\r', '\n').replace('\r\n', '\n')
+        # skip comments and empty lines
+        if(len(tmp) == 0 or l[0] == ';'):
+            continue
         
-        rawString = ('').join(f.readlines())
-        if('>') not in rawString:
-            bare = True
+        protein = {
+            'description': {},
+            'sequence': ''
+        }
+
+        seqInfo = [line for line in tmp.split('\n') if len(line) > 0]
         
-        # get all the different amino acids
-        lines = (rawString.split('>'))
-
-        for l in lines:
-            # skip comments and empty lines
-            if(len(l) == 0 or l[0] == ';'):
-                continue
-
-            protein = {
-                'description': {},
-                'sequence': ''
-            }
-
-            seqInfo = l.split('\n')
-
-            # no description if it's a bare sequence
-            if(bare):
-                protein['sequence'] = ('').join(seqInfo)
+        # no description if it's a bare sequence
+        if(bare):
+            protein['sequence'] = ('').join(seqInfo)
+        else:
+            # description will be the first non-comment line
+            desc = seqInfo[0].split('|')
+            # use database descriptions if possible
+            if desc[0] in _databases:
+                dbInfo = _databases[desc[0]]
+                for i in range(len(desc)-1):
+                    protein['description'][dbInfo[i]] = desc[i+1]
+            # otherwise, provide indices as keys
             else:
-                # description will be the first non-comment line
-                desc = seqInfo[0].split('|')
-                # use database descriptions if possible
-                if desc[0] in _databases:
-                    dbInfo = _databases[desc[0]]
-                    for i in range(len(desc)-1):
-                        protein['description'][dbInfo[i]] = desc[i+1]
-                # otherwise, provide indices as keys
-                else:
-                    for i in range(len(desc)-1):
-                        protein['description']['desc-'+str(i)] = desc[i+1]
-                protein['sequence'] = ('').join([l.strip('\n')
-                                                 for l in seqInfo[1:]]).upper()
-                
-            # remove all invalid characters
-            protein['sequence'] = cleanSeq(protein['sequence'])
-
-            # add to list
-            proteins.append(protein)
-
-        return proteins
+                for i in range(len(desc)-1):
+                    protein['description']['desc-'+str(i)] = desc[i+1]
+            protein['sequence'] = ('').join(
+                [l.strip('\n') for l in seqInfo[1:]]
+            ).upper()
+                    
+        # remove all invalid characters
+        protein['sequence'] = cleanSeq(protein['sequence'])
+        # add to list
+        proteins.append(protein)
+    
+    return proteins
 
 
 def cleanSeq(
