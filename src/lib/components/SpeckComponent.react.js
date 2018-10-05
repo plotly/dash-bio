@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 
-const speckRenderer = require('../../../node_modules/speck/src/renderer.js'); 
+const speckRenderer = require('../speck/src/renderer.js'); 
 
 export default class SpeckComponent extends Component {
     

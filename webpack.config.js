@@ -15,10 +15,6 @@ module.exports = {
         react: 'React',
         'react-dom': 'ReactDOM',
         'plotly.js': 'Plotly',
-	'fs': 'commonjs fs'
-    },
-    node: {
-	fs: "empty"
     },
     module: {
         rules: [

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+watchify src/main.js -o static/bundle.js -v
+
