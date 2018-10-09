@@ -182,19 +182,21 @@ class Clustergram(object):
                 axis=self._imputeFunction['axis']
             )
             self._data = imp.fit_transform(self._data)
+
         if(logTransform):
             self._data = np.log2(self._data)
         if(standardize in ['row', 'column']):
             self._data = self._scale(self._data, standardize)
-
+        
         # keep the dataset static
         self._dendroTraces = self._dendrogramTraces()
         
     def figure(
-            self
+            self,
     ):
-        # get raw traces
         t = self._dendroTraces
+        
+        # get raw traces
         row_dendro_traces = t['row']
         col_dendro_traces = t['col']
         
@@ -223,7 +225,7 @@ class Clustergram(object):
 
         tickvals_col = []
         tickvals_row = []
-        
+
         # for column dendrogram, leaves are at bottom (y=0)
         for i in range(len(t['col'])):
             tickvals_col += [
@@ -231,6 +233,7 @@ class Clustergram(object):
                 for j in range(len(t['col'][i]['x'].flatten()))
                 if t['col'][i]['y'].flatten()[j] == 0.0
             ]
+        tickvals_col = list(set(tickvals_col))
         
         # for row dendrogram, leaves are at right(x=0, since we
         # horizontally flipped it)
@@ -240,6 +243,7 @@ class Clustergram(object):
                 for j in range(len(t['row'][i]['y'].flatten()))
                 if t['row'][i]['x'].flatten()[j] == 0.0
             ]
+        tickvals_row = list(set(tickvals_row))
 
         # sort so they are in the right order (lowest to highest)
         tickvals_col.sort()
@@ -259,7 +263,7 @@ class Clustergram(object):
                 fixedrange=False,
                 showticklabels=False
             )
-
+            
         (row_dendro_traces, col_dendro_traces) = self._sortTraces(
             row_dendro_traces, col_dendro_traces)
         
@@ -346,7 +350,6 @@ class Clustergram(object):
                 'xpad': 50  # move the colorbar legend away
             }
         )
-        
         fig.append_trace(heatmap, 2, 2)
 
         # hide all legends
@@ -507,7 +510,7 @@ class Clustergram(object):
 
         Zcol = None
         Zrow = None
-        
+
         # cluster along columns
         if self._cluster in ['col', 'all']:
             tmp = np.transpose(self._data)
@@ -539,7 +542,7 @@ class Clustergram(object):
 
         # first, compute the clusters
         (Zcol, Zrow) = self._getClusters()
-    
+
         # calculate dendrogram from clusters; sch.dendrogram returns sets
         # of four coordinates that make up the 'u' shapes in the dendrogram
         if Zcol is not None:
@@ -561,7 +564,7 @@ class Clustergram(object):
             }
             self._rowLabels = scp.array(Prow['ivl'])
             trace_list['row'] = self._colorDendroClusters(Prow_tmp, 'row')
-
+            
         return trace_list
     
     def _colorDendroClusters(

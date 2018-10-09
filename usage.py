@@ -11,8 +11,12 @@ app = dash.Dash('')
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
-data = np.genfromtxt('data.txt', delimiter='\t')
-data = data[:150]
+data = np.genfromtxt('expressionData/E-GEOD-46817-query-results.tpms.tsv',
+                     delimiter='\t')
+
+data = data[10:1000]
+data = np.delete(data, [0, 1], 1)
+
 cL = [chr(i+65) for i in range(len(data[0]))]
 rL = [chr(i+65) for i in range(len(data))]
 
@@ -20,27 +24,28 @@ rL = [chr(i+65) for i in range(len(data))]
 fig_options = dict(
     data=data, id='sample', cluster='all',
     optimalLeafOrder=False,
-    displayRatio=[0.15, 0.2],
+    displayRatio=[0.3, 0.2],
     columnLabels=cL, rowLabels=None,
-    colorThreshold=dict(row=9, col=55),
-    height=1000, width=800,
-    colorMap=[[0.0, 'rgb(0,150,150)'],
-              [0.5, 'rgb(0,0,100)'],
-              [1.0, 'rgb(0,0,255)']],
+    colorThreshold=dict(row=9, col=35),
+    height=800, width=800,
+    colorMap=[[0.0, 'rgb(150,150,250)'],
+              [0.5, 'rgb(50,250,100)'],
+              [1.0, 'rgb(50,150,255)']],
     colorList={
-        'row': ['rgb(0,0,100)', 'rgb(0,0,255)', 'rgb(0,150,150)'],
-        'col': ['rgb(0,0,255)', 'rgb(0,150,150)', 'rgb(0,0,100)'],
-        'bg': 'rgb(190,190,255)'
+        'row': ['rgb(50,250,100)', 'rgb(50,150,255)', 'rgb(150,150,250)'],
+        'col': ['rgb(50,150,255)', 'rgb(150,150,250)', 'rgb(50,250,100)'],
+        'bg': 'rgb(255,255,255)'
     },
     annotationFont=dict(
         color='white',
         size=10
     ),
+    symmetricValue=False,
     logTransform=True,
     imputeFunction={
-        'strategy': 'mean',
+        'strategy': 'median',
         'missingValues': 'NaN',
-        'axis': 0
+        'axis': 1
     }
 )
 
