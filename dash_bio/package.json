@@ -1,17 +1,17 @@
 {
-  "name": "react_circos",
-  "version": "1.0.0",
-  "description": "react wrapper for circosJS",
+  "name": "dash_bio",
+  "version": "0.0.1",
+  "description": "Dash wrapper around CircosJS",
   "main": "build/index.js",
   "scripts": {
     "start": "webpack-serve ./webpack.serve.config.js --open",
     "build:js-dev": "webpack --mode development",
     "build:js": "webpack --mode production",
-    "build:py": "node ./extract-meta src/lib/components > react_circos/metadata.json && copyfiles package.json react_circos",
+    "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && copyfiles package.json dash_bio",
     "build:all": "npm run build:js & npm run build:py",
     "build:all-dev": "npm run build:js-dev & npm run build:py"
   },
-  "author": "Nicolas Girault",
+  "author": "Matthew Chan",
   "license": "MIT",
   "dependencies": {
     "ramda": "^0.25.0",

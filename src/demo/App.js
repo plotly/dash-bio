@@ -1,7 +1,5 @@
 /* eslint no-magic-numbers: 0 */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import * as R from 'ramda';
 import { CHORDS } from '../lib/tracks';
 
 import layout from '../lib/examples/fixtures/GRCh37.json';

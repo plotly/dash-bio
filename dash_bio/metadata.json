@@ -1,0 +1,238 @@
+{
+  "src/lib/components/DashCircos.react.js": {
+    "description": "Dash Circos is a library used to analyze and understand\r\ndata using a circular layout. It comes with many layouts,\r\nand templates for the user to share and display their data.",
+    "displayName": "DashCircos",
+    "methods": [
+      {
+        "name": "setEvent",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "setProps",
+            "type": null
+          },
+          {
+            "name": "index",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "setColor",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "configApply",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "setToolTip",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "configApply",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "configIdeogram",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "layout",
+            "type": null
+          },
+          {
+            "name": "config",
+            "type": null
+          },
+          {
+            "name": "tracks",
+            "type": null
+          },
+          {
+            "name": "setProps",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of the component to be used in Dash callbacks"
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The CSS styling of the div wrapping the component"
+      },
+      "hoverDatum": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A Dash prop that returns data on hovering of the tracks\r\nif enabled."
+      },
+      "clickDatum": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A Dash prop that returns data on clicking of the tracks\r\nif enabled."
+      },
+      "selectEvent": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A dictionary used to choose whether tracks should return\r\ndata to \"clickDatum\" or \"hoverDatum\" on click, hover, or both.\r\nThe keys of the dictionary represent the index of the list\r\nspecified for \"tracks\".\r\n\r\nEx:                 \r\nselectEvent={\r\n        \"0\": \"hover\",\r\n        \"1\": \"click\",\r\n        \"2\": \"both\"\r\n    },"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash provided setProps."
+      },
+      "layout": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "len": {
+                "name": "number",
+                "description": "The length of the block.",
+                "required": true
+              },
+              "color": {
+                "name": "string",
+                "description": "The color of the block.",
+                "required": true
+              },
+              "label": {
+                "name": "string",
+                "description": "The labels of the block.",
+                "required": true
+              },
+              "id": {
+                "name": "string",
+                "description": "The id of the block, where it will recieve\r\ndata from the specified \"track\" id.",
+                "required": true
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": "The overall layout of the Circos graph, provided\r\nas a list of dictionaries."
+      },
+      "config": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Configuration of overall layout of the graph.",
+        "defaultValue": {
+          "value": "{}",
+          "computed": false
+        }
+      },
+      "size": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The overall size of the SVG container holding the\r\ngraph. Set on initilization and unchangeable thereafter.",
+        "defaultValue": {
+          "value": "800",
+          "computed": false
+        }
+      },
+      "tracks": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "id": {
+                "name": "string",
+                "description": "The id of a specific piece of track data.",
+                "required": false
+              },
+              "data": {
+                "name": "array",
+                "description": "The data that makes up the track. It can \r\nbe a Json object.",
+                "required": true
+              },
+              "config": {
+                "name": "object",
+                "description": "The layout of the tracks, where the user\r\ncan configure innerRadius, outterRadius, ticks,\r\nlabels, and more.",
+                "required": false
+              },
+              "type": {
+                "name": "enum",
+                "computed": true,
+                "value": "TRACK_TYPES",
+                "description": "Specify the type of track this is.\r\nPlease check the docs for a list of tracks you can use,\r\nand ensure the name is typed in all capitals.",
+                "required": false
+              },
+              "tooltipContent": {
+                "name": "enum",
+                "value": [
+                  {
+                    "value": "PropTypes.string",
+                    "computed": true
+                  },
+                  {
+                    "value": "PropTypes.object",
+                    "computed": true
+                  }
+                ],
+                "description": "Specify what data for tooltipContent is\r\ndisplayed.\r\n\r\nThe name key is required, where the entry\r\nfor the key points to a key in the dictionary\r\nof the data loaded into tracks. \r\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\r\n\r\nEx: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)' \r\n\"tooltipContent\": {\r\n        \"source\": \"block_id\",\r\n        \"target\": \"position\",\r\n        \"targetEnd\": \"value\"\r\n                            },\r\nEx: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'                  \r\n\"tooltipContent\": {\r\n        \"source\": \"source\",\r\n        \"sourceID\": \"id\",\r\n        \"target\": \"target\",\r\n        \"targetID\": \"id\",\r\n        \"targetEnd\": \"end\"\r\n    }",
+                "required": false
+              },
+              "color": {
+                "name": "enum",
+                "value": [
+                  {
+                    "value": "PropTypes.string",
+                    "computed": true
+                  },
+                  {
+                    "value": "PropTypes.object",
+                    "computed": true
+                  }
+                ],
+                "description": "Specify what data for color is displayed,\r\nthis can be a string or an object.\r\n\r\nIf using a string, you can specify hex,\r\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu). \r\n\r\nThe key \"name\" is required for this dictionary,\r\nwhere the input for \"name\" points to some list of\r\ndictionries color values.\r\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "Tracks that specify specific layouts.\r\nFor a complete list of tracks and usage, \r\nplease check the docs.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      }
+    }
+  }
+}
