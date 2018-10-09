@@ -13,12 +13,9 @@ export default class SpeckComponent extends Component {
 	for(var i = 0; i < data.length; i++) {
 	    // get the coordinate data
 	    var a = data[i];
-	    var x = a['x'];
-	    var y = a['y'];
-	    var z = a['z'];
 
 	    // add to the system
-	    speckSystem.addAtom(system, a.symbol, x, y, z);
+	    speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
 	}
 	speckSystem.center(system);
 	// bonds are calculated based on whether the distance between
@@ -27,39 +24,47 @@ export default class SpeckComponent extends Component {
 	speckSystem.calculateBonds(system);
 	// the view refers to the parameters of, e.g., atom shade, etc.
 	renderer.setSystem(system, view);
+	// update the resolution
+	renderer.setResolution(view.resolution, view.aoRes);
     }
 
     
     constructor(props) {
-	super('props');
+	super(props);
 	var system = speckSystem.new();
+	var v = speckView.new(); 
+	this.props.setProps({
+	    view: v
+	});
 	this.loadStructure = this.loadStructure.bind(this);
     }
     
     componentDidMount() {
-	const {data,
-	       view} = this.props;
+	const {
+	    view,
+	    data,
+	    setProps
+	} = this.props; 
+
 	const canvas = this.refs.canvas;
 
 	var renderer = new speckRenderer(this.refs.canvas, 200, 200);
-
-	this.props.setProps({
-	    view: speckView.new()
-	})
 	renderer.initialize();
-	console.warn(view);
-	this.loadStructure(data, renderer, view);
+
+	// ensure that view has loaded first
+	if(this.view){
+	    this.loadStructure(data, renderer, view);
+	}
     }
 
     render() {
 	const {
 	    id,
-	    label,
 	    view
 	} = this.props;
 
 	return (
-		<div id={id}> Label: {label}
+		<div id={id}>
 		<canvas ref="canvas" width={500} height={500} />
 	    </div>
 	);
@@ -71,12 +76,10 @@ export default class SpeckComponent extends Component {
 SpeckComponent.propTypes = {
 
     id: PropTypes.string,
-    label: PropTypes.string,
     data: PropTypes.arrayOf(PropTypes.shape({
 	x: PropTypes.number,
 	y: PropTypes.number,
 	z: PropTypes.number,
-	symbol: PropTypes.string
     })),
     view: PropTypes.shape({
 	aspect: PropTypes.number,
@@ -88,7 +91,7 @@ SpeckComponent.propTypes = {
 	atomScale: PropTypes.number,
 	relativeAtomScale: PropTypes.number,
 	bondScale: PropTypes.number,
-	rotation: PropTypes.func,
+	rotation: PropTypes.arrayOf(PropTypes.number),
 	ao: PropTypes.number,
 	aoRes: PropTypes.number,
 	brightness: PropTypes.number,
