@@ -98,19 +98,17 @@ class Clustergram(object):
             linkFun=lambda x, **kwargs: sch.linkage(x, 'complete', **kwargs),
             colorThreshold=dict(row=0, col=0),
             optimalLeafOrder=False,
-            colorMap=[[0.0, 'rgb(255,0,0)'],
-                      [0.5, 'rgb(0,0,0)'],
-                      [1.0, 'rgb(0,255,0)']],
+            colorMap=None,
             colorList=None,
             displayRange=3,
             symmetricValue=True,
             logTransform=False,
             displayRatio=0.2,
             imputeFunction=None,
-            rowGroupMarker=[],    # group number, annotation, color
-            colGroupMarker=[],    # same as above
-            tickFont=dict(),
-            annotationFont=dict(),
+            rowGroupMarker=None,    # group number, annotation, color
+            colGroupMarker=None,    # same as above
+            tickFont=None,
+            annotationFont=None,
             paperBgColor='rgba(0,0,0,0)',
             plotBgColor='rgba(0,0,0,0)',
             height=500,
@@ -126,16 +124,33 @@ class Clustergram(object):
         self._linkFun = linkFun
         self._colorThreshold = colorThreshold
         self._optimalLeafOrder = optimalLeafOrder
-        self._colorMap = colorMap
+        if(colorMap is None):
+            self._colorMap = [[0.0, 'rgb(255,0,0)'],
+                              [0.5, 'rgb(0,0,0)'],
+                              [1.0, 'rgb(0,255,0)']]
+        else:
+            self._colorMap = colorMap
         self._colorList = colorList
         self._displayRange = displayRange
         self._symmetricValue = symmetricValue
         self._displayRatio = displayRatio
         self._imputeFunction = imputeFunction
-        self._rowGroupMarker = rowGroupMarker
-        self._colGroupMarker = colGroupMarker
-        self._tickFont = tickFont
-        self._annotationFont = annotationFont
+        if(rowGroupMarker is None):
+            self._rowGroupMarker = []
+        else:
+            self._rowGroupMarker = rowGroupMarker
+        if(colGroupMarker is None):
+            self._colGroupMarker = []
+        else:
+            self._colGroupMarker = colGroupMarker
+        if(tickFont is None):
+            self._tickFont = dict()
+        else:
+            self._tickFont = tickFont
+        if(annotationFont is None):
+            self._annotationFont = dict()
+        else:
+            self._annotationFont = annotationFont
         self._paperBgColor = paperBgColor
         self._plotBgColor = plotBgColor
         self._height = height
@@ -171,12 +186,15 @@ class Clustergram(object):
             self._data = np.log2(self._data)
         if(standardize in ['row', 'column']):
             self._data = self._scale(self._data, standardize)
+
+        # keep the dataset static
+        self._dendroTraces = self._dendrogramTraces()
         
     def figure(
             self
     ):
         # get raw traces
-        t = self._dendrogramTraces()
+        t = self._dendroTraces
         row_dendro_traces = t['row']
         col_dendro_traces = t['col']
         
@@ -223,7 +241,7 @@ class Clustergram(object):
                 if t['row'][i]['x'].flatten()[j] == 0.0
             ]
 
-        # sort so they are in the right order
+        # sort so they are in the right order (lowest to highest)
         tickvals_col.sort()
         tickvals_row.sort()
 
@@ -310,11 +328,6 @@ class Clustergram(object):
                 ticks='',
                 showticklabels=False
             )
-
-        # hide all legends
-        fig['layout'].update(
-            showlegend=False
-        )
 
         # heatmap
         heat_data = self._data
