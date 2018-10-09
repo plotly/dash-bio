@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 const speckRenderer = require('../speck/src/renderer.js'); 
 const speckSystem = require('../speck/src/system.js');
 const speckView = require('../speck/src/view.js');
+const speckInteractions = require('../speck/src/interactions.js');
 
 export default class SpeckComponent extends Component {
 
@@ -28,7 +29,6 @@ export default class SpeckComponent extends Component {
 	renderer.setResolution(view.resolution, view.aoRes);
     }
 
-    
     constructor(props) {
 	super(props);
 	var system = speckSystem.new();
@@ -46,11 +46,16 @@ export default class SpeckComponent extends Component {
 	    setProps
 	} = this.props; 
 
+	// add canvas
 	const canvas = this.refs.canvas;
-
 	var renderer = new speckRenderer(this.refs.canvas, 200, 200);
 	renderer.initialize();
 
+	// add event listeners
+	const container = this.refs.container;
+	var interactionHandler = new speckInteractions(this, renderer, container);
+	
+	
 	// ensure that view has loaded first
 	if(this.view){
 	    this.loadStructure(data, renderer, view);
@@ -64,7 +69,7 @@ export default class SpeckComponent extends Component {
 	} = this.props;
 
 	return (
-		<div id={id}>
+		<div id={id} ref="container">
 		<canvas ref="canvas" width={500} height={500} />
 	    </div>
 	);
@@ -105,6 +110,11 @@ SpeckComponent.propTypes = {
 	dofStrength: PropTypes.number,
 	dofPosition: PropTypes.number,
 	fxaa: PropTypes.number
+    }),
+    interactions: PropTypes.shape({
+	buttonDown: PropTypes.bool,
+	lastX: PropTypes.number,
+	lastY: PropTypes.number
     }),
     setProps: PropTypes.func,
     
