@@ -63,9 +63,8 @@ dictChains = {
 
 print ("{ ", end="")
 
-serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]
 ct=0
-
+serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]
 for i in lines:
     l=i.split()
     # if(l[0] == "ATOM" or l[0] == "HETATM"):
@@ -85,14 +84,11 @@ for i in lines:
 
         ct+=1
 
-#print (len(serial))
-
 ct1=0
 for i in lines:
     l=i.split()
-    #l=i[:6].strip()
-    #print(l)
-    #if(l[0] == "ATOM" or l[0] == "HETATM"):
+    #l=i[:6]
+    # if(l[0] == "ATOM" or l[0] == "HETATM"):
     if("ATOM" in l[0] or "HETATM" in l[0]):
         # serial = (int(i[6:11]))
         # atmName = (i[12:16].strip())
@@ -110,8 +106,8 @@ for i in lines:
         index=double_quote(ct1)
         if(l[0]=="ATOM"):
             dat={
-                # "color":double_quote(chainsDict[chain[ct1]]),
-                "visualization_type":"stick"
+                "color":double_quote(chainsDict[chain[ct1]]),
+                "visualization_type":"sphere"
             }
             if(ct1 < len(serial)-1):
                 print(json.dumps(index),":",json.dumps(dat), ",", sep="")
@@ -125,14 +121,4 @@ for i in lines:
 
         ct1+=1
 print (" }", end="")
-
-#         #print ("Here")
-#         index=double_quote(ct1)
-#         if (ct1 < len(serial)-1):
-#             print(json.dumps(index),":{\"visualization_type\":\"line\"},", sep="")
-#         else:
-#             print(json.dumps(index),":{\"visualization_type\":\"line\"}", sep="")
-
-#         ct1+=1
-#         #print (">>",ct, natoms, resName, resId, chain, serial)
-# print (" }", end="")
+#print(ct,natoms)

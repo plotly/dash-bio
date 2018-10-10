@@ -62,7 +62,7 @@ export default class DashMolecule3d extends Component {
             <div id={id}>
                 <Molecule3d {...this.props}
                 onChangeSelection={this.onChangeSelection}
-                // onRenderNewData={this.onRenderNewData}
+                onRenderNewData={this.onRenderNewData}
                 />
 
             </div>
