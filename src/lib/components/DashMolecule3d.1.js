@@ -6,35 +6,38 @@ export default class DashMolecule3d extends Component {
     constructor(props) {
         super(props);
         this.onChangeSelection=this.onChangeSelection.bind(this);
-        this.onRenderNewData=this.onRenderNewData.bind(this);
+        // this.onChangeLabels=this.onChangeLabels.bind(this);
         }
+
+    // onChangeLabels(labels) {
+    //     console.warn(labels);
+    //     this.props.setProps({labels:labels})
+    // }
     
     onChangeSelection(selectedAtomIds) {
-        // console.warn(selectedAtomIds)
-        // if(this.props.modelData)
+        console.warn(selectedAtomIds)
         this.props.setProps({selectedAtomIds: selectedAtomIds})
     }
 
-    onRenderNewData() {
-        this.props.setProps({selectedAtomIds:[]})
-    }
-
     // shouldComponentUpdate(nextProps) {
-    //     if(this.props.modelData !== nextProps.modelData) {
+    //     const {
+    //         modelData,
+    //         selectedAtomIds,
+    //     }=this.props
+    //     if(modelData !== nextProps.modelData ||
+    //         selectedAtomIds !== nextProps.selectedAtomIds
+    //         ) {
     //             return true;
     //         }
     //     return false
     // }
 
-    // componentDidUpdate(prevProps) {
-    //     this.onChangeSelection(prevProps)
-        // const {modelData, selectedAtomIds}=this.props
-            // if(this.props.modelData !== prevProps.modelData) {
-                // this.setState({selectedAtomIds:[]})
-                // console.warn(this.props.selectedAtomIds)
-            // }
-        // return true
-    // }
+    componentDidUpdate(prevProps, prevState) {
+        const {modelData, selectedAtomIds}=this.props
+            if(modelData !== prevProps.modelData) {
+                selectedAtomIds:[]
+            }
+    }
 
     render() {
         const {
@@ -53,17 +56,23 @@ export default class DashMolecule3d extends Component {
             styles,
             onRenderNewData,
             onChangeSelection,
-            defaultSelection
+            onClickAtom,
         }=this.props;
 
+        // console.log(setProps)
+
         // console.warn(this.props)
+        // const config = {...this.props}
+        // config.onChangeSelection = this.onChangeSelection
 
         return (
             <div id={id}>
                 <Molecule3d {...this.props}
                 onChangeSelection={this.onChangeSelection}
-                // onRenderNewData={this.onRenderNewData}
+                // onChangeLabels={this.onChangeLabels}
                 />
+
+                {/* <Molecule3d {...config} /> */}
 
             </div>
         )
@@ -88,5 +97,4 @@ DashMolecule3d.propTypes = {
     onRenderNewData: PropTypes.func,
     onChangeSelection: PropTypes.func,
     onClickAtom: PropTypes.func,
-    defaultSelection:PropTypes.array
 };

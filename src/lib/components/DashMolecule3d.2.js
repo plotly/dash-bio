@@ -6,34 +6,34 @@ export default class DashMolecule3d extends Component {
     constructor(props) {
         super(props);
         this.onChangeSelection=this.onChangeSelection.bind(this);
-        this.onRenderNewData=this.onRenderNewData.bind(this);
-        }
-    
-    onChangeSelection(selectedAtomIds) {
-        // console.warn(selectedAtomIds)
-        // if(this.props.modelData)
-        this.props.setProps({selectedAtomIds: selectedAtomIds})
     }
 
-    onRenderNewData() {
-        this.props.setProps({selectedAtomIds:[]})
+    onChangeSelection(e) {
+        // this.props.setProps({selectedAtomIds:e.detail})
+        console.log(e.detail)
     }
 
-    // shouldComponentUpdate(nextProps) {
-    //     if(this.props.modelData !== nextProps.modelData) {
-    //             return true;
-    //         }
-    //     return false
+        // const onClickAtom = (e)=> {
+        //     this.props.setProps({selectedAtomIds:e.target.value})
+        //     console.log(e.target.value)
+        // }
+    // const onClickAtom = (e) => {
+    //     const atoms = this.props.modelData.atoms;
+    //     const atom = atoms[e.serial]
+    //     const selectionType = this.props.selectionType;
+    //     this.props.setProps({selectedAtomIds: e.target.value});
     // }
 
-    // componentDidUpdate(prevProps) {
-    //     this.onChangeSelection(prevProps)
-        // const {modelData, selectedAtomIds}=this.props
-            // if(this.props.modelData !== prevProps.modelData) {
-                // this.setState({selectedAtomIds:[]})
-                // console.warn(this.props.selectedAtomIds)
-            // }
-        // return true
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     const {
+    //         modelData,
+    //         selectedAtomIds,
+    //     }=this.props
+    //     if(modelData !== nextProps.modelData ||
+    //         selectedAtomIds !== nextProps.selectedAtomIds
+    //         ) {
+    //             return true;
+    //         }
     // }
 
     render() {
@@ -53,17 +53,20 @@ export default class DashMolecule3d extends Component {
             styles,
             onRenderNewData,
             onChangeSelection,
-            defaultSelection
+            onClickAtom,
         }=this.props;
 
-        // console.warn(this.props)
+        console.warn(this.props)
+        // const config = {...this.props}
+        // config.onChangeSelection = this.onChangeSelection
 
         return (
             <div id={id}>
                 <Molecule3d {...this.props}
                 onChangeSelection={this.onChangeSelection}
-                // onRenderNewData={this.onRenderNewData}
                 />
+
+                {/* <Molecule3d {...config} /> */}
 
             </div>
         )
@@ -88,5 +91,4 @@ DashMolecule3d.propTypes = {
     onRenderNewData: PropTypes.func,
     onChangeSelection: PropTypes.func,
     onClickAtom: PropTypes.func,
-    defaultSelection:PropTypes.array
 };

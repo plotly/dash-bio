@@ -1,0 +1,7 @@
+.container {
+  display: flex;
+}
+
+.data {
+  margin-left: 4rem;
+}

@@ -1,6 +1,13 @@
 /* eslint-disable import/prefer-default-export */
-import ExampleComponent from './components/ExampleComponent.react';
+
+import DashMolecule3d from './components/DashMolecule3d';
 
 export {
-    ExampleComponent
+    DashMolecule3d
 };
+
+// import ExampleComponent from './components/ExampleComponent.react';
+
+// export {
+//     ExampleComponent
+// };
