@@ -24,7 +24,24 @@ apps = {
     if filename.startswith("app_") and filename.endswith(".py")
 }
 
+for key in apps:
+    apps[key].callbacks(app)
 
+'''
+Ensure you add an html.Div holding an empty instance of your component to
+app.layout
+
+Ex:
+app.layout = html.Div(
+    id="index-waitfor",
+    children=[
+        dcc.Location(id="location"),
+        html.Div(id="container"),
+        html.Div(style={"display": "none"}, children=dcc.Graph(id="graph")),
+        html.Div(style={"display": "none"}, children=dash_bio.Component()),
+    ]
+)
+'''
 app.layout = html.Div(
     id="index-waitfor",
     children=[
