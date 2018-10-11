@@ -7,18 +7,16 @@ import json
 
 app = dash.Dash('')
 
-#with open('./src/lib/example/js/3aid_data.js') as f1:
-with open ('./data/input_data1.js') as f1:
+with open ('./data/data.js') as f1:
     model=json.load(f1)
 
-#with open('./src/lib/example/js/cartoon_style.js') as s1:
-with open ('./data/input_style_cartoon.js') as s1:
+with open ('./data/style_cartoon.js') as s1:
     style_cartoon=json.load(s1)
 
-with open ('./data/input_style_sphere.js') as s2:
+with open ('./data/style_sphere.js') as s2:
     style_sphere=json.load(s2)
 
-with open ('./data/input_style_stick.js') as s3:
+with open ('./data/style_stick.js') as s3:
     style_stick=json.load(s3)
 
 app.scripts.config.serve_locally = True
@@ -112,13 +110,6 @@ def selection(sel):
     [Input("dropdown-styles", "value")]
 )
 def styles_representation(representation):
-    # with open ('./data/input_style.js', 'r+') as rep:
-    #     dat=json.load(rep)
-    #     td=dat["visualization_type"]
-    #     dat["visualization_type"]=representation
-    #     json.seek(0)
-    #     json.dump(dat, rep)
-    #     rep.truncate()
     return representation
 
 @app.callback(

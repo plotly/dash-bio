@@ -40,23 +40,15 @@ chainsDict = {
     "P":"#008080"
 }
 
-dictChains = {
-    0:"#00ff00",
-    1:"#0000ff",
-    2:"#ff0000",
-    3:"#00ffff",
-    4:"#ff00ff",
-    5:"#ffff00",
-    6:"#800000",
-    7:"#000080",
-    8:"#008000",
-    9:"#f08080",
-    10:"#dbff33",
-    11:"#000020",
-    12:"#400040",
-    13:"#004000",
-    14:"#008080",
-    15:"#008080"
+atmColor = {
+    "C":"#c0c0c0",
+    "H":"#ffffff",
+    "N":"#0000ff",
+    "S":"#ffff00",
+    "O":"#ff0000",
+    "F":"#ffff00",
+    "P":"#ff5733",
+    "K":"#42f4ee"
 }
 
 #viz_type=["stick", "cartoon", "sphere"]
@@ -64,7 +56,7 @@ dictChains = {
 print ("{ ", end="")
 
 ct=0
-serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]
+serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]; atmType=[]
 for i in lines:
     l=i.split()
     # if(l[0] == "ATOM" or l[0] == "HETATM"):
@@ -81,6 +73,7 @@ for i in lines:
         positions.append([x,y,z])
         occupancy.append(i[54:60].strip())
         tempFactor.append(i[60:66].strip())
+        atmType.append(i[77:78])
 
         ct+=1
 
@@ -90,18 +83,6 @@ for i in lines:
     #l=i[:6]
     # if(l[0] == "ATOM" or l[0] == "HETATM"):
     if("ATOM" in l[0] or "HETATM" in l[0]):
-        # serial = (int(i[6:11]))
-        # atmName = (i[12:16].strip())
-        # # print ("Serial, atmName", serial, atmName)
-        # resName = (i[17:20].strip())
-        # chain = (i[21:22].strip())
-        # resId = (int(i[22:26]))
-        # x = float(i[30:38])
-        # y = float(i[38:46])
-        # z = float(i[46:54])
-        # positions = ([x,y,z])
-        # occupancy = (i[54:60].strip())
-        # tempFactor = (i[60:66].strip())
 
         index=double_quote(ct1)
         if(l[0]=="ATOM"):
@@ -114,10 +95,14 @@ for i in lines:
             else:
                 print(json.dumps(index),":",json.dumps(dat), sep="")
         else:
-            if (ct1 < len(serial)-1):
-                print(json.dumps(index),":{\"visualization_type\":\"line\"},", sep="")
+            dat={
+                #"color":double_quote(atmColor[atmType[ct1]]),
+                "visualization_type":"stick"
+            }
+            if(ct1 < len(serial)-1):
+                print(json.dumps(index),":",json.dumps(dat), ",", sep="")
             else:
-                print(json.dumps(index),":{\"visualization_type\":\"line\"}", sep="")
+                print(json.dumps(index),":",json.dumps(dat), sep="")
 
         ct1+=1
 print (" }", end="")

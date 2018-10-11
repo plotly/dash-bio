@@ -10,18 +10,17 @@ app = dash.Dash('')
 with open ('./src/lib/example/js/dna_data.js') as f1:
     dna=json.load(f1)
 
-with open ('./data/input_data.js') as fa:
-    tst=json.load(fa)
+# with open ('./data/input_data.js') as fa:
+#     tst=json.load(fa)
 
-with open ('./src/lib/example/js/3aid_data.1.js') as f2:
+with open ('./src/lib/example/js/3aid_data.js') as f2:
     protein=json.load(f2)
 
 with open ('./src/lib/example/js/bipyridine_data.js') as f3:
     smallMolecule=json.load(f3)
 
-# with open ('./src/lib/example/js/3aid_style.js') as s1:
-# with open ('./src/lib/example/js/style_3aid.js') as s1:
-with open ('./data/input_style.js') as s1:
+with open ('./src/lib/example/js/3aid_style.js') as s1:
+#with open ('./src/lib/example/js/style_3aid.js') as s1:
     styles_cartoon=json.load(s1)
 
 with open ('./src/lib/example/js/sphere_style.js') as s2:
@@ -41,7 +40,7 @@ app.layout = html.Div([
         dcc.Dropdown(
             id='dropdown-moltype',
             options=[
-                {'label': 'Tst molecule', 'value':tst},
+                # {'label': 'Tst molecule', 'value':tst},
                 {'label': 'DNA molecule', 'value':dna},
                 {'label': 'Protein molecule', 'value':protein},
                 {'label': 'Small molecule', 'value':smallMolecule}
