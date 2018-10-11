@@ -173,7 +173,7 @@ class Clustergram(object):
             self._hideLabels.append('yaxis5')
         if(self._columnLabels is None):
             self._hideLabels.append('xaxis5')
-        
+
         # preprocessing data
         if(self._imputeFunction is not None):
             imp = Imputer(
@@ -187,8 +187,8 @@ class Clustergram(object):
             self._data = np.log2(self._data)
         if(standardize in ['row', 'column']):
             self._data = self._scale(self._data, standardize)
-        
-        # keep the dataset static
+            
+        # Keep the dataset static
         self._dendroTraces = self._dendrogramTraces()
         
     def figure(
@@ -231,24 +231,27 @@ class Clustergram(object):
             tickvals_col += [
                 t['col'][i]['x'].flatten()[j]
                 for j in range(len(t['col'][i]['x'].flatten()))
-                if t['col'][i]['y'].flatten()[j] == 0.0
+                if t['col'][i]['y'].flatten()[j] == 0.0 and
+                t['col'][i]['x'].flatten()[j] % 10 == 5
             ]
         tickvals_col = list(set(tickvals_col))
-        
+
         # for row dendrogram, leaves are at right(x=0, since we
         # horizontally flipped it)
         for i in range(len(t['row'])):
             tickvals_row += [
                 t['row'][i]['y'].flatten()[j]
                 for j in range(len(t['row'][i]['y'].flatten()))
-                if t['row'][i]['x'].flatten()[j] == 0.0
+                if t['row'][i]['x'].flatten()[j] == 0.0 and
+                t['row'][i]['y'].flatten()[j] % 10 == 5
             ]
-        tickvals_row = list(set(tickvals_row))
 
+        tickvals_row = list(set(tickvals_row))
+        
         # sort so they are in the right order (lowest to highest)
         tickvals_col.sort()
         tickvals_row.sort()
-
+                
         # update axis settings for dendrograms and heatmap
         axes = ['xaxis1', 'xaxis2', 'xaxis4', 'xaxis5',
                 'yaxis1', 'yaxis2', 'yaxis4', 'yaxis5']
@@ -282,7 +285,7 @@ class Clustergram(object):
             rdt['line'] = dict(
                 width=0.3
             )
-            rdt['hoverinfo'] = 'x+name'
+            rdt['hoverinfo'] = 'x+y+name'
             fig.append_trace(rdt, 2, 1)
 
         # display row dendrogram sideways
@@ -335,11 +338,11 @@ class Clustergram(object):
 
         # heatmap
         heat_data = self._data
-
+            
         # symmetrize the heatmap about zero, if necessary
         if(self._symmetricValue):
             heat_data = np.subtract(heat_data, np.mean(heat_data))
-        
+
         # row heatmap
         heatmap = go.Heatmap(
             x=tickvals_col,
@@ -542,7 +545,7 @@ class Clustergram(object):
 
         # first, compute the clusters
         (Zcol, Zrow) = self._getClusters()
-
+        
         # calculate dendrogram from clusters; sch.dendrogram returns sets
         # of four coordinates that make up the 'u' shapes in the dendrogram
         if Zcol is not None:
@@ -551,7 +554,7 @@ class Clustergram(object):
                                   labels=self._columnLabels, no_plot=True)
             self._columnLabels = scp.array(Pcol['ivl'])
             trace_list['col'] = self._colorDendroClusters(Pcol, 'col')
-            
+                        
         if Zrow is not None:
             Prow = sch.dendrogram(Zrow, orientation='left',
                                   color_threshold=self._colorThreshold['row'],
@@ -564,7 +567,7 @@ class Clustergram(object):
             }
             self._rowLabels = scp.array(Prow['ivl'])
             trace_list['row'] = self._colorDendroClusters(Prow_tmp, 'row')
-            
+
         return trace_list
     
     def _colorDendroClusters(
@@ -589,7 +592,7 @@ class Clustergram(object):
         dcoord = scp.array(P['dcoord'])
 
         colorList = self._clusterColors(P['color_list'], dim)
-        
+
         # dict w/ keys being the color code and values being another dict
         # specifying icoords and dcoords for that cluster
         clusters = {}
@@ -604,7 +607,7 @@ class Clustergram(object):
                 'dcoords': [dcoord[j] for j in range(len(dcoord))
                             if colorList[j]['cluster'] == c['cluster']]
             }
-
+            
         for c in clusters:
             
             # all of the coordinates
@@ -622,7 +625,7 @@ class Clustergram(object):
                 # append nan to prevent links
                 x = np.append(x, np.nan)
                 y = np.append(y, np.nan)
-        
+
             traces.append(dict(
                 x=x,
                 y=y,
