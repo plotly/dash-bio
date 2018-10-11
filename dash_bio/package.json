@@ -1,17 +1,20 @@
 {
   "name": "dash-bio",
   "version": "0.0.1",
-  "description": "dash-bio",
+  "description": "Dash components for bioinformatics",
   "main": "build/index.js",
   "scripts": {
     "start": "webpack-serve ./webpack.serve.config.js --open",
     "build:js-dev": "webpack --mode development",
     "build:js": "webpack --mode production",
-    "build:py": "./extract-meta src/lib/components > dash_bio/metadata.json && cp package.json dash_bio"
+    "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && copyfiles package.json dash_bio && python -c \"import dash; dash.development.component_loader.generate_classes('dash_bio', 'dash_bio/metadata.json')\"",
+    "build:all": "npm run build:js & npm run build:py",
+    "build:all-dev": "npm run build:js-dev & npm run build:py"
   },
-  "author": "my-name my-email",
-  "license": "my-license",
+  "author": "Chitra Narayanan narayanan.chitra@gmail.com",
+  "license": "MIT",
   "dependencies": {
+    "molecule-3d-for-react": "^0.4.5",
     "ramda": "^0.25.0",
     "react": "15.4.2",
     "react-dom": "15.4.2"
@@ -20,8 +23,10 @@
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "copyfiles": "^2.0.0",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
