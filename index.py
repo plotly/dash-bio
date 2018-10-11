@@ -28,8 +28,8 @@ for key in apps:
     apps[key].callbacks(app)
 
 '''
-Ensure you add an html.Div holding an empty instance of your component to
-app.layout
+Ensure there is one html.Div holding an empty instance of a dash_bio.component
+like the example below. Remove this comment when we've added one dash_bio component!
 
 Ex:
 app.layout = html.Div(
