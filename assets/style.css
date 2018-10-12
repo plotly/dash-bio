@@ -2,7 +2,7 @@ body {
     font-family: Helvetica, sans-serif;
     background:#000000;
     padding: 0px;
-    color: #555555;
+    color: #dddddd;
 }
 
 #header {
@@ -18,17 +18,47 @@ body {
 }
 
 #options {
-    width: 170px;
-    position: absolute;
-    top:250px;
-    right:100px;
+    width: 250px;
+    position: relative;
+    float:left;
+    top: 100px;
     border: solid 1px grey;
     border-radius: 5px;
     padding: 10px;
 }
 
 #clustergram-wrapper {
-    height: 500px;
-    margin-top:20px;
+    height: 800px;
+    width:900px;
+    float:left;
+    margin-top:0px;
     margin-left:20px;
+    margin-bottom: 50px; 
+}
+.Select, .Select-control, input, .Select-menu-outer, .Select-value-label {
+    background-color: black !important;
+    color: white !important;
+}
+.Select, input {
+    width: 225px;
+    margin:auto;
+}
+button {
+    float: left;
+    width:110px;
+    margin: 6px;
+}
+input {
+    float:left;
+    width: 70px !important;
+    margin: 6px !important;
+}
+#info {
+    margin-top: 100px;
+    margin-left: 20px;
+    float: left;
+    width: 400px;
+    border-radius: 5px;
+    padding: 10px; 
+    border: 1px solid white;
 }

@@ -20,6 +20,7 @@ class Clustergram(object):
     :param (list) rowLabels: List of row category labels (observation labels)
     :param (list) columnLabels: List of column category labels (observation
                                 labels)
+    :param (list) hideLabels: List of labels not to display on the final plot.
     :param (str) standardize: The dimension for standardizing values, so that
                               the mean is 0 and the standard deviation is 1
                               along the specified dimension: 'row', 'column',
@@ -284,7 +285,7 @@ class Clustergram(object):
         for rdt in row_dendro_traces:
             rdt['name'] = ("Row Cluster %d" % row_dendro_traces.index(rdt))
             rdt['line'] = dict(
-                width=0.3
+                width=0.5
             )
             rdt['hoverinfo'] = 'x+y+name'
             fig.append_trace(rdt, 2, 1)
@@ -828,6 +829,8 @@ class Clustergram(object):
         for rgm in self._rowGroupMarker:
             if(len(rowClusters) == 0):
                 break
+            if(rgm['group'] >= len(rowClusters)):
+                continue
             # get upper and lower bounds of group
             ymin = min(rowClusters[rgm['group']]['y'])
             ymax = max(rowClusters[rgm['group']]['y'])
@@ -857,6 +860,8 @@ class Clustergram(object):
         for cgm in self._colGroupMarker:
             if(len(colClusters) == 0):
                 break
+            if(cgm['group'] >= len(colClusters)):
+                continue
             # get leftmost and rightmost bounds of group
             xmin = min(colClusters[cgm['group']]['x'])
             xmax = max(colClusters[cgm['group']]['x'])

@@ -13,7 +13,7 @@ def parse_tsv(contents, filename):
         content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string).decode('UTF-8')
     lines = decoded.split('\n')[1:1000]
-    desc['source'] = decoded.split('\n')[0].strip('#').strip(' ')
+    desc['Source'] = decoded.split('\n')[0].strip('#').strip(' ')
     for line in lines:
         if(len(line) > 0 and line[0] == '#'):
             if(':') not in line:
@@ -34,4 +34,4 @@ def parse_tsv(contents, filename):
     dataShape = len(colLabels)
     data = np.reshape(data[1:], (int(len(data)/dataShape), dataShape))
 
-    return(data, rowLabels, colLabels)
+    return(data, desc, rowLabels, colLabels)

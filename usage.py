@@ -10,6 +10,12 @@ app = dash.Dash('')
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
+colorPalette = [
+    'rgb(75,250,100)',
+    'rgb(75,150,255)',
+    'rgb(150,150,250)'
+]
+
 fig_options = dict(
     data=None, id='sample', cluster='all',
     optimalLeafOrder=False,
@@ -17,13 +23,15 @@ fig_options = dict(
     columnLabels=None, rowLabels=None,
     hideLabels=['row'],
     colorThreshold=dict(row=9, col=35),
-    height=1000, width=800,
-    colorMap=[[0.0, 'rgb(150,150,250)'],
-              [0.5, 'rgb(50,250,100)'],
-              [1.0, 'rgb(50,150,255)']],
+    height=1000, width=900,
+    colorMap=[
+        [0.0, colorPalette[0]],
+        [0.5, colorPalette[1]],
+        [1.0, colorPalette[2]]
+    ],
     colorList={
-        'row': ['rgb(50,250,100)', 'rgb(50,150,255)', 'rgb(150,150,250)'],
-        'col': ['rgb(50,150,255)', 'rgb(150,150,250)', 'rgb(50,250,100)'],
+        'row': [colorPalette[0], colorPalette[1], colorPalette[2]],
+        'col': [colorPalette[1], colorPalette[2], colorPalette[0]],
         'bg': 'rgb(255,255,255)'
     },
     annotationFont=dict(
@@ -31,7 +39,8 @@ fig_options = dict(
         size=10
     ),
     tickFont=dict(
-        size=10
+        size=10,
+        color='rgb(200,200,200)'
     ),
     symmetricValue=True,
     logTransform=True,
@@ -71,25 +80,54 @@ app.layout = html.Div([
                 style={
                     'border': 'dotted 2px white',
                     'height': '50px',
-                    'width': '150px',
+                    'width': '230px',
                     'border-radius': '5px',
                     'padding': '10px'
                 }
             ),
+            html.Hr(),
             
+            "Cluster by:",
+            html.Br(),
             
-            dcc.Checklist(
+            dcc.Dropdown(
                 id='cluster-checklist',
-                labelStyle={
-                    'padding-right': '30px'
-                },
                 options=[
-                    {'label': 'Row clustering', 'value': 'row'},
-                    {'label': 'Column clustering', 'value': 'col'}
+                    {'label': 'Row', 'value': 'row'},
+                    {'label': 'Column', 'value': 'col'}
                 ],
-                values=['row', 'col']
+                value=['row', 'col'],
+                multi=True
             ),
             
+            html.Hr(),
+
+            "Change color threshold",
+            html.Br(),
+            html.Div(
+                id='threshold-wrapper',
+                children=[
+                    dcc.Slider(
+                        id='column-threshold',
+                        min=0,
+                        max=60,
+                        step=0.5,
+                        value=35
+                    ),
+                    html.Br(),
+                    dcc.Slider(
+                        id='row-threshold',
+                        min=0,
+                        max=40,
+                        step=0.5,
+                        value=9
+                    )
+                ]
+            ),
+
+            html.Hr(),
+        
+            "Add or remove all group markers:",
             html.Br(),
             
             html.Div(
@@ -132,22 +170,51 @@ app.layout = html.Div([
             html.Button(
                 id='remove-all-group-markers',
                 children=[
-                    "Remove all group markers"
+                    "Remove"
                 ],
                 n_clicks=0,
                 n_clicks_timestamp=0
             )
             
         ]
+    ),
+
+    html.Div(
+        id='info',
+        children=["hi"]
     )
 ])
 
 
 @app.callback(
+    Output('info', 'children'),
+    [Input('file-upload', 'contents'),
+     Input('file-upload', 'filename')]
+)
+def display_info(contents, filename):
+    if (filename is None or filename == ''):
+        return []
+    
+    (_, desc, _, _) = \
+        geneExpressionReader.parse_tsv(contents, filename)
+
+    infoContent = []
+    infoContent.append(html.H3('Information'))
+    for key in desc:
+        infoContent.append(html.P("{}: {}".format(
+            key, desc[key]
+        )))
+                        
+    return infoContent
+
+
+@app.callback(
     Output('clustergram-wrapper', 'children'),
-    inputs=[Input('cluster-checklist', 'values'),
+    inputs=[Input('cluster-checklist', 'value'),
             Input('submit-group-marker', 'n_clicks'),
             Input('remove-all-group-markers', 'n_clicks'),
+            Input('column-threshold', 'value'),
+            Input('row-threshold', 'value'),
             Input('file-upload', 'contents'),
             Input('file-upload', 'filename')],
     state=[State('row-or-col-group', 'value'),
@@ -157,19 +224,21 @@ app.layout = html.Div([
            State('submit-group-marker', 'n_clicks_timestamp'),
            State('remove-all-group-markers', 'n_clicks_timestamp')]
 )
-def cluster_row(v, nclicks, removeAll, contents, filename,
-                rowOrCol, groupNum, annotation, color, submitTime, removeTime):
+def cluster_row(v, nclicks, removeAll, colThresh, rowThresh,
+                contents, filename, rowOrCol, groupNum,
+                annotation, color, submitTime, removeTime):
 
     if (filename is None or filename == ''):
         return None
     
-    (data, rowLabels, colLabels) = \
+    (data, _, rowLabels, colLabels) = \
         geneExpressionReader.parse_tsv(contents, filename)
     
     fig_options.update(
         data=data,
         columnLabels=colLabels,
-        rowLabels=[r[0] for r in rowLabels]
+        rowLabels=[r[0] for r in rowLabels],
+        colorThreshold=dict(row=rowThresh, col=colThresh)
     )
     if(len(v) > 1):
         fig_options.update(
@@ -205,6 +274,7 @@ def cluster_row(v, nclicks, removeAll, contents, filename,
         id='clustergram',
         figure=dash_bio.ClustergramComponent(**fig_options)
     )
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
