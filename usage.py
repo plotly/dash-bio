@@ -11,7 +11,7 @@ app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
 colorPalette = [
-    'rgb(75,250,100)',
+    'rgb(255,0,0)',
     'rgb(75,150,255)',
     'rgb(150,150,250)'
 ]
@@ -252,12 +252,11 @@ def cluster_row(v, nclicks, removeAll, colThresh, rowThresh,
         fig_options['rowGroupMarker'] = []
         fig_options['colGroupMarker'] = []
         return dash_bio.ClustergramComponent(**fig_options)
+    marker = dict()
     try:
-        marker = dict(
-            group=int(groupNum),
-            annotation=annotation,
-            color=color
-        )
+        marker['group'] = int(groupNum)
+        marker['annotation'] = annotation
+        marker['color'] = color
     except ValueError:
         pass
     if(rowOrCol == 'row'):

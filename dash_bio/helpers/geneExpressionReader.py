@@ -15,7 +15,7 @@ def parse_tsv(contents, filename):
     lines = decoded.split('\n')[1:1000]
     desc['Source'] = decoded.split('\n')[0].strip('#').strip(' ')
     for line in lines:
-        if(len(line) > 0 and line[0] == '#'):
+        if(len(line) > 0 and (line[0] == '#' or line.split(' ')[0] == 'Gene')):
             if(':') not in line:
                 colLabels = line.strip('#').split('\t')[2:]
             else:

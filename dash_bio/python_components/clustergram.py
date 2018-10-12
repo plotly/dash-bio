@@ -57,12 +57,12 @@ class Clustergram(object):
                                   centered around zero (True by default)
     :param (bool) logTransform: Transforms the data to a logarithmic axis
                                 with a basis of two (False by default)
-    :param (list) displayRatio: The height of the dendrograms with respect to
-                                the size of the heatmap; with one element,
-                                both the row and column dendrograms have the
-                                same ratio; with two, the row dendrogram ratio
-                                corresponds to the first element of the list
-                                (default: 0.2)
+    :param (list/float) displayRatio: The dendrograms' heights with respect to
+                                     the size of the heatmap; with one element,
+                                     both the row and column dendrograms have
+                                     the same ratio; with two, the row
+                                     dendrogram ratio corresponds to the first
+                                     element of the list (default: 0.2)
     :param (function) imputeFunction: The function used to impute missing data
     :param (list[dict]) rowGroupMarker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
@@ -78,6 +78,11 @@ class Clustergram(object):
                                         group).
     :param (dict) tickFont: The font options for ticks.
     :param (dict) annotationFont: The font options for annotations.
+    :param (list/float) lineWidth: The line width for the dendrograms. If in
+                                   list format, the first element corresponds
+                                   to the width of the row traces, and the
+                                   second corresponds to the width of the
+                                   column traces.
     :param (string) paperBgColor: The background color of the paper on the
                                   graph (default transparent).
     :param (string) plotBgColor: The background color of the subplots on the
@@ -111,6 +116,7 @@ class Clustergram(object):
             colGroupMarker=None,    # same as above
             tickFont=None,
             annotationFont=None,
+            lineWidth=0.5,
             paperBgColor='rgba(0,0,0,0)',
             plotBgColor='rgba(0,0,0,0)',
             height=500,
@@ -158,17 +164,21 @@ class Clustergram(object):
         self._height = height
         self._width = width
 
-        if(self._cluster == 'row'):
-            if(isinstance(displayRatio, list)):
-                self._displayRatio = [displayRatio[0], 0]
-            else:
-                self._displayRatio = [displayRatio, 0]
-        elif(self._cluster == 'col'):
-            if(isinstance(displayRatio, list)):
-                self._displayRatio = [0, displayRatio[1]]
-            else:
-                self._displayRatio = [0, displayRatio]
+        # convert line width to list if necessary
+        self._lineWidth = [0, 0]
+        if(isinstance(lineWidth, list)):
+            self._lineWidth = lineWidth
+        else:
+            self._lineWidth = [lineWidth, lineWidth]
 
+        # convert display ratio to list if necessary
+        if(not isinstance(displayRatio, list)):
+            self._displayRatio = [displayRatio, displayRatio]
+        if(self._cluster == 'row'):
+            self._displayRatio = [displayRatio[0], 0]
+        elif(self._cluster == 'col'):
+            self._displayRatio = [0, displayRatio[1]]
+            
         self._hideLabels = []
         
         if('row' in hideLabels):
@@ -276,7 +286,7 @@ class Clustergram(object):
         for cdt in col_dendro_traces:
             cdt['name'] = ("Col Cluster %d" % col_dendro_traces.index(cdt))
             cdt['line'] = dict(
-                width=0.3
+                width=self._lineWidth[1]
             )
             cdt['hoverinfo'] = 'y+name'
             fig.append_trace(cdt, 1, 2)
@@ -285,7 +295,7 @@ class Clustergram(object):
         for rdt in row_dendro_traces:
             rdt['name'] = ("Row Cluster %d" % row_dendro_traces.index(rdt))
             rdt['line'] = dict(
-                width=0.5
+                width=self._lineWidth[0]
             )
             rdt['hoverinfo'] = 'x+y+name'
             fig.append_trace(rdt, 2, 1)
@@ -367,21 +377,17 @@ class Clustergram(object):
         colRatio = 0
 
         # the argument can be either in list form or float form
-        if(isinstance(self._displayRatio, list)):
-            # first is ratio for row; second is ratio for column
-            if(self._displayRatio[0] != 0):
-                rowRatio = \
-                    0.95*float(1)/float(1 + int(1/self._displayRatio[0]))
-            else:
-                rowRatio = 0
-            if(self._displayRatio[1] != 0):
-                colRatio = \
-                    0.95*float(1)/float(1 + int(1/self._displayRatio[1]))
-            else:
-                colRatio = 0
+        # first is ratio for row; second is ratio for column
+        if(self._displayRatio[0] != 0):
+            rowRatio = \
+                0.95*float(1)/float(1 + int(1/self._displayRatio[0]))
         else:
-            rowRatio = 0.95*float(1)/float(1 + int(1/self._displayRatio))
-            colRatio = rowRatio
+            rowRatio = 0
+        if(self._displayRatio[1] != 0):
+            colRatio = \
+                0.95*float(1)/float(1 + int(1/self._displayRatio[1]))
+        else:
+            colRatio = 0
 
         # width adjustment for row dendrogram
         fig['layout']['xaxis1'].update(domain=[0, 0.95])
