@@ -11,18 +11,13 @@ class App extends Component {
       this.state = {
         container: '#ideogram-container',
         organism: 'human',
-        chromosome: ['1'],
-        brush: 'chr1:104325484-119977655', // https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv916356
-        chrHeight: 900,
-        resolution: 550,
-        orientation: 'horizontal',
-        onBrushMove: this.writeSelectedRange,
-        onLoad: this.writeSelectedRange
+        // dataDir: "./data/bands/native/",
+        chrHeight:400,
+        chrMargin:200,
       };
 
       this.clearDiv = this.clearDiv.bind(this)
-      // this.drawIdeo = this.drawIdeo.bind(this)
-      this.writeSelectedRange = this.writeSelectedRange.bind(this)
+
   }
 
   clearDiv () {
@@ -35,39 +30,8 @@ class App extends Component {
     console.log('cleared container', container, container.hasChildNodes());
   }
 
-  writeSelectedRange() {
-    var r = this.ideogram.selectedRegion,
-        from = r.from.toLocaleString(), // Adds thousands-separator
-        to = r.to.toLocaleString(),
-        extent = r.extent.toLocaleString();
-
-    document.getElementById('from').innerHTML = from;
-    document.getElementById('to').innerHTML = to;
-    document.getElementById('extent').innerHTML = extent;
-  }
 
 
-  // drawIdeo (organismType) {
-  //   // this.clearDiv();
-
-  //   var config = {
-  //     organism: 'human',
-  //     chromosomes:['1'],
-  //     showBandLabels: false,
-  //     brush:'chr1:104325484-119977655',
-  //     chrHeight:900,
-  //     resolution:550,
-  //     rotatable:false,
-  //     orientation: 'horizontal',
-  //     container: '#ideogram-container',                                                               
-  //     dataDir: 'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/'
-  //   };
-
-
-  //   setTimeout(function() {
-  //       new Ideogram(config);
-  //   }, 100);
-  // }
 
   render() {
     return (
@@ -82,10 +46,6 @@ class App extends Component {
             <button onClick={e => this.setState({showBandLabels: true})}>Bands</button>
             <button onClick={e => this.setState({showBandLabels: false})}>No Bands</button>
 
-            {/* <p>Redraw without state change (vanilla JS way)</p>
-            <button onClick={e => this.clearDiv()}>Clear</button>
-            <button onClick={e => this.drawIdeo('mouse')}>Draw Mouse</button>
-            <button onClick={e => this.drawIdeo('human')}>Draw Human</button> */}
             <DashIdeogram config={this.state} />
       </div>
     );

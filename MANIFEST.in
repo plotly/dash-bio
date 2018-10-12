@@ -1,5 +1,4 @@
-include dash_ideogram/bundle.js
-include dash_ideogram/metadata.json
-include dash_ideogram/package.json
+include dash_bio/bundle.js
+include dash_bio/metadata.json
+include dash_bio/package.json
 include README.md
-include dash_ideogram/App.css

@@ -1,0 +1,472 @@
+{
+  "src/lib/components/DashIdeogram.react.js": {
+    "description": "The Dash Ideogram is used to draw and animate genome-wide\r\ndatasets for organisms such as an human, mouse, and any\r\nother eukaryotes. The Ideogram can used to compare\r\nhomologous features bewtween chromosomes, and depict,\r\nhaploid, diploid, aneuploidy genomes. It can also display\r\nannotations using histograms, overlays, and simple side\r\nby side tracks to show important genomic data.",
+    "displayName": "DashIdeogram",
+    "methods": [
+      {
+        "name": "clearDiv",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onHomologyHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onToolTipHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onBrushHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onLoadHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onRotateHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "setConfig",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "annotationsData": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "onMouseOver": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks"
+      },
+      "config": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Delete?"
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The component's inline styles"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash specific prop type connecting event handlers to front end"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The CSS class of the component wrapper"
+      },
+      "label": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Delete"
+      },
+      "ancestors": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Unspecified"
+      },
+      "annotations": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "A list of annotation objects. Each annotation object \r\n has at least a chromosome name (chr), start coordinate (start), \r\n and stop coordinate (stop). Annotation objects can also have a \r\n name, color, shape, and track index."
+      },
+      "annotationHeight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The height of each annotation."
+      },
+      "annotationsLayout": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Default: \"tracks\". The layout of this ideogram's annotations. \r\nIt can be one of \"tracks\", \"histogram\", or \"overlay\".\r\n\r\nTracks: Lay out annotations in tracks beside each chromosome.\r\n\r\nHistogram: Layout annotations in a histogram. Clusters annotations\r\nby location. Each cluster/bin is shown as a height of a bar to represent\r\nnumber of annotations on genomic range.\r\n\r\nOverlay: Lay out annotations directly over chromsomes."
+      },
+      "annotationsColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default: \"#F00\" (i.e., red). The color of each annotation."
+      },
+      "annotationsPath": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "An absolute or relative URL directing to a JSON file containing\r\nannotation objects (JSON)."
+      },
+      "annotationTracks": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "Unspecified"
+      },
+      "assembly": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default: latest RefSeq assembly for specified organism. The genome assembly to display. \r\nTakes assembly name (e.g. \"GRCh37\"), \r\nRefSeq accession (e.g. \"GCF_000306695.2\"), \r\nor GenBank accession (e.g. \"GCA_000005005.5\")"
+      },
+      "barWidth": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Default: 3. The pixel width of bars drawn when annotationsLayout: 'histogram'."
+      },
+      "brush": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default: null\r\nGenomic coordinate range (e.g. \"chr1:104325484-119977655\") for a brush on a \r\nchromosome. Useful when ideogram consists of one chromosome and you want to be \r\nable to focus on a region within that chromosome, \r\nand create an interactive sliding window to other regions"
+      },
+      "brushData": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A dash callback that is activated when the 'brush' prop is used in component.\r\nIt will return an dictionary like so:\r\n\r\n{'start': <value>, 'end': <value>, 'extent': <value>}\r\n\r\nwhere start is the left most edge, end is right most edge, and extent is \r\nthe total width of the brush."
+      },
+      "container": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "CSS styling and the id of the container holding the Ideogram in \r\nreact-ideogram.js, this is where all the d3 magic happens."
+      },
+      "homology": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Default: \"ideogram-container\"\r\nUsed to compare two chromosomes with each other.\r\nThe keys \"chrOne\" and \"chrTwo\" represent one chromosome each. Organism is the \r\nspecified in taxID or name. Start is an array\r\nindicating start one and start two in this order, for specified\r\norganism.\r\nStop is array indicating, stop one, and stop two, in this order\r\nfor specified organism.\r\nEx: homology={\r\n                    \"chrOne\": {\r\n                        \"organism\": \"9606\",\r\n                        \"start\": [50000, 155701383],\r\n                        \"stop\": [900000, 156030895]\r\n                    },\r\n                    \"chrTwo\": {\r\n                        \"organism\": \"10090\",\r\n                        \"start\": [10001, 50000000],\r\n                        \"stop\": [2781479, 57217415]\r\n                    }\r\n                }"
+      },
+      "chrHeight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Default:400. The pixel height of the tallest chromosome in the ideogram"
+      },
+      "chrMargin": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Default: 10. The pixel space of margin bewteen each chromosome."
+      },
+      "chrWidth": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Default 10. The pixel width of each chromosome."
+      },
+      "chromosomes": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Default: all chromosomes in assembly. A list of the names of chromosomes to \r\ndisplay. Useful for depicting a subset of the chromosomes in the genome, \r\ne.g. a single chromosome.\r\n\r\nIf Homology (between two different species):\r\nEx: chromosomes={\r\n            'human': ['1'],\r\n            'mouse': ['4']\r\n        }\r\n\r\n        General case to specify specific chromosomes:\r\n        Ex: chromosomes=['1', '2']"
+      },
+      "dataDir": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default: https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/\r\nAbsolute or relative URL of the directory \r\ncontaining data needed to draw banded chromosomes.\r\nYou will need to set up you're own database to grab data from\r\nfor custom data.",
+        "defaultValue": {
+          "value": "'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/'",
+          "computed": false
+        }
+      },
+      "fullChromosomeLabels": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Unspecified"
+      },
+      "histogramScaling": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default: \"absolute\". One of \"absolute\" or \"relative\". The technique to use in scaling the height of histogram bars. The \"absolute\" value sets bar height relative to tallest bar in all chromosomes, \r\nwhile \"relative\" sets bar height relative to tallest bar in each chromosome."
+      },
+      "heatmaps": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "This is a work in progess and will hopefully be fixed in future releases."
+      },
+      "isAnnotationHovered": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": ""
+      },
+      "filterable": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Unspecified"
+      },
+      "organism": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "array"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. \"human\") or organism's NCBI Taxonomy ID (taxid, e.g. 9606) \r\n to display chromosomes from a single organism, or an array of organisms' \r\n names or taxids to display chromosomes from multiple species.",
+        "defaultValue": {
+          "value": "\"human\"",
+          "computed": false
+        }
+      },
+      "orientation": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default: horizontal. The orientation of chromosomes on the page."
+      },
+      "onBrushMove": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback function to invoke when brush moves."
+      },
+      "onBrushMoveCallback": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Delete"
+      },
+      "onDidRotate": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback function to invoke after chromosome has rotated. (React)"
+      },
+      "onDrawAnnots": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback function to invoke when annotations are drawn. (React)"
+      },
+      "onLoad": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback function to invoke when chromosomes are loaded, \r\ni.e. rendered on the page. (React)"
+      },
+      "onWillShowAnnotTooltip": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback function to invoke immediately before annotation tooltip is shown. \r\nThe tooltip shows the genomic range and, if available, name of the annotation. (React)"
+      },
+      "perspective": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Unspecified"
+      },
+      "ploidy": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Default 1: The ploidy - number of chromosomes to depict for each chromosome\r\nset."
+      },
+      "ploidyDesc": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "Undefined"
+      },
+      "rangeSet": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "Undefined"
+      },
+      "rotatable": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Default: True. Whether chromosomes are rotatable on click."
+      },
+      "rotated": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Dash callback that returns True if rotated, and false if not."
+      },
+      "resolution": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Default: highest resolution available for specified genome assembly. \r\nThe resolution of cytogenetic bands to show for each chromosome. \r\nThe quantity refers to approximate value in bands per haploid set (bphs). \r\nOne of 450, 550, or 850."
+      },
+      "rows": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Default 1: Number of rows to arrange chromosomes into. \r\nUseful for putting ideogram into a small container, \r\nor when dealing with genomes that have many chromosomes. \r\nNote: Not fully working needs to be fixed by developer."
+      },
+      "sex": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default: Male. The biological sex of the organism. \r\nUseful for omitting chromosome Y in female mammals. \r\nCurrently only supported for organisms that use XY sex-determination."
+      },
+      "showChromosomeLabels": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Default: true. Whether to show chromosome labels, e.g. 1, 2, 3, X, Y."
+      },
+      "showBandLabels": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Default: false. Whether to show cytogenetic band labels, e.g. 1q21"
+      },
+      "showAnnotTooltip": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Default: true. Whether to show a tooltip upon mousing over an annotation."
+      },
+      "showFullyBanded": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Default: true. Whether to show fully banded chromosomes for genomes \r\nthat have sufficient data. Useful for showing simpler chromosomes of \r\ncytogenetically well-characterized organisms, e.g. human, beside chromosomes of \r\nless studied organisms, e.g. chimpanzee."
+      },
+      "showNonNuclearChromosomes": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Default: false. Whether to show non-nuclear chromosomes, \r\ne.g. for mitochondrial (MT) and chloroplast (CP) DNA."
+      }
+    }
+  }
+}
