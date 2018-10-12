@@ -26,17 +26,6 @@ app = dash.Dash('')
 app.scripts.config.serve_locally = True
 
 
-external_css = [
-    "https://codepen.io/chriddyp/pen/bWLwgP.css",
-    "https://cdn.rawgit.com/matthewchan15/dash-css-style-sheets/adf070fa/banner.css",
-    "https://fonts.googleapis.com/css?family=Raleway:400,400i,700,700i",
-    "https://fonts.googleapis.com/css?family=Product+Sans:400,400i,700,700i",
-]
-
-
-for css in external_css:
-    app.css.append_css({"external_url": css})
-
 app.layout = html.Div([
     html.Div(
         [
