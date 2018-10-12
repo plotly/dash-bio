@@ -90,6 +90,7 @@ class Clustergram(object):
             data=None,
             rowLabels=None,
             columnLabels=None,
+            hideLabels=[],
             standardize='none',
             cluster='all',
             rowDist='euclidean',
@@ -169,9 +170,9 @@ class Clustergram(object):
 
         self._hideLabels = []
         
-        if(self._rowLabels is None):
+        if('row' in hideLabels):
             self._hideLabels.append('yaxis5')
-        if(self._columnLabels is None):
+        if('col' in hideLabels):
             self._hideLabels.append('xaxis5')
 
         # preprocessing data

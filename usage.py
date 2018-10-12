@@ -2,32 +2,22 @@ import dash
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
-import numpy as np
 import dash_bio
-
+from dash_bio.helpers import geneExpressionReader
 
 app = dash.Dash('')
 
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
-data = np.genfromtxt('expressionData/E-GEOD-46817-query-results.tpms.tsv',
-                     delimiter='\t')
-
-data = data[10:1000]
-data = np.delete(data, [0, 1], 1)
-
-cL = [chr(i+65) for i in range(len(data[0]))]
-rL = [chr(i+65) for i in range(len(data))]
-
-
 fig_options = dict(
-    data=data, id='sample', cluster='all',
+    data=None, id='sample', cluster='all',
     optimalLeafOrder=False,
     displayRatio=[0.3, 0.2],
-    columnLabels=cL, rowLabels=None,
+    columnLabels=None, rowLabels=None,
+    hideLabels=['row'],
     colorThreshold=dict(row=9, col=35),
-    height=800, width=800,
+    height=1000, width=800,
     colorMap=[[0.0, 'rgb(150,150,250)'],
               [0.5, 'rgb(50,250,100)'],
               [1.0, 'rgb(50,150,255)']],
@@ -40,7 +30,10 @@ fig_options = dict(
         color='white',
         size=10
     ),
-    symmetricValue=False,
+    tickFont=dict(
+        size=10
+    ),
+    symmetricValue=True,
     logTransform=True,
     imputeFunction={
         'strategy': 'median',
@@ -60,18 +53,31 @@ app.layout = html.Div([
     html.Div(
         id='clustergram-wrapper',
         children=[
-            dcc.Graph(
-                id='clustergram',
-                figure=dash_bio.ClustergramComponent(
-                    **fig_options
-                )
-            )
         ]
     ),
 
     html.Div(
-        id='options',
-        children=[
+        id='options', children=[
+            html.Div(
+                id='file-upload-container',
+                children=[
+                    dcc.Upload(
+                        id='file-upload',
+                        children=html.Div([
+                            "Drag and drop .tsv files or select files."
+                        ])
+                    )
+                ],
+                style={
+                    'border': 'dotted 2px white',
+                    'height': '50px',
+                    'width': '150px',
+                    'border-radius': '5px',
+                    'padding': '10px'
+                }
+            ),
+            
+            
             dcc.Checklist(
                 id='cluster-checklist',
                 labelStyle={
@@ -83,7 +89,7 @@ app.layout = html.Div([
                 ],
                 values=['row', 'col']
             ),
-
+            
             html.Br(),
             
             html.Div(
@@ -138,10 +144,12 @@ app.layout = html.Div([
 
 
 @app.callback(
-    Output('clustergram', 'figure'),
+    Output('clustergram-wrapper', 'children'),
     inputs=[Input('cluster-checklist', 'values'),
             Input('submit-group-marker', 'n_clicks'),
-            Input('remove-all-group-markers', 'n_clicks')],
+            Input('remove-all-group-markers', 'n_clicks'),
+            Input('file-upload', 'contents'),
+            Input('file-upload', 'filename')],
     state=[State('row-or-col-group', 'value'),
            State('group-number', 'value'),
            State('annotation', 'value'),
@@ -149,8 +157,20 @@ app.layout = html.Div([
            State('submit-group-marker', 'n_clicks_timestamp'),
            State('remove-all-group-markers', 'n_clicks_timestamp')]
 )
-def cluster_row(v, nclicks, removeAll, rowOrCol, groupNum, annotation, color,
-                submitTime, removeTime):
+def cluster_row(v, nclicks, removeAll, contents, filename,
+                rowOrCol, groupNum, annotation, color, submitTime, removeTime):
+
+    if (filename is None or filename == ''):
+        return None
+    
+    (data, rowLabels, colLabels) = \
+        geneExpressionReader.parse_tsv(contents, filename)
+    
+    fig_options.update(
+        data=data,
+        columnLabels=colLabels,
+        rowLabels=[r[0] for r in rowLabels]
+    )
     if(len(v) > 1):
         fig_options.update(
             cluster='all'
@@ -181,8 +201,10 @@ def cluster_row(v, nclicks, removeAll, rowOrCol, groupNum, annotation, color,
             fig_options['colGroupMarker'].append(marker)
         except KeyError:
             fig_options['colGroupMarker'] = [marker]
-    return dash_bio.ClustergramComponent(**fig_options)
-
+    return dcc.Graph(
+        id='clustergram',
+        figure=dash_bio.ClustergramComponent(**fig_options)
+    )
 
 if __name__ == '__main__':
     app.run_server(debug=True)

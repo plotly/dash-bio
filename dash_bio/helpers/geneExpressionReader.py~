@@ -1,0 +1,21 @@
+import base64
+
+def parse_tsv(contents, filename):
+    content_string = ''
+    rowLabels = []
+    colLabels = []
+    desc = []
+    data = None
+    if(contents is not None):
+        content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string).decode('UTF-8')
+    lines = decoded.split('\n')
+    print(len(lines))
+    for line in lines:
+        if(len(line) > 0 and line[0] == '#'):
+            desc.append(line.strip('#'))
+            print(line.strip('#'))
+        else:
+            dataRow = 
+            rowLabels.append[
+           
