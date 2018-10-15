@@ -4,8 +4,9 @@ import pandas as pd
 from pandas.api.types import is_numeric_dtype
 import numpy as np
 
-import plotly.offline as offline
 import plotly.graph_objs as go
+
+from .utils import _get_hover_text
 
 
 def create_volcano(
@@ -148,25 +149,6 @@ def create_volcano(
         highlight=highlight,
         highlight_color=highlight_color
     )
-
-
-def _get_hover_text(df, snpname=None, genename=None, annotationname=None):
-
-    hover_text = ""
-    if snpname is not None:
-        hover_text = "SNP: " + df[snpname].astype(str)
-
-    if genename is not None:
-        hover_text = hover_text \
-                     + "<br>GENE: " \
-                     + df[genename].astype(str)
-
-    if annotationname is not None:
-        hover_text = hover_text \
-                     + "<br>" \
-                     + df[annotationname].astype(str)
-
-    return hover_text
 
 
 class _VolcanoPlot(object):

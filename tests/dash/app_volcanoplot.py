@@ -10,7 +10,7 @@ from dash_bio.figure_factory._volcano import create_volcano
 
 df = pd.read_csv("tests/dash/HapMap.csv")  # Load the data
 
-fig = create_volcano(df)  # Feed the data to a function which creates a Manhattan Plot figure
+fig = create_volcano(df)  # Feed the data to a function which creates a Volcano Plot figure
 
 vertical_style = {
     'display': 'flex',
