@@ -9,7 +9,6 @@ import datetime
 import io
 import pandas as pd
 import json
-import test as test_data
 
 
 def parse_contents(contents, filename, date):
