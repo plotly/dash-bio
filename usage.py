@@ -23,7 +23,7 @@ fig_options = dict(
     columnLabels=None, rowLabels=None,
     hideLabels=['row'],
     colorThreshold=dict(row=9, col=35),
-    height=600, width=900,
+    height=1200, width=900,
     colorMap=[
         [0.0, colorPalette[0]],
         [0.5, colorPalette[1]],
@@ -239,28 +239,32 @@ def add_marker(
     if(remove_time > submit_time):
         fig_options['rowGroupMarker'] = []
         fig_options['colGroupMarker'] = []
+    else:
+        # otherwise, add the appropriate marker
+        marker = dict()
+        try:
+            marker['group'] = int(groupNum)
+            marker['annotation'] = annotation
+            marker['color'] = color
+        except ValueError:
+            pass
+        if(rowOrCol == 'row'):
+            try:
+                fig_options['rowGroupMarker'].append(marker)
+            except KeyError:
+                fig_options['rowGroupMarker'] = [marker]
+        elif(rowOrCol == 'col'):
+            try:
+                fig_options['colGroupMarker'].append(marker)
+            except KeyError:
+                fig_options['colGroupMarker'] = [marker]
 
-    # otherwise, add the appropriate marker
-    marker = dict()
     try:
-        marker['group'] = int(groupNum)
-        marker['annotation'] = annotation
-        marker['color'] = color
-    except ValueError:
-        pass
-    if(rowOrCol == 'row'):
-        try:
-            fig_options['rowGroupMarker'].append(marker)
-        except KeyError:
-            fig_options['rowGroupMarker'] = [marker]
-    elif(rowOrCol == 'col'):
-        try:
-            fig_options['colGroupMarker'].append(marker)
-        except KeyError:
-            fig_options['colGroupMarker'] = [marker]
-    (fig, _) = dash_bio.ClustergramComponent(
-        computed_traces=computedTraces, **fig_options
-    )
+        (fig, _) = dash_bio.ClustergramComponent(
+            computed_traces=computedTraces, **fig_options
+        )
+    except ValueError as ve:
+        return []
     return dcc.Graph(
         id='clustergram',
         figure=fig
@@ -277,21 +281,23 @@ def add_marker(
 )
 def compute_traces_once(filename, cluster, rowThresh, colThresh, contents):
     
-    # this hidden div contains the calculated dendrogram traces, so they do
-    # not have to be rerendered unless necessary
-    # (e.g., the cluster thresholds and the cluster dimensions)
-    print('compute_traces_once')
+    # return an empty list if there are no data
     if(filename is None or filename == ''):
-        print('nvm')
         return []
+
     (data, _, rowLabels, colLabels) = \
         geneExpressionReader.parse_tsv(contents, filename)
+
+    if(len(data) == 0):
+        return []
+    
     fig_options.update(
         data=data,
         columnLabels=colLabels,
         rowLabels=[r[0] for r in rowLabels],
         colorThreshold=dict(row=rowThresh, col=colThresh),
     )
+    
     if(len(cluster) > 1):
         fig_options.update(
             cluster='all'
@@ -301,13 +307,11 @@ def compute_traces_once(filename, cluster, rowThresh, colThresh, contents):
             cluster=cluster[0]
         )
     global computedTraces
-    if(computedTraces is None):
-        (_, computed_traces) = dash_bio.ClustergramComponent(
-            **fig_options
-        )
-        computedTraces = computed_traces
-        print(computedTraces)
-    return ['']
+    (_, computed_traces) = dash_bio.ClustergramComponent(
+        **fig_options
+    )
+    computedTraces = computed_traces
+    return ['calculated']
 
 
 if __name__ == '__main__':

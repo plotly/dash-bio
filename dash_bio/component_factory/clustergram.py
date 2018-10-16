@@ -204,15 +204,12 @@ class Clustergram(object):
             self,
             computed_traces=None
     ):
+        t = None
         if(computed_traces is None):
             t = self._dendrogramTraces()
         else:
             t = computed_traces
-            
-        # get raw traces
-        row_dendro_traces = t['row']
-        col_dendro_traces = t['col']
-
+        
         # initialize plot; GM is for group markers
         # [empty]      [col. dendro] [col. dendro] [empty]
         # [row dendro] [heatmap]     [heatmap]     [row GM]
@@ -260,11 +257,12 @@ class Clustergram(object):
             ]
 
         tickvals_row = list(set(tickvals_row))
+
         
         # sort so they are in the right order (lowest to highest)
         tickvals_col.sort()
         tickvals_row.sort()
-                
+        
         # update axis settings for dendrograms and heatmap
         axes = ['xaxis1', 'xaxis2', 'xaxis4', 'xaxis5',
                 'yaxis1', 'yaxis2', 'yaxis4', 'yaxis5']
@@ -279,9 +277,9 @@ class Clustergram(object):
                 fixedrange=False,
                 showticklabels=False
             )
-            
+
         (row_dendro_traces, col_dendro_traces) = self._sortTraces(
-            row_dendro_traces, col_dendro_traces)
+            t['row'], t['col'])
 
         for i in range(len(col_dendro_traces)):
             cdt = col_dendro_traces[i]
@@ -306,7 +304,7 @@ class Clustergram(object):
         fig['layout']['xaxis4'].update(
             autorange='reversed'
         )
-
+        
         # ensure that everything is aligned properly
         # with the heatmap
         fig['layout']['yaxis4'].update(
@@ -483,7 +481,8 @@ class Clustergram(object):
             height=self._height,
             width=self._width
         )
-        return (fig, computed_traces)
+
+        return (fig, t)
             
     def _scale(
             self,
@@ -545,7 +544,6 @@ class Clustergram(object):
         :rtype (dict): A dictionary containing entries for the row and column
                        dendrogram traces.
         """
-        print("calculating.....")
         # initialize return dict
         trace_list = {
             'col': [],
@@ -793,18 +791,20 @@ class Clustergram(object):
 
         if(len(rdt) > 0):
             # first, find background trace: (max 'x')
-            rdt.sort(key=lambda t: max(list(t['x'])))
-            tmp_rdt.append(rdt.pop())
+            rdt.sort(key=lambda t: -1*max(list(t['x'])))
+            tmp_rdt.append(rdt[0])
             # then, sort top-to-bottom
-            rdt.sort(key=lambda t: -1*min(list(t['y'])))
-            tmp_rdt += rdt
+            r = rdt[1:]
+            r.sort(key=lambda t: -1*min(list(t['y'])))
+            tmp_rdt += r
         if(len(cdt) > 0):
             # background trace has max 'y'
-            cdt.sort(key=lambda t: max(list(t['y'])))
-            tmp_cdt.append(cdt.pop())
+            cdt.sort(key=lambda t: -1*max(list(t['y'])))
+            tmp_cdt.append(cdt[0])
             # sort left to right
-            cdt.sort(key=lambda t: min(list(t['x'])))
-            tmp_cdt += cdt
+            c = cdt[1:]
+            c.sort(key=lambda t: min(list(t['x'])))
+            tmp_cdt += c
 
         return(tmp_rdt, tmp_cdt)
                
