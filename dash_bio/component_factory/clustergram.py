@@ -200,18 +200,19 @@ class Clustergram(object):
         if(standardize in ['row', 'column']):
             self._data = self._scale(self._data, standardize)
             
-        # Keep the dataset static
-        self._dendroTraces = self._dendrogramTraces()
-        
     def figure(
             self,
+            computed_traces=None
     ):
-        t = self._dendroTraces
-        
+        if(computed_traces is None):
+            t = self._dendrogramTraces()
+        else:
+            t = computed_traces
+            
         # get raw traces
         row_dendro_traces = t['row']
         col_dendro_traces = t['col']
-        
+
         # initialize plot; GM is for group markers
         # [empty]      [col. dendro] [col. dendro] [empty]
         # [row dendro] [heatmap]     [heatmap]     [row GM]
@@ -281,10 +282,10 @@ class Clustergram(object):
             
         (row_dendro_traces, col_dendro_traces) = self._sortTraces(
             row_dendro_traces, col_dendro_traces)
-        
-        # column dendrogram (displays on top)
-        for cdt in col_dendro_traces:
-            cdt['name'] = ("Col Cluster %d" % col_dendro_traces.index(cdt))
+
+        for i in range(len(col_dendro_traces)):
+            cdt = col_dendro_traces[i]
+            cdt['name'] = ("Col Cluster %d" % i)
             cdt['line'] = dict(
                 width=self._lineWidth[1]
             )
@@ -292,8 +293,9 @@ class Clustergram(object):
             fig.append_trace(cdt, 1, 2)
 
         # row dendrogram (displays on left side)
-        for rdt in row_dendro_traces:
-            rdt['name'] = ("Row Cluster %d" % row_dendro_traces.index(rdt))
+        for i in range(len(row_dendro_traces)):
+            rdt = row_dendro_traces[i]
+            rdt['name'] = ("Row Cluster %d" % i)
             rdt['line'] = dict(
                 width=self._lineWidth[0]
             )
@@ -481,8 +483,7 @@ class Clustergram(object):
             height=self._height,
             width=self._width
         )
-            
-        return fig
+        return (fig, computed_traces)
             
     def _scale(
             self,
@@ -544,7 +545,7 @@ class Clustergram(object):
         :rtype (dict): A dictionary containing entries for the row and column
                        dendrogram traces.
         """
-
+        print("calculating.....")
         # initialize return dict
         trace_list = {
             'col': [],
@@ -575,7 +576,6 @@ class Clustergram(object):
             }
             self._rowLabels = scp.array(Prow['ivl'])
             trace_list['row'] = self._colorDendroClusters(Prow_tmp, 'row')
-
         return trace_list
     
     def _colorDendroClusters(
@@ -744,7 +744,7 @@ class Clustergram(object):
         # this will be returned
         colors = []
 
-        # get the color for the background trace, is one is supplied
+        # get the color for the background trace, if one is supplied
         if(self._colorList is not None and 'bg' in self._colorList):
             bgColor = self._colorList['bg']
         

@@ -3,7 +3,7 @@ from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bio
-from dash_bio.helpers import geneExpressionReader
+from dash_bio.utils import geneExpressionReader
 
 app = dash.Dash('')
 
@@ -17,13 +17,13 @@ colorPalette = [
 ]
 
 fig_options = dict(
-    data=None, id='sample', cluster='all',
+    data=None, cluster='all',
     optimalLeafOrder=False,
     displayRatio=[0.3, 0.2],
     columnLabels=None, rowLabels=None,
     hideLabels=['row'],
     colorThreshold=dict(row=9, col=35),
-    height=1000, width=900,
+    height=600, width=900,
     colorMap=[
         [0.0, colorPalette[0]],
         [0.5, colorPalette[1]],
@@ -50,6 +50,7 @@ fig_options = dict(
         'axis': 1
     }
 )
+computedTraces = None
 
 app.layout = html.Div([
     html.Div(
@@ -182,6 +183,14 @@ app.layout = html.Div([
     html.Div(
         id='info',
         children=["hi"]
+    ),
+
+    html.Div(
+        id='trace-storage',
+        children=[],
+        style={
+            'display': 'None'
+        }
     )
 ])
 
@@ -210,13 +219,9 @@ def display_info(contents, filename):
 
 @app.callback(
     Output('clustergram-wrapper', 'children'),
-    inputs=[Input('cluster-checklist', 'value'),
-            Input('submit-group-marker', 'n_clicks'),
+    inputs=[Input('submit-group-marker', 'n_clicks'),
             Input('remove-all-group-markers', 'n_clicks'),
-            Input('column-threshold', 'value'),
-            Input('row-threshold', 'value'),
-            Input('file-upload', 'contents'),
-            Input('file-upload', 'filename')],
+            Input('trace-storage', 'children')],
     state=[State('row-or-col-group', 'value'),
            State('group-number', 'value'),
            State('annotation', 'value'),
@@ -224,34 +229,18 @@ def display_info(contents, filename):
            State('submit-group-marker', 'n_clicks_timestamp'),
            State('remove-all-group-markers', 'n_clicks_timestamp')]
 )
-def cluster_row(v, nclicks, removeAll, colThresh, rowThresh,
-                contents, filename, rowOrCol, groupNum,
-                annotation, color, submitTime, removeTime):
-
-    if (filename is None or filename == ''):
-        return None
-    
-    (data, _, rowLabels, colLabels) = \
-        geneExpressionReader.parse_tsv(contents, filename)
-    
-    fig_options.update(
-        data=data,
-        columnLabels=colLabels,
-        rowLabels=[r[0] for r in rowLabels],
-        colorThreshold=dict(row=rowThresh, col=colThresh)
-    )
-    if(len(v) > 1):
-        fig_options.update(
-            cluster='all'
-        )
-    elif(len(v) == 1):
-        fig_options.update(
-            cluster=v[0]
-        )
-    if(removeTime > submitTime):
+def add_marker(
+        submit_nclicks, removeAll_nclicks, dendro_traces,
+        rowOrCol, groupNum, annotation, color,
+        submit_time, remove_time
+):
+    global computedTraces
+    # remove all group markers, if necessary
+    if(remove_time > submit_time):
         fig_options['rowGroupMarker'] = []
         fig_options['colGroupMarker'] = []
-        return dash_bio.ClustergramComponent(**fig_options)
+
+    # otherwise, add the appropriate marker
     marker = dict()
     try:
         marker['group'] = int(groupNum)
@@ -269,11 +258,58 @@ def cluster_row(v, nclicks, removeAll, colThresh, rowThresh,
             fig_options['colGroupMarker'].append(marker)
         except KeyError:
             fig_options['colGroupMarker'] = [marker]
+    (fig, _) = dash_bio.ClustergramComponent(
+        computed_traces=computedTraces, **fig_options
+    )
     return dcc.Graph(
         id='clustergram',
-        figure=dash_bio.ClustergramComponent(**fig_options)
+        figure=fig
     )
+
+
+@app.callback(
+    Output('trace-storage', 'children'),
+    [Input('file-upload', 'filename'),
+     Input('cluster-checklist', 'value'),
+     Input('row-threshold', 'value'),
+     Input('column-threshold', 'value')],
+    state=[State('file-upload', 'contents')]
+)
+def compute_traces_once(filename, cluster, rowThresh, colThresh, contents):
+    
+    # this hidden div contains the calculated dendrogram traces, so they do
+    # not have to be rerendered unless necessary
+    # (e.g., the cluster thresholds and the cluster dimensions)
+    print('compute_traces_once')
+    if(filename is None or filename == ''):
+        print('nvm')
+        return []
+    (data, _, rowLabels, colLabels) = \
+        geneExpressionReader.parse_tsv(contents, filename)
+    fig_options.update(
+        data=data,
+        columnLabels=colLabels,
+        rowLabels=[r[0] for r in rowLabels],
+        colorThreshold=dict(row=rowThresh, col=colThresh),
+    )
+    if(len(cluster) > 1):
+        fig_options.update(
+            cluster='all'
+        )
+    else:
+        fig_options.update(
+            cluster=cluster[0]
+        )
+    global computedTraces
+    if(computedTraces is None):
+        (_, computed_traces) = dash_bio.ClustergramComponent(
+            **fig_options
+        )
+        computedTraces = computed_traces
+        print(computedTraces)
+    return ['']
 
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
