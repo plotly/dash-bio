@@ -1,16 +1,16 @@
 import dash
-import dash_bio
+import dash_bio 
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 import logging
 import os
 
-
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
 app = dash.Dash(__name__)
 app.config["suppress_callback_exceptions"] = True
+
 
 server = app.server
 
@@ -28,21 +28,6 @@ apps = {
 for key in apps:
     apps[key].callbacks(app)
 
-'''
-Ensure there is one html.Div holding an empty instance of a dash_bio.component
-like the example below. Remove this comment when we've added one dash_bio component!
-
-Ex:
-app.layout = html.Div(
-    id="index-waitfor",
-    children=[
-        dcc.Location(id="location"),
-        html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dcc.Graph(id="graph")),
-        html.Div(style={"display": "none"}, children=dash_bio.Component()),
-    ]
-)
-'''
 app.layout = html.Div(
     id="index-waitfor",
     children=[
@@ -50,8 +35,9 @@ app.layout = html.Div(
         html.Div(id="container"),
         html.Div(style={"display": "none"}, children=dcc.Graph(id="graph")),
         html.Div(style={"display": "none"}, children=dash_bio.DashIdeogram(
-            organism=''
-        ))
+                                    organism='human'
+                                )
+        )
     ]
 )
 
@@ -81,6 +67,7 @@ def display_app(pathname):
         )
 
     app_name = pathname.replace("/", "").replace("-", "_")
+
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
     else:
@@ -93,7 +80,7 @@ def display_app(pathname):
         )
 
 
-app.css.config.serve_locally = True
+app.css.config.serve_locally = False
 app.scripts.config.serve_locally = True
 
 if __name__ == "__main__":

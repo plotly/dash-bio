@@ -11,3 +11,4 @@ percy
 selenium
 flake8
 pylint
+dash_bio

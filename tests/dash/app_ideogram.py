@@ -8,526 +8,530 @@ import dash_html_components as html
 def layout():
     return html.Div(
         [
-        html.H2(
-            "Dash Ideogram",
-            id="title",
-            style={
-                "color": "#0D76BF",
-                "textAlign": "center"
-            }
-        ),
-        dcc.Tabs(
-            id="tabs",
-            children=[
-                dcc.Tab(
-                    label='Custom',
-                    children=[
-                        html.Div([
-                            html.Div(
-                                [
-                                    html.Div(
-                                        [
-                                            html.H5("Options"),
-                                            html.Div(
-                                                [html.P("Annotation Event"),
-                                                 html.P(id="annoteData"),
-                                                 html.P("Organism"),
-                                                 dcc.Dropdown(
-                                                    id="organism-change",
-                                                    options=[
-                                                        {'label': 'Human',
-                                                         'value': 'human'},
-                                                        {'label': 'Mouse',
-                                                         'value': 'mouse'},
-                                                        {'label': 'Rattus-norvegicus',
-                                                         'value': 'rattus-norvegicus'},
-                                                        {'label': 'Homo-sapiens-400',
-                                                         'value': 'homo-sapiens-400'},
-                                                        {"label": "Drosophila-Melanogaster",
-                                                         "value": "drosophila-melanogaster"},
-                                                        {"label": "Homo-sapiens-400",
-                                                         "value": "homo-sapiens-400"},
-                                                        {"label": "Homo-sapiens-550",
-                                                         "value": "homo-sapiens-550"},
-                                                        {"label": "GCF_000001405-1200",
-                                                         "value": "homo-sapiens-GCF_000001405.12-1200"},
-                                                        {"label": "GCF_000001405-400",
-                                                         "value": "homo-sapiens-GCF_000001405.12-400"},
-                                                        {"label": "GCF_000001405-550",
-                                                         "value": "homo-sapiens-GCF_000001405.12-550"},
-                                                        {"label": "GCF_000001405-850",
-                                                         "value": "homo-sapiens-GCF_000001405.12-850"},
-                                                        {"label": "GCF_000001405.12",
-                                                         "value": "homo-sapiens-GCF_000001405.12"},
-                                                        {"label": "GCF_000001405.13-550",
-                                                         "value": "homo-sapiens-GCF_000001405.13-550"},
-                                                        {"label": "GCF_000001405.13-850",
-                                                         "value": "homo-sapiens-GCF_000001405.13-850"},
-                                                        {"label": "GCF_000001405.13",
-                                                         "value": "homo-sapiens-GCF_000001405.13"},
-                                                        {"label": "GCF_000001405.26-400",
-                                                         "value": "homo-sapiens-GCF_000001405.26-400"},
-                                                        {"label": "GCF_000001405.26-550",
-                                                         "value": "homo-sapiens-GCF_000001405.26-550"},
-                                                        {"label": "GCF_000001405.26",
-                                                         "value": "homo-sapiens-GCF_000001405.26"},
-                                                        {"label": "GCF_000001405.37",
-                                                         "value": "homo-sapiens-GCF_000001405.37"},
-                                                        {"label": "GCF_000306695.2",
-                                                         "value": "homo-sapiens-GCF_000306695.2"},
-                                                        {"label": "Homo-sapiens-no-bands",
-                                                         "value": "homo-sapiens-no-bands"},
-                                                        {"label": "GCF_000000045.2_NA_V2",
-                                                         "value": "ideogram_10090_GCF_000000045.2_NA_V2"},
-                                                        {"label": "GCF_000000055.13_NA_V2",
-                                                         "value": "ideogram_10090_GCF_000000055.13_NA_V2"},
-                                                        {"label": "GCF_000000055.14_NA_V2",
-                                                         "value": "ideogram_10090_GCF_000000055.14_NA_V2"},
-                                                        {"label": "GCF_000000055.15_NA_V2",
-                                                         "value": "ideogram_10090_GCF_000000055.15_NA_V2"},
-                                                        {"label": "GCF_000000055.16_NA_V2",
-                                                         "value": "ideogram_10090_GCF_000000055.16_NA_V2"},
-                                                        {"label": "GCF_000000055.18_NA_V2",
-                                                         "value": "ideogram_10090_GCF_000000055.18_NA_V2"},
-                                                        {"label": "GCF_000001635.20",
-                                                         "value": "mus-musculus-GCF_000001635.20"},
-                                                        {"label": "Zea-mays",
-                                                         "value": "zea-mays"},
-                                                        {"label": "Test",
-                                                         "value": "test"},
-                                                    ],
-                                                    value='human'
+            html.H2(
+                "Dash Ideogram",
+                id="title",
+                style={
+                    "color": "#0D76BF",
+                    "textAlign": "center"
+                }
+            ),
+            dcc.Tabs(
+                id="tabs",
+                children=[
+                    dcc.Tab(
+                        label='Custom',
+                        children=[
+                            html.Div([
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            [
+                                                html.H5("Options"),
+                                                html.Div(
+                                                    [html.P("Annotation Event"),
+                                                     html.P(id="annoteData"),
+                                                     html.P("Organism"),
+                                                     dcc.Dropdown(
+                                                        id="organism-change",
+                                                        options=[
+                                                            {'label': 'Human',
+                                                             'value': 'human'},
+                                                            {'label': 'Mouse',
+                                                             'value': 'mouse'},
+                                                            {'label': 'Rattus-norvegicus',
+                                                             'value': 'rattus-norvegicus'},
+                                                            {'label': 'Homo-sapiens-400',
+                                                             'value': 'homo-sapiens-400'},
+                                                            {"label": "Drosophila-Melanogaster",
+                                                             "value": "drosophila-melanogaster"},
+                                                            {"label": "Homo-sapiens-400",
+                                                             "value": "homo-sapiens-400"},
+                                                            {"label": "Homo-sapiens-550",
+                                                             "value": "homo-sapiens-550"},
+                                                            {"label": "GCF_000001405-1200",
+                                                             "value": "homo-sapiens-GCF_000001405.12-1200"},
+                                                            {"label": "GCF_000001405-400",
+                                                             "value": "homo-sapiens-GCF_000001405.12-400"},
+                                                            {"label": "GCF_000001405-550",
+                                                             "value": "homo-sapiens-GCF_000001405.12-550"},
+                                                            {"label": "GCF_000001405-850",
+                                                             "value": "homo-sapiens-GCF_000001405.12-850"},
+                                                            {"label": "GCF_000001405.12",
+                                                             "value": "homo-sapiens-GCF_000001405.12"},
+                                                            {"label": "GCF_000001405.13-550",
+                                                             "value": "homo-sapiens-GCF_000001405.13-550"},
+                                                            {"label": "GCF_000001405.13-850",
+                                                             "value": "homo-sapiens-GCF_000001405.13-850"},
+                                                            {"label": "GCF_000001405.13",
+                                                             "value": "homo-sapiens-GCF_000001405.13"},
+                                                            {"label": "GCF_000001405.26-400",
+                                                             "value": "homo-sapiens-GCF_000001405.26-400"},
+                                                            {"label": "GCF_000001405.26-550",
+                                                             "value": "homo-sapiens-GCF_000001405.26-550"},
+                                                            {"label": "GCF_000001405.26",
+                                                             "value": "homo-sapiens-GCF_000001405.26"},
+                                                            {"label": "GCF_000001405.37",
+                                                             "value": "homo-sapiens-GCF_000001405.37"},
+                                                            {"label": "GCF_000306695.2",
+                                                             "value": "homo-sapiens-GCF_000306695.2"},
+                                                            {"label": "Homo-sapiens-no-bands",
+                                                             "value": "homo-sapiens-no-bands"},
+                                                            {"label": "GCF_000000045.2_NA_V2",
+                                                             "value": "ideogram_10090_GCF_000000045.2_NA_V2"},
+                                                            {"label": "GCF_000000055.13_NA_V2",
+                                                             "value": "ideogram_10090_GCF_000000055.13_NA_V2"},
+                                                            {"label": "GCF_000000055.14_NA_V2",
+                                                             "value": "ideogram_10090_GCF_000000055.14_NA_V2"},
+                                                            {"label": "GCF_000000055.15_NA_V2",
+                                                             "value": "ideogram_10090_GCF_000000055.15_NA_V2"},
+                                                            {"label": "GCF_000000055.16_NA_V2",
+                                                             "value": "ideogram_10090_GCF_000000055.16_NA_V2"},
+                                                            {"label": "GCF_000000055.18_NA_V2",
+                                                             "value": "ideogram_10090_GCF_000000055.18_NA_V2"},
+                                                            {"label": "GCF_000001635.20",
+                                                             "value": "mus-musculus-GCF_000001635.20"},
+                                                            {"label": "Zea-mays",
+                                                             "value": "zea-mays"},
+                                                            {"label": "Test",
+                                                             "value": "test"},
+                                                        ],
+                                                        value='human'
+                                                    ),
+                                                        html.Div(
+                                                        [
+                                                            html.P(
+                                                                "Orientation"),
+                                                            dcc.Dropdown(
+                                                                id="orientation-switch",
+                                                                options=[
+                                                                    {'label': 'Vertical',
+                                                                     'value': 'vertical'},
+                                                                    {'label': 'Horizontal',
+                                                                     'value': 'horizontal'}
+                                                                ],
+                                                                value='horizontal',
+                                                            ),
+                                                            html.P(
+                                                                "Bandlabel"),
+                                                            dcc.Dropdown(
+                                                                id="bandlabel-switch",
+                                                                options=[
+                                                                    {'label': 'Label On',
+                                                                     'value': True},
+                                                                    {'label': 'Label Off',
+                                                                     'value': False}
+                                                                ],
+                                                                value=True,
+                                                            ),
+                                                            html.P(
+                                                                "Chromosome label"),
+                                                            dcc.Dropdown(
+                                                                id="chromlabel-switch",
+                                                                options=[
+                                                                    {'label': 'Label On',
+                                                                     'value': True},
+                                                                    {'label': 'Label Off',
+                                                                     'value': False}
+                                                                ],
+                                                                value=True,
+                                                            ),
+                                                            html.P(
+                                                                "Fully banded"),
+                                                            dcc.Dropdown(
+                                                                id="fullband-switch",
+                                                                options=[
+                                                                    {'label': 'Bands On',
+                                                                     'value': True},
+                                                                    {'label': 'Bands Off',
+                                                                     'value': False}
+                                                                ],
+                                                                value=True,
+                                                            ),
+                                                            html.P(
+                                                                "Non-nuclear Chromosomes"),
+                                                            dcc.Dropdown(
+                                                                id="nuclear-switch",
+                                                                options=[
+                                                                    {'label': 'On',
+                                                                     'value': True},
+                                                                    {'label': 'Off',
+                                                                     'value': False}
+                                                                ],
+                                                                value=False,
+                                                            ),
+                                                            html.P(
+                                                                "Rotatable"),
+                                                            dcc.Dropdown(
+                                                                id="rotatable-switch",
+                                                                options=[
+                                                                    {'label': 'Rotate Enable',
+                                                                     'value': True},
+                                                                    {'label': 'Rotate Disable',
+                                                                     'value': False}
+                                                                ],
+                                                                value=True,
+                                                            ),
+                                                            html.P("Sex"),
+                                                            dcc.Dropdown(
+                                                                id="sex-switch",
+                                                                options=[
+                                                                    {'label': 'Male',
+                                                                     'value': 'male'},
+                                                                    {'label': 'Female',
+                                                                     'value': 'female'}
+                                                                ],
+                                                                value='male',
+                                                            ),
+                                                        ],
+                                                    ),
+                                                        html.P(
+                                                        "Chr Margin",
+                                                    ),
+                                                        dcc.Input(
+                                                        id="chr-margin-input",
+                                                        placeholder='Enter a value...',
+                                                        type='number',
+                                                        value=10
+                                                    ),
+                                                        html.P(
+                                                        "Chr Height",
+                                                    ),
+                                                        dcc.Input(
+                                                        id="chr-height-input",
+                                                        placeholder='Enter a value...',
+                                                        type='number',
+                                                        value=300
+                                                    ),
+                                                        html.P(
+                                                        "Chr Width",
+                                                    ),
+                                                        dcc.Input(
+                                                        id="chr-width-input",
+                                                        placeholder='Enter a value...',
+                                                        type='number',
+                                                        value=8
+                                                    ),
+                                                        html.P(
+                                                        "Rows",
+                                                    ),
+                                                        dcc.Input(
+                                                        id="row-input",
+                                                        placeholder='Enter a value...',
+                                                        type='number',
+                                                        value=0
+                                                    ),
+                                                        html.P("Resolution"),
+                                                        dcc.Dropdown(
+                                                        id="resolution-select",
+                                                        options=[
+                                                            {'label': '550 bphs',
+                                                             'value': 550},
+                                                            {'label': '650 bphs',
+                                                             'value': 850},
+                                                            {'label': 'Off',
+                                                             'value': 1}
+                                                        ],
+                                                        value=1
+                                                    ),
+                                                        html.P("Ploidy"),
+                                                        dcc.Input(
+                                                        id="ploidy-input",
+                                                        placeholder='Enter a value...',
+                                                        type='number',
+                                                        value=1,
+                                                        max=2
+                                                    ),
+                                                    ], style={"overflow-y": "auto", "max-height": "40vh"}
                                                 ),
-                                                    html.Div(
+                                                html.H6("Annotations"),
+                                                html.Div(
                                                     [
-                                                        html.P("Orientation"),
+
                                                         dcc.Dropdown(
-                                                            id="orientation-switch",
+                                                            id="annotation-select",
                                                             options=[
-                                                                {'label': 'Vertical',
-                                                                 'value': 'vertical'},
-                                                                {'label': 'Horizontal',
-                                                                 'value': 'horizontal'}
+                                                                {'label': 'Heatmap',
+                                                                 'value': 'heatmap'},
+                                                                {'label': 'Tracks',
+                                                                 'value': 'tracks'},
+                                                                {'label': 'Histogram',
+                                                                 'value': 'histogram'},
+                                                                {'label': 'Overlay-1',
+                                                                 'value': 'overlay-1'},
+                                                                {'label': 'Overlay-2',
+                                                                 'value': 'overlay-2'}
                                                             ],
-                                                            value='horizontal',
-                                                        ),
-                                                        html.P("Bandlabel"),
-                                                        dcc.Dropdown(
-                                                            id="bandlabel-switch",
-                                                            options=[
-                                                                {'label': 'Label On',
-                                                                 'value': True},
-                                                                {'label': 'Label Off',
-                                                                 'value': False}
-                                                            ],
-                                                            value=True,
+                                                            value='tracks'
                                                         ),
                                                         html.P(
-                                                            "Chromosome label"),
-                                                        dcc.Dropdown(
-                                                            id="chromlabel-switch",
-                                                            options=[
-                                                                {'label': 'Label On',
-                                                                 'value': True},
-                                                                {'label': 'Label Off',
-                                                                 'value': False}
-                                                            ],
-                                                            value=True,
+                                                            "Annotation Path",
                                                         ),
-                                                        html.P("Fully banded"),
-                                                        dcc.Dropdown(
-                                                            id="fullband-switch",
-                                                            options=[
-                                                                {'label': 'Bands On',
-                                                                 'value': True},
-                                                                {'label': 'Bands Off',
-                                                                 'value': False}
-                                                            ],
-                                                            value=True,
+                                                        dcc.Input(
+                                                            id="path-input",
+                                                            placeholder='Enter Annotation URL',
+                                                            type='text',
+                                                            value='',
+                                                            disabled=True
                                                         ),
                                                         html.P(
-                                                            "Non-nuclear Chromosomes"),
+                                                            "Annotation Color",
+                                                        ),
+                                                        dcc.Input(
+                                                            id="color-input",
+                                                            placeholder='Annotation Color',
+                                                            type='text',
+                                                            value=''
+                                                        ),
+                                                        html.P(
+                                                            "Annotation Height",
+                                                        ),
+                                                        dcc.Input(
+                                                            id="height-input",
+                                                            placeholder='Annotation Height',
+                                                            type='text',
+                                                            value=''
+
+                                                        ),
+                                                        html.P(
+                                                            "Assembly",
+                                                        ),
+                                                        dcc.Input(
+                                                            id="assembly-input",
+                                                            placeholder='Assembly',
+                                                            type='text',
+                                                            value='',
+                                                            disabled=True
+                                                        ),
+                                                        html.P(
+                                                            "Bar Width",
+                                                        ),
+                                                        dcc.Input(
+                                                            id="bar-input",
+                                                            placeholder='Annotation Height',
+                                                            type='number',
+                                                            value=3,
+                                                            min=1
+                                                        ),
+                                                        html.P("Shape"),
                                                         dcc.Dropdown(
-                                                            id="nuclear-switch",
+                                                            id="shape-select",
+                                                            options=[
+                                                                {'label': 'Triangle',
+                                                                 'value': "triangle"},
+                                                                {'label': 'Circle',
+                                                                 'value': "circle"},
+                                                            ],
+                                                            value="triangle"
+                                                        ),
+                                                        html.P("Filterable"),
+                                                        dcc.Dropdown(
+                                                            id="filter-select",
                                                             options=[
                                                                 {'label': 'On',
                                                                  'value': True},
                                                                 {'label': 'Off',
-                                                                 'value': False}
+                                                                 'value': False},
                                                             ],
-                                                            value=False,
+                                                            value=False
                                                         ),
-                                                        html.P("Rotatable"),
-                                                        dcc.Dropdown(
-                                                            id="rotatable-switch",
-                                                            options=[
-                                                                {'label': 'Rotate Enable',
-                                                                 'value': True},
-                                                                {'label': 'Rotate Disable',
-                                                                 'value': False}
-                                                            ],
-                                                            value=True,
-                                                        ),
-                                                        html.P("Sex"),
-                                                        dcc.Dropdown(
-                                                            id="sex-switch",
-                                                            options=[
-                                                                {'label': 'Male',
-                                                                 'value': 'male'},
-                                                                {'label': 'Female',
-                                                                 'value': 'female'}
-                                                            ],
-                                                            value='male',
-                                                        ),
-                                                    ],
-                                                ),
-                                                    html.P(
-                                                    "Chr Margin",
-                                                ),
-                                                    dcc.Input(
-                                                    id="chr-margin-input",
-                                                    placeholder='Enter a value...',
-                                                    type='number',
-                                                    value=10
-                                                ),
-                                                    html.P(
-                                                    "Chr Height",
-                                                ),
-                                                    dcc.Input(
-                                                    id="chr-height-input",
-                                                    placeholder='Enter a value...',
-                                                    type='number',
-                                                    value=300
-                                                ),
-                                                    html.P(
-                                                    "Chr Width",
-                                                ),
-                                                    dcc.Input(
-                                                    id="chr-width-input",
-                                                    placeholder='Enter a value...',
-                                                    type='number',
-                                                    value=8
-                                                ),
-                                                    html.P(
-                                                    "Rows",
-                                                ),
-                                                    dcc.Input(
-                                                    id="row-input",
-                                                    placeholder='Enter a value...',
-                                                    type='number',
-                                                    value=0
-                                                ),
-                                                    html.P("Resolution"),
-                                                    dcc.Dropdown(
-                                                    id="resolution-select",
-                                                    options=[
-                                                        {'label': '550 bphs',
-                                                         'value': 550},
-                                                        {'label': '650 bphs',
-                                                         'value': 850},
-                                                        {'label': 'Off',
-                                                            'value': 1}
-                                                    ],
-                                                    value=1
-                                                ),
-                                                    html.P("Ploidy"),
-                                                    dcc.Input(
-                                                    id="ploidy-input",
-                                                    placeholder='Enter a value...',
-                                                    type='number',
-                                                    value=1,
-                                                    max=2
-                                                ),
-                                                ], style={"overflow-y": "auto", "max-height": "40vh"}
-                                            ),
-                                            html.H6("Annotations"),
-                                            html.Div(
-                                                [
+                                                    ], style={"overflow-y": "auto", "max-height": "40vh"}
+                                                )
 
-                                                    dcc.Dropdown(
-                                                        id="annotation-select",
-                                                        options=[
-                                                            {'label': 'Heatmap',
-                                                             'value': 'heatmap'},
-                                                            {'label': 'Tracks',
-                                                             'value': 'tracks'},
-                                                            {'label': 'Histogram',
-                                                             'value': 'histogram'},
-                                                            {'label': 'Overlay-1',
-                                                             'value': 'overlay-1'},
-                                                            {'label': 'Overlay-2',
-                                                             'value': 'overlay-2'}
-                                                        ],
-                                                        value='tracks'
-                                                    ),
-                                                    html.P(
-                                                        "Annotation Path",
-                                                    ),
-                                                    dcc.Input(
-                                                        id="path-input",
-                                                        placeholder='Enter Annotation URL',
-                                                        type='text',
-                                                        value='',
-                                                        disabled=True
-                                                    ),
-                                                    html.P(
-                                                        "Annotation Color",
-                                                    ),
-                                                    dcc.Input(
-                                                        id="color-input",
-                                                        placeholder='Annotation Color',
-                                                        type='text',
-                                                        value=''
-                                                    ),
-                                                    html.P(
-                                                        "Annotation Height",
-                                                    ),
-                                                    dcc.Input(
-                                                        id="height-input",
-                                                        placeholder='Annotation Height',
-                                                        type='text',
-                                                        value=''
-
-                                                    ),
-                                                    html.P(
-                                                        "Assembly",
-                                                    ),
-                                                    dcc.Input(
-                                                        id="assembly-input",
-                                                        placeholder='Assembly',
-                                                        type='text',
-                                                        value='',
-                                                        disabled=True
-                                                    ),
-                                                    html.P(
-                                                        "Bar Width",
-                                                    ),
-                                                    dcc.Input(
-                                                        id="bar-input",
-                                                        placeholder='Annotation Height',
-                                                        type='number',
-                                                        value=3,
-                                                        min=1
-                                                    ),
-                                                    html.P("Shape"),
-                                                    dcc.Dropdown(
-                                                        id="shape-select",
-                                                        options=[
-                                                            {'label': 'Triangle',
-                                                             'value': "triangle"},
-                                                            {'label': 'Circle',
-                                                             'value': "circle"},
-                                                        ],
-                                                        value="triangle"
-                                                    ),
-                                                    html.P("Filterable"),
-                                                    dcc.Dropdown(
-                                                        id="filter-select",
-                                                        options=[
-                                                            {'label': 'On',
-                                                             'value': True},
-                                                            {'label': 'Off',
-                                                             'value': False},
-                                                        ],
-                                                        value=False
-                                                    ),
-                                                ], style={"overflow-y": "auto", "max-height": "40vh"}
-                                            )
-
-                                        ], className="three columns"
-                                    ),
-                                    html.Div(
-                                        [
-                                            dash_bio.DashIdeogram(
-                                                id="ideo",
-                                                organism="human",
-                                                orientation="vertical",
-                                                showBandLabels=True,
-                                                chrHeight=400,
-                                                chrMargin=200,
-                                                rotatable=True,
-                                                style={
-                                                    # "max-width":"100vw",
-                                                    "max-height": "80vh",
-                                                    "overflow": "auto",
-                                                    # "position":"absolute"
-                                                }
-                                            ),
-                                        ], className="nine columns"
-                                    ),
-                                ], className="row"
-                            )
-                        ])
-                    ]),
-                dcc.Tab(label='Homology', children=[
-                    html.Div(
-                        [
-                            html.Div(
-                                [
-                                    html.H5(
-                                        "Options"
-                                    ),
-                                    html.P(
-                                        "Chromosomes",
-                                    ),
-                                    dcc.Input(
-                                        id="chr-select",
-                                        placeholder='Enter chromsomes',
-                                        type='text',
-                                        value=''
-                                    ),
-                                    html.P(
-                                        "Chr1: Start-one",
-                                    ),
-                                    dcc.Input(
-                                        id="chrone-startone",
-                                        placeholder='ChrOne StartOne',
-                                        type='number',
-                                        value=50000
-                                    ),
-                                    html.P(
-                                        "Chr1 : Stop-one",
-                                    ),
-                                    dcc.Input(
-                                        id="chrone-stopone",
-                                        placeholder='Enter chromsomes',
-                                        type='number',
-                                        value=900000
-                                    ),
-                                    html.P(
-                                        "Chr1: Start-two",
-                                    ),
-                                    dcc.Input(
-                                        id="chrone-starttwo",
-                                        placeholder='ChrOne Starttwo',
-                                        type='number',
-                                        value=155701383
-                                    ),
-                                    html.P(
-                                        "Chr1 : Stop-two",
-                                    ),
-                                    dcc.Input(
-                                        id="chrone-stoptwo",
-                                        placeholder='Enter chromsomes',
-                                        type='number',
-                                        value=156030895
-                                    ), html.P(
-                                        "Chr2: Start-one",
-                                    ),
-                                    dcc.Input(
-                                        id="chrtwo-startone",
-                                        placeholder='Chrtwo StartOne',
-                                        type='number',
-                                        value=10001
-                                    ),
-                                    html.P(
-                                        "Chr2 : Stop-one",
-                                    ),
-                                    dcc.Input(
-                                        id="chrtwo-stopone",
-                                        placeholder='Enter chromsomes',
-                                        type='number',
-                                        value=2781479
-                                    ),
-                                    html.P(
-                                        "Chr2: Start-two",
-                                    ),
-                                    dcc.Input(
-                                        id="chrtwo-starttwo",
-                                        placeholder='Chrtwo Starttwo',
-                                        type='number',
-                                        value=56887903
-                                    ),
-                                    html.P(
-                                        "Chr2 : Stop-two",
-                                    ),
-                                    dcc.Input(
-                                        id="chrtwo-stoptwo",
-                                        placeholder='Enter chromsomes',
-                                        type='number',
-                                        value=57217415
-                                    ),
-                                ], className="three columns"
-                            ),
-                            html.Div(
-                                [
-                                    dash_bio.DashIdeogram(
-                                        id="ideo-homology",
-                                        organism=["human", "mouse"],
-                                        orientation="vertical",
-                                        showBandLabels=True,
-                                        showChromosomeLabels=True,
-                                        showFullyBanded=True,
-                                        fullChromosomeLabels=True,
-                                        chrHeight=400,
-                                        chrMargin=200,
-                                        rotatable=False,
-                                        perspective='comparative',
-                                        chromosomes={
-                                            'human': ['1'],
-                                            'mouse': ['4']
-                                        },
-                                        homology={
-                                            "chrOne": {
-                                                "organism": "9606",
-                                                "start": [50000, 155701383],
-                                                "stop": [900000, 156030895]
+                                            ], className="three columns"
+                                        ),
+                                        html.Div(
+                                            [
+                                                dash_bio.DashIdeogram(
+                                                    id="ideo",
+                                                    organism="human",
+                                                    orientation="vertical",
+                                                    showBandLabels=True,
+                                                    chrHeight=400,
+                                                    chrMargin=200,
+                                                    rotatable=True,
+                                                    style={
+                                                        # "max-width":"100vw",
+                                                        "max-height": "80vh",
+                                                        "overflow": "auto",
+                                                        # "position":"absolute"
+                                                    }
+                                                ),
+                                            ], className="nine columns"
+                                        ),
+                                    ], className="row"
+                                )
+                            ])
+                        ]),
+                    dcc.Tab(label='Homology', children=[
+                        html.Div(
+                            [
+                                html.Div(
+                                    [
+                                        html.H5(
+                                            "Options"
+                                        ),
+                                        html.P(
+                                            "Chromosomes",
+                                        ),
+                                        dcc.Input(
+                                            id="chr-select",
+                                            placeholder='Enter chromsomes',
+                                            type='text',
+                                            value=''
+                                        ),
+                                        html.P(
+                                            "Chr1: Start-one",
+                                        ),
+                                        dcc.Input(
+                                            id="chrone-startone",
+                                            placeholder='ChrOne StartOne',
+                                            type='number',
+                                            value=50000
+                                        ),
+                                        html.P(
+                                            "Chr1 : Stop-one",
+                                        ),
+                                        dcc.Input(
+                                            id="chrone-stopone",
+                                            placeholder='Enter chromsomes',
+                                            type='number',
+                                            value=900000
+                                        ),
+                                        html.P(
+                                            "Chr1: Start-two",
+                                        ),
+                                        dcc.Input(
+                                            id="chrone-starttwo",
+                                            placeholder='ChrOne Starttwo',
+                                            type='number',
+                                            value=155701383
+                                        ),
+                                        html.P(
+                                            "Chr1 : Stop-two",
+                                        ),
+                                        dcc.Input(
+                                            id="chrone-stoptwo",
+                                            placeholder='Enter chromsomes',
+                                            type='number',
+                                            value=156030895
+                                        ), html.P(
+                                            "Chr2: Start-one",
+                                        ),
+                                        dcc.Input(
+                                            id="chrtwo-startone",
+                                            placeholder='Chrtwo StartOne',
+                                            type='number',
+                                            value=10001
+                                        ),
+                                        html.P(
+                                            "Chr2 : Stop-one",
+                                        ),
+                                        dcc.Input(
+                                            id="chrtwo-stopone",
+                                            placeholder='Enter chromsomes',
+                                            type='number',
+                                            value=2781479
+                                        ),
+                                        html.P(
+                                            "Chr2: Start-two",
+                                        ),
+                                        dcc.Input(
+                                            id="chrtwo-starttwo",
+                                            placeholder='Chrtwo Starttwo',
+                                            type='number',
+                                            value=56887903
+                                        ),
+                                        html.P(
+                                            "Chr2 : Stop-two",
+                                        ),
+                                        dcc.Input(
+                                            id="chrtwo-stoptwo",
+                                            placeholder='Enter chromsomes',
+                                            type='number',
+                                            value=57217415
+                                        ),
+                                    ], className="three columns"
+                                ),
+                                html.Div(
+                                    [
+                                        dash_bio.DashIdeogram(
+                                            id="ideo-homology",
+                                            organism=["human", "mouse"],
+                                            orientation="vertical",
+                                            showBandLabels=True,
+                                            showChromosomeLabels=True,
+                                            showFullyBanded=True,
+                                            fullChromosomeLabels=True,
+                                            chrHeight=400,
+                                            chrMargin=200,
+                                            rotatable=False,
+                                            perspective='comparative',
+                                            chromosomes={
+                                                'human': ['1'],
+                                                'mouse': ['4']
                                             },
-                                            "chrTwo": {
-                                                "organism": "10090",
-                                                "start": [10001, 50000000],
-                                                "stop": [2781479, 57217415]
+                                            homology={
+                                                "chrOne": {
+                                                    "organism": "9606",
+                                                    "start": [50000, 155701383],
+                                                    "stop": [900000, 156030895]
+                                                },
+                                                "chrTwo": {
+                                                    "organism": "10090",
+                                                    "start": [10001, 50000000],
+                                                    "stop": [2781479, 57217415]
+                                                }
                                             }
-                                        }
-                                    ),
-                                ], className="nine columns"
-                            )
-                        ], className="row"
-                    )
+                                        ),
+                                    ], className="nine columns"
+                                )
+                            ], className="row"
+                        )
+                    ]
+                    ),
+                    dcc.Tab(label='Brush', children=[
+                        html.Div(
+                            [
+                                html.Div(
+                                    [
+                                        html.H5(
+                                            "Options"
+                                        ),
+                                        html.P(
+                                            "Chromosomes",
+                                        ),
+                                        dcc.Input(
+                                            id="chr-brush",
+                                            placeholder='Enter chromsomes',
+                                            type='text',
+                                            value=''
+                                        ),
+                                        html.P(
+                                            id="brushPrint",
+                                        ),
+                                    ], className="three columns"
+                                ),
+                                html.Div(
+                                    [
+                                        dash_bio.DashIdeogram(
+                                            id="brush-ideo",
+                                            organism='human',
+                                            chromosomes=['1'],
+                                            brush='chr1:1-10000000',
+                                            chrHeight=900,
+                                            resolution=550,
+                                            orientation='horizontal'
+                                        ),
+                                    ], className="nine columns"
+                                ),
+                            ]
+                        )
+                    ]
+                    ),
                 ]
-                ),
-                dcc.Tab(label='Brush', children=[
-                    html.Div(
-                        [
-                            html.Div(
-                                [
-                                    html.H5(
-                                        "Options"
-                                    ),
-                                    html.P(
-                                        "Chromosomes",
-                                    ),
-                                    dcc.Input(
-                                        id="chr-brush",
-                                        placeholder='Enter chromsomes',
-                                        type='text',
-                                        value=''
-                                    ),
-                                    html.P(
-                                        id="brushPrint",
-                                    ),
-                                ], className="three columns"
-                            ),
-                            html.Div(
-                                [
-                                    dash_bio.DashIdeogram(
-                                        id="brush-ideo",
-                                        organism='human',
-                                        chromosomes=['1'],
-                                        brush='chr1:1-10000000',
-                                        chrHeight=900,
-                                        resolution=550,
-                                        orientation='horizontal'
-                                    ),
-                                ], className="nine columns"
-                            ),
-                        ]
-                    )
-                ]
-                ),
-            ]
-        ),
-    ],
+            ),
+        ],
     )
 
 
@@ -923,5 +927,3 @@ def callbacks(app):
         if data == None:
             return "None"
         return data
-
-

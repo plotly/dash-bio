@@ -325,7 +325,10 @@ class DashIdeogram extends Component {
             orientation={orientation} // x
             onWillShowAnnotTooltip={onWillShowAnnotTooltip}
             onDrawAnnots={onDrawAnnots}
-            onMouseOver={this.props.setProps ? this.onToolTipHandler : null}
+            // onMouseOver={this.props.setProps ? this.onToolTipHandler : null}
+            onMouseOver={(event) => (
+                console.warn("Event", event.target)
+                )}
             rangeSet={rangeSet}
             rotatable={rotatable} // x
             rotated={rotated}

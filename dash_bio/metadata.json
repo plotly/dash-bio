@@ -1,5 +1,5 @@
 {
-  "src/lib/components/DashIdeogram.react.js": {
+  "src/lib/components/DashIdeogram.React.js": {
     "description": "The Dash Ideogram is used to draw and animate genome-wide\r\ndatasets for organisms such as an human, mouse, and any\r\nother eukaryotes. The Ideogram can used to compare\r\nhomologous features bewtween chromosomes, and depict,\r\nhaploid, diploid, aneuploidy genomes. It can also display\r\nannotations using histograms, overlays, and simple side\r\nby side tracks to show important genomic data.",
     "displayName": "DashIdeogram",
     "methods": [
