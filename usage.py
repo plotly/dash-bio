@@ -19,11 +19,11 @@ colorPalette = [
 fig_options = dict(
     data=None, cluster='all',
     optimalLeafOrder=False,
-    displayRatio=[0.3, 0.2],
+    displayRatio=[0.3, 0.1],
     columnLabels=None, rowLabels=None,
     hideLabels=['row'],
     colorThreshold=dict(row=9, col=35),
-    height=1200, width=900,
+    height=900, width=900,
     colorMap=[
         [0.0, colorPalette[0]],
         [0.5, colorPalette[1]],

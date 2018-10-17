@@ -12,7 +12,7 @@ def parse_tsv(contents, filename):
     if(contents is not None):
         content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string).decode('UTF-8')
-    lines = decoded.split('\n')[1:100]
+    lines = decoded.split('\n')[1:2000]
     desc['Source'] = decoded.split('\n')[0].strip('#').strip(' ')
     for line in lines:
         if(len(line) > 0 and (line[0] == '#' or line.split(' ')[0] == 'Gene')):
