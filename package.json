@@ -14,12 +14,9 @@
   "author": "The Plotly Team",
   "license": "MIT",
   "dependencies": {
-    "ramda": "^0.25.0",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "requirejs": "^2.3.6",
     "speck": "git+https://github.com/wwwtyro/speck.git",
-    "yarn": "^1.10.1"
+    "react": "15.4.2",
+    "react-dom": "15.4.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
