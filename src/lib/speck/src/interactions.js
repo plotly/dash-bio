@@ -1,5 +1,5 @@
 "use strict";
-var speckView = require('view.js');
+var speckView = require('./view.js');
 
 module.exports = function(component, renderer, container) {
 
@@ -13,7 +13,6 @@ module.exports = function(component, renderer, container) {
     
     container.addEventListener("mousedown", (e) => {
 	if(e.button == 0) {
-	    console.warn("mouse down"); 
 	    if(component.props.interactions){
 		var tmp_interactions = component.props.interactions;
 		tmp_interactions.buttonDown = true;
@@ -23,28 +22,23 @@ module.exports = function(component, renderer, container) {
 		component.props.setProps({
 		    interactions: tmp_interactions
 		});
-		console.warn(component.props.interactions); 
 	    }
 	}
     });
 
     container.addEventListener("mouseup", (e) => {
 	if(e.button == 0) {
-	    console.warn("mouse up");
-
 	    if(component.props.interactions){
 		var tmp_interactions = component.props.interactions;
 		tmp_interactions.buttonDown = false;
 		component.props.setProps({
 		    interactions: tmp_interactions
 		});
-		console.warn(component.props.interactions); 
 	    }
 	}
     });
 
     container.addEventListener("mousemove", (e) => {
-	console.warn("mouse move");
 
 	if(component.props.interactions){
 	    var tmp_interactions = component.props.interactions;

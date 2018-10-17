@@ -29,13 +29,33 @@ export default class SpeckComponent extends Component {
 	renderer.setResolution(view.resolution, view.aoRes);
     }
 
+    loop() {
+	if(this.state.needReset) {
+	    this.state.renderer.reset();
+	    this.setState({
+		refreshView: false
+	    });
+	}
+	this.state.renderer.render(this.props.view);
+	requestAnimationFrame(loop); 
+    }
+    
     constructor(props) {
 	super(props);
 	var system = speckSystem.new();
-	var v = speckView.new(); 
-	this.props.setProps({
-	    view: v
-	});
+
+	// setting refs in this way to allow for easier updating to
+	// react 16
+	this.setCanvasRef = (e) => {
+	    this.canvas = e;
+	}
+	this.setContainerRef = (e) => {
+	    this.container = e;
+	}
+	this.loop = this.loop.bind(this);
+	this.setState({
+	    refreshView: true
+	})
 	this.loadStructure = this.loadStructure.bind(this);
     }
     
@@ -47,19 +67,26 @@ export default class SpeckComponent extends Component {
 	} = this.props; 
 
 	// add canvas
-	const canvas = this.refs.canvas;
-	var renderer = new speckRenderer(this.refs.canvas, 200, 200);
-	renderer.initialize();
+	const canvas = this.canvas;
+	var renderer = new speckRenderer(canvas, 200, 200);
+	this.setState({
+	    renderer: renderer
+	});
+	var v = speckView.new(); 
+	this.props.setProps({
+	    view: v
+	});
 
 	// add event listeners
-	const container = this.refs.container;
+	const container = this.container;
 	var interactionHandler = new speckInteractions(this, renderer, container);
 	
 	
 	// ensure that view has loaded first
-	if(this.view){
+	if(this.props.view){
 	    this.loadStructure(data, renderer, view);
 	}
+	
     }
 
     render() {
@@ -67,10 +94,15 @@ export default class SpeckComponent extends Component {
 	    id,
 	    view
 	} = this.props;
-
+	
+	// if a prop has changed in, e.g., the view, we will need to
+	// refresh the renderer
+	this.setState({
+	    refreshView: true
+	});
 	return (
-		<div id={id} ref="container">
-		<canvas ref="canvas" width={500} height={500} />
+		<div id={id} ref={this.setContainerRef}>
+		<canvas ref={this.setCanvasRef} width={500} height={500} />
 	    </div>
 	);
 
