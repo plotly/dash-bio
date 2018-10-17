@@ -1,0 +1,17 @@
+[
+  {
+    "coord":"25398273-25398282",
+    "category": "cluster1",
+    "value":461
+  },
+  {
+    "coord":"25378645-25378645",
+    "category": "cluster2",
+    "value":4
+  },
+  {
+    "coord":"25380257-25380257",
+    "category": "cluster3",
+    "value":36
+  }
+]
