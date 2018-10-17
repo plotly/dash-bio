@@ -492,6 +492,8 @@ NeedlePlot.propTypes = {
     // Colors of the shaded domains on the needle plot
     domainColors: PropTypes.array,
 
+    onChange: PropTypes.func,
+
     /**
      * Dash-assigned callback that should be called whenever any of the
      * properties change
@@ -500,6 +502,11 @@ NeedlePlot.propTypes = {
 };
 
 NeedlePlot.defaultProps = {
+    x: [],
+    y: [],
+    domains: [],
+    groups: [],
+    onChange: () => {},
     stemColor: '#444',
     stemThickness: 0.5,
     stemConstHeight: false,
