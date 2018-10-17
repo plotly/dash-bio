@@ -53,10 +53,15 @@ create two arrays of value for plotting horizontal lines with many markers
 function create_horizontal_line(xi, xf, y, n) {
     let line_x = [];
     let line_y = [];
-    const dx = (xf - xi) / n;
-    for (let i = 0; i < n; i++) {
-        line_x.push(xi + i * dx);
-        line_y.push(y);
+    if (n === 1) {
+        line_x = [xi, xf];
+        line_y = [y, y];
+    } else {
+        const dx = (xf - xi) / n;
+        for (let i = 0; i < n; i++) {
+            line_x.push(xi + i * dx);
+            line_y.push(y);
+        }
     }
     return [line_x, line_y];
 }
@@ -379,9 +384,10 @@ export default class NeedlePlot extends Component {
         const {data, shapes, globalAnnotation, domainAnnotations} = vars;
         const {xlabel, ylabel} = this.props;
         let {xStart, xEnd} = this.state;
-
+        let first_init = false;
         // initialize the range based on input data
         if (Boolean(!xStart) || Boolean(!xEnd)) {
+            first_init = true;
             data.forEach(trace => {
                 const X_DATA_MIN = Math.min.apply(null, trace['x']);
                 const X_DATA_MAX = Math.max.apply(null, trace['x']);
@@ -402,14 +408,11 @@ export default class NeedlePlot extends Component {
             },
             hovermode: 'closest',
             xaxis: {
-                title: 'xaxis', //xlabel,
-                titlefont: {
-                    color: '#1f77b4',
-                },
-                tickfont: {
-                    color: '#1f77b4',
-                },
-                rangeslider: {range: [xStart, xEnd]},
+                title: xlabel,
+                rangeslider:
+                    first_init === true
+                        ? {range: [xStart * 0.98, xEnd * 1.02]}
+                        : {},
                 showgrid: false,
                 zeroline: false,
                 autorange: Boolean(!xStart),
@@ -417,15 +420,6 @@ export default class NeedlePlot extends Component {
                 anchor: 'y',
             },
             xaxis2: {
-                title: 'xaxis2 label',
-                titlefont: {
-                    color: '#ff7f0e',
-                },
-                tickfont: {
-                    color: '#ff7f0e',
-                },
-                //showgrid: false,
-                //zeroline: false,
                 scaleanchor: 'x',
                 autorange: Boolean(!xStart),
                 range: [xStart, xEnd],
@@ -433,14 +427,9 @@ export default class NeedlePlot extends Component {
                 overlaying: 'x',
             },
             yaxis: {
-                title: 'yaxis label',
-                titlefont: {
-                    color: '#d62728',
-                },
                 title: ylabel,
                 showgrid: false,
                 ticks: 'inside',
-                //domain: [0.55, 1],
             },
             margin: {t: 100, l: 40, r: 0, b: 40},
             shapes: shapes,
