@@ -12,7 +12,7 @@ setup(
     name=package_name,
     version=package["version"],
     author=package['author'],
-    packages=[package_name],
+    packages=[package_name, '{}/utils'.format(package_name), '{}/component_factory'.format(package_name)],
     include_package_data=True,
     license=package['license'],
     description=package['description'] if 'description' in package else package_name,
