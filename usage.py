@@ -1,5 +1,5 @@
 import dash_bio
-from dash_bio.helpers import proteinReader as pr
+from dash_bio.utils import proteinReader as pr
 import dash
 import base64
 from dash.dependencies import Input, Output, State
@@ -304,7 +304,6 @@ def get_aa_comp(v, seq):
     [Input('sequence-viewer', 'mouseSelection')]
 )
 def update_mouse_sel(v):
-    print(v)
     return v
 
 

@@ -15,7 +15,8 @@
   "license": "MIT",
   "dependencies": {
     "react": "15.4.2",
-    "react-dom": "15.4.2"
+    "react-dom": "15.4.2",
+    "react-sequence-viewer": "^0.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
