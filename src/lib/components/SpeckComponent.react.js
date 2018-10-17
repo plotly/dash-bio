@@ -9,7 +9,7 @@ const speckInteractions = require('../speck/src/interactions.js');
 
 export default class SpeckComponent extends Component {
 
-    loadStructure(data, renderer, view) {
+    loadStructure(data) {
 	var system = speckSystem.new();
 	for(var i = 0; i < data.length; i++) {
 	    // get the coordinate data
@@ -24,25 +24,35 @@ export default class SpeckComponent extends Component {
 	// maximum atomic radius
 	speckSystem.calculateBonds(system);
 	// the view refers to the parameters of, e.g., atom shade, etc.
+
+	const renderer = this.state.renderer;
+	const view = this.props.view;  
+
 	renderer.setSystem(system, view);
 	// update the resolution
 	renderer.setResolution(view.resolution, view.aoRes);
+
+	this.setState({
+	    refreshView: true
+	}); 
     }
 
     loop() {
-	if(this.state.needReset) {
+	if(this.state.refreshView) {
 	    this.state.renderer.reset();
 	    this.setState({
 		refreshView: false
 	    });
 	}
-	this.state.renderer.render(this.props.view);
-	requestAnimationFrame(loop); 
+	if(this.state.renderer){
+	    this.state.renderer.render(this.props.view);
+	}
+	requestAnimationFrame(this.loop); 
     }
     
     constructor(props) {
 	super(props);
-	var system = speckSystem.new();
+	console.log(this.props);
 
 	// setting refs in this way to allow for easier updating to
 	// react 16
@@ -53,10 +63,12 @@ export default class SpeckComponent extends Component {
 	    this.container = e;
 	}
 	this.loop = this.loop.bind(this);
-	this.setState({
-	    refreshView: true
-	})
 	this.loadStructure = this.loadStructure.bind(this);
+
+	this.state = {
+	    refreshView: false,
+	    renderer: null
+	}
     }
     
     componentDidMount() {
@@ -66,40 +78,45 @@ export default class SpeckComponent extends Component {
 	    setProps
 	} = this.props; 
 
-	// add canvas
+	// add canvas, container, and renderer
 	const canvas = this.canvas;
-	var renderer = new speckRenderer(canvas, 200, 200);
+	const container = this.container;
+	const renderer = new speckRenderer(canvas, 200, 300);
+
 	this.setState({
-	    renderer: renderer
-	});
-	var v = speckView.new(); 
-	this.props.setProps({
-	    view: v
+	    renderer: renderer,
+	    refreshView: true
 	});
 
+	// add initial view
+	let v = speckView.new(); 
+	setProps({
+	    view: v,
+	});
+	
 	// add event listeners
-	const container = this.container;
 	var interactionHandler = new speckInteractions(this, renderer, container);
-	
-	
-	// ensure that view has loaded first
-	if(this.props.view){
-	    this.loadStructure(data, renderer, view);
-	}
+
+	this.loop();
 	
     }
 
-    render() {
+    componentWillReceiveProps() {
 	const {
-	    id,
+	    data,
 	    view
 	} = this.props;
-	
-	// if a prop has changed in, e.g., the view, we will need to
-	// refresh the renderer
-	this.setState({
-	    refreshView: true
-	});
+	if(view){
+	    this.loadStructure(data);
+	}
+    }
+    
+    render() {
+	const {
+	    id
+	} = this.props;
+
+
 	return (
 		<div id={id} ref={this.setContainerRef}>
 		<canvas ref={this.setCanvasRef} width={500} height={500} />
@@ -143,6 +160,7 @@ SpeckComponent.propTypes = {
 	dofPosition: PropTypes.number,
 	fxaa: PropTypes.number
     }),
+    ok: PropTypes.string,
     interactions: PropTypes.shape({
 	buttonDown: PropTypes.bool,
 	lastX: PropTypes.number,

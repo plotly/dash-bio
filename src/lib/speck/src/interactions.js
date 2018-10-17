@@ -23,6 +23,9 @@ module.exports = function(component, renderer, container) {
 		    interactions: tmp_interactions
 		});
 	    }
+	    component.setState({
+		refreshView: true
+	    }); 
 	}
     });
 
@@ -35,6 +38,9 @@ module.exports = function(component, renderer, container) {
 		    interactions: tmp_interactions
 		});
 	    }
+	    component.setState({
+		refreshView: true
+	    }); 
 	}
     });
 
