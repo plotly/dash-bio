@@ -24,9 +24,6 @@ function extract_small_domains(protein_pos_array) {
     let domains_array = [];
     let idx_old_positions_array = [];
     let idx_bogus_entry = [];
-	console.warn(protein_pos_array)
-	console.warn(protein_pos_array.constructor === Array);
-	console.warn(protein_pos_array.constructor);
     protein_pos_array.forEach((dx, i) => {
         if (dx.indexOf('-') > -1) {
             if (
@@ -163,6 +160,7 @@ export default class NeedlePlot extends Component {
         } = this.prepareTraces();
 
         const layout = this.prepareLayout({
+            data,
             shapes,
             globalAnnotation,
             domainAnnotations,
@@ -194,12 +192,6 @@ export default class NeedlePlot extends Component {
             needleColors,
             domainColors,
         } = this.props;
-		console.warn(x)
-		console.warn(x.constructor === Array);
-		console.warn(x.constructor)
-		
-        console.warn('x',x)
-        console.warn('y',y)
 
         // Check for strings
         if (inputData && typeof x === 'string' && typeof y === 'string') {
@@ -227,6 +219,7 @@ export default class NeedlePlot extends Component {
         const XSPAN = X_RANGE_MAX - X_RANGE_MIN;
         const Y_BUFFER = stemConstHeight === true ? 0.5 : Y_DATA_MAX / 10;
         const Y_TOP = stemConstHeight === true ? 2 : Y_DATA_MAX + Y_BUFFER;
+        const DOMAIN_WIDTH = 33;
 
         const sequenceDomains = [];
         const shapes = [];
@@ -258,6 +251,7 @@ export default class NeedlePlot extends Component {
             sequenceDomains.push({
                 x: [x1, x0],
                 y: [Y_TOP, Y_TOP],
+                xaxis: 'x1',
                 name: dom.name,
                 fill: 'tozeroy',
                 mode: 'lines',
@@ -266,31 +260,23 @@ export default class NeedlePlot extends Component {
                 legendgroup: dom.name,
                 marker: {color: fixed_domain_colors[i]},
             });
-            // Range of the protein domain on the xaxis
-            shapes.push({
-                type: 'rect',
-                x0: x0,
-                x1: x1,
-                y0: -0.1,
-                y1: Y_BUFFER * -1,
-                fillcolor: fixed_domain_colors[i],
-                line: {width: 0},
-            });
-            */
-
-            const [line_x, line_y] = create_horizontal_line(x0, x1, -1, 100);
-
+            const [line_x, line_y] = create_horizontal_line(
+                x0,
+                x1,
+                Y_BUFFER / -2,
+                x1 - x0
+            );
             sequenceDomains.push({
                 type: 'scatter',
                 mode: 'lines',
                 x: line_x,
                 y: line_y,
+                xaxis: 'x2',
                 showlegend: false,
-                yaxis: 'y2',
                 hoverinfo: 'name',
-                name: `${dom.name} (${x0},${x1})`,
+                name: `[${x0}->${x1}] ${dom.name}`,
                 marker: {color: fixed_domain_colors[i]},
-                line: {width: 35},
+                line: {width: DOMAIN_WIDTH},
             });
 
             // Name of the protein domain
@@ -310,17 +296,30 @@ export default class NeedlePlot extends Component {
             const x1 = Number(dom.split('-')[1]);
             const domainLength = x1 - x0;
             const gname = groups[x.indexOf(dom)];
+            const [line_x, line_y] = create_horizontal_line(
+                x0,
+                x1,
+                Y_BUFFER / -2,
+                x1 - x0
+            );
             // Range of the protein domain on the xaxis
-            shapes.push({
-                type: 'rect',
+            sequenceDomains.push({
+                type: 'scatter',
+                mode: 'lines',
+                x: line_x,
+                y: line_y,
+                xaxis: 'x2',
+                hoverinfo: 'name+text',
                 name: gname,
-                x0: x0,
-                x1: x1,
-                y0: -0.1,
-                y1: Y_BUFFER * -1,
-                fillcolor:
-                    fixed_needle_colors[[...new Set(groups)].indexOf(gname)], //'#ccccb3',
-                line: {width: 0},
+                text: `[${x0}->${x1}] `,
+                showlegend: false,
+                marker: {
+                    color:
+                        fixed_needle_colors[
+                            [...new Set(groups)].indexOf(gname)
+                        ],
+                },
+                line: {width: DOMAIN_WIDTH},
             });
         });
 
@@ -343,6 +342,7 @@ export default class NeedlePlot extends Component {
                 mode: 'markers',
                 x: x_single_site,
                 y: stemsY,
+                xaxis: 'x1',
                 hoverinfo: hoverinfo,
                 text: hoverlabels,
                 error_y: {
@@ -371,16 +371,28 @@ export default class NeedlePlot extends Component {
                 ],
             },
         ].concat(sequenceDomains);
-
         return {data, shapes, globalAnnotation, domainAnnotations};
     }
 
     // Fetch layout
     prepareLayout(vars) {
-        const {shapes, globalAnnotation, domainAnnotations} = vars;
+        const {data, shapes, globalAnnotation, domainAnnotations} = vars;
         const {xlabel, ylabel} = this.props;
-        const {xStart, xEnd} = this.state;
+        let {xStart, xEnd} = this.state;
 
+        // initialize the range based on input data
+        if (Boolean(!xStart) || Boolean(!xEnd)) {
+            data.forEach(trace => {
+                const X_DATA_MIN = Math.min.apply(null, trace['x']);
+                const X_DATA_MAX = Math.max.apply(null, trace['x']);
+                if (xStart > X_DATA_MIN || Boolean(!xStart)) {
+                    xStart = X_DATA_MIN;
+                }
+                if (xEnd < X_DATA_MAX || Boolean(!xEnd)) {
+                    xEnd = X_DATA_MAX;
+                }
+            });
+        }
         const layout = {
             legend: {
                 orientation: 'v',
@@ -390,17 +402,45 @@ export default class NeedlePlot extends Component {
             },
             hovermode: 'closest',
             xaxis: {
-                title: xlabel,
-                rangeslider: {},
+                title: 'xaxis', //xlabel,
+                titlefont: {
+                    color: '#1f77b4',
+                },
+                tickfont: {
+                    color: '#1f77b4',
+                },
+                rangeslider: {range: [xStart, xEnd]},
                 showgrid: false,
                 zeroline: false,
                 autorange: Boolean(!xStart),
                 range: [xStart, xEnd],
+                anchor: 'y',
+            },
+            xaxis2: {
+                title: 'xaxis2 label',
+                titlefont: {
+                    color: '#ff7f0e',
+                },
+                tickfont: {
+                    color: '#ff7f0e',
+                },
+                //showgrid: false,
+                //zeroline: false,
+                scaleanchor: 'x',
+                autorange: Boolean(!xStart),
+                range: [xStart, xEnd],
+                anchor: 'y',
+                overlaying: 'x',
             },
             yaxis: {
+                title: 'yaxis label',
+                titlefont: {
+                    color: '#d62728',
+                },
                 title: ylabel,
                 showgrid: false,
                 ticks: 'inside',
+                //domain: [0.55, 1],
             },
             margin: {t: 100, l: 40, r: 0, b: 40},
             shapes: shapes,
@@ -463,12 +503,11 @@ NeedlePlot.propTypes = {
     // Colors of the shaded domains on the needle plot
     domainColors: PropTypes.array,
 
-     /**
+    /**
      * Dash-assigned callback that should be called whenever any of the
      * properties change
      */
-    setProps: PropTypes.func
-
+    setProps: PropTypes.func,
 };
 
 NeedlePlot.defaultProps = {
