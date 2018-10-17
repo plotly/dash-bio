@@ -51,6 +51,20 @@ function extract_small_domains(protein_pos_array) {
 }
 
 /*
+create two arrays of value for plotting horizontal lines with many markers
+*/
+function create_horizontal_line(xi, xf, y, n) {
+    let line_x = [];
+    let line_y = [];
+    const dx = (xf - xi) / n;
+    for (let i = 0; i < n; i++) {
+        line_x.push(xi + i * dx);
+        line_y.push(y);
+    }
+    return [line_x, line_y];
+}
+
+/*
 take the min of an array ignoring the NaN values
 */
 function nanmin(test_array) {
@@ -261,6 +275,22 @@ export default class NeedlePlot extends Component {
                 y1: Y_BUFFER * -1,
                 fillcolor: fixed_domain_colors[i],
                 line: {width: 0},
+            });
+            */
+
+            const [line_x, line_y] = create_horizontal_line(x0, x1, -1, 100);
+
+            sequenceDomains.push({
+                type: 'scatter',
+                mode: 'lines',
+                x: line_x,
+                y: line_y,
+                showlegend: false,
+                yaxis: 'y2',
+                hoverinfo: 'name',
+                name: `${dom.name} (${x0},${x1})`,
+                marker: {color: fixed_domain_colors[i]},
+                line: {width: 35},
             });
 
             // Name of the protein domain
