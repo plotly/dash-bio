@@ -1,56 +1,85 @@
 version: 2
 
-workflows:
-  version: 2
-  test:
-    jobs:
-      - test-themes
-
 jobs:
-  test-themes:
-    working_directory: ~/repo
+    "node":
+        docker:
+            - image: circleci/node:8.11.3
 
-    docker:
-      - image: circleci/python:3.6-node-browsers
+        steps:
+            - checkout
 
-    steps:
-      - checkout
+            - restore_cache:
+                key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
 
-      - restore_cache:
-          name: Python requirements cache
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+            - run:
+                name: Install package.json
+                command: npm i
 
-      - restore_cache:
-          name: Node dependencies cache
-          key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
+            - save_cache:
+                key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
+                paths:
+                    - node_modules
 
-      - run:
-          name: Create virtualenv
-          command: |
-            python3 -m venv venv
+            - run:
+                name: Run eslint
+                command: ./node_modules/.bin/eslint src
+                when: always
 
-      - run:
-          name: Install dependencies
-          command: |
-            . venv/bin/activate
-            pip install -r requirements.txt --quiet
-            npm install --quiet
 
-      - save_cache:
-            key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-            paths:
-              - "venv"
+    "python-3.6":
+        docker:
+            - image: circleci/python:3.6-stretch-browsers
 
-      - run:
-          name: Integration Tests
-          command: |
-            . venv/bin/activate
-            python -W ignore -m unittest tests.test_integration
-          when: always
+        environment:
+            PERCY_ENABLED: False
 
-      - store_artifacts:
-          path: seleniumShot.png
-          destination: screenshot
+        steps:
+            - checkout
 
-      - store_artifacts:
-          path: /tmp/artifacts
+            - restore_cache:
+                key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}
+
+            - run:
+                name: Create virtualenv
+                command: |
+                    python3 -m venv venv
+
+            - run:
+                name: Install requirements
+                command: |
+                    . venv/bin/activate
+                    pip install -r tests/requirements.txt --quiet
+
+            - save_cache:
+                key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}
+                paths:
+                    - "venv"
+
+            - run:
+                name: Run pylint
+                command: |
+                    . venv/bin/activate
+                    pylint usage.py tests
+                when: always
+
+            - run:
+                name: Run flake8
+                command: |
+                    . venv/bin/activate
+                    flake8 usage.py tests
+                when: always
+
+            - run:
+                name: Integration Tests
+                command: |
+                    . venv/bin/activate
+                    python -m unittest tests.test_render
+                when: always
+
+
+workflows:
+    version: 2
+    build:
+        jobs:
+            - "python-3.6"
+            - "node"
