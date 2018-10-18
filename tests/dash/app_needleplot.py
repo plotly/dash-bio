@@ -48,14 +48,12 @@ def layout():
                 children=[
                     html.H2('Dash bio: Needle plot'),
                     html.Img(
-                        src='https://s3-us-west-1.amazonaws.com/plotly'
-                            '-tutorials/excel/dash-daq/dash-daq-logo'
-                            '-by-plotly-stripe.png',
+                        src='assets/dashbio_logo.svg',
                         style={
                             'height': '100',
                             'float': 'right',
                         }
-                    )
+                    ),
                 ],
                 style={
                     'width': '100%',
