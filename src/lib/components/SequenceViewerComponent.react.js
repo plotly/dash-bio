@@ -14,14 +14,11 @@ export default class SequenceViewerComponent extends Component {
     constructor(props) {
 	super(props);
 	this.props.onMouseSelection = (e) => {
-	    if(e.detail) {
-		this.props.setProps({mouseSelection: e.detail['selection']});
-	    }
+	    e.detail && this.props.setProps({mouseSelection: e.detail['selection']});
 	}
 	this.props.onSubpartSelected = (e) => {
-	    if(e.detail) {
-		this.props.setProps({subpartSelected: e.detail});
-	    }
+	    console.warn(e.detail);
+	    e.detail && this.props.setProps({subpartSelected: e.detail});
 	}
     }
 
@@ -31,13 +28,12 @@ export default class SequenceViewerComponent extends Component {
 	       subpartSelected,
 	       mouseSelection,
 	       setProps} = this.props;
-
-	var cov = coverage;
+	
+//	var cov = coverage;
 	if(coverage) {
-	    var i;
-	    for(i = 0; i < cov.length; i++) {
+	    for(var i = 0; i < coverage.length; i++) {
 		const v = i;
-		cov[i].onclick = (e) => {
+		coverage[i].onclick = (e) => {
 		    setProps({
 			coverageClicked: v
 		    });
@@ -46,7 +42,7 @@ export default class SequenceViewerComponent extends Component {
 	}
 	
 	setProps({
-	    coverage: cov,
+	    coverage: coverage
 	});
     }
     
@@ -78,7 +74,7 @@ export default class SequenceViewerComponent extends Component {
 	    return true;
 	}
 
-	if(selection != null){
+	if(selection != null && nextProps.selection != null){
 	    // go through selection
 	    for (var propertyName in selection) {
 		if(nextProps.selection[propertyName] !==
@@ -88,7 +84,7 @@ export default class SequenceViewerComponent extends Component {
 	    }
 	}
 
-	if(coverage != null){
+	if(coverage != null && nextProps.coverage != null){
 	    // go through coverage
 	    // save some time by comparing lengths first
 	    if(coverage.length != nextProps.coverage.length){
@@ -113,7 +109,8 @@ export default class SequenceViewerComponent extends Component {
     render() {
 	
 	const id = this.props.id;
-	
+	const seq = this.props.sequence;
+
 	const options = {
 	    showLineNumbers: this.props.showLineNumbers,
 	    wrapAminoAcids: this.props.wrapAminoAcids,
@@ -130,14 +127,13 @@ export default class SequenceViewerComponent extends Component {
 	    legend: this.props.legend
 	};
 
-/*	if(this.props.coverage){
+	if(this.props.coverage){
 	    options.coverage = this.props.coverage;
 	}
 	if(this.props.selection){
 	    options.selection = this.props.selection;
 	}
-*/	
-	const seq = this.props.sequence;
+
 
 	return (
 		<div id={id}>
