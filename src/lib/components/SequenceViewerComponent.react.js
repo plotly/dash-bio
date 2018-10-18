@@ -29,7 +29,6 @@ export default class SequenceViewerComponent extends Component {
 	       mouseSelection,
 	       setProps} = this.props;
 	
-//	var cov = coverage;
 	if(coverage) {
 	    for(var i = 0; i < coverage.length; i++) {
 		const v = i;

@@ -14,6 +14,21 @@ app.css.config.serve_locally = True
 proteinFolder = 'proteins'
 sequence = '-'
 
+coverage = [
+    {'start': 0,
+     'end': 240,
+     'color': 'rgb(0,255,0)',
+     'bgcolor': 'rgb(0,0,0)',
+     'tooltip': 'first',
+     'underscore': False},
+    {'start': 240,
+     'end': 500,
+     'color': 'rgb(255, 0, 0)',
+     'bgcolor': 'rgb(0,0,255)',
+     'tooltip': 'second',
+     'underscore': True}
+]
+
 highlightColor = 'blue'
 
 selection = [10, 20, highlightColor]
@@ -61,7 +76,8 @@ app.layout = html.Div([
                 title="",
                 wrapAminoAcids=True,
                 search=True,
-                sequence='-',
+                sequence=sequence,
+                coverage=coverage,
                 selection=[]
             )
         ]
@@ -142,7 +158,7 @@ app.layout = html.Div([
                 }
             ),
             html.Div(
-                id='test-coverage'
+                id='test-coverage-clicked'
             ),
             html.Br(),
 
@@ -175,9 +191,10 @@ app.layout = html.Div([
 @app.callback(
     Output('sequence-viewer-container', 'children'),
     [Input('upload-fasta-data', 'contents'),
-     Input('protein-dropdown', 'value')]
+     Input('protein-dropdown', 'value'),
+     Input('selection-or-coverage', 'value')]
 )
-def update_sequence(upload_contents, p):
+def update_sequence(upload_contents, p, sel_or_cov):
     data = ''
     try:
         content_type, content_string = upload_contents.split(',')
@@ -192,6 +209,7 @@ def update_sequence(upload_contents, p):
                 wrapAminoAcids=True,
                 search=True,
                 sequence='-',
+                coverage=[],
                 selection=[]
             )
         ]
@@ -201,7 +219,13 @@ def update_sequence(upload_contents, p):
         title = protein['description']['accession']
     except KeyError:
         title = ''
-
+    print(sel_or_cov)
+    if(sel_or_cov == 'sel'):
+        cov = None
+        sel = [0, 0, highlightColor]
+    else:
+        cov = coverage
+        sel = None
     return [
         dash_bio.SequenceViewerComponent(
             id='sequence-viewer',
@@ -209,11 +233,35 @@ def update_sequence(upload_contents, p):
             wrapAminoAcids=True,
             search=True,
             sequence=sequence,
-            selection=[]
+            coverage=cov,
+            selection=sel
         )
     ]
 
+'''
+@app.callback(
+    Output('sequence-viewer', 'selection'),
+    [Input('selection-or-coverage', 'value')]
+)
+def activate_deactivate_selection(v):
+    if(v == 'sel'):
+        return []
+    else:
+        return None
+'''
 
+    
+@app.callback(
+    Output('sequence-viewer', 'coverage'),
+    [Input('selection-or-coverage', 'value')]
+)
+def activate_deactivate_coverage(v):
+    if(v == 'cov'):
+        return coverage
+    else:
+        return []
+
+    
 # controls
 @app.callback(
     Output('sel-slider', 'disabled'),
@@ -232,7 +280,7 @@ def enable_disable_slider(v):
 )
 def update_sel(v, v2):
     if(v2 != 'sel'):
-        return []
+        return None
     return [v[0], v[1], highlightColor]
 
 
@@ -285,10 +333,15 @@ def update_slider_values(seq):
     state=[State('sequence-viewer', 'sequence')]
 )
 def get_aa_comp(v, seq):
+    if(v is None):
+        return ''
     if(len(v) < 2):
         return ''
-    
-    subsequence = seq[v[0]:v[1]]
+    print(v)
+    try:
+        subsequence = seq[v['low']:v['high']]
+    except TypeError:
+        return html.Table([])
     aminoAcids = list(set(subsequence))
     summary = []
     for aa in aminoAcids:
@@ -297,6 +350,14 @@ def get_aa_comp(v, seq):
                      html.Td(str(subsequence.count(aa)))])
         )
     return html.Table(summary)
+
+
+@app.callback(
+    Output('test-coverage-clicked', 'children'),
+    [Input('sequence-viewer', 'coverageClicked')]
+)
+def update_cov_clicked(v):
+    return v
 
 
 @app.callback(
