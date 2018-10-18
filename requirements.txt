@@ -1,7 +1,9 @@
 # Switch into a virtual environment
 # pip install -r requirements.txt
+numpy
 dash
 dash-core-components
 dash-html-components
 dash-renderer
 gunicorn
+
