@@ -3,8 +3,14 @@ import dash
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
+import json
 
-path = "/static/data/bands/native/"
+with open('test.json', 'r') as testJSON:
+    test = json.load(testJSON) 
+
+with open('test_one.json', 'r') as test_oneJSON:
+    test_one = json.load(test_oneJSON) 
+
 
 app = dash.Dash('')
 
@@ -44,7 +50,7 @@ app.layout = html.Div([
                                                         {'label': 'Mouse',
                                                          'value': 'mouse'},
                                                         {'label': 'Rattus-norvegicus',
-                                                         'value': 'rattus-norvegicus'},
+                                                         'value': 'Rattus-norvegicus'},
                                                         {'label': 'Homo-sapiens-400',
                                                          'value': 'homo-sapiens-400'},
                                                         {"label": "Drosophila-Melanogaster",
@@ -344,8 +350,7 @@ app.layout = html.Div([
                                     [
                                         dash_bio.DashIdeogram(
                                             id="ideo",
-                                            dataDir="/static/data/bands/native/",
-                                            organism="human",
+                                            dataDir='https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/',
                                             orientation="vertical",
                                             showBandLabels=True,
                                             chrHeight=400,
@@ -512,13 +517,23 @@ app.layout = html.Div([
                                 html.P(
                                     id="brushPrint",
                                 ),
-                            ], className="three columns"
+                                dcc.Dropdown(
+                                    id="brush-organism",
+                                    options=[
+                                        {'label': 'Human',
+                                         'value': 'test'},
+                                        {'label': 'Mouse',
+                                         'value': 'test_one'},
+                                    ],
+                                    value="test"
+                                            )   
+                                    ], className="three columns"
                         ),
                         html.Div(
                             [
                                 dash_bio.DashIdeogram(
                                     id="brush-ideo",
-                                    dataDir="/static/data/bands/native/",
+                                    localOrganism=test_one,
                                     organism='human',
                                     chromosomes=['1'],
                                     brush='chr1:1-10000000',
@@ -553,7 +568,7 @@ def brush_data(brush_data):
         return (start + to + extent)
     return
 
-# Organism
+#Organism
 
 
 @app.callback(
@@ -562,6 +577,20 @@ def brush_data(brush_data):
 )
 def organism_change(dropdown):
     return dropdown
+
+
+@app.callback(
+    Output("ideo", "localOrganism"),
+    [Input("organism-change", "value")]
+)
+def organism_change(dropdown):
+    if dropdown == "human":
+        print("test")
+        return test
+    elif dropdown == "mouse":
+        print("test_one")
+        return test_one
+
 
 # showBandLabels
 
@@ -939,6 +968,17 @@ def ideo_select(value):
     else:
         return 'chr1:1-10000000'
 
+# Organism
+@app.callback(
+    Output("brush-ideo", "localOrganism"),
+    [Input("brush-organism", "value")]
+)
+def organism_change(dropdown):
+    if dropdown == "test":
+        return test
+    elif dropdown == "test_one":
+        return test_one
+
 @app.callback(
     Output("title", "style"),
     [Input("ideo", "rotated")],
@@ -961,5 +1001,6 @@ def annoteData(data):
     if data == None:
         return "None"
     return data
+
 if __name__ == '__main__':
     app.run_server(debug=False)

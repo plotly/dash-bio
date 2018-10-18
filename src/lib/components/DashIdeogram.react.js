@@ -3,6 +3,7 @@ import Ideogram from 'ideogram';
 import PropTypes from 'prop-types';
 
 
+
 /**
  * The Dash Ideogram is used to draw and animate genome-wide
  * datasets for organisms such as an human, mouse, and any
@@ -18,8 +19,9 @@ class DashIdeogram extends Component {
         super(props);
         this.ideogram = null;
         this.isRotated = false;
+        this.tooltipData = null;
+        this.tooltipDataTwo = null;
         this.config = {}
-        this.tooltipData = null
         this.clearDiv = this.clearDiv.bind(this);
         this.onBrushHandler = this.onBrushHandler.bind(this)
         this.onLoadHandler = this.onLoadHandler.bind(this);
@@ -28,15 +30,15 @@ class DashIdeogram extends Component {
         this.onToolTipHandler = this.onToolTipHandler.bind(this)
         this.setConfig = this.setConfig.bind(this)
     }
-    
+
     clearDiv() {
         const container = document.getElementById('ideogram-container');
-        console.warn('[clearDiv] Before', container.hasChildNodes()) 
-            while (container.hasChildNodes()) {
-                container.removeChild(container.firstChild)  
+        console.warn('[clearDiv] Before', container.hasChildNodes())
+        while (container.hasChildNodes()) {
+            container.removeChild(container.firstChild)
         }
-        
-        console.warn('[clearDiv] After', container.hasChildNodes()) 
+
+        console.warn('[clearDiv] After', container.hasChildNodes())
     }
 
 
@@ -48,65 +50,65 @@ class DashIdeogram extends Component {
         var chromosomes = this.props.chromosomes
         var homology = this.props.homology
 
-        if(typeof(this.props.organism) !== "string") {
-        chrOne = chrs[homology.chrOne.organism][chromosomes[organism[0]]]
-        chrTwo = chrs[homology.chrTwo.organism][chromosomes[organism[1]]]
+        if (typeof (this.props.organism) !== "string") {
+            chrOne = chrs[homology.chrOne.organism][chromosomes[organism[0]]]
+            chrTwo = chrs[homology.chrTwo.organism][chromosomes[organism[1]]]
         }
         else {
-        chrOne = chrs[homology.chrOne.organism][chromosomes[0]]
-        chrTwo = chrs[homology.chrTwo.organism][chromosomes[1]]
+            chrOne = chrs[homology.chrOne.organism][chromosomes[0]]
+            chrTwo = chrs[homology.chrTwo.organism][chromosomes[1]]
         }
 
-        var par1X = {chr: chrOne, start: homology.chrOne.start[0], stop: homology.chrOne.stop[0]};
-        var par1Y = {chr: chrTwo, start: homology.chrTwo.start[0], stop: homology.chrTwo.stop[0]};
-    
-        var par2X = {chr: chrOne, start: homology.chrOne.start[1], stop: homology.chrOne.stop[1]};
-        var par2Y = {chr: chrTwo, start: homology.chrTwo.start[1], stop: homology.chrTwo.stop[1]};
-        
+        var par1X = { chr: chrOne, start: homology.chrOne.start[0], stop: homology.chrOne.stop[0] };
+        var par1Y = { chr: chrTwo, start: homology.chrTwo.start[0], stop: homology.chrTwo.stop[0] };
+
+        var par2X = { chr: chrOne, start: homology.chrOne.start[1], stop: homology.chrOne.stop[1] };
+        var par2Y = { chr: chrTwo, start: homology.chrTwo.start[1], stop: homology.chrTwo.stop[1] };
+
         var regions = [
-            {'r1': par1X, 'r2': par1Y},
-            {'r1': par2X, 'r2': par2Y}
+            { 'r1': par1X, 'r2': par1Y },
+            { 'r1': par2X, 'r2': par2Y }
         ];
-        
+
         this.ideogram.drawSynteny(regions);
     }
 
     onToolTipHandler() {
-        console.warn("onToolTipHandler", this.tooltipData)
-        
-        if (this.props.setProps) {
-            this.tooltipData = document.getElementById('tooltip').innerHTML;
-            this.props.setProps(
-                {
-                    annotationsData: this.tooltipData
-                }
-            )
-        }
+        console.warn("onToolTipHandler")
+        this.tooltipDataTwo = this.tooltipData
+        if (this.props.setProps){
+        this.props.setProps(
+            console.warn("onToolTipHandlerFired"),
+            {
+                annotationsData: this.tooltipData
+            }
+        )
     }
-        
+}
 
     onBrushHandler() {
-        console.warn("onBrushHandler")
         var r = this.ideogram.selectedRegion,
             start = r.from.toLocaleString(),
             end = r.to.toLocaleString(),
             extent = r.extent.toLocaleString();
 
         if (this.props.brush) {
-            this.props.setProps(
-                {
-                    brushData: {
-                        start: start,
-                        end: end,
-                        extent: extent
+            if (this.props.setProps) {
+                this.props.setProps(
+                    {
+                        brushData: {
+                            start: start,
+                            end: end,
+                            extent: extent
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 
     onLoadHandler() {
-        if (this.props.brush){
+        if (this.props.brush) {
             console.warn("oLH Brush")
             this.onBrushHandler();
         }
@@ -120,72 +122,75 @@ class DashIdeogram extends Component {
     onRotateHandler() {
 
         (this.isRotated) ? (this.isRotated = false) : (this.isRotated = true)
-        
+
         if (this.props.setProps) {
 
-        this.props.setProps(
-            {
-                rotated: this.isRotated
-            }
-        )
+            this.props.setProps(
+                {
+                    rotated: this.isRotated
+                }
+            )
         }
         console.warn("onDidRotate", this.isRotated)
         return
     }
-    
+
     setConfig() {
+        console.warn("dataDir", this.props.dataDir)
         this.config = {
             ancestors: this.props.ancestors,
-            assembly:this.props.assembly, //
-            annotations:this.props.annotations,  //
-            annotationsPath:this.props.annotationsPath,  //
-            annotationsLayout:this.props.annotationsLayout,  //
-            annotationHeight:this.props.annotationHeight,  //
-            annotationsColor:this.props.annotationsColor,  //
+            assembly: this.props.assembly, //
+            annotations: this.props.annotations,  //
+            annotationsPath: this.props.annotationsPath,  //
+            annotationsLayout: this.props.annotationsLayout,  //
+            annotationHeight: this.props.annotationHeight,  //
+            annotationsColor: this.props.annotationsColor,  //
             annotationTracks: this.props.annotationTracks,  //
-            barWidth:this.props.barWidth,
-            brush:this.props.brush,  //
+            barWidth: this.props.barWidth,
+            brush: this.props.brush,  //
             container: '#ideogram-container',
-            chromosomes:this.props.chromosomes,
-            chrHeight:this.props.chrHeight, //
-            chrMargin:this.props.chrMargin, //
-            chrWidth:this.props.chrWidth, //
-            organism:this.props.organism, //
+            chromosomes: this.props.chromosomes,
+            chrHeight: this.props.chrHeight, //
+            chrMargin: this.props.chrMargin, //
+            chrWidth: this.props.chrWidth, //
+            organism: this.props.organism, //
             dataDir: this.props.dataDir,  //
-            filterable:this.props.filterable,
+            filterable: this.props.filterable,
             fullChromosomeLabels: this.props.fullChromosomeLabels,
-            heatmaps:this.props.heatmaps,
+            heatmaps: this.props.heatmaps,
             isAnnotationHovered: this.props.isAnnotationHovered,
-            histogramScaling:this.props.histogramScaling,
-            ploidy:this.props.ploidy,  //
-            ploidyDesc:this.props.ploidyDesc,
-            showBandLabels:this.props.showBandLabels, // 
-            perspective:this.props.perspective,  //
-            orientation:this.props.orientation,  //
+            histogramScaling: this.props.histogramScaling,
+            ploidy: this.props.ploidy,  //
+            ploidyDesc: this.props.ploidyDesc,
+            showBandLabels: this.props.showBandLabels, // 
+            perspective: this.props.perspective,  //
+            orientation: this.props.orientation,  //
             onDidRotate: this.onRotateHandler,  //
             onBrushMove: (this.props.brush) ? this.onBrushHandler : null,  //
             onLoad: this.onLoadHandler,  //
-            onDrawAnnots:this.props.onDrawAnnots,
-            rangeSet:this.props.rangeSet,
-            rotatable:this.props.rotatable,  //
+            onDrawAnnots: this.props.onDrawAnnots,
+            rangeSet: this.props.rangeSet,
+            rotatable: this.props.rotatable,  //
             rotated: this.props.rotated,
-            rows:this.props.rows,  // 
-            resolution:this.props.resolution,  //
-            sex:this.props.sex,  //
-            showChromosomeLabels:this.props.showChromosomeLabels,  //
-            showFullyBanded:this.props.showFullyBanded,  //
-            showNonNuclearChromosomes:this.props.showNonNuclearChromosomes  //
+            rows: this.props.rows,  // 
+            resolution: this.props.resolution,  //
+            sex: this.props.sex,  //
+            showChromosomeLabels: this.props.showChromosomeLabels,  //
+            showFullyBanded: this.props.showFullyBanded,  //
+            showNonNuclearChromosomes: this.props.showNonNuclearChromosomes  //
         }
     }
 
     shouldComponentUpdate(nextProps) {
         const container = document.getElementById('ideogram-container');
 
-            if ((this.props.annotationsLayout !== nextProps.annotationsLayout)
+        if ((this.props.annotationsLayout !== nextProps.annotationsLayout)
             || (this.props.annotationsPath !== nextProps.annotationsPath)) {
-                return true
-            }
-            return (((this.props.organism !== nextProps.organism)
+            return true
+        }
+        return ((
+            (this.props.localOrganism !== nextProps.localOrganism) 
+            || (this.props.organism !== nextProps.organism)
             || (this.props.showBandLabels !== nextProps.showBandLabels)
             || (this.props.orientation !== nextProps.orientation)
             || (this.props.dataDir !== nextProps.dataDir)
@@ -212,33 +217,43 @@ class DashIdeogram extends Component {
             || (this.props.barWidth !== nextProps.barWidth)
             || (this.props.filterable !== nextProps.filterable)
             || (this.props.homology !== nextProps.homology))
-                && container.hasChildNodes())
+            && container.hasChildNodes())
     }
 
-    componentDidMount() {   
+    componentDidMount() {
         console.warn("CDM")
         const container = document.getElementById('ideogram-container');
-        if (container.hasChildNodes()){
-        delete window.chrBands;
-        this.clearDiv();
-        }                                                             
+        if (container.hasChildNodes()) {
+            delete window.chrBands;
+            this.clearDiv();
+        }
+        if (this.props.localOrganism) {
+            window.chrBands = this.props.localOrganism
+            }
         this.setConfig();
         // this.config = this.props.config
         this.ideogram = new Ideogram(this.config);
     }
-    
-    componentWillUnmount(){
+
+    componentWillUnmount() {
         delete window.chrBands;
         this.clearDiv();
     }
     componentDidUpdate(prevProps) {
-        console.warn("CDU this", this.props)   
-        console.warn("CDU prev", prevProps) 
-        delete window.chrBands;
+        console.warn("CDU this", this.props)
+        console.warn("CDU prev", prevProps)
+
+        delete window.chrBands
         this.clearDiv();
+        if (this.props.localOrganism) {
+        window.chrBands = this.props.localOrganism
+        }
         this.setConfig();
         // this.config = this.props.config
+
         this.ideogram = new Ideogram(this.config);
+        console.warn("this.ideogram", this.ideogram.response)
+
     }
 
     render() {
@@ -269,6 +284,7 @@ class DashIdeogram extends Component {
             heatmaps,
             isAnnotationHovered,
             histogramScaling,
+            localOrganism,
             organism,
             showBandLabels,
             orientation,
@@ -290,66 +306,73 @@ class DashIdeogram extends Component {
 
         return (
             <div id={id} className={className}>
-            <div 
-            style={style}
-            id='ideogram-container'
-            ancestors={ancestors}
-            assembly={assembly} //x
-            annotations={annotations}
-            annotationsData={annotationsData}
-            annotationsPath={annotationsPath} //x
-            annotationsLayout={annotationsLayout} //x
-            annotationHeight={annotationHeight} //x 
-            annotationsColor={annotationsColor} //x
-            annotationTracks={annotationTracks} //x
-            barWidth={barWidth} //x
-            brush={brush} //X
-            brushData={brushData}
-            chromosomes={chromosomes}
-            chrHeight={chrHeight} // x
-            chrMargin={chrMargin} // x
-            chrWidth={chrWidth} // x
-            config={this.props.config}
-            homology={homology}
-            isAnnotationHovered={isAnnotationHovered}
-            organism={organism} //x
-            dataDir={dataDir} // x
-            filterable={filterable} //x
-            fullChromosomeLabels={fullChromosomeLabels}
-            heatmaps={heatmaps} 
-            histogramScaling={histogramScaling}
-            ploidy={ploidy} //x
-            ploidyDesc={ploidyDesc}
-            showBandLabels={showBandLabels} //x
-            perspective={perspective}
-            orientation={orientation} // x
-            onWillShowAnnotTooltip={onWillShowAnnotTooltip}
-            onDrawAnnots={onDrawAnnots}
-            // onMouseOver={this.props.setProps ? this.onToolTipHandler : null}
-            onMouseOver={(event) => (
-                console.warn("Event", event.target)
-                )}
-            rangeSet={rangeSet}
-            rotatable={rotatable} // x
-            rotated={rotated}
-            rows={rows} // x
-            resolution={resolution} // x
-            sex={sex} //x
-            showChromosomeLabels={showChromosomeLabels}
-            showFullyBanded={showFullyBanded} //X kind of pointless
-            showNonNuclearChromosomes={showNonNuclearChromosomes} //X kind of pointless
-            ></div>
+                <div
+                    style={style}
+                    id='ideogram-container'
+                    ancestors={ancestors}
+                    assembly={assembly} //x
+                    annotations={annotations}
+                    annotationsData={annotationsData}
+                    annotationsPath={annotationsPath} //x
+                    annotationsLayout={annotationsLayout} //x
+                    annotationHeight={annotationHeight} //x 
+                    annotationsColor={annotationsColor} //x
+                    annotationTracks={annotationTracks} //x
+                    barWidth={barWidth} //x
+                    brush={brush} //X
+                    brushData={brushData}
+                    localOrganism={localOrganism}
+                    chromosomes={chromosomes}
+                    chrHeight={chrHeight} // x
+                    chrMargin={chrMargin} // x
+                    chrWidth={chrWidth} // x
+                    config={this.props.config}
+                    homology={homology}
+                    isAnnotationHovered={isAnnotationHovered}
+                    organism={organism} //x
+                    dataDir={dataDir} // x
+                    filterable={filterable} //x
+                    fullChromosomeLabels={fullChromosomeLabels}
+                    heatmaps={heatmaps}
+                    histogramScaling={histogramScaling}
+                    ploidy={ploidy} //x
+                    ploidyDesc={ploidyDesc}
+                    showBandLabels={showBandLabels} //x
+                    perspective={perspective}
+                    orientation={orientation} // x
+                    onWillShowAnnotTooltip={onWillShowAnnotTooltip}
+                    onDrawAnnots={onDrawAnnots}
+                    // onMouseOver={this.props.setProps ? this.onToolTipHandler : null}
+                    // onMouseOver={(event) => (event.target.id === "tooltip" ? this.onToolTipHandler(): null)}
+                    onMouseOver={() => {
+                        if (this.props.setProps) {
+                            this.tooltipData = document.getElementById('tooltip').innerHTML;
+                            ((this.tooltipData !== this.tooltipDataTwo) ? this.onToolTipHandler() : this.tooltipDataTwo = document.getElementById('tooltip').innerHTML);
+                        }
+                    }
+                    }
+                    rangeSet={rangeSet}
+                    rotatable={rotatable} // x
+                    rotated={rotated}
+                    rows={rows} // x
+                    resolution={resolution} // x
+                    sex={sex} //x
+                    showChromosomeLabels={showChromosomeLabels}
+                    showFullyBanded={showFullyBanded} //X kind of pointless
+                    showNonNuclearChromosomes={showNonNuclearChromosomes} //X kind of pointless
+                ></div>
             </div>
         );
     }
 }
 
 DashIdeogram.defaultProps = {
-    organism: "human",
-    dataDir: 'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/'
+    organism:"human",
+    // dataDir: 'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/'
 }
 
 DashIdeogram.propTypes = {
+    localOrganism: PropTypes.object,
     annotationsData: PropTypes.string,
     onMouseOver: PropTypes.func,
     /**
@@ -414,12 +437,12 @@ DashIdeogram.propTypes = {
      * 
      * Overlay: Lay out annotations directly over chromsomes.
      */
-    annotationsLayout:PropTypes.number,
+    annotationsLayout: PropTypes.number,
 
     /**
      * Default: "#F00" (i.e., red). The color of each annotation.
      */
-    annotationsColor:PropTypes.string,
+    annotationsColor: PropTypes.string,
 
     /**
      * An absolute or relative URL directing to a JSON file containing
@@ -431,7 +454,7 @@ DashIdeogram.propTypes = {
      * Unspecified
      */
     annotationTracks: PropTypes.arrayOf(PropTypes.object),
-    
+
     /**
      * Default: latest RefSeq assembly for specified organism. The genome assembly to display. 
      * Takes assembly name (e.g. "GRCh37"), 
@@ -452,7 +475,7 @@ DashIdeogram.propTypes = {
      * able to focus on a region within that chromosome, 
      * and create an interactive sliding window to other regions
      */
-    
+
     brush: PropTypes.string,
 
     /**
@@ -472,7 +495,7 @@ DashIdeogram.propTypes = {
      * react-ideogram.js, this is where all the d3 magic happens.
      */
     container: PropTypes.string,
-    
+
     /**
      * Default: "ideogram-container"
      * Used to compare two chromosomes with each other.
@@ -496,22 +519,22 @@ DashIdeogram.propTypes = {
                 }
      */
     homology: PropTypes.object,
-    
+
     /**
      * Default:400. The pixel height of the tallest chromosome in the ideogram
      */
     chrHeight: PropTypes.number,
-    
+
     /**
      * Default: 10. The pixel space of margin bewteen each chromosome.
      */
     chrMargin: PropTypes.number,
-    
+
     /**
      * Default 10. The pixel width of each chromosome.
      */
     chrWidth: PropTypes.number,
-    
+
     /**
      * Default: all chromosomes in assembly. A list of the names of chromosomes to 
      * display. Useful for depicting a subset of the chromosomes in the genome, 
@@ -526,10 +549,10 @@ DashIdeogram.propTypes = {
         General case to specify specific chromosomes:
         Ex: chromosomes=['1', '2']
      */
-    chromosomes:PropTypes.oneOfType(
+    chromosomes: PropTypes.oneOfType(
         [
-        PropTypes.arrayOf(PropTypes.string),
-        PropTypes.object
+            PropTypes.arrayOf(PropTypes.string),
+            PropTypes.object
         ]
     ),
 
@@ -541,7 +564,7 @@ DashIdeogram.propTypes = {
      * for custom data.
      */
     dataDir: PropTypes.string,
-    
+
     /**
      * Unspecified
      */
@@ -551,15 +574,15 @@ DashIdeogram.propTypes = {
      * while "relative" sets bar height relative to tallest bar in each chromosome.
      */
     histogramScaling: PropTypes.string,
-    
+
     /**
      * This is a work in progess and will hopefully be fixed in future releases.
      */
     heatmaps: PropTypes.arrayOf(PropTypes.object),
-    
-    
+
+
     isAnnotationHovered: PropTypes.bool,
-    
+
     /**
      * Unspecified
      */
@@ -572,25 +595,25 @@ DashIdeogram.propTypes = {
      */
     organism: PropTypes.oneOfType(
         [
-        PropTypes.string,
-        PropTypes.array
+            PropTypes.string,
+            PropTypes.array
         ]
     ),
     /**
      * Default: horizontal. The orientation of chromosomes on the page.
      */
     orientation: PropTypes.string,
-    
+
     /**
      * Callback function to invoke when brush moves.
      */
     onBrushMove: PropTypes.func,
-    
+
     /**
      * Delete
      */
     onBrushMoveCallback: PropTypes.func,
-    
+
     /**
      * Callback function to invoke after chromosome has rotated. (React)
      */
@@ -600,13 +623,13 @@ DashIdeogram.propTypes = {
      * Callback function to invoke when annotations are drawn. (React)
      */
     onDrawAnnots: PropTypes.func,
-     
+
     /**
       * Callback function to invoke when chromosomes are loaded, 
       * i.e. rendered on the page. (React)
       */
     onLoad: PropTypes.func,
-    
+
     /**
      * Callback function to invoke immediately before annotation tooltip is shown. 
      * The tooltip shows the genomic range and, if available, name of the annotation. (React)
@@ -628,7 +651,7 @@ DashIdeogram.propTypes = {
      * Undefined
      */
     ploidyDesc: PropTypes.arrayOf(PropTypes.object),
-    
+
     /**
      * Undefined
      */
@@ -639,12 +662,12 @@ DashIdeogram.propTypes = {
      */
 
     rotatable: PropTypes.bool,
-    
+
     /**
      * Dash callback that returns True if rotated, and false if not.
      */
     rotated: PropTypes.bool,
-    
+
     /**
      * Default: highest resolution available for specified genome assembly. 
      * The resolution of cytogenetic bands to show for each chromosome. 
@@ -660,29 +683,29 @@ DashIdeogram.propTypes = {
      * Note: Not fully working needs to be fixed by developer.
      */
     rows: PropTypes.number,
-    
+
     /**
      * Default: Male. The biological sex of the organism. 
      * Useful for omitting chromosome Y in female mammals. 
      * Currently only supported for organisms that use XY sex-determination.
      */
     sex: PropTypes.string,
-    
+
     /**
      * Default: true. Whether to show chromosome labels, e.g. 1, 2, 3, X, Y.
      */
     showChromosomeLabels: PropTypes.bool,
 
-     /**
-     * Default: false. Whether to show cytogenetic band labels, e.g. 1q21
-     */
+    /**
+    * Default: false. Whether to show cytogenetic band labels, e.g. 1q21
+    */
     showBandLabels: PropTypes.bool,
 
     /**
      * Default: true. Whether to show a tooltip upon mousing over an annotation.
      */
     showAnnotTooltip: PropTypes.bool,
-    
+
     /**
      * Default: true. Whether to show fully banded chromosomes for genomes 
      * that have sufficient data. Useful for showing simpler chromosomes of 
@@ -690,7 +713,7 @@ DashIdeogram.propTypes = {
      * less studied organisms, e.g. chimpanzee.
      */
     showFullyBanded: PropTypes.bool,
-    
+
     /**
      * Default: false. Whether to show non-nuclear chromosomes, 
      * e.g. for mitochondrial (MT) and chloroplast (CP) DNA. 
