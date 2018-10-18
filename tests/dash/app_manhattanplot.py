@@ -4,6 +4,7 @@ import pandas as pd
 import dash
 import dash_html_components as html
 import dash_core_components as dcc
+from dash.dependencies import Input, Output
 
 import dash_bio
 
@@ -25,9 +26,7 @@ def layout():
                 children=[
                     html.H2('Dash bio: Manhattan plot'),
                     html.Img(
-                        src='https://s3-us-west-1.amazonaws.com/plotly'
-                            '-tutorials/excel/dash-daq/dash-daq-logo'
-                            '-by-plotly-stripe.png',
+                        src='assets/dashbio_logo.svg',
                         style={
                             'height': '100',
                             'float': 'right',
@@ -73,9 +72,42 @@ def layout():
                     ),
                     html.Div(
                         children=[
+                            html.H5(
+                                "Threshold value",
+                                style={
+                                    'color': "red",
+                                    'font-family': 'Ubuntu'
+                                }
+                            ),
+                            html.Div(
+                                children=dcc.Slider(
+                                    id='slider',
+                                    vertical=False,
+                                    updatemode='mouseup',
+                                    max=9,
+                                    min=1,
+                                    value=7,
+                                    marks={i + 1: '{}'.format(i + 1) for i in range(9)}
+                                ),
+                                style={
+                                    'width': "100%",
+                                    'margin': "2px"
+                                }
+                            )
+                        ],
+                        style={
+                            'width': "80%",
+                            'display': 'flex',
+                            'flexDirection': 'row',
+                            'alignItems': 'center',
+                            'justifyContent': 'space-between',
+                        }
+                    ),
+                    html.Div(
+                        children=[
                             dcc.Graph(
                                 figure=fig,
-                                id='graph'
+                                id='graph_manhattan'
                             ),
                         ],
                         style={
@@ -92,3 +124,15 @@ def layout():
             )
         ]
     )
+
+
+def callbacks(app):
+    @app.callback(
+        Output('graph_manhattan', 'figure'),
+        [
+            Input('slider', 'value'),
+        ]
+    )
+    def update_graph(slider_val):
+        """update the data sets upon change the genomewideline value"""
+        return create_manhattan(df, genomewideline_value=float(slider_val))

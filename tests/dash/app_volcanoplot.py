@@ -3,6 +3,7 @@
 import pandas as pd
 import dash_html_components as html
 import dash_core_components as dcc
+from dash.dependencies import Input, Output
 
 import dash_bio
 
@@ -36,9 +37,7 @@ def layout():
                 children=[
                     html.H2('Dash bio: Volcano plot'),
                     html.Img(
-                        src='https://s3-us-west-1.amazonaws.com/plotly'
-                            '-tutorials/excel/dash-daq/dash-daq-logo'
-                            '-by-plotly-stripe.png',
+                        src='assets/dashbio_logo.svg',
                         style={
                             'height': '100',
                             'float': 'right',
@@ -78,6 +77,57 @@ def layout():
                                 "or log fold-change.",
                                 style=text_style
                             ),
+                            html.Div(
+                                children=[
+                                    html.Div(
+                                        children=[
+                                            html.Div(
+                                                "Lower effect size",
+                                                style=text_style
+                                            ),
+                                            dcc.Input(
+                                                id='lower-bound',
+                                                value=-1,
+                                            ),
+                                        ],
+                                        style=vertical_style
+                                    ),
+                                    html.Div(
+                                        children=[
+                                            html.Div(
+                                                "Upper effect size",
+                                                style=text_style
+                                            ),
+                                            dcc.Input(
+                                                id='upper-bound',
+                                                value=1,
+                                            ),
+                                        ],
+                                        style=vertical_style
+                                    ),
+                                    html.Div(
+                                        children=[
+                                            html.Div(
+                                                "Threshold",
+                                                style=text_style
+                                            ),
+                                            dcc.Input(
+                                                id='genomic-line',
+                                                value=7,
+                                                max=10,
+                                                min=0
+                                            ),
+                                        ],
+                                        style=vertical_style
+                                    ),
+                                ],
+                                style={
+                                    'display': 'flex',
+                                    'flexDirection': 'row',
+                                    'alignItems': 'center',
+                                    'justifyContent': 'space-between',
+                                }
+                            ),
                         ],
                         style={
                             'width': '90%',
@@ -87,7 +137,7 @@ def layout():
                     html.Div(
                         children=dcc.Graph(
                             figure=fig,
-                            id='graph'
+                            id='graph_volcano'
                         ),
                     )
                 ],
@@ -101,3 +151,21 @@ def layout():
             )
         ]
     )
+
+
+def callbacks(app):
+    @app.callback(
+        Output('graph_volcano', 'figure'),
+        [
+            Input('upper-bound', 'value'),
+            Input('lower-bound', 'value'),
+            Input('genomic-line', 'value'),
+        ]
+    )
+    def update_graph(u_lim, l_lim, genomic_line):
+        """update the data set of interest upon change the dashed lines value"""
+        return create_volcano(
+            df,
+            genomewideline_value=float(genomic_line),
+            effect_size_line=[float(l_lim), float(u_lim)],
+        )
