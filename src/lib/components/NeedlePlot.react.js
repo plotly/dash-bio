@@ -382,7 +382,7 @@ export default class NeedlePlot extends Component {
     // Fetch layout
     prepareLayout(vars) {
         const {data, shapes, globalAnnotation, domainAnnotations} = vars;
-        const {xlabel, ylabel} = this.props;
+        const {xlabel, ylabel, rangeSlider} = this.props;
         let {xStart, xEnd} = this.state;
         let first_init = false;
         // initialize the range based on input data
@@ -399,7 +399,7 @@ export default class NeedlePlot extends Component {
                 }
             });
         }
-        const layout = {
+        let layout = {
             legend: {
                 orientation: 'v',
                 x: 1,
@@ -409,10 +409,6 @@ export default class NeedlePlot extends Component {
             hovermode: 'closest',
             xaxis: {
                 title: xlabel,
-                rangeslider:
-                    first_init === true
-                        ? {range: [xStart * 0.98, xEnd * 1.02]}
-                        : {},
                 showgrid: false,
                 zeroline: false,
                 autorange: Boolean(!xStart),
@@ -435,6 +431,12 @@ export default class NeedlePlot extends Component {
             shapes: shapes,
             annotations: domainAnnotations.concat(globalAnnotation),
         };
+        if (rangeSlider === true) {
+            layout['xaxis']['rangeslider'] =
+                first_init === true
+                    ? {range: [xStart * 0.98, xEnd * 1.02]}
+                    : {};
+        }
 
         return layout;
     }
@@ -477,6 +479,9 @@ NeedlePlot.propTypes = {
     // Title of the y-axis
     ylabel: PropTypes.string,
 
+    // if true enables a rangeslider for xaxis
+    rangeSlider: PropTypes.bool,
+
     // Color of the stem of the needle plot
     stemColor: PropTypes.string,
 
@@ -506,6 +511,7 @@ NeedlePlot.defaultProps = {
     y: [],
     domains: [],
     groups: [],
+    rangeSlider: false,
     onChange: () => {},
     stemColor: '#444',
     stemThickness: 0.5,
