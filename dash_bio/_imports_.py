@@ -1,6 +1,6 @@
-from .ExampleComponent import ExampleComponent
+from .NeedlePlot import NeedlePlot
 
 
 __all__ = [
-    "ExampleComponent",
+    "NeedlePlot",
 ]

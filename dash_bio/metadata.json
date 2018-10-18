@@ -1,36 +1,204 @@
 {
-  "src/lib/components/ExampleComponent.react.js": {
-    "description": "ExampleComponent is an example component.\nIt takes a property, `label`, and\ndisplays it.\nIt renders an input with the property `value`\nwhich is editable by the user.",
-    "displayName": "ExampleComponent",
-    "methods": [],
+  "src/lib/components/NeedlePlot.react.js": {
+    "description": "",
+    "displayName": "NeedlePlot",
+    "methods": [
+      {
+        "name": "handleChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "event",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "prepareTraces",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "prepareLayout",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "vars",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "id": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "The ID used to identify this compnent in Dash callbacks"
+        "description": "The ID of this component, used to identify dash components\r\nin callbacks. The ID needs to be unique across all of the\r\ncomponents in an app."
       },
-      "label": {
+      "data": {
         "type": {
-          "name": "string"
+          "name": "array"
         },
-        "required": true,
-        "description": "A label that will be printed when this component is rendered."
+        "required": false,
+        "description": ""
       },
-      "value": {
+      "x": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "array"
+            }
+          ]
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "y": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "array"
+            }
+          ]
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "groups": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "string"
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "domains": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "xlabel": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "The value displayed in the input"
+        "description": ""
+      },
+      "ylabel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "stemColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'#444'",
+          "computed": false
+        }
+      },
+      "stemThickness": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "0.5",
+          "computed": false
+        }
+      },
+      "stemConstHeight": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "needleColors": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[\r\n    '#e41a1c',\r\n    '#377eb8',\r\n    '#4daf4a',\r\n    '#984ea3',\r\n    '#ff7f00',\r\n    '#ffff33',\r\n    '#a65628',\r\n    '#f781bf',\r\n    '#999999',\r\n    '#e41a1c',\r\n    '#377eb8',\r\n    '#4daf4a',\r\n    '#984ea3',\r\n    '#ff7f00',\r\n    '#ffff33',\r\n    '#a65628',\r\n    '#f781bf',\r\n    '#999999',\r\n    '#e41a1c',\r\n]",
+          "computed": false
+        }
+      },
+      "domainColors": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[\r\n    '#8dd3c7',\r\n    '#ffffb3',\r\n    '#bebada',\r\n    '#fb8072',\r\n    '#80b1d3',\r\n    '#fdb462',\r\n    '#b3de69',\r\n    '#fccde5',\r\n    '#d9d9d9',\r\n    '#bc80bd',\r\n    '#ccebc5',\r\n    '#ffed6f',\r\n    '#8dd3c7',\r\n    '#ffffb3',\r\n    '#bebada',\r\n    '#fb8072',\r\n    '#80b1d3',\r\n    '#fdb462',\r\n    '#b3de69',\r\n]",
+          "computed": false
+        }
+      },
+      "onChange": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => {}",
+          "computed": false
+        }
       },
       "setProps": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change"
+        "description": "Dash-assigned callback that should be called whenever any of the\r\nproperties change"
       }
     }
   }
