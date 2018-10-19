@@ -7,3 +7,4 @@ dash-renderer
 gunicorn
 dash_bio
 pandas
+dash_auth
