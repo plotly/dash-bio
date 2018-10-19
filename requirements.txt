@@ -5,3 +5,9 @@ dash-core-components
 dash-html-components
 dash-renderer
 gunicorn
+dash_bio
+pandas
+json
+io
+datetime
+base64
