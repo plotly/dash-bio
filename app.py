@@ -9,7 +9,6 @@ import datetime
 import io
 import pandas as pd
 import json
-import test as test_data
 from auth import auth
 
 empty = dash_bio.DashCircos(
