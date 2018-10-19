@@ -7,7 +7,3 @@ dash-renderer
 gunicorn
 dash_bio
 pandas
-json
-io
-datetime
-base64
