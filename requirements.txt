@@ -5,6 +5,6 @@ dash-core-components
 dash-html-components
 dash-renderer
 gunicorn
-dash_bio
+dash_bio-0.0.1-ideogram.tar.gz
 pandas
 dash_auth
