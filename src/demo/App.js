@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {NeedlePlot} from '../lib';
 
-import mutData1 from '../../data/TP53_MUTATIONS.json';
-import regions1 from '../../data/TP53_REGIONS.json';
-import mutData2 from '../../data/ENST00000557334.json';
-import regions2 from '../../data/KRAS_protein.json';
-import mutData3 from '../../data/muts.json';
-import regions3 from '../../data/regions.json';
+import mutData1 from '../../tests/dash/data/TP53_MUTATIONS.json';
+import regions1 from '../../tests/dash/data/TP53_REGIONS.json';
+import mutData2 from '../../tests/dash/data/ENST00000557334.json';
+import regions2 from '../../tests/dash/data/KRAS_protein.json';
+import mutData3 from '../../tests/dash/data/muts.json';
+import regions3 from '../../tests/dash/data/regions.json';
 
 const DATA = [
     {mutData: mutData1, regions: regions1},
