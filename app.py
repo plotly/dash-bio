@@ -9,7 +9,7 @@ import datetime
 import io
 import pandas as pd
 import json
-from auth import auth
+
 
 empty = dash_bio.DashCircos(
     id='main-circos',
