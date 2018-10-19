@@ -9,7 +9,7 @@ import datetime
 import io
 import pandas as pd
 import json
-from auth import auth
+
 
 empty = dash_bio.DashCircos(
     id='main-circos',
@@ -24,13 +24,7 @@ app = dash.Dash(
     __name__
 )
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Optionally display a log in screen.                                                                   #
-# If `REQUIRE_LOGIN = True` in `config.py`, then auth_instance allows you to programatically access the #
-# username of the currently logged in user.                                                             #
-# If `REQUIRE_LOGIN = False`, then no login screen will be displayed and `auth_instance` will be `None` #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-auth_instance = auth(app)
+
 
 server = app.server  # Expose the server variable for deployments
 
