@@ -75,7 +75,7 @@ export default class App extends Component {
                     <NeedlePlot
                         x={data.map(mut => mut.coord)}
                         y={data.map(mut => mut.value)}
-                        groups={data.map(mut => mut.category)}
+                        mutationGroups={data.map(mut => mut.category)}
                         domains={regions}
                         onChange={this.handlePlotChange}
                         // xlabel = 'Position'

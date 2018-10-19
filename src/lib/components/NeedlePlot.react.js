@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
+import {contains, filter, has, isNil, type, omit} from 'ramda';
+/* global Plotly:true */
 
 /*
 convert the array to a number and ignore the NaN values
@@ -179,7 +181,10 @@ export default class NeedlePlot extends Component {
                     onClick={this.handleChange}
                     onHover={this.handleChange}
                     onRelayout={this.handleChange}
-                    {...otherProps}
+                    {...omit(
+                        ['fireEvent', 'dashEvent', 'setProps'],
+                        this.props
+                    )}
                 />
             </div>
         );
@@ -190,13 +195,21 @@ export default class NeedlePlot extends Component {
         let {x, y, domains} = this.props;
         const {
             data: inputData,
-            groups,
+            mutationGroups,
+            needleStyle,
+            domainStyle,
+        } = this.props;
+
+        const {
             stemColor,
             stemThickness,
             stemConstHeight,
-            needleColors,
-            domainColors,
-        } = this.props;
+            headSize,
+            headColor,
+            headSymbol,
+        } = needleStyle;
+
+        const {domainColor, displayMinorDomains} = domainStyle;
 
         // Check for strings
         if (inputData && typeof x === 'string' && typeof y === 'string') {
@@ -212,8 +225,18 @@ export default class NeedlePlot extends Component {
             idx_bogus_entry,
         ] = extract_small_domains(x);
 
-        const fixed_needle_colors = needleColors;
-        const fixed_domain_colors = domainColors;
+        //manage whether headColor is an array or a string
+        const fixed_mutation_colors =
+            headColor.constructor === Array
+                ? headColor
+                : mutationGroups.map(i => headColor);
+
+        const fixed_mutation_symbols =
+            headSymbol.constructor === Array
+                ? headSymbol
+                : mutationGroups.map(i => headSymbol);
+
+        const fixed_domain_colors = domainColor;
 
         const X_DATA_MIN = Math.min.apply(null, x_single_site);
         const X_DATA_MAX = Math.max.apply(null, x_single_site);
@@ -295,38 +318,40 @@ export default class NeedlePlot extends Component {
             });
         });
 
-        //build the different protein small domains
-        small_domains.forEach((dom, i) => {
-            const x0 = Number(dom.split('-')[0]);
-            const x1 = Number(dom.split('-')[1]);
-            const domainLength = x1 - x0;
-            const gname = groups[x.indexOf(dom)];
-            const [line_x, line_y] = create_horizontal_line(
-                x0,
-                x1,
-                Y_BUFFER / -2,
-                x1 - x0
-            );
-            // Range of the protein domain on the xaxis
-            sequenceDomains.push({
-                type: 'scatter',
-                mode: 'lines',
-                x: line_x,
-                y: line_y,
-                xaxis: 'x2',
-                hoverinfo: 'name+text',
-                name: gname,
-                text: `[${x0}->${x1}] `,
-                showlegend: false,
-                marker: {
-                    color:
-                        fixed_needle_colors[
-                            [...new Set(groups)].indexOf(gname)
-                        ],
-                },
-                line: {width: DOMAIN_WIDTH},
+        if (displayMinorDomains === true) {
+            //build the different protein small domains
+            small_domains.forEach((dom, i) => {
+                const x0 = Number(dom.split('-')[0]);
+                const x1 = Number(dom.split('-')[1]);
+                const domainLength = x1 - x0;
+                const gname = mutationGroups[x.indexOf(dom)];
+                const [line_x, line_y] = create_horizontal_line(
+                    x0,
+                    x1,
+                    Y_BUFFER / -2,
+                    x1 - x0
+                );
+                // Range of the protein domain on the xaxis
+                sequenceDomains.push({
+                    type: 'scatter',
+                    mode: 'lines',
+                    x: line_x,
+                    y: line_y,
+                    xaxis: 'x2',
+                    hoverinfo: 'name+text',
+                    name: gname,
+                    text: `[${x0}->${x1}] `,
+                    showlegend: false,
+                    marker: {
+                        color:
+                            fixed_mutation_colors[
+                                [...new Set(mutationGroups)].indexOf(gname)
+                            ],
+                    },
+                    line: {width: DOMAIN_WIDTH},
+                });
             });
-        });
+        }
 
         const globalAnnotation = [
             {
@@ -362,16 +387,22 @@ export default class NeedlePlot extends Component {
                 transforms: [
                     {
                         type: 'groupby',
-                        groups: groups,
+                        groups: mutationGroups,
                         nameformat: `%{group}`,
-                        styles: [...new Set(groups)].map((target, i) => {
-                            return {
-                                target: target,
-                                value: {
-                                    marker: {color: fixed_needle_colors[i]},
-                                },
-                            };
-                        }),
+                        styles: [...new Set(mutationGroups)].map(
+                            (target, i) => {
+                                return {
+                                    target: target,
+                                    value: {
+                                        marker: {
+                                            size: headSize,
+                                            symbol: fixed_mutation_symbols[i],
+                                            color: fixed_mutation_colors[i],
+                                        },
+                                    },
+                                };
+                            }
+                        ),
                     },
                 ],
             },
@@ -466,7 +497,7 @@ NeedlePlot.propTypes = {
     /*
     type of mutations, should match x in size
     */
-    groups: PropTypes.arrayOf(PropTypes.string),
+    mutationGroups: PropTypes.arrayOf(PropTypes.string),
 
     /*
     protein domains coordinates on the protein sequence
@@ -482,20 +513,50 @@ NeedlePlot.propTypes = {
     // if true enables a rangeslider for xaxis
     rangeSlider: PropTypes.bool,
 
-    // Color of the stem of the needle plot
-    stemColor: PropTypes.string,
+    /*
+    options for the needle marking single site mutations
+    */
+    needleStyle: PropTypes.shape({
+        // Color of the stems of the needles
+        stemColor: PropTypes.string,
+        // Thickness of the stems of the needles
+        stemThickness: PropTypes.number,
+        // Decides whether all stems have same height or not
+        stemConstHeight: PropTypes.bool,
+        // Size of the heads of the needlehead
+        headSize: PropTypes.number,
+        // Color of the heads of the needlehead
+        headColor: PropTypes.oneOfType([
+            /*different color for different mutations, must be larger or
+            equal to the size of the mutationGroup prop
+            */
+            PropTypes.array,
+            //same color for all needles
+            PropTypes.string,
+        ]),
+        // Style of the heads of the needlehead
+        headSymbol: PropTypes.oneOfType([
+            /*different marker for different mutations, must be larger or
+            equal to the size of the mutationGroup prop
+            */
+            PropTypes.array,
+            //same marker for all needles
+            PropTypes.string,
+        ]),
+    }),
 
-    // Thickness of the stem of the needle plot
-    stemThickness: PropTypes.number,
-
-    // decides whether all stems have same height or not
-    stemConstHeight: PropTypes.bool,
-
-    // Color of the needle of the needle plot
-    needleColors: PropTypes.array,
-
-    // Colors of the shaded domains on the needle plot
-    domainColors: PropTypes.array,
+    /*
+    options for the protein domain coloring
+    */
+    domainStyle: PropTypes.shape({
+        // Color of the stems of the needles
+        domainColor: PropTypes.array,
+        /*
+        the prop x sometimes contains smaller domains (e.g. multi-site
+        mutations), if true, they are displayed
+        */
+        displayMinorDomains: PropTypes.bool,
+    }),
 
     onChange: PropTypes.func,
 
@@ -504,58 +565,75 @@ NeedlePlot.propTypes = {
      * properties change
      */
     setProps: PropTypes.func,
+
+    /**
+     *
+     */
+    dashEvents: PropTypes.oneOf(['click', 'hover', 'unhover', 'selected']),
+    /**
+     * Function that fires events
+     */
+    fireEvent: PropTypes.func,
 };
 
 NeedlePlot.defaultProps = {
     x: [],
     y: [],
     domains: [],
-    groups: [],
+
+    mutationGroups: [],
     rangeSlider: false,
     onChange: () => {},
-    stemColor: '#444',
-    stemThickness: 0.5,
-    stemConstHeight: false,
-    domainColors: [
-        '#8dd3c7',
-        '#ffffb3',
-        '#bebada',
-        '#fb8072',
-        '#80b1d3',
-        '#fdb462',
-        '#b3de69',
-        '#fccde5',
-        '#d9d9d9',
-        '#bc80bd',
-        '#ccebc5',
-        '#ffed6f',
-        '#8dd3c7',
-        '#ffffb3',
-        '#bebada',
-        '#fb8072',
-        '#80b1d3',
-        '#fdb462',
-        '#b3de69',
-    ],
-    needleColors: [
-        '#e41a1c',
-        '#377eb8',
-        '#4daf4a',
-        '#984ea3',
-        '#ff7f00',
-        '#ffff33',
-        '#a65628',
-        '#f781bf',
-        '#999999',
-        '#e41a1c',
-        '#377eb8',
-        '#4daf4a',
-        '#984ea3',
-        '#ff7f00',
-        '#ffff33',
-        '#a65628',
-        '#f781bf',
-        '#999999',
-        '#e41a1c',
-    ],
+    needleStyle: {
+        stemColor: '#444',
+        stemThickness: 0.5,
+        stemConstHeight: false,
+        headSize: 5,
+        headColor: [
+            '#e41a1c',
+            '#377eb8',
+            '#4daf4a',
+            '#984ea3',
+            '#ff7f00',
+            '#ffff33',
+            '#a65628',
+            '#f781bf',
+            '#999999',
+            '#e41a1c',
+            '#377eb8',
+            '#4daf4a',
+            '#984ea3',
+            '#ff7f00',
+            '#ffff33',
+            '#a65628',
+            '#f781bf',
+            '#999999',
+            '#e41a1c',
+        ],
+        headSymbol: 'circle',
+    },
+    domainStyle: {
+        displayMinorDomains: false,
+        domainColor: [
+            '#8dd3c7',
+            '#ffffb3',
+            '#bebada',
+            '#fb8072',
+            '#80b1d3',
+            '#fdb462',
+            '#b3de69',
+            '#fccde5',
+            '#d9d9d9',
+            '#bc80bd',
+            '#ccebc5',
+            '#ffed6f',
+            '#8dd3c7',
+            '#ffffb3',
+            '#bebada',
+            '#fb8072',
+            '#80b1d3',
+            '#fdb462',
+            '#b3de69',
+        ],
+    },
 };

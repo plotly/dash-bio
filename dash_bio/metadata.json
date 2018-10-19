@@ -88,7 +88,7 @@
           "computed": false
         }
       },
-      "groups": {
+      "mutationGroups": {
         "type": {
           "name": "arrayOf",
           "value": {
@@ -127,29 +127,7 @@
         "required": false,
         "description": ""
       },
-      "stemColor": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "'#444'",
-          "computed": false
-        }
-      },
-      "stemThickness": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "0.5",
-          "computed": false
-        }
-      },
-      "stemConstHeight": {
+      "rangeSlider": {
         "type": {
           "name": "bool"
         },
@@ -160,25 +138,77 @@
           "computed": false
         }
       },
-      "needleColors": {
+      "needleStyle": {
         "type": {
-          "name": "array"
+          "name": "shape",
+          "value": {
+            "stemColor": {
+              "name": "string",
+              "required": false
+            },
+            "stemThickness": {
+              "name": "number",
+              "required": false
+            },
+            "stemConstHeight": {
+              "name": "bool",
+              "required": false
+            },
+            "headSize": {
+              "name": "number",
+              "required": false
+            },
+            "headColor": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "array"
+                },
+                {
+                  "name": "string"
+                }
+              ],
+              "required": false
+            },
+            "headSymbol": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "array"
+                },
+                {
+                  "name": "string"
+                }
+              ],
+              "required": false
+            }
+          }
         },
         "required": false,
         "description": "",
         "defaultValue": {
-          "value": "[\r\n    '#e41a1c',\r\n    '#377eb8',\r\n    '#4daf4a',\r\n    '#984ea3',\r\n    '#ff7f00',\r\n    '#ffff33',\r\n    '#a65628',\r\n    '#f781bf',\r\n    '#999999',\r\n    '#e41a1c',\r\n    '#377eb8',\r\n    '#4daf4a',\r\n    '#984ea3',\r\n    '#ff7f00',\r\n    '#ffff33',\r\n    '#a65628',\r\n    '#f781bf',\r\n    '#999999',\r\n    '#e41a1c',\r\n]",
+          "value": "{\r\n    stemColor: '#444',\r\n    stemThickness: 0.5,\r\n    stemConstHeight: false,\r\n    headSize: 5,\r\n    headColor: [\r\n        '#e41a1c',\r\n        '#377eb8',\r\n        '#4daf4a',\r\n        '#984ea3',\r\n        '#ff7f00',\r\n        '#ffff33',\r\n        '#a65628',\r\n        '#f781bf',\r\n        '#999999',\r\n        '#e41a1c',\r\n        '#377eb8',\r\n        '#4daf4a',\r\n        '#984ea3',\r\n        '#ff7f00',\r\n        '#ffff33',\r\n        '#a65628',\r\n        '#f781bf',\r\n        '#999999',\r\n        '#e41a1c',\r\n    ],\r\n    headSymbol: 'circle',\r\n}",
           "computed": false
         }
       },
-      "domainColors": {
+      "domainStyle": {
         "type": {
-          "name": "array"
+          "name": "shape",
+          "value": {
+            "domainColor": {
+              "name": "array",
+              "required": false
+            },
+            "displayMinorDomains": {
+              "name": "bool",
+              "required": false
+            }
+          }
         },
         "required": false,
         "description": "",
         "defaultValue": {
-          "value": "[\r\n    '#8dd3c7',\r\n    '#ffffb3',\r\n    '#bebada',\r\n    '#fb8072',\r\n    '#80b1d3',\r\n    '#fdb462',\r\n    '#b3de69',\r\n    '#fccde5',\r\n    '#d9d9d9',\r\n    '#bc80bd',\r\n    '#ccebc5',\r\n    '#ffed6f',\r\n    '#8dd3c7',\r\n    '#ffffb3',\r\n    '#bebada',\r\n    '#fb8072',\r\n    '#80b1d3',\r\n    '#fdb462',\r\n    '#b3de69',\r\n]",
+          "value": "{\r\n    displayMinorDomains: false,\r\n    domainColor: [\r\n        '#8dd3c7',\r\n        '#ffffb3',\r\n        '#bebada',\r\n        '#fb8072',\r\n        '#80b1d3',\r\n        '#fdb462',\r\n        '#b3de69',\r\n        '#fccde5',\r\n        '#d9d9d9',\r\n        '#bc80bd',\r\n        '#ccebc5',\r\n        '#ffed6f',\r\n        '#8dd3c7',\r\n        '#ffffb3',\r\n        '#bebada',\r\n        '#fb8072',\r\n        '#80b1d3',\r\n        '#fdb462',\r\n        '#b3de69',\r\n    ],\r\n}",
           "computed": false
         }
       },
@@ -199,6 +229,38 @@
         },
         "required": false,
         "description": "Dash-assigned callback that should be called whenever any of the\r\nproperties change"
+      },
+      "dashEvents": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'click'",
+              "computed": false
+            },
+            {
+              "value": "'hover'",
+              "computed": false
+            },
+            {
+              "value": "'unhover'",
+              "computed": false
+            },
+            {
+              "value": "'selected'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": ""
+      },
+      "fireEvent": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Function that fires events"
       }
     }
   }

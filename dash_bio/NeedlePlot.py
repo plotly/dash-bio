@@ -14,25 +14,33 @@ components in an app.
 - data (list; optional)
 - x (string | list; optional)
 - y (string | list; optional)
-- groups (list; optional)
+- mutationGroups (list; optional)
 - domains (list; optional)
 - xlabel (string; optional)
 - ylabel (string; optional)
-- stemColor (string; optional)
-- stemThickness (number; optional)
-- stemConstHeight (boolean; optional)
-- needleColors (list; optional)
-- domainColors (list; optional)
+- rangeSlider (boolean; optional)
+- needleStyle (optional): . needleStyle has the following type: dict containing keys 'stemColor', 'stemThickness', 'stemConstHeight', 'headSize', 'headColor', 'headSymbol'.
+Those keys have the following types: 
+  - stemColor (string; optional)
+  - stemThickness (number; optional)
+  - stemConstHeight (boolean; optional)
+  - headSize (number; optional)
+  - headColor (list | string; optional)
+  - headSymbol (list | string; optional)
+- domainStyle (optional): . domainStyle has the following type: dict containing keys 'domainColor', 'displayMinorDomains'.
+Those keys have the following types: 
+  - domainColor (list; optional)
+  - displayMinorDomains (boolean; optional)
 
-Available events: """
+Available events: 'click', 'hover', 'unhover', 'selected'"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, x=Component.UNDEFINED, y=Component.UNDEFINED, groups=Component.UNDEFINED, domains=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, stemColor=Component.UNDEFINED, stemThickness=Component.UNDEFINED, stemConstHeight=Component.UNDEFINED, needleColors=Component.UNDEFINED, domainColors=Component.UNDEFINED, onChange=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'data', 'x', 'y', 'groups', 'domains', 'xlabel', 'ylabel', 'stemColor', 'stemThickness', 'stemConstHeight', 'needleColors', 'domainColors']
+    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, x=Component.UNDEFINED, y=Component.UNDEFINED, mutationGroups=Component.UNDEFINED, domains=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, rangeSlider=Component.UNDEFINED, needleStyle=Component.UNDEFINED, domainStyle=Component.UNDEFINED, onChange=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'data', 'x', 'y', 'mutationGroups', 'domains', 'xlabel', 'ylabel', 'rangeSlider', 'needleStyle', 'domainStyle']
         self._type = 'NeedlePlot'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_events = []
-        self.available_properties = ['id', 'data', 'x', 'y', 'groups', 'domains', 'xlabel', 'ylabel', 'stemColor', 'stemThickness', 'stemConstHeight', 'needleColors', 'domainColors']
+        self.available_events = ['click', 'hover', 'unhover', 'selected']
+        self.available_properties = ['id', 'data', 'x', 'y', 'mutationGroups', 'domains', 'xlabel', 'ylabel', 'rangeSlider', 'needleStyle', 'domainStyle']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')
