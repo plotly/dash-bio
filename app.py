@@ -182,7 +182,7 @@ app.layout = html.Div([
                                                     html.Br(),
                                                     html.A(
                                                         "Download Data Here (CSV files)",
-                                                        href="https://github.com/plotly/dash-bio/tree/dash-circos/upload_data/Data",
+                                                        href="https://github.com/plotly/dash-bio/tree/dash-circos/upload_data/Data/Download.rar",
                                                         target="blank"
                                                     ),
                                                     html.Div(
