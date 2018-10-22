@@ -51,6 +51,7 @@ export default class SequenceViewerComponent extends Component {
 	    charsPerLine,
 	    toolbar,
 	    search,
+	    sequence,
 	    title,
 	    sequenceMaxHeight,
 	    badge,
@@ -67,7 +68,8 @@ export default class SequenceViewerComponent extends Component {
 	   title != nextProps.title ||
 	   sequenceMaxHeight != nextProps.sequenceMaxHeight ||
 	   badge != nextProps.badge ||
-	   legend != nextProps.legend 
+	   legend != nextProps.legend ||
+	   sequence != nextProps.sequence
 	  ){
 	    return true;
 	}
