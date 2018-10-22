@@ -15,7 +15,7 @@ server = app.server  # Expose the server variable for deployments
 
 proteinFolder = 'proteins'
 sequence = '-'
-
+'''
 coverage = [
     {'start': 0,
      'end': 240,
@@ -30,6 +30,7 @@ coverage = [
      'tooltip': 'second',
      'underscore': True}
 ]
+'''
 
 highlightColor = 'blue'
 
@@ -79,7 +80,7 @@ app.layout = html.Div([
                 wrapAminoAcids=True,
                 search=True,
                 sequence=sequence,
-                coverage=coverage,
+                coverage=[],
                 selection=[]
             )
         ]
@@ -221,12 +222,11 @@ def update_sequence(upload_contents, p, sel_or_cov):
         title = protein['description']['accession']
     except KeyError:
         title = ''
-    print(sel_or_cov)
     if(sel_or_cov == 'sel'):
         cov = None
         sel = [0, 0, highlightColor]
     else:
-        cov = coverage
+        cov = []
         sel = None
     return [
         dash_bio.SequenceViewerComponent(
@@ -367,7 +367,7 @@ def update_cov_clicked(v):
     [Input('sequence-viewer', 'mouseSelection')]
 )
 def update_mouse_sel(v):
-    return v
+    return v['selection']
 
 
 @app.callback(

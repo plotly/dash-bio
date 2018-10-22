@@ -14,10 +14,9 @@ export default class SequenceViewerComponent extends Component {
     constructor(props) {
 	super(props);
 	this.props.onMouseSelection = (e) => {
-	    e.detail && this.props.setProps({mouseSelection: e.detail['selection']});
+	    e.detail && this.props.setProps({mouseSelection: e.detail});
 	}
 	this.props.onSubpartSelected = (e) => {
-	    console.warn(e.detail);
 	    e.detail && this.props.setProps({subpartSelected: e.detail});
 	}
     }
@@ -249,7 +248,11 @@ SequenceViewerComponent.propTypes = {
     /**
      * A string containing the mouse selection.
      */
-    mouseSelection: PropTypes.string,
+    mouseSelection: PropTypes.shape({
+	'start': PropTypes.number,
+	'end': PropTypes.number,
+	'selection': PropTypes.string
+    }),
 
     /**
      * A string containing all of the highlighted sections when 
