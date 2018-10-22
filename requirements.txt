@@ -7,3 +7,4 @@ dash-html-components
 dash-renderer
 gunicorn
 dash_bio-0.0.1.tar.gz
+dash-auth
