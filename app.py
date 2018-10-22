@@ -468,7 +468,7 @@ app.layout = html.Div([
                             [
                                 dash_bio.DashIdeogram(
                                     id="ideo-homology",
-                                    dataDir='https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/',
+                                    dataDir="https://dash-gallery.plotly.host/dash-ideogram/static/data/bands/native/",
                                     organism=["human", "mouse"],
                                     orientation="vertical",
                                     showBandLabels=True,
