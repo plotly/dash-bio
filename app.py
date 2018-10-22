@@ -181,8 +181,8 @@ app.layout = html.Div([
                                                     ),
                                                     html.Br(),
                                                     html.A(
-                                                        "Download Data Here",
-                                                        href="https://github.com/matthewchan15/Circos-Example-Data",
+                                                        "Download Data Here (CSV files)",
+                                                        href="https://github.com/plotly/dash-bio/tree/dash-circos/upload_data/Data",
                                                         target="blank"
                                                     ),
                                                     html.Div(
