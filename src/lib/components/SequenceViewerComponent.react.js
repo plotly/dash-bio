@@ -21,29 +21,6 @@ export default class SequenceViewerComponent extends Component {
 	}
     }
 
-    componentDidMount() {
-	const {coverage,
-	       selection,
-	       subpartSelected,
-	       mouseSelection,
-	       setProps} = this.props;
-	
-	if(coverage) {
-	    for(var i = 0; i < coverage.length; i++) {
-		const v = i;
-		coverage[i].onclick = (e) => {
-		    setProps({
-			coverageClicked: v
-		    });
-		}
-	    }
-	}
-	
-	setProps({
-	    coverage: coverage
-	});
-    }
-    
     shouldComponentUpdate(nextProps, nextState){
 	const {
 	    showLineNumbers,
@@ -60,16 +37,16 @@ export default class SequenceViewerComponent extends Component {
 	    legend
 	} = this.props;
 	
-	if(showLineNumbers != nextProps.showLineNumbers ||
-	   wrapAminoAcids != nextProps.wrapAminoAcids ||
-	   charsPerLine != nextProps.charsPerLine ||
-	   toolbar != nextProps.toolbar ||
-	   search != nextProps.search ||
-	   title != nextProps.title ||
-	   sequenceMaxHeight != nextProps.sequenceMaxHeight ||
-	   badge != nextProps.badge ||
-	   legend != nextProps.legend ||
-	   sequence != nextProps.sequence
+	if(showLineNumbers !== nextProps.showLineNumbers ||
+	   wrapAminoAcids !== nextProps.wrapAminoAcids ||
+	   charsPerLine !== nextProps.charsPerLine ||
+	   toolbar !== nextProps.toolbar ||
+	   search !== nextProps.search ||
+	   title !== nextProps.title ||
+	   sequenceMaxHeight !== nextProps.sequenceMaxHeight ||
+	   badge !== nextProps.badge ||
+	   legend !== nextProps.legend ||
+	   sequence !== nextProps.sequence
 	  ){
 	    return true;
 	}
@@ -110,7 +87,8 @@ export default class SequenceViewerComponent extends Component {
 	
 	const id = this.props.id;
 	const seq = this.props.sequence;
-
+	const setProps = this.props.setProps;
+	
 	const options = {
 	    showLineNumbers: this.props.showLineNumbers,
 	    wrapAminoAcids: this.props.wrapAminoAcids,
@@ -122,14 +100,24 @@ export default class SequenceViewerComponent extends Component {
 	    badge: this.props.badge,
 	    onMouseSelection: this.props.onMouseSelection,
 	    onSubpartSelected: this.props.onSubpartSelected,
-	    coverage: this.props.coverage,
-	    selection: this.props.selection,
 	    legend: this.props.legend
 	};
 
-	if(this.props.coverage){
+	if(this.props.coverage != null){
+
+	    for(var i = 0; i < this.props.coverage.length; i++) {
+		const v = i;
+		this.props.coverage[i].onclick = (e) => {
+		    setProps({
+			coverageClicked: v
+		    });
+		}
+	    }
+	    
 	    options.coverage = this.props.coverage;
+
 	}
+
 	if(this.props.selection){
 	    options.selection = this.props.selection;
 	}

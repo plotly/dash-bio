@@ -15,7 +15,7 @@ server = app.server  # Expose the server variable for deployments
 
 proteinFolder = 'proteins'
 sequence = '-'
-'''
+
 coverage = [
     {'start': 0,
      'end': 240,
@@ -30,7 +30,7 @@ coverage = [
      'tooltip': 'second',
      'underscore': True}
 ]
-'''
+
 
 highlightColor = 'blue'
 
@@ -80,8 +80,8 @@ app.layout = html.Div([
                 wrapAminoAcids=True,
                 search=True,
                 sequence=sequence,
-                coverage=[],
-                selection=[]
+                coverage=coverage,
+                selection=None
             )
         ]
     ),
@@ -192,12 +192,11 @@ app.layout = html.Div([
 
 # sequence viewer display
 @app.callback(
-    Output('sequence-viewer-container', 'children'),
-    [Input('upload-fasta-data', 'contents'),
-     Input('protein-dropdown', 'value'),
-     Input('selection-or-coverage', 'value')]
+    Output('sequence-viewer', 'sequence'),
+    [Input('upload-fasta-data', 'contents')],
+    state=[State('selection-or-coverage', 'value')]
 )
-def update_sequence(upload_contents, p, sel_or_cov):
+def update_sequence(upload_contents, sel_or_cov):
     data = ''
     try:
         content_type, content_string = upload_contents.split(',')
@@ -205,18 +204,9 @@ def update_sequence(upload_contents, p, sel_or_cov):
     except AttributeError:
         pass
     if data == '':
-        return [
-            dash_bio.SequenceViewerComponent(
-                id='sequence-viewer',
-                title='',
-                wrapAminoAcids=True,
-                search=True,
-                sequence='-',
-                coverage=[],
-                selection=[]
-            )
-        ]
-    protein = pr.readFasta(dataString=data)[p]
+        return '-'
+
+    protein = pr.readFasta(dataString=data)[0]
     sequence = protein['sequence']
     try:
         title = protein['description']['accession']
@@ -226,19 +216,10 @@ def update_sequence(upload_contents, p, sel_or_cov):
         cov = None
         sel = [0, 0, highlightColor]
     else:
-        cov = []
+        cov = coverage
         sel = None
-    return [
-        dash_bio.SequenceViewerComponent(
-            id='sequence-viewer',
-            title=title,
-            wrapAminoAcids=True,
-            search=True,
-            sequence=sequence,
-            coverage=cov,
-            selection=sel
-        )
-    ]
+    return sequence
+
 
 '''
 @app.callback(
@@ -339,7 +320,6 @@ def get_aa_comp(v, seq):
         return ''
     if(len(v) < 2):
         return ''
-    print(v)
     try:
         subsequence = seq[v['low']:v['high']]
     except TypeError:
