@@ -5,7 +5,7 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import json
 import test as test
-import teast_one as test_one
+import test_one as test_one
 
 # with open('test.json', 'r') as testJSON:
 #     test = json.load(testJSON)
