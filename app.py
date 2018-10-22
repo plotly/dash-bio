@@ -468,7 +468,7 @@ app.layout = html.Div([
                             [
                                 dash_bio.DashIdeogram(
                                     id="ideo-homology",
-                                    dataDir="./static/data/bands/native/",
+                                    dataDir="./assets/data/bands/native/",
                                     organism=["human", "mouse"],
                                     orientation="vertical",
                                     showBandLabels=True,
@@ -999,9 +999,9 @@ def ideo_select(value):
 )
 def organism_change(dropdown):
     if dropdown == "test":
-        return test
+        return test.test
     elif dropdown == "test_one":
-        return test_one
+        return test_one.test_one
 
 
 @app.callback(
