@@ -4,13 +4,15 @@ import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import json
+import test as test
+import teast_one as test_one
 
+# with open('test.json', 'r') as testJSON:
+#     test = json.load(testJSON)
 
-with open('test.json', 'r') as testJSON:
-    test = json.load(testJSON)
+# with open('test_one.json', 'r') as test_oneJSON:
+#     test_one = json.load(test_oneJSON)
 
-with open('test_one.json', 'r') as test_oneJSON:
-    test_one = json.load(test_oneJSON)
 
 app = dash.Dash(
     __name__
@@ -466,7 +468,7 @@ app.layout = html.Div([
                             [
                                 dash_bio.DashIdeogram(
                                     id="ideo-homology",
-                                    dataDir="/assets/data/bands/native/",
+                                    dataDir="./static/data/bands/native/",
                                     organism=["human", "mouse"],
                                     orientation="vertical",
                                     showBandLabels=True,
