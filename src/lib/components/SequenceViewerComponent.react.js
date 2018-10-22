@@ -113,13 +113,22 @@ export default class SequenceViewerComponent extends Component {
 		    });
 		}
 	    }
-	    
-	    options.coverage = this.props.coverage;
 
+	    options.coverage = this.props.coverage;
+	}
+	else {
+	    setProps({
+		coverage: []
+	    });
 	}
 
 	if(this.props.selection){
 	    options.selection = this.props.selection;
+	}
+	else {
+	    setProps({
+		selection: []
+	    }); 
 	}
 
 
