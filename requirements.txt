@@ -5,5 +5,4 @@ dash-html-components
 dash-renderer
 gunicorn
 dash>=0.26.0
-base64
 dash_bio-0.0.1.tar.gz
