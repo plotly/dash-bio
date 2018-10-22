@@ -28,6 +28,8 @@ app = dash.Dash(
 
 server = app.server  # Expose the server variable for deployments
 
+app.scripts.config.serve_locally = True
+app.css.config.serve_locally = True
 # Standard Dash app code below
 app.layout = html.Div([
     html.Div(

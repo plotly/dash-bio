@@ -17,7 +17,7 @@ _filepath = _os.path.abspath(_os.path.join(_basepath, 'package.json'))
 with open(_filepath) as f:
     package = json.load(f)
 
-package_name = package['name'].replace(' ', '_').replace('-', '_')
+package_name = "0.0.1-ideogram"
 __version__ = package['version']
 
 _current_path = _os.path.dirname(_os.path.abspath(__file__))
