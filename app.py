@@ -538,7 +538,7 @@ app.layout = html.Div([
                             [
                                 dash_bio.DashIdeogram(
                                     id="brush-ideo",
-                                    localOrganism=test_one,
+                                    localOrganism=test_one.test_one,
                                     organism='human',
                                     chromosomes=['1'],
                                     brush='chr1:1-10000000',
@@ -591,10 +591,10 @@ def organism_change(dropdown):
 def organism_change(dropdown):
     if dropdown == "human":
         print("test")
-        return test
+        return test.test
     elif dropdown == "mouse":
         print("test_one")
-        return test_one
+        return test_one.test_one
 
 
 # showBandLabels
