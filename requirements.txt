@@ -1,6 +1,5 @@
 # Switch into a virtual environment
 # pip install -r requirements.txt
-dash
 dash-core-components
 dash-html-components
 dash-renderer
