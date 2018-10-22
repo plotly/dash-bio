@@ -2,12 +2,8 @@
 # pip install -r requirements.txt
 
 dash
-
 dash-core-components
-
 dash-html-components
-
 dash-renderer
-
 gunicorn
-dash_bio
+dash_bio-0.0.1.tar.gz
