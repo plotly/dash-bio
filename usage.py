@@ -11,6 +11,8 @@ app = dash.Dash('')
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
+server = app.server  # Expose the server variable for deployments
+
 proteinFolder = 'proteins'
 sequence = '-'
 
