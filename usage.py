@@ -1000,6 +1000,7 @@ def ideo_rotated(value, style):
 def annoteData(data):
     if data == None:
         return "None"
+    print(data)
     return data
 
 if __name__ == '__main__':

@@ -78,7 +78,6 @@ class DashIdeogram extends Component {
         this.tooltipDataTwo = this.tooltipData
         if (this.props.setProps){
         this.props.setProps(
-            console.warn("onToolTipHandlerFired"),
             {
                 annotationsData: this.tooltipData
             }
