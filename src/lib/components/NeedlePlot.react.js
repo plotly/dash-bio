@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {contains, filter, has, isNil, type, omit} from 'ramda';
+import {mergeDeepRight, contains, filter, has, isNil, type, omit} from 'ramda';
 /* global Plotly:true */
 
 /*
@@ -91,6 +91,10 @@ export default class NeedlePlot extends Component {
             xEnd: null,
         };
         this.handleChange = this.handleChange.bind(this);
+    }
+
+    componentWillMount() {
+        this.props = mergeDeepRight(NeedlePlot.defaultProps, this.props);
     }
 
     // Handle plot events
@@ -197,19 +201,16 @@ export default class NeedlePlot extends Component {
             data: inputData,
             mutationGroups,
             needleStyle,
-            domainStyle,
+            domainStyle: {domainColor, displayMinorDomains},
+            needleStyle: {
+                stemColor,
+                stemThickness,
+                stemConstHeight,
+                headSize,
+                headColor,
+                headSymbol,
+            },
         } = this.props;
-
-        const {
-            stemColor,
-            stemThickness,
-            stemConstHeight,
-            headSize,
-            headColor,
-            headSymbol,
-        } = needleStyle;
-
-        const {domainColor, displayMinorDomains} = domainStyle;
 
         // Check for strings
         if (inputData && typeof x === 'string' && typeof y === 'string') {
