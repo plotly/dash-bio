@@ -1,37 +1,53 @@
-import base64
-import numpy as np
+import pandas as pd
+import tempfile
 
 
-def parse_tsv(contents, filename):
-    content_string = ''
-    rowLabels = []
-    colLabels = []
-    desc = {}
+def parse_tsv(
+        contents, rowLabelsSource=None,
+        rows=None, columns=None,
+        headerRows=5, headerCols=2
+):
+    tf = tempfile.NamedTemporaryFile(mode='w+', delete=False)
+    tf.write(contents)
+    tf.close()
+    df = pd.read_csv(tf.name, sep='\t', skiprows=headerRows-1)
+
     data = {}
-    dataShape = 0
-    if(contents is not None):
-        content_type, content_string = contents.split(',')
-    decoded = base64.b64decode(content_string).decode('UTF-8')
-    lines = decoded.split('\n')[1:2000]
-    desc['Source'] = decoded.split('\n')[0].strip('#').strip(' ')
-    for line in lines:
-        if(len(line) > 0 and (line[0] == '#' or line.split(' ')[0] == 'Gene')):
-            if(':') not in line:
-                colLabels = line.strip('#').split('\t')[2:]
-            else:
-                desc[line.split(':')[0].strip('#').strip(' ')] = \
-                            line.split(':')[1].strip(' ')
-        else:
-            row = line.split('\t')
-            if(len(row) < 2):
-                continue
-            rowLabels.append([row[0], row[1]])
-            for i in range(2, len(row)):
-                try:
-                    data = np.append(data, float(row[i]))
-                except ValueError:
-                    data = np.append(data, np.nan)
-    dataShape = len(colLabels)
-    data = np.reshape(data[1:], (int(len(data)/dataShape), dataShape))
+    
+    rows = ['NAC001', 'ARV1', 'MIR838A']
+    columns = ['leaf', 'flower', 'fruit']
 
-    return(data, desc, rowLabels, colLabels)
+    selectedRows = []
+    selectedCols = []
+
+    allRows = []
+    if(rowLabelsSource is not None
+       and rowLabelsSource in df.keys().tolist()):
+        allRows = df[rowLabelsSource].tolist()
+        
+    allCols = df.keys().tolist()[headerCols:]
+    if rows is not None and columns is not None:
+        for r in rows:
+            if r not in allRows:
+                continue
+            selectedRows.append(r)
+        selectedRows = list(map(lambda x: allRows.index(x), selectedRows))
+
+        for c in columns:
+            if c not in allCols:
+                continue
+            selectedCols.append(c)
+
+        selectedData = df.loc[selectedRows, selectedCols]
+        data = selectedData.values
+    
+    desc = {}
+    info = pd.read_csv(tf.name, sep='^', nrows=headerRows-1, header=None)[0]
+    for i in info:
+        tmp = i.strip('#').split(':', 1)
+        if(len(tmp) < 2):
+            desc['Source'] = tmp[0]
+            continue
+        desc[tmp[0]] = tmp[1]
+
+    return(data, desc, allRows, allCols)

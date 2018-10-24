@@ -4,6 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bio
 from dash_bio.utils import geneExpressionReader
+import base64
 
 app = dash.Dash('')
 
@@ -85,6 +86,22 @@ app.layout = html.Div([
                     'border-radius': '5px',
                     'padding': '10px'
                 }
+            ),
+            html.Hr(),
+
+            "Rows to display",
+            html.Br(),
+            dcc.Dropdown(
+                id='selected-rows',
+                options=[],
+                multi=True
+            ),
+            "Columns to display",
+            html.Br(),
+            dcc.Dropdown(
+                id='selected-columns',
+                options=[],
+                multi=True
             ),
             html.Hr(),
             
@@ -196,6 +213,43 @@ app.layout = html.Div([
 
 
 @app.callback(
+    Output('selected-rows', 'options'),
+    [Input('file-upload', 'contents'),
+     Input('file-upload', 'filename')]
+)
+def change_rows_options(contents, filename):
+    if contents is None:
+        return []
+
+    content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string).decode('UTF-8')
+    _, _, rowOptions, _ = \
+        geneExpressionReader.parse_tsv(
+            decoded,
+            'Gene Name'
+        )
+    return [{'label': r, 'value': r} for r in rowOptions]
+
+
+@app.callback(
+    Output('selected-columns', 'options'),
+    [Input('file-upload', 'contents'),
+     Input('file-upload', 'filename')]
+)
+def change_cols_options(contents, filename):
+    if contents is None:
+        return []
+
+    content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string).decode('UTF-8')
+    _, _, _, colOptions = \
+        geneExpressionReader.parse_tsv(
+            decoded
+        )
+
+    return [{'label': c, 'value': c} for c in colOptions]
+
+@app.callback(
     Output('info', 'children'),
     [Input('file-upload', 'contents'),
      Input('file-upload', 'filename')]
@@ -203,9 +257,13 @@ app.layout = html.Div([
 def display_info(contents, filename):
     if (filename is None or filename == ''):
         return []
+
+    if contents is not None:
+        content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string).decode('UTF-8')
     
     (_, desc, _, _) = \
-        geneExpressionReader.parse_tsv(contents, filename)
+        geneExpressionReader.parse_tsv(decoded, 'Gene Name')
 
     infoContent = []
     infoContent.append(html.H3('Information'))
@@ -285,8 +343,12 @@ def compute_traces_once(filename, cluster, rowThresh, colThresh, contents):
     if(filename is None or filename == ''):
         return []
 
+    if contents is not None:
+        content_type, content_string = contents.split(',')
+    decoded = base64.b64decode(content_string).decode('UTF-8')
+
     (data, _, rowLabels, colLabels) = \
-        geneExpressionReader.parse_tsv(contents, filename)
+        geneExpressionReader.parse_tsv(decoded, 'Gene Name')
 
     if(len(data) == 0):
         return []
