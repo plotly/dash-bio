@@ -19,6 +19,9 @@ export default class SequenceViewerComponent extends Component {
 	this.props.onSubpartSelected = (e) => {
 	    e.detail && this.props.setProps({subpartSelected: e.detail});
 	}
+	this.props.coverage = []
+	this.props.selection = []
+	    
     }
 
     shouldComponentUpdate(nextProps, nextState){
