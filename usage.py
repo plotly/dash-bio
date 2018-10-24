@@ -194,10 +194,13 @@ app.layout = html.Div([
 @app.callback(
     Output('sequence-viewer', 'sequence'),
     [Input('upload-fasta-data', 'contents'),
-     Input('protein-dropdown', 'value')],
-    state=[State('selection-or-coverage', 'value')]
+     Input('protein-dropdown', 'value')]
 )
-def update_sequence(upload_contents, v, sel_or_cov):
+def update_sequence(upload_contents, v):
+
+    if v is None:
+        return '-'
+    
     data = ''
     try:
         content_type, content_string = upload_contents.split(',')
@@ -208,17 +211,9 @@ def update_sequence(upload_contents, v, sel_or_cov):
         return '-'
 
     protein = pr.readFasta(dataString=data)[v]
+        
     sequence = protein['sequence']
-    try:
-        title = protein['description']['accession']
-    except KeyError:
-        title = ''
-    if(sel_or_cov == 'sel'):
-        cov = None
-        sel = [0, 0, highlightColor]
-    else:
-        cov = coverage
-        sel = None
+
     return sequence
 
 
@@ -322,7 +317,7 @@ def get_aa_comp(v, seq):
     if(len(v) < 2):
         return ''
     try:
-        subsequence = seq[v['low']:v['high']]
+        subsequence = seq[v[0]:v[1]]
     except TypeError:
         return html.Table([])
     aminoAcids = list(set(subsequence))
@@ -368,8 +363,11 @@ def update_desc_info(upload_contents, p):
         pass
     if data == '':
         return []
-    
-    protein = pr.readFasta(dataString=data)[p]
+
+    try:
+        protein = pr.readFasta(dataString=data)[p]
+    except Exception:
+        return ['NA']
     desc = []
     for key in protein['description']:
         tmp = key
