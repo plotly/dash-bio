@@ -249,6 +249,7 @@ def change_cols_options(contents, filename):
 
     return [{'label': c, 'value': c} for c in colOptions]
 
+
 @app.callback(
     Output('info', 'children'),
     [Input('file-upload', 'contents'),
@@ -334,10 +335,16 @@ def add_marker(
     [Input('file-upload', 'filename'),
      Input('cluster-checklist', 'value'),
      Input('row-threshold', 'value'),
-     Input('column-threshold', 'value')],
+     Input('column-threshold', 'value'),
+     Input('selected-rows', 'value'),
+     Input('selected-columns', 'value')],
     state=[State('file-upload', 'contents')]
 )
-def compute_traces_once(filename, cluster, rowThresh, colThresh, contents):
+def compute_traces_once(
+        filename, cluster,
+        rowThresh, colThresh,
+        selRows, selCols,
+        contents):
     
     # return an empty list if there are no data
     if(filename is None or filename == ''):
@@ -347,16 +354,18 @@ def compute_traces_once(filename, cluster, rowThresh, colThresh, contents):
         content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string).decode('UTF-8')
 
-    (data, _, rowLabels, colLabels) = \
-        geneExpressionReader.parse_tsv(decoded, 'Gene Name')
+    data, _, _, _ = \
+        geneExpressionReader.parse_tsv(
+            decoded, 'Gene Name',
+            rows=selRows, columns=selCols)
 
     if(len(data) == 0):
         return []
     
     fig_options.update(
         data=data,
-        columnLabels=colLabels,
-        rowLabels=[r[0] for r in rowLabels],
+        columnLabels=selCols,
+        rowLabels=selRows,
         colorThreshold=dict(row=rowThresh, col=colThresh),
     )
     

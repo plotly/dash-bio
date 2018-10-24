@@ -13,9 +13,6 @@ def parse_tsv(
     df = pd.read_csv(tf.name, sep='\t', skiprows=headerRows-1)
 
     data = {}
-    
-    rows = ['NAC001', 'ARV1', 'MIR838A']
-    columns = ['leaf', 'flower', 'fruit']
 
     selectedRows = []
     selectedCols = []
@@ -40,7 +37,7 @@ def parse_tsv(
 
         selectedData = df.loc[selectedRows, selectedCols]
         data = selectedData.values
-    
+        
     desc = {}
     info = pd.read_csv(tf.name, sep='^', nrows=headerRows-1, header=None)[0]
     for i in info:
