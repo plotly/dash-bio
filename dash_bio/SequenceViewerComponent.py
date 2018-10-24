@@ -37,7 +37,11 @@ Cannot be used at the same time as selection.
 - legend (list; optional): A legend corresponding to the color codes above (optionally displayed).
 - coverageClicked (number; optional): Contains the index of the section that was clicked last in 
 the coverage.
-- mouseSelection (string; optional): A string containing the mouse selection.
+- mouseSelection (optional): A string containing the mouse selection.. mouseSelection has the following type: dict containing keys 'start', 'end', 'selection'.
+Those keys have the following types: 
+  - start (number; optional)
+  - end (number; optional)
+  - selection (string; optional)
 - subpartSelected (list; optional): A string containing all of the highlighted sections when 
 using the search bar.
 
