@@ -347,7 +347,9 @@ def update_cov_clicked(v):
     [Input('sequence-viewer', 'mouseSelection')]
 )
 def update_mouse_sel(v):
-    return v['selection']
+    if(v is not None):
+        return v['selection']
+    return ''
 
 
 @app.callback(
