@@ -193,10 +193,11 @@ app.layout = html.Div([
 # sequence viewer display
 @app.callback(
     Output('sequence-viewer', 'sequence'),
-    [Input('upload-fasta-data', 'contents')],
+    [Input('upload-fasta-data', 'contents'),
+     Input('protein-dropdown', 'value')],
     state=[State('selection-or-coverage', 'value')]
 )
-def update_sequence(upload_contents, sel_or_cov):
+def update_sequence(upload_contents, v, sel_or_cov):
     data = ''
     try:
         content_type, content_string = upload_contents.split(',')
@@ -206,7 +207,7 @@ def update_sequence(upload_contents, sel_or_cov):
     if data == '':
         return '-'
 
-    protein = pr.readFasta(dataString=data)[0]
+    protein = pr.readFasta(dataString=data)[v]
     sequence = protein['sequence']
     try:
         title = protein['description']['accession']
