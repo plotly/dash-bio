@@ -297,7 +297,7 @@ class Clustergram(object):
             rdt['line'] = dict(
                 width=self._lineWidth[0]
             )
-            rdt['hoverinfo'] = 'x+y+name'
+            rdt['hoverinfo'] = 'x+name'
             fig.append_trace(rdt, 2, 1)
 
         # display row dendrogram sideways
