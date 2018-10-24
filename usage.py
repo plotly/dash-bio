@@ -11,6 +11,8 @@ app = dash.Dash('')
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
+server = app.server
+
 colorPalette = [
     'rgb(255,0,0)',
     'rgb(75,150,255)',
