@@ -12,7 +12,6 @@ import bipyridineStyles from '../lib/example/js/bipyridine_styles';
 
 
 class App extends Component {
-
     constructor() {
         super();
         this.state = {
@@ -112,7 +111,7 @@ class App extends Component {
                 {/* <Molecule3d {...this.state} /> */}
 
             </div>
-        )
+        );
     }
 }
 

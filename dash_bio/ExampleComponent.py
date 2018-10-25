@@ -5,10 +5,14 @@ from dash.development.base_component import Component, _explicitize_args
 
 class ExampleComponent(Component):
     """A ExampleComponent component.
-ExampleComponent is an example component.
-It takes a property, `label`, and
-displays it.
-It renders an input with the property `value`
+ExampleComponent is an example component.
+
+It takes a property, `label`, and
+
+displays it.
+
+It renders an input with the property `value`
+
 which is editable by the user.
 
 Keyword arguments:
