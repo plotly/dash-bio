@@ -1,7 +1,7 @@
 # Switch into a virtual environment
 # pip install -r requirements.txt
-dash
-dash-core-components
-dash-html-components
-dash-renderer
-gunicorn
+dash==0.26.5
+dash-core-components==0.35.0
+dash-html-components==0.11.0
+dash-renderer==0.12.1
+gunicorn==19.9.0
