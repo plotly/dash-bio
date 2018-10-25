@@ -8,3 +8,5 @@ gunicorn
 pandas
 numpy
 dash_bio-0.0.1.tar.gz
+scipy
+sklearn
