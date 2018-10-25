@@ -95,7 +95,7 @@ for i in range(len(chain)):
         "residue_index": resId[i],
         "element": atmName[i],
         "residue_name": resName[i],
-        "serial": serial[i],
+        "serial": i,
     }
     if (i < len(chain)-1):
         print (json.dumps(resinfo), ",", sep="")
