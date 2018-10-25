@@ -6,7 +6,7 @@ export default class DashMolecule3d extends Component {
     constructor(props) {
         super(props);
         this.onChangeSelection=this.onChangeSelection.bind(this);
-        // this.onRenderNewData=this.onRenderNewData.bind(this);
+        this.onRenderNewData=this.onRenderNewData.bind(this);
         }
     
     onChangeSelection(selectedAtomIds) {
@@ -15,16 +15,17 @@ export default class DashMolecule3d extends Component {
         this.props.setProps({selectedAtomIds: selectedAtomIds})
     }
 
-    // onRenderNewData() {
-    //     this.props.setProps({selectedAtomIds:[]})
-    // }
-
-    shouldComponentUpdate(nextProps) {
-        if(this.props.modelData !== nextProps.modelData) {
-                return true;
-            }
-        return false
+    onRenderNewData(glviewer) {
+        glviewer.resize()
+        // this.props.setProps({selectedAtomIds:[]})
     }
+
+    // shouldComponentUpdate(nextProps) {
+    //     if(this.props.modelData !== nextProps.modelData) {
+    //             return true;
+    //         }
+    //     return false
+    // }
 
     // componentDidUpdate(prevProps) {
     //     this.onChangeSelection(prevProps)

@@ -73,9 +73,25 @@ app.layout = html.Div([
         )
     ], style={"display":"none"}),
 
+    # #Dropdown menu for selecting the background color
+    # html.Div([
+    #     html.P('Background color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
+    #     dcc.Dropdown(
+    #         id='dropdown-bgcolor',
+    #         options=[
+    #             {'label': 'Black', 'value':'#000000'},
+    #             #{'label': 'White', 'value':'#ffffff'},
+    #             {'label': 'grey', 'value':'#7d7d7d'},
+    #         ],
+    #         value='#ffffff'
+    #     ),
+    # ],
+    #     style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
+    # ),
 
 ])
 
+## Function to parse contents - used in the app callbacks below
 def parse_contents(contents): #, filename, date): 
     content_type, content_string=str(contents).split(',')
     decoded=base64.b64decode(content_string).decode("UTF-8")
@@ -84,9 +100,6 @@ def parse_contents(contents): #, filename, date):
 ## Callback for molecule visualization based on uploaded PDB file
 @app.callback(
     Output("output-data-upload","children"),
-    #Output("mol-3d","modelData"),
-    #Output("molecule-container","children"),
-    # [Input("upload-data","contents")]
     [Input("upload-data","contents")]
 )
 def use_upload(contents): #, filename, date):
@@ -95,11 +108,11 @@ def use_upload(contents): #, filename, date):
         pass
     else:
         decoded_contents=parse_contents(contents) #, filename, date)
-        # with open (tempfile.NamedTemporaryFile(suffix=".pdb",delete=False, mode='w+')) as f:
         f=tempfile.NamedTemporaryFile(suffix=".pdb",delete=False, mode='w+')
         f.write(decoded_contents)
         fname=f.name
         f.close()
+
         ## Create the model data from the decoded contents
         mdata=parser.createData(fname)
         fm=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
@@ -116,12 +129,10 @@ def use_upload(contents): #, filename, date):
         fname1=fs.name
         fs.close()
         with open(fname1) as fs:
-            style_sphere=json.load(fs)
-
-        print ("func style:", style_sphere)
+            data_style=json.load(fs)
+        #print ("func style:", data_style)
 
         ## Return the new molecule visualization container
-        #return (mdata)
         return (
             dash_bio.DashMolecule3d(
             id='mol-3d',
@@ -131,10 +142,17 @@ def use_upload(contents): #, filename, date):
             modelData=mdata,
             selectedAtomIds=[],
             defaultSelection=[],
-            styles=style_sphere,
+            styles=data_style,
             atomLabelsShown=False,
+            )
         )
-        )
+
+# @app.callback(
+#     Output('output-data-upload', 'children'),
+#     Input('dropdown-bgcolor', 'value')
+# )
+# def bgColor(color):
+#     return color
 
 if __name__ == '__main__':
     app.run_server(debug=True)

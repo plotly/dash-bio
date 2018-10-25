@@ -95,7 +95,7 @@ def createStyle(pdbPath, style):
                 else:
                     dat={
                         "color":double_quote(chainsDict[chain[ct1]]),
-                        "visualization_type":style
+                        "visualization_type":double_quote(style)
                     }
                 # if(ct1 < len(serial)-1):
                 #     print(json.dumps(index),":",json.dumps(dat), ",", sep="")

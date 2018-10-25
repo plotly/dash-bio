@@ -14,6 +14,18 @@
           }
         ],
         "returns": null
+      },
+      {
+        "name": "onRenderNewData",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "glviewer",
+            "type": null
+          }
+        ],
+        "returns": null
       }
     ],
     "props": {
