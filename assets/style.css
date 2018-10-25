@@ -2,6 +2,7 @@ body {
     font-family: Helvetica, sans-serif;
     background:#000000;
     padding: 0px;
+    font-size:10pt;
     color: #dddddd;
 }
 
@@ -11,34 +12,57 @@ body {
     position: static;
     margin-top:0px;
     margin-left:0px;
-    font-size:36pt;
-    padding: 20px;
+    font-size:28pt;
+    padding: 10px;
     background:blue;
     color:#ffffff;
 }
 
 #options {
-    width: 250px;
+    width: 600px;
     position: relative;
     float:left;
-    top: 100px;
+    top: 10px; 
     border: solid 1px grey;
     border-radius: 5px;
     padding: 10px;
+    max-height:300px;
+    overflow:scroll;
+    font-size: 10pt !important; 
+}
+
+
+::-webkit-scrollbar {
+  width: 2px;
+  background-color: #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ddd; 
 }
 
 #clustergram-wrapper {
-    height: 800px;
-    width:900px;
+    height: 600px;
+    width:600px;
     float:left;
-    margin-top:0px;
-    margin-left:20px;
-    margin-bottom: 50px; 
+    padding: 0px;
+    margin: 0px; 
 }
 .Select, .Select-control, input, .Select-menu-outer, .Select-value-label {
     background-color: black !important;
     color: white !important;
 }
+#file-upload-container {
+    width: 550px !important;
+    margin-left: 10px !important;
+    margin-top: 20px; 
+    height:20px !important; 
+}
+.Select-control {
+    width: 550px;
+    margin-left: -175px;
+}
+
 .Select, input {
     width: 225px;
     margin:auto;
@@ -54,10 +78,9 @@ input {
     margin: 6px !important;
 }
 #info {
-    margin-top: 100px;
-    margin-left: 20px;
+    margin-top: 20px;
     float: left;
-    width: 400px;
+    width: 600px;
     border-radius: 5px;
     padding: 10px; 
     border: 1px solid white;

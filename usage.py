@@ -26,7 +26,7 @@ fig_options = dict(
     columnLabels=None, rowLabels=None,
     hideLabels=['row'],
     colorThreshold=dict(row=9, col=35),
-    height=900, width=900,
+    height=650, width=650,
     colorMap=[
         [0.0, colorPalette[0]],
         [0.5, colorPalette[1]],
