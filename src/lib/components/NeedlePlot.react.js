@@ -154,7 +154,7 @@ export default class NeedlePlot extends Component {
 
     // Main
     render() {
-        const {id} = this.props;
+        const {id, setProps} = this.props;
         const otherProps = {
             style: {
                 width: '100%',
@@ -210,7 +210,7 @@ export default class NeedlePlot extends Component {
                 headColor,
                 headSymbol,
             },
-        } = this.props;
+        } = mergeDeepRight(NeedlePlot.defaultProps, this.props);
 
         // Check for strings
         if (inputData && typeof x === 'string' && typeof y === 'string') {
@@ -414,7 +414,10 @@ export default class NeedlePlot extends Component {
     // Fetch layout
     prepareLayout(vars) {
         const {data, shapes, globalAnnotation, domainAnnotations} = vars;
-        const {xlabel, ylabel, rangeSlider} = this.props;
+        const {xlabel, ylabel, rangeSlider} = mergeDeepRight(
+            NeedlePlot.defaultProps,
+            this.props
+        );
         let {xStart, xEnd} = this.state;
         let first_init = false;
         // initialize the range based on input data
