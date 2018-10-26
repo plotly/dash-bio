@@ -14,14 +14,6 @@ app = dash.Dash('')
 
 with open('./data/data.js') as f:
     model=json.load(f)
-# data=parser.createData('./data/3aid.pdb')
-# f=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
-# f.write(data)
-# fname=f.name
-# f.close()
-# with open(fname) as f:
-#     model=json.load(f)
-#print (model)
 
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
@@ -55,40 +47,74 @@ app.layout = html.Div([
         # Allow multiple files to be uploaded
         multiple=True
     ),
-    html.Div(id='output-data-upload'),
+    
+    #Dropdown menu for selecting the background color
+    html.Div([
+        html.P('Background color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
+        dcc.Dropdown(
+            id='dropdown-bgcolor',
+            options=[
+                {'label': 'Black', 'value':'#000000'},
+                {'label': 'grey', 'value':'#7d7d7d'},
+            ],
+            value='#000000'
+        ),
+    ],
+        style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
+    ),
+
+    #Slider to choose the background opacity
+    html.Div([
+        html.P('Background opacity', style={'font-weight':'bold', 'margin-bottom':'10px'}),
+        dcc.Slider(
+            id='slider-opacity',
+            min=0,
+            max=1.0,
+            step=0.1,
+            value=0.2,
+        ),
+    ],
+        style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
+    ),
+
+    #Dropdown to select chain representation (sticks, cartoon, sphere)
+    html.Div([
+        html.P('Representation', style={'font-weight':'bold', 'margin-bottom':'10px'}),
+        dcc.Dropdown(
+            id='dropdown-styles',
+            options=[
+                {'label': 'Sticks', 'value':'stick'},
+                {'label': 'Cartoon', 'value':'cartoon'},
+                {'label': 'Spheres', 'value':'sphere'},    
+            ],
+            value='stick'
+        ),
+    ],
+        style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
+    ),
+
+    html.Div(id='output-data-upload', children=[], style={'float':'left'}),
+
     ]),
 
     ## Molecule visualization container
     html.Div(id="molecule-container", 
         children=[dash_bio.DashMolecule3d(
             id='mol-3d',
-            backgroundColor='#ffffff',
-            backgroundOpacity=0.,
+            backgroundColor='#000000',
+            #backgroundOpacity=0.,
             selectionType='ATOM',
             modelData=model,
-            #selectedAtomIds=[],
+            selectedAtomIds=[],
             defaultSelection=[],
-            #styles=style_cartoon,
+            styles={},
             atomLabelsShown=False,
         )
     ], style={"display":"none"}),
-
-    # #Dropdown menu for selecting the background color
-    # html.Div([
-    #     html.P('Background color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
-    #     dcc.Dropdown(
-    #         id='dropdown-bgcolor',
-    #         options=[
-    #             {'label': 'Black', 'value':'#000000'},
-    #             #{'label': 'White', 'value':'#ffffff'},
-    #             {'label': 'grey', 'value':'#7d7d7d'},
-    #         ],
-    #         value='#ffffff'
-    #     ),
-    # ],
-    #     style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
     # ),
 
+
+    
 ])
 
 ## Function to parse contents - used in the app callbacks below
@@ -100,9 +126,12 @@ def parse_contents(contents): #, filename, date):
 ## Callback for molecule visualization based on uploaded PDB file
 @app.callback(
     Output("output-data-upload","children"),
-    [Input("upload-data","contents")]
+    [Input("upload-data","contents"),
+     Input("dropdown-bgcolor", 'value'),
+     Input("slider-opacity", "value"),
+     Input("dropdown-styles", "value")]
 )
-def use_upload(contents): #, filename, date):
+def use_upload(contents, color, opacity, molStyle): #, filename, date):
     if contents==None:
         # return ("contents is empty",)
         pass
@@ -123,21 +152,20 @@ def use_upload(contents): #, filename, date):
             mdata=json.load(fm)
 
         ## Create the cartoon style from the decoded contents
-        datstyle=sparser.createStyle(fname, 'sphere')
+        datstyle=sparser.createStyle(fname, molStyle)
         fs=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
         fs.write(datstyle)
         fname1=fs.name
         fs.close()
         with open(fname1) as fs:
             data_style=json.load(fs)
-        #print ("func style:", data_style)
 
         ## Return the new molecule visualization container
         return (
             dash_bio.DashMolecule3d(
             id='mol-3d',
-            backgroundColor='#ffffff',
-            backgroundOpacity=0.,
+            backgroundColor=color, #'#ffffff',
+            backgroundOpacity=opacity,
             selectionType='ATOM',
             modelData=mdata,
             selectedAtomIds=[],
@@ -146,13 +174,6 @@ def use_upload(contents): #, filename, date):
             atomLabelsShown=False,
             )
         )
-
-# @app.callback(
-#     Output('output-data-upload', 'children'),
-#     Input('dropdown-bgcolor', 'value')
-# )
-# def bgColor(color):
-#     return color
 
 if __name__ == '__main__':
     app.run_server(debug=True)
