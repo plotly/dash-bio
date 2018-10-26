@@ -28,6 +28,69 @@ export default class SpeckComponent extends Component {
 	const renderer = this.state.renderer;
 	const view = this.props.view;  
 
+	const presets = {
+	    'default': {
+		'atomScale': 0.6,
+		'relativeAtomScale': 1.0,
+		'atomShade': 0.5,
+		'bonds': true,
+		'bondScale': 0.5,
+		'bondThreshold': 1.2,
+		'bondShade': 0.5,
+		'ao': 0.75,
+		'brightness': 0.5,
+		'aoRes': 256,
+		'spf': 32,
+		'dofStrength': 0.0, 
+		'dofPosition': 0.5
+	    },
+	    'ball-and-stick': {
+		'atomScale': 0.24,
+		'relativeAtomScale': 0.64,
+		'atomShade': 0.5,
+		'bonds': true,
+		'bondScale': 0.5,
+		'bondThreshold': 1.2,
+		'bondShade': 0.5,
+		'ao': 0.75,
+		'brightness': 0.5,
+		'aoRes': 256,
+		'spf': 32,
+		'dofStrength': 0.0,
+		'dofPosition': 0.5
+	    },
+	    'toon': {
+		'atomScale': 0.24,
+		'relativeAtomScale': 0.64,
+		'atomShade': 0.5,
+		'bonds': true,
+		'bondScale': 0.5,
+		'bondThreshold': 1.2,
+		'bondShade': 0.5,
+		'ao': 0.0,
+		'brightness': 0.5,
+		'aoRes': 256,
+		'spf': 0,
+		'dofStrength': 0.0,
+		'dofPositon': 0.5
+	    },
+	    'licorice': {
+		'atomScale': 0.10,
+		'relativeAtomScale': 0.0,
+		'atomShade': 0.5,
+		'bonds': true,
+		'bondScale': 1.0,
+		'bondThreshold': 1.2,
+		'bondShade': 0.5,
+		'ao': 0.75,
+		'brightness': 0.5,
+		'aoRes': 256,
+		'spf': 32,
+		'dofStrength': 0.0,
+		'dofPosition': 0.5
+	    }
+	}
+	
 	renderer.setSystem(system, view);
 	// update the resolution
 	renderer.setResolution(view.resolution, view.aoRes);
@@ -170,3 +233,4 @@ SpeckComponent.propTypes = {
     
 
 }
+B
