@@ -94,9 +94,22 @@ class DashCircos extends Component {
 
   setToolTip(configApply) {
     if (configApply.tooltipContent) {
+      console.warn("tooltipContent",configApply.tooltipContent)
       if (configApply.tooltipContent.name) {
+        if(configApply.tooltipContent.name === "all"){
+          configApply.tooltipContent = d => {
+            var contents = "";
+              for(var key in d) {
+                  var keyUpper = key.charAt(0).toUpperCase() + key.slice(1)
+                  contents = '<p>' + keyUpper + " : " + d[key] + '</p>' + contents
+            }
+            return ('<p>' + contents + '</p>')
+          }
+        }
+        else {
         var toolName = configApply.tooltipContent.name
         configApply.tooltipContent = d => d[toolName]
+        }
       }
       else if (configApply.tooltipContent.source) {
         var tooltipData = configApply.tooltipContent
@@ -126,7 +139,8 @@ class DashCircos extends Component {
 
       // Since config is const, can't manipulate and throws error
       let configApply
-
+      console.warn("config", config)
+      console.warn("track", track)
       if (config) {
         configApply = config
 

@@ -1,0 +1,23 @@
+._dash-undo-redo {
+    display: none;
+  }
+  
+.banner {
+    height: 75px;
+    margin: -15px -10px 10px;
+    background-color: rgb(66, 196, 247);
+    border-radius: 2px;
+}
+
+.banner h2{
+    color: white;
+    margin-left: 2%;
+    display: inline-block;
+}
+
+.banner Img{
+    position: relative;
+    float: right;
+    right: 10px;
+    height: 75px;
+}
