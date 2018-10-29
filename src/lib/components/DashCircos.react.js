@@ -94,31 +94,44 @@ class DashCircos extends Component {
 
   setToolTip(configApply) {
     if (configApply.tooltipContent) {
-      console.warn("tooltipContent",configApply.tooltipContent)
+      console.warn("tooltipContent", configApply.tooltipContent)
       if (configApply.tooltipContent.name) {
-        if(configApply.tooltipContent.name === "all"){
+        if (configApply.tooltipContent.name === "all") {
           configApply.tooltipContent = d => {
             var contents = "";
-              for(var key in d) {
-                  var keyUpper = key.charAt(0).toUpperCase() + key.slice(1)
-                  contents = '<p>' + keyUpper + " : " + d[key] + '</p>' + contents
+            for (var key in d) {
+              var keyUpper = key.charAt(0).toUpperCase() + key.slice(1)
+              contents = '<p>' + keyUpper + " : " + d[key] + '</p>' + contents
             }
             return ('<p>' + contents + '</p>')
           }
         }
         else {
-        var toolName = configApply.tooltipContent.name
-        configApply.tooltipContent = d => d[toolName]
+          var toolName = configApply.tooltipContent.name
+          configApply.tooltipContent = d => d[toolName]
         }
       }
       else if (configApply.tooltipContent.source) {
         var tooltipData = configApply.tooltipContent
 
         if (tooltipData.sourceID && tooltipData.targetID) {
-          configApply.tooltipContent = function (d) { return '<h3>' + d[tooltipData.source][tooltipData.sourceID] + ' ➤ ' + d[tooltipData.target][tooltipData.targetID] + ': ' + d[tooltipData.target][tooltipData.targetEnd] + '</h3>' }
+          configApply.tooltipContent = function (d) { 
+            return '<h3>' + d[tooltipData.source][tooltipData.sourceID] + 
+            ' ➤ ' + 
+            d[tooltipData.target][tooltipData.targetID] + 
+            ': ' + 
+            d[tooltipData.target][tooltipData.targetEnd] + 
+            '</h3>' }
         }
         else {
-          configApply.tooltipContent = function (d) { return '<h3>' + d[tooltipData.source] + ' ➤ ' + d[tooltipData.target] + ': ' + d[tooltipData.targetEnd] + '</h3>' }
+          configApply.tooltipContent = function (d) { 
+            return '<h3>' + 
+            d[tooltipData.source] + 
+            ' ➤ ' + 
+            d[tooltipData.target] + 
+            ': ' + 
+            d[tooltipData.targetEnd] + 
+            '</h3>' }
         }
       }
     }
