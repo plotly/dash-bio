@@ -9,7 +9,7 @@ def double_quote(param):
 
 def createData(pdbPath):
     with open(pdbPath, 'r') as infile:
-       lines=[line for line in infile]
+       lines=infile.readlines() #[line for line in infile]
     lines1=io.StringIO(pdbPath)
 
     varNchains=[]; varNresidues=[]

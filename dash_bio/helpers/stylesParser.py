@@ -14,8 +14,8 @@ def double_quote(resName):
 def createStyle(pdbPath, style):
     datS=""
     ## Read input file
-    with open (pdbPath) as infile:
-        lines=[line for line in infile]
+    with open (pdbPath, 'r') as infile:
+        lines=infile.readlines() #[line for line in infile]
 
     ## Read the PDB file using mdtraj to get information about the PDB file
     topology = md.load(pdbPath).topology
