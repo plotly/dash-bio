@@ -55,9 +55,9 @@ fig_options = dict(
 )
 computedTraces = None
 
-app.layout = html.Div([
+app.layout = html.Div(id='clustergram-body', children=[
     html.Div(
-        id='header',
+        id='clustergram-header',
         children=[
             'Dash Clustergram'
         ]
@@ -70,9 +70,9 @@ app.layout = html.Div([
     ),
 
     html.Div(
-        id='options', children=[
+        id='clustergram-options', children=[
             html.Div(
-                id='file-upload-container',
+                id='clustergram-file-upload-container',
                 children=[
                     dcc.Upload(
                         id='file-upload',
@@ -200,8 +200,8 @@ app.layout = html.Div([
     ),
 
     html.Div(
-        id='info',
-        children=["hi"]
+        id='clustergram-info',
+        children=[""]
     ),
 
     html.Div(
@@ -253,7 +253,7 @@ def change_cols_options(contents, filename):
 
 
 @app.callback(
-    Output('info', 'children'),
+    Output('clustergram-info', 'children'),
     [Input('file-upload', 'contents'),
      Input('file-upload', 'filename')]
 )
