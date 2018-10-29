@@ -4,6 +4,9 @@ import os as _os
 import sys as _sys
 import json
 
+from .ManhattanPlot import ManhattanPlot
+from .VolcanoPlot import VolcanoPlot
+
 import dash as _dash
 
 if not hasattr(_dash, 'development'):
