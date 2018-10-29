@@ -1,0 +1,63 @@
+body {
+    font-family: sans-serif;
+    padding: 5px
+}
+#header {
+    width: 98%;
+    height: 60px;
+    text-align: center;
+    padding: 16px;
+    background: green;
+    color: black;
+    border-radius: 5px;
+}
+
+.controls {
+    border-width: 2px;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-color: grey;
+    /* border-radius: 5px; */
+    padding: 10px;
+    top: 2px;
+    right: 5px;
+    width: 30%;
+    /* float: right; */
+}
+
+#control-bgcolor {
+    /* position: absolute;
+    top: 140px;
+    height: 60px; */
+    border-top-style: solid;
+    border-color: grey;
+    border-width: 2px;
+}
+#selection-display {
+    border-bottom-style: solid;
+    border-color: grey;
+    border-width: 2px;
+}
+
+#slider-opacity {
+    width: 95%;
+}
+
+#output-data-upload {
+    position: absolute;
+    width: 70%;
+    height:auto;
+    top: 172px;
+    left: 300px;
+    right:2px;
+}
+
+#mol-3d {
+    width: 100%;
+    height: auto;
+}
+
+#selection_output {
+    width: 98%;
+    height: 150px;
+}

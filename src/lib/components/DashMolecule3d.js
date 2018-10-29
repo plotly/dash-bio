@@ -15,27 +15,21 @@ export default class DashMolecule3d extends Component {
         this.props.setProps({selectedAtomIds: selectedAtomIds})
     }
 
-    onRenderNewData(glviewer) {
-        glviewer.resize()
-        // this.props.setProps({selectedAtomIds:[]})
+    onRenderNewData(selectedAtomIds) {
+    // onRenderNewData(glviewer) {
+    //     glviewer.resize()
+        this.props.setProps({selectedAtomIds:[]})
     }
 
-    // shouldComponentUpdate(nextProps) {
-    //     if(this.props.modelData !== nextProps.modelData) {
-    //             return true;
-    //         }
-    //     return false
-    // }
-
-    // componentDidUpdate(prevProps) {
-    //     this.onChangeSelection(prevProps)
-        // const {modelData, selectedAtomIds}=this.props
-            // if(this.props.modelData !== prevProps.modelData) {
-                // this.setState({selectedAtomIds:[]})
-                // console.warn(this.props.selectedAtomIds)
-            // }
-        // return true
-    // }
+    shouldComponentUpdate(nextProps) {
+        if(this.props.modelData !== nextProps.modelData ||
+            this.props.backgroundColor !== nextProps.backgroundColor ||
+            this.props.backgroundOpacity !== nextProps.backgroundOpacity ||
+            this.props.styles !== nextProps.styles) {
+                return true;
+            }
+        return false
+    }
 
     render() {
         const {
@@ -57,13 +51,11 @@ export default class DashMolecule3d extends Component {
             defaultSelection
         }=this.props;
 
-        // console.warn(this.props)
-
         return (
             <div id={id}>
                 <Molecule3d {...this.props}
                 onChangeSelection={this.onChangeSelection}
-                // onRenderNewData={this.onRenderNewData}
+                onRenderNewData={this.onRenderNewData}
                 />
 
             </div>

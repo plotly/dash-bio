@@ -97,17 +97,14 @@ def createStyle(pdbPath, style):
                         "color":double_quote(chainsDict[chain[ct1]]),
                         "visualization_type":double_quote(style)
                     }
-                # if(ct1 < len(serial)-1):
-                #     print(json.dumps(index),":",json.dumps(dat), ",", sep="")
-                # else:
-                #     print(json.dumps(index),":",json.dumps(dat), sep="")
+
             else:
                 dat={
                     "color":double_quote(atmColor[atmType[ct1]]),
                     "visualization_type":"stick"
                 }
             if(ct1 < len(serial)-1):
-                #print(json.dumps(index),":",json.dumps(dat), ",", sep="")
+                #datS += json.dumps(index) + ":" + json.dumps(dat) + ","
                 datS += json.dumps(index) + ":" + json.dumps(dat) + ","
             else:
                 datS += json.dumps(index) + ":" + json.dumps(dat)

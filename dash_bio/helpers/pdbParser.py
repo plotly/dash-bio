@@ -13,7 +13,7 @@ def createData(pdbPath):
     lines1=io.StringIO(pdbPath)
 
     varNchains=[]; varNresidues=[]
-    serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]; atmName=[]
+    serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]; atomType=[]
     ct=0
 
     for i in lines:    
@@ -36,17 +36,22 @@ def createData(pdbPath):
             positions.append([x,y,z])
             occupancy.append(i[54:60].strip())
             tempFactor.append(i[60:66].strip())
-            atmName.append(i[77:79].strip())
+            atomType.append(i[77:79].strip())
             ct+=1
     ## Create list of atoms
     datA=""
+    tmpRes=resId[0]
+    resct=1
     for i in range(len(chain)): 
+        if(tmpRes != resId[i]):
+            tmpRes=resId[i]
+            resct += 1
         resinfo = {
             "name": atmName[i],
             "chain": chain[i],
             "positions": positions[i],
-            "residue_index": resId[i],
-            "element": atmName[i],
+            "residue_index": resct,
+            "element": atomType[i],
             "residue_name": resName[i],
             "serial": i,
         }

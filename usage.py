@@ -7,6 +7,7 @@ import base64
 import json
 import tempfile
 import shutil
+import os
 from dash_bio.helpers import pdbParser as parser
 from dash_bio.helpers import stylesParser as sparser
 
@@ -21,10 +22,12 @@ app.css.config.serve_locally = True
 app.layout = html.Div([
     ## Header container
     html.Div(id="header",
-        children=[ html.H2("Dash molecule3D", 
-        style={'textAlign': 'center', 'background': 'grey', 'padding': '16px'}
+        children=[ html.H2("Dash Molecule Visualization", 
+        #style={'textAlign': 'center', 'background': 'grey', 'padding': '16px'}
         )]
         ),
+
+    html.Div(id="controls-container", children= [
 
     ## Upload container
     html.Div([
@@ -35,50 +38,52 @@ app.layout = html.Div([
             html.A('Select Files')
         ]),
         style={
-            'width': '100%',
-            'height': '60px',
+            'width': '99%',
+            'height': '50px',
             'lineHeight': '60px',
             'borderWidth': '1px',
             'borderStyle': 'dashed',
             'borderRadius': '5px',
             'textAlign': 'center',
-            'margin': '10px'
+            'margin': '3px',
+            'padding': '5px'
         },
         # Allow multiple files to be uploaded
         multiple=True
     ),
     
     #Dropdown menu for selecting the background color
-    html.Div([
+    html.Div(className="controls", id="control-bgcolor", children=[
         html.P('Background color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
         dcc.Dropdown(
             id='dropdown-bgcolor',
             options=[
                 {'label': 'Black', 'value':'#000000'},
-                {'label': 'grey', 'value':'#7d7d7d'},
+                {'label': 'White', 'value':'#ffffff'},
+                {'label': 'Cream', 'value':'#e1dabb'},
             ],
             value='#000000'
         ),
     ],
-        style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
+        #style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
     ),
 
     #Slider to choose the background opacity
-    html.Div([
+    html.Div(className="controls", children=[
         html.P('Background opacity', style={'font-weight':'bold', 'margin-bottom':'10px'}),
         dcc.Slider(
             id='slider-opacity',
             min=0,
             max=1.0,
             step=0.1,
-            value=0.2,
+            value=1,
         ),
     ],
-        style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
+        #style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
     ),
 
     #Dropdown to select chain representation (sticks, cartoon, sphere)
-    html.Div([
+    html.Div(className="controls", children=[
         html.P('Representation', style={'font-weight':'bold', 'margin-bottom':'10px'}),
         dcc.Dropdown(
             id='dropdown-styles',
@@ -90,20 +95,44 @@ app.layout = html.Div([
             value='stick'
         ),
     ],
-        style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
+        #style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
     ),
 
+    # #Radio selection for atom, residue or chain selection
+    # html.Div(className="controls", children=[
+    #     html.P('Selection type', style={'font-weight':'bold', 'margin-bottom':'10px', 'width':'200px'}),
+    #     dcc.RadioItems(
+    #         id='radio-selection',
+    #         options=[
+    #             {'label': 'atom', 'value': 'Atom'},
+    #             {'label': 'residue', 'value': 'Residue'},
+    #             {'label': 'chain', 'value': 'Chain'}
+    #         ],
+    #         value='Atom'
+    #     ),
+    # ]),
+
+    # Textarea container to display the selected atoms
+    # html.Div(id='selection_output', className="controls"),
+    html.Div(className="controls", id="selection-display", children=[
+        html.P("Selection", style={'font-weight':'bold', 'margin-bottom':'10px'}),
+        dcc.Textarea(id='selection_output'),
+    ]),
+
+    ]),
+    #Main molecule visualization container
     html.Div(id='output-data-upload', children=[], style={'float':'left'}),
 
     ]),
 
-    ## Molecule visualization container
+
+    ## Dummy hiddent visualization container for initializing dash_bio
     html.Div(id="molecule-container", 
         children=[dash_bio.DashMolecule3d(
             id='mol-3d',
             backgroundColor='#000000',
             #backgroundOpacity=0.,
-            selectionType='ATOM',
+            #selectionType='Atom',
             modelData=model,
             selectedAtomIds=[],
             defaultSelection=[],
@@ -129,9 +158,10 @@ def parse_contents(contents): #, filename, date):
     [Input("upload-data","contents"),
      Input("dropdown-bgcolor", 'value'),
      Input("slider-opacity", "value"),
-     Input("dropdown-styles", "value")]
+     Input("dropdown-styles", "value")] #,
+    #  Input("radio-selection","value")]
 )
-def use_upload(contents, color, opacity, molStyle): #, filename, date):
+def use_upload(contents, color, opacity, molStyle): #,selectn): #, filename, date):
     if contents==None:
         # return ("contents is empty",)
         pass
@@ -159,6 +189,8 @@ def use_upload(contents, color, opacity, molStyle): #, filename, date):
         fs.close()
         with open(fname1) as fs:
             data_style=json.load(fs)
+        
+        # print (tempfile.TemporaryDirectory(), ">>", fname1, fname)
 
         ## Return the new molecule visualization container
         return (
@@ -166,7 +198,7 @@ def use_upload(contents, color, opacity, molStyle): #, filename, date):
             id='mol-3d',
             backgroundColor=color, #'#ffffff',
             backgroundOpacity=opacity,
-            selectionType='ATOM',
+            selectionType='Atom',
             modelData=mdata,
             selectedAtomIds=[],
             defaultSelection=[],
@@ -174,6 +206,20 @@ def use_upload(contents, color, opacity, molStyle): #, filename, date):
             atomLabelsShown=False,
             )
         )
+
+@app.callback(
+    # Output("selection_output","children"),
+    Output("selection_output","value"),
+    [Input("mol-3d", "selectedAtomIds"),
+     Input("mol-3d","modelData")]
+)
+def selout(param, model):
+    res_summary=[]
+    res_info=""
+    for i in param:
+        res_info = model['atoms'][i]
+        res_summary.append(res_info)
+    return '{} '.format(res_summary)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
