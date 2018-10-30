@@ -107,7 +107,7 @@ export default class SequenceViewerComponent extends Component {
 	    legend: this.props.legend
 	};
 
-	for(var i = 0; i < this.props.coverage.length; i++) {
+	for(let i = 0; i < this.props.coverage.length; i++) {
 	    const v = i;
 	    this.props.coverage[i].onclick = (e) => {
 		setProps({
