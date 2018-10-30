@@ -380,10 +380,10 @@ class Clustergram(object):
         # first is ratio for row; second is ratio for column
         if(self._displayRatio[0] != 0):
             rowRatio = \
-                0.95*float(1)/float(1 + int(1/self._displayRatio[0]))
+                0.95/float(1 + int(1/self._displayRatio[0]))
         if(self._displayRatio[1] != 0):
             colRatio = \
-                0.95*float(1)/float(1 + int(1/self._displayRatio[1]))
+                0.95/float(1 + int(1/self._displayRatio[1]))
 
         # width adjustment for row dendrogram
         fig['layout']['xaxis1'].update(domain=[0, 0.95])
