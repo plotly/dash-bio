@@ -131,8 +131,6 @@ export default class NeedlePlot extends Component {
                 <Plot
                     data={data}
                     layout={layout}
-                    onClick={this.handleChange}
-                    onHover={this.handleChange}
                     onRelayout={this.handleChange}
                     {...omit(
                         ['fireEvent', 'dashEvent', 'setProps'],
@@ -234,12 +232,16 @@ export default class NeedlePlot extends Component {
             const [line_x, line_y] = create_horizontal_line(
                 x0,
                 x1,
-                Y_BUFFER / -2,
+                -Y_BUFFER,
                 x1 - x0
             );
+
             sequenceDomains.push({
                 type: 'scatter',
                 mode: 'lines',
+                fill: 'tozeroy',
+                fillcolor: fixed_domain_colors[i],
+                hoveron: 'points+fills',
                 x: line_x,
                 y: line_y,
                 xaxis: 'x2',
@@ -247,7 +249,7 @@ export default class NeedlePlot extends Component {
                 hoverinfo: 'name',
                 name: `[${x0}->${x1}] ${dom.name}`,
                 marker: {color: fixed_domain_colors[i]},
-                line: {width: DOMAIN_WIDTH},
+                line: {width: 2},
             });
 
             // Name of the protein domain
@@ -280,6 +282,11 @@ export default class NeedlePlot extends Component {
                     mode: 'lines',
                     x: line_x,
                     y: line_y,
+                    fill: 'tozeroy',
+                    fillcolor: fixed_mutation_colors[
+                                [...new Set(mutationGroups)].indexOf(gname)
+                            ],
+                    hoveron: 'points+fills',
                     xaxis: 'x2',
                     hoverinfo: 'name+text',
                     name: gname,
