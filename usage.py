@@ -258,7 +258,7 @@ def enable_disable_slider(v):
 )
 def update_sel(v, v2):
     if(v2 != 'sel'):
-        return None
+        return []
     return [v[0], v[1], highlightColor]
 
 
