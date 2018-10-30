@@ -130,7 +130,8 @@ export default class SequenceViewerComponent extends Component {
 
 SequenceViewerComponent.defaultProps = {
     coverage: [],
-    selection: []
+    selection: [],
+    sequenceMaxHeight: '400px'
 };
 
 SequenceViewerComponent.propTypes = {
@@ -180,7 +181,7 @@ SequenceViewerComponent.propTypes = {
     title: PropTypes.string,
 
     /**
-     * The maximum height of the sequence; default "400px".
+     * The maximum height of the sequence.
      */
     sequenceMaxHeight: PropTypes.string,
 
