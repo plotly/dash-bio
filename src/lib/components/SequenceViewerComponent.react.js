@@ -88,10 +88,8 @@ export default class SequenceViewerComponent extends Component {
     }
     
     render() {
-	
-	const id = this.props.id;
-	const seq = this.props.sequence;
-	const setProps = this.props.setProps;
+
+	const {id, sequence, setProps} = this.props;
 	
 	const options = {
 	    showLineNumbers: this.props.showLineNumbers,
@@ -138,7 +136,7 @@ export default class SequenceViewerComponent extends Component {
 
 	return (
 		<div id={id}>
-		<ReactSequenceViewer sequence={seq} {...options} />
+		<ReactSequenceViewer sequence={sequence} {...options} />
 		</div>
 	);
     }
