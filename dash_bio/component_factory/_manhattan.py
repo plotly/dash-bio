@@ -9,7 +9,7 @@ import plotly.graph_objs as go
 from .utils import _get_hover_text
 
 
-def create_manhattan(
+def ManhattanPlot(
         dataframe,
         chrm="CHR",
         bp="BP",

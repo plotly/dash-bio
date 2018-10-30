@@ -1,129 +1,95 @@
 # In[]:
 # Import required libraries
 import pandas as pd
-import dash
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
 
 import dash_bio
 
-from dash_bio.figure_factory._manhattan import create_manhattan
+from .utils.app_wrapper import app_page_layout
 
 df = pd.read_csv("tests/dash/HapMap.csv")  # Load the data
 
-fig = create_manhattan(df)  # Feed the data to a function which creates a Manhattan Plot figure
+fig = dash_bio.ManhattanPlot(df)  # Feed the data to a function which creates a Manhattan Plot figure
+
+text_style = {
+    'color': "#506784",
+    'font-family': 'Open Sans'
+}
 
 
 def layout():
-    return html.Div(
-        id='main_page',
+    main_layout = html.Div(
+        id='page-content',
         children=[
-            dcc.Location(id='url', refresh=False),
             html.Div(
-                id='header',
-                className='banner',
+                id='text',
                 children=[
-                    html.H2('Dash bio: Manhattan plot'),
-                    html.Img(
-                        src='assets/dashbio_logo.svg',
+                    html.H2(
+                        "Dash Manhattan",
+                        style=text_style
+                    ),
+                    html.Div(
+                        "Visualize genome wide association studies  ("
+                        "GWAS) with efficient manhattan plots. Using "
+                        "WebGL  under the hood, interactively explore  "
+                        "hundred of thousands of points at once or  "
+                        "individually hover over them.",
+                        style=text_style
+                    )
+                ]
+            ),
+            html.Div(
+                children=[
+                    html.H5(
+                        "Threshold value",
+                        style=text_style
+                    ),
+                    html.Div(
+                        children=dcc.Slider(
+                            id='slider',
+                            vertical=False,
+                            updatemode='mouseup',
+                            max=9,
+                            min=1,
+                            value=7,
+                            marks={i + 1: '{}'.format(i + 1) for i in range(9)}
+                        ),
                         style={
-                            'height': '100',
-                            'float': 'right',
+                            'width': "100%",
+                            'margin': "2px"
                         }
                     )
                 ],
                 style={
-                    'width': '100%',
+                    'width': "80%",
                     'display': 'flex',
                     'flexDirection': 'row',
                     'alignItems': 'center',
                     'justifyContent': 'space-between',
-                    'background': '#A2B1C6',
-                    'color': '#506784'
                 }
             ),
             html.Div(
-                id='page-content',
                 children=[
-                    html.Div(
-                        id='text',
-                        children=[
-                            html.H2(
-                                "Dash Manhattan",
-                                style={
-                                    'color': "#506784",
-                                    'font-family': 'Dosis'
-                                }
-                            ),
-                            html.Div(
-                                "Visualize genome wide association studies  ("
-                                "GWAS) with efficient manhattan plots. Using "
-                                "WebGL  under the hood, interactively explore  "
-                                "hundred of thousands of points at once or  "
-                                "individually hover over them.",
-                                style={
-                                    'width': '400px',
-                                    'color': "#506784",
-                                    'font-family': 'Ubuntu'
-                                }
-                            )
-                        ]
+                    dcc.Graph(
+                        figure=fig,
+                        id='graph_manhattan'
                     ),
-                    html.Div(
-                        children=[
-                            html.H5(
-                                "Threshold value",
-                                style={
-                                    'color': "red",
-                                    'font-family': 'Ubuntu'
-                                }
-                            ),
-                            html.Div(
-                                children=dcc.Slider(
-                                    id='slider',
-                                    vertical=False,
-                                    updatemode='mouseup',
-                                    max=9,
-                                    min=1,
-                                    value=7,
-                                    marks={i + 1: '{}'.format(i + 1) for i in range(9)}
-                                ),
-                                style={
-                                    'width': "100%",
-                                    'margin': "2px"
-                                }
-                            )
-                        ],
-                        style={
-                            'width': "80%",
-                            'display': 'flex',
-                            'flexDirection': 'row',
-                            'alignItems': 'center',
-                            'justifyContent': 'space-between',
-                        }
-                    ),
-                    html.Div(
-                        children=[
-                            dcc.Graph(
-                                figure=fig,
-                                id='graph_manhattan'
-                            ),
-                        ],
-                        style={
-                            'width': '100%',
-                        }
-                    )
                 ],
                 style={
                     'width': '100%',
-                    'display': 'flex',
-                    'flexDirection': 'column',
-                    'alignItems': 'center',
                 }
             )
-        ]
+        ],
+        style={
+            'width': '100%',
+            'display': 'flex',
+            'flexDirection': 'column',
+            'alignItems': 'center',
+        }
     )
+    return app_page_layout(main_layout, "Manhattan Plot")
 
 
 def callbacks(app):
@@ -135,4 +101,4 @@ def callbacks(app):
     )
     def update_graph(slider_val):
         """update the data sets upon change the genomewideline value"""
-        return create_manhattan(df, genomewideline_value=float(slider_val))
+        return dash_bio.ManhattanPlot(df, genomewideline_value=float(slider_val))

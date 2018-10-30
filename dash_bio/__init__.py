@@ -4,6 +4,9 @@ import os as _os
 import sys as _sys
 import json
 
+from .component_factory._manhattan import ManhattanPlot
+from .component_factory._volcano import VolcanoPlot
+
 import dash as _dash
 
 if not hasattr(_dash, 'development'):

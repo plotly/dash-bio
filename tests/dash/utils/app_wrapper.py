@@ -36,5 +36,5 @@ def app_page_layout(page_layout, app_title="Dash Bio App"):
                 children=page_layout,
                 style={'margin': '10px'}
             )
-        ]
+        ],
     )
