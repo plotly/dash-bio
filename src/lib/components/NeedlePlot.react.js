@@ -8,13 +8,7 @@ import {mergeDeepRight, contains, filter, has, isNil, type, omit} from 'ramda';
 convert the array to a number and ignore the NaN values
 */
 function filter_Nan_array(test_array) {
-    let return_array = [];
-    test_array.forEach(dx => {
-        if (!isNaN(Number(dx))) {
-            return_array.push(Number(dx));
-        }
-    });
-    return return_array;
+    return test_array.filter(el => Number(!isNaN(Number(el))));
 }
 
 /*
@@ -71,13 +65,6 @@ function create_horizontal_line(xi, xf, y, n) {
 /*
 take the min of an array ignoring the NaN values
 */
-function nanmin(test_array) {
-    return Math.min.apply(null, filter_Nan_array(test_array));
-}
-
-/*
-take the min of an array ignoring the NaN values
-*/
 function nanmax(test_array) {
     return Math.max.apply(null, filter_Nan_array(test_array));
 }
@@ -99,39 +86,9 @@ export default class NeedlePlot extends Component {
 
     // Handle plot events
     handleChange(event) {
-        // Guard
-        if (!this.props.onChange) {
-            return;
-        }
-        // CLick (mousedown) or hover (mousemove)
-        if (event.points) {
-            let eventType;
-            if (event.event.type === 'mousedown') {
-                eventType = 'Click';
-            } else if (event.event.type === 'mousemove') {
-                eventType = 'Hover';
-                return;
-            } else {
-                eventType = 'Other';
-            }
-
-            this.props.onChange({
-                eventType: eventType,
-                name: event.points[0].data.name,
-                text: event.points[0].text,
-                // curveNumber: event.points[0].curveNumber
-                x: event.points[0].x,
-                y: event.points[0].y,
-            });
-        }
         // Zoom
-        else if (event['xaxis.range[0]'] || event['xaxis.range']) {
+        if (event['xaxis.range[0]'] || event['xaxis.range']) {
             this.setState({
-                xStart: event['xaxis.range[0]'] || event['xaxis.range'][0],
-                xEnd: event['xaxis.range[1]'] || event['xaxis.range'][1],
-            });
-            this.props.onChange({
-                eventType: 'Zoom',
                 xStart: event['xaxis.range[0]'] || event['xaxis.range'][0],
                 xEnd: event['xaxis.range[1]'] || event['xaxis.range'][1],
             });
@@ -146,13 +103,8 @@ export default class NeedlePlot extends Component {
                 eventType: 'Autoscale',
             });
         }
-        // Guard
-        else {
-            this.props.onChange(event);
-        }
     }
 
-    // Main
     render() {
         const {id, setProps} = this.props;
         const otherProps = {
@@ -228,12 +180,12 @@ export default class NeedlePlot extends Component {
 
         //manage whether headColor is an array or a string
         const fixed_mutation_colors =
-            headColor.constructor === Array
+            Array.isArray(headColor)
                 ? headColor
                 : mutationGroups.map(i => headColor);
 
         const fixed_mutation_symbols =
-            headSymbol.constructor === Array
+            Array.isArray(headSymbol)
                 ? headSymbol
                 : mutationGroups.map(i => headSymbol);
 
