@@ -6,3 +6,5 @@ dash-html-components
 dash-renderer
 gunicorn
 mdtraj
+cython>=0.19
+numpy
