@@ -63,16 +63,15 @@ function create_horizontal_line(xi, xf, y, n) {
 }
 
 /*
-take the min of an array ignoring the NaN values
+take the max of an array ignoring the NaN values
 */
 function nanmax(test_array) {
     return Math.max.apply(null, filter_Nan_array(test_array));
 }
 
 export default class NeedlePlot extends Component {
-    // Constructor
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             xStart: null,
             xEnd: null,
