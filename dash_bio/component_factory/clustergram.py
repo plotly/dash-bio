@@ -642,7 +642,7 @@ class Clustergram(object):
         Returns a set of n unique colours for each cluster in the dendrogram.
         
         :param (list) clist: The color list returned by dendrogram.
-        :param (sring) dim: The dimension of the clusters to color.
+        :param (string) dim: The dimension of the clusters to color.
         
         :rtype (list): A list of RGB strings.
         '''
