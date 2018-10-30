@@ -1,9 +1,10 @@
 # Switch into a virtual environment
 # pip install -r requirements.txt
+biopython
+dash>=0.26.0
+dash_bio-0.0.1.tar.gz
 dash-core-components
 dash-html-components
 dash-renderer
 gunicorn
-dash>=0.26.0
-dash_bio-0.0.1.tar.gz
-biopython
+
