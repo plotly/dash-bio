@@ -19,6 +19,8 @@ with open('./data/data.js') as f:
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
+server = app.server  # Expose the server variable for deployments
+
 app.layout = html.Div([
     ## Header container
     html.Div(id="header",

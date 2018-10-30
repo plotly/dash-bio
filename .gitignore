@@ -35,3 +35,5 @@ dist
 __pycache__/
 
 *.pyc
+
+.vscode

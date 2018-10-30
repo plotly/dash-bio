@@ -1,7 +1,8 @@
 # Switch into a virtual environment
 # pip install -r requirements.txt
-dash
+dash>=0.26.0
 dash-core-components
 dash-html-components
 dash-renderer
 gunicorn
+mdtraj
