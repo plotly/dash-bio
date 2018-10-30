@@ -80,8 +80,7 @@ app.layout = html.Div([
                 wrapAminoAcids=True,
                 search=True,
                 sequence=sequence,
-                coverage=coverage,
-                selection=None
+                coverage=coverage
             )
         ]
     ),

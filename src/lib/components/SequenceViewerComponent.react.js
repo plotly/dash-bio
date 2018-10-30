@@ -105,33 +105,17 @@ export default class SequenceViewerComponent extends Component {
 	    legend: this.props.legend
 	};
 
-	if(this.props.coverage != null){
-
-	    for(var i = 0; i < this.props.coverage.length; i++) {
-		const v = i;
-		this.props.coverage[i].onclick = (e) => {
-		    setProps({
-			coverageClicked: v
-		    });
-		}
+	for(var i = 0; i < this.props.coverage.length; i++) {
+	    const v = i;
+	    this.props.coverage[i].onclick = (e) => {
+		setProps({
+		    coverageClicked: v
+		});
 	    }
-
-	    options.coverage = this.props.coverage;
-	}
-	else {
-	    setProps({
-		coverage: []
-	    });
 	}
 
-	if(this.props.selection){
-	    options.selection = this.props.selection;
-	}
-	else {
-	    setProps({
-		selection: []
-	    }); 
-	}
+	options.coverage = this.props.coverage;
+	options.selection = this.props.selection;
 
 
 	return (
