@@ -13,8 +13,6 @@ export default class SequenceViewerComponent extends Component {
 
     constructor(props) {
 	super(props);
-	this.props.coverage = []
-	this.props.selection = []
 	this.onMouseSelection = this.onMouseSelection.bind(this);
 	this.onSubpartSelected = this.onSubpartSelected.bind(this); 
     }
@@ -145,6 +143,11 @@ export default class SequenceViewerComponent extends Component {
 	);
     }
 }
+
+SequenceViewerComponent.defaultProps = {
+    coverage: [],
+    selection: []
+};
 
 SequenceViewerComponent.propTypes = {
 
