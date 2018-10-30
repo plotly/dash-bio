@@ -495,14 +495,9 @@ class Clustergram(object):
         std = np.zeros(self._data.shape)
         
         if(dim == 'row'):
-            for i in range(len(self._data)):
-                std[i] = scp.stats.zscore(self._data[i])
+            std = scp.stats.zscore(self._data, axis=1)
         elif(dim == 'column'):
-            tmp = np.transpose(self._data)
-            std = np.transpose(std)
-            for i in range(len(tmp)):
-                std[i] = scp.stats.zscore(tmp[i])
-            std = np.transpose(std)
+            std = scp.stats.zscore(self._data, axis=0)
 
         return std
 
