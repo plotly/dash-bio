@@ -13,17 +13,20 @@ export default class SequenceViewerComponent extends Component {
 
     constructor(props) {
 	super(props);
-	this.props.onMouseSelection = (e) => {
-	    e.detail && this.props.setProps({mouseSelection: e.detail});
-	}
-	this.props.onSubpartSelected = (e) => {
-	    e.detail && this.props.setProps({subpartSelected: e.detail});
-	}
 	this.props.coverage = []
 	this.props.selection = []
-	    
+	this.onMouseSelection = this.onMouseSelection.bind(this);
+	this.onSubpartSelected = this.onSubpartSelected.bind(this); 
     }
 
+
+    onMouseSelection(e) {
+	e.detail && this.props.setProps({mouseSelection: e.detail});
+    }
+    onSubpartSelected(e) {
+	e.detail && this.props.setProps({subpartSelected: e.detail});
+    }
+    
     shouldComponentUpdate(nextProps, nextState){
 	const {
 	    showLineNumbers,
@@ -101,8 +104,8 @@ export default class SequenceViewerComponent extends Component {
 	    title: this.props.title,
 	    sequenceMaxHeight: this.props.sequenceMaxHeight,
 	    badge: this.props.badge,
-	    onMouseSelection: this.props.onMouseSelection,
-	    onSubpartSelected: this.props.onSubpartSelected,
+	    onMouseSelection: this.onMouseSelection,
+	    onSubpartSelected: this.onSubpartSelected,
 	    legend: this.props.legend
 	};
 
@@ -265,17 +268,6 @@ SequenceViewerComponent.propTypes = {
 	'end': PropTypes.number,
 	'sequence': PropTypes.string
     })),
-
-    /**
-     * A function acting as an event handler for mouse selection. 
-     */
-    onMouseSelection: PropTypes.func,
-
-    /**
-     * A function acting as an event handler for highlight when using
-     * the search bar. 
-     */
-    onSubpartSelected: PropTypes.func,
 
     /**
      * Dash-assigned callback that should be called whenever any of the
