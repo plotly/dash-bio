@@ -3,6 +3,7 @@ import dash_bio
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_table_experiments as dt
 import logging
 import os
 
@@ -57,6 +58,13 @@ app.layout = html.Div(
             config={},
             tracks=[],
         )),
+        html.Div(style={"display": "none"}, children=dt.DataTable(
+            rows=[{}],
+            row_selectable=True,
+            filterable=True,
+            sortable=True,
+            selected_row_indices=[],
+            editable=False))
     ]
 )
 

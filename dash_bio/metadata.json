@@ -20,6 +20,13 @@
         "returns": null
       },
       {
+        "name": "setClickAlert",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
         "name": "setColor",
         "docblock": null,
         "modifiers": [],
@@ -205,7 +212,7 @@
                     "computed": true
                   }
                 ],
-                "description": "Specify what data for tooltipContent is\r\ndisplayed.\r\n\r\nThe name key is required, where the entry\r\nfor the key points to a key in the dictionary\r\nof the data loaded into tracks. \r\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\r\n\r\nEx: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)' \r\n\"tooltipContent\": {\r\n        \"source\": \"block_id\",\r\n        \"target\": \"position\",\r\n        \"targetEnd\": \"value\"\r\n                            },\r\nEx: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'                  \r\n\"tooltipContent\": {\r\n        \"source\": \"source\",\r\n        \"sourceID\": \"id\",\r\n        \"target\": \"target\",\r\n        \"targetID\": \"id\",\r\n        \"targetEnd\": \"end\"\r\n    }",
+                "description": "Specify what data for tooltipContent is\r\ndisplayed.\r\n\r\nThe name key is required, where the entry\r\nfor the key points to a key in the dictionary\r\nof the data loaded into tracks. \r\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\r\n\r\nTo display all data in the dataset use \"all\" for the key \"name:.\r\nEx: \"tooltipContent\": {\"name\": \"all\"}\r\n\r\nEx: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)' \r\n\"tooltipContent\": {\r\n        \"source\": \"block_id\",\r\n        \"target\": \"position\",\r\n        \"targetEnd\": \"value\"\r\n                            },\r\nEx: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'                  \r\n\"tooltipContent\": {\r\n        \"source\": \"source\",\r\n        \"sourceID\": \"id\",\r\n        \"target\": \"target\",\r\n        \"targetID\": \"id\",\r\n        \"targetEnd\": \"end\"\r\n    }",
                 "required": false
               },
               "color": {
@@ -220,7 +227,7 @@
                     "computed": true
                   }
                 ],
-                "description": "Specify what data for color is displayed,\r\nthis can be a string or an object.\r\n\r\nIf using a string, you can specify hex,\r\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu). \r\n\r\nThe key \"name\" is required for this dictionary,\r\nwhere the input for \"name\" points to some list of\r\ndictionries color values.\r\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
+                "description": "Specify what data for color is displayed,\r\nthis can be a string or an object.\r\n\r\nIf using a string, you can specify hex,\r\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu). \r\n\r\nThe key \"name\" is required for this dictionary,\r\nwhere the input for \"name\" points to some list of\r\ndictionaries color values.\r\n\r\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
                 "required": false
               }
             }

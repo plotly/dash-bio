@@ -13,15 +13,27 @@ import json
 with open('graph_data.json', 'r') as graph_data:
     graph_data = json.load(graph_data) 
 
+def parse_contents(contents, filename, date):
+    content_type, content_string = contents.split(",")
+
+    decoded = base64.b64decode(content_string).decode("UTF-8")
+    try:
+        if "csv" in filename:
+            # Assume that the user uploaded a CSV file
+            df = pd.read_csv(io.StringIO(decoded))
+            df = df.to_dict(orient="records")
+            return df
+    except Exception as e:
+        return html.Div(["There was an error processing this file."])
+    return
+
 empty = dash_bio.DashCircos(
     id="main-circos", selectEvent={}, layout=[], size=800, config={}, tracks=[]
 )
 
-
 app = dash.Dash("")
 
 app.scripts.config.serve_locally = True
-
 
 app.layout = html.Div(
     [
@@ -368,20 +380,6 @@ app.layout = html.Div(
 )
 
 
-def parse_contents(contents, filename, date):
-    content_type, content_string = contents.split(",")
-
-    decoded = base64.b64decode(content_string).decode("UTF-8")
-    try:
-        if "csv" in filename:
-            # Assume that the user uploaded a CSV file
-            df = pd.read_csv(io.StringIO(decoded))
-            df = df.to_dict(orient="records")
-            return df
-    except Exception as e:
-        return html.Div(["There was an error processing this file."])
-    return
-
 
 @app.callback(Output("init", "interval"), [Input("init", "n_intervals")])
 def update_output(init):
@@ -645,7 +643,7 @@ def init(
                 id="main-circos",
                 layout=list(
                     filter(lambda d: d["id"] in [
-                           "chr1", "chr2", "chr3"], graph_data["GRCh37"])
+                        "chr1", "chr2", "chr3"], graph_data["GRCh37"])
                 ),
                 config={
                     "innerRadius": conIn / 2 - 150,
@@ -805,7 +803,7 @@ def init(
                 id="main-circos",
                 layout=list(
                     filter(lambda d: d["id"] in [
-                           "chr1", "chr2", "chr3"], graph_data["GRCh37"])
+                        "chr1", "chr2", "chr3"], graph_data["GRCh37"])
                 ),
                 config={
                     "innerRadius": conIn / 2 - 150,
@@ -1159,7 +1157,7 @@ def init(
 @app.callback(
     Output("tracks-dropdown", "options"),
     [Input("circos-hold", "children"),
-     Input("preset-dropdown", "value")],
+    Input("preset-dropdown", "value")],
     [State("main-circos", "tracks")],
 )
 def event_dropdown(dropdown, preset_dropwdown, tracks):
@@ -1181,8 +1179,8 @@ def event_dropdown(dropdown, preset_dropwdown, tracks):
     Output("main-circos", "selectEvent"),
     [Input("select-event", "value")],
     [State("main-circos", "tracks"),
-     State("tracks-dropdown", "value"),
-     State("main-circos", "selectEvent")],
+    State("tracks-dropdown", "value"),
+    State("main-circos", "selectEvent")],
 )
 def selectEvent(select_value, circos_tracks, track_dropdown, select):
     if select is None:
@@ -1231,9 +1229,9 @@ def event_dropdown(dropdown):
 @app.callback(
     Output("data-table", "rows"),
     [Input("data-selector", "value"),
-     Input("tracks-dropdown", "options")],
+    Input("tracks-dropdown", "options")],
     [State("main-circos", "layout"),
-     State("main-circos", "tracks")],
+    State("main-circos", "tracks")],
 )
 def update_table(data_selector, circos_trigger, layout, tracks):
     """
@@ -1245,7 +1243,5 @@ def update_table(data_selector, circos_trigger, layout, tracks):
         df = pd.DataFrame(tracks[data_selector]["data"])
     return df.to_dict("records")
 
-
 if __name__ == "__main__":
-
     app.run_server(debug=True)

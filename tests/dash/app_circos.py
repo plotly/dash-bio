@@ -43,7 +43,7 @@ upload_instructions = (
 
 
 def layout():
-    return app.layout = html.Div(
+    return html.Div(
         [
             html.Div(
                 id="container",
@@ -229,7 +229,7 @@ def layout():
                                                                 html.Button(
                                                                     "Download Data"
                                                                 ),
-                                                                href="https://github.com/plotly/dash-bio/blob/dash-circos/upload_data/Data/Download.rar",
+                                                                href="https://github.com/plotly/dash-bio/blob/dash-circos/upload_data/Download.rar",
                                                                 target="_blank",
                                                                 className="three columns",
                                                                 style={
