@@ -3,13 +3,6 @@ import dash
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
-import dash_table_experiments as dt
-import graph_data as data
-import base64
-import datetime
-import io
-import pandas as pd
-import json
 from upload_data import circos_parser as cp
 
 layout = cp.txt_to_layout(

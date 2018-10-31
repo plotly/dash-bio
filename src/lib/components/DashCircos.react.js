@@ -24,7 +24,6 @@ class DashCircos extends Component {
 
 
   setEvent(setProps, index) {
-    console.warn("index", index)
     if (this.props.selectEvent) {
       if (this.props.selectEvent[index] === "both") {
         return (
@@ -72,7 +71,9 @@ class DashCircos extends Component {
     }
     return {}
   }
+  setClickAlert() {
 
+  }
   setColor(configApply) {
     if (configApply.color) {
       if (configApply.color.name) {
@@ -94,7 +95,6 @@ class DashCircos extends Component {
 
   setToolTip(configApply) {
     if (configApply.tooltipContent) {
-      console.warn("tooltipContent", configApply.tooltipContent)
       if (configApply.tooltipContent.name) {
         if (configApply.tooltipContent.name === "all") {
           configApply.tooltipContent = d => {
@@ -115,23 +115,25 @@ class DashCircos extends Component {
         var tooltipData = configApply.tooltipContent
 
         if (tooltipData.sourceID && tooltipData.targetID) {
-          configApply.tooltipContent = function (d) { 
-            return '<h3>' + d[tooltipData.source][tooltipData.sourceID] + 
-            ' ➤ ' + 
-            d[tooltipData.target][tooltipData.targetID] + 
-            ': ' + 
-            d[tooltipData.target][tooltipData.targetEnd] + 
-            '</h3>' }
+          configApply.tooltipContent = function (d) {
+            return '<h3>' + d[tooltipData.source][tooltipData.sourceID] +
+              ' ➤ ' +
+              d[tooltipData.target][tooltipData.targetID] +
+              ': ' +
+              d[tooltipData.target][tooltipData.targetEnd] +
+              '</h3>'
+          }
         }
         else {
-          configApply.tooltipContent = function (d) { 
-            return '<h3>' + 
-            d[tooltipData.source] + 
-            ' ➤ ' + 
-            d[tooltipData.target] + 
-            ': ' + 
-            d[tooltipData.targetEnd] + 
-            '</h3>' }
+          configApply.tooltipContent = function (d) {
+            return '<h3>' +
+              d[tooltipData.source] +
+              ' ➤ ' +
+              d[tooltipData.target] +
+              ': ' +
+              d[tooltipData.targetEnd] +
+              '</h3>'
+          }
         }
       }
     }
@@ -152,8 +154,6 @@ class DashCircos extends Component {
 
       // Since config is const, can't manipulate and throws error
       let configApply
-      console.warn("config", config)
-      console.warn("track", track)
       if (config) {
         configApply = config
 
@@ -188,13 +188,6 @@ class DashCircos extends Component {
 
 
   shouldComponentUpdate(nextProps) {
-    console.warn('SCU', (
-      (
-        (this.props.config !== nextProps.config)
-        || (this.props.layout !== nextProps.layout)
-        || (this.props.tracks !== nextProps.tracks)
-        || (this.props.size !== nextProps.size)
-      )))
     return (
       (this.props.config !== nextProps.config) ||
       (this.props.layout !== nextProps.layout) ||
@@ -372,6 +365,9 @@ DashCircos.propTypes = {
      * of the data loaded into tracks. 
      * Ex: "tooltipContent": {"name": "block_id"},
      * 
+     * To display all data in the dataset use "all" for the key "name:.
+     * Ex: "tooltipContent": {"name": "all"}
+     * 
      * Ex: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)' 
      * "tooltipContent": {
         "source": "block_id",
@@ -402,7 +398,8 @@ DashCircos.propTypes = {
      * 
      * The key "name" is required for this dictionary,
      * where the input for "name" points to some list of
-     * dictionries color values.
+     * dictionaries color values.
+     * 
      * Ex: "color": {"name": "some key that refers to color in a data set"}
      **/
     color: PropTypes.oneOf(
