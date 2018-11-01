@@ -64,7 +64,7 @@ app.layout = html.Div([
                 {'label': 'White', 'value':'#ffffff'},
                 {'label': 'Cream', 'value':'#e1dabb'},
             ],
-            value='#000000'
+            value='#e1dabb'
         ),
     ],
         #style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
@@ -113,11 +113,11 @@ app.layout = html.Div([
     ]),
 
 
-    ## Dummy hiddent visualization container for initializing dash_bio
+    ## Dummy hidden visualization container for initializing dash_bio.DashMolecule3d
     html.Div(id="molecule-container", 
         children=[dash_bio.DashMolecule3d(
             id='mol-3d',
-            backgroundColor='#000000',
+            backgroundColor='#e1dabb',
             #backgroundOpacity=0.,
             #selectionType='Atom',
             modelData=model,
@@ -153,7 +153,9 @@ def use_upload(contents, color, opacity, molStyle): #,selectn): #, filename, dat
         # return ("contents is empty",)
         pass
     else:
-        decoded_contents=parse_contents(contents) #, filename, date)
+        decoded_contents=parse_contents(contents)
+
+        ## Create the temporary PDB file for creating the model data and style files
         f=tempfile.NamedTemporaryFile(suffix=".pdb",delete=False, mode='w+')
         f.write(decoded_contents)
         fname=f.name
@@ -173,13 +175,23 @@ def use_upload(contents, color, opacity, molStyle): #,selectn): #, filename, dat
         ## Create the cartoon style from the decoded contents
         datstyle=sparser.createStyle(fname, molStyle)
         fs=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
+        tmp_dir=tempfile.TemporaryDirectory()
         fs.write(datstyle)
-        fname1=fs.name
+        fname2=fs.name
         fs.close()
-        with open(fname1) as fs:
-            data_style=json.load(fs)
+        with open(fname2) as sf:
+            data_style=json.load(sf)
+
+        # Delete all the temporary files that were created
+        for x in [fname, fname1, fname2]:
+            if(os.path.isfile(x)):
+                #print (str(x))
+                os.remove(x)
+                #print ("deleted")
+            else:
+                pass
         
-        # print (tempfile.TemporaryDirectory(), ">>", fname1, fname)
+        #print (str(fname1)) #, ">>", fname1, fname)
 
         ## Return the new molecule visualization container
         return (
@@ -205,9 +217,16 @@ def use_upload(contents, color, opacity, molStyle): #,selectn): #, filename, dat
 def selout(param, model):
     res_summary=[]
     res_info=""
+    residues={}
     for i in param:
         res_info = model['atoms'][i]
-        res_summary.append(res_info)
+        residues = {
+            "residue": res_info['residue_name'],
+            "chain": res_info['chain'],
+            "xyz_coordinates": res_info['positions']
+        }
+        # res_summary.append(res_info)
+        res_summary.append(residues)
     return '{} '.format(res_summary)
 
 if __name__ == '__main__':

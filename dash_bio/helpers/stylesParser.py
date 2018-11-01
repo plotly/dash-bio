@@ -43,30 +43,17 @@ def createStyle(pdbPath, style):
         "G":"#3f3f3f"
     }
 
-    serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]; atmType=[]
+    chain=[]; atmType=[]
     ct=0
+    ct1=0
+    data={}
     for i in lines:
         l=i.split()
         if("ATOM" in l[0] or "HETATM" in l[0]):
-            serial.append(i) #int(i[6:11]))
-            atmName.append(i[12:16].strip())
-            # print ("Serial, atmName", serial, atmName)
-            resName.append(i[17:20].strip())
             chain.append(i[21:22].strip())
-            resId.append(int(i[22:26]))
-            x = float(i[30:38])
-            y = float(i[38:46])
-            z = float(i[46:54])
-            positions.append([x,y,z])
-            occupancy.append(i[54:60].strip())
-            tempFactor.append(i[60:66].strip())
             atmType.append(i[77:78])
-            ct+=1
 
-    ct1=0
-    index=0
-    dat=""
-    data={}
+
     for i in lines:
         l=i.split()
 
