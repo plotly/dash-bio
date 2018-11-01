@@ -2,6 +2,7 @@
     position: absolute;
     top: 0px;
     left: 0px;
+    margin: 0px;
     height: 100%;
     width: 100%;
     font-family: Helvetica, sans-serif;
@@ -10,6 +11,15 @@
     font-size:10pt;
     color: #dddddd;
 }
+
+#clustergram-options::-webkit-scrollbar {
+	width: 2px;
+	background-color: #000;
+    }
+
+#clustergram-options::-webkit-scrollbar-thumb {
+	background: #ddd; 
+    }
 
 #clustergram-header {
     width: calc(100% - 40px);
@@ -24,26 +34,16 @@
 }
 
 #clustergram-options {
-    width: 600px;
+    width: 500px;
     position: relative;
     float:left;
     top: 10px; 
-    border: solid 1px grey;
+    border: solid 2px white;
     border-radius: 5px;
-    padding: 10px;
+    padding: 20px;
     max-height:300px;
     overflow:scroll;
     font-size: 10pt !important; 
-}
-
-
-::-webkit-scrollbar {
-  width: 2px;
-  background-color: #000;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #ddd; 
 }
 
 #clustergram-wrapper {
@@ -53,31 +53,31 @@
     padding: 0px;
     margin: 0px; 
 }
-.Select, .Select-control, input, .Select-menu-outer, .Select-value-label {
+#clustergram-body .Select, #clustergram-body .Select-control, #clustergram-body input, #clustergram-body .Select-menu-outer, #clustergram-body .Select-value-label {
     background-color: black !important;
     color: white !important;
 }
 #clustergram-file-upload-container {
-    width: 550px !important;
+    width: 450px !important;
     margin-left: 10px !important;
     margin-top: 20px; 
     height:20px !important; 
 }
-.Select-control {
-    width: 550px;
-    margin-left: -175px;
+#clustergram-body .Select-control {
+    width: 450px;
+    margin-left: -100px;
 }
 
-.Select, input {
+#clustergram-body .Select, #clustergram-body input {
     width: 225px;
     margin:auto;
 }
-button {
+#clustergram-body button {
     float: left;
     width:110px;
     margin: 6px;
 }
-input {
+#clustergram-body input {
     float:left;
     width: 70px !important;
     margin: 6px !important;
@@ -85,8 +85,8 @@ input {
 #clustergram-info {
     margin-top: 20px;
     float: left;
-    width: 600px;
+    width: 500px;
     border-radius: 5px;
-    padding: 10px; 
+    padding: 20px; 
     border: 1px solid white;
 }
