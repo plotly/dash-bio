@@ -100,22 +100,7 @@ app.layout = html.Div([
         #style={'margin-right':'40px', 'padding':'4px','width':'200px', 'height':'100px', 'float':'left'}
     ),
 
-    # #Radio selection for atom, residue or chain selection
-    # html.Div(className="controls", children=[
-    #     html.P('Selection type', style={'font-weight':'bold', 'margin-bottom':'10px', 'width':'200px'}),
-    #     dcc.RadioItems(
-    #         id='radio-selection',
-    #         options=[
-    #             {'label': 'atom', 'value': 'Atom'},
-    #             {'label': 'residue', 'value': 'Residue'},
-    #             {'label': 'chain', 'value': 'Chain'}
-    #         ],
-    #         value='Atom'
-    #     ),
-    # ]),
-
     # Textarea container to display the selected atoms
-    # html.Div(id='selection_output', className="controls"),
     html.Div(className="controls", id="selection-display", children=[
         html.P("Selection", style={'font-weight':'bold', 'margin-bottom':'10px'}),
         dcc.Textarea(id='selection_output'),
@@ -182,6 +167,8 @@ def use_upload(contents, color, opacity, molStyle): #,selectn): #, filename, dat
         fm.close()
         with open(fname1) as fm:
             mdata=json.load(fm)
+
+        #print (mdata)
 
         ## Create the cartoon style from the decoded contents
         datstyle=sparser.createStyle(fname, molStyle)

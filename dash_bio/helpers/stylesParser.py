@@ -1,29 +1,16 @@
-## USAGE: python pdbStyles <pdb_file_name> 
-
 import sys
 import numpy as np
-import mdtraj as md
 import json
 
-#pdb_file = sys.argv[1]
-
-def double_quote(resName):
-    return "{}".format(resName)
-
-
+# def createStyle(pdbPath, style, chainsDict=None, atmColor=None):
 def createStyle(pdbPath, style):
     datS=""
     ## Read input file
     with open (pdbPath, 'r') as infile:
-        lines=infile.readlines() #[line for line in infile]
-
-    ## Read the PDB file using mdtraj to get information about the PDB file
-    topology = md.load(pdbPath).topology
-    atoms, bonds = topology.to_dataframe()
-
-    natoms = topology.n_atoms
+        lines=infile.readlines()
 
     #Define dictionary of atom and chain colors
+    #if (chainsDict is None):
     chainsDict = {
         "A":"#00ff00",
         "B":"#0000ff",
@@ -43,6 +30,7 @@ def createStyle(pdbPath, style):
         "P":"#008080"
     }
 
+    #if (atmColor is None):
     atmColor = {
         "C":"#c0c0c0",
         "H":"#ffffff",
@@ -54,8 +42,6 @@ def createStyle(pdbPath, style):
         "K":"#42f4ee",
         "G":"#3f3f3f"
     }
-
-    #print ("{ ", end="")
 
     serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]; atmType=[]
     ct=0
@@ -80,36 +66,30 @@ def createStyle(pdbPath, style):
     ct1=0
     index=0
     dat=""
+    data={}
     for i in lines:
         l=i.split()
 
         if("ATOM" in l[0] or "HETATM" in l[0]):
 
-            index=double_quote(ct1)
+            index=str(ct1)
             if(l[0]=="ATOM"):
                 if (style == 'stick'):
-                    dat={
-                        "color":double_quote(atmColor[atmType[ct1]]),
+                    data[index]={
+                        "color":atmColor[atmType[ct1]],
                         "visualization_type":"stick"
                     }
                 else:
-                    dat={
-                        "color":double_quote(chainsDict[chain[ct1]]),
-                        "visualization_type":double_quote(style)
+                    data[index]={
+                        "color":chainsDict[chain[ct1]],
+                        "visualization_type":style
                     }
 
             else:
-                dat={
-                    "color":double_quote(atmColor[atmType[ct1]]),
+                data[index]={
+                    "color":atmColor[atmType[ct1]],
                     "visualization_type":"stick"
-                }
-            if(ct1 < len(serial)-1):
-                #datS += json.dumps(index) + ":" + json.dumps(dat) + ","
-                datS += json.dumps(index) + ":" + json.dumps(dat) + ","
-            else:
-                datS += json.dumps(index) + ":" + json.dumps(dat)
-
+                    }
             ct1 += 1
 
-    datStyle= "{" + datS + "}"
-    return (datStyle)
+    return (json.dumps(data))

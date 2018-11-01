@@ -4,9 +4,6 @@ import mdtraj as md
 import json
 import io
 
-def double_quote(param):
-    return "{}".format(param)
-
 def createData(pdbPath):
     with open(pdbPath, 'r') as infile:
        lines=infile.readlines() #[line for line in infile]
@@ -16,6 +13,9 @@ def createData(pdbPath):
     serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]; atomType=[]
     ct=0
 
+    datb={}
+    datb['atoms']=[]
+    datb['bonds']=[]
     for i in lines:    
     #for i in lines1:
         l=i.split()
@@ -38,27 +38,23 @@ def createData(pdbPath):
             tempFactor.append(i[60:66].strip())
             atomType.append(i[77:79].strip())
             ct+=1
+
     ## Create list of atoms
-    datA=""
     tmpRes=resId[0]
     resct=1
     for i in range(len(chain)): 
         if(tmpRes != resId[i]):
             tmpRes=resId[i]
             resct += 1
-        resinfo = {
+        datb['atoms'].append({
             "name": atmName[i],
             "chain": chain[i],
             "positions": positions[i],
             "residue_index": resct,
             "element": atomType[i],
-            "residue_name": resName[i],
+            "residue_name": resName[i]+str(resId[i]),
             "serial": i,
-        }
-        if (i < len(chain)-1):
-            datA += json.dumps(resinfo) + ","
-        else:
-            datA += json.dumps(resinfo)
+        })
 
 
 #def createBonds(pdbPath):
@@ -68,14 +64,9 @@ def createData(pdbPath):
     for i in range(len(bonds)):
         bond1=int(bonds[i][0])
         bond2=int(bonds[i][1])
-        bondPairs = {"atom2_index":bond1,
-            "atom1_index":bond2,
-            }
-        if (i < len(bonds)-1):
-            dat+=(str(json.dumps(bondPairs)+","))
-        else:
-            dat+=str(json.dumps(bondPairs))
-    bondDict="\"bonds\": ["+dat+"]"
+        datb['bonds'].append({
+            'atom2_index':bond1,
+            'atom1_index':bond2
+        })
 
-    atomBondDict="{ \"bonds\": ["+dat+"], \"atoms\": [" + datA + "] }"
-    return(atomBondDict)
+    return(json.dumps(datb))
