@@ -26,8 +26,11 @@ apps = {
 }
 
 for key in apps:
-    apps[key].callbacks(app)
-
+    try:
+        apps[key].callbacks(app)
+    except Exception as e:
+        print(e)
+        
 app.layout = html.Div(
     id="index-waitfor",
     children=[
