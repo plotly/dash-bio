@@ -385,6 +385,12 @@ class Clustergram(object):
             colRatio = \
                 0.95/float(1 + int(1/self._displayRatio[1]))
 
+        # the row/column labels take up 0.05 of the graph, and the rest
+        # is taken up by the heatmap and dendrogram for each dimension
+
+        # row: dendrogram, heatmap, row labels (left-to-right)
+        # column: dendrogram, column labels, heatmap (top-to-bottom)
+            
         # width adjustment for row dendrogram
         fig['layout']['xaxis1'].update(domain=[0, 0.95])
         fig['layout']['xaxis2'].update(domain=[rowRatio, 0.95], anchor='y4')
