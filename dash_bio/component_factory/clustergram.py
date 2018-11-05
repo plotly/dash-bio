@@ -32,13 +32,17 @@ class Clustergram(object):
     :param (function) rowDist: Function specifying the distance metric for rows
                                that will be passed to the function specified in
                                distFun
+                               (see scipy.spatial.distance.pdist)
     :param (function) colDist: Function specifying the distance metric for
                                columns that will be passed to the function
                                specified in distFun
+                               (see scipy.spatial.distance.pdist)
     :param (function) distFun: Function to compute the pairwise distance from
-                               the observations (euclidean distance by default)
+                               the observations
+                               (see scipy.spatial.distance.pdist)
     :param (function) linkFun: Function to compute the linkage matrix from the
                                pairwise distances
+                               (see scipy.cluster.hierarchy.linkage)
     :param (dict) colorThreshold: Maximum linkage value for which unique
                                   colors are assigned to clusters; 'row' for
                                   rows, and 'col' for columns (default 0)
@@ -64,7 +68,7 @@ class Clustergram(object):
                                      dendrogram ratio corresponds to the first
                                      element of the list (default: 0.2)
     :param (function) imputeFunction: The function used to impute missing data.
-                                      It should take as input the dataset and 
+                                      It should take as input the dataset and
                                       output a dataset with imputed values.
     :param (list[dict]) rowGroupMarker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
