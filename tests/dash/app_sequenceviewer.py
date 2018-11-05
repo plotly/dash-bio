@@ -1,14 +1,28 @@
-import base64
-
-import dash_core_components as dcc
-import dash_html_components as html
-from dash.dependencies import Input, Output, State
-
 import dash_bio
-from dash_bio.helpers import proteinReader as pr
+from dash_bio.utils import proteinReader as pr
+import base64
+from dash.dependencies import Input, Output, State
+import dash_html_components as html
+import dash_core_components as dcc
 
 proteinFolder = 'proteins'
 sequence = '-'
+
+coverage = [
+    {'start': 0,
+     'end': 240,
+     'color': 'rgb(0,255,0)',
+     'bgcolor': 'rgb(0,0,0)',
+     'tooltip': 'first',
+     'underscore': False},
+    {'start': 240,
+     'end': 500,
+     'color': 'rgb(255, 0, 0)',
+     'bgcolor': 'rgb(0,0,255)',
+     'tooltip': 'second',
+     'underscore': True}
+]
+
 
 highlightColor = 'blue'
 
@@ -16,169 +30,168 @@ selection = [10, 20, highlightColor]
 
 
 def layout():
-    return(
-            html.Div([
+    return html.Div(id='seq-view-body', children=[
 
-                html.Div(
-                    id='header',
-                    children=[
-                        "Dash sequence viewer",
+        html.Div(
+            id='seq-view-header',
+            children=[
+                "Dash sequence viewer",
 
 
-                    ]
+            ]
+        ),
+        html.Div(
+            id='seq-view-fasta-upload',
+            children=[
+                dcc.Upload(
+                    id='upload-fasta-data',
+                    children=html.Div([
+                        "Drag and Drop or ",
+                        html.A("Select file")
+                    ]),
+                    style={
+                        'width': '100%',
+                        'height': '50px',
+                        'lineHeight': '60px',
+                        'borderWidth': '1px',
+                        'borderStyle': 'dashed',
+                        'borderRadius': '5px',
+                        'textAlign': 'center',
+                    }
                 ),
+            ]
+        ),
+
+        html.Div(
+            id='sequence-viewer-container',
+            children=[
+                dash_bio.SequenceViewerComponent(
+                    id='sequence-viewer',
+                    title="",
+                    wrapAminoAcids=True,
+                    search=True,
+                    sequence=sequence,
+                    coverage=coverage
+                )
+            ]
+        ),
+
+        html.Div(
+            id='seq-view-controls-container',
+            children=[
+
+                dcc.RadioItems(
+                    id='selection-or-coverage',
+                    options=[
+                        {'label': 'Enable selection', 'value': 'sel'},
+                        {'label': 'Enable coverage', 'value': 'cov'}
+                    ],
+                    value='sel'
+                ),
+
                 html.Div(
-                    id='fasta-upload',
+                    id='seq-view-sel-slider-container',
                     children=[
-                        dcc.Upload(
-                            id='upload-fasta-data',
-                            children=html.Div([
-                                "Drag and Drop or ",
-                                html.A("Select file")
-                            ]),
-                            style={
-                                'width': '100%',
-                                'height': '50px',
-                                'lineHeight': '60px',
-                                'borderWidth': '1px',
-                                'borderStyle': 'dashed',
-                                'borderRadius': '5px',
-                                'textAlign': 'center',
-                            }
+                        "Selection slider",
+                        dcc.RangeSlider(
+                            id='sel-slider',
+                            min=0,
+                            max=len(sequence),
+                            step=1,
+                            value=[10, 20]
                         ),
-                        html.Div(
-                            id='upload-data-output'
-                        )
                     ]
                 ),
 
                 html.Div(
-                    id='sequence-viewer-container',
+                    id='seq-view-protein-dropdown-container',
                     children=[
-                        dash_bio.SequenceViewerComponent(
-                            id='sequence-viewer',
-                            title="",
-                            wrapAminoAcids=True,
-                            search=True,
-                            sequence='-',
-                            selection=[]
-                        )
-                    ]
-                ),
-
-                html.Div(
-                    id='controls-container',
-                    children=[
-
-                        dcc.RadioItems(
-                            id='selection-or-coverage',
+                        "Protein to view",
+                        dcc.Dropdown(
+                            id='protein-dropdown',
                             options=[
-                                {'label': 'Enable selection', 'value': 'sel'},
-                                {'label': 'Enable coverage', 'value': 'cov'}
+                                {'label': 1, 'value': 0}
                             ],
-                            value='sel'
-                        ),
-
-                        html.Div(
-                            id='sel-slider-container',
-                            children=[
-                                "Selection slider",
-                                dcc.RangeSlider(
-                                    id='sel-slider',
-                                    min=0,
-                                    max=len(sequence),
-                                    step=1,
-                                    value=[10, 20]
-                                ),
-                            ]
-                        ),
-
-                        html.Div(
-                            id='protein-dropdown-container',
-                            children=[
-                                "Protein to view",
-                                dcc.Dropdown(
-                                    id='protein-dropdown',
-                                    options=[
-                                        {'label': 1, 'value': 0}
-                                    ],
-                                    value=0
-                                )
-                            ]
-                        )
-                    ]
-                ),
-
-                html.Div(
-                    id='info-container',
-                    children=[
-                        html.Span(
-                            "Description: ",
-                            style={
-                                'font-weight': 'bold'
-                            }
-                        ),
-                        html.Div(
-                            id='desc-info'
-                        ),
-                        html.Br(),
-
-                        html.Span(
-                            "Selection information: ",
-                            style={
-                                'font-weight': 'bold'
-                            }
-                        ),
-                        html.Div(
-                            id='test-selection'
-                        ),
-                        html.Br(),
-
-                        html.Span(
-                            "Coverage info: ",
-                            style={
-                                'font-weight': 'bold'
-                            }
-                        ),
-                        html.Div(
-                            id='test-coverage'
-                        ),
-                        html.Br(),
-
-                        html.Span(
-                            "Mouse sel: ",
-                            style={
-                                'font-weight': 'bold'
-                            }
-                        ),
-                        html.Div(
-                            id='test-mouse-selection'
-                        ),
-                        html.Br(),
-
-                        html.Span(
-                            "Subpart sel: ",
-                            style={
-                                'font-weight': 'bold'
-                            }
-                        ),
-                        html.Div(
-                            id='test-subpart-selection'
+                            value=0
                         )
                     ]
                 )
-            ])
-    )
+            ]
+        ),
+
+        html.Div(
+            id='seq-view-info-container',
+            children=[
+                html.Span(
+                    "Description: ",
+                    style={
+                        'font-weight': 'bold'
+                    }
+                ),
+                html.Div(
+                    id='desc-info'
+                ),
+                html.Br(),
+
+                html.Span(
+                    "Selection information: ",
+                    style={
+                        'font-weight': 'bold'
+                    }
+                ),
+                html.Div(
+                    id='test-selection'
+                ),
+                html.Br(),
+
+                html.Span(
+                    "Coverage info: ",
+                    style={
+                        'font-weight': 'bold'
+                    }
+                ),
+                html.Div(
+                    id='test-coverage-clicked'
+                ),
+                html.Br(),
+
+                html.Span(
+                    "Mouse sel: ",
+                    style={
+                        'font-weight': 'bold'
+                    }
+                ),
+                html.Div(
+                    id='test-mouse-selection'
+                ),
+                html.Br(),
+
+                html.Span(
+                    "Subpart sel: ",
+                    style={
+                        'font-weight': 'bold'
+                    }
+                ),
+                html.Div(
+                    id='test-subpart-selection'
+                )
+            ]
+        )
+    ])
 
 
 def callbacks(app):
     # sequence viewer display
     @app.callback(
-        Output('sequence-viewer-container', 'children'),
+        Output('sequence-viewer', 'sequence'),
         [Input('upload-fasta-data', 'contents'),
          Input('protein-dropdown', 'value')]
     )
-    def update_sequence(upload_contents, p):
+    def update_sequence(upload_contents, v):
+
+        if v is None:
+            return '-'
+
         data = ''
         try:
             content_type, content_string = upload_contents.split(',')
@@ -186,33 +199,23 @@ def callbacks(app):
         except AttributeError:
             pass
         if data == '':
-            return [
-                dash_bio.SequenceViewerComponent(
-                    id='sequence-viewer',
-                    title='',
-                    wrapAminoAcids=True,
-                    search=True,
-                    sequence='-',
-                    selection=[]
-                )
-            ]
-        protein = pr.readFasta(dataString=data)[p]
-        sequence = protein['sequence']
-        try:
-            title = protein['description']['accession']
-        except KeyError:
-            title = ''
+            return '-'
 
-        return [
-            dash_bio.SequenceViewerComponent(
-                id='sequence-viewer',
-                title=title,
-                wrapAminoAcids=True,
-                search=True,
-                sequence=sequence,
-                selection=[]
-            )
-        ]
+        protein = pr.readFasta(dataString=data)[v]
+
+        sequence = protein['sequence']
+
+        return sequence
+
+    @app.callback(
+        Output('sequence-viewer', 'coverage'),
+        [Input('selection-or-coverage', 'value')]
+    )
+    def activate_deactivate_coverage(v):
+        if(v == 'cov'):
+            return coverage
+        else:
+            return []
 
     # controls
     @app.callback(
@@ -259,7 +262,7 @@ def callbacks(app):
         return dropdownOptions
 
     @app.callback(
-        Output('sel-slider-container', 'children'),
+        Output('seq-view-sel-slider-container', 'children'),
         [Input('sequence-viewer', 'sequence')]
     )
     def update_slider_values(seq):
@@ -281,10 +284,14 @@ def callbacks(app):
         state=[State('sequence-viewer', 'sequence')]
     )
     def get_aa_comp(v, seq):
+        if(v is None):
+            return ''
         if(len(v) < 2):
             return ''
-
-        subsequence = seq[v[0]:v[1]]
+        try:
+            subsequence = seq[v[0]:v[1]]
+        except TypeError:
+            return html.Table([])
         aminoAcids = list(set(subsequence))
         summary = []
         for aa in aminoAcids:
@@ -295,12 +302,20 @@ def callbacks(app):
         return html.Table(summary)
 
     @app.callback(
+        Output('test-coverage-clicked', 'children'),
+        [Input('sequence-viewer', 'coverageClicked')]
+    )
+    def update_cov_clicked(v):
+        return v
+
+    @app.callback(
         Output('test-mouse-selection', 'children'),
         [Input('sequence-viewer', 'mouseSelection')]
     )
     def update_mouse_sel(v):
-        print(v)
-        return v
+        if(v is not None):
+            return v['selection']
+        return ''
 
     @app.callback(
         Output('desc-info', 'children'),
@@ -318,7 +333,10 @@ def callbacks(app):
         if data == '':
             return []
 
-        protein = pr.readFasta(dataString=data)[p]
+        try:
+            protein = pr.readFasta(dataString=data)[p]
+        except Exception:
+            return ['NA']
         desc = []
         for key in protein['description']:
             tmp = key
@@ -342,6 +360,5 @@ def callbacks(app):
             test.append("Sequence: %s" % sel['sequence'])
             test.append(html.Br())
         return test
-
 
 
