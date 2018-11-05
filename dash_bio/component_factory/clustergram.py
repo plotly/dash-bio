@@ -63,7 +63,9 @@ class Clustergram(object):
                                      the same ratio; with two, the row
                                      dendrogram ratio corresponds to the first
                                      element of the list (default: 0.2)
-    :param (function) imputeFunction: The function used to impute missing data
+    :param (function) imputeFunction: The function used to impute missing data.
+                                      It should take as input the dataset and 
+                                      output a dataset with imputed values.
     :param (list[dict]) rowGroupMarker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
                                         (which group to annotate), 'annotation'
