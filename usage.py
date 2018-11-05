@@ -36,10 +36,10 @@ highlightColor = 'blue'
 
 selection = [10, 20, highlightColor]
 
-app.layout = html.Div([
+app.layout = html.Div(id='seq-view-body', children=[
 
     html.Div(
-        id='header',
+        id='seq-view-header',
         children=[
             "Dash sequence viewer",
             
@@ -47,7 +47,7 @@ app.layout = html.Div([
         ]
     ),
     html.Div(
-        id='fasta-upload',
+        id='seq-view-fasta-upload',
         children=[
             dcc.Upload(
                 id='upload-fasta-data',
@@ -65,9 +65,6 @@ app.layout = html.Div([
                     'textAlign': 'center',
                 }
             ),
-            html.Div(
-                id='upload-data-output'
-            )
         ]
     ),
     
@@ -86,7 +83,7 @@ app.layout = html.Div([
     ),
 
     html.Div(
-        id='controls-container',
+        id='seq-view-controls-container',
         children=[
 
             dcc.RadioItems(
@@ -99,7 +96,7 @@ app.layout = html.Div([
             ),
 
             html.Div(
-                id='sel-slider-container',
+                id='seq-view-sel-slider-container',
                 children=[
                     "Selection slider",
                     dcc.RangeSlider(
@@ -113,7 +110,7 @@ app.layout = html.Div([
             ),
 
             html.Div(
-                id='protein-dropdown-container',
+                id='seq-view-protein-dropdown-container',
                 children=[
                     "Protein to view",
                     dcc.Dropdown(
@@ -129,7 +126,7 @@ app.layout = html.Div([
     ),
     
     html.Div(
-        id='info-container',
+        id='seq-view-info-container',
         children=[
             html.Span(
                 "Description: ",
@@ -215,19 +212,6 @@ def update_sequence(upload_contents, v):
 
     return sequence
 
-
-'''
-@app.callback(
-    Output('sequence-viewer', 'selection'),
-    [Input('selection-or-coverage', 'value')]
-)
-def activate_deactivate_selection(v):
-    if(v == 'sel'):
-        return []
-    else:
-        return None
-'''
-
     
 @app.callback(
     Output('sequence-viewer', 'coverage'),
@@ -288,7 +272,7 @@ def update_protein_options(upload_contents):
 
 
 @app.callback(
-    Output('sel-slider-container', 'children'),
+    Output('seq-view-sel-slider-container', 'children'),
     [Input('sequence-viewer', 'sequence')]
 )
 def update_slider_values(seq):
