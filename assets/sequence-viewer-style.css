@@ -1,0 +1,71 @@
+#seq-view-body {
+    font-family: Helvetica, sans-serif;
+}
+::-webkit-scrollbar{
+    width: 0px;
+    height: 0px;
+}
+#seq-view-header {
+    width: calc(100% - 40px);
+    height: auto;
+    margin: 0px;
+    font-size: 36px;
+    padding: 20px;
+    background: maroon;
+    color: #ffffff;
+}
+
+.inputSearchSeq {
+    font-size: 14px;
+    width: 100px;
+    padding:5px;
+    border-radius:3px;
+    border: solid 1px grey;
+    margin-left: 10px;
+}
+#seq-view-fasta-upload{
+    width: 400px;
+    margin: 20px;
+    padding: 10px;
+}
+#sequence-viewer-container{
+    width: 400px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    padding: 10px;
+    margin:20px;
+    overflow:scroll;
+}
+
+#seq-view-controls-container {
+    width:150px;
+    position: absolute;
+    top: 110px;
+    left: 500px;
+    height:250px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    padding: 10px;
+    padding-top:30px;
+}
+
+#seq-view-sel-slider-container {
+    width: 100px;
+    padding: 10px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    margin: 10px;
+    margin-top:30px;
+}
+		   
+#seq-view-info-container {
+    width: 400px;
+    height: 500px;
+    border: solid 1px grey;
+    overflow:scroll;
+    border-radius: 5px;
+    padding: 20px;
+    position: absolute;
+    top: 110px;
+    left: 700px;
+}
