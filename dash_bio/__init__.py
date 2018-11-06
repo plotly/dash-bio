@@ -5,6 +5,7 @@ import sys as _sys
 import json
 
 import dash as _dash
+from .ClustergramComponent import ClustergramComponent
 
 if not hasattr(_dash, 'development'):
     print('Dash was not successfully imported. '
