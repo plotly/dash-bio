@@ -54,7 +54,7 @@ app.layout = html.Div(
 
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
-    if pathname == "/dash-clustergram/" or pathname is None:
+    if pathname == "/dash-bio/" or pathname is None:
         return html.Div(
             className="container",
             children=[
@@ -64,7 +64,7 @@ def display_app(pathname):
                         html.Li(
                             dcc.Link(
                                 name.replace("app_", "").replace("_", " "),
-                                href="/dash-clustergram/{}".format(
+                                href="/dash-bio/{}".format(
                                     name.replace("app_", "").replace("_", "-")
                                 ),
                                 className="review-apps"
@@ -76,7 +76,7 @@ def display_app(pathname):
             ],
         )
 
-    app_name = pathname.replace('/dash-clustergram/', '/').replace("/", "").replace("-", "_")
+    app_name = pathname.replace('/dash-bio/', '/').replace("/", "").replace("-", "_")
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
     else:
