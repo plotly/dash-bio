@@ -1,4 +1,5 @@
 import tempfile
+import re
 from Bio import SeqIO
 
 # information on database header formats, taken from
@@ -9,8 +10,8 @@ _databases = {
     'dbj': ['accession', 'locus'],
     'pir': ['entry'],
     'prf': ['name'],
-    'sp': ['accession', '[entry name] [protein name] [OS=organism name] [OX=organism identifier] [GN=gene name] [PE=protein existence] [SV=sequence version]'],
-    'tr': ['accession', '[entry name] [protein name] [OS=organism name] [OX=organism identifier] [GN=gene name] [PE=protein existence] [SV=sequence version]'],
+    'sp': ['accession', 'entry name', 'protein name', 'organism name', 'organism identifier', 'gene name', 'protein existence', 'sequence version'],
+    'tr': ['accession', 'entry name', 'protein name', 'organism name', 'organism identifier', 'gene name', 'protein existence', 'sequence version'],
     'pdb': ['entry', 'chain'],
     'pat': ['country', 'number'],
     'bbs': ['number'],
@@ -114,6 +115,12 @@ def decode_description(description):
     desc = description.split('|')
     if desc[0] in _databases:
         dbInfo = _databases[desc[0]]
+        if desc[0] in ['sp', 'tr']:
+            decoded['accession'] = desc[1]
+            print(desc[2])
+            rs = re.search('(.*)\ (.*)\ OS=(.*)\ OX=(.*)\ GN=(.*)\ PE=(.*)\ SV=(.*)', string=desc[2])
+            print(rs.group(1))
+            
         # shift by one, since first section in header describes
         # the database
         for i in range(len(desc)-1):
