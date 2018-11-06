@@ -54,7 +54,7 @@ app.layout = html.Div(
 
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
-    if pathname == "/dash-bio/" or pathname is None:
+    if pathname == "/dash-bio" or pathname == '/dash-bio/' or pathname is None:
         return html.Div(
             className="container",
             children=[
