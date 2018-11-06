@@ -117,14 +117,18 @@ def decode_description(description):
         dbInfo = _databases[desc[0]]
         if desc[0] in ['sp', 'tr']:
             decoded['accession'] = desc[1]
-            print(desc[2])
-            rs = re.search('(.*)\ (.*)\ OS=(.*)\ OX=(.*)\ GN=(.*)\ PE=(.*)\ SV=(.*)', string=desc[2])
-            print(rs.group(1))
-            
-        # shift by one, since first section in header describes
-        # the database
-        for i in range(len(desc)-1):
-            decoded[dbInfo[i]] = desc[i+1]
+            # using regex to get the other information
+            rs = re.search(
+                '([^\s]+)(.*)\ OS=(.*)\ OX=(.*)\ GN=(.*)\ PE=(.*)\ SV=(.*)$',
+                string=desc[2]
+            )
+            for i in range(2, len(dbInfo)):
+                decoded[dbInfo[i]] = rs.group(i)
+        else:
+            # shift by one, since first section in header describes
+            # the database
+            for i in range(len(desc)-1):
+                decoded[dbInfo[i]] = desc[i+1]
     else:
         for i in range(len(desc)-1):
             decoded['desc-'+str(i)] = desc[i+1]
