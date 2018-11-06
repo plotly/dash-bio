@@ -62,10 +62,16 @@ def createStyle(pdbPath, style):
             index=str(ct1)
             if(l[0]=="ATOM"):
                 if (style == 'stick'):
-                    data[index]={
-                        "color":atmColor[atmType[ct1]],
-                        "visualization_type":"stick"
-                    }
+                    if atmType[ct1] in atmColor:
+                        data[index]={
+                            "color":atmColor[atmType[ct1]],
+                            "visualization_type":"stick"
+                        }
+                    else:
+                        data[index]={
+                            "color":"#330000",
+                            "visualization_type":"stick"
+                        }
                 else:
                     data[index]={
                         "color":chainsDict[chain[ct1]],
@@ -73,9 +79,15 @@ def createStyle(pdbPath, style):
                     }
 
             else:
-                data[index]={
-                    "color":atmColor[atmType[ct1]],
-                    "visualization_type":"stick"
+                if atmType[ct1] in atmColor:
+                    data[index]={
+                        "color":atmColor[atmType[ct1]],
+                        "visualization_type":"stick"
+                    }
+                else:
+                    data[index]={
+                        "color":"#330000",
+                        "visualization_type":"stick"
                     }
             ct1 += 1
 

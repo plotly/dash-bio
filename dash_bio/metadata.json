@@ -21,7 +21,7 @@
         "modifiers": [],
         "params": [
           {
-            "name": "selectedAtomIds",
+            "name": "glviewer",
             "type": null
           }
         ],

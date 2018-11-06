@@ -10,15 +10,12 @@ export default class DashMolecule3d extends Component {
         }
     
     onChangeSelection(selectedAtomIds) {
-        // console.warn(selectedAtomIds)
-        // if(this.props.modelData)
         this.props.setProps({selectedAtomIds: selectedAtomIds})
     }
 
-    onRenderNewData(selectedAtomIds) {
-    // onRenderNewData(glviewer) {
-    //     glviewer.resize()
-        this.props.setProps({selectedAtomIds:[]})
+    onRenderNewData(glviewer) {
+        glviewer.center();
+        glviewer.zoom(0.8)
     }
 
     shouldComponentUpdate(nextProps) {
