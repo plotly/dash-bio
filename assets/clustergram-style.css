@@ -1,0 +1,92 @@
+#clustergram-body {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+    font-family: Helvetica, sans-serif;
+    background:#000000;
+    padding: 0px;
+    font-size:10pt;
+    color: #dddddd;
+}
+
+#clustergram-options::-webkit-scrollbar {
+	width: 2px;
+	background-color: #000;
+    }
+
+#clustergram-options::-webkit-scrollbar-thumb {
+	background: #ddd; 
+    }
+
+#clustergram-header {
+    width: calc(100% - 40px);
+    height:auto;
+    position: static;
+    margin-top:0px;
+    margin-left:0px;
+    font-size:28pt;
+    padding: 10px;
+    background:blue;
+    color:#ffffff;
+}
+
+#clustergram-options {
+    width: 500px;
+    position: relative;
+    float:left;
+    top: 10px; 
+    border: solid 2px white;
+    border-radius: 5px;
+    padding: 20px;
+    max-height:300px;
+    overflow:scroll;
+    font-size: 10pt !important; 
+}
+
+#clustergram-wrapper {
+    height: 600px;
+    width:600px;
+    float:left;
+    padding: 0px;
+    margin: 0px; 
+}
+#clustergram-body .Select, #clustergram-body .Select-control, #clustergram-body input, #clustergram-body .Select-menu-outer, #clustergram-body .Select-value-label {
+    background-color: black !important;
+    color: white !important;
+}
+#clustergram-file-upload-container {
+    width: 450px !important;
+    margin-left: 10px !important;
+    margin-top: 20px; 
+    height:20px !important; 
+}
+#clustergram-body .Select-control {
+    width: 450px;
+    margin-left: -100px;
+}
+
+#clustergram-body .Select, #clustergram-body input {
+    width: 225px;
+    margin:auto;
+}
+#clustergram-body button {
+    float: left;
+    width:110px;
+    margin: 6px;
+}
+#clustergram-body input {
+    float:left;
+    width: 70px !important;
+    margin: 6px !important;
+}
+#clustergram-info {
+    margin-top: 20px;
+    float: left;
+    width: 500px;
+    border-radius: 5px;
+    padding: 20px; 
+    border: 1px solid white;
+}
