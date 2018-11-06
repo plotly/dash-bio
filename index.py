@@ -64,7 +64,7 @@ def display_app(pathname):
                         html.Li(
                             dcc.Link(
                                 name.replace("app_", "").replace("_", " "),
-                                href="/{}".format(
+                                href="/dash-clustergram/{}".format(
                                     name.replace("app_", "").replace("_", "-")
                                 ),
                                 className="review-apps"
