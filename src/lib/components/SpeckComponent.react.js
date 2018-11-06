@@ -233,4 +233,3 @@ SpeckComponent.propTypes = {
     
 
 }
-B
