@@ -129,9 +129,17 @@ export default class SequenceViewerComponent extends Component {
 }
 
 SequenceViewerComponent.defaultProps = {
-    coverage: [],
+    sequence: '-',
+    showLineNumbers: true,
+    wrapAminoAcids: true,
+    charsPerLine: 40,
+    toolbar: false,
+    search: true,
+    title: '',
+    sequenceMaxHeight: '400px',
+    badge: true,
     selection: [],
-    sequenceMaxHeight: '400px'
+    coverage: []
 };
 
 SequenceViewerComponent.propTypes = {

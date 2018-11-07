@@ -67,11 +67,8 @@ def layout():
             children=[
                 dash_bio.SequenceViewerComponent(
                     id='sequence-viewer',
-                    title="",
-                    wrapAminoAcids=True,
-                    search=True,
-                    sequence=sequence,
-                    coverage=coverage
+                    sequence='-',
+                    wrapAminoAcids=True
                 )
             ]
         ),
