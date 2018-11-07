@@ -8,8 +8,8 @@ import json
 
 
 layout = cp.txt_to_layout(
-    file_one_name="./dash_bio/utils/GRCh37.txt",
-    file_two_name="./dash_bio/utils/GRCh38.txt",
+    file_one_name="./dash_bio/utils/sample_data/GRCh37.txt",
+    file_two_name="./dash_bio/utils/sample_data/GRCh38.txt",
     append_one="-7",
     append_two="-8",
     relPath=True,
@@ -17,13 +17,13 @@ layout = cp.txt_to_layout(
 )
 
 track_one = cp.txt_to_track(
-    file_name="./dash_bio/utils/GRCh37.txt",
+    file_name="./dash_bio/utils/sample_data/GRCh37.txt",
     append_block_id="-7",
     relPath=True,
     create_local=False,
 )
 track_two = cp.txt_to_track(
-    file_name="./dash_bio/utils/GRCh38.txt",
+    file_name="./dash_bio/utils/sample_data/GRCh38.txt",
     append_block_id="-8",
     relPath=True,
     create_local=False,

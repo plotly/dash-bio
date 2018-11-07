@@ -31,7 +31,7 @@ def parse_contents(contents, filename, date):
 
 
 empty = dash_bio.DashCircos(
-    id="main-circos", selectEvent={}, layout=[], size=800, config={}, tracks=[]
+    id="main-circos", selectEvent={}, layout=[], size=700, config={}, tracks=[]
 )
 
 upload_instructions = (
@@ -145,12 +145,12 @@ app.layout = html.Div(
                                                                     id="size-slider",
                                                                     marks={
                                                                         600: "Min",
-                                                                        800: "Max",
+                                                                        700: "Max",
                                                                     },
                                                                     min=600,
-                                                                    max=800,
+                                                                    max=700,
                                                                     step=10,
-                                                                    value=750,
+                                                                    value=700,
                                                                 )
                                                             ],
                                                             style={
@@ -214,8 +214,8 @@ app.layout = html.Div(
                                                 html.Div(
                                                     [
                                                         html.H5(
-                                                            "Upload Custom Data",
-                                                            className="six columns",
+                                                            "Upload Data",
+                                                            className="four columns",
                                                         ),
                                                         html.Button(
                                                             "Render",
@@ -223,7 +223,9 @@ app.layout = html.Div(
                                                             style={
                                                                 "marginTop": "0.5%",
                                                                 "marginBottom": "2%",
-                                                                "width": "18%"
+                                                                "display": "flex",
+                                                                "justify-content": "center",
+                                                                "align-items": "center"
                                                             },
                                                             className="three columns",
                                                         ),
@@ -233,7 +235,7 @@ app.layout = html.Div(
                                                             ),
                                                             href="https://github.com/plotly/dash-bio/blob/dash-circos/upload_data/Download.rar",
                                                             target="_blank",
-                                                            className="three columns",
+                                                            className="five columns",
                                                             style={
                                                                 "margin-top": "0.5%",
                                                                 "margin-bottom": "2%",
@@ -255,7 +257,8 @@ app.layout = html.Div(
                                                                     value=upload_instructions,
                                                                     style={
                                                                         'width': '100%',
-                                                                        "height": "12vh"}
+                                                                        "height": "12vh"
+                                                                        }
                                                                 )
                                                             ], className="six columns"
                                                         ),
@@ -295,15 +298,14 @@ app.layout = html.Div(
                                             className="row",
                                         ),
                                     ],
-                                    className="five columns",
+                                    className="five columns"
                                 ),
                                 html.Div(
                                     id="circos-hold",
                                     children=[
                                         empty
                                     ],
-                                    className="seven columns",
-                                    style={"marginTop": "2.5%"}
+                                    className="seven columns"
                                 ),
                             ],
                             className="row",

@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CircosJS from 'circos';
-import { TRACK_TYPES } from '../tracks';
+import { TRACK_TYPES } from '../constants/tracks';
 
 /**
  * Dash Circos is a library used to analyze and understand
  * data using a circular layout. It comes with many layouts,
  * and templates for the user to share and display their data.
  */
-class DashCircos extends Component {
+export default class DashCircos extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      hoverDatum: null,
-      clickDatum: null
-    }
     this.circos = null;
     this.configIdeogram = this.configIdeogram.bind(this);
     this.setEvent = this.setEvent.bind(this);
@@ -22,7 +18,9 @@ class DashCircos extends Component {
     this.setToolTip = this.setToolTip.bind(this);
   }
 
-
+  /**
+   * Used to set a click or hover event on tracks/layout that will show annotations for the circos grpah. 
+   */
   setEvent(setProps, index) {
     if (this.props.selectEvent) {
       if (this.props.selectEvent[index] === "both") {
@@ -71,9 +69,12 @@ class DashCircos extends Component {
     }
     return {}
   }
-  setClickAlert() {
 
-  }
+  /**
+   * Allows user to specify a color prop, that will iterate through the colors
+   * in the dataset provided, and apply them directly to the tracks/layout specified
+   * by ID.
+   */
   setColor(configApply) {
     if (configApply.color) {
       if (configApply.color.name) {
@@ -93,6 +94,10 @@ class DashCircos extends Component {
     }
   }
 
+  /**
+   * Set the tool tip event handler. It allows the user to specify what data they want
+   * to show on annotation click or hover
+   */
   setToolTip(configApply) {
     if (configApply.tooltipContent) {
       if (configApply.tooltipContent.name) {
@@ -143,7 +148,7 @@ class DashCircos extends Component {
   }
 
   configIdeogram(layout, config, tracks, setProps) {
-    this.circos.layout(layout, config || {});
+    this.circos.layout(layout, config);
     tracks.forEach((track, index) => {
       const {
         id,
@@ -411,5 +416,5 @@ DashCircos.propTypes = {
   })),
 };
 
-module.exports = DashCircos;
+
 

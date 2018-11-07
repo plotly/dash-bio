@@ -20,13 +20,6 @@
         "returns": null
       },
       {
-        "name": "setClickAlert",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
         "name": "setColor",
         "docblock": null,
         "modifiers": [],

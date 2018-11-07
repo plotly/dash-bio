@@ -74,16 +74,15 @@ def colors_array_track(data):
     return data
 
 
-def txt_to_layout(file_one_name='', file_two_name='', append_one='', append_two='', relPath=False, create_local=False):
+def txt_to_layout(file_one_name='', file_two_name='', append_one='', append_two='', relPath=False, create_local=True):
+    data_name = os.path.splitext(file_one_name)[0]
     if file_two_name == '':
         if relPath is False:
-            main_data = "{}.txt".format(file_one_name[:-4])
-            data_name = file_one_name[:-4]
+            main_data = "{}.txt".format(data_name)
         else:
-            main_data = file_one_name
-            data_name = file_one_name[:-4].split("/")
-            data_name = data_name[len(data_name) - 1]
-
+            main_data = os.path.basename(file_one_name)
+            data_name = os.path.splitext(main_data)[0]
+        
         data = pd.read_csv(main_data, delimiter='\t', engine="python")
         data["chromStart"] = data["#chrom"]
         data.rename(columns={'#chrom': 'id', 'chromStart': 'label',
@@ -99,7 +98,7 @@ def txt_to_layout(file_one_name='', file_two_name='', append_one='', append_two=
         data = data.sort_values('id', ascending=False).drop_duplicates(['id'])
         data = data.dropna()
 
-        if create_local == True:
+        if create_local:
             data.to_csv("{}Layout.csv".format(data_name),
                         encoding="utf-8", index=False)
             data = data.to_dict(orient='records')
@@ -112,7 +111,8 @@ def txt_to_layout(file_one_name='', file_two_name='', append_one='', append_two=
     else:
         for file_name in [file_one_name, file_two_name]:
             if relPath is False:
-                main_data = "{}.txt".format(file_name[:-4])
+                main_data = "{}.txt".format(os.path.splitext(file_name)[0])
+                print("main_data file_name test", main_data)
             else:
                 main_data = file_name
 
@@ -140,7 +140,7 @@ def txt_to_layout(file_one_name='', file_two_name='', append_one='', append_two=
                 data = data.append(file_one_name, ignore_index=True)
                 data = data.dropna()
 
-        if create_local == True:
+        if create_local:
             data.to_csv("multi_layout.csv", encoding="utf-8", index=False)
             json_file = open("multi_layout.json", 'w')
             data = data.to_dict(orient='records')
@@ -153,17 +153,11 @@ def txt_to_layout(file_one_name='', file_two_name='', append_one='', append_two=
 
 
 def txt_to_track(file_name='', append_block_id='', relPath=False, create_local=False):
-    if relPath is False:
-        file_name = file_name[:-4]
-        main_data = "{}.txt".format(file_name)
-        track_csv = "{}.csv".format(file_name)
-        track_json = "{}.json".format(file_name)
-        layout_csv = "{}Layout.csv".format(file_name)
-        layout_json = "{}Layout.json".format(file_name)
-    else:
-        main_data = "{}".format(file_name)
-        file_name = file_name[:-4].split("/")
-        file_name = file_name[len(file_name) - 1]
+    file_name = os.path.splitext(file_name)[0]
+    main_data = "{}.txt".format(file_name)
+    if relPath:
+        file_name = os.path.basename(file_name) 
+ 
 
     data = pd.read_csv(main_data, delimiter='\t', engine="python")
     data.rename(columns={'#chrom': 'block_id', 'chromStart': 'start',
@@ -177,7 +171,7 @@ def txt_to_track(file_name='', append_block_id='', relPath=False, create_local=F
     data = colors_array_track(data)
 
     # Edit Track Info
-    if create_local == True:
+    if create_local:
         data.to_csv("{}.csv".format(file_name), encoding="utf-8", index=False)
         jsonfileOne = open("{}.json".format(file_name), 'w')
         data = data.to_dict(orient='records')
@@ -187,3 +181,55 @@ def txt_to_track(file_name='', append_block_id='', relPath=False, create_local=F
     else:
         data = data.to_dict(orient='records')
     return data
+
+# if __name__ == "__main__":
+#     # layout = txt_to_layout(
+#     # file_one_name="./dash_bio/utils/GRCh37.txt",
+#     # file_two_name="./dash_bio/utils/GRCh38.txt",
+#     # append_one="-7",
+#     # append_two="-8",
+#     # relPath=True,
+#     # create_local=False,
+#     # )
+
+#     # track_one = txt_to_track(
+#     #     file_name="./dash_bio/utils/GRCh37.txt",
+#     #     append_block_id="-7",
+#     #     relPath=True,
+#     #     create_local=False,
+#     # )
+#     # track_two = txt_to_track(
+#     #     file_name="./dash_bio/utils/GRCh38.txt",
+#     #     append_block_id="-8",
+#     #     relPath=True,
+#     #     create_local=False,
+#     # )
+
+#     # layout = txt_to_layout(
+#     #     file_one_name="GRCh37.txt",
+#     #     file_two_name="GRCh38.txt",
+#     #     append_one="-7",
+#     #     append_two="-8",
+#     #     relPath=False,
+#     #     create_local=True,
+#     # )
+
+#     track_one = txt_to_track(
+#         file_name="./test/GRCh37.txt",
+#         append_block_id="-7",
+#         relPath=True,
+#         create_local=False,
+#     )
+    
+#     print(track_one)
+
+#     # track_two = txt_to_track(
+#     #     file_name="GRCh38.txt",
+#     #     append_block_id="-8",
+#     #     relPath=False,
+#     #     create_local=False,
+#     # )
+
+#     # print(layout)
+#     # print(track_one)
+#     # print(track_two)

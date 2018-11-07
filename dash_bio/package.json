@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.0.1-circos",
+  "version": "0.0.1",
   "description": "Dash components for bioinformatics",
   "main": "build/index.js",
   "scripts": {
@@ -11,13 +11,14 @@
     "build:all": "npm run build:js & npm run build:py",
     "build:all-dev": "npm run build:js-dev & npm run build:py"
   },
-  "author": "Matthew Chan mattewchan@plot.ly",
-  "license": "UNLICENSED",
+  "author": "The Plotly Team",
+  "license": "MIT",
   "dependencies": {
     "ramda": "^0.25.0",
     "react": "15.4.2",
     "react-circos": "^1.0.0",
-    "react-dom": "15.4.2"
+    "react-dom": "15.4.2",
+    "circos": "2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
