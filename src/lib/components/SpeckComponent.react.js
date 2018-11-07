@@ -7,8 +7,10 @@ const speckSystem = require('../speck/src/system.js');
 const speckView = require('../speck/src/view.js');
 const speckInteractions = require('../speck/src/interactions.js');
 
+
 export default class SpeckComponent extends Component {
 
+    
     loadStructure(data) {
 	var system = speckSystem.new();
 	for(var i = 0; i < data.length; i++) {
@@ -28,7 +30,53 @@ export default class SpeckComponent extends Component {
 	const renderer = this.state.renderer;
 	const view = this.props.view;  
 
-	const presets = {
+	
+	renderer.setSystem(system, view);
+	// update the resolution
+	renderer.setResolution(view.resolution, view.aoRes);
+
+	this.setState({
+	    refreshView: true
+	}); 
+    }
+
+    loop() {
+	if(this.state.renderer) {
+	    if(this.state.refreshView) {
+		this.state.renderer.reset();
+		this.setState({
+		    refreshView: false
+		});
+	    }
+	    if(this.state.viewLoaded){
+		this.state.renderer.render(this.props.view);
+	    }
+	}
+	requestAnimationFrame(this.loop); 
+    }
+    
+    constructor(props) {
+	super(props);
+	console.log(this.props);
+
+	// setting refs in this way to allow for easier updating to
+	// react 16
+	this.setCanvasRef = (e) => {
+	    this.canvas = e;
+	}
+	this.setContainerRef = (e) => {
+	    this.container = e;
+	}
+	this.loop = this.loop.bind(this);
+	this.loadStructure = this.loadStructure.bind(this);
+
+	this.state = {
+	    refreshView: false,
+	    renderer: null,
+	    viewLoaded: false
+	}
+
+	this.presets = {
 	    'default': {
 		'atomScale': 0.6,
 		'relativeAtomScale': 1.0,
@@ -90,47 +138,22 @@ export default class SpeckComponent extends Component {
 		'dofPosition': 0.5
 	    }
 	}
-	
-	renderer.setSystem(system, view);
-	// update the resolution
-	renderer.setResolution(view.resolution, view.aoRes);
-
-	this.setState({
-	    refreshView: true
-	}); 
     }
 
-    loop() {
-	if(this.state.refreshView) {
-	    this.state.renderer.reset();
-	    this.setState({
-		refreshView: false
-	    });
-	}
-	if(this.state.renderer){
-	    this.state.renderer.render(this.props.view);
-	}
-	requestAnimationFrame(this.loop); 
-    }
-    
-    constructor(props) {
-	super(props);
-	console.log(this.props);
 
-	// setting refs in this way to allow for easier updating to
-	// react 16
-	this.setCanvasRef = (e) => {
-	    this.canvas = e;
-	}
-	this.setContainerRef = (e) => {
-	    this.container = e;
-	}
-	this.loop = this.loop.bind(this);
-	this.loadStructure = this.loadStructure.bind(this);
+    shouldComponentUpdate(nextProps, nextState){
+	let v = this.props.view;
 
-	this.state = {
-	    refreshView: false,
-	    renderer: null
+	if(v.length != nextProps.view.length
+	   || Object.keys(v).some(
+	       propertyName =>
+		   v[propertyName] !== nextProps.view[propertyName]
+	   )){
+	    v = Object.assign(v, nextProps.view);
+	    this.props.setProps({
+		view: v
+	    }); 
+	    return true;
 	}
     }
     
@@ -152,9 +175,13 @@ export default class SpeckComponent extends Component {
 	});
 
 	// add initial view
-	let v = speckView.new(); 
+	let v = speckView.new();
+	v = Object.assign(v, view); 
 	setProps({
 	    view: v,
+	});
+	this.setState({
+	    viewLoaded: true
 	});
 	
 	// add event listeners
@@ -169,7 +196,7 @@ export default class SpeckComponent extends Component {
 	    data,
 	    view
 	} = this.props;
-	if(view){
+	if(view && this.state.renderer){
 	    this.loadStructure(data);
 	}
     }
@@ -223,13 +250,10 @@ SpeckComponent.propTypes = {
 	dofPosition: PropTypes.number,
 	fxaa: PropTypes.number
     }),
-    ok: PropTypes.string,
     interactions: PropTypes.shape({
 	buttonDown: PropTypes.bool,
 	lastX: PropTypes.number,
 	lastY: PropTypes.number
     }),
     setProps: PropTypes.func,
-    
-
 }
