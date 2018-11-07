@@ -6,6 +6,7 @@ import dash_html_components as html
 import logging
 import os
 from config import DASH_APP_NAME
+import base64
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
@@ -63,43 +64,38 @@ app.layout = html.Div(
 
 
 def demoAppImgSrc(name):
-    pic_fname = './tests/dash/images/pic_{}.png'.format(
-        name.replace('app_', '')
+    pic_fname = './tests/dash/pic_{}.png'.format(
+        name.replace('app_', '').replace('_', '')
     )
-    data_string = ''
-    try:
-        data_string = 'data:image/png;base64,{}'.format(
-            base64.b64encode(
-                open(pic_fname, 'rb').read()).decode())
-    except Exception:
-        pass
-    return data_string
+    return 'data:image/png;base64,{}'.format(
+        base64.b64encode(
+            open(pic_fname, 'rb').read()).decode())
 
 
 def demoAppName(name):
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
 
-def demoAppDesc(name):
-    desc = ''
-    try:
-        desc = apps[name].description()
-    except AttributeError:
-        pass
-    return desc
-
-            
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == DASH_APP_NAME or pathname == '/{}/'.format(DASH_APP_NAME) \
        or pathname == '/' or pathname is None:
-        return html.Div(
-            id='gallery-apps',
+        return html.Div(id='gallery-apps',
             children=[
-                html.Div(className='gallery-app', children=[
-                    html.Img(className='gallery-app-img',
-                             src=demoAppImgSrc(name)),
-                    html.Div(className='gallery-app-info', children=[
+                html.Div(
+                    className='gallery-app',
+                    children=[
+                        html.Div(className='gallery-app-left', children=[
+                            html.Img(className='gallery-app-img',
+                                     src=demoAppImgSrc(name)),
+                            dcc.Link(
+                                name.replace("app_", "").replace("_", " "),
+                                href="/{}/{}".format(
+                                    DASH_APP_NAME,
+                                    name.replace("app_", "").replace("_", "-")
+                                )
+                            )
+                        ]),
                         html.Div(className='gallery-app-name', children=[
                             demoAppName(name)
                         ]),
