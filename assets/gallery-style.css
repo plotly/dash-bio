@@ -1,0 +1,69 @@
+body {
+    background-color: #DFE8F3;
+}
+
+#gallery-apps{
+    height: 100%; 
+    width: 100%;
+    position: absolute; 
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+}
+
+.gallery-app {
+    height: 500px; 
+    width: 90%;
+    min-width: 650px;
+    padding: 10px;
+    margin-left: 50px; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #DFE8F3; 
+}
+.gallery-app-name{
+    color: black;
+    font-family: 'Open Sans', Helvetica;
+    font-size: 40pt;
+    font-weight: 100 !important;
+    width: 500px;
+    display: inline-block;
+    vertical-align: top; 
+}
+.gallery-app-left {
+    position: relative; 
+    display: inline-block;
+    height: 400px; 
+    width: 600px;
+    margin-right: 20px; 
+    overflow: hidden;
+    vertical-align: top; 
+}
+.gallery-app-left:hover .gallery-app-link {
+    opacity: 1; 
+}
+.gallery-app-left:hover .gallery-app-img {
+    -webkit-filter: blur(5px);
+}
+.gallery-app-img {
+    transition-duration:500ms;
+}
+.gallery-app-link, .gallery-app-link a{
+    font-size: 30pt;
+    font-family: Helvetica;
+    font-weight: 400;
+    position: absolute;
+    left: 30%; 
+    top: 30%;  
+    display: inline-block; 
+    text-decoration: none;
+    opacity: 0;
+    color: #00cc96;
+    font-variant: small-caps;
+    transition-duration: 500ms; 
+}
+.gallery-app-link:hover, .gallery-app-link a:hover {
+    color: #636efa; 
+}
+

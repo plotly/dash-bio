@@ -7,7 +7,6 @@ import logging
 import os
 from config import DASH_APP_NAME
 
-
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
 app = dash.Dash(__name__)
@@ -54,30 +53,46 @@ app.layout = html.Div(
 )
 
 
+def demoAppImgSrc(name):
+    pic_fname = './tests/dash/pic_{}.png'.format(
+        name.replace('app_', '').replace('_', '')
+    )
+    return 'data:image/png;base64,{}'.format(
+        base64.b64encode(
+            open(pic_fname, 'rb').read()).decode())
+
+
+def demoAppName(name):
+    return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
+
+
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == DASH_APP_NAME or pathname == '/{}/'.format(DASH_APP_NAME) \
        or pathname == '/' or pathname is None:
-        return html.Div(
-            className="container",
+        return html.Div(id='gallery-apps',
             children=[
-                html.H1("Dash Bio Review App"),
-                html.Ol(
-                    [
-                        html.Li(
+                html.Div(
+                    className='gallery-app',
+                    children=[
+                        html.Div(className='gallery-app-left', children=[
+                            html.Img(className='gallery-app-img',
+                                     src=demoAppImgSrc(name)),
                             dcc.Link(
-                                name.replace("app_", "").replace("_", " "),
-                                href="/{}/{}".format(
-                                    DASH_APP_NAME,
+                                'view app → ',
+                                className='gallery-app-link',
+                                href="/dash-bio/{}".format(
                                     name.replace("app_", "").replace("_", "-")
-                                ),
-                                className="review-apps"
+                                )
                             )
-                        )
-                        for name in apps
+                        ]),
+                        html.Div(className='gallery-app-name', children=[
+                            demoAppName(name)
+                        ]),
                     ]
-                ),
-            ],
+                )
+                for name in apps
+            ]
         )
 
     app_name = pathname.replace('/{}/'.format(DASH_APP_NAME), '/').replace("/", "").replace("-", "_")
