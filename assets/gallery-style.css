@@ -1,69 +1,85 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Dosis');
+
 body {
-    background-color: #DFE8F3;
+    background-color: #F3F6FA;
+}
+
+#gallery-title {
+    text-align: center;
+    font-size: 60pt;
+    font-family: 'Dosis';
+}
+#gallery-subtitle {
+    text-align: center;
+    font-size: 24pt;
+    font-family: 'Open Sans'
 }
 
 #gallery-apps{
-    height: 100%; 
     width: 100%;
     position: absolute; 
-    top: 0px;
     left: 0px;
-    bottom: 0px;
     right: 0px;
+    padding: 5%;
 }
 
 .gallery-app {
-    height: 500px; 
-    width: 90%;
-    min-width: 650px;
-    padding: 10px;
-    margin-left: 50px; 
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background-color: #DFE8F3; 
-}
-.gallery-app-name{
-    color: black;
-    font-family: 'Open Sans', Helvetica;
-    font-size: 40pt;
-    font-weight: 100 !important;
-    width: 500px;
-    display: inline-block;
-    vertical-align: top; 
-}
-.gallery-app-left {
     position: relative; 
     display: inline-block;
     height: 400px; 
-    width: 600px;
-    margin-right: 20px; 
+    width: 30%;
+    min-width: 400px; 
+    margin-right: 20px;
+    margin-bottom:10px;
     overflow: hidden;
     vertical-align: top; 
-}
-.gallery-app-left:hover .gallery-app-link {
-    opacity: 1; 
-}
-.gallery-app-left:hover .gallery-app-img {
-    -webkit-filter: blur(5px);
 }
 .gallery-app-img {
     transition-duration:500ms;
 }
+.gallery-app-info {
+    border-radius: 10px;
+    height: 380px; 
+    padding: 10px; 
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    opacity: 0; 
+}
+.gallery-app-name { 
+    color: white;
+    font-family: 'Dosis';
+    font-size: 40pt;
+    font-weight: 100 !important;
+}
+.gallery-app-desc {
+    color: white;
+    font-family: 'Open Sans'; 
+    font-size: 16pt;
+    margin: 15px; 
+}
+.gallery-app:hover .gallery-app-info, .gallery-app:hover .gallery-app-link {
+    opacity: 1; 
+}
+.gallery-app:hover .gallery-app-img {
+    -webkit-filter: blur(5px) grayscale(1) brightness(50%);
+}
+
 .gallery-app-link, .gallery-app-link a{
     font-size: 30pt;
-    font-family: Helvetica;
-    font-weight: 400;
+    font-family: 'Open Sans';
+    font-weight: 100;
     position: absolute;
-    left: 30%; 
-    top: 30%;  
-    display: inline-block; 
+    bottom:15px;
+    right:15px; 
     text-decoration: none;
     opacity: 0;
-    color: #00cc96;
-    font-variant: small-caps;
+    color: #EF553B;
+    font-variant-caps: all-small-caps;
     transition-duration: 500ms; 
 }
 .gallery-app-link:hover, .gallery-app-link a:hover {
-    color: #636efa; 
+    color: #F3F6FA; 
 }
 
