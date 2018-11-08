@@ -67,16 +67,16 @@ def demoAppImgSrc(name):
     pic_fname = './tests/dash/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
-    data_string = ''
     try:
-        data_string = 'data:image/png;base64,{}'.format(
+        return 'data:image/png;base64,{}'.format(
             base64.b64encode(
                 open(pic_fname, 'rb').read()).decode())
     except Exception:
-        pass
-    return data_string
+        return 'data:image/png;base64,{}'.format(
+            base64.b64encode(
+                open('./assets/dashbio_logo.png', 'rb').read()).decode())
 
-
+    
 def demoAppName(name):
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
@@ -115,7 +115,7 @@ def display_app(pathname):
                             )
                         )
                     ]),
-                ]) for name in apps if demoAppImgSrc(name) != ''
+                ]) for name in apps
             ])
 
     app_name = \
