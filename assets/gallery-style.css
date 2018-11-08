@@ -43,6 +43,8 @@
 }
 .gallery-app-img {
     transition-duration:500ms;
+    object-fit: cover;
+    max-width: 100%; 
 }
 .gallery-app-info {
     border-radius: 10px;
