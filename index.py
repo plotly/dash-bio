@@ -64,7 +64,7 @@ app.layout = html.Div(
 
 
 def demoAppImgSrc(name):
-    pic_fname = './tests/dash/pic_{}.png'.format(
+    pic_fname = './tests/dash/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
     data_string = ''

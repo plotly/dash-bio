@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=Dosis');
 
-body {
+#index-waitfor {
     background-color: #F3F6FA;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px; 
 }
 
 #gallery-title {
@@ -70,9 +75,10 @@ body {
     font-size: 18pt;
     font-family: 'Open Sans';
     font-weight: 100;
-    position: absolute;
-    margin-bottom:0px;
-    right:15px; 
+    position: relative; 
+    bottom: 0px; 
+    right: 0px;
+    text-align: right; 
     text-decoration: none;
     opacity: 0;
     color: #EF553B;
