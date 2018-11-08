@@ -51,7 +51,7 @@ computedTraces = None
 
 def description():
     return 'Display hierarchical clustering and a heatmap with this clustergram. \
-    Perfect for at-a-glance interpretation of gene expression data.'
+    Perfect for visualization of gene expression data.'
 
 
 def layout():
