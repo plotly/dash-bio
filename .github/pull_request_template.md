@@ -12,6 +12,9 @@
 
 ## PR merging checklist
 Please make sure you have done these things before asking for approval to finally merge. 
+- [ ] Make sure you are up-to-date with the latest `master` by merging master in your branch `git pull master`.
+- [ ] Test all existing apps and make sure they are not broken.
+- [ ] Make changes as necessary to make it work with the other apps.
 - [ ] Ensure that your `requirements.txt` is complete and contains the specific versions of all Python packages you are using (if you are running in a virtual environment and have only the necessary packages installed for your component, you can just use `pip freeze > requirements.txt`)
 - [ ] Run your application successfully in a [virtual environment](https://realpython.com/python-virtual-environments-a-primer/)
 - [ ] Delete `usage.py` (your application should be in `tests/dash/app_[app name].py`)  
