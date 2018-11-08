@@ -49,6 +49,11 @@ fig_options = dict(
 computedTraces = None
 
 
+def description():
+    return 'Display hierarchical clustering and a heatmap with this clustergram. \
+    Perfect for visualization of gene expression data.'
+
+
 def layout():
     return html.Div(id='clustergram-body', children=[
         html.Div(
