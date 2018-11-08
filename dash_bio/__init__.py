@@ -6,6 +6,7 @@ import json
 
 import dash as _dash
 from .ClustergramComponent import ClustergramComponent
+from .EmptyComponent import EmptyComponent
 
 if not hasattr(_dash, 'development'):
     print('Dash was not successfully imported. '

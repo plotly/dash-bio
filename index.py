@@ -1,4 +1,5 @@
 import dash
+import dash_bio
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
@@ -47,7 +48,7 @@ app.layout = html.Div(
     children=[
         dcc.Location(id="location"),
         html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dcc.Graph(id="graph")),
+        html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent())
     ]
 )
 
