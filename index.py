@@ -5,6 +5,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import logging
 import os
+from config import DASH_APP_NAME
 
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
@@ -55,7 +56,7 @@ app.layout = html.Div(
 
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
-    if pathname == "/dash-bio" or pathname == '/dash-bio/' \
+    if pathname == DASH_APP_NAME or pathname == '/{}/'.format(DASH_APP_NAME) \
        or pathname == '/' or pathname is None:
         return html.Div(
             className="container",
@@ -66,7 +67,8 @@ def display_app(pathname):
                         html.Li(
                             dcc.Link(
                                 name.replace("app_", "").replace("_", " "),
-                                href="/dash-bio/{}".format(
+                                href="/{}/{}".format(
+                                    DASH_APP_NAME,
                                     name.replace("app_", "").replace("_", "-")
                                 ),
                                 className="review-apps"
@@ -78,7 +80,7 @@ def display_app(pathname):
             ],
         )
 
-    app_name = pathname.replace('/dash-bio/', '/').replace("/", "").replace("-", "_")
+    app_name = pathname.replace('/{}/'.format(DASH_APP_NAME), '/').replace("/", "").replace("-", "_")
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
     else:
