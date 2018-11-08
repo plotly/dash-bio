@@ -31,8 +31,8 @@ for key in apps:
 
 '''
 Ensure there is one html.Div holding an empty instance of a dash_bio.component
-like the example below. Remove this comment when we've added one dash_bio c
-omponent!
+like the example below. Remove this comment when we've added one dash_bio
+component!
 
 Ex:
 app.layout = html.Div(
@@ -63,7 +63,7 @@ app.layout = html.Div(
 
 
 def demoAppImgSrc(name):
-    pic_fname = './tests/dash/pic_{}.png'.format(
+    pic_fname = './tests/dash/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
     data_string = ''
