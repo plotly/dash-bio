@@ -29,6 +29,11 @@ highlightColor = 'blue'
 selection = [10, 20, highlightColor]
 
 
+def description():
+    return 'Display protein and nucleotide sequences with \
+    coverages, selection information, and search.'
+
+
 def layout():
     return html.Div(id='seq-view-body', children=[
 

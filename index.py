@@ -5,7 +5,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 import logging
 import os
-import dash_bio
 from config import DASH_APP_NAME
 import base64
 
