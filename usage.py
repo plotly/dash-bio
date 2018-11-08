@@ -175,7 +175,7 @@ def use_upload(contents, color, opacity, molStyle): #,selectn): #, filename, dat
         ## Create the cartoon style from the decoded contents
         datstyle=sparser.createStyle(fname, molStyle)
         fs=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
-        tmp_dir=tempfile.TemporaryDirectory()
+        #tmp_dir=tempfile.TemporaryDirectory()
         fs.write(datstyle)
         fname2=fs.name
         fs.close()
