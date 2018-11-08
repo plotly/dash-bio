@@ -4,10 +4,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 import logging
 import os
+from config import DASH_APP_NAME
 
-
-# Write down the name of your app here (DASH_APP_NAME in your config.py file)
-dash_app_name = 'dash-test'
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
@@ -57,7 +55,7 @@ app.layout = html.Div(
 
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
-    if pathname == dash_app_name or pathname == '/{}/'.format(dash_app_name) \
+    if pathname == DASH_APP_NAME or pathname == '/{}/'.format(DASH_APP_NAME) \
        or pathname == '/' or pathname is None:
         return html.Div(
             className="container",
@@ -69,7 +67,7 @@ def display_app(pathname):
                             dcc.Link(
                                 name.replace("app_", "").replace("_", " "),
                                 href="/{}/{}".format(
-                                    dash_app_name,
+                                    DASH_APP_NAME,
                                     name.replace("app_", "").replace("_", "-")
                                 ),
                                 className="review-apps"
@@ -81,7 +79,7 @@ def display_app(pathname):
             ],
         )
 
-    app_name = pathname.replace('/{}/'.format(dash_app_name), '/').replace("/", "").replace("-", "_")
+    app_name = pathname.replace('/{}/'.format(DASH_APP_NAME), '/').replace("/", "").replace("-", "_")
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
     else:
