@@ -67,45 +67,59 @@ def demoAppImgSrc(name):
     pic_fname = './tests/dash/pic_{}.png'.format(
         name.replace('app_', '').replace('_', '')
     )
-    return 'data:image/png;base64,{}'.format(
-        base64.b64encode(
-            open(pic_fname, 'rb').read()).decode())
+    data_string = ''
+    try:
+        data_string = 'data:image/png;base64,{}'.format(
+            base64.b64encode(
+                open(pic_fname, 'rb').read()).decode())
+    except Exception:
+        pass
+    return data_string
 
 
 def demoAppName(name):
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
 
+def demoAppDesc(name):
+    desc = ''
+    try:
+        desc = apps[name].description()
+    except AttributeError:
+        pass
+    return desc
+
+            
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == DASH_APP_NAME or pathname == '/{}/'.format(DASH_APP_NAME) \
        or pathname == '/' or pathname is None:
-        return html.Div(id='gallery-apps',
+        return html.Div(
+            id='gallery-apps',
             children=[
-                html.Div(
-                    className='gallery-app',
-                    children=[
-                        html.Div(className='gallery-app-left', children=[
-                            html.Img(className='gallery-app-img',
-                                     src=demoAppImgSrc(name)),
-                            dcc.Link(
-                                name.replace("app_", "").replace("_", " "),
-                                href="/{}/{}".format(
-                                    DASH_APP_NAME,
-                                    name.replace("app_", "").replace("_", "-")
-                                )
-                            )
-                        ]),
+                html.Div(className='gallery-app', children=[
+                    html.Img(className='gallery-app-img',
+                             src=demoAppImgSrc(name)),
+                    html.Div(className='gallery-app-info', children=[
                         html.Div(className='gallery-app-name', children=[
                             demoAppName(name)
                         ]),
-                    ]
-                )
-                for name in apps
-            ]
-        )
+                        html.Div(className='gallery-app-desc', children=[
+                            demoAppDesc(name)
+                        ]),
+                        dcc.Link(
+                            'view app → ',
+                            className='gallery-app-link',
+                            href="/dash-bio/{}".format(
+                                name.replace("app_", "").replace("_", "-")
+                            )
+                        )
+                    ]),
+                ]) for name in apps if demoAppImgSrc(name) != ''
+            ])
 
-    app_name = pathname.replace('/{}/'.format(DASH_APP_NAME), '/').replace("/", "").replace("-", "_")
+    app_name = \
+        pathname.replace('/{}/'.format(DASH_APP_NAME), '/').replace("/", "").replace("-", "_")
 
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
