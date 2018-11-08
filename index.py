@@ -4,6 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import logging
 import os
+import dash_bio
 
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
@@ -47,7 +48,7 @@ app.layout = html.Div(
     children=[
         dcc.Location(id="location"),
         html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dcc.Graph(id="graph")),
+        html.Div(style={"display": "none"}, children=dash_bio.DashMolecule3d()),
     ]
 )
 

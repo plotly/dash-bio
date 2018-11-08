@@ -7,7 +7,7 @@ import io
 def createData(pdbPath):
     with open(pdbPath, 'r') as infile:
        lines=infile.readlines() #[line for line in infile]
-    lines1=io.StringIO(pdbPath)
+    #lines1=io.StringIO(pdbPath)
 
     varNchains=[]; varNresidues=[]
     serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]; atomType=[]
