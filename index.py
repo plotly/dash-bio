@@ -92,7 +92,7 @@ def demoAppDesc(name):
             
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
-    if pathname == DASH_APP_NAME or pathname == '/{}/'.format(DASH_APP_NAME) \
+    if pathname == '/{}'.format(DASH_APP_NAME) or pathname == '/{}/'.format(DASH_APP_NAME) \
        or pathname == '/' or pathname is None:
         return html.Div(
             id='gallery-apps',
@@ -110,7 +110,8 @@ def display_app(pathname):
                         dcc.Link(
                             'view app → ',
                             className='gallery-app-link',
-                            href="/dash-bio/{}".format(
+                            href="/{}/{}".format(
+                                DASH_APP_NAME,
                                 name.replace("app_", "").replace("_", "-")
                             )
                         )
