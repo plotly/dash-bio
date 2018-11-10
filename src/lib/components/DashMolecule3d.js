@@ -45,7 +45,6 @@ export default class DashMolecule3d extends Component {
             styles,
             onRenderNewData,
             onChangeSelection,
-            defaultSelection
         }=this.props;
 
         return (
@@ -62,21 +61,72 @@ export default class DashMolecule3d extends Component {
 
 DashMolecule3d.propTypes = {
     
+    /**
+     * The ID used to identify this component in callbacks
+     */
     id: PropTypes.string,
+
+    /**
+     * Dash-assigned callback that should be called whenever properties change
+     */
     setProps: PropTypes.func,
+
+    /**
+     * The selection type - may be atom, residue or chain
+     */
     selectionType: PropTypes.string,
+
+    /**
+     * Property to change the background color of the molecule viewer
+     */
     backgroundColor: PropTypes.string,
+
+    /**
+     * Property to change the backgroun opacity - ranges from 0 to 1
+     */
     backgroundOpacity: PropTypes.number,
+
+    /**
+     * Property that can be used to change the representation of
+     * the molecule. Options include sticks, cartoon and sphere
+     */
     styles: PropTypes.objectOf(PropTypes.object),
+
+    /**
+     * The data that will be used to display the molecule in 3D
+     * The data will be in JSON format 
+     * and should have two main dictionaries - atoms, bonds
+     */
     modelData: PropTypes.shape({
         atoms: PropTypes.array,
         bonds: PropTypes.array,
     }),
+
+    /**
+     * Property to either show or hide labels
+     */
     atomLabelsShown: PropTypes.bool,
+
+    /**
+     * Property that stores a list of all selected atoms
+     */
     selectedAtomIds: PropTypes.array,
+
+    /**
+     * labels corresponding to the atoms of the molecule
+     */
     labels: PropTypes.array,
+
+    /**
+     * Callback to re-render molecule viewer
+     * when modelData is changed
+     */
     onRenderNewData: PropTypes.func,
+
+    /**
+     * Callback to change append selectedAtomIds 
+     * when a selection is made
+     */
     onChangeSelection: PropTypes.func,
-    onClickAtom: PropTypes.func,
-    defaultSelection:PropTypes.array
+    
 };

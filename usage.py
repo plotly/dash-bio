@@ -122,7 +122,6 @@ app.layout = html.Div([
             #selectionType='Atom',
             modelData=model,
             selectedAtomIds=[],
-            defaultSelection=[],
             styles={},
             atomLabelsShown=False,
         )
@@ -175,7 +174,7 @@ def use_upload(contents, color, opacity, molStyle): #,selectn): #, filename, dat
         ## Create the cartoon style from the decoded contents
         datstyle=sparser.createStyle(fname, molStyle)
         fs=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
-        #tmp_dir=tempfile.TemporaryDirectory()
+    
         fs.write(datstyle)
         fname2=fs.name
         fs.close()
@@ -185,13 +184,10 @@ def use_upload(contents, color, opacity, molStyle): #,selectn): #, filename, dat
         # Delete all the temporary files that were created
         for x in [fname, fname1, fname2]:
             if(os.path.isfile(x)):
-                #print (str(x))
                 os.remove(x)
-                #print ("deleted")
+                
             else:
                 pass
-        
-        #print (str(fname1)) #, ">>", fname1, fname)
 
         ## Return the new molecule visualization container
         return (
@@ -202,7 +198,6 @@ def use_upload(contents, color, opacity, molStyle): #,selectn): #, filename, dat
             selectionType='Atom',
             modelData=mdata,
             selectedAtomIds=[],
-            defaultSelection=[],
             styles=data_style,
             atomLabelsShown=False,
             )

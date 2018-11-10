@@ -34,35 +34,35 @@
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "The ID used to identify this component in callbacks"
       },
       "setProps": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": ""
+        "description": "Dash-assigned callback that should be called whenever properties change"
       },
       "selectionType": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "The selection type - may be atom, residue or chain"
       },
       "backgroundColor": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "Property to change the background color of the molecule viewer"
       },
       "backgroundOpacity": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": ""
+        "description": "Property to change the backgroun opacity - ranges from 0 to 1"
       },
       "styles": {
         "type": {
@@ -72,7 +72,7 @@
           }
         },
         "required": false,
-        "description": ""
+        "description": "Property that can be used to change the representation of\r\nthe molecule. Options include sticks, cartoon and sphere"
       },
       "modelData": {
         "type": {
@@ -89,56 +89,42 @@
           }
         },
         "required": false,
-        "description": ""
+        "description": "The data that will be used to display the molecule in 3D\r\nThe data will be in JSON format \r\nand should have two main dictionaries - atoms, bonds"
       },
       "atomLabelsShown": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": ""
+        "description": "Property to either show or hide labels"
       },
       "selectedAtomIds": {
         "type": {
           "name": "array"
         },
         "required": false,
-        "description": ""
+        "description": "Property that stores a list of all selected atoms"
       },
       "labels": {
         "type": {
           "name": "array"
         },
         "required": false,
-        "description": ""
+        "description": "labels corresponding to the atoms of the molecule"
       },
       "onRenderNewData": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": ""
+        "description": "Callback to re-render molecule viewer\r\nwhen modelData is changed"
       },
       "onChangeSelection": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": ""
-      },
-      "onClickAtom": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": ""
-      },
-      "defaultSelection": {
-        "type": {
-          "name": "array"
-        },
-        "required": false,
-        "description": ""
+        "description": "Callback to change append selectedAtomIds \r\nwhen a selection is made"
       }
     }
   }
