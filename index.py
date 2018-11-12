@@ -7,6 +7,10 @@ import logging
 import os
 from config import DASH_APP_NAME
 import base64
+import json
+
+with open('./data/data.js') as f:
+    model=json.load(f)
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
@@ -58,8 +62,9 @@ app.layout = html.Div(
             compatible with Plotly\'s Dash.'
         ]),
         html.Div(id="container"),
-        # html.Div(style={"display": "none"}, children=dash_bio.DashMolecule3d()),
-        html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent())
+        html.Div(style={"display": "none"}, children=dash_bio.DashMolecule3d(modelData=model)),
+        # html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent())
+        # html.Div(style={"display": "none"}, children=dash_bio.ExampleComponent(label="test"))
     ]
 )
 
