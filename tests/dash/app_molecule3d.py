@@ -11,6 +11,9 @@ import os
 from dash_bio.helpers import pdbParser as parser
 from dash_bio.helpers import stylesParser as sparser
 
+def description():
+    return 'Molecule visualization in 3D - perfect for viewing biomolecules like proteins, DNA and RNA'
+
 with open('./data/data.js') as f:
     model=json.load(f)
 
@@ -116,7 +119,7 @@ def layout():
                 #selectionType='Atom',
                 modelData=model,
                 selectedAtomIds=[],
-                defaultSelection=[],
+                #defaultSelection=[],
                 styles={},
                 atomLabelsShown=False,
             )
@@ -197,7 +200,7 @@ def callbacks(app):
                 selectionType='Atom',
                 modelData=mdata,
                 selectedAtomIds=[],
-                defaultSelection=[],
+                #defaultSelection=[],
                 styles=data_style,
                 atomLabelsShown=False,
                 )
