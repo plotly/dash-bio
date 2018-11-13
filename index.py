@@ -122,7 +122,6 @@ def display_app(pathname):
 
     app_name = \
         pathname.replace('/{}/'.format(DASH_APP_NAME), '/').replace("/", "").replace("-", "_")
-    print(app_name)
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
     else:
