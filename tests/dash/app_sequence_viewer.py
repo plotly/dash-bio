@@ -5,6 +5,9 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 from Bio.SeqUtils import seq3
+from Bio.Alphabet import generic_dna, generic_rna
+from Bio.Seq import Seq
+from Bio.Data.CodonTable import TranslationError
 
 proteinFolder = 'proteins'
 sequence = '-'
@@ -83,14 +86,42 @@ def layout():
             id='seq-view-controls-container',
             children=[
 
-                dcc.RadioItems(
-                    id='selection-or-coverage',
-                    options=[
-                        {'label': 'Enable selection', 'value': 'sel'},
-                        {'label': 'Enable coverage', 'value': 'cov'}
-                    ],
-                    value='sel'
+                html.Div(
+                    id='seq-view-sel-or-cov-container',
+                    children=[
+                        "Selection or coverage",
+                        dcc.RadioItems(
+                            id='selection-or-coverage',
+                            options=[
+                                {'label': 'Enable selection', 'value': 'sel'},
+                                {'label': 'Enable coverage', 'value': 'cov'}
+                            ],
+                            value='sel'
+                        )
+                    ]
                 ),
+
+                html.Hr(),
+                
+                html.Div(
+                    id='seq-view-dna-or-protein-container',
+                    children=[
+                        dcc.RadioItems(
+                            id='translation-alphabet',
+                            options=[
+                                {'label': 'Translate protein',
+                                 'value': 'protein'},
+                                {'label': 'Translate DNA',
+                                 'value': 'dna'},
+                                {'label': 'Translate RNA',
+                                 'value': 'rna'}
+                            ],
+                            value='protein'
+                        )
+                    ]
+                ),
+                
+                html.Hr(),
 
                 html.Div(
                     id='seq-view-sel-slider-container',
@@ -107,11 +138,11 @@ def layout():
                 ),
 
                 html.Div(
-                    id='seq-view-protein-dropdown-container',
+                    id='seq-view-entry-dropdown-container',
                     children=[
-                        "Protein to view",
+                        "Entry to view",
                         dcc.Dropdown(
-                            id='protein-dropdown',
+                            id='fasta-entry-dropdown',
                             options=[
                                 {'label': 1, 'value': 0}
                             ],
@@ -188,7 +219,7 @@ def callbacks(app):
     @app.callback(
         Output('sequence-viewer', 'sequence'),
         [Input('upload-fasta-data', 'contents'),
-         Input('protein-dropdown', 'value')]
+         Input('fasta-entry-dropdown', 'value')]
     )
     def update_sequence(upload_contents, v):
 
@@ -241,7 +272,7 @@ def callbacks(app):
         return [v[0], v[1], highlightColor]
 
     @app.callback(
-        Output('protein-dropdown', 'options'),
+        Output('fasta-entry-dropdown', 'options'),
         [Input('upload-fasta-data', 'contents')]
     )
     def update_protein_options(upload_contents):
@@ -283,10 +314,11 @@ def callbacks(app):
     # info display
     @app.callback(
         Output('test-selection', 'children'),
-        [Input('sequence-viewer', 'selection')],
-        state=[State('sequence-viewer', 'sequence')]
+        [Input('sequence-viewer', 'selection'),
+         Input('translation-alphabet', 'value'),
+         Input('sequence-viewer', 'sequence')],
     )
-    def get_aa_comp(v, seq):
+    def get_aa_comp(v, alphabet, seq):
         if(v is None):
             return ''
         if(len(v) < 2):
@@ -295,13 +327,51 @@ def callbacks(app):
             subsequence = seq[v[0]:v[1]]
         except TypeError:
             return html.Table([])
-        aminoAcids = list(set(subsequence))
-        summary = []
-        for aa in aminoAcids:
-            summary.append(
-                html.Tr([html.Td(seq3(aa)),
-                         html.Td(str(subsequence.count(aa)))])
-            )
+
+        # default - file represents a protein
+        aaString = subsequence
+        
+        if(alphabet == 'dna'):
+            # remove partial codons
+            subsequence = subsequence[:-(len(subsequence) % 3)]
+            s = Seq(subsequence, generic_dna)
+            try:
+                aaString = str(s.translate())
+            except TranslationError as t:
+                return "Sequence does not represent DNA."
+        elif(alphabet == 'rna'):
+            subsequence = subsequence[:-(len(subsequence) % 3)]
+            s = Seq(subsequence, generic_rna)
+            try:
+                aaString = str(s.translate())
+            except TranslationError as t:
+                return "Sequence does not represent RNA."
+
+        # all unique amino acids
+        aminoAcids = list(set(aaString))
+        aaCounts = [{'aa': seq3(aa),
+                     'count': aaString.count(aa)}
+                    for aa in aminoAcids]
+
+        # sort by most common AA in sequence
+        aaCounts.sort(
+            key=lambda x: x['count'],
+            reverse=True
+        )
+        
+        summary = [
+            html.Tr([html.Td(aac['aa']),
+                     html.Td(str(aac['count']))])
+            for aac in aaCounts]
+
+        # include explanation for translation if necessary
+        if((alphabet == 'dna' or alphabet == 'rna') and
+           len(summary) > 0):
+            return ['(Protein translated from {} to {})'.format(
+                alphabet.upper(),
+                aaString
+            ),
+                    html.Table(summary)]
         return html.Table(summary)
 
     @app.callback(
@@ -323,7 +393,7 @@ def callbacks(app):
     @app.callback(
         Output('desc-info', 'children'),
         [Input('upload-fasta-data', 'contents'),
-         Input('protein-dropdown', 'value')],
+         Input('fasta-entry-dropdown', 'value')],
     )
     def update_desc_info(upload_contents, p):
         data = ''
