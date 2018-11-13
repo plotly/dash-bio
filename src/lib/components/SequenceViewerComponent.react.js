@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactSequenceViewer from 'react-sequence-viewer';
-
-// required according to react-sequence-viewer readme
-import jquery from 'jquery';
-window.jQuery = jquery;
+import ReactSequenceViewer from 'react-sequence-viewer'; 
 
 /**
  *
