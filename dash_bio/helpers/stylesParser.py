@@ -54,10 +54,10 @@ def createStyle(pdbPath, style):
             atmType.append(i[77:78])
 
 
-    for i in lines:
-        l=i.split()
+    # for i in lines:
+    #     l=i.split()
 
-        if("ATOM" in l[0] or "HETATM" in l[0]):
+    #     if("ATOM" in l[0] or "HETATM" in l[0]):
 
             index=str(ct1)
             if(l[0]=="ATOM"):
