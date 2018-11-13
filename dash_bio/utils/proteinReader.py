@@ -10,8 +10,12 @@ _databases = {
     'dbj': ['accession', 'locus'],
     'pir': ['entry'],
     'prf': ['name'],
-    'sp': ['accession', 'entry name', 'protein name', 'organism name', 'organism identifier', 'gene name', 'protein existence', 'sequence version'],
-    'tr': ['accession', 'entry name', 'protein name', 'organism name', 'organism identifier', 'gene name', 'protein existence', 'sequence version'],
+    'sp': ['accession', 'entry name', 'protein name', 'organism name',
+           'organism identifier', 'gene name', 'protein existence',
+           'sequence version'],
+    'tr': ['accession', 'entry name', 'protein name', 'organism name',
+           'organism identifier', 'gene name', 'protein existence',
+           'sequence version'],
     'pdb': ['entry', 'chain'],
     'pat': ['country', 'number'],
     'bbs': ['number'],
@@ -20,30 +24,6 @@ _databases = {
     'lcl': ['identifier'],
     'nxp': ['identifier', 'gene name', 'protein name', 'isoform name']
 }
-
-# amino acid codes
-_aminoAcids = {'C': 'CYS',
-               'D': 'ASP',
-               'S': 'SER',
-               'Q': 'GLN',
-               'K': 'LYS',
-               'I': 'ILE',
-               'P': 'PRO',
-               'T': 'THR',
-               'F': 'PHE',
-               'N': 'ASN',
-               'G': 'GLY',
-               'H': 'HIS',
-               'L': 'LEU',
-               'R': 'ARG',
-               'W': 'TRP',
-               'A': 'ALA',
-               'V': 'VAL',
-               'E': 'GLU',
-               'Y': 'TYR',
-               'M': 'MET',
-               'X': 'any',
-               '-': 'gap'}
 
 
 def readFasta(
@@ -65,7 +45,7 @@ def readFasta(
                          acid sequence with, optionally, all non-amino-acid
                          letters removed.
     '''
-    proteins = []
+    fastaData = []
     
     # ensure we are only given one file specification
     if(len(filePath) > 0 and len(dataString) > 0):
@@ -98,12 +78,12 @@ def readFasta(
     tf.close()
     records = list(SeqIO.parse(tf.name, 'fasta'))
 
-    proteins = [
+    fastaData = [
         {'description': decode_description(r.description),
          'sequence': str(r.seq)} for r in records
     ]
 
-    return proteins
+    return fastaData
 
     
 def decode_description(description):
@@ -134,25 +114,3 @@ def decode_description(description):
             decoded['desc-'+str(i)] = desc[i+1]
 
     return decoded
-
-
-def translateSeq(
-        sequence
-):
-    """
-    Translates a string of amino acid codes into their respective
-    three-letter representations.
-
-    :param (string) sequence: The amino acid sequence.
-
-    :rtype (list): A list of the three-letter representations of
-                   each amino acid in the input sequence.
-    """
-    
-    sequence_3letter = []
-    
-    for code in sequence:
-        sequence_3letter.append(_aminoAcids[code])
-
-    return sequence_3letter
-
