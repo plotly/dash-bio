@@ -4,6 +4,7 @@ import base64
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
+from Bio.SeqUtils import seq3
 
 proteinFolder = 'proteins'
 sequence = '-'
@@ -298,7 +299,7 @@ def callbacks(app):
         summary = []
         for aa in aminoAcids:
             summary.append(
-                html.Tr([html.Td(pr.translateSeq(aa)[0]),
+                html.Tr([html.Td(seq3(aa)),
                          html.Td(str(subsequence.count(aa)))])
             )
         return html.Table(summary)
