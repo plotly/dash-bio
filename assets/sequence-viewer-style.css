@@ -48,7 +48,7 @@
     position: absolute;
     top: 110px;
     left: 500px;
-    height:250px;
+    height:auto;
     border: solid 1px grey;
     border-radius: 5px;
     padding: 10px;
