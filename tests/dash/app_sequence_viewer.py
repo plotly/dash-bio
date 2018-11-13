@@ -1,7 +1,7 @@
 import dash_bio
 from dash_bio.utils import proteinReader as pr
 import base64
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_core_components as dcc
 from Bio.SeqUtils import seq3
@@ -44,9 +44,19 @@ def layout():
         html.Div(
             id='seq-view-header',
             children=[
-                "Dash sequence viewer",
-
-
+                html.Img(
+                    src='data:image/png;base64,{}'.format(
+                        base64.b64encode(
+                            open(
+                                './assets/dashbio_logo.png',
+                                'rb'
+                            ).read()
+                        ).decode()
+                    ),
+                    style={'height': '50px',
+                           'margin-right': '50px'}
+                ),
+                "Dash sequence viewer"
             ]
         ),
         html.Div(
