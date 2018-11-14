@@ -73,20 +73,32 @@ def readFasta(
 
     records = []
 
-    tf = tempfile.NamedTemporaryFile(mode='w+', delete=False)
-    tf.write('\n'.join(rawData))
-    tf.close()
+    with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tf:
+        tf.write('\n'.join(rawData))
+        
     records = list(SeqIO.parse(tf.name, 'fasta'))
-
+    
     fastaData = [
         {'description': decode_description(r.description),
-         'sequence': str(r.seq)} for r in records
-    ]
+         'sequence': str(r.seq)}
+        for r in records]
 
     return fastaData
 
     
 def decode_description(description):
+    '''
+    Parses the first line of a FASTA file using the specifications of
+    several different database headers (in _databases).
+
+    :param (string) description: The header line with the initial '>'
+                                 removed.
+    :rtype (dict): A dictionary for which each key-value pair comprises
+                   a property specified by the database used and the
+                   value of that property given by the header. If the
+                   database is not recognized, the keys are given as
+                   'desc-n' where n is the position of the property.
+    '''
     if(len(description) == 0):
         return {'-1': 'no description'}
                    

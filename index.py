@@ -46,7 +46,6 @@ app.layout = html.Div(
     ]
 )
 '''
-
 app.layout = html.Div(
     id="index-waitfor",
     children=[
@@ -59,7 +58,7 @@ app.layout = html.Div(
             compatible with Plotly\'s Dash.'
         ]),
         html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent())
+        html.Div(style={"display": "none"}, children=dash_bio.SequenceViewerComponent())
     ]
 )
 

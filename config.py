@@ -50,7 +50,6 @@ os.environ['PLOTLY_API_DOMAIN'] = os.environ['PLOTLY_DOMAIN']
 # This matches the domain of the Dash App Manager
 PLOTLY_DASH_DOMAIN='https://your-dash-manager-plotly-domain.com'
  # Keep as True if your SSL certificates are valid.
-
 # If you are just trialing Plotly On-Premise with self signed certificates,
 # then you can set this to False. Note that self-signed certificates are not
 # safe for production.
