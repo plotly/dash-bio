@@ -4,10 +4,10 @@ import os as _os
 import sys as _sys
 import json
 
+import dash as _dash
+
 from .component_factory._manhattan import ManhattanPlot
 from .component_factory._volcano import VolcanoPlot
-
-import dash as _dash
 from .ClustergramComponent import ClustergramComponent
 from .EmptyComponent import EmptyComponent
 

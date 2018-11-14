@@ -9,7 +9,7 @@ import dash_bio
 
 from .utils.app_wrapper import app_page_layout
 
-df = pd.read_csv("tests/dash/HapMap.csv")  # Load the data
+df = pd.read_csv("tests/dash/manhattan_volcano_data.csv")  # Load the data
 
 fig = dash_bio.ManhattanPlot(df)  # Feed the data to a function which creates a Manhattan Plot figure
 
@@ -17,6 +17,11 @@ text_style = {
     'color': "#506784",
     'font-family': 'Open Sans'
 }
+
+
+def description():
+    return 'Display genomic studies results sorted out by chromosome with this Manhattan plot.\
+    Perfect to visualize genome wide association studies (GWAS).'
 
 
 def layout():
