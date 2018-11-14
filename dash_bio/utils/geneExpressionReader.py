@@ -21,7 +21,7 @@ def parse_tsv(
     if(rowLabelsSource is not None
        and rowLabelsSource in df.keys().tolist()):
         allRows = df[rowLabelsSource].tolist()
-        
+
     allCols = df.keys().tolist()[headerCols:]
     if rows is not None and columns is not None:
         for r in rows:
@@ -37,7 +37,7 @@ def parse_tsv(
 
         selectedData = df.loc[selectedRows, selectedCols]
         data = selectedData.values
-        
+
     desc = {}
     info = pd.read_csv(tf.name, sep='^', nrows=headerRows-1, header=None)[0]
     for i in info:

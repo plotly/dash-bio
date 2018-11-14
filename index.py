@@ -76,7 +76,7 @@ def demoAppImgSrc(name):
             base64.b64encode(
                 open('./assets/dashbio_logo.png', 'rb').read()).decode())
 
-    
+
 def demoAppName(name):
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
@@ -89,7 +89,7 @@ def demoAppDesc(name):
         pass
     return desc
 
-            
+
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == '/{}'.format(DASH_APP_NAME) or pathname == '/{}/'.format(DASH_APP_NAME) \

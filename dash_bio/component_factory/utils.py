@@ -17,7 +17,8 @@ def _get_hover_text(df, snpname=None, genename=None, annotationname=None):
         Default = None
     :param (string) annotationname: A string denoting the column name
     for an annotation. This could be any annotation information that you
-    want to include in the plot (e.g. zscore, effect size, minor allele frequency).
+    want to include in the plot (e.g. zscore, effect size, minor allele
+    frequency).
         Default = None
     """
     hover_text = ""
@@ -33,5 +34,4 @@ def _get_hover_text(df, snpname=None, genename=None, annotationname=None):
         hover_text = hover_text \
                      + "<br>" \
                      + df[annotationname].astype(str)
-
     return hover_text
