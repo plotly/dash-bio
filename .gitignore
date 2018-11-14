@@ -36,6 +36,6 @@ __pycache__/
 
 *.pyc
 
-.vscode
+.vscode/
 
 venv/
