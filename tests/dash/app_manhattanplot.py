@@ -9,7 +9,7 @@ import dash_bio
 
 from .utils.app_wrapper import app_page_layout
 
-df = pd.read_csv("tests/dash/manhattan_volcano_data.csv")  # Load the data
+df = pd.read_csv("tests/dash/sample_data/manhattan_volcano_data.csv")  # Load the data
 
 fig = dash_bio.ManhattanPlot(df)  # Feed the data to a function which creates a Manhattan Plot figure
 
