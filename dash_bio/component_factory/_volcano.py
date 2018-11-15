@@ -6,7 +6,7 @@ import numpy as np
 
 import plotly.graph_objs as go
 
-from .utils import _get_hover_text
+from dash_bio.utils.hoverTools import _get_hover_text
 
 
 def VolcanoPlot(
