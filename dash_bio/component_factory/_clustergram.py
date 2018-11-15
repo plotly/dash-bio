@@ -128,10 +128,11 @@ def Clustergram(
     :param (int) width: The width of the graph, in px (default 500).
 """
     kwargs = locals()
+    kwargs.pop('computed_traces')
     (fig, ct) = _Clustergram(
         **kwargs
     ).figure(
-        computed_traces=kwargs.pop('computed_traces')
+        computed_traces=computed_traces
     )
     return(go.Figure(fig), ct)
 
