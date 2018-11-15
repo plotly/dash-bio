@@ -6,6 +6,7 @@ import dash_bio
 from dash_bio.utils import geneExpressionReader
 import base64
 
+
 colorPalette = [
     'rgb(255,0,0)',
     'rgb(75,150,255)',
@@ -319,7 +320,7 @@ def callbacks(app):
                     fig_options['colGroupMarker'] = [marker]
 
         try:
-            (fig, _) = dash_bio.ClustergramComponent(
+            (fig, _) = dash_bio.Clustergram(
                 computed_traces=computedTraces, **fig_options
             )
         except ValueError as ve:
@@ -377,7 +378,7 @@ def callbacks(app):
                 cluster=cluster[0]
             )
         global computedTraces
-        (_, computed_traces) = dash_bio.ClustergramComponent(
+        (_, computed_traces) = dash_bio.Clustergram(
             **fig_options
         )
         computedTraces = computed_traces
