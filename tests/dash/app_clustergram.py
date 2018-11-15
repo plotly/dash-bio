@@ -1,4 +1,3 @@
-import dash
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
@@ -48,6 +47,15 @@ fig_options = dict(
 )
 computedTraces = None
 
+# initialize app with some data
+initialFile = './tests/dash/sample_data/E-GEOD-38612-query-results.tpms.tsv'
+_, _, initialRows, initialCols = geneExpressionReader.parse_tsv(
+    filepath=initialFile,
+    rowLabelsSource='Gene Name'
+)
+# limit the number of initial selected rows for faster loading
+initialRows = initialRows[:10]
+
 
 def description():
     return 'Display hierarchical clustering and a heatmap with this clustergram. \
@@ -78,7 +86,8 @@ def layout():
                             id='file-upload',
                             children=html.Div([
                                 "Drag and drop .tsv files or select files."
-                            ])
+                            ]),
+                            filename=initialFile
                         )
                     ],
                     style={
@@ -95,15 +104,15 @@ def layout():
                 html.Br(),
                 dcc.Dropdown(
                     id='selected-rows',
-                    options=[],
-                    multi=True
+                    multi=True,
+                    value=initialRows
                 ),
                 "Columns to display",
                 html.Br(),
                 dcc.Dropdown(
                     id='selected-columns',
-                    options=[],
-                    multi=True
+                    multi=True,
+                    value=initialCols
                 ),
                 html.Hr(),
 
@@ -221,16 +230,21 @@ def callbacks(app):
          Input('file-upload', 'filename')]
     )
     def change_rows_options(contents, filename):
-        if contents is None:
-            return []
-
-        content_type, content_string = contents.split(',')
-        decoded = base64.b64decode(content_string).decode('UTF-8')
-        _, _, rowOptions, _ = \
-            geneExpressionReader.parse_tsv(
-                decoded,
-                'Gene Name'
-            )
+        rowOptions = []
+        if contents is None and filename is not None:
+            _, _, rowOptions, _ = \
+                geneExpressionReader.parse_tsv(
+                    filepath=filename,
+                    rowLabelsSource='Gene Name'
+                )
+        else:
+            content_type, content_string = contents.split(',')
+            decoded = base64.b64decode(content_string).decode('UTF-8')
+            _, _, rowOptions, _ = \
+                geneExpressionReader.parse_tsv(
+                    contents=decoded,
+                    rowLabelsSource='Gene Name'
+                )
         return [{'label': r, 'value': r} for r in rowOptions]
 
     @app.callback(
@@ -239,15 +253,20 @@ def callbacks(app):
          Input('file-upload', 'filename')]
     )
     def change_cols_options(contents, filename):
-        if contents is None:
-            return []
-
-        content_type, content_string = contents.split(',')
-        decoded = base64.b64decode(content_string).decode('UTF-8')
-        _, _, _, colOptions = \
-            geneExpressionReader.parse_tsv(
-                decoded
-            )
+        colOptions = []
+        if contents is None and filename is not None:
+            _, _, _, colOptions = \
+                geneExpressionReader.parse_tsv(
+                    filepath=filename,
+                    rowLabelsSource='Gene Name'
+                )
+        else:
+            content_type, content_string = contents.split(',')
+            decoded = base64.b64decode(content_string).decode('UTF-8')
+            _, _, _, colOptions = \
+                geneExpressionReader.parse_tsv(
+                    contents=decoded
+                )
 
         return [{'label': c, 'value': c} for c in colOptions]
 
@@ -257,16 +276,21 @@ def callbacks(app):
          Input('file-upload', 'filename')]
     )
     def display_info(contents, filename):
-        if (filename is None or filename == ''):
-            return []
-
-        if contents is not None:
+        if (contents is None and filename is not None):
+            _, desc, _, _ = \
+                geneExpressionReader.parse_tsv(
+                    filepath=filename,
+                    rowLabelsSource='Gene Name'
+                )
+        else:
             content_type, content_string = contents.split(',')
-        decoded = base64.b64decode(content_string).decode('UTF-8')
-
-        (_, desc, _, _) = \
-            geneExpressionReader.parse_tsv(decoded, 'Gene Name')
-
+            decoded = base64.b64decode(content_string).decode('UTF-8')
+            _, desc, _, _ = \
+                geneExpressionReader.parse_tsv(
+                    contents=decoded,
+                    rowLabelsSource='Gene Name'
+                )
+        
         infoContent = []
         infoContent.append(html.H3('Information'))
         for key in desc:
@@ -293,7 +317,18 @@ def callbacks(app):
             rowOrCol, groupNum, annotation, color,
             submit_time, remove_time
     ):
+        if(len(dendro_traces) < 1):
+            return html.Div(
+                'No data have been selected to display. Please upload a file, \
+                then select at least two columns and two rows.',
+                style={
+                    'padding': '30px',
+                    'font-size': '20pt'
+                }
+            )
+        
         global computedTraces
+        
         # remove all group markers, if necessary
         if(remove_time > submit_time):
             fig_options['rowGroupMarker'] = []
@@ -345,18 +380,29 @@ def callbacks(app):
             selRows, selCols,
             contents):
 
-        # return an empty list if there are no data
-        if(filename is None or filename == ''):
+        global computedTraces
+        
+        if(len(selRows) < 2 or len(selCols) < 2):
             return []
-
-        if contents is not None:
+        
+        # load default data if no file has been uploaded
+        if(contents is None and filename is not None):
+            data, _, _, _ = geneExpressionReader.parse_tsv(
+                filepath=filename,
+                rowLabelsSource='Gene Name',
+                rows=selRows,
+                columns=selCols
+            )
+        else:
             content_type, content_string = contents.split(',')
-        decoded = base64.b64decode(content_string).decode('UTF-8')
+            decoded = base64.b64decode(content_string).decode('UTF-8')
 
-        data, _, _, _ = \
-            geneExpressionReader.parse_tsv(
-                decoded, 'Gene Name',
-                rows=selRows, columns=selCols)
+            data, _, _, _ = \
+                geneExpressionReader.parse_tsv(
+                    contents=decoded,
+                    rowLabelsSource='Gene Name',
+                    rows=selRows, columns=selCols
+                )
 
         if(len(data) == 0):
             return []
@@ -376,9 +422,9 @@ def callbacks(app):
             fig_options.update(
                 cluster=cluster[0]
             )
-        global computedTraces
+
         (_, computed_traces) = dash_bio.ClustergramComponent(
             **fig_options
         )
-        computedTraces = computed_traces
         return ['calculated']
+    
