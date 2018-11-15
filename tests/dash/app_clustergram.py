@@ -1,4 +1,3 @@
-import dash
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
@@ -49,7 +48,7 @@ fig_options = dict(
 computedTraces = None
 
 # initialize app with some data
-initialFile = './tests/sample_data/E-GEOD-38612-query-results.tpms.tsv'
+initialFile = './tests/dash/sample_data/E-GEOD-38612-query-results.tpms.tsv'
 _, _, initialRows, initialCols = geneExpressionReader.parse_tsv(
     filepath=initialFile,
     rowLabelsSource='Gene Name'
