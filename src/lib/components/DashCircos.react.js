@@ -4,9 +4,12 @@ import CircosJS from 'circos';
 import { TRACK_TYPES } from '../constants/tracks';
 
 /**
- * Dash Circos is a library used to analyze and understand
- * data using a circular layout. It comes with many layouts,
- * and templates for the user to share and display their data.
+ * Dash Circos is a library used to analyze and interpret
+ * data using a circular layout, based on the popular 
+ * 'Circos' graph. This Dash Bio component is a handy tool
+ * for showcasing relationships bewtween data/datasets in a
+ * beautiful way. Please checkout the Dash Bio repository
+ * on github to learn more about this API.
  */
 export default class DashCircos extends Component {
   constructor(props) {

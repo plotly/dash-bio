@@ -1,47 +1,46 @@
 {
   "src/lib/components/DashCircos.react.js": {
-    "description": "Dash Circos is a library used to analyze and understand\r\ndata using a circular layout. It comes with many layouts,\r\nand templates for the user to share and display their data.",
+    "description": "Dash Circos is a library used to analyze and interpret\r\ndata using a circular layout, based on the popular \r\n'Circos' graph. This Dash Bio component is a handy tool\r\nfor showcasing relationships bewtween data/datasets in a\r\nbeautiful way. Please checkout the Dash Bio repository\r\non github to learn more about this API.",
     "displayName": "DashCircos",
     "methods": [
       {
         "name": "setEvent",
-        "docblock": null,
+        "docblock": "Used to set a click or hover event on tracks/layout that will show annotations for the circos grpah.",
         "modifiers": [],
         "params": [
           {
-            "name": "setProps",
-            "type": null
+            "name": "setProps"
           },
           {
-            "name": "index",
-            "type": null
+            "name": "index"
           }
         ],
-        "returns": null
+        "returns": null,
+        "description": "Used to set a click or hover event on tracks/layout that will show annotations for the circos grpah."
       },
       {
         "name": "setColor",
-        "docblock": null,
+        "docblock": "Allows user to specify a color prop, that will iterate through the colors\r\nin the dataset provided, and apply them directly to the tracks/layout specified\r\nby ID.",
         "modifiers": [],
         "params": [
           {
-            "name": "configApply",
-            "type": null
+            "name": "configApply"
           }
         ],
-        "returns": null
+        "returns": null,
+        "description": "Allows user to specify a color prop, that will iterate through the colors\r\nin the dataset provided, and apply them directly to the tracks/layout specified\r\nby ID."
       },
       {
         "name": "setToolTip",
-        "docblock": null,
+        "docblock": "Set the tool tip event handler. It allows the user to specify what data they want\r\nto show on annotation click or hover",
         "modifiers": [],
         "params": [
           {
-            "name": "configApply",
-            "type": null
+            "name": "configApply"
           }
         ],
-        "returns": null
+        "returns": null,
+        "description": "Set the tool tip event handler. It allows the user to specify what data they want\r\nto show on annotation click or hover"
       },
       {
         "name": "configIdeogram",

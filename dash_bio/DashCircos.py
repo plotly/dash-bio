@@ -5,9 +5,12 @@ from dash.development.base_component import Component, _explicitize_args
 
 class DashCircos(Component):
     """A DashCircos component.
-Dash Circos is a library used to analyze and understand
-data using a circular layout. It comes with many layouts,
-and templates for the user to share and display their data.
+Dash Circos is a library used to analyze and interpret
+data using a circular layout, based on the popular 
+'Circos' graph. This Dash Bio component is a handy tool
+for showcasing relationships bewtween data/datasets in a
+beautiful way. Please checkout the Dash Bio repository
+on github to learn more about this API.
 
 Keyword arguments:
 - id (string; optional): The ID of the component to be used in Dash callbacks
