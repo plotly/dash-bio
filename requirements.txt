@@ -5,5 +5,9 @@ dash-core-components==0.35.0
 dash-html-components==0.11.0
 dash-renderer==0.12.1
 gunicorn==19.9.0
-numpy==1.15.2
-biopython==1.72
+pandas==0.22.0
+numpy==1.13.3
+dash_bio-0.0.1.tar.gz
+scipy==1.1.0
+sklearn==0.0
+matplotlib==2.2.2
