@@ -1,6 +1,6 @@
 {
   "src/lib/components/DashIdeogram.react.js": {
-    "description": "The Dash Ideogram is used to draw and animate genome-wide\r\ndatasets for organisms such as an human, mouse, and any\r\nother eukaryotes. The Ideogram can be used to compare\r\nhomologous features bewtween chromosomes, and depict,\r\nhaploid, diploid, aneuploidy genomes. It can also display\r\nannotations using histograms, overlays, and simple side\r\nby side tracks to show important genomic data.\r\n\r\nGo here to see it in action: https://eweitz.github.io/ideogram/",
+    "description": "The Dash Ideogram is used to draw and animate genome-wide\r\ndatasets for organisms such as an human, mouse, and any\r\nother eukaryotes. The Ideogram can be used to compare\r\nhomologous features between chromosomes, and depict,\r\nhaploid, diploid, aneuploidy genomes. It can also display\r\nannotations using histograms, overlays, and simple side\r\nby side tracks to show important genomic data.\r\n\r\nGo here to see it in action: https://eweitz.github.io/ideogram/",
     "displayName": "DashIdeogram",
     "methods": [
       {
@@ -59,21 +59,21 @@
           "name": "object"
         },
         "required": false,
-        "description": ""
+        "description": "Provide local JSON organism into this prop from a local user JSON file. \r\nDataDir must not be initiliazed."
       },
       "annotationsData": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "Use this prop in callback to return annotationData when hovered."
       },
       "onMouseOver": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": ""
+        "description": "Dash event callback for mousing over data."
       },
       "id": {
         "type": {
@@ -103,13 +103,6 @@
         "required": false,
         "description": "The CSS class of the component wrapper"
       },
-      "label": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Delete"
-      },
       "ancestors": {
         "type": {
           "name": "object"
@@ -121,29 +114,11 @@
         "type": {
           "name": "arrayOf",
           "value": {
-            "name": "shape",
-            "value": {
-              "start": {
-                "name": "number",
-                "required": true
-              },
-              "end": {
-                "name": "number",
-                "required": true
-              },
-              "chr": {
-                "name": "string",
-                "required": true
-              },
-              "name": {
-                "name": "string",
-                "required": true
-              }
-            }
+            "name": "object"
           }
         },
         "required": false,
-        "description": "A list of annotation objects. Each annotation object \r\n has at least a chromosome name (chr), start coordinate (start), \r\n and stop coordinate (stop). Annotation objects can also have a \r\n name, color, shape, and track index."
+        "description": "A list of annotation objects. Annotation objects can also have a \r\n name, color, shape, and track index. At the moment there is more\r\n keys specified and the docs need updating."
       },
       "annotationHeight": {
         "type": {
@@ -269,7 +244,7 @@
           "name": "string"
         },
         "required": false,
-        "description": "Default: https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/\r\nAbsolute or relative URL of the directory \r\ncontaining data needed to draw banded chromosomes.\r\nYou will need to set up you're own database to grab data from\r\nfor custom data."
+        "description": "Absolute or relative URL of the directory \r\ncontaining data needed to draw banded chromosomes.\r\nYou will need to set up you're own database to grab data from\r\nfor custom data."
       },
       "fullChromosomeLabels": {
         "type": {
@@ -283,7 +258,7 @@
           "name": "string"
         },
         "required": false,
-        "description": "Default: \"absolute\". One of \"absolute\" or \"relative\". The technique to use in scaling the height of histogram bars. The \"absolute\" value sets bar height relative to tallest bar in all chromosomes, \r\nwhile \"relative\" sets bar height relative to tallest bar in each chromosome."
+        "description": "One of \"absolute\" or \"relative\". The technique to use in scaling the height of histogram bars. The \"absolute\" value sets bar height relative to tallest bar in all chromosomes, \r\nwhile \"relative\" sets bar height relative to tallest bar in each chromosome."
       },
       "heatmaps": {
         "type": {
@@ -333,7 +308,7 @@
           "name": "string"
         },
         "required": false,
-        "description": "Default: horizontal. The orientation of chromosomes on the page."
+        "description": "The orientation of chromosomes on the page."
       },
       "onBrushMove": {
         "type": {
@@ -341,13 +316,6 @@
         },
         "required": false,
         "description": "Callback function to invoke when brush moves."
-      },
-      "onBrushMoveCallback": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Delete"
       },
       "onDidRotate": {
         "type": {
@@ -389,7 +357,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "Default 1: The ploidy - number of chromosomes to depict for each chromosome\r\nset."
+        "description": "The ploidy - number of chromosomes to depict for each chromosome\r\nset."
       },
       "ploidyDesc": {
         "type": {
@@ -416,7 +384,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "Default: True. Whether chromosomes are rotatable on click."
+        "description": "Whether chromosomes are rotatable on click."
       },
       "rotated": {
         "type": {
@@ -430,56 +398,56 @@
           "name": "number"
         },
         "required": false,
-        "description": "Default: highest resolution available for specified genome assembly. \r\nThe resolution of cytogenetic bands to show for each chromosome. \r\nThe quantity refers to approximate value in bands per haploid set (bphs). \r\nOne of 450, 550, or 850."
+        "description": "The resolution of cytogenetic bands to show for each chromosome. \r\nThe quantity refers to approximate value in bands per haploid set (bphs). \r\nOne of 450, 550, or 850."
       },
       "rows": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": "Default 1: Number of rows to arrange chromosomes into. \r\nUseful for putting ideogram into a small container, \r\nor when dealing with genomes that have many chromosomes. \r\nNote: Not fully working needs to be fixed by developer."
+        "description": "Useful for putting ideogram into a small container, \r\nor when dealing with genomes that have many chromosomes. \r\nNote: Not fully working needs to be fixed by developer."
       },
       "sex": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "Default: Male. The biological sex of the organism. \r\nUseful for omitting chromosome Y in female mammals. \r\nCurrently only supported for organisms that use XY sex-determination."
+        "description": "Useful for omitting chromosome Y in female mammals. \r\nCurrently only supported for organisms that use XY sex-determination."
       },
       "showChromosomeLabels": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "Default: true. Whether to show chromosome labels, e.g. 1, 2, 3, X, Y."
+        "description": "Whether to show chromosome labels, e.g. 1, 2, 3, X, Y."
       },
       "showBandLabels": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "Default: false. Whether to show cytogenetic band labels, e.g. 1q21"
+        "description": "Whether to show cytogenetic band labels, e.g. 1q21"
       },
       "showAnnotTooltip": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "Default: true. Whether to show a tooltip upon mousing over an annotation."
+        "description": "Whether to show a tooltip upon mousing over an annotation."
       },
       "showFullyBanded": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "Default: true. Whether to show fully banded chromosomes for genomes \r\nthat have sufficient data. Useful for showing simpler chromosomes of \r\ncytogenetically well-characterized organisms, e.g. human, beside chromosomes of \r\nless studied organisms, e.g. chimpanzee."
+        "description": "Whether to show fully banded chromosomes for genomes \r\nthat have sufficient data. Useful for showing simpler chromosomes of \r\ncytogenetically well-characterized organisms, e.g. human, beside chromosomes of \r\nless studied organisms, e.g. chimpanzee."
       },
       "showNonNuclearChromosomes": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "Default: false. Whether to show non-nuclear chromosomes, \r\ne.g. for mitochondrial (MT) and chloroplast (CP) DNA."
+        "description": "Whether to show non-nuclear chromosomes, \r\ne.g. for mitochondrial (MT) and chloroplast (CP) DNA."
       }
     }
   }

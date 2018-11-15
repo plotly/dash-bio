@@ -74,12 +74,9 @@ export default class DashIdeogram extends Component {
 
     clearDiv() {
         const container = document.getElementById('ideogram-container');
-        console.warn('[clearDiv] Before', container.hasChildNodes())
         while (container.hasChildNodes()) {
             container.removeChild(container.firstChild)
         }
-
-        console.warn('[clearDiv] After', container.hasChildNodes())
     }
 
 
@@ -148,11 +145,9 @@ export default class DashIdeogram extends Component {
 
     onLoadHandler() {
         if (this.props.brush) {
-            console.warn("oLH Brush")
             this.onBrushHandler();
         }
         else if (this.props.homology) {
-            console.warn("oLH Homology")
             this.onHomologyHandler();
         }
         return null
@@ -169,7 +164,6 @@ export default class DashIdeogram extends Component {
                 }
             )
         }
-        console.warn("onDidRotate", this.isRotated)
         return
     }
 
@@ -182,20 +176,19 @@ export default class DashIdeogram extends Component {
         config.onLoad = this.onLoadHandler
         config.container = '#ideogram-container'
         return config;
-        
+
     }
 
     shouldComponentUpdate(nextProps) {
         const container = document.getElementById('ideogram-container');
 
         return (
-        this.propKeys.some(
-            (currentKey) => {return this.props[currentKey] !== nextProps[currentKey];}
-        ) && container.hasChildNodes());
+            this.propKeys.some(
+                (currentKey) => { return this.props[currentKey] !== nextProps[currentKey]; }
+            ) && container.hasChildNodes());
     }
 
     componentDidMount() {
-        console.warn("CDM")
         const container = document.getElementById('ideogram-container');
         if (container.hasChildNodes()) {
             delete window.chrBands;
@@ -204,7 +197,7 @@ export default class DashIdeogram extends Component {
         if (this.props.localOrganism) {
             window.chrBands = this.props.localOrganism
         }
-        
+
         this.ideogram = new Ideogram(this.setConfig());
     }
 
@@ -213,9 +206,6 @@ export default class DashIdeogram extends Component {
         this.clearDiv();
     }
     componentDidUpdate(prevProps) {
-        console.warn("CDU this", this.props)
-        console.warn("CDU prev", prevProps)
-
         delete window.chrBands
         this.clearDiv();
 
@@ -315,7 +305,7 @@ DashIdeogram.propTypes = {
     annotationHeight: PropTypes.number,
 
     /**
-     * Default: "tracks". The layout of this ideogram's annotations. 
+     * The layout of this ideogram's annotations. 
      * It can be one of "tracks", "histogram", or "overlay".
      * 
      * Tracks: Lay out annotations in tracks beside each chromosome.
@@ -329,7 +319,7 @@ DashIdeogram.propTypes = {
     annotationsLayout: PropTypes.number,
 
     /**
-     * Default: "#F00" (i.e., red). The color of each annotation.
+     * The color of each annotation.
      */
     annotationsColor: PropTypes.string,
 
@@ -353,12 +343,11 @@ DashIdeogram.propTypes = {
     assembly: PropTypes.string,
 
     /**
-     * Default: 3. The pixel width of bars drawn when annotationsLayout: 'histogram'.
+     * The pixel width of bars drawn when annotationsLayout: 'histogram'.
      **/
     barWidth: PropTypes.number,
 
     /**
-     * Default: null
      * Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a 
      * chromosome. Useful when ideogram consists of one chromosome and you want to be 
      * able to focus on a region within that chromosome, 
@@ -410,22 +399,22 @@ DashIdeogram.propTypes = {
     homology: PropTypes.object,
 
     /**
-     * Default:400. The pixel height of the tallest chromosome in the ideogram
+     * The pixel height of the tallest chromosome in the ideogram
      */
     chrHeight: PropTypes.number,
 
     /**
-     * Default: 10. The pixel space of margin bewteen each chromosome.
+     * The pixel space of margin bewteen each chromosome.
      */
     chrMargin: PropTypes.number,
 
     /**
-     * Default 10. The pixel width of each chromosome.
+     * The pixel width of each chromosome.
      */
     chrWidth: PropTypes.number,
 
     /**
-     * Default: all chromosomes in assembly. A list of the names of chromosomes to 
+     * A list of the names of chromosomes to 
      * display. Useful for depicting a subset of the chromosomes in the genome, 
      * e.g. a single chromosome.
      * 
