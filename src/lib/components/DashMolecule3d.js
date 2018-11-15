@@ -7,7 +7,7 @@ export default class DashMolecule3d extends Component {
         super(props);
         this.onChangeSelection=this.onChangeSelection.bind(this);
         this.onRenderNewData=this.onRenderNewData.bind(this);
-        }
+    }
     
     onChangeSelection(selectedAtomIds) {
         this.props.setProps({selectedAtomIds: selectedAtomIds})

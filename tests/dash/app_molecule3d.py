@@ -14,7 +14,7 @@ from dash_bio.helpers import stylesParser as sparser
 def description():
     return 'Molecule visualization in 3D - perfect for viewing biomolecules like proteins, DNA and RNA'
 
-with open('./data/data.js') as f:
+with open('./tests/dash/sample_data/data.js') as f:
     model=json.load(f)
 
 def layout():
@@ -163,9 +163,9 @@ def callbacks(app):
             mdata=parser.createData(fname)
             fm=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
             fm.write(mdata)
-            fname1=fm.name
+            fmodel=fm.name
             fm.close()
-            with open(fname1) as fm:
+            with open(fmodel) as fm:
                 mdata=json.load(fm)
 
             #print (mdata)
@@ -173,23 +173,20 @@ def callbacks(app):
             ## Create the cartoon style from the decoded contents
             datstyle=sparser.createStyle(fname, molStyle)
             fs=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
-            tmp_dir=tempfile.TemporaryDirectory()
             fs.write(datstyle)
-            fname2=fs.name
+            fstyle=fs.name
             fs.close()
-            with open(fname2) as sf:
+            with open(fstyle) as sf:
                 data_style=json.load(sf)
 
             # Delete all the temporary files that were created
-            for x in [fname, fname1, fname2]:
+            for x in [fname, fmodel, fstyle]:
                 if(os.path.isfile(x)):
                     #print (str(x))
                     os.remove(x)
                     #print ("deleted")
                 else:
                     pass
-            
-            #print (str(fname1)) #, ">>", fname1, fname)
 
             ## Return the new molecule visualization container
             return (

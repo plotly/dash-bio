@@ -9,7 +9,7 @@ from config import DASH_APP_NAME
 import base64
 import json
 
-with open('./data/data.js') as f:
+with open('./tests/dash/sample_data/data.js') as f:
     model=json.load(f)
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
