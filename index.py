@@ -44,7 +44,7 @@ app.layout = html.Div(
             ]),
         ]),
         html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_bio.SequenceViewerComponent())
+        html.Div(style={"display": "none"}, children=dash_bio.NeedlePlot())
     ]
 )
 
@@ -110,10 +110,6 @@ def display_app(pathname):
         pathname.replace(
             '/{}/'.format(DASH_APP_NAME), '/').replace(
                 "/", "").replace("-", "_")
-<<<<<<< HEAD
-    
-=======
->>>>>>> master
 
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
