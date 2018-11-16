@@ -4,7 +4,6 @@
   "description": "Dash components for bioinformatics",
   "main": "build/index.js",
   "scripts": {
-    "start": "webpack-serve ./webpack.serve.config.js --open",
     "build:js-dev": "webpack --mode development",
     "build:js": "webpack --mode production",
     "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && copyfiles package.json dash_bio && python -c \"import dash; dash.development.component_loader.generate_classes('dash_bio', 'dash_bio/metadata.json')\"",
