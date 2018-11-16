@@ -62,7 +62,7 @@ def demoAppImgSrc(name):
             base64.b64encode(
                 open('./assets/dashbio_logo.png', 'rb').read()).decode())
 
-    
+
 def demoAppName(name):
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
@@ -75,7 +75,7 @@ def demoAppDesc(name):
         pass
     return desc
 
-            
+
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == '/{}'.format(DASH_APP_NAME) \
@@ -110,7 +110,7 @@ def display_app(pathname):
         pathname.replace(
             '/{}/'.format(DASH_APP_NAME), '/').replace(
                 "/", "").replace("-", "_")
-    
+
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
     else:
@@ -122,7 +122,7 @@ def display_app(pathname):
             app_name, list(apps.keys())
         )
 
-    
+
 @app.callback(
     Output('gallery-header', 'children'),
     [Input('location', 'pathname')]
@@ -141,7 +141,7 @@ def hide_header(pathname):
             compatible with Plotly\'s Dash.'
         ]),
     ]
-        
+
 
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
