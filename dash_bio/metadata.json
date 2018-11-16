@@ -1,8 +1,280 @@
 {
+  "src/lib/components/NeedlePlot.react.js": {
+    "description": "",
+    "displayName": "NeedlePlot",
+    "methods": [
+      {
+        "name": "handleChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "event",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "prepareTraces",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "prepareLayout",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "vars",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique across all of the\ncomponents in an app."
+      },
+      "x": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "array"
+            }
+          ]
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "y": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "array"
+            }
+          ]
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "mutationGroups": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "string"
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "domains": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "xlabel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "ylabel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "rangeSlider": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "needleStyle": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "stemColor": {
+              "name": "string",
+              "required": false
+            },
+            "stemThickness": {
+              "name": "number",
+              "required": false
+            },
+            "stemConstHeight": {
+              "name": "bool",
+              "required": false
+            },
+            "headSize": {
+              "name": "number",
+              "required": false
+            },
+            "headColor": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "array"
+                },
+                {
+                  "name": "string"
+                }
+              ],
+              "required": false
+            },
+            "headSymbol": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "array"
+                },
+                {
+                  "name": "string"
+                }
+              ],
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "{\n    stemColor: '#444',\n    stemThickness: 0.5,\n    stemConstHeight: false,\n    headSize: 5,\n    headColor: [\n        '#e41a1c',\n        '#377eb8',\n        '#4daf4a',\n        '#984ea3',\n        '#ff7f00',\n        '#ffff33',\n        '#a65628',\n        '#f781bf',\n        '#999999',\n        '#e41a1c',\n        '#377eb8',\n        '#4daf4a',\n        '#984ea3',\n        '#ff7f00',\n        '#ffff33',\n        '#a65628',\n        '#f781bf',\n        '#999999',\n        '#e41a1c',\n    ],\n    headSymbol: 'circle',\n}",
+          "computed": false
+        }
+      },
+      "domainStyle": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "domainColor": {
+              "name": "array",
+              "required": false
+            },
+            "displayMinorDomains": {
+              "name": "bool",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "{\n    displayMinorDomains: false,\n    domainColor: [\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n        '#fccde5',\n        '#d9d9d9',\n        '#bc80bd',\n        '#ccebc5',\n        '#ffed6f',\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n    ],\n}",
+          "computed": false
+        }
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change"
+      },
+      "dashEvents": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'click'",
+              "computed": false
+            },
+            {
+              "value": "'hover'",
+              "computed": false
+            },
+            {
+              "value": "'unhover'",
+              "computed": false
+            },
+            {
+              "value": "'selected'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": ""
+      },
+      "fireEvent": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Function that fires events"
+      }
+    }
+  },
   "src/lib/components/SequenceViewerComponent.react.js": {
     "description": "",
     "displayName": "SequenceViewerComponent",
-    "methods": [],
+    "methods": [
+      {
+        "name": "onMouseSelection",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onSubpartSelected",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "id": {
         "type": {
@@ -16,63 +288,99 @@
           "name": "string"
         },
         "required": false,
-        "description": "The amino acid sequence that will be displayed."
+        "description": "The amino acid sequence that will be displayed.",
+        "defaultValue": {
+          "value": "'-'",
+          "computed": false
+        }
       },
       "showLineNumbers": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "The option of whether or not to display line numbers."
+        "description": "The option of whether or not to display line numbers.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
       },
       "wrapAminoAcids": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "The option of whether or not to display the list of amino acids\nas broken up into separate lines of a fixed length set by \ncharsPerLine."
+        "description": "The option of whether or not to display the list of amino acids\nas broken up into separate lines of a fixed length set by \ncharsPerLine.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
       },
       "charsPerLine": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": "The number of amino acids that will display per line."
+        "description": "The number of amino acids that will display per line.",
+        "defaultValue": {
+          "value": "40",
+          "computed": false
+        }
       },
       "toolbar": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "The option of whether or not to display a toolbar at the top\nthat allows the user to choose the number of letters per line."
+        "description": "The option of whether or not to display a toolbar at the top\nthat allows the user to choose the number of letters per line.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       },
       "search": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "The option of whether or not to include a search bar in\nthe header. This supports regex."
+        "description": "The option of whether or not to include a search bar in\nthe header. This supports regex.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
       },
       "title": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "A string that displays at the top of the component."
+        "description": "A string that displays at the top of the component.",
+        "defaultValue": {
+          "value": "''",
+          "computed": false
+        }
       },
       "sequenceMaxHeight": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "The maximum height of the sequence; default \"400px\"."
+        "description": "The maximum height of the sequence.",
+        "defaultValue": {
+          "value": "'400px'",
+          "computed": false
+        }
       },
       "badge": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "The option of whether or not to display a badge showing the\namino acid count at the top of the component beside the title."
+        "description": "The option of whether or not to display a badge showing the\namino acid count at the top of the component beside the title.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
       },
       "selection": {
         "type": {
@@ -96,7 +404,11 @@
           }
         },
         "required": false,
-        "description": "A highlighted section of the sequence; the color of the highlight \ncan also be defined. Takes a list of format [min, max, color] where \nmin is a number that represents the starting index of the selection, \nmax is a number that represents the stopping index of the selection, \nand color is a string that defines the highlight color.\nCannot be used at the same time as coverage."
+        "description": "A highlighted section of the sequence; the color of the highlight \ncan also be defined. Takes a list of format [min, max, color] where \nmin is a number that represents the starting index of the selection, \nmax is a number that represents the stopping index of the selection, \nand color is a string that defines the highlight color.\nCannot be used at the same time as coverage.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
       },
       "coverage": {
         "type": {
@@ -136,7 +448,11 @@
           }
         },
         "required": false,
-        "description": "A coverage of the entire sequence; each section of the sequence\ncan have its own text color, background color, tooltip (on hover),\nand an optional underscore. The props start and end represent the\nbeginning and terminating indices of the section in question.\nCannot be used at the same time as selection."
+        "description": "A coverage of the entire sequence; each section of the sequence\ncan have its own text color, background color, tooltip (on hover),\nand an optional underscore. The props start and end represent the\nbeginning and terminating indices of the section in question.\nCannot be used at the same time as selection.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
       },
       "legend": {
         "type": {
@@ -213,20 +529,6 @@
         },
         "required": false,
         "description": "A string containing all of the highlighted sections when \nusing the search bar."
-      },
-      "onMouseSelection": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "A function acting as an event handler for mouse selection."
-      },
-      "onSubpartSelected": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "A function acting as an event handler for highlight when using\nthe search bar."
       },
       "setProps": {
         "type": {
