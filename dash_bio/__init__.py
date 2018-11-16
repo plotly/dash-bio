@@ -1,11 +1,14 @@
 from __future__ import print_function as _
-
+from __future__ import absolute_import
 import os as _os
 import sys as _sys
 import json
 
 import dash as _dash
-from .ClustergramComponent import ClustergramComponent
+
+from .component_factory._manhattan import ManhattanPlot
+from .component_factory._volcano import VolcanoPlot
+from .component_factory._clustergram import Clustergram
 from .EmptyComponent import EmptyComponent
 
 if not hasattr(_dash, 'development'):

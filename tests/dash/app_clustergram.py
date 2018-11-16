@@ -5,6 +5,7 @@ import dash_bio
 from dash_bio.utils import geneExpressionReader
 import base64
 
+
 colorPalette = [
     'rgb(255,0,0)',
     'rgb(75,150,255)',
@@ -290,7 +291,7 @@ def callbacks(app):
                     contents=decoded,
                     rowLabelsSource='Gene Name'
                 )
-        
+
         infoContent = []
         infoContent.append(html.H3('Information'))
         for key in desc:
@@ -326,9 +327,9 @@ def callbacks(app):
                     'font-size': '20pt'
                 }
             )
-        
+
         global computedTraces
-        
+
         # remove all group markers, if necessary
         if(remove_time > submit_time):
             fig_options['rowGroupMarker'] = []
@@ -354,7 +355,7 @@ def callbacks(app):
                     fig_options['colGroupMarker'] = [marker]
 
         try:
-            (fig, _) = dash_bio.ClustergramComponent(
+            (fig, _) = dash_bio.Clustergram(
                 computed_traces=computedTraces, **fig_options
             )
         except ValueError as ve:
@@ -381,10 +382,10 @@ def callbacks(app):
             contents):
 
         global computedTraces
-        
+
         if(len(selRows) < 2 or len(selCols) < 2):
             return []
-        
+
         # load default data if no file has been uploaded
         if(contents is None and filename is not None):
             data, _, _, _ = geneExpressionReader.parse_tsv(
@@ -423,8 +424,7 @@ def callbacks(app):
                 cluster=cluster[0]
             )
 
-        (_, computed_traces) = dash_bio.ClustergramComponent(
+        (_, computed_traces) = dash_bio.Clustergram(
             **fig_options
         )
         return ['calculated']
-    
