@@ -4,25 +4,40 @@ import Plot from 'react-plotly.js';
 import {mergeDeepRight, omit} from 'ramda';
 
 
-/*
-convert the array to a number and ignore the NaN values
-https://stackoverflow.com/questions/9716468/pure-javascript-a-function-like-jquerys-isnumeric
-
-*/
+/**
+ * Checks if a variable is representation of a number or not
+ * https://stackoverflow.com/questions/9716468/pure-javascript-a-function-like-jquerys-isnumeric
+ * @param  {String/FLoat} n  A variable to test.
+ * @return {Bool}            True if n is a number, false otherwise.
+ */
 function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-/*
-convert the array to a number and ignore the NaN values
-*/
+/**
+ * Converts an array elements to numbers and ignore the elements which are not
+ * a representation of  numbers
+ * @param  {Array} test_array An array
+ * @return {Array}       An array with only numbers.
+ */
 function filterNanArray(test_array) {
     return test_array.filter(el => Number(isNumeric(el)));
 }
 
-/*
-search the protein position array for small protein domains (1-5 sites)
-and bogus entries (i.e. "?-123" or "320-?")
+/**
+ * Search the protein position array for small protein domains (typically 1->5 sites)
+ * and bogus entries (i.e. "?-123" or "320-?")
+ * @param  {Array} protein_pos_array        An array containing protein domains
+ * @return {Array} positions_array          An array with only single site
+                                            protein mutations.
+ * @return {Array} domains_array            An array with only small domains
+                                            protein mutations.
+ * @return {Array} idx_old_positions_array  An array with the indexes of the
+                                            single site protein mutations
+                                            relative to protein_pos_array
+ * @return {Array} idx_bogus_entry          An array with the indexes of the
+                                            bogus entries (containing '?')
+                                            relative to protein_pos_array
 */
 function extractSmallDomains(protein_pos_array) {
     const positions_array = [];
@@ -53,9 +68,16 @@ function extractSmallDomains(protein_pos_array) {
     ];
 }
 
-/*
-create two arrays of value for plotting horizontal lines with many markers
-*/
+/**
+ * Creates two arrays to plot horizontal lines with many markers
+ *
+ * @param  {number} xi  start x coordinate of the line
+ * @param  {number} xf  stop x coordinate of the line
+ * @param  {number} y   y coordinate of the line
+ * @param  {int} n      number of markers
+ * @return {array} x    x coordinates of the horizontal ine
+ * @return {array} y    y coordinates of the horizontal ine
+ */
 function createHorizontalLine(xi, xf, y, n) {
     let line_x = [];
     let line_y = [];
@@ -72,9 +94,12 @@ function createHorizontalLine(xi, xf, y, n) {
     return [line_x, line_y];
 }
 
-/*
-take the max of an array ignoring the NaN values
-*/
+/**
+ * Finds the max of an array while ignoring the NaN values
+ *
+ * @param  {array} test_array  an array with numbers as entries
+ * @return {number}            max value of the array
+ */
 function nanMax(test_array) {
     return Math.max.apply(null, filterNanArray(test_array));
 }
@@ -90,6 +115,7 @@ export default class NeedlePlot extends Component {
     }
 
     componentWillMount() {
+        // For default argument of taken from defaultProps deeply nested
         this.props = mergeDeepRight(NeedlePlot.defaultProps, this.props);
     }
 
