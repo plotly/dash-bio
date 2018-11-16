@@ -31,10 +31,6 @@ def layout():
             html.Div(
                 id='text',
                 children=[
-                    html.H2(
-                        "Dash Manhattan",
-                        style=text_style
-                    ),
                     html.Div(
                         "Visualize genome wide association studies  ("
                         "GWAS) with efficient manhattan plots. Using "

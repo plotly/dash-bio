@@ -39,10 +39,6 @@ def layout():
             html.Div(
                 id='text',
                 children=[
-                    html.H2(
-                        "Dash Volcano",
-                        style=text_style
-                    ),
                     html.Div(
                         "Interactively identify clinically meaningful "
                         "markers in genomic experiments, i.e., markers "
