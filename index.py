@@ -30,22 +30,6 @@ apps = {
 for key in apps:
     apps[key].callbacks(app)
 
-'''
-Ensure there is one html.Div holding an empty instance of a dash_bio.component
-like the example below. Remove this comment when we've added one dash_bio
-component!
-
-Ex:
-app.layout = html.Div(
-    id="index-waitfor",
-    children=[
-        dcc.Location(id="location"),
-        html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dcc.Graph(id="graph")),
-        html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent()),
-    ]
-)
-'''
 app.layout = html.Div(
     id="index-waitfor",
     children=[

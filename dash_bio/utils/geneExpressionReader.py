@@ -7,13 +7,13 @@ def parse_tsv(
         rows=None, columns=None,
         headerRows=5, headerCols=2
 ):
-        
+
     if(len(contents) > 0):
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tf:
             tf.write(contents)
             filepath = tf.name
     df = pd.read_csv(filepath, sep='\t', skiprows=headerRows-1)
-    
+
     data = {}
 
     selectedRows = []
