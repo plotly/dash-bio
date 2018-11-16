@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {mergeDeepRight, omit} from 'ramda';
+import {range, repeat, mergeDeepRight, omit} from 'ramda';
 
 
 /**
@@ -80,19 +80,10 @@ function extractSmallDomains(protein_pos_array) {
  * @return {array} y    y coordinates of the horizontal ine
  */
 function createHorizontalLine(xi, xf, y, n) {
-    let line_x = [];
-    let line_y = [];
-    if (n === 1) {
-        line_x = [xi, xf];
-        line_y = [y, y];
-    } else {
-        const dx = (xf - xi) / n;
-        for (let i = 0; i < n; i++) {
-            line_x.push(xi + i * dx);
-            line_y.push(y);
-        }
-    }
-    return [line_x, line_y];
+    const dx = (xf - xi) / n;
+    const N = Math.max(2, n);
+    const x = range(0, N).map(i => xi + i * dx);
+    return [x, repeat(y, N)];
 }
 
 /**
