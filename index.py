@@ -42,7 +42,7 @@ app.layout = html.Div(
         dcc.Location(id="location"),
         html.Div(id="container"),
         html.Div(style={"display": "none"}, children=dcc.Graph(id="graph")),
-        html.Div(style={"display": "none"}, children=dash_bio.Component()),
+        html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent()),
     ]
 )
 '''
