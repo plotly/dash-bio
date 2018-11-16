@@ -4,27 +4,37 @@ import Plot from 'react-plotly.js';
 import {mergeDeepRight, contains, filter, has, isNil, type, omit} from 'ramda';
 /* global Plotly:true */
 
+
+/*
+convert the array to a number and ignore the NaN values
+https://stackoverflow.com/questions/9716468/pure-javascript-a-function-like-jquerys-isnumeric
+*/
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 /*
 convert the array to a number and ignore the NaN values
 */
-function filter_Nan_array(test_array) {
-    return test_array.filter(el => Number(!isNaN(Number(el))));
+function filterNanArray(test_array) {
+    return test_array.filter(el => Number(isNumeric(el)));
 }
 
 /*
 search the protein position array for small protein domains (1-5 sites)
 and bogus entries (i.e. "?-123" or "320-?")
 */
-function extract_small_domains(protein_pos_array) {
-    let positions_array = [];
-    let domains_array = [];
-    let idx_old_positions_array = [];
-    let idx_bogus_entry = [];
+function extractSmallDomains(protein_pos_array) {
+    const positions_array = [];
+    const domains_array = [];
+    const idx_old_positions_array = [];
+    const idx_bogus_entry = [];
     protein_pos_array.forEach((dx, i) => {
         if (dx.indexOf('-') > -1) {
+            const domains_limits = dx.split('-')
             if (
-                isNaN(Number(dx.split('-')[0])) ||
-                isNaN(Number(dx.split('-')[1]))
+                isNumeric(domains_limits[0]) ||
+                isNumeric(domains_limits[1])
             ) {
                 idx_bogus_entry.push(i);
             } else {
@@ -46,7 +56,7 @@ function extract_small_domains(protein_pos_array) {
 /*
 create two arrays of value for plotting horizontal lines with many markers
 */
-function create_horizontal_line(xi, xf, y, n) {
+function createHorizontalLine(xi, xf, y, n) {
     let line_x = [];
     let line_y = [];
     if (n === 1) {
@@ -65,8 +75,8 @@ function create_horizontal_line(xi, xf, y, n) {
 /*
 take the max of an array ignoring the NaN values
 */
-function nanmax(test_array) {
-    return Math.max.apply(null, filter_Nan_array(test_array));
+function nanMax(test_array) {
+    return Math.max.apply(null, filterNanArray(test_array));
 }
 
 export default class NeedlePlot extends Component {
@@ -163,7 +173,7 @@ export default class NeedlePlot extends Component {
             small_domains,
             idx_old_positions_array,
             idx_bogus_entry,
-        ] = extract_small_domains(x);
+        ] = extractSmallDomains(x);
 
         //manage whether headColor is an array or a string
         const fixed_mutation_colors =
@@ -180,7 +190,7 @@ export default class NeedlePlot extends Component {
 
         const X_DATA_MIN = Math.min.apply(null, x_single_site);
         const X_DATA_MAX = Math.max.apply(null, x_single_site);
-        const Y_DATA_MAX = stemConstHeight === true ? 1 : nanmax(y);
+        const Y_DATA_MAX = stemConstHeight === true ? 1 : nanMax(y);
         const X_RANGE_MIN = this.state.xStart || X_DATA_MIN;
         const X_RANGE_MAX = this.state.xEnd || X_DATA_MAX;
 
@@ -228,7 +238,7 @@ export default class NeedlePlot extends Component {
                 legendgroup: dom.name,
                 marker: {color: fixed_domain_colors[i]},
             });
-            const [line_x, line_y] = create_horizontal_line(
+            const [line_x, line_y] = createHorizontalLine(
                 x0,
                 x1,
                 -Y_BUFFER,
@@ -269,7 +279,7 @@ export default class NeedlePlot extends Component {
                 const x1 = Number(dom.split('-')[1]);
                 const domainLength = x1 - x0;
                 const gname = mutationGroups[x.indexOf(dom)];
-                const [line_x, line_y] = create_horizontal_line(
+                const [line_x, line_y] = createHorizontalLine(
                     x0,
                     x1,
                     Y_BUFFER / -2,
