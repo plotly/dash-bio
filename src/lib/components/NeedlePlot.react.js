@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {mergeDeepRight, contains, filter, has, isNil, type, omit} from 'ramda';
-/* global Plotly:true */
+import {mergeDeepRight, omit} from 'ramda';
 
 
 /*
 convert the array to a number and ignore the NaN values
 https://stackoverflow.com/questions/9716468/pure-javascript-a-function-like-jquerys-isnumeric
+
 */
 function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
@@ -112,14 +112,7 @@ export default class NeedlePlot extends Component {
     }
 
     render() {
-        const {id, setProps} = this.props;
-        const otherProps = {
-            style: {
-                width: '100%',
-                height: '100%',
-            },
-            useResizeHandler: true,
-        };
+        const {id} = this.props;
 
         const {
             data,
@@ -152,10 +145,9 @@ export default class NeedlePlot extends Component {
 
     // Fetch data
     prepareTraces() {
-        let {x, y, domains} = this.props;
+        const {x, y, domains} = this.props;
         const {
             mutationGroups,
-            needleStyle,
             domainStyle: {domainColor, displayMinorDomains},
             needleStyle: {
                 stemColor,
@@ -171,20 +163,19 @@ export default class NeedlePlot extends Component {
         const [
             x_single_site,
             small_domains,
-            idx_old_positions_array,
-            idx_bogus_entry,
+            idx_old_positions_array
         ] = extractSmallDomains(x);
 
-        //manage whether headColor is an array or a string
+        // manage whether headColor is an array or a string
         const fixed_mutation_colors =
             Array.isArray(headColor)
                 ? headColor
-                : mutationGroups.map(i => headColor);
+                : mutationGroups.map(() => headColor);
 
         const fixed_mutation_symbols =
             Array.isArray(headSymbol)
                 ? headSymbol
-                : mutationGroups.map(i => headSymbol);
+                : mutationGroups.map(() => headSymbol);
 
         const fixed_domain_colors = domainColor;
 
@@ -193,9 +184,12 @@ export default class NeedlePlot extends Component {
         const Y_DATA_MAX = stemConstHeight === true ? 1 : nanMax(y);
         const X_RANGE_MIN = this.state.xStart || X_DATA_MIN;
         const X_RANGE_MAX = this.state.xEnd || X_DATA_MAX;
-
         const XSPAN = X_RANGE_MAX - X_RANGE_MIN;
+        // this is used to trigger a change of display inside annotations
+        const XSPAN_RATIO = 0.2;
         const Y_BUFFER = stemConstHeight === true ? 0.5 : Y_DATA_MAX / 10;
+        // this is used to scale the position for the annotations
+        const Y_BUFFER_DIVIDER = 2
         const Y_TOP = stemConstHeight === true ? 2 : Y_DATA_MAX + Y_BUFFER;
         const DOMAIN_WIDTH = 33;
 
@@ -204,7 +198,8 @@ export default class NeedlePlot extends Component {
         const domainAnnotations = [];
 
         let hoverlabels = [];
-        let stemsY = []; // contains the height of each stem
+        // contains the height of each stem
+        let stemsY = [];
         idx_old_positions_array.forEach(idx => {
             if (stemConstHeight) {
                 stemsY = stemsY.concat([1]);
@@ -219,7 +214,7 @@ export default class NeedlePlot extends Component {
         const hoverinfo =
             stemConstHeight === true ? 'x+name+text' : 'name+text';
 
-        //build the different protein large domains
+        // build the different protein large domains
         domains.forEach((dom, i) => {
             const x0 = Number(dom.coord.split('-')[0]);
             const x1 = Number(dom.coord.split('-')[1]);
@@ -263,26 +258,25 @@ export default class NeedlePlot extends Component {
 
             // Name of the protein domain
             domainAnnotations.push({
-                x: (x0 + x1) / 2,
-                y: Y_BUFFER / -2,
+                x: (x0 + x1) / Y_BUFFER_DIVIDER,
+                y: - Y_BUFFER / Y_BUFFER_DIVIDER,
                 showarrow: false,
                 text: dom.name,
                 width: domainLength,
-                align: domainLength < 0.2 * XSPAN ? 'right' : 'center',
+                align: domainLength < XSPAN_RATIO * XSPAN ? 'right' : 'center',
             });
         });
 
         if (displayMinorDomains === true) {
-            //build the different protein small domains
-            small_domains.forEach((dom, i) => {
+            // build the different protein small domains
+            small_domains.forEach((dom) => {
                 const x0 = Number(dom.split('-')[0]);
                 const x1 = Number(dom.split('-')[1]);
-                const domainLength = x1 - x0;
                 const gname = mutationGroups[x.indexOf(dom)];
                 const [line_x, line_y] = createHorizontalLine(
                     x0,
                     x1,
-                    Y_BUFFER / -2,
+                    - Y_BUFFER / Y_BUFFER_DIVIDER,
                     x1 - x0
                 );
                 // Range of the protein domain on the xaxis
@@ -382,8 +376,8 @@ export default class NeedlePlot extends Component {
         if (Boolean(!xStart) || Boolean(!xEnd)) {
             first_init = true;
             data.forEach(trace => {
-                const X_DATA_MIN = Math.min.apply(null, trace['x']);
-                const X_DATA_MAX = Math.max.apply(null, trace['x']);
+                const X_DATA_MIN = Math.min.apply(null, trace.x);
+                const X_DATA_MAX = Math.max.apply(null, trace.x);
                 if (xStart > X_DATA_MIN || Boolean(!xStart)) {
                     xStart = X_DATA_MIN;
                 }
@@ -392,7 +386,12 @@ export default class NeedlePlot extends Component {
                 }
             });
         }
-        let layout = {
+
+        // this is used to zoom in the axis range initially
+        const XSTART_RATIO = 0.98;
+        const XEND_RATIO = 1.02;
+
+        const layout = {
             legend: {
                 orientation: 'v',
                 x: 1,
@@ -425,9 +424,9 @@ export default class NeedlePlot extends Component {
             annotations: domainAnnotations.concat(globalAnnotation),
         };
         if (rangeSlider === true) {
-            layout['xaxis']['rangeslider'] =
+            layout.xaxis.rangeslider =
                 first_init === true
-                    ? {range: [xStart * 0.98, xEnd * 1.02]}
+                    ? {range: [xStart * XSTART_RATIO, xEnd * XEND_RATIO]}
                     : {};
         }
 
@@ -486,20 +485,20 @@ NeedlePlot.propTypes = {
         headSize: PropTypes.number,
         // Color of the heads of the needlehead
         headColor: PropTypes.oneOfType([
-            /*different color for different mutations, must be larger or
+            /* different color for different mutations, must be larger or
             equal to the size of the mutationGroup prop
             */
             PropTypes.array,
-            //same color for all needles
+            // same color for all needles
             PropTypes.string,
         ]),
         // Style of the heads of the needlehead
         headSymbol: PropTypes.oneOfType([
-            /*different marker for different mutations, must be larger or
+            /* different marker for different mutations, must be larger or
             equal to the size of the mutationGroup prop
             */
             PropTypes.array,
-            //same marker for all needles
+            // same marker for all needles
             PropTypes.string,
         ]),
     }),
