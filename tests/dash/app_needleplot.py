@@ -48,6 +48,11 @@ STEM_COLOR = [
 ]
 
 
+def description():
+    return 'Display gene mutation of the genome thanks to this needle plot. \
+    Also known under the lollipop plot name.'
+
+
 def layout():
     app_main_layout = html.Div([
         html.Div(
