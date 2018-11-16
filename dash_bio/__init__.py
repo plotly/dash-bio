@@ -9,7 +9,6 @@ import dash as _dash
 from .component_factory._manhattan import ManhattanPlot
 from .component_factory._volcano import VolcanoPlot
 from .component_factory._clustergram import Clustergram
-from .EmptyComponent import EmptyComponent
 
 if not hasattr(_dash, 'development'):
     print('Dash was not successfully imported. '
