@@ -26,7 +26,8 @@ function filterNanArray(test_array) {
 
 /**
  * Search the protein position array for small protein domains (typically 1->5 sites)
- * and bogus entries (i.e. "?-123" or "320-?")
+ * and bogus entries (i.e. "?-123" or "320-?"), the protein domains are indicated
+ * by the presence of a '-' character in the element of the array.
  * @param  {Array} protein_pos_array        An array containing protein domains
  * @return {Array} positions_array          An array with only single site
                                             protein mutations.
