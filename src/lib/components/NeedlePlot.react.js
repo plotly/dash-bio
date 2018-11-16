@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
-import {range, repeat, mergeDeepRight, omit} from 'ramda';
+import {reduce, max, range, repeat, mergeDeepRight, omit} from 'ramda';
 
 
 /**
@@ -93,7 +93,7 @@ function createHorizontalLine(xi, xf, y, n) {
  * @return {number}            max value of the array
  */
 function nanMax(test_array) {
-    return Math.max.apply(null, filterNanArray(test_array));
+    return reduce(max, -Infinity, filterNanArray(test_array));
 }
 
 export default class NeedlePlot extends Component {
@@ -234,8 +234,9 @@ export default class NeedlePlot extends Component {
 
         // build the different protein large domains
         domains.forEach((dom, i) => {
-            const x0 = Number(dom.coord.split('-')[0]);
-            const x1 = Number(dom.coord.split('-')[1]);
+            const domainLimits = dom.coord.split('-')
+            const x0 = Number(domainLimits[0]);
+            const x1 = Number(domainLimits[1]);
             const domainLength = x1 - x0;
 
             // Highlight of the protein domain

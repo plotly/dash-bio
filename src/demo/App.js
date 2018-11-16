@@ -40,7 +40,7 @@ export default class App extends Component {
     }
 
     handlePlotChange(event) {
-        let events = this.state.events;
+        const events = this.state.events;
         events.unshift(JSON.stringify(event));
         this.setState({events: events});
     }
