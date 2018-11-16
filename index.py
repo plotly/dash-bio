@@ -30,32 +30,18 @@ apps = {
 for key in apps:
     apps[key].callbacks(app)
 
-'''
-Ensure there is one html.Div holding an empty instance of a dash_bio.component
-like the example below. Remove this comment when we've added one dash_bio
-component!
-
-Ex:
 app.layout = html.Div(
     id="index-waitfor",
     children=[
         dcc.Location(id="location"),
-        html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dcc.Graph(id="graph")),
-        html.Div(style={"display": "none"}, children=dash_bio.Component()),
-    ]
-)
-'''
-app.layout = html.Div(
-    id="index-waitfor",
-    children=[
-        dcc.Location(id="location"),
-        html.Div(id='gallery-title', children=[
-            'Dash Bio'
-        ]),
-        html.Div(id='gallery-subtitle', children=[
-            'A suite of bioinformatics components \
-            compatible with Plotly\'s Dash.'
+        html.Div(id='gallery-header', children=[
+            html.Div(id='gallery-title', children=[
+                'Dash Bio'
+            ]),
+            html.Div(id='gallery-subtitle', children=[
+                'A suite of bioinformatics components \
+                compatible with Plotly\'s Dash.'
+            ]),
         ]),
         html.Div(id="container"),
         html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent())
@@ -92,7 +78,8 @@ def demoAppDesc(name):
 
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
-    if pathname == '/{}'.format(DASH_APP_NAME) or pathname == '/{}/'.format(DASH_APP_NAME) \
+    if pathname == '/{}'.format(DASH_APP_NAME) \
+       or pathname == '/{}/'.format(DASH_APP_NAME) \
        or pathname == '/' or pathname is None:
         return html.Div(
             id='gallery-apps',
@@ -120,8 +107,10 @@ def display_app(pathname):
             ])
 
     app_name = \
-        pathname.replace('/{}/'.format(DASH_APP_NAME), '/').replace("/", "").replace("-", "_")
-
+        pathname.replace(
+            '/{}/'.format(DASH_APP_NAME), '/').replace(
+                "/", "").replace("-", "_")
+    
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
     else:
@@ -133,6 +122,26 @@ def display_app(pathname):
             app_name, list(apps.keys())
         )
 
+    
+@app.callback(
+    Output('gallery-header', 'children'),
+    [Input('location', 'pathname')]
+)
+def hide_header(pathname):
+    if pathname != '/{}'.format(DASH_APP_NAME) \
+       and pathname != '/{}/'.format(DASH_APP_NAME) \
+       and pathname != '/' and pathname is not None:
+        return []
+    return [
+        html.Div(id='gallery-title', children=[
+            'Dash Bio'
+        ]),
+        html.Div(id='gallery-subtitle', children=[
+            'A suite of bioinformatics components \
+            compatible with Plotly\'s Dash.'
+        ]),
+    ]
+        
 
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
