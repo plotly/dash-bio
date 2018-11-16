@@ -44,7 +44,7 @@ app.layout = html.Div(
             ]),
         ]),
         html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent())
+        html.Div(style={"display": "none"}, children=dash_bio.NeedlePlot())
     ]
 )
 
