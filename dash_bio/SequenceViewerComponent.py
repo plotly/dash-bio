@@ -20,7 +20,7 @@ that allows the user to choose the number of letters per line.
 - search (boolean; optional): The option of whether or not to include a search bar in
 the header. This supports regex.
 - title (string; optional): A string that displays at the top of the component.
-- sequenceMaxHeight (string; optional): The maximum height of the sequence; default "400px".
+- sequenceMaxHeight (string; optional): The maximum height of the sequence.
 - badge (boolean; optional): The option of whether or not to display a badge showing the
 amino acid count at the top of the component beside the title.
 - selection (list; optional): A highlighted section of the sequence; the color of the highlight 
@@ -47,7 +47,7 @@ using the search bar.
 
 Available events: """
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, sequence=Component.UNDEFINED, showLineNumbers=Component.UNDEFINED, wrapAminoAcids=Component.UNDEFINED, charsPerLine=Component.UNDEFINED, toolbar=Component.UNDEFINED, search=Component.UNDEFINED, title=Component.UNDEFINED, sequenceMaxHeight=Component.UNDEFINED, badge=Component.UNDEFINED, selection=Component.UNDEFINED, coverage=Component.UNDEFINED, legend=Component.UNDEFINED, coverageClicked=Component.UNDEFINED, mouseSelection=Component.UNDEFINED, subpartSelected=Component.UNDEFINED, onMouseSelection=Component.UNDEFINED, onSubpartSelected=Component.UNDEFINED, **kwargs):
+    def __init__(self, id=Component.UNDEFINED, sequence=Component.UNDEFINED, showLineNumbers=Component.UNDEFINED, wrapAminoAcids=Component.UNDEFINED, charsPerLine=Component.UNDEFINED, toolbar=Component.UNDEFINED, search=Component.UNDEFINED, title=Component.UNDEFINED, sequenceMaxHeight=Component.UNDEFINED, badge=Component.UNDEFINED, selection=Component.UNDEFINED, coverage=Component.UNDEFINED, legend=Component.UNDEFINED, coverageClicked=Component.UNDEFINED, mouseSelection=Component.UNDEFINED, subpartSelected=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'sequence', 'showLineNumbers', 'wrapAminoAcids', 'charsPerLine', 'toolbar', 'search', 'title', 'sequenceMaxHeight', 'badge', 'selection', 'coverage', 'legend', 'coverageClicked', 'mouseSelection', 'subpartSelected']
         self._type = 'SequenceViewerComponent'
         self._namespace = 'dash_bio'
