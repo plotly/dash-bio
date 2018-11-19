@@ -13,12 +13,12 @@
   "author": "The Plotly Team",
   "license": "MIT",
   "dependencies": {
+    "plotly.js": "^1.41.3",
     "ramda": "^0.25.0",
     "react": "15.4.2",
     "react-dom": "15.4.2",
     "react-plotly.js": "^2.2.0",
-    "plotly.js": "^1.41.3",
-    "react-sequence-viewer": "https://github.com/shammamah/react-sequence-viewer/raw/master/react-sequence-viewer-0.2.2.tgz"
+    "react-sequence-viewer": "git://github.com/shammamah/react-sequence-viewer.git"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
