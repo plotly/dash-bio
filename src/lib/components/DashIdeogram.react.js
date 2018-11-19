@@ -24,14 +24,6 @@ export default class DashIdeogram extends Component {
         this.tooltipData = null;
         this.tooltipDataTwo = null;
 
-        /**
-        * Currently have to use pre-set array (this.propsKeys), 
-        * because of restraints with having to clear div, and delete
-        * the bands. The ideal method would be to load
-        * used props for each instance e.g with 
-        * Ex: Objects.Key(this.props);
-        * */
-
         this.propKeys = [
             'localOrganism',
             'organism',
@@ -63,24 +55,25 @@ export default class DashIdeogram extends Component {
             'homology'
         ]
 
-        this.clearDiv = this.clearDiv.bind(this);
-        this.onBrushHandler = this.onBrushHandler.bind(this)
+        this.onBrushHandler = this.onBrushHandler.bind(this);
         this.onLoadHandler = this.onLoadHandler.bind(this);
         this.onRotateHandler = this.onRotateHandler.bind(this);
         this.onHomologyHandler = this.onHomologyHandler.bind(this);
-        this.onToolTipHandler = this.onToolTipHandler.bind(this)
-        this.setConfig = this.setConfig.bind(this)
+        this.onToolTipHandler = this.onToolTipHandler.bind(this);
+        this.onMouseOverHandler = this.onMouseOverHandler.bind(this);
+        this.setConfig = this.setConfig.bind(this);
+        this.initIdeogram = this.initIdeogram.bind(this);
     }
-
-    clearDiv() {
-        const container = document.getElementById('ideogram-container');
-        while (container.hasChildNodes()) {
-            container.removeChild(container.firstChild)
-        }
-    }
-
 
     onHomologyHandler() {
+        /**
+         * An event handler used to compare two chromosomes,
+         * where the user can specify the connection 
+         * bewteen two points of two chromosomes. The user
+         * can supply the homology locations using the 
+         * 'homology' prop.
+         */
+
         var chrs = this.ideogram.chromosomes
         var chrOne = null
         var chrTwo = null
@@ -112,8 +105,14 @@ export default class DashIdeogram extends Component {
     }
 
     onToolTipHandler() {
+        /**
+         * An event handler that is called by onMouseHover handler, which
+         * returns the annotation the mouse hovered over with the prop
+         * 'annotationsData'.
+         */
+
         this.tooltipDataTwo = this.tooltipData
-        if (this.props.setProps) {
+        if (this.props.setProps !== undefined) {
             this.props.setProps(
                 {
                     annotationsData: this.tooltipData
@@ -123,13 +122,19 @@ export default class DashIdeogram extends Component {
     }
 
     onBrushHandler() {
+        /**
+         * An event handler that is called when an Ideogram
+         * is using the brush prop. This event handler 
+         * returns brush data in to the Dash application
+         * with the prop 'brushData'.
+         */
+
         var r = this.ideogram.selectedRegion,
             start = r.from.toLocaleString(),
             end = r.to.toLocaleString(),
             extent = r.extent.toLocaleString();
 
-        if (this.props.brush) {
-            if (this.props.setProps) {
+        if (this.props.brush !== undefined && this.props.setProps !== undefined) {
                 this.props.setProps(
                     {
                         brushData: {
@@ -139,23 +144,35 @@ export default class DashIdeogram extends Component {
                         }
                     }
                 )
-            }
+            
         }
     }
 
     onLoadHandler() {
-        if (this.props.brush) {
+        /**
+         *  An event handler that will load a function depending on
+         * whether the brush prop is activated, or the homology prop
+         * is activated. This prop is activated on the loading of the
+         * Ideogram.
+         */
+
+        if (this.props.brush !== undefined) {
             this.onBrushHandler();
         }
-        else if (this.props.homology) {
+        else if (this.props.homology !== undefined) {
             this.onHomologyHandler();
         }
         return null
     }
 
     onRotateHandler() {
+        /**
+         * An event handler that returns 'true' or 'false' if the
+         * ideogram is rotated. The user can use the prop 'rotated'
+         * in their Dash application to see this effect.
+         */
 
-        this.isRotated = (this.isRotated) ? (false) : (true)
+        this.isRotated = this.isRotated ? false : true
 
         if (this.props.setProps) {
             this.props.setProps(
@@ -164,77 +181,63 @@ export default class DashIdeogram extends Component {
                 }
             )
         }
-        return
     }
 
+    onMouseOverHandler() {
+        /** 
+         * Event handler that activates when you hover the mouse over an annotation. 
+         * This event handler allows the user to add an prop `onMouseOver` into their 
+         * Dash application, that will return the annotation that the mouse hovers over.
+         */
+
+        if (this.props.setProps !== undefined) {
+            this.tooltipData = document.getElementById('_ideogramTooltip').innerHTML;
+            this.tooltipData !== this.tooltipDataTwo ? this.onToolTipHandler() : this.tooltipDataTwo = document.getElementById('_ideogramTooltip').innerHTML;
+        }
+    }
 
     setConfig() {
+        // Pass in all props into config except setProps
         let config = omit(['setProps'], this.props);
+
         // Event handlers
         config.onDidRotate = this.onRotateHandler
-        config.onBrushMove = (this.props.brush) ? this.onBrushHandler : null
+        config.onBrushMove = this.props.brush ? this.onBrushHandler : null
         config.onLoad = this.onLoadHandler
-        config.container = '#ideogram-container'
+        config.container = '#ideogram-container' + '-' + this.props.id
         return config;
+    }
 
+    initIdeogram() {
+        if (this.props.localOrganism !== undefined) {
+            this.props.dataDir = null;
+            window.chrBands = this.props.localOrganism;
+        }
+        this.ideogram = new Ideogram(this.setConfig());
     }
 
     shouldComponentUpdate(nextProps) {
-        const container = document.getElementById('ideogram-container');
-
         return (
             this.propKeys.some(
-                (currentKey) => { return this.props[currentKey] !== nextProps[currentKey]; }
-            ) && container.hasChildNodes());
+                currentKey => { return this.props[currentKey] !== nextProps[currentKey]; }
+            ));
     }
 
     componentDidMount() {
-        const container = document.getElementById('ideogram-container');
-        if (container.hasChildNodes()) {
-            delete window.chrBands;
-            this.clearDiv();
-        }
-        if (this.props.localOrganism) {
-            window.chrBands = this.props.localOrganism
-        }
-
-        this.ideogram = new Ideogram(this.setConfig());
+        this.initIdeogram();
     }
 
-    componentWillUnmount() {
-        delete window.chrBands;
-        this.clearDiv();
-    }
-    componentDidUpdate(prevProps) {
-        delete window.chrBands
-        this.clearDiv();
-
-        // Issue with localOrganism not allowing histogram
-        // to work properly. I can fix this by figuring
-        // out an alternative to deleting window.chrBands,
-        // and clearing the div.
-        if (this.props.localOrganism) {
-            window.chrBands = this.props.localOrganism
-        }
-
-        this.ideogram = new Ideogram(this.setConfig());
-
+    componentDidUpdate() {
+        this.initIdeogram();
     }
 
     render() {
-
         return (
-            <div id={this.props.id} className={this.props.className}>
+            <div id={this.props.id} className={this.props.className} style={this.props.style}>
                 <div
-                    {...omit(['onMouseOver', 'setProps'], this.props)}
-                    id='ideogram-container'
-                    onMouseOver={() => {
-                        if (this.props.setProps) {
-                            this.tooltipData = document.getElementById('tooltip').innerHTML;
-                            ((this.tooltipData !== this.tooltipDataTwo) ? this.onToolTipHandler() : this.tooltipDataTwo = document.getElementById('tooltip').innerHTML);
-                        }
-                    }
-                    }
+                    {...omit(['setProps'], this.props)}
+                    id={'ideogram-container' + '-' + this.props.id}
+                    onMouseOver={this.onMouseOverHandler}
                 ></div>
             </div>
         );
@@ -243,30 +246,31 @@ export default class DashIdeogram extends Component {
 
 DashIdeogram.defaultProps = {
     organism: "human",
-    // dataDir: 'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/'
+    annotationsColor: "#F00",
+    annotationsLayout: "tracks",
+    barWidth: 3,
+    brush: null,
+    chrHeight: 400,
+    chrMargin: 10,
+    chrWidth: 10,
+    ploidy: 1,
+    rotatable: true,
+    rows: 1,
+    showBandLabels: false,
+    showChromosomeLabels: true,
+    showAnnotTooltip: true,
+    showFullyBanded: true,
+    showNonNuclearChromosomes: false,
+    dataDir: 'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/'
 }
 
 DashIdeogram.propTypes = {
 
     /**
-     *  Provide local JSON organism into this prop from a local user JSON file. 
-     * DataDir must not be initiliazed.
-     */
-    localOrganism: PropTypes.object,
-
-    /**
-     * Use this prop in callback to return annotationData when hovered.
-     */
-    annotationsData: PropTypes.string,
-
-    /**
-     * Dash event callback for mousing over data.
-     */
-    onMouseOver: PropTypes.func,
-    /**
      * The ID used to identify this component in Dash callbacks
+     * and used to identify Ideogram instances.
      */
-    id: PropTypes.string,
+    id: PropTypes.string.isRequired,
 
     /**
      * The component's inline styles
@@ -274,7 +278,7 @@ DashIdeogram.propTypes = {
     style: PropTypes.object,
 
     /**
-     * Dash specific prop type connecting event handlers to front end
+     * Dash specific prop type connecting event handlers to front end.
      */
     setProps: PropTypes.func,
 
@@ -284,7 +288,13 @@ DashIdeogram.propTypes = {
     className: PropTypes.string,
 
     /**
-     *  Unspecified
+     * Use this prop in callback to return annotationData when hovered.
+     */
+    annotationsData: PropTypes.string,
+
+    /**
+     *  A map associating ancestor labels to colors. Used to color 
+     * chromosomes from different ancestors in polyploid genomes.
      */
 
     ancestors: PropTypes.object,
@@ -296,7 +306,14 @@ DashIdeogram.propTypes = {
      */
 
     annotations: PropTypes.arrayOf(
-        PropTypes.object
+        PropTypes.shape(
+            {
+                name: PropTypes.string,
+                chr: PropTypes.string,
+                start: PropTypes.number,
+                stop: PropTypes.number
+            }
+        )
     ),
 
     /**
@@ -330,12 +347,14 @@ DashIdeogram.propTypes = {
     annotationsPath: PropTypes.string,
 
     /**
-     * Unspecified
+     * A list of objects with metadata for each track, 
+     * e.g. id, display name, color, shape.
      */
     annotationTracks: PropTypes.arrayOf(PropTypes.object),
 
     /**
-     * Default: latest RefSeq assembly for specified organism. The genome assembly to display. 
+     * Default: latest RefSeq assembly for specified organism. 
+     * The genome assembly to display. 
      * Takes assembly name (e.g. "GRCh37"), 
      * RefSeq accession (e.g. "GCF_000306695.2"), 
      * or GenBank accession (e.g. "GCA_000005005.5")
@@ -373,30 +392,6 @@ DashIdeogram.propTypes = {
      * react-ideogram.js, this is where all the d3 magic happens.
      */
     container: PropTypes.string,
-
-    /**
-     * Default: "ideogram-container"
-     * Used to compare two chromosomes with each other.
-     * The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the 
-     * specified in taxID or name. Start is an array
-     * indicating start one and start two in this order, for specified
-     * organism.
-     * Stop is array indicating, stop one, and stop two, in this order
-     * for specified organism.
-     * Ex: homology={
-                    "chrOne": {
-                        "organism": "9606",
-                        "start": [50000, 155701383],
-                        "stop": [900000, 156030895]
-                    },
-                    "chrTwo": {
-                        "organism": "10090",
-                        "start": [10001, 50000000],
-                        "stop": [2781479, 57217415]
-                    }
-                }
-     */
-    homology: PropTypes.object,
 
     /**
      * The pixel height of the tallest chromosome in the ideogram
@@ -443,9 +438,11 @@ DashIdeogram.propTypes = {
     dataDir: PropTypes.string,
 
     /**
-     * Unspecified
+     * Whether to include abbreviation species name in chromosome label. Used
+     * for homology.
      */
     fullChromosomeLabels: PropTypes.bool,
+
     /**
      * One of "absolute" or "relative". The technique to use in scaling the height of histogram bars. The "absolute" value sets bar height relative to tallest bar in all chromosomes, 
      * while "relative" sets bar height relative to tallest bar in each chromosome.
@@ -457,18 +454,72 @@ DashIdeogram.propTypes = {
      */
     heatmaps: PropTypes.arrayOf(PropTypes.object),
 
-
-    isAnnotationHovered: PropTypes.bool,
+    /**
+     * Used to compare two chromosomes with each other.
+     * The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the 
+     * taxID or name. Start is an array, containing start one and 
+     * start two in this order. Stop is array, containing stop one, and stop two, 
+     * in this order.
+     * Ex: homology={
+                    "chrOne": {
+                        "organism": "9606",
+                        "start": [50000, 155701383],
+                        "stop": [900000, 156030895]
+                    },
+                    "chrTwo": {
+                        "organism": "10090",
+                        "start": [10001, 50000000],
+                        "stop": [2781479, 57217415]
+                    }
+                }
+     */
+    homology: PropTypes.shape(
+        {
+            chrOne: PropTypes.shape(
+                {
+                    organism: PropTypes.string.isRequired,
+                    start: PropTypes.arrayOf(
+                        PropTypes.number.isRequired
+                    ),
+                    stop: PropTypes.arrayOf(
+                        PropTypes.number.isRequired
+                    )
+                }
+            ),
+            chrTwo: PropTypes.shape(
+                {
+                    organism: PropTypes.string.isRequired,
+                    start: PropTypes.arrayOf(
+                        PropTypes.number.isRequired
+                    ),
+                    stop: PropTypes.arrayOf(
+                        PropTypes.number.isRequired
+                    )
+                }
+            ),
+        }
+    ),
 
     /**
-     * Unspecified
+     * Whether annotations should be filterable. 
      */
     filterable: PropTypes.number,
 
     /**
-     *  Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or organism's NCBI Taxonomy ID (taxid, e.g. 9606) 
-     *  to display chromosomes from a single organism, or an array of organisms' 
-     *  names or taxids to display chromosomes from multiple species.
+     * Provide local JSON organism into this prop from a local user JSON file. 
+     * DataDir must not be initiliazed.
+     */
+    localOrganism: PropTypes.object,
+
+    /**
+     * Dash event callback for mousing over data.
+     */
+    onMouseOver: PropTypes.func,
+
+    /**
+     * Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or 
+     * organism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism, 
+     * or an array of organisms' names or taxids to display chromosomes from multiple species.
      */
     organism: PropTypes.oneOfType(
         [
@@ -477,7 +528,7 @@ DashIdeogram.propTypes = {
         ]
     ),
     /**
-     *  The orientation of chromosomes on the page.
+     * The orientation of chromosomes on the page.
      */
     orientation: PropTypes.string,
 
@@ -503,13 +554,8 @@ DashIdeogram.propTypes = {
     onLoad: PropTypes.func,
 
     /**
-     * Callback function to invoke immediately before annotation tooltip is shown. 
-     * The tooltip shows the genomic range and, if available, name of the annotation. (React)
-     */
-    onWillShowAnnotTooltip: PropTypes.func,
-
-    /**
-     * Unspecified
+     * Use perspective: 'comparative' to enable annotations between two chromosomes, 
+     * either within the same organism or different organisms. Used for homology.
      */
     perspective: PropTypes.string,
 
@@ -520,12 +566,14 @@ DashIdeogram.propTypes = {
     ploidy: PropTypes.number,
 
     /**
-     * Undefined
+     * Description of ploidy in each chromosome set in terms of 
+     * ancestry composition.
      */
     ploidyDesc: PropTypes.arrayOf(PropTypes.object),
 
     /**
-     * Undefined
+     * List of objects describing segments of recombination 
+     * among chromosomes in a chromosome set.
      */
     rangeSet: PropTypes.arrayOf(PropTypes.object),
 
