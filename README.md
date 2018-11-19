@@ -4,11 +4,6 @@ Dash components for bioinformatics
 
 ## Progress
 
-### To Do List
-- Figure out way to not use clearDiv() & have multiple ideograms on one page
-- Work on IdeogramJS source code for box sizing, and set over flow enable/disable
-- Heatmap is glitchy -> Fixed with box sizing
-
 #### Bioinformatics charts
 
 - Dash Circos
