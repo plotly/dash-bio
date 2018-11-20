@@ -11,7 +11,7 @@
     background-color: #F3F6FA; 
     font-family: 'Open Sans'; 
 }
-::-webkit-scrollbar{
+#seq-view-body::-webkit-scrollbar{
     width: 0px;
     height: 0px;
 }
