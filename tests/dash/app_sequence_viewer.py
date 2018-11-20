@@ -1,7 +1,7 @@
 import dash_bio
 from dash_bio.utils import proteinReader as pr
 import base64
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 from Bio.SeqUtils import seq3
@@ -12,21 +12,47 @@ from Bio.Data.CodonTable import TranslationError
 proteinFolder = 'proteins'
 sequence = '-'
 
-coverage = [
-    {'start': 0,
-     'end': 240,
-     'color': 'rgb(0,255,0)',
-     'bgcolor': 'rgb(0,0,0)',
-     'tooltip': 'first',
-     'underscore': False},
-    {'start': 240,
-     'end': 500,
-     'color': 'rgb(255, 0, 0)',
-     'bgcolor': 'rgb(0,0,255)',
-     'tooltip': 'second',
-     'underscore': True}
+initialCov = [
+    {'start': '26', 'end': '29', 'color': 'rgb(255,255,255)',
+     'bgcolor': 'rgb(0,0,255)', 'tooltip': 'Beta strand', 'underscore': True},
+    {'start': '33', 'end': '43', 'color': 'rgb(0,0,0)',
+     'bgcolor': 'rgb(100,100,200)', 'tooltip': 'Helix', 'underscore': True},
+    {'start': '44', 'end': '46', 'color': 'rgb(0,0,0)',
+     'bgcolor': 'rgb(100,100,200)', 'tooltip': 'Helix', 'underscore': True},
+    {'start': '48', 'end': '50', 'color': 'rgb(255,255,255)',
+     'bgcolor': 'rgb(0,0,255)', 'tooltip': 'Beta strand', 'underscore': True},
+    {'start': '56', 'end': '58', 'color': 'rgb(255,255,255)',
+     'bgcolor': 'rgb(0,0,255)', 'tooltip': 'Beta strand', 'underscore': True},
+    {'start': '59', 'end': '66', 'color': 'rgb(0,0,200)',
+     'bgcolor': 'rgb(200,200,0)', 'tooltip': 'Turn', 'underscore': False},
+    {'start': '74', 'end': '76', 'color': 'rgb(255,255,255)',
+     'bgcolor': 'rgb(0,0,255)', 'tooltip': 'Beta strand', 'underscore': True},
+    {'start': '79', 'end': '81', 'color': 'rgb(0,0,0)',
+     'bgcolor': 'rgb(100,100,200)', 'tooltip': 'Helix', 'underscore': True},
+    {'start': '84', 'end': '86', 'color': 'rgb(0,0,200)',
+     'bgcolor': 'rgb(200,200,0)', 'tooltip': 'Turn', 'underscore': False},
+    {'start': '91', 'end': '97', 'color': 'rgb(0,0,0)',
+     'bgcolor': 'rgb(100,100,200)', 'tooltip': 'Helix', 'underscore': True},
+    {'start': '98', 'end': '101', 'color': 'rgb(255,255,255)',
+     'bgcolor': 'rgb(0,0,255)', 'tooltip': 'Beta strand', 'underscore': True},
+    {'start': '102', 'end': '106', 'color': 'rgb(0,0,0)',
+     'bgcolor': 'rgb(100,100,200)', 'tooltip': 'Helix', 'underscore': True},
+    {'start': '107', 'end': '109', 'color': 'rgb(0,0,200)',
+     'bgcolor': 'rgb(200,200,0)', 'tooltip': 'Turn', 'underscore': False}
 ]
 
+initialFile = './tests/dash/sample_data/P01308.fasta.txt'
+initialData = pr.readFasta(
+    filePath=initialFile
+)
+initialSeq = initialData[0]['sequence']
+initialDesc = []
+for key in initialData[0]['description']:
+    tmp = key
+    tmp += ': '
+    tmp += initialData[0]['description'][key]
+    initialDesc.append(tmp)
+    initialDesc.append(html.Br())
 
 highlightColor = 'blue'
 
@@ -86,8 +112,8 @@ def layout():
             children=[
                 dash_bio.SequenceViewerComponent(
                     id='sequence-viewer',
-                    sequence='-',
-                    wrapAminoAcids=True
+                    sequence=initialSeq,
+                    coverage=initialCov
                 )
             ]
         ),
@@ -110,8 +136,43 @@ def layout():
                         )
                     ]
                 ),
+                
 
                 html.Hr(),
+
+                "Subsequence selected:", 
+                html.Div(
+                    id='test-mouse-selection',
+                ),
+
+                html.Div(id='cov-options', children=[
+                    'Coverage text color: ',
+                    dcc.Input(
+                        id='coverage-color',
+                        type='text',
+                        placeholder='rgb(255, 0, 0)'
+                    ),
+                    'Coverage background color: ',
+                    dcc.Input(
+                        id='coverage-bg-color',
+                        type='text',
+                        placeholder='rgb(0, 0, 255)'
+                    ),
+                    dcc.Checklist(
+                        id='coverage-underscore',
+                        options=[
+                            {'label': 'underscore text', 'value': 'underscore'}
+                        ],
+                        values=[]
+                    ),
+                    html.Button(
+                        id='coverage-submit',
+                        children='Submit'
+                    )
+
+                ]), 
+
+                html.Hr(), 
                 
                 html.Div(
                     id='seq-view-dna-or-protein-container',
@@ -140,13 +201,15 @@ def layout():
                         dcc.RangeSlider(
                             id='sel-slider',
                             min=0,
-                            max=len(sequence),
+                            max=len(initialSeq),
                             step=1,
                             value=[10, 20]
                         ),
                     ]
                 ),
 
+                html.Hr(), 
+                
                 html.Div(
                     id='seq-view-entry-dropdown-container',
                     children=[
@@ -173,7 +236,8 @@ def layout():
                     }
                 ),
                 html.Div(
-                    id='desc-info'
+                    id='desc-info',
+                    children=initialDesc
                 ),
                 html.Br(),
 
@@ -205,9 +269,6 @@ def layout():
                         'font-weight': 'bold'
                     }
                 ),
-                html.Div(
-                    id='test-mouse-selection'
-                ),
                 html.Br(),
 
                 html.Span(
@@ -225,6 +286,7 @@ def layout():
 
 
 def callbacks(app):
+    
     # sequence viewer display
     @app.callback(
         Output('sequence-viewer', 'sequence'),
@@ -233,6 +295,9 @@ def callbacks(app):
     )
     def update_sequence(upload_contents, v):
 
+        if upload_contents is None:
+            return initialSeq
+        
         if v is None:
             return '-'
 
@@ -251,15 +316,61 @@ def callbacks(app):
 
         return sequence
 
+
     @app.callback(
-        Output('sequence-viewer', 'coverage'),
+        Output('cov-options', 'style'),
         [Input('selection-or-coverage', 'value')]
     )
-    def activate_deactivate_coverage(v):
+    def show_cov_options(v):
+        print(v)
         if(v == 'cov'):
-            return coverage
+            return {'height': 'auto'}
         else:
-            return []
+            return {'height': '0px', 'overflow': 'hidden'}
+    
+    # coverage
+    @app.callback(
+        Output('sequence-viewer', 'coverage'),
+        [Input('selection-or-coverage', 'value'),
+         Input('coverage-submit', 'n_clicks'),
+         Input('upload-fasta-data', 'contents')],
+        state=[State('sequence-viewer', 'mouseSelection'),
+               State('sequence-viewer', 'coverage'), 
+               State('coverage-color', 'value'),
+               State('coverage-bg-color', 'value'),
+               State('coverage-underscore', 'values')]
+    )
+    def edit_coverage(selOrCov, nclicks, dataContents,
+                      mouseSel, currentCov,
+                      color, bgcolor, underscore):
+        if(dataContents is None and selOrCov == 'cov'):
+            return initialCov
+        
+        if(selOrCov != 'cov'):
+            return [] 
+
+        if(mouseSel is not None and color is not None): 
+            print(currentCov)
+
+            # first ensure that this hasn't already been covered
+            ranges = [(c['start'], c['end']) for c in currentCov]
+            for i in range(len(currentCov)): 
+                if(mouseSel['start'] in range(currentCov[i]['start'], currentCov[i]['end']) or
+                   mouseSel['end'] in range(currentCov[i]['start'], currentCov[i]['end']) or
+                   currentCov[i]['start'] in range(mouseSel['start'], mouseSel['end']) or
+                   currentCov[i]['end'] in range(mouseSel['start'], mouseSel['end'])):
+                    return currentCov
+            currentCov.append(
+                {'start': mouseSel['start']-1,
+                 'end': mouseSel['end'],
+                 'color': color,
+                 'bgcolor': bgcolor,
+                 'underscore': True if len(underscore) > 0 else False,
+                 'tooltip': ''
+                }
+            )
+        print(currentCov)
+        return currentCov
 
     # controls
     @app.callback(
@@ -289,20 +400,21 @@ def callbacks(app):
         dropdownOptions = [
             {'label': 1, 'value': 0}
         ]
-        data = ''
-        try:
-            content_type, content_string = upload_contents.split(',')
-            data = base64.b64decode(content_string).decode('UTF-8')
-        except AttributeError:
-            pass
-        proteins = pr.readFasta(dataString=data)
-        if(type(proteins) is list):
-            dropdownOptions = []
-            for i in range(len(proteins)):
-                dropdownOptions.append(dict(
-                    label=i+1,
-                    value=i
-                ))
+        if(upload_contents is not None):
+            data = ''
+            try:
+                content_type, content_string = upload_contents.split(',')
+                data = base64.b64decode(content_string).decode('UTF-8')
+            except AttributeError:
+                pass
+            proteins = pr.readFasta(dataString=data)
+            if(type(proteins) is list):
+                dropdownOptions = []
+                for i in range(len(proteins)):
+                    dropdownOptions.append(dict(
+                        label=i+1,
+                        value=i
+                    ))
         return dropdownOptions
 
     @app.callback(
@@ -310,6 +422,8 @@ def callbacks(app):
         [Input('sequence-viewer', 'sequence')]
     )
     def update_slider_values(seq):
+        if seq is None:
+            seq = ' '
         return[
             "Selection slider",
             dcc.RangeSlider(
@@ -328,7 +442,7 @@ def callbacks(app):
          Input('fasta-entry-dropdown', 'value')]
     )
     def update_sequence(upload_contents, v):
-
+        
         if v is None:
             return '-'
 
@@ -343,6 +457,7 @@ def callbacks(app):
 
         protein = pr.readFasta(dataString=data)[v]
 
+        title = ''
         try: 
             title = protein['description']['identifier']
         except Exception:
@@ -420,6 +535,7 @@ def callbacks(app):
     def update_cov_clicked(v):
         return v
 
+
     @app.callback(
         Output('test-mouse-selection', 'children'),
         [Input('sequence-viewer', 'mouseSelection')]
@@ -435,6 +551,9 @@ def callbacks(app):
          Input('fasta-entry-dropdown', 'value')],
     )
     def update_desc_info(upload_contents, p):
+        if(upload_contents is None):
+            return initialDesc
+        
         data = ''
 
         try:
