@@ -78,11 +78,43 @@ export default class SequenceViewerComponent extends Component {
 			coverage[i][propertyName] !== nextProps.coverage[i][propertyName]
 		)
 	)) {
+
 	    return true;
 	}
 
 	// if everything is the same, do not update
 	return false;	
+    }
+
+    getOnClick(i) {
+	return (e) => {
+	    this.props.setProps({
+		coverageClicked: i
+	    });
+	}
+    }
+    
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+	const {coverage, setProps, sequence} = this.props;
+
+	// if the coverage changed, we need to reset the onclick events
+	if(coverage.length != prevProps.coverage.length || 
+	   coverage.some(
+	    (cov, i) =>
+		Object.keys(cov).some(
+		    propertyName =>
+			coverage[i][propertyName] !== prevProps.coverage[i][propertyName]
+		)
+	)) {
+	    for(let i = 0; i < coverage.length; i++) {
+		
+
+		coverage[i].onclick = this.getOnClick(i);
+
+	    }   
+	}
+
     }
     
     render() {
@@ -103,18 +135,9 @@ export default class SequenceViewerComponent extends Component {
 	    legend: this.props.legend
 	};
 
-	for(let i = 0; i < this.props.coverage.length; i++) {
-	    const v = i;
-	    this.props.coverage[i].onclick = (e) => {
-		setProps({
-		    coverageClicked: v
-		});
-	    }
-	}
 
 	options.coverage = this.props.coverage;
 	options.selection = this.props.selection;
-
 
 	return (
 		<div id={id}>
