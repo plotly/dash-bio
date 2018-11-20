@@ -115,11 +115,8 @@ def layout():
             children=[dash_bio.DashMolecule3d(
                 id='mol-3d',
                 backgroundColor='#e1dabb',
-                #backgroundOpacity=0.,
-                #selectionType='Atom',
                 modelData=model,
                 selectedAtomIds=[],
-                #defaultSelection=[],
                 styles={},
                 atomLabelsShown=False,
             )
@@ -131,10 +128,18 @@ def layout():
     ])
 
 ## Function to parse contents - used in the app callbacks below
-def parse_contents(contents): #, filename, date): 
+def parse_contents(contents):
     content_type, content_string=str(contents).split(',')
     decoded=base64.b64decode(content_string).decode("UTF-8")
     return(decoded)
+
+## Function to create the modelData and style files for molecule visualization
+def files_data_style(contents):
+    fdat=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
+    fdat.write(contents)
+    dataFile=fdat.name
+    fdat.close()
+    return(dataFile)
 
 def callbacks(app):
     ## Callback for molecule visualization based on uploaded PDB file
@@ -143,10 +148,9 @@ def callbacks(app):
         [Input("upload-data","contents"),
         Input("dropdown-bgcolor", 'value'),
         Input("slider-opacity", "value"),
-        Input("dropdown-styles", "value")] #,
-        #  Input("radio-selection","value")]
+        Input("dropdown-styles", "value")]
     )
-    def use_upload(contents, color, opacity, molStyle): #,selectn): #, filename, date):
+    def use_upload(contents, color, opacity, molStyle):
         if contents==None:
             # return ("contents is empty",)
             pass
@@ -161,30 +165,22 @@ def callbacks(app):
 
             ## Create the model data from the decoded contents
             mdata=parser.createData(fname)
-            fm=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
-            fm.write(mdata)
-            fmodel=fm.name
-            fm.close()
+            #Use the files_data_style function to create the model data
+            fmodel=files_data_style(mdata)
             with open(fmodel) as fm:
                 mdata=json.load(fm)
 
-            #print (mdata)
-
             ## Create the cartoon style from the decoded contents
             datstyle=sparser.createStyle(fname, molStyle)
-            fs=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
-            fs.write(datstyle)
-            fstyle=fs.name
-            fs.close()
+            #Use the files_data_style function to create the style data
+            fstyle=files_data_style(datstyle)
             with open(fstyle) as sf:
                 data_style=json.load(sf)
 
             # Delete all the temporary files that were created
             for x in [fname, fmodel, fstyle]:
                 if(os.path.isfile(x)):
-                    #print (str(x))
                     os.remove(x)
-                    #print ("deleted")
                 else:
                     pass
 
@@ -192,19 +188,17 @@ def callbacks(app):
             return (
                 dash_bio.DashMolecule3d(
                 id='mol-3d',
-                backgroundColor=color, #'#ffffff',
+                backgroundColor=color,
                 backgroundOpacity=opacity,
                 selectionType='Atom',
                 modelData=mdata,
                 selectedAtomIds=[],
-                #defaultSelection=[],
                 styles=data_style,
                 atomLabelsShown=False,
                 )
             )
 
     @app.callback(
-        # Output("selection_output","children"),
         Output("selection_output","value"),
         [Input("mol-3d", "selectedAtomIds"),
         Input("mol-3d","modelData")]
@@ -220,7 +214,6 @@ def callbacks(app):
                 "chain": res_info['chain'],
                 "xyz_coordinates": res_info['positions']
             }
-            # res_summary.append(res_info)
             res_summary.append(residues)
         return '{} '.format(res_summary)
 
