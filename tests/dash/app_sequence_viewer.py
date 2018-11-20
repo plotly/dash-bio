@@ -321,6 +321,35 @@ def callbacks(app):
             )
         ]
 
+
+    @app.callback(
+        Output('sequence-viewer', 'title'),
+        [Input('upload-fasta-data', 'contents'),
+         Input('fasta-entry-dropdown', 'value')]
+    )
+    def update_sequence(upload_contents, v):
+
+        if v is None:
+            return '-'
+
+        data = ''
+        try:
+            content_type, content_string = upload_contents.split(',')
+            data = base64.b64decode(content_string).decode('UTF-8')
+        except AttributeError:
+            pass
+        if data == '':
+            return '-'
+
+        protein = pr.readFasta(dataString=data)[v]
+
+        try: 
+            title = protein['description']['identifier']
+        except Exception:
+            title = ''
+
+        return title
+
     # info display
     @app.callback(
         Output('test-selection', 'children'),
