@@ -4,19 +4,22 @@ import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import json
-import base64
 
-with open("tests/dash/sample_data/human_ideogram_data.json", "r") as human_data:
-    human_data = json.load(human_data)
+with open("dataset_one.json", "r") as data_one:
+    data_one = json.load(data_one)
 
-def description():
-    return 'Compare, and analyze chromosome bands with the Dash Ideogram.'
+with open("dataset_two.json", "r") as data_two:
+    data_two = json.load(data_two)
 
-def layout():
-    return html.Div(
+app = dash.Dash("")
+
+app.scripts.config.serve_locally = True
+app.css.config.serve_locally = True
+
+app.layout = html.Div(
     [
         html.Div(
-            id="header-container",
+            id="container",
             style={"background-color": "#119DFF"},
             children=[
                 html.H2(
@@ -26,14 +29,7 @@ def layout():
                 ),
                 html.A(
                     html.Img(
-                    src='data:image/png;base64,{}'.format(
-                        base64.b64encode(
-                            open(
-                                './assets/dashbio_logo_words.png',
-                                'rb'
-                            ).read()
-                        ).decode()
-                    )
+                        src='assets/dashbio_logo.svg'
                     ),
                     href="http://www.dash.bio",
                 ),
@@ -366,7 +362,7 @@ def layout():
                                     [
                                         dash_bio.DashIdeogram(
                                             id="ideo-homology",
-                                            localOrganism=human_data,
+                                            localOrganism=data_one,
                                             organism="human",
                                             orientation="vertical",
                                             showBandLabels=True,
@@ -541,7 +537,7 @@ def layout():
                                             orientation="horizontal",
                                             showBandLabels=True,
                                             chrHeight=275,
-                                            chrMargin=28,
+                                            chrMargin=20,
                                             rotatable=True,
                                             filterable=True,
                                             style={
@@ -561,329 +557,330 @@ def layout():
     ]
 )
 
-
-def callbacks(app):
-    # Brush
-    @app.callback(Output("brush-print", "value"), [Input("brush-ideo", "brushData")])
-    def brush_data(brush_data):
-        if brush_data != None:
-            start = "Start: " + brush_data["start"] + " "
-            to = "End: " + brush_data["end"] + " "
-            extent = "Extent: " + brush_data["extent"]
-            return start + to + extent
-        return
+# Brush
+@app.callback(Output("brush-print", "value"), [Input("brush-ideo", "brushData")])
+def brush_data(brush_data):
+    if brush_data != None:
+        start = "Start: " + brush_data["start"] + " "
+        to = "End: " + brush_data["end"] + " "
+        extent = "Extent: " + brush_data["extent"]
+        return start + to + extent
+    return
 
 
-    # Organism
-    @app.callback(
-        Output("ideo-custom", "organism"),
-        [Input("organism-change", "value")]
-    )
-    def organism_change_dropdown(dropdown):
-        return dropdown
+# # Organism
+@app.callback(
+    Output("ideo-custom", "organism"),
+    [Input("organism-change", "value")]
+)
+def organism_change_dropdown(dropdown):
+    return dropdown
 
-    # ShowBandLabels
-
-
-    @app.callback(
-        Output("ideo-custom", "showBandLabels"),
-        [Input("bandlabel-switch", "value")]
-    )
-    def bandlabel_change(bandlabel):
-        return bandlabel
+# ShowBandLabels
 
 
-    # ShowChromLabels
-    @app.callback(
-        Output("ideo-custom", "showChromosomeLabels"),
-        [Input("chromlabel-switch", "value")]
-    )
-    def showChromosomeLabels(value):
+@app.callback(
+    Output("ideo-custom", "showBandLabels"),
+    [Input("bandlabel-switch", "value")]
+)
+def bandlabel_change(bandlabel):
+    return bandlabel
+
+
+# ShowChromLabels
+@app.callback(
+    Output("ideo-custom", "showChromosomeLabels"),
+    [Input("chromlabel-switch", "value")]
+)
+def showChromosomeLabels(value):
+    return value
+
+
+# Show banded
+@app.callback(
+    Output("ideo-custom", "showFullyBanded"),
+    [Input("fullband-switch", "value")]
+)
+def showFullyBanded(value):
+    return value
+
+
+# Show nonnuclear
+@app.callback(
+    Output("ideo-custom", "showNonNuclearChromosomes"),
+    [Input("nuclear-switch", "value")]
+)
+def showNonNuclearChromosomes(value):
+    return value
+
+
+# Orientation
+@app.callback(
+    Output("ideo-custom", "orientation"),
+    [Input("orientation-switch", "value")]
+)
+def orientation_change(orientation):
+    return orientation
+
+
+# Chr Width
+@app.callback(
+    Output("ideo-custom", "chrWidth"),
+    [Input("chr-width-input", "value")]
+)
+def chr_width(value):
+    return value
+
+
+# Chr Height
+@app.callback(
+    Output("ideo-custom", "chrHeight"),
+    [Input("chr-height-input", "value")]
+)
+def chr_height(value):
+    return value
+
+
+# Chr Margin
+@app.callback(
+    Output("ideo-custom", "chrMargin"),
+    [Input("chr-margin-input", "value")]
+)
+def chr_width(value):
+    return value
+
+
+# Rotatable
+@app.callback(
+    Output("ideo-custom", "rotatable"),
+    [Input("rotatable-switch", "value")]
+)
+def rotatable(value):
+    return value
+
+
+# Resolution
+@app.callback(
+    Output("ideo-custom", "resolution"),
+    [Input("resolution-select", "value")]
+)
+def resolution(value):
+    if value != 1:
         return value
 
-
-    # Show banded
-    @app.callback(
-        Output("ideo-custom", "showFullyBanded"),
-        [Input("fullband-switch", "value")]
-    )
-    def showFullyBanded(value):
-        return value
+# Sex
 
 
-    # Show nonnuclear
-    @app.callback(
-        Output("ideo-custom", "showNonNuclearChromosomes"),
-        [Input("nuclear-switch", "value")]
-    )
-    def showNonNuclearChromosomes(value):
-        return value
+@app.callback(
+    Output("ideo-custom", "sex"),
+    [Input("sex-switch", "value")]
+)
+def sex(value):
+    return value
+
+### Annotation Callbacks
+
+# Select Annotations Layout
+@app.callback(
+    Output("ideo-annotations", "annotationsLayout"),
+    [Input("annotation-select", "value")]
+)
+def annot_select(value):
+    if value == "tracks" or value == "overlay-2":
+        return ""
+    elif value == "overlay-1":
+        return "overlay"
+    return value
 
 
-    # Orientation
-    @app.callback(
-        Output("ideo-custom", "orientation"),
-        [Input("orientation-switch", "value")]
-    )
-    def orientation_change(orientation):
-        return orientation
+# Bar width
+@app.callback(
+    Output("ideo-annotations", "barWidth"),
+    [Input("annotation-select", "value"),
+     Input("bar-input", "value")],
+)
+def barWidth(select, value):
+    return value
 
 
-    # Chr Width
-    @app.callback(
-        Output("ideo-custom", "chrWidth"),
-        [Input("chr-width-input", "value")]
-    )
-    def chr_width(value):
-        return value
-
-
-    # Chr Height
-    @app.callback(
-        Output("ideo-custom", "chrHeight"),
-        [Input("chr-height-input", "value")]
-    )
-    def chr_height(value):
-        return value
-
-
-    # Chr Margin
-    @app.callback(
-        Output("ideo-custom", "chrMargin"),
-        [Input("chr-margin-input", "value")]
-    )
-    def chr_width(value):
-        return value
-
-
-    # Rotatable
-    @app.callback(
-        Output("ideo-custom", "rotatable"),
-        [Input("rotatable-switch", "value")]
-    )
-    def rotatable(value):
-        return value
-
-
-    # Resolution
-    @app.callback(
-        Output("ideo-custom", "resolution"),
-        [Input("resolution-select", "value")]
-    )
-    def resolution(value):
-        if value != 1:
-            return value
-
-    # Sex
-
-
-    @app.callback(
-        Output("ideo-custom", "sex"),
-        [Input("sex-switch", "value")]
-    )
-    def sex(value):
-        return value
-
-    ### Annotation Callbacks
-
-    # Select Annotations Layout
-    @app.callback(
-        Output("ideo-annotations", "annotationsLayout"),
-        [Input("annotation-select", "value")]
-    )
-    def annot_select(value):
-        if value == "tracks" or value == "overlay-2":
-            return ""
-        elif value == "overlay-1":
-            return "overlay"
-        return value
-
-
-    # Bar width
-    @app.callback(
-        Output("ideo-annotations", "barWidth"),
-        [Input("annotation-select", "value"),
-        Input("bar-input", "value")],
-    )
-    def barWidth(select, value):
-        return value
-
-
-    # Dataset
-    @app.callback(
-        Output("ideo-annotations", "annotationsPath"),
-        [Input("annotation-select", "value")]
-    )
-    def annot_path(value):
-        if value == "tracks":
-            return None
-        elif value == "histogram":
-            return "https://eweitz.github.io/ideogram/data/annotations/SRR562646.json"
-        elif value == "overlay-1":
-            return "https://eweitz.github.io/ideogram/data/annotations/10_virtual_cnvs.json"
-        elif value == "overlay-2":
-            return (
-                "https://eweitz.github.io/ideogram/data/annotations/1000_virtual_snvs.json"
-            )
-
-
-    # Assembly
-    @app.callback(
-        Output("ideo-annotations", "assembly"),
-        [Input("annotation-select", "value")]
-    )
-    def annot_assembly(value):
-        if value == "histogram":
-            return "GRCh37"
+# Dataset
+@app.callback(
+    Output("ideo-annotations", "annotationsPath"),
+    [Input("annotation-select", "value")]
+)
+def annot_path(value):
+    if value == "tracks":
         return None
+    elif value == "histogram":
+        return "assets/SRR562646.json"
+    elif value == "overlay-1":
+        return "https://eweitz.github.io/ideogram/data/annotations/10_virtual_cnvs.json"
+    elif value == "overlay-2":
+        return (
+            "https://eweitz.github.io/ideogram/data/annotations/1000_virtual_snvs.json"
+        )
 
 
-    @app.callback(
-        Output("ideo-annotations", "annotationTracks"),
-        [Input("annotation-select", "value")],
-    )
-    def annot_tracks(value):
-        if value == "overlay-2":
-            value = [
-                {
-                    "id": "pathogenicTrack",
-                    "displayName": "Pathogenic",
-                    "color": "#F00",
-                    "shape": "triangle",
-                },
-                {
-                    "id": "uncertainSignificanceTrack",
-                    "displayName": "Uncertain significance",
-                    "color": "#CCC",
-                    "shape": "triangle",
-                },
-                {
-                    "id": "benignTrack",
-                    "displayName": "Benign",
-                    "color": "#8D4",
-                    "shape": "triangle",
-                },
-            ]
-            return value
-        return None
-
-    # Annot Height
-    @app.callback(
-        Output("ideo-annotations", "annotationHeight"),
-        [Input("height-input", "value")]
-    )
-    def annot_height(value):
-        if value != "":
-            return value
-        return None
+# Assembly
+@app.callback(
+    Output("ideo-annotations", "assembly"),
+    [Input("annotation-select", "value")]
+)
+def annot_assembly(value):
+    if value == "histogram":
+        return "GRCh37"
+    return None
 
 
-    # Annot Color
-    @app.callback(
-        Output("ideo-annotations", "annotationsColor"),
-        [Input("color-input", "value")]
-    )
-    def annot_color(value):
-        if value != "":
-            return "{}".format(value)
-        return None
-
-    # Orientation
-    @app.callback(
-        Output("ideo-annotations", "orientation"),
-        [Input("orientation-anote", "value")]
-    )
-    def orientation_change_annote(orientation):
-        return orientation
-
-    ### Homology Callbacks
-
-    @app.callback(
-        Output("ideo-homology", "chromosomes"),
-        [Input("chr-select", "value")],
-        [State("ideo-homology", "chromosomes")],
-    )
-    def ideo_select(value, chromosomes):
-        if "," in value:
-            value = value.split(",")
-            return value
-        return ['X', 'Y']
-
-
-    @app.callback(
-        Output("ideo-homology", "homology"),
-        [
-            Input("chrone-startone", "value"),
-            Input("chrone-stopone", "value"),
-            Input("chrone-starttwo", "value"),
-            Input("chrone-stoptwo", "value"),
-            Input("chrtwo-startone", "value"),
-            Input("chrtwo-stopone", "value"),
-            Input("chrtwo-starttwo", "value"),
-            Input("chrtwo-stoptwo", "value"),
-        ],
-    )
-    def ideo_homology(
-        startOne, stopOne, startTwo, stopTwo, startOneA, stopOneA, startTwoA, stopTwoA
-    ):
-        return {
-            "chrOne": {
-                "organism": "9606",
-                "start": [startOne, startTwo],
-                "stop": [stopOne, stopTwo],
+@app.callback(
+    Output("ideo-annotations", "annotationTracks"),
+    [Input("annotation-select", "value")],
+)
+def annot_tracks(value):
+    if value == "overlay-2":
+        value = [
+            {
+                "id": "pathogenicTrack",
+                "displayName": "Pathogenic",
+                "color": "#F00",
+                "shape": "triangle",
             },
-            "chrTwo": {
-                "organism": "9606",
-                "start": [startOneA, startTwoA],
-                "stop": [stopOneA, stopTwoA],
+            {
+                "id": "uncertainSignificanceTrack",
+                "displayName": "Uncertain significance",
+                "color": "#CCC",
+                "shape": "triangle",
             },
-        }
+            {
+                "id": "benignTrack",
+                "displayName": "Benign",
+                "color": "#8D4",
+                "shape": "triangle",
+            },
+        ]
+        return value
+    return None
+
+# Annot Height
+@app.callback(
+    Output("ideo-annotations", "annotationHeight"),
+    [Input("height-input", "value")]
+)
+def annot_height(value):
+    if value != "":
+        return value
+    return None
 
 
-    @app.callback(
-        Output("brush-ideo", "chromosomes"),
-        [Input("chr-brush", "value")]
-    )
-    def ideo_select(value):
-        if value is not "":
-            value = str(value)
-            return [value]
-        return ["1"]
+# Annot Color
+@app.callback(
+    Output("ideo-annotations", "annotationsColor"),
+    [Input("color-input", "value")]
+)
+def annot_color(value):
+    if value != "":
+        return "{}".format(value)
+    return None
+
+# Orientation
+@app.callback(
+    Output("ideo-annotations", "orientation"),
+    [Input("orientation-anote", "value")]
+)
+def orientation_change_annote(orientation):
+    return orientation
+
+### Homology Callbacks
+
+@app.callback(
+    Output("ideo-homology", "chromosomes"),
+    [Input("chr-select", "value")],
+    [State("ideo-homology", "chromosomes")],
+)
+def ideo_select(value, chromosomes):
+    if "," in value:
+        value = value.split(",")
+        return value
+    return ['X', 'Y']
 
 
-    @app.callback(
-        Output("brush-ideo", "brush"),
-        [Input("chr-brush", "value")]
-    )
-    def ideo_select_brush(value):
-        if value != "":
-            value = "chr{}:1-10000000".format(value)
-            return value
-        else:
-            return "chr1:1-10000000"
+@app.callback(
+    Output("ideo-homology", "homology"),
+    [
+        Input("chrone-startone", "value"),
+        Input("chrone-stopone", "value"),
+        Input("chrone-starttwo", "value"),
+        Input("chrone-stoptwo", "value"),
+        Input("chrtwo-startone", "value"),
+        Input("chrtwo-stopone", "value"),
+        Input("chrtwo-starttwo", "value"),
+        Input("chrtwo-stoptwo", "value"),
+    ],
+)
+def ideo_homology(
+    startOne, stopOne, startTwo, stopTwo, startOneA, stopOneA, startTwoA, stopTwoA
+):
+    return {
+        "chrOne": {
+            "organism": "9606",
+            "start": [startOne, startTwo],
+            "stop": [stopOne, stopTwo],
+        },
+        "chrTwo": {
+            "organism": "9606",
+            "start": [startOneA, startTwoA],
+            "stop": [stopOneA, stopTwoA],
+        },
+    }
 
-    # Title Color Change onRotate
-    @app.callback(
-        Output("title", "style"),
-        [Input("ideo-custom", "rotated")],
-        [State("title", "style")]
-    )
-    def ideo_rotated(value, style):
-        if value:
-            style["color"] = "#EF553B"
-            return style
-        style["color"] = "#FFF"
+
+@app.callback(
+    Output("brush-ideo", "chromosomes"),
+    [Input("chr-brush", "value")]
+)
+def ideo_select(value):
+    if value is not "":
+        value = str(value)
+        return [value]
+    return ["1"]
+
+
+@app.callback(
+    Output("brush-ideo", "brush"),
+    [Input("chr-brush", "value")]
+)
+def ideo_select_brush(value):
+    if value != "":
+        value = "chr{}:1-10000000".format(value)
+        return value
+    else:
+        return "chr1:1-10000000"
+
+@app.callback(
+    Output("title", "style"),
+    [Input("ideo-custom", "rotated")],
+    [State("title", "style")]
+)
+def ideo_rotated(value, style):
+    if value:
+        style["color"] = "#EF553B"
         return style
+    style["color"] = "#FFF"
+    return style
 
 
-    # Event Call Annotation
+# Event Call Annotation
 
 
-    @app.callback(
-        Output("annote-data", "value"),
-        [Input("ideo-annotations", "annotationsData")]
-    )
-    def annoteData(data):
-        if data == None:
-            return "None"
-        return data
+@app.callback(
+    Output("annote-data", "value"),
+    [Input("ideo-annotations", "annotationsData")]
+)
+def annoteData(data):
+    if data == None:
+        return "None"
+    return data
+
+
+if __name__ == "__main__":
+    app.run_server(debug=True)
