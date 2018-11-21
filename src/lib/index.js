@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
-import SequenceViewerComponent from './components/SequenceViewerComponent.react';
+import SequenceViewer from './components/SequenceViewer.react'; 
 import NeedlePlot from './components/NeedlePlot.react';
 export {
-    SequenceViewerComponent,
+    SequenceViewer,
     NeedlePlot
 };

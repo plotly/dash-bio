@@ -3,8 +3,8 @@
 from dash.development.base_component import Component, _explicitize_args
 
 
-class SequenceViewerComponent(Component):
-    """A SequenceViewerComponent component.
+class SequenceViewer(Component):
+    """A SequenceViewer component.
 
 
 Keyword arguments:
@@ -49,7 +49,7 @@ Available events: """
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, sequence=Component.UNDEFINED, showLineNumbers=Component.UNDEFINED, wrapAminoAcids=Component.UNDEFINED, charsPerLine=Component.UNDEFINED, toolbar=Component.UNDEFINED, search=Component.UNDEFINED, title=Component.UNDEFINED, sequenceMaxHeight=Component.UNDEFINED, badge=Component.UNDEFINED, selection=Component.UNDEFINED, coverage=Component.UNDEFINED, legend=Component.UNDEFINED, coverageClicked=Component.UNDEFINED, mouseSelection=Component.UNDEFINED, subpartSelected=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'sequence', 'showLineNumbers', 'wrapAminoAcids', 'charsPerLine', 'toolbar', 'search', 'title', 'sequenceMaxHeight', 'badge', 'selection', 'coverage', 'legend', 'coverageClicked', 'mouseSelection', 'subpartSelected']
-        self._type = 'SequenceViewerComponent'
+        self._type = 'SequenceViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_events = []
@@ -65,7 +65,7 @@ Available events: """
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
-        super(SequenceViewerComponent, self).__init__(**args)
+        super(SequenceViewer, self).__init__(**args)
 
     def __repr__(self):
         if(any(getattr(self, c, None) is not None
@@ -83,9 +83,9 @@ Available events: """
                                       if any([c.startswith(wc_attr)
                                       for wc_attr in
                                       self._valid_wildcard_attributes])])
-            return ('SequenceViewerComponent(' + props_string +
+            return ('SequenceViewer(' + props_string +
                    (', ' + wilds_string if wilds_string != '' else '') + ')')
         else:
             return (
-                'SequenceViewerComponent(' +
+                'SequenceViewer(' +
                 repr(getattr(self, self._prop_names[0], None)) + ')')

@@ -1,8 +1,8 @@
 from .NeedlePlot import NeedlePlot
-from .SequenceViewerComponent import SequenceViewerComponent
+from .SequenceViewer import SequenceViewer
 
 
 __all__ = [
     "NeedlePlot",
-    "SequenceViewerComponent",
+    "SequenceViewer",
 ]

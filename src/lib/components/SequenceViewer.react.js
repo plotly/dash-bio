@@ -5,7 +5,7 @@ import ReactSequenceViewer from 'react-sequence-viewer';
 /**
  *
  */
-export default class SequenceViewerComponent extends Component {
+export default class SequenceViewer extends Component {
 
     constructor(props) {
 	super(props);
@@ -147,7 +147,7 @@ export default class SequenceViewerComponent extends Component {
     }
 }
 
-SequenceViewerComponent.defaultProps = {
+SequenceViewer.defaultProps = {
     sequence: '-',
     showLineNumbers: true,
     wrapAminoAcids: true,
@@ -161,7 +161,7 @@ SequenceViewerComponent.defaultProps = {
     coverage: []
 };
 
-SequenceViewerComponent.propTypes = {
+SequenceViewer.propTypes = {
 
     /**
      * The ID used to identify this component in Dash callbacks.

@@ -246,9 +246,9 @@
       }
     }
   },
-  "src/lib/components/SequenceViewerComponent.react.js": {
+  "src/lib/components/SequenceViewer.react.js": {
     "description": "",
-    "displayName": "SequenceViewerComponent",
+    "displayName": "SequenceViewer",
     "methods": [
       {
         "name": "onMouseSelection",
@@ -269,6 +269,18 @@
         "params": [
           {
             "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "getOnClick",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "i",
             "type": null
           }
         ],

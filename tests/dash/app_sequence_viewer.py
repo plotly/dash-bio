@@ -99,7 +99,7 @@ def layout():
         html.Div(
             id='sequence-viewer-container',
             children=[
-                dash_bio.SequenceViewerComponent(
+                dash_bio.SequenceViewer(
                     id='sequence-viewer',
                     sequence=initialProtein['sequence'],
                     coverage=initialCov
