@@ -74,12 +74,12 @@ export default class DashIdeogram extends Component {
          * 'homology' prop.
          */
 
-        var chrs = this.ideogram.chromosomes
-        var chrOne = null
-        var chrTwo = null
-        var organism = this.props.organism
-        var chromosomes = this.props.chromosomes
-        var homology = this.props.homology
+        let chrs = this.ideogram.chromosomes
+        let chrOne = null
+        let chrTwo = null
+        let organism = this.props.organism
+        let chromosomes = this.props.chromosomes
+        let homology = this.props.homology
 
         if (typeof (this.props.organism) !== "string") {
             chrOne = chrs[homology.chrOne.organism][chromosomes[organism[0]]]
@@ -90,13 +90,13 @@ export default class DashIdeogram extends Component {
             chrTwo = chrs[homology.chrTwo.organism][chromosomes[1]]
         }
 
-        var par1X = { chr: chrOne, start: homology.chrOne.start[0], stop: homology.chrOne.stop[0] };
-        var par1Y = { chr: chrTwo, start: homology.chrTwo.start[0], stop: homology.chrTwo.stop[0] };
+        let par1X = { chr: chrOne, start: homology.chrOne.start[0], stop: homology.chrOne.stop[0] };
+        let par1Y = { chr: chrTwo, start: homology.chrTwo.start[0], stop: homology.chrTwo.stop[0] };
 
-        var par2X = { chr: chrOne, start: homology.chrOne.start[1], stop: homology.chrOne.stop[1] };
-        var par2Y = { chr: chrTwo, start: homology.chrTwo.start[1], stop: homology.chrTwo.stop[1] };
+        let par2X = { chr: chrOne, start: homology.chrOne.start[1], stop: homology.chrOne.stop[1] };
+        let par2Y = { chr: chrTwo, start: homology.chrTwo.start[1], stop: homology.chrTwo.stop[1] };
 
-        var regions = [
+        let regions = [
             { 'r1': par1X, 'r2': par1Y },
             { 'r1': par2X, 'r2': par2Y }
         ];
@@ -112,7 +112,7 @@ export default class DashIdeogram extends Component {
          */
 
         this.tooltipDataTwo = this.tooltipData
-        if (this.props.setProps !== undefined) {
+        if (this.props.setProps) {
             this.props.setProps(
                 {
                     annotationsData: this.tooltipData
@@ -129,12 +129,13 @@ export default class DashIdeogram extends Component {
          * with the prop 'brushData'.
          */
 
-        var r = this.ideogram.selectedRegion,
+        let r = this.ideogram.selectedRegion,
             start = r.from.toLocaleString(),
             end = r.to.toLocaleString(),
             extent = r.extent.toLocaleString();
 
-        if (this.props.brush !== undefined && this.props.setProps !== undefined) {
+        if (this.props.brush) {
+                if (this.props.setProps) {
                 this.props.setProps(
                     {
                         brushData: {
@@ -144,7 +145,7 @@ export default class DashIdeogram extends Component {
                         }
                     }
                 )
-            
+            }
         }
     }
 
@@ -156,11 +157,12 @@ export default class DashIdeogram extends Component {
          * Ideogram.
          */
 
-        if (this.props.brush !== undefined) {
+        if (this.props.brush) {
             this.onBrushHandler();
         }
-        else if (this.props.homology !== undefined) {
+        else if (this.props.homology) {
             this.onHomologyHandler();
+
         }
         return null
     }
@@ -190,7 +192,7 @@ export default class DashIdeogram extends Component {
          * Dash application, that will return the annotation that the mouse hovers over.
          */
 
-        if (this.props.setProps !== undefined) {
+        if (this.props.setProps) {
             this.tooltipData = document.getElementById('_ideogramTooltip').innerHTML;
             this.tooltipData !== this.tooltipDataTwo ? this.onToolTipHandler() : this.tooltipDataTwo = document.getElementById('_ideogramTooltip').innerHTML;
         }
@@ -198,6 +200,9 @@ export default class DashIdeogram extends Component {
 
     setConfig() {
         // Pass in all props into config except setProps
+        console.warn("setConfigID >>>>>>> ", this.props.id);
+        console.warn("setConfigProps >>>>>>>", this.props)
+
         let config = omit(['setProps'], this.props);
 
         // Event handlers
@@ -205,11 +210,13 @@ export default class DashIdeogram extends Component {
         config.onBrushMove = this.props.brush ? this.onBrushHandler : null
         config.onLoad = this.onLoadHandler
         config.container = '#ideogram-container' + '-' + this.props.id
+
         return config;
     }
 
     initIdeogram() {
-        if (this.props.localOrganism !== undefined) {
+        // Used to pass in a local dataset
+        if (this.props.localOrganism) {
             this.props.dataDir = null;
             window.chrBands = this.props.localOrganism;
         }
@@ -224,10 +231,15 @@ export default class DashIdeogram extends Component {
     }
 
     componentDidMount() {
+        // Have to remove old data, because it breaks new instances
+        if (window.chrBands) {
+            delete window.chrBands
+        }
         this.initIdeogram();
     }
 
     componentDidUpdate() {
+        delete window.chrBands
         this.initIdeogram();
     }
 
@@ -249,7 +261,6 @@ DashIdeogram.defaultProps = {
     annotationsColor: "#F00",
     annotationsLayout: "tracks",
     barWidth: 3,
-    brush: null,
     chrHeight: 400,
     chrMargin: 10,
     chrWidth: 10,
@@ -261,7 +272,6 @@ DashIdeogram.defaultProps = {
     showAnnotTooltip: true,
     showFullyBanded: true,
     showNonNuclearChromosomes: false,
-    dataDir: 'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/'
 }
 
 DashIdeogram.propTypes = {
@@ -333,7 +343,7 @@ DashIdeogram.propTypes = {
      * 
      * Overlay: Lay out annotations directly over chromsomes.
      */
-    annotationsLayout: PropTypes.number,
+    annotationsLayout: PropTypes.string,
 
     /**
      * The color of each annotation.
