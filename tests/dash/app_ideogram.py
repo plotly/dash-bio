@@ -273,7 +273,8 @@ def layout():
                                                     rotatable=True,
                                                     style={
                                                         "max-height": "74vh",
-                                                        "overflow-y": "auto"
+                                                        "overflow-y": "auto",
+                                                        "position": "relative"
                                                     }
                                                 ),
                                             ],
@@ -546,7 +547,8 @@ def layout():
                                             filterable=True,
                                             style={
                                                     "max-height": "73vh",
-                                                    "overflow-y": "auto"
+                                                    "overflow-y": "auto",
+                                                    "position": "relative"
                                             }
                                         ),
                                     ],
