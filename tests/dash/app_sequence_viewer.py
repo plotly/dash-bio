@@ -46,8 +46,6 @@ initialProtein = pr.readFasta(
     filePath=initialFile
 )[0]
 
-highlightColor = 'blue'
-
 
 def description():
     return 'Display protein and nucleotide sequences with \
@@ -114,6 +112,22 @@ def layout():
             children=[
 
                 html.Div(
+                    id='seq-view-entry-dropdown-container',
+                    children=[
+                        "Entry to view",
+                        dcc.Dropdown(
+                            id='fasta-entry-dropdown',
+                            options=[
+                                {'label': 1, 'value': 0}
+                            ],
+                            value=0
+                        )
+                    ]
+                ),
+                
+                html.Hr(), 
+
+                html.Div(
                     id='seq-view-sel-or-cov-container',
                     children=[
                         "Selection or coverage",
@@ -134,6 +148,7 @@ def layout():
                 "Subsequence selected:", 
                 html.Div(
                     id='test-mouse-selection',
+                    children="None"
                 ),
 
                 html.Div(id='cov-options', children=[
@@ -220,21 +235,6 @@ def layout():
                     ]
                 ),
 
-                html.Hr(), 
-                
-                html.Div(
-                    id='seq-view-entry-dropdown-container',
-                    children=[
-                        "Entry to view",
-                        dcc.Dropdown(
-                            id='fasta-entry-dropdown',
-                            options=[
-                                {'label': 1, 'value': 0}
-                            ],
-                            value=0
-                        )
-                    ]
-                )
             ]
         ),
 
@@ -254,7 +254,7 @@ def layout():
                 html.Br(),
 
                 html.Span(
-                    "Selection information: ",
+                    "Amino acid composition: ",
                     style={
                         'font-weight': 'bold'
                     }
@@ -265,7 +265,7 @@ def layout():
                 html.Br(),
 
                 html.Span(
-                    "Coverage info: ",
+                    "Coverage entry clicked: ",
                     style={
                         'font-weight': 'bold'
                     }
@@ -307,22 +307,23 @@ def callbacks(app):
     )
     def update_sequence(upload_contents, v):
         
-        if upload_contents is None or upload_contents == 0:
-            return initialProtein['sequence']
-        
         if v is None:
-            return '-'
+            return ''
 
-        data = ''
-        try:
-            content_type, content_string = upload_contents.split(',')
-            data = base64.b64decode(content_string).decode('UTF-8')
-        except AttributeError:
-            pass
-        if data == '':
-            return '-'
+        
+        if upload_contents is None or upload_contents == 0:
+            protein = initialProtein
+        else:            
+            data = ''
+            try:
+                content_type, content_string = upload_contents.split(',')
+                data = base64.b64decode(content_string).decode('UTF-8')
+            except AttributeError:
+                pass
+            if data == '':
+                return '-'
 
-        protein = pr.readFasta(dataString=data)[v]
+            protein = pr.readFasta(dataString=data)[v]
 
         sequence = protein['sequence']
 
@@ -397,6 +398,16 @@ def callbacks(app):
         return True
 
     @app.callback(
+        Output('sel-color', 'disabled'),
+        [Input('selection-or-coverage', 'value')]
+    )
+    def enable_disable_slider(v):
+        if(v == 'sel'):
+            return False
+        return True
+
+    
+    @app.callback(
         Output('sequence-viewer', 'selection'),
         [Input('sel-slider', 'value'),
          Input('selection-or-coverage', 'value'),
@@ -451,6 +462,9 @@ def callbacks(app):
         state=[State('upload-fasta-data', 'contents')]
     )
     def update_sequence_title(seq, v, upload_contents):
+
+        if v is None:
+            return ''
         
         if upload_contents is None: 
             protein = initialProtein
@@ -485,6 +499,7 @@ def callbacks(app):
          Input('sequence-viewer', 'sequence')],
     )
     def get_aa_comp(v, alphabet, seq):
+        
         if(v is None):
             return ''
         if(len(v) < 2):
@@ -499,14 +514,16 @@ def callbacks(app):
         
         if(alphabet == 'dna'):
             # remove partial codons
-            subsequence = subsequence[:-(len(subsequence) % 3)]
+            subsequence = subsequence[:-(len(subsequence) % 3)] if \
+                (len(subsequence) % 3) != 0 else subsequence            
             s = Seq(subsequence, generic_dna)
             try:
                 aaString = str(s.translate())
             except TranslationError as t:
                 return "Sequence does not represent DNA."
         elif(alphabet == 'rna'):
-            subsequence = subsequence[:-(len(subsequence) % 3)]
+            subsequence = subsequence[:-(len(subsequence) % 3)] if \
+                (len(subsequence) % 3) != 0 else subsequence
             s = Seq(subsequence, generic_rna)
             try:
                 aaString = str(s.translate())
@@ -555,7 +572,7 @@ def callbacks(app):
     def update_mouse_sel(v):
         if(v is not None):
             return v['selection']
-        return ''
+        return 'None'
 
     @app.callback(
         Output('desc-info', 'children'),
@@ -584,8 +601,7 @@ def callbacks(app):
         
         desc = []
         for key in protein['description']:
-            tmp = key.title()
-            tmp += ': '
+            tmp = key.title() + ': ' if 'desc-' not in key else '-'
             tmp += protein['description'][key]
             desc.append(tmp)
             desc.append(html.Br())
