@@ -11,7 +11,10 @@
     background-color: #F3F6FA; 
     font-family: 'Open Sans'; 
 }
-#seq-view-body::-webkit-scrollbar{
+#seq-view-controls-container input[type=text]{
+    width: 80%; 
+}
+#seq-view-body ::-webkit-scrollbar{
     width: 0px;
     height: 0px;
 }
@@ -53,9 +56,10 @@
 
 #seq-view-controls-container {
     width:150px;
+    height: 500px;
+    overflow: scroll; 
     display: inline-block;
     vertical-align: top; 
-    height:auto;
     margin: 20px; 
     border: solid 1px #636efa; 
     border-radius: 5px;
