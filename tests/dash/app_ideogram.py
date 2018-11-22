@@ -298,7 +298,7 @@ def layout():
                                         html.P("Select Chromosome"),
                                         dcc.Input(
                                             id="chr-select",
-                                            placeholder="Enter chromsomes ex: 1,2",
+                                            placeholder="Ex: 1,2",
                                             type="text",
                                             value="",
                                         ),
@@ -407,10 +407,10 @@ def layout():
                                 html.Div(
                                     [
                                         html.H5("Options"),
-                                        html.P("Chromosomes"),
+                                        html.P("Enter Chromosome Values"),
                                         dcc.Input(
                                             id="chr-brush",
-                                            placeholder="Enter chromosome value (1-22 , X, Y)",
+                                            placeholder="Ex: (1 - 22 , X, Y)",
                                             type="text",
                                             value="",
                                             style={"width": "100%"}
