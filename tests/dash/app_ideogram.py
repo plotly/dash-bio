@@ -746,7 +746,7 @@ def callbacks(app):
     )
     def annot_tracks(value):
         if value == "overlay-2":
-            value = [
+            data = [
                 {
                     "id": "pathogenicTrack",
                     "displayName": "Pathogenic",
@@ -766,7 +766,7 @@ def callbacks(app):
                     "shape": "triangle",
                 },
             ]
-            return value
+            return data
         return None
 
     # Annot Height
@@ -787,6 +787,7 @@ def callbacks(app):
     )
     def annot_color(value):
         if value != "":
+            print(value)
             return "{}".format(value)
         return None
 
