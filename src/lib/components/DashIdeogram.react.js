@@ -16,9 +16,9 @@ import { omit } from 'ramda';
  */
 
 export default class DashIdeogram extends Component {
-    constructor(props) {
+    constructor() {
 
-        super(props);
+        super();
         this.ideogram = null;
         this.isRotated = false;
         this.tooltipData = null;
@@ -134,18 +134,16 @@ export default class DashIdeogram extends Component {
             end = r.to.toLocaleString(),
             extent = r.extent.toLocaleString();
 
-        if (this.props.brush) {
-                if (this.props.setProps) {
-                this.props.setProps(
-                    {
-                        brushData: {
-                            start: start,
-                            end: end,
-                            extent: extent
-                        }
+        if (this.props.brush !== undefined && this.props.setProps !== undefined) {
+            this.props.setProps(
+                {
+                    brushData: {
+                        start: start,
+                        end: end,
+                        extent: extent
                     }
-                )
-            }
+                }
+            )
         }
     }
 
@@ -157,10 +155,10 @@ export default class DashIdeogram extends Component {
          * Ideogram.
          */
 
-        if (this.props.brush) {
+        if (this.props.brush !== undefined) {
             this.onBrushHandler();
         }
-        else if (this.props.homology) {
+        else if (this.props.homology !== undefined) {
             this.onHomologyHandler();
 
         }
@@ -223,16 +221,16 @@ export default class DashIdeogram extends Component {
     shouldComponentUpdate(nextProps) {
         return (
             this.propKeys.some(
-                currentKey => {return this.props[currentKey] !== nextProps[currentKey]}
+                currentKey => { return this.props[currentKey] !== nextProps[currentKey] }
             ));
     }
 
     componentDidMount() {
-        // Have to remove old data, because it breaks new instances
         this.initIdeogram();
     }
 
     componentDidUpdate() {
+        // Have to remove old data, because it breaks new instances
         delete window.chrBands
         this.initIdeogram();
     }
