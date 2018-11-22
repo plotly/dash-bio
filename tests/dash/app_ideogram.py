@@ -728,7 +728,6 @@ def callbacks(app):
                 "https://eweitz.github.io/ideogram/data/annotations/1000_virtual_snvs.json"
             )
 
-
     # Assembly
     @app.callback(
         Output("ideo-annotations", "assembly"),
@@ -787,7 +786,6 @@ def callbacks(app):
     )
     def annot_color(value):
         if value != "":
-            print(value)
             return "{}".format(value)
         return None
 
