@@ -1,5 +1,5 @@
-import DashIdeogram from './components/DashIdeogram.React.js';
-
+/* eslint-disable import/prefer-default-export */
+import NeedlePlot from './components/NeedlePlot.react';
 export {
-    DashIdeogram
+    NeedlePlot,
 };

@@ -1,0 +1,34 @@
+[
+    {
+        "name": "region1",
+        "coord": "50-58"
+    },
+    {
+        "name": "region2",
+        "coord": "120-180"
+    },
+    {
+        "name": "C1", "coord": "187-190"
+    },
+    {
+        "name": "C2", "coord": "194-199"
+    },
+    {
+        "name": "X-binding", "coord": "2-40"
+    },
+    {
+        "name": "X99-REPEAT", "coord": "60-61"
+    },
+    {
+        "name": "X99-REPEAT", "coord": "4-5"
+    },
+    {
+        "name": "X99-REPEAT", "coord": "73-74"
+    },
+    {
+        "name": "X99-REPEAT", "coord": "78-79"
+    },
+    {
+        "name": "X99-REPEAT", "coord": "191-192"
+    }
+]

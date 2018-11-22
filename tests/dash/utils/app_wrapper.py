@@ -1,5 +1,6 @@
 import dash_core_components as dcc
 import dash_html_components as html
+import base64
 
 
 def app_page_layout(page_layout, app_title="Dash Bio App"):
@@ -13,7 +14,13 @@ def app_page_layout(page_layout, app_title="Dash Bio App"):
                 children=[
                     html.H2(app_title),
                     html.Img(
-                        src='assets/dashbio_logo.svg',
+                        src='data:image/png;base64,{}'.format(
+                            base64.b64encode(
+                                open(
+                                    './assets/dashbio_logo.png',
+                                    'rb').read()
+                            ).decode()
+                        ),
                         style={
                             'height': '100',
                             'float': 'right',
@@ -36,5 +43,5 @@ def app_page_layout(page_layout, app_title="Dash Bio App"):
                 children=page_layout,
                 style={'margin': '10px'}
             )
-        ]
+        ],
     )
