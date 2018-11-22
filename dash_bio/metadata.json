@@ -1,67 +1,34 @@
 {
-  "src/lib/components/DashCircos.react.js": {
-    "description": "Dash Circos is a library used to analyze and interpret\r\ndata using a circular layout, based on the popular \r\n'Circos' graph. This Dash Bio component is a useful tool\r\nfor showcasing relationships bewtween data/datasets in a\r\nbeautiful way. Please checkout the Dash Bio repository\r\non github to learn more about this API.",
-    "displayName": "DashCircos",
+  "src/lib/components/NeedlePlot.react.js": {
+    "description": "",
+    "displayName": "NeedlePlot",
     "methods": [
       {
-        "name": "setEvent",
+        "name": "handleChange",
         "docblock": null,
         "modifiers": [],
         "params": [
           {
-            "name": "setProps",
-            "type": null
-          },
-          {
-            "name": "index",
+            "name": "event",
             "type": null
           }
         ],
         "returns": null
       },
       {
-        "name": "setColor",
+        "name": "prepareTraces",
         "docblock": null,
         "modifiers": [],
-        "params": [
-          {
-            "name": "configApply",
-            "type": null
-          }
-        ],
+        "params": [],
         "returns": null
       },
       {
-        "name": "setToolTip",
+        "name": "prepareLayout",
         "docblock": null,
         "modifiers": [],
         "params": [
           {
-            "name": "configApply",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "configIdeogram",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "layout",
-            "type": null
-          },
-          {
-            "name": "config",
-            "type": null
-          },
-          {
-            "name": "tracks",
-            "type": null
-          },
-          {
-            "name": "setProps",
+            "name": "vars",
             "type": null
           }
         ],
@@ -74,168 +41,208 @@
           "name": "string"
         },
         "required": false,
-        "description": "The ID of the component to be used in Dash callbacks"
+        "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique across all of the\ncomponents in an app."
       },
-      "style": {
+      "x": {
         "type": {
-          "name": "object"
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "array"
+            }
+          ]
         },
         "required": false,
-        "description": "The CSS styling of the div wrapping the component"
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
       },
-      "hoverDatum": {
+      "y": {
         "type": {
-          "name": "object"
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "array"
+            }
+          ]
         },
         "required": false,
-        "description": "A Dash prop that returns data on hovering of the tracks\r\nif enabled."
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
       },
-      "clickDatum": {
+      "mutationGroups": {
         "type": {
-          "name": "object"
+          "name": "arrayOf",
+          "value": {
+            "name": "string"
+          }
         },
         "required": false,
-        "description": "A Dash prop that returns data on clicking of the tracks\r\nif enabled."
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
       },
-      "selectEvent": {
+      "domains": {
         "type": {
-          "name": "object"
+          "name": "array"
         },
         "required": false,
-        "description": "A dictionary used to choose whether tracks should return\r\ndata to \"clickDatum\" or \"hoverDatum\" on click, hover, or both.\r\nThe keys of the dictionary represent the index of the list\r\nspecified for \"tracks\".\r\n\r\nEx:                 \r\nselectEvent={\r\n        \"0\": \"hover\",\r\n        \"1\": \"click\",\r\n        \"2\": \"both\"\r\n    },"
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "xlabel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "ylabel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "rangeSlider": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "needleStyle": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "stemColor": {
+              "name": "string",
+              "required": false
+            },
+            "stemThickness": {
+              "name": "number",
+              "required": false
+            },
+            "stemConstHeight": {
+              "name": "bool",
+              "required": false
+            },
+            "headSize": {
+              "name": "number",
+              "required": false
+            },
+            "headColor": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "array"
+                },
+                {
+                  "name": "string"
+                }
+              ],
+              "required": false
+            },
+            "headSymbol": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "array"
+                },
+                {
+                  "name": "string"
+                }
+              ],
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "{\n    stemColor: '#444',\n    stemThickness: 0.5,\n    stemConstHeight: false,\n    headSize: 5,\n    headColor: [\n        '#e41a1c',\n        '#377eb8',\n        '#4daf4a',\n        '#984ea3',\n        '#ff7f00',\n        '#ffff33',\n        '#a65628',\n        '#f781bf',\n        '#999999',\n        '#e41a1c',\n        '#377eb8',\n        '#4daf4a',\n        '#984ea3',\n        '#ff7f00',\n        '#ffff33',\n        '#a65628',\n        '#f781bf',\n        '#999999',\n        '#e41a1c',\n    ],\n    headSymbol: 'circle',\n}",
+          "computed": false
+        }
+      },
+      "domainStyle": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "domainColor": {
+              "name": "array",
+              "required": false
+            },
+            "displayMinorDomains": {
+              "name": "bool",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "{\n    displayMinorDomains: false,\n    domainColor: [\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n        '#fccde5',\n        '#d9d9d9',\n        '#bc80bd',\n        '#ccebc5',\n        '#ffed6f',\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n    ],\n}",
+          "computed": false
+        }
       },
       "setProps": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": "Dash provided setProps."
+        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change"
       },
-      "layout": {
+      "dashEvents": {
         "type": {
-          "name": "arrayOf",
-          "value": {
-            "name": "shape",
-            "value": {
-              "len": {
-                "name": "number",
-                "description": "The length of the block.",
-                "required": true
-              },
-              "color": {
-                "name": "string",
-                "description": "The color of the block.",
-                "required": true
-              },
-              "label": {
-                "name": "string",
-                "description": "The labels of the block.",
-                "required": true
-              },
-              "id": {
-                "name": "string",
-                "description": "The id of the block, where it will recieve\r\ndata from the specified \"track\" id.",
-                "required": true
-              }
+          "name": "enum",
+          "value": [
+            {
+              "value": "'click'",
+              "computed": false
+            },
+            {
+              "value": "'hover'",
+              "computed": false
+            },
+            {
+              "value": "'unhover'",
+              "computed": false
+            },
+            {
+              "value": "'selected'",
+              "computed": false
             }
-          }
-        },
-        "required": true,
-        "description": "The overall layout of the Circos graph, provided\r\nas a list of dictionaries."
-      },
-      "config": {
-        "type": {
-          "name": "object"
+          ]
         },
         "required": false,
-        "description": "Configuration of overall layout of the graph.",
-        "defaultValue": {
-          "value": "{}",
-          "computed": false
-        }
+        "description": ""
       },
-      "size": {
+      "fireEvent": {
         "type": {
-          "name": "number"
+          "name": "func"
         },
         "required": false,
-        "description": "The overall size of the SVG container holding the\r\ngraph. Set on initilization and unchangeable thereafter.",
-        "defaultValue": {
-          "value": "800",
-          "computed": false
-        }
-      },
-      "tracks": {
-        "type": {
-          "name": "arrayOf",
-          "value": {
-            "name": "shape",
-            "value": {
-              "id": {
-                "name": "string",
-                "description": "The id of a specific piece of track data.",
-                "required": false
-              },
-              "data": {
-                "name": "array",
-                "description": "The data that makes up the track. It can \r\nbe a Json object.",
-                "required": true
-              },
-              "config": {
-                "name": "object",
-                "description": "The layout of the tracks, where the user\r\ncan configure innerRadius, outterRadius, ticks,\r\nlabels, and more.",
-                "required": false
-              },
-              "type": {
-                "name": "enum",
-                "computed": true,
-                "value": "TRACK_TYPES",
-                "description": "Specify the type of track this is.\r\nPlease check the docs for a list of tracks you can use,\r\nand ensure the name is typed in all capitals.",
-                "required": false
-              },
-              "tooltipContent": {
-                "name": "enum",
-                "value": [
-                  {
-                    "value": "PropTypes.string",
-                    "computed": true
-                  },
-                  {
-                    "value": "PropTypes.shape(\r\n  {\r\n    name: PropTypes.string.isRequired\r\n  }\r\n)",
-                    "computed": true
-                  },
-                  {
-                    "value": "PropTypes.shape(\r\n  {\r\n    source: PropTypes.string.isRequired,\r\n    sourceID: PropTypes.string,\r\n    target: PropTypes.string.isRequired,\r\n    targetEnd: PropTypes.string.isRequired,\r\n    targetID: PropTypes.string\r\n  }\r\n)",
-                    "computed": true
-                  }
-                ],
-                "description": "Specify what data for tooltipContent is\r\ndisplayed.\r\n\r\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks. \r\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\r\n\r\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\r\nEx: \"tooltipContent\": {\"name\": \"all\"}\r\n\r\nEx: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)'. \r\n\"tooltipContent\": {\r\n            \"source\": \"block_id\",\r\n            \"target\": \"position\",\r\n            \"targetEnd\": \"value\"\r\n                                },\r\nEx: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  \r\n\"tooltipContent\": {\r\n            \"source\": \"source\",\r\n            \"sourceID\": \"id\",\r\n            \"target\": \"target\",\r\n            \"targetID\": \"id\",\r\n            \"targetEnd\": \"end\"\r\n        }",
-                "required": false
-              },
-              "color": {
-                "name": "enum",
-                "value": [
-                  {
-                    "value": "PropTypes.string",
-                    "computed": true
-                  },
-                  {
-                    "value": "PropTypes.shape(\r\n  {\r\n    name: PropTypes.string.isRequired\r\n  }\r\n)",
-                    "computed": true
-                  }
-                ],
-                "description": "Specify which dictonary key to grab color values from, in the passed in dataset. \r\nThis can be a string or an object.\r\n\r\nIf using a string, you can specify hex,\r\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu). \r\n\r\nThe key \"name\" is required for this dictionary,\r\nwhere the input for \"name\" points to some list of\r\ndictionaries color values.\r\n\r\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
-                "required": false
-              }
-            }
-          }
-        },
-        "required": false,
-        "description": "Tracks that specify specific layouts.\r\nFor a complete list of tracks and usage, \r\nplease check the docs.",
-        "defaultValue": {
-          "value": "[]",
-          "computed": false
-        }
+        "description": "Function that fires events"
       }
     }
   }

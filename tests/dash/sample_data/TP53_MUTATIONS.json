@@ -1,0 +1,667 @@
+[
+    {
+        "coord": "273",
+        "category": "missense",
+        "value": 21
+    },
+    {
+        "coord": "220",
+        "category": "missense",
+        "value": 11
+    },
+    {
+        "coord": "248",
+        "category": "missense",
+        "value": 16
+    },
+    {
+        "coord": "175",
+        "category": "missense",
+        "value": 8
+    },
+    {
+        "coord": "195",
+        "category": "missense",
+        "value": 9
+    },
+    {
+        "coord": "282",
+        "category": "missense",
+        "value": 5
+    },
+    {
+        "coord": "157",
+        "category": "missense",
+        "value": 5
+    },
+    {
+        "coord": "176",
+        "category": "missense",
+        "value": 5
+    },
+    {
+        "coord": "241",
+        "category": "missense",
+        "value": 5
+    },
+    {
+        "coord": "179",
+        "category": "missense",
+        "value": 5
+    },
+    {
+        "coord": "245",
+        "category": "missense",
+        "value": 9
+    },
+    {
+        "coord": "196",
+        "category": "truncating",
+        "value": 3
+    },
+    {
+        "coord": "342",
+        "category": "truncating",
+        "value": 3
+    },
+    {
+        "coord": "192",
+        "category": "truncating",
+        "value": 3
+    },
+    {
+        "coord": "193",
+        "category": "missense",
+        "value": 4
+    },
+    {
+        "coord": "306",
+        "category": "truncating",
+        "value": 3
+    },
+    {
+        "coord": "234",
+        "category": "missense",
+        "value": 3
+    },
+    {
+        "coord": "236",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "?-99",
+        "category": "splice-site",
+        "value": 32
+    },
+    {
+        "coord": "238-239",
+        "category": "truncating",
+        "value": 2
+    },
+    {
+        "coord": "244",
+        "category": "missense",
+        "value": 3
+    },
+    {
+        "coord": "204",
+        "category": "truncating",
+        "value": 2
+    },
+    {
+        "coord": "194",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "198",
+        "category": "truncating",
+        "value": 2
+    },
+    {
+        "coord": "205",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "213",
+        "category": "truncating",
+        "value": 2
+    },
+    {
+        "coord": "216",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "266",
+        "category": "missense",
+        "value": 4
+    },
+    {
+        "coord": "272",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "275",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "250",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "259",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "191-192",
+        "category": "other",
+        "value": 2
+    },
+    {
+        "coord": "159",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "163",
+        "category": "missense",
+        "value": 4
+    },
+    {
+        "coord": "132",
+        "category": "missense",
+        "value": 5
+    },
+    {
+        "coord": "348",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "344",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "337",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "337",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "333",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "330",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "321",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "317",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "315-316",
+        "category": "truncating",
+        "value": 2
+    },
+    {
+        "coord": "239",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "255-256",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "253-256",
+        "category": "other",
+        "value": 1
+    },
+    {
+        "coord": "251",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "249",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "248",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "244-246",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "237-240",
+        "category": "other",
+        "value": 1
+    },
+    {
+        "coord": "238",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "237",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "232",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "?-231",
+        "category": "splice-site",
+        "value": 1
+    },
+    {
+        "coord": "229",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "227-228",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "224",
+        "category": "splice-site",
+        "value": 1
+    },
+    {
+        "coord": "257",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "260",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "306-307",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "294",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "288",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "286",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "284",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "283",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "282",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "281",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "280",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "279",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "278",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "277",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "276",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "274",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "272",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "271",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "270",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "265",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "?-264",
+        "category": "splice-site",
+        "value": 1
+    },
+    {
+        "coord": "264",
+        "category": "other",
+        "value": 1
+    },
+    {
+        "coord": "262",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "222-223",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "223-224",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "215",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "125",
+        "category": "splice-site",
+        "value": 1
+    },
+    {
+        "coord": "140",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "136",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "135",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "134",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "130",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "130",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "127",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "124",
+        "category": "truncating",
+        "value": 2
+    },
+    {
+        "coord": "140-142",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "117-118",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "110",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "109",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "97-109",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "108-109",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "105",
+        "category": "missense",
+        "value": 3
+    },
+    {
+        "coord": "100",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "85-88",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "75",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "137-142",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "144",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "178",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "214",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "209-210",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "208",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "?-195",
+        "category": "splice-site",
+        "value": 1
+    },
+    {
+        "coord": "181",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "177",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "145",
+        "category": "missense",
+        "value": 2
+    },
+    {
+        "coord": "173",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "166-167",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "164",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "156",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "154",
+        "category": "other",
+        "value": 1
+    },
+    {
+        "coord": "150-154",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "144-154",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "151",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "146",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "70-71",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "66",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "65",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "62",
+        "category": "missense",
+        "value": 1
+    },
+    {
+        "coord": "53",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "51",
+        "category": "truncating",
+        "value": 2
+    },
+    {
+        "coord": "47",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "43-44",
+        "category": "truncating",
+        "value": 1
+    },
+    {
+        "coord": "36-40",
+        "category": "truncating",
+        "value": 1
+    }
+]

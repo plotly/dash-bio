@@ -3,7 +3,6 @@ import dash_bio
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_table as dt
 import logging
 import os
 from config import DASH_APP_NAME
@@ -31,36 +30,21 @@ apps = {
 for key in apps:
     apps[key].callbacks(app)
 
-'''
-Ensure there is one html.Div holding an empty instance of a dash_bio.component
-like the example below. Remove this comment when we've added one dash_bio
-component!
-
-Ex:
 app.layout = html.Div(
     id="index-waitfor",
     children=[
         dcc.Location(id="location"),
-        html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dcc.Graph(id="graph")),
-        html.Div(style={"display": "none"}, children=dash_bio.Component()),
-    ]
-)
-'''
-app.layout = html.Div(
-    id="index-waitfor",
-    children=[
-        dcc.Location(id="location"),
-        html.Div(id='gallery-title', children=[
-            'Dash Bio'
-        ]),
-        html.Div(id='gallery-subtitle', children=[
-            'A suite of bioinformatics components \
-            compatible with Plotly\'s Dash.'
+        html.Div(id='gallery-header', children=[
+            html.Div(id='gallery-title', children=[
+                'Dash Bio'
+            ]),
+            html.Div(id='gallery-subtitle', children=[
+                'A suite of bioinformatics components \
+                compatible with Plotly\'s Dash.'
+            ]),
         ]),
         html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent()),
-        html.Div(style={"display": "none"}, children=dt.DataTable())
+        html.Div(style={"display": "none"}, children=dash_bio.NeedlePlot())
     ]
 )
 
@@ -78,7 +62,7 @@ def demoAppImgSrc(name):
             base64.b64encode(
                 open('./assets/dashbio_logo.png', 'rb').read()).decode())
 
-    
+
 def demoAppName(name):
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
@@ -91,10 +75,11 @@ def demoAppDesc(name):
         pass
     return desc
 
-            
+
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
-    if pathname == '/{}'.format(DASH_APP_NAME) or pathname == '/{}/'.format(DASH_APP_NAME) \
+    if pathname == '/{}'.format(DASH_APP_NAME) \
+       or pathname == '/{}/'.format(DASH_APP_NAME) \
        or pathname == '/' or pathname is None:
         return html.Div(
             id='gallery-apps',
@@ -122,7 +107,9 @@ def display_app(pathname):
             ])
 
     app_name = \
-        pathname.replace('/{}/'.format(DASH_APP_NAME), '/').replace("/", "").replace("-", "_")
+        pathname.replace(
+            '/{}/'.format(DASH_APP_NAME), '/').replace(
+                "/", "").replace("-", "_")
 
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
@@ -134,6 +121,26 @@ def display_app(pathname):
         """.format(
             app_name, list(apps.keys())
         )
+
+
+@app.callback(
+    Output('gallery-header', 'children'),
+    [Input('location', 'pathname')]
+)
+def hide_header(pathname):
+    if pathname != '/{}'.format(DASH_APP_NAME) \
+       and pathname != '/{}/'.format(DASH_APP_NAME) \
+       and pathname != '/' and pathname is not None:
+        return []
+    return [
+        html.Div(id='gallery-title', children=[
+            'Dash Bio'
+        ]),
+        html.Div(id='gallery-subtitle', children=[
+            'A suite of bioinformatics components \
+            compatible with Plotly\'s Dash.'
+        ]),
+    ]
 
 
 app.css.config.serve_locally = True
