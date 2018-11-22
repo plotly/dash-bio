@@ -20,13 +20,13 @@ with open('./tests/dash/sample_data/data.js') as f:
 def layout():
     return html.Div([
         ## Header container
-        html.Div(id="header",
+        html.Div(id="header-mol3d",
             children=[ html.H2("Dash Molecule Visualization", 
             #style={'textAlign': 'center', 'background': 'grey', 'padding': '16px'}
             )]
             ),
 
-        html.Div(id="controls-container", children= [
+        html.Div(id="controls-container-mol3d", children= [
 
         ## Upload container
         html.Div([
@@ -52,7 +52,7 @@ def layout():
         ),
         
         #Dropdown menu for selecting the background color
-        html.Div(className="controls", id="control-bgcolor", children=[
+        html.Div(className="controls-mol3d", id="control-bgcolor-mol3d", children=[
             html.P('Background color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
             dcc.Dropdown(
                 id='dropdown-bgcolor',
@@ -68,10 +68,10 @@ def layout():
         ),
 
         #Slider to choose the background opacity
-        html.Div(className="controls", children=[
+        html.Div(className="controls-mol3d", children=[
             html.P('Background opacity', style={'font-weight':'bold', 'margin-bottom':'10px'}),
             dcc.Slider(
-                id='slider-opacity',
+                id='slider-opacity-mol3d',
                 min=0,
                 max=1.0,
                 step=0.1,
@@ -82,7 +82,7 @@ def layout():
         ),
 
         #Dropdown to select chain representation (sticks, cartoon, sphere)
-        html.Div(className="controls", children=[
+        html.Div(className="controls-mol3d", children=[
             html.P('Representation', style={'font-weight':'bold', 'margin-bottom':'10px'}),
             dcc.Dropdown(
                 id='dropdown-styles',
@@ -98,14 +98,14 @@ def layout():
         ),
 
         # Textarea container to display the selected atoms
-        html.Div(className="controls", id="selection-display", children=[
+        html.Div(className="controls-mol3d", id="selection-display-mol3d", children=[
             html.P("Selection", style={'font-weight':'bold', 'margin-bottom':'10px'}),
-            dcc.Textarea(id='selection_output'),
+            dcc.Textarea(id='selection_output-mol3d'),
         ]),
 
         ]),
         #Main molecule visualization container
-        html.Div(id='output-data-upload', children=[], style={'float':'left'}),
+        html.Div(id='output-data-upload-mol3d', children=[], style={'float':'left'}),
 
         ]),
 
@@ -144,10 +144,10 @@ def files_data_style(contents):
 def callbacks(app):
     ## Callback for molecule visualization based on uploaded PDB file
     @app.callback(
-        Output("output-data-upload","children"),
+        Output("output-data-upload-mol3d","children"),
         [Input("upload-data","contents"),
         Input("dropdown-bgcolor", 'value'),
-        Input("slider-opacity", "value"),
+        Input("slider-opacity-mol3d", "value"),
         Input("dropdown-styles", "value")]
     )
     def use_upload(contents, color, opacity, molStyle):
@@ -199,7 +199,7 @@ def callbacks(app):
             )
 
     @app.callback(
-        Output("selection_output","value"),
+        Output("selection_output-mol3d","value"),
         [Input("mol-3d", "selectedAtomIds"),
         Input("mol-3d","modelData")]
     )

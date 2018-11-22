@@ -1,8 +1,8 @@
-body {
+#controls-container-mol3d {
     font-family: sans-serif;
     padding: 5px
 }
-#header {
+#header-mol3d {
     width: 98%;
     height: 60px;
     text-align: center;
@@ -12,7 +12,7 @@ body {
     border-radius: 5px;
 }
 
-.controls {
+.controls-mol3d {
     border-width: 2px;
     border-left-style: solid;
     border-right-style: solid;
@@ -25,7 +25,7 @@ body {
     /* float: right; */
 }
 
-#control-bgcolor {
+#control-bgcolor-mol3d {
     /* position: absolute;
     top: 140px;
     height: 60px; */
@@ -33,17 +33,17 @@ body {
     border-color: grey;
     border-width: 2px;
 }
-#selection-display {
+#selection-display-mol3d {
     border-bottom-style: solid;
     border-color: grey;
     border-width: 2px;
 }
 
-#slider-opacity {
+#slider-opacity-mol3d {
     width: 95%;
 }
 
-#output-data-upload {
+#output-data-upload-mol3d {
     position: absolute;
     width: 70%;
     height:auto;
@@ -58,7 +58,7 @@ body {
     height: auto;
 }
 
-#selection_output {
+#selection_output-mol3d {
     width: 98%;
     height: 150px;
 }
