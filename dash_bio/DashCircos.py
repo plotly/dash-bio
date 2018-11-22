@@ -7,7 +7,7 @@ class DashCircos(Component):
     """A DashCircos component.
 Dash Circos is a library used to analyze and interpret
 data using a circular layout, based on the popular 
-'Circos' graph. This Dash Bio component is a handy tool
+'Circos' graph. This Dash Bio component is a useful tool
 for showcasing relationships bewtween data/datasets in a
 beautiful way. Please checkout the Dash Bio repository
 on github to learn more about this API.

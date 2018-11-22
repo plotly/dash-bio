@@ -1,46 +1,47 @@
 {
   "src/lib/components/DashCircos.react.js": {
-    "description": "Dash Circos is a library used to analyze and interpret\r\ndata using a circular layout, based on the popular \r\n'Circos' graph. This Dash Bio component is a handy tool\r\nfor showcasing relationships bewtween data/datasets in a\r\nbeautiful way. Please checkout the Dash Bio repository\r\non github to learn more about this API.",
+    "description": "Dash Circos is a library used to analyze and interpret\r\ndata using a circular layout, based on the popular \r\n'Circos' graph. This Dash Bio component is a useful tool\r\nfor showcasing relationships bewtween data/datasets in a\r\nbeautiful way. Please checkout the Dash Bio repository\r\non github to learn more about this API.",
     "displayName": "DashCircos",
     "methods": [
       {
         "name": "setEvent",
-        "docblock": "Used to set a click or hover event on tracks/layout that will show annotations for the circos grpah.",
+        "docblock": null,
         "modifiers": [],
         "params": [
           {
-            "name": "setProps"
+            "name": "setProps",
+            "type": null
           },
           {
-            "name": "index"
+            "name": "index",
+            "type": null
           }
         ],
-        "returns": null,
-        "description": "Used to set a click or hover event on tracks/layout that will show annotations for the circos grpah."
+        "returns": null
       },
       {
         "name": "setColor",
-        "docblock": "Allows user to specify a color prop, that will iterate through the colors\r\nin the dataset provided, and apply them directly to the tracks/layout specified\r\nby ID.",
+        "docblock": null,
         "modifiers": [],
         "params": [
           {
-            "name": "configApply"
+            "name": "configApply",
+            "type": null
           }
         ],
-        "returns": null,
-        "description": "Allows user to specify a color prop, that will iterate through the colors\r\nin the dataset provided, and apply them directly to the tracks/layout specified\r\nby ID."
+        "returns": null
       },
       {
         "name": "setToolTip",
-        "docblock": "Set the tool tip event handler. It allows the user to specify what data they want\r\nto show on annotation click or hover",
+        "docblock": null,
         "modifiers": [],
         "params": [
           {
-            "name": "configApply"
+            "name": "configApply",
+            "type": null
           }
         ],
-        "returns": null,
-        "description": "Set the tool tip event handler. It allows the user to specify what data they want\r\nto show on annotation click or hover"
+        "returns": null
       },
       {
         "name": "configIdeogram",
@@ -200,11 +201,15 @@
                     "computed": true
                   },
                   {
-                    "value": "PropTypes.object",
+                    "value": "PropTypes.shape(\r\n  {\r\n    name: PropTypes.string.isRequired\r\n  }\r\n)",
+                    "computed": true
+                  },
+                  {
+                    "value": "PropTypes.shape(\r\n  {\r\n    source: PropTypes.string.isRequired,\r\n    sourceID: PropTypes.string,\r\n    target: PropTypes.string.isRequired,\r\n    targetEnd: PropTypes.string.isRequired,\r\n    targetID: PropTypes.string\r\n  }\r\n)",
                     "computed": true
                   }
                 ],
-                "description": "Specify what data for tooltipContent is\r\ndisplayed.\r\n\r\nThe name key is required, where the entry\r\nfor the key points to a key in the dictionary\r\nof the data loaded into tracks. \r\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\r\n\r\nTo display all data in the dataset use \"all\" for the key \"name:.\r\nEx: \"tooltipContent\": {\"name\": \"all\"}\r\n\r\nEx: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)' \r\n\"tooltipContent\": {\r\n        \"source\": \"block_id\",\r\n        \"target\": \"position\",\r\n        \"targetEnd\": \"value\"\r\n                            },\r\nEx: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'                  \r\n\"tooltipContent\": {\r\n        \"source\": \"source\",\r\n        \"sourceID\": \"id\",\r\n        \"target\": \"target\",\r\n        \"targetID\": \"id\",\r\n        \"targetEnd\": \"end\"\r\n    }",
+                "description": "Specify what data for tooltipContent is\r\ndisplayed.\r\n\r\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks. \r\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\r\n\r\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\r\nEx: \"tooltipContent\": {\"name\": \"all\"}\r\n\r\nEx: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)'. \r\n\"tooltipContent\": {\r\n            \"source\": \"block_id\",\r\n            \"target\": \"position\",\r\n            \"targetEnd\": \"value\"\r\n                                },\r\nEx: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  \r\n\"tooltipContent\": {\r\n            \"source\": \"source\",\r\n            \"sourceID\": \"id\",\r\n            \"target\": \"target\",\r\n            \"targetID\": \"id\",\r\n            \"targetEnd\": \"end\"\r\n        }",
                 "required": false
               },
               "color": {
@@ -215,11 +220,11 @@
                     "computed": true
                   },
                   {
-                    "value": "PropTypes.object",
+                    "value": "PropTypes.shape(\r\n  {\r\n    name: PropTypes.string.isRequired\r\n  }\r\n)",
                     "computed": true
                   }
                 ],
-                "description": "Specify what data for color is displayed,\r\nthis can be a string or an object.\r\n\r\nIf using a string, you can specify hex,\r\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu). \r\n\r\nThe key \"name\" is required for this dictionary,\r\nwhere the input for \"name\" points to some list of\r\ndictionaries color values.\r\n\r\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
+                "description": "Specify which dictonary key to grab color values from, in the passed in dataset. \r\nThis can be a string or an object.\r\n\r\nIf using a string, you can specify hex,\r\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu). \r\n\r\nThe key \"name\" is required for this dictionary,\r\nwhere the input for \"name\" points to some list of\r\ndictionaries color values.\r\n\r\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
                 "required": false
               }
             }
