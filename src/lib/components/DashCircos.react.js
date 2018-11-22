@@ -6,7 +6,7 @@ import { TRACK_TYPES } from '../constants/tracks';
 /**
  * Dash Circos is a library used to analyze and interpret
  * data using a circular layout, based on the popular 
- * 'Circos' graph. This Dash Bio component is a handy tool
+ * 'Circos' graph. This Dash Bio component is a useful tool
  * for showcasing relationships bewtween data/datasets in a
  * beautiful way. Please checkout the Dash Bio repository
  * on github to learn more about this API.
@@ -20,31 +20,30 @@ export default class DashCircos extends Component {
     this.setColor = this.setColor.bind(this);
     this.setToolTip = this.setToolTip.bind(this);
   }
-
-  /**
-   * Used to set a click or hover event on tracks/layout that will show annotations for the circos grpah. 
-   */
+  
   setEvent(setProps, index) {
-    if (this.props.selectEvent) {
+    /**
+    * Used to set a click or hover event on tracks/layout that will show annotations for the circos grpah. 
+    **/
+
+    if (this.props.selectEvent !== undefined) {
       if (this.props.selectEvent[index] === "both") {
-        return (
-          {
-            'click.alert': (datum) => {
-              setProps(
-                {
-                  clickDatum: datum
-                }
-              )
-            },
-            'mouseover.alert': (datum) => {
-              setProps(
-                {
-                  hoverDatum: datum
-                }
-              )
-            }
+        return {
+          'click.alert': (datum) => {
+            setProps(
+              {
+                clickDatum: datum
+              }
+            )
+          },
+          'mouseover.alert': (datum) => {
+            setProps(
+              {
+                hoverDatum: datum
+              }
+            )
           }
-        )
+        }
       }
       else if (this.props.selectEvent[index] === "hover") {
         return {
@@ -60,7 +59,7 @@ export default class DashCircos extends Component {
       else if (this.props.selectEvent[index] === "click") {
         return {
           'click.alert': (datum) => {
-            this.props.setProps(
+            setProps(
               {
                 clickDatum: datum
               }
@@ -73,20 +72,21 @@ export default class DashCircos extends Component {
     return {}
   }
 
-  /**
-   * Allows user to specify a color prop, that will iterate through the colors
-   * in the dataset provided, and apply them directly to the tracks/layout specified
-   * by ID.
-   */
+
   setColor(configApply) {
-    if (configApply.color) {
-      if (configApply.color.name) {
+    /**
+     * Allows user to specify a color prop, that will iterate through the colors
+     * in the dataset provided, and apply them directly to the tracks/layout specified
+     * by ID.
+     */
+    if (configApply.color !== undefined) {
+      if (configApply.color.name !== undefined) {
         var colorName = configApply.color.name
         configApply.color = d => d[colorName]
       }
-      else if (configApply.color.conditional) {
+      else if (configApply.color.conditional !== undefined) {
         var condColor = configApply.color.conditional
-        configApply.color = (d) => {
+        configApply.color = d => {
           for (var i = 0; i < condColor.value.length; i++) {
             if (d[condColor.end] - d[condColor.start] > condColor.value[i]) {
               return condColor.color[i]
@@ -97,13 +97,14 @@ export default class DashCircos extends Component {
     }
   }
 
-  /**
-   * Set the tool tip event handler. It allows the user to specify what data they want
-   * to show on annotation click or hover
-   */
+
   setToolTip(configApply) {
-    if (configApply.tooltipContent) {
-      if (configApply.tooltipContent.name) {
+    /**
+    * Set the tool tip event handler. It allows the user to specify what data they want
+    * to show on annotation click or hover
+    */
+    if (configApply.tooltipContent !== undefined) {
+      if (configApply.tooltipContent.name !== undefined) {
         if (configApply.tooltipContent.name === "all") {
           configApply.tooltipContent = d => {
             var contents = "";
@@ -119,10 +120,10 @@ export default class DashCircos extends Component {
           configApply.tooltipContent = d => d[toolName]
         }
       }
-      else if (configApply.tooltipContent.source) {
+      else if (configApply.tooltipContent.source !== undefined) {
         var tooltipData = configApply.tooltipContent
 
-        if (tooltipData.sourceID && tooltipData.targetID) {
+        if (tooltipData.sourceID !== undefined && tooltipData.targetID !== undefined) {
           configApply.tooltipContent = function (d) {
             return '<h3>' + d[tooltipData.source][tooltipData.sourceID] +
               ' ➤ ' +
@@ -162,6 +163,7 @@ export default class DashCircos extends Component {
 
       // Since config is const, can't manipulate and throws error
       let configApply
+
       if (config) {
         configApply = config
 
@@ -173,7 +175,7 @@ export default class DashCircos extends Component {
         // Set Color
         this.setColor(configApply);
 
-        // Set Tool tip
+        // Set Tooltip
         this.setToolTip(configApply);
       }
       this.circos[type.toLowerCase()](id || `track-${index}`, data, configApply);
@@ -298,28 +300,32 @@ DashCircos.propTypes = {
    * The overall layout of the Circos graph, provided
    * as a list of dictionaries.
    */
-  layout: PropTypes.arrayOf(PropTypes.shape({
-    /**
-     * The length of the block.
-     */
-    len: PropTypes.number.isRequired,
+  layout: PropTypes.arrayOf(
+    PropTypes.shape(
+      {
+        /**
+         * The length of the block.
+         */
+        len: PropTypes.number.isRequired,
 
-    /**
-     * The color of the block.
-     */
-    color: PropTypes.string.isRequired,
+        /**
+         * The color of the block.
+         */
+        color: PropTypes.string.isRequired,
 
-    /**
-     * The labels of the block.
-     */
-    label: PropTypes.string.isRequired,
+        /**
+         * The labels of the block.
+         */
+        label: PropTypes.string.isRequired,
 
-    /**
-     * The id of the block, where it will recieve
-     * data from the specified "track" id.
-     */
-    id: PropTypes.string.isRequired,
-  })).isRequired,
+        /**
+         * The id of the block, where it will recieve
+         * data from the specified "track" id.
+         */
+        id: PropTypes.string.isRequired,
+      }
+    )
+  ).isRequired,
 
   /**
    * Configuration of overall layout of the graph.
@@ -337,86 +343,105 @@ DashCircos.propTypes = {
    * For a complete list of tracks and usage, 
    * please check the docs.
    */
-  tracks: PropTypes.arrayOf(PropTypes.shape({
+  tracks: PropTypes.arrayOf(
+    PropTypes.shape(
+      {
 
-    /**
-     * The id of a specific piece of track data.
-     */
-    id: PropTypes.string,
+        /**
+         * The id of a specific piece of track data.
+         */
+        id: PropTypes.string,
 
-    /**
-     * The data that makes up the track. It can 
-     * be a Json object.
-     */
-    data: PropTypes.array.isRequired,
+        /**
+         * The data that makes up the track. It can 
+         * be a Json object.
+         */
+        data: PropTypes.array.isRequired,
 
-    /**
-     * The layout of the tracks, where the user
-     * can configure innerRadius, outterRadius, ticks,
-     * labels, and more.
-     */
-    config: PropTypes.object,
+        /**
+         * The layout of the tracks, where the user
+         * can configure innerRadius, outterRadius, ticks,
+         * labels, and more.
+         */
+        config: PropTypes.object,
 
-    /**
-     * Specify the type of track this is.
-     * Please check the docs for a list of tracks you can use,
-     * and ensure the name is typed in all capitals.
-     **/
-    type: PropTypes.oneOf(TRACK_TYPES),
+        /**
+         * Specify the type of track this is.
+         * Please check the docs for a list of tracks you can use,
+         * and ensure the name is typed in all capitals.
+         **/
+        type: PropTypes.oneOf(TRACK_TYPES),
 
-    /**
-     * Specify what data for tooltipContent is
-     * displayed.
-     * 
-     * The name key is required, where the entry
-     * for the key points to a key in the dictionary
-     * of the data loaded into tracks. 
-     * Ex: "tooltipContent": {"name": "block_id"},
-     * 
-     * To display all data in the dataset use "all" for the key "name:.
-     * Ex: "tooltipContent": {"name": "all"}
-     * 
-     * Ex: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)' 
-     * "tooltipContent": {
-        "source": "block_id",
-        "target": "position",
-        "targetEnd": "value"
-                            },
-     * Ex: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'                  
-     * "tooltipContent": {
-        "source": "source",
-        "sourceID": "id",
-        "target": "target",
-        "targetID": "id",
-        "targetEnd": "end"
-    }
-     **/
-    tooltipContent: PropTypes.oneOf(
-      [
-        PropTypes.string,
-        PropTypes.object
-      ]
-    ),
-    /**
-     * Specify what data for color is displayed,
-     * this can be a string or an object.
-     * 
-     * If using a string, you can specify hex,
-     * RGB, and colors from d3 scale chromatic (Ex: RdYlBu). 
-     * 
-     * The key "name" is required for this dictionary,
-     * where the input for "name" points to some list of
-     * dictionaries color values.
-     * 
-     * Ex: "color": {"name": "some key that refers to color in a data set"}
-     **/
-    color: PropTypes.oneOf(
-      [
-        PropTypes.string,
-        PropTypes.object
-      ],
+        /**
+         * Specify what data for tooltipContent is
+         * displayed.
+         * 
+         * The entry for the "name" key, is any of the keys used in the data loaded into tracks. 
+         * Ex: "tooltipContent": {"name": "block_id"},
+         * 
+         * To display all data in the dataset use "all" as the entry for the key "name".
+         * Ex: "tooltipContent": {"name": "all"}
+         * 
+         * Ex: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)'. 
+         * "tooltipContent": {
+            "source": "block_id",
+            "target": "position",
+            "targetEnd": "value"
+                                },
+         * Ex: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  
+         * "tooltipContent": {
+            "source": "source",
+            "sourceID": "id",
+            "target": "target",
+            "targetID": "id",
+            "targetEnd": "end"
+        }
+         **/
+        tooltipContent: PropTypes.oneOf(
+          [
+            PropTypes.string,
+            PropTypes.shape(
+              {
+                name: PropTypes.string.isRequired
+              }
+            ),
+            PropTypes.shape(
+              {
+                source: PropTypes.string.isRequired,
+                sourceID: PropTypes.string,
+                target: PropTypes.string.isRequired,
+                targetEnd: PropTypes.string.isRequired,
+                targetID: PropTypes.string
+              }
+            ),
+          ]
+        ),
+        /**
+         * Specify which dictonary key to grab color values from, in the passed in dataset. 
+         * This can be a string or an object.
+         * 
+         * If using a string, you can specify hex,
+         * RGB, and colors from d3 scale chromatic (Ex: RdYlBu). 
+         * 
+         * The key "name" is required for this dictionary,
+         * where the input for "name" points to some list of
+         * dictionaries color values.
+         * 
+         * Ex: "color": {"name": "some key that refers to color in a data set"}
+         **/
+        color: PropTypes.oneOf(
+          [
+            PropTypes.string,
+            PropTypes.shape(
+              {
+                name: PropTypes.string.isRequired
+              }
+            )
+          ],
+        )
+      }
     )
-  })),
+  ),
 };
 
 
