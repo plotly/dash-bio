@@ -37,8 +37,7 @@ def layout():
                     ),
                     href="http://www.dash.bio",
                 ),
-            ],
-            className="banner-ideogram",
+            ], className="ideogram-banner",
         ),
         dcc.Tabs(
             id="tabs",

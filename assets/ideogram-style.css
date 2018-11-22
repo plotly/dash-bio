@@ -2,19 +2,19 @@
     display: none;
   }
   
-.banner-ideogram {
+.ideogram-banner {
     height: 75px;
     background-color: rgb(66, 196, 247);
     border-radius: 2px;
 }
 
-.banner-ideogram  h2{
+.ideogram-banner  h2{
     color: white;
     margin-left: 2%;
     display: inline-block;
 }
 
-.banner-ideogram  Img{
+.ideogram-banner  Img{
     position: relative;
     float: right;
     right: 10px;
