@@ -37,7 +37,7 @@ export default class DashIdeogram extends Component {
             'rows',
             'ploidy',
             'sex',
-            'annotationColor',
+            'annotationsColor',
             'annotationHeight',
             'annotationsLayout',
             'annotationsPath',
@@ -200,9 +200,6 @@ export default class DashIdeogram extends Component {
 
     setConfig() {
         // Pass in all props into config except setProps
-        console.warn("setConfigID >>>>>>> ", this.props.id);
-        console.warn("setConfigProps >>>>>>>", this.props)
-
         let config = omit(['setProps'], this.props);
 
         // Event handlers
@@ -226,21 +223,22 @@ export default class DashIdeogram extends Component {
     shouldComponentUpdate(nextProps) {
         return (
             this.propKeys.some(
-                currentKey => { return this.props[currentKey] !== nextProps[currentKey]; }
+                currentKey => {return this.props[currentKey] !== nextProps[currentKey]}
             ));
     }
 
     componentDidMount() {
         // Have to remove old data, because it breaks new instances
-        if (window.chrBands) {
-            delete window.chrBands
-        }
         this.initIdeogram();
     }
 
     componentDidUpdate() {
         delete window.chrBands
         this.initIdeogram();
+    }
+
+    componentWillUnmount() {
+        delete window.chrBands
     }
 
     render() {
