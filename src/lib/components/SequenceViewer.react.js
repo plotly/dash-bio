@@ -108,10 +108,7 @@ export default class SequenceViewer extends Component {
 		)
 	)) {
 	    for(let i = 0; i < coverage.length; i++) {
-		
-
 		coverage[i].onclick = this.getOnClick(i);
-
 	    }   
 	}
 
@@ -119,31 +116,25 @@ export default class SequenceViewer extends Component {
     
     render() {
 
-	const {id, sequence, setProps} = this.props;
-	
-	const options = {
-	    showLineNumbers: this.props.showLineNumbers,
-	    wrapAminoAcids: this.props.wrapAminoAcids,
-	    charsPerLine: this.props.charsPerLine,
-	    toolbar: this.props.toolbar,
-	    search: this.props.search,
-	    title: this.props.title,
-	    sequenceMaxHeight: this.props.sequenceMaxHeight,
-	    badge: this.props.badge,
-	    onMouseSelection: this.onMouseSelection,
-	    onSubpartSelected: this.onSubpartSelected,
-	    legend: this.props.legend
-	};
+	const options = {coverage: this.props.coverage,
+			 setProps: this.props.setProps,
+			 showLineNumbers: this.props.showLineNumbers, 
+			 wrapAminoAcids: this.props.wrapAminoAcids, 
+			 charsPerLine: this.props.charsPerLine, 
+			 toolbar: this.props.toolbar, 
+			 search: this.props.search,
+			 title: this.props.title,
+			 sequenceMaxHeight: this.props.sequenceMaxHeight,
+			 badge: this.props.badge,
+			 onMouseSelection: this.props.onMouseSelection,
+			 onSubpartSelected: this.props.onSubpartSelected,
+			 legend: this.props.legend}	
 
-
-	options.coverage = this.props.coverage;
-	options.selection = this.props.selection;
-
-	return (
-		<div id={id}>
-		<ReactSequenceViewer sequence={sequence} {...options} />
+    return (
+		<div id={this.props.id}>
+		  <ReactSequenceViewer sequence={this.props.sequence} {...options} />
 		</div>
-	);
+      );
     }
 }
 
