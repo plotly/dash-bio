@@ -16,13 +16,10 @@ def layout():
     return html.Div(
     [
         html.Div(
-            id="header-container",
-            style={"background-color": "#119DFF"},
             children=[
                 html.H2(
                     "Dash Bio: Ideogram Selector",
-                    id="title",
-                    style={"color": "#FFF"}
+                    id="ideogram-title",
                 ),
                 html.A(
                     html.Img(
@@ -37,7 +34,7 @@ def layout():
                     ),
                     href="http://www.dash.bio",
                 ),
-            ], className="ideogram-banner",
+            ], className="ideogram-banner"
         ),
         dcc.Tabs(
             id="tabs",
@@ -209,8 +206,7 @@ def layout():
                                                             placeholder="Enter a value...",
                                                             type="number",
                                                             value=10,
-                                                            style={
-                                                                "width": "100%"}
+                                                            className="ideogram-column-content"
                                                         ),
                                                         html.P("Chr Height"),
                                                         dcc.Input(
@@ -218,8 +214,7 @@ def layout():
                                                             placeholder="Enter a value...",
                                                             type="number",
                                                             value=300,
-                                                            style={
-                                                                "width": "100%"}
+                                                            className="ideogram-column-content"
                                                         ),
                                                         html.P("Chr Width"),
                                                         dcc.Input(
@@ -227,8 +222,7 @@ def layout():
                                                             placeholder="Enter a value...",
                                                             type="number",
                                                             value=8,
-                                                            style={
-                                                                "width": "100%"}
+                                                            className="ideogram-column-content"
                                                         ),
                                                         html.P("Resolution"),
                                                         dcc.Dropdown(
@@ -252,11 +246,7 @@ def layout():
                                                     ],
                                                 ),
                                             ],
-                                            className="three columns",
-                                            style={
-                                                "max-height": "74vh",
-                                                "overflow-y": "auto"
-                                            }
+                                            className="three columns ideogram-column",
                                         ),
                                         html.Div(
                                             [
@@ -270,14 +260,9 @@ def layout():
                                                     chrMargin=10,
                                                     chrWidth=8,
                                                     rotatable=True,
-                                                    style={
-                                                        "max-height": "74vh",
-                                                        "overflow-y": "auto",
-                                                        "position": "relative"
-                                                    }
                                                 ),
                                             ],
-                                            className="nine columns",
+                                            className="nine columns ideogram-custom",
                                         ),
                                     ],
                                     className="row",
@@ -358,9 +343,7 @@ def layout():
                                             value=57217415,
                                         ),
                                     ],
-                                    className="three columns",
-                                    style={"max-height": "74vh",
-                                           "overflow-y": "auto"}
+                                    className="three columns ideogram-column",
                                 ),
                                 html.Div(
                                     [
@@ -403,43 +386,39 @@ def layout():
                     children=[
                         html.Div(
                             [
-                                html.Div(
-                                    [
-                                        html.H5("Options"),
-                                        html.P("Enter Chromosome Values"),
-                                        dcc.Input(
-                                            id="chr-brush",
-                                            placeholder="Ex: (1 - 22 , X, Y)",
-                                            type="text",
-                                            value="",
-                                            style={"width": "100%"}
-                                        ),
-                                        dcc.Textarea(
-                                            id="brush-print",
-                                            placeholder='',
-                                            value='This is a TextArea component',
-                                            style={'width': '100%'}
-                                        ),
-                                    ],
-                                    className="three columns",
+                                html.H5("Options"),
+                                html.P("Enter Chromosome Values"),
+                                dcc.Input(
+                                    id="chr-brush",
+                                    placeholder="Ex: (1 - 22 , X, Y)",
+                                    type="text",
+                                    value="",
+                                    className="ideogram-column-content"
                                 ),
-                                html.Div(
-                                    [
-                                        dash_bio.DashIdeogram(
-                                            id="brush-ideo",
-                                            dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
-                                            organism="human",
-                                            chromosomes=["1"],
-                                            brush="chr1:1-10000000",
-                                            chrHeight=900,
-                                            resolution=550,
-                                            orientation="horizontal",
-                                        ),
-                                    ],
-                                    className="nine columns",
+                                dcc.Textarea(
+                                    id="brush-print",
+                                    placeholder='',
+                                    value='This is a TextArea component',
+                                    className="ideogram-column-content"
                                 ),
-                            ]
-                        )
+                            ],
+                            className="three columns",
+                        ),
+                        html.Div(
+                            [
+                                dash_bio.DashIdeogram(
+                                    id="brush-ideo",
+                                    dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
+                                    organism="human",
+                                    chromosomes=["1"],
+                                    brush="chr1:1-10000000",
+                                    chrHeight=900,
+                                    resolution=550,
+                                    orientation="horizontal",
+                                ),
+                            ],
+                            className="nine columns",
+                        ),
                     ],
                 ),
                 dcc.Tab(
@@ -447,114 +426,101 @@ def layout():
                     children=[
                         html.Div(
                             [
+                                html.H6("Annotations"),
                                 html.Div(
                                     [
-                                        html.H6("Annotations"),
-                                        html.Div(
-                                            [
-                                                dcc.Dropdown(
-                                                    id="annotation-select",
-                                                    options=[
-                                                        {
-                                                            "label": "Histogram",
-                                                            "value": "histogram",
-                                                        },
-                                                        {
-                                                            "label": "Overlay-1",
-                                                            "value": "overlay-1",
-                                                        },
-                                                        {
-                                                            "label": "Overlay-2",
-                                                            "value": "overlay-2",
-                                                        },
-                                                    ],
-                                                    value="histogram",
-                                                ),
-                                                html.P(
-                                                    "Annotation Color"),
-                                                dcc.Input(
-                                                    id="color-input",
-                                                    placeholder="Annotation Color",
-                                                    type="text",
-                                                    value="#FF0000",
-                                                    style={"width": "100%"}
-                                                ),
-                                                html.P(
-                                                    "Annotation Height"),
-                                                dcc.Input(
-                                                    id="height-input",
-                                                    placeholder="Annotation Height",
-                                                    type="text",
-                                                    value="3",
-                                                    style={"width": "100%"}
-                                                ),
-                                                html.P("Bar Width"),
-                                                dcc.Input(
-                                                    id="bar-input",
-                                                    placeholder="Annotation Height",
-                                                    type="number",
-                                                    value=3,
-                                                    min=1,
-                                                    style={"width": "100%"}
-                                                ),
-                                                html.P(
-                                                    "Orientation"),
-                                                dcc.Dropdown(
-                                                    id="orientation-anote",
-                                                    options=[
-                                                        {
-                                                            "label": "Vertical",
-                                                            "value": "vertical",
-                                                        },
-                                                        {
-                                                            "label": "Horizontal",
-                                                            "value": "horizontal",
-                                                        },
-                                                    ],
-                                                    value="horizontal",
-                                                ),
-                                                html.P(
-                                                    "Annotation Hover Data (Overlay-1/2)"),
-                                                dcc.Textarea(
-                                                    id="annote-data",
-                                                    placeholder='',
-                                                    value='',
-                                                    style={'width': '100%'}
-                                                ) 
+                                        dcc.Dropdown(
+                                            id="annotation-select",
+                                            options=[
+                                                {
+                                                    "label": "Histogram",
+                                                    "value": "histogram",
+                                                },
+                                                {
+                                                    "label": "Overlay-1",
+                                                    "value": "overlay-1",
+                                                },
+                                                {
+                                                    "label": "Overlay-2",
+                                                    "value": "overlay-2",
+                                                },
                                             ],
-                                            style={
-                                                "overflow-y": "auto",
-                                                "max-height": "75vh",
-                                            },
-                                        )
-
-                                    ],
-                                    className="three columns",
-                                ),
-                                html.Div(
-                                    [
-                                        dash_bio.DashIdeogram(
-                                            id="ideo-annotations",
-                                            dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
-                                            organism="human",
-                                            assembly="GRCh37",
-                                            orientation="horizontal",
-                                            showBandLabels=True,
-                                            chrHeight=275,
-                                            chrMargin=28,
-                                            rotatable=True,
-                                            filterable=True,
-                                            style={
-                                                    "max-height": "73vh",
-                                                    "overflow-y": "auto",
-                                                    "position": "relative"
-                                            }
+                                            value="histogram",
                                         ),
-                                    ],
-                                    className="nine columns",
+                                        html.P(
+                                            "Annotation Color"),
+                                        dcc.Input(
+                                            id="color-input",
+                                            placeholder="Annotation Color",
+                                            type="text",
+                                            value="#FF0000",
+                                            className="ideogram-column-content"
+                                        ),
+                                        html.P(
+                                            "Annotation Height"),
+                                        dcc.Input(
+                                            id="height-input",
+                                            placeholder="Annotation Height",
+                                            type="text",
+                                            value="3",
+                                            className="ideogram-column-content"
+                                        ),
+                                        html.P("Bar Width"),
+                                        dcc.Input(
+                                            id="bar-input",
+                                            placeholder="Annotation Height",
+                                            type="number",
+                                            value=3,
+                                            min=1,
+                                            className="ideogram-column-content"
+                                        ),
+                                        html.P(
+                                            "Orientation"),
+                                        dcc.Dropdown(
+                                            id="orientation-anote",
+                                            options=[
+                                                {
+                                                    "label": "Vertical",
+                                                    "value": "vertical",
+                                                },
+                                                {
+                                                    "label": "Horizontal",
+                                                    "value": "horizontal",
+                                                },
+                                            ],
+                                            value="horizontal",
+                                        ),
+                                        html.P(
+                                            "Annotation Hover Data (Overlay-1/2)"),
+                                        dcc.Textarea(
+                                            id="annote-data",
+                                            placeholder='',
+                                            value='',
+                                            className="ideogram-column-content"
+                                        )
+                                    ], className="ideogram-column",
+                                )
+                            ],
+                            className="three columns",
+                        ),
+                        html.Div(
+                            [
+                                dash_bio.DashIdeogram(
+                                    id="ideo-annotations",
+                                    dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
+                                    organism="human",
+                                    assembly="GRCh37",
+                                    orientation="horizontal",
+                                    showBandLabels=True,
+                                    chrHeight=275,
+                                    chrMargin=28,
+                                    rotatable=True,
+                                    filterable=True,
+                                    className="ideogram-custom"
                                 ),
-                            ]
-                        )
+                            ],
+                            className="nine columns",
+                        ),
                     ],
                 ),
             ],
@@ -839,7 +805,6 @@ def callbacks(app):
             },
         }
 
-
     @app.callback(
         Output("brush-ideo", "chromosomes"),
         [Input("chr-brush", "value")]
@@ -862,23 +827,21 @@ def callbacks(app):
         else:
             return "chr1:1-10000000"
 
-    # Title Color Change onRotate
+    # Color Change onRotate
     @app.callback(
-        Output("title", "style"),
+        Output("ideogram-title", "style"),
         [Input("ideo-custom", "rotated")],
-        [State("title", "style")]
+        [State("ideogram-title", "style")]
     )
     def ideo_rotated(value, style):
         if value:
-            style["color"] = "#EF553B"
+            style={"color":"#EF553B"}
             return style
-        style["color"] = "#FFF"
+        style={"color":"#FFF"}
         return style
 
 
     # Event Call Annotation
-
-
     @app.callback(
         Output("annote-data", "value"),
         [Input("ideo-annotations", "annotationsData")]
