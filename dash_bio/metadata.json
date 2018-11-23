@@ -128,17 +128,49 @@
       }
     }
   },
-  "src/lib/components/ExampleComponent.js": {
-    "description": "ExampleComponent is an example component.\r\nIt takes a property, `label`, and\r\ndisplays it.\r\nIt renders an input with the property `value`\r\nwhich is editable by the user.",
-    "displayName": "ExampleComponent",
-    "methods": [],
+  "src/lib/components/NeedlePlot.react.js": {
+    "description": "",
+    "displayName": "NeedlePlot",
+    "methods": [
+      {
+        "name": "handleChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "event",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "prepareTraces",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "prepareLayout",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "vars",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "id": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique across all of the\ncomponents in an app."
+        "description": "The ID of this component, used to identify dash components\r\nin callbacks. The ID needs to be unique across all of the\r\ncomponents in an app."
       },
       "x": {
         "type": {
@@ -277,7 +309,7 @@
         "required": false,
         "description": "",
         "defaultValue": {
-          "value": "{\n    stemColor: '#444',\n    stemThickness: 0.5,\n    stemConstHeight: false,\n    headSize: 5,\n    headColor: [\n        '#e41a1c',\n        '#377eb8',\n        '#4daf4a',\n        '#984ea3',\n        '#ff7f00',\n        '#ffff33',\n        '#a65628',\n        '#f781bf',\n        '#999999',\n        '#e41a1c',\n        '#377eb8',\n        '#4daf4a',\n        '#984ea3',\n        '#ff7f00',\n        '#ffff33',\n        '#a65628',\n        '#f781bf',\n        '#999999',\n        '#e41a1c',\n    ],\n    headSymbol: 'circle',\n}",
+          "value": "{\r\n    stemColor: '#444',\r\n    stemThickness: 0.5,\r\n    stemConstHeight: false,\r\n    headSize: 5,\r\n    headColor: [\r\n        '#e41a1c',\r\n        '#377eb8',\r\n        '#4daf4a',\r\n        '#984ea3',\r\n        '#ff7f00',\r\n        '#ffff33',\r\n        '#a65628',\r\n        '#f781bf',\r\n        '#999999',\r\n        '#e41a1c',\r\n        '#377eb8',\r\n        '#4daf4a',\r\n        '#984ea3',\r\n        '#ff7f00',\r\n        '#ffff33',\r\n        '#a65628',\r\n        '#f781bf',\r\n        '#999999',\r\n        '#e41a1c',\r\n    ],\r\n    headSymbol: 'circle',\r\n}",
           "computed": false
         }
       },
@@ -298,7 +330,7 @@
         "required": false,
         "description": "",
         "defaultValue": {
-          "value": "{\n    displayMinorDomains: false,\n    domainColor: [\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n        '#fccde5',\n        '#d9d9d9',\n        '#bc80bd',\n        '#ccebc5',\n        '#ffed6f',\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n    ],\n}",
+          "value": "{\r\n    displayMinorDomains: false,\r\n    domainColor: [\r\n        '#8dd3c7',\r\n        '#ffffb3',\r\n        '#bebada',\r\n        '#fb8072',\r\n        '#80b1d3',\r\n        '#fdb462',\r\n        '#b3de69',\r\n        '#fccde5',\r\n        '#d9d9d9',\r\n        '#bc80bd',\r\n        '#ccebc5',\r\n        '#ffed6f',\r\n        '#8dd3c7',\r\n        '#ffffb3',\r\n        '#bebada',\r\n        '#fb8072',\r\n        '#80b1d3',\r\n        '#fdb462',\r\n        '#b3de69',\r\n    ],\r\n}",
           "computed": false
         }
       },
@@ -308,6 +340,38 @@
         },
         "required": false,
         "description": "Dash-assigned callback that should be called whenever any of the\r\nproperties change"
+      },
+      "dashEvents": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'click'",
+              "computed": false
+            },
+            {
+              "value": "'hover'",
+              "computed": false
+            },
+            {
+              "value": "'unhover'",
+              "computed": false
+            },
+            {
+              "value": "'selected'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": ""
+      },
+      "fireEvent": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Function that fires events"
       }
     }
   }

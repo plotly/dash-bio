@@ -1,5 +1,5 @@
 cython>=0.19
-numpy
 gunicorn
+numpy
 pandas
-scipy==1.1.0
+scipy>=1.1.0

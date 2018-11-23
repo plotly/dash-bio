@@ -9,9 +9,6 @@ from config import DASH_APP_NAME
 import base64
 import json
 
-with open('./tests/dash/sample_data/data.js') as f:
-    model=json.load(f)
-
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
 app = dash.Dash(__name__)
@@ -48,9 +45,7 @@ app.layout = html.Div(
             ]),
         ]),
         html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_bio.DashMolecule3d(modelData=model)),
-        # html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent())
-        # html.Div(style={"display": "none"}, children=dash_bio.ExampleComponent(label="test"))
+        html.Div(style={"display": "none"}, children=dash_bio.NeedlePlot()),
     ]
 )
 

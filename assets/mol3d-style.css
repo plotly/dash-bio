@@ -1,8 +1,9 @@
-#controls-container-mol3d {
+#mol3d-body {
     font-family: sans-serif;
     padding: 5px
 }
-#header-mol3d {
+
+#mol3d-header {
     width: 98%;
     height: 60px;
     text-align: center;
@@ -12,53 +13,57 @@
     border-radius: 5px;
 }
 
-.controls-mol3d {
+#mol3d-upload-container {
+    width: 99%;
+    height: 50px;
+    line-height: 60px;
+    border-width: 1px;
+    border-style: dashed;
+    border-radius: 5px;
+    text-align: center;
+    margin: 3px;
+    padding: 5px;
+}
+
+.mol3d-controls {
     border-width: 2px;
     border-left-style: solid;
     border-right-style: solid;
     border-color: grey;
-    /* border-radius: 5px; */
     padding: 10px;
     top: 2px;
     right: 5px;
     width: 30%;
-    /* float: right; */
+    height: auto;
 }
 
-#control-bgcolor-mol3d {
-    /* position: absolute;
-    top: 140px;
-    height: 60px; */
+#mol3d-control-bgcolor {
     border-top-style: solid;
     border-color: grey;
     border-width: 2px;
 }
-#selection-display-mol3d {
+#mol3d-selection-display {
     border-bottom-style: solid;
     border-color: grey;
     border-width: 2px;
 }
 
-#slider-opacity-mol3d {
+#mol3d-slider-opacity {
     width: 95%;
 }
 
-#output-data-upload-mol3d {
+#mol3d-output-data-upload {
     position: absolute;
     width: 70%;
-    height:auto;
-    /* top: 172px; */
-    top:27%;
-    left: 300px;
+    top:28%;
+    bottom:10%;
+    left: 30%;
     right:2px;
 }
 
-#mol-3d {
-    width: 100%;
-    height: auto;
-}
-
-#selection_output-mol3d {
+#mol3d-selection_output {
     width: 98%;
-    height: 150px;
+    height: 30%;
+    left: 50%;
+    top: 30%;
 }
