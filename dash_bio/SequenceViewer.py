@@ -5,7 +5,17 @@ from dash.development.base_component import Component, _explicitize_args
 
 class SequenceViewer(Component):
     """A SequenceViewer component.
-
+The sequence viewer component is used to display sequences 
+that represent proteins, strands of genomic information, and
+more. It can apply a coverage to the sequence supplied (with 
+clickable coverage sections that can display specific information, 
+and an optional legend to describe the color codes used), 
+search through the sequence for specific regex, capture 
+mouse selection events of subparts of the sequence, display a
+count of the number of nucleotides or amino acids in the 
+sequence,
+Read more about the component here: 
+https://github.com/FlyBase/react-sequence-viewer
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in Dash callbacks.
@@ -36,14 +46,17 @@ beginning and terminating indices of the section in question.
 Cannot be used at the same time as selection.
 - legend (list; optional): A legend corresponding to the color codes above (optionally displayed).
 - coverageClicked (number; optional): Contains the index of the section that was clicked last in 
-the coverage.
-- mouseSelection (optional): A string containing the mouse selection.. mouseSelection has the following type: dict containing keys 'start', 'end', 'selection'.
+the coverage list supplied.
+- mouseSelection (optional): Contains information about the subsequence selected 
+by the mouse. Start and end refer to the initial and 
+final indices, respectively, of the subsequence, and 
+"selection" contains the string that is selected.. mouseSelection has the following type: dict containing keys 'start', 'end', 'selection'.
 Those keys have the following types: 
   - start (number; optional)
   - end (number; optional)
   - selection (string; optional)
-- subpartSelected (list; optional): A string containing all of the highlighted sections when 
-using the search bar.
+- subpartSelected (list; optional): A list of the subparts selected using the 
+"search" function or the "selection" property.
 
 Available events: """
     @_explicitize_args

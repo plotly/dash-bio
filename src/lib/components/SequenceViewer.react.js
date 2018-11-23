@@ -3,7 +3,17 @@ import PropTypes from 'prop-types';
 import ReactSequenceViewer from 'react-sequence-viewer'; 
 
 /**
- *
+ * The sequence viewer component is used to display sequences 
+ * that represent proteins, strands of genomic information, and
+ * more. It can apply a coverage to the sequence supplied (with 
+ * clickable coverage sections that can display specific information, 
+ * and an optional legend to describe the color codes used), 
+ * search through the sequence for specific regex, capture 
+ * mouse selection events of subparts of the sequence, display a
+ * count of the number of nucleotides or amino acids in the 
+ * sequence,
+ * Read more about the component here: 
+ * https://github.com/FlyBase/react-sequence-viewer
  */
 export default class SequenceViewer extends Component {
 
@@ -126,8 +136,8 @@ export default class SequenceViewer extends Component {
 			 title: this.props.title,
 			 sequenceMaxHeight: this.props.sequenceMaxHeight,
 			 badge: this.props.badge,
-			 onMouseSelection: this.props.onMouseSelection,
-			 onSubpartSelected: this.props.onSubpartSelected,
+			 onMouseSelection: this.onMouseSelection,
+			 onSubpartSelected: this.onSubpartSelected,
 			 legend: this.props.legend}	
 
     return (
@@ -252,12 +262,15 @@ SequenceViewer.propTypes = {
     
     /**
      * Contains the index of the section that was clicked last in 
-     * the coverage.
+     * the coverage list supplied.
      */ 
     coverageClicked: PropTypes.number,
 
     /**
-     * A string containing the mouse selection.
+     * Contains information about the subsequence selected 
+     * by the mouse. Start and end refer to the initial and 
+     * final indices, respectively, of the subsequence, and 
+     * "selection" contains the string that is selected.
      */
     mouseSelection: PropTypes.shape({
 	'start': PropTypes.number,
@@ -266,8 +279,8 @@ SequenceViewer.propTypes = {
     }),
 
     /**
-     * A string containing all of the highlighted sections when 
-     * using the search bar.
+     * A list of the subparts selected using the 
+     * "search" function or the "selection" property. 
      */
     subpartSelected: PropTypes.arrayOf(PropTypes.shape({
 	'start': PropTypes.number,

@@ -816,7 +816,7 @@
     }
   },
   "src/lib/components/SequenceViewer.react.js": {
-    "description": "",
+    "description": "The sequence viewer component is used to display sequences \nthat represent proteins, strands of genomic information, and\nmore. It can apply a coverage to the sequence supplied (with \nclickable coverage sections that can display specific information, \nand an optional legend to describe the color codes used), \nsearch through the sequence for specific regex, capture \nmouse selection events of subparts of the sequence, display a\ncount of the number of nucleotides or amino acids in the \nsequence,\nRead more about the component here: \nhttps://github.com/FlyBase/react-sequence-viewer",
     "displayName": "SequenceViewer",
     "methods": [
       {
@@ -1064,7 +1064,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "Contains the index of the section that was clicked last in \nthe coverage."
+        "description": "Contains the index of the section that was clicked last in \nthe coverage list supplied."
       },
       "mouseSelection": {
         "type": {
@@ -1085,7 +1085,7 @@
           }
         },
         "required": false,
-        "description": "A string containing the mouse selection."
+        "description": "Contains information about the subsequence selected \nby the mouse. Start and end refer to the initial and \nfinal indices, respectively, of the subsequence, and \n\"selection\" contains the string that is selected."
       },
       "subpartSelected": {
         "type": {
@@ -1109,7 +1109,7 @@
           }
         },
         "required": false,
-        "description": "A string containing all of the highlighted sections when \nusing the search bar."
+        "description": "A list of the subparts selected using the \n\"search\" function or the \"selection\" property."
       },
       "setProps": {
         "type": {
