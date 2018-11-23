@@ -18,7 +18,8 @@
     "react": "15.4.2",
     "react-dom": "15.4.2",
     "react-plotly.js": "^2.2.0",
-    "react-sequence-viewer": "git://github.com/shammamah/react-sequence-viewer.git"
+    "react-sequence-viewer": "git://github.com/shammamah/react-sequence-viewer.git",
+    "ideogram": "git+https://github.com/eweitz/ideogram.git#95d3831"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

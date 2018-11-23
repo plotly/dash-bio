@@ -29,7 +29,7 @@ PATH_BASED_ROUTING = True
 # if DASH_APP_PRIVACY is set to 'private' or 'secret'                     #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Fill in with your Plotly On-Premise username
-os.environ['PLOTLY_USERNAME'] = 'shammamah'
+os.environ['PLOTLY_USERNAME'] = 'developers'
 # Fill in with your Plotly On-Premise API key
 # See <your-plotly-server>/settings/api to generate a key
 # If you have already created a key and saved it on your own machine
