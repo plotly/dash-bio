@@ -2,19 +2,19 @@
     display: none;
   }
   
-.banner-circos {
+.circos-banner {
     height: 75px;
     background-color: rgb(66, 196, 247);
     border-radius: 2px;
 }
 
-.banner-circos h2{
+.circos-banner h2{
     color: white;
     margin-left: 2%;
     display: inline-block;
 }
 
-.banner-circos Img{
+.circos-banner Img{
     position: relative;
     float: right;
     right: 10px;
