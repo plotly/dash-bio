@@ -164,7 +164,7 @@ export default class DashCircos extends Component {
       // Since config is const, can't manipulate and throws error
       let configApply
 
-      if (config) {
+      if (config !== undefined) {
         configApply = config
 
         // Set Event Handling
