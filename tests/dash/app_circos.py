@@ -9,8 +9,9 @@ import io
 import pandas as pd
 import json
 
-with open('./tests/dash/sample_data/graph_data.json', 'r') as graph_data:
-    graph_data = json.load(graph_data)
+with open('./tests/dash/sample_data/circos_graph_data.json', 'r') as circos_graph_data:
+    circos_graph_data = json.load(circos_graph_data)
+
 
 def description():
     return 'Dash Circos is a library used to analyze and interpret data using a circular layout, \
@@ -35,7 +36,7 @@ def parse_contents(contents, filename, date):
 
 
 empty = dash_bio.DashCircos(
-    id="main-circos", selectEvent={}, layout=[], size=700, config={}, tracks=[]
+    id="main-circos", selectEvent={}, layout=[], size=800, config={}, tracks=[]
 )
 
 upload_instructions = (
@@ -56,12 +57,19 @@ def layout():
                     html.H2("Dash Bio: Circos Graph Selector"),
                     html.A(
                         html.Img(
-                            src='./assets/dashbio_logo.svg'
+                            src='data:image/png;base64,{}'.format(
+                                base64.b64encode(
+                                    open(
+                                        './assets/dashbio_logo_words.png',
+                                        'rb'
+                                    ).read()
+                                ).decode()
+                            )
                         ),
                         href="http://www.dash.bio",
                     ),
                 ],
-                className="banner",
+                className="circos-banner",
             ),
             html.Div(
                 [
@@ -73,27 +81,26 @@ def layout():
                                         [
                                             html.Div(
                                                 [
-                                                    # dt.DataTable(
-                                                    #     id="data-table",
-                                                    #     row_selectable=True,
-                                                    #     sorting=True,
-                                                    #     filtering=True,
-                                                    #     css=[{
-                                                    #         'selector': '.dash-cell div.dash-cell-value',
-                                                    #         'rule': 'display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;',
-                                                    #     }],
-                                                    #     style_cell={
-                                                    #         'whiteSpace': 'no-wrap',
-                                                    #         'overflow': 'hidden',
-                                                    #         'textOverflow': 'ellipsis',
-                                                    #         'maxWidth': 0,
-                                                    #     },
-                                                    #     style_table={
-                                                    #         'maxHeight': '30vh',
-                                                    #         'overflowY': 'scroll'
-                                                    #     },
-                                                    #     n_fixed_rows=1,
-                                                    # ),
+                                                    dt.DataTable(
+                                                        id="data-table",
+                                                        row_selectable=True,
+                                                        sorting=True,
+                                                        filtering=True,
+                                                        css=[{
+                                                            'selector': '.dash-cell div.dash-cell-value',
+                                                            'rule': 'display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;',
+                                                        }],
+                                                        style_cell={
+                                                            'whiteSpace': 'no-wrap',
+                                                            'overflow': 'hidden',
+                                                            'textOverflow': 'ellipsis',
+                                                            'maxWidth': 0,
+                                                        },
+                                                        style_table={
+                                                            'maxHeight': '30vh',
+                                                        },
+                                                        n_fixed_rows=1,
+                                                    ),
                                                     html.Div(
                                                         id="expected-index"),
                                                 ], style={'overflowY': 'hidden'}
@@ -158,10 +165,10 @@ def layout():
                                                                     dcc.Slider(
                                                                         id="size-slider",
                                                                         marks={
-                                                                            600: "Min",
+                                                                            500: "Min",
                                                                             800: "Max",
                                                                         },
-                                                                        min=600,
+                                                                        min=500,
                                                                         max=800,
                                                                         step=10,
                                                                         value=600,
@@ -229,7 +236,7 @@ def layout():
                                                         [
                                                             html.H5(
                                                                 "Upload Data",
-                                                                className="four columns",
+                                                                className="six columns",
                                                             ),
                                                             html.Button(
                                                                 "Render",
@@ -249,7 +256,7 @@ def layout():
                                                                 ),
                                                                 href="https://github.com/plotly/dash-bio/tree/master/tests/dash/sample_data/circos_sample_data.rar",
                                                                 target="_blank",
-                                                                className="five columns",
+                                                                className="three columns",
                                                                 style={
                                                                     "margin-top": "0.5%",
                                                                     "margin-bottom": "2%",
@@ -313,14 +320,23 @@ def layout():
                                                 className="row",
                                             ),
                                         ],
-                                        className="five columns"
+                                        className="five columns",
+                                        style={
+                                            "max-height": "88.5vh",
+                                            "overflow": "hidden auto"
+                                        }
                                     ),
                                     html.Div(
                                         id="circos-hold",
                                         children=[
                                             empty
                                         ],
-                                        className="seven columns"
+                                        className="seven columns",
+                                        style={
+                                            "max-height": "88.5vh",
+                                            "overflow": "auto",
+                                            "paddingTop": "5%"
+                                        }
                                     ),
                                 ],
                                 className="row",
@@ -360,7 +376,7 @@ def callbacks(app):
     def update_output(init):
         if init >= 1:
             return 10000000000000
-        return 1000000000000
+        return 1000
 
     @app.callback(
         Output("data-selector", "options"),
@@ -479,7 +495,7 @@ def callbacks(app):
             return dash_bio.DashCircos(
                 id="main-circos",
                 selectEvent={"0": "hover", "1": "hover"},
-                layout=graph_data["month_layout"],
+                layout=circos_graph_data["month_layout"],
                 config={
                     "innerRadius": (size / 2 - 80),
                     "outerRadius": (size / 2 - 30),
@@ -495,7 +511,7 @@ def callbacks(app):
                 tracks=[
                     {
                         "type": "HEATMAP",
-                        "data": graph_data["heatmap"],
+                        "data": circos_graph_data["heatmap"],
                         "config": {
                             "innerRadius": 0.8,
                             "outerRadius": 0.98,
@@ -506,7 +522,7 @@ def callbacks(app):
                     },
                     {
                         "type": "HEATMAP",
-                        "data": graph_data["heatmap"],
+                        "data": circos_graph_data["heatmap"],
                         "config": {
                             "innerRadius": 0.7,
                             "outerRadius": 0.79,
@@ -523,7 +539,7 @@ def callbacks(app):
             return dash_bio.DashCircos(
                 id="main-circos",
                 selectEvent={"0": "both", "1": "both"},
-                layout=graph_data["GRCh37"],
+                layout=circos_graph_data["GRCh37"],
                 config={
                     "innerRadius": size / 2 - 80,
                     "outerRadius": size / 2 - 40,
@@ -539,7 +555,7 @@ def callbacks(app):
                 tracks=[
                     {
                         "type": "HIGHLIGHT",
-                        "data": graph_data["cytobands"],
+                        "data": circos_graph_data["cytobands"],
                         "config": {
                             "innerRadius": size / 2 - 80,
                             "outerRadius": size / 2 - 40,
@@ -550,7 +566,7 @@ def callbacks(app):
                     },
                     {
                         "type": "CHORDS",
-                        "data": graph_data["chords"],
+                        "data": circos_graph_data["chords"],
                         "config": {
                             "logScale": False,
                             "opacity": 0.7,
@@ -572,7 +588,7 @@ def callbacks(app):
             return dash_bio.DashCircos(
                 id="main-circos",
                 selectEvent={"0": "hover", "1": "hover"},
-                layout=graph_data["GRCh37"],
+                layout=circos_graph_data["GRCh37"],
                 config={
                     "innerRadius": size / 2 - 100,
                     "outerRadius": size / 2 - 50,
@@ -582,7 +598,7 @@ def callbacks(app):
                 tracks=[
                     {
                         "type": "HIGHLIGHT",
-                        "data": graph_data["cytobands"],
+                        "data": circos_graph_data["cytobands"],
                         "config": {
                             "innerRadius": size / 2 - 100,
                             "outerRadius": size / 2 - 50,
@@ -599,7 +615,7 @@ def callbacks(app):
         elif circos_select == "histogram":
             return dash_bio.DashCircos(
                 id="main-circos",
-                layout=graph_data["GRCh37"],
+                layout=circos_graph_data["GRCh37"],
                 selectEvent={"0": "hover", "1": "click"},
                 config={
                     "innerRadius": size / 2 - 150,
@@ -610,7 +626,7 @@ def callbacks(app):
                 tracks=[
                     {
                         "type": "HIGHLIGHT",
-                        "data": graph_data["cytobands"],
+                        "data": circos_graph_data["cytobands"],
                         "config": {
                             "innerRadius": size / 2 - 150,
                             "outerRadius": size / 2 - 120,
@@ -621,7 +637,7 @@ def callbacks(app):
                     },
                     {
                         "type": "HISTOGRAM",
-                        "data": graph_data["histogram"],
+                        "data": circos_graph_data["histogram"],
                         "config": {
                             "innerRadius": 1.01,
                             "outerRadius": 1.4,
@@ -639,7 +655,7 @@ def callbacks(app):
                 selectEvent={"0": "hover", "1": "click"},
                 layout=list(
                     filter(lambda d: d["id"] in [
-                        "chr1", "chr2", "chr3"], graph_data["GRCh37"])
+                        "chr1", "chr2", "chr3"], circos_graph_data["GRCh37"])
                 ),
                 config={
                     "innerRadius": size / 2 - 150,
@@ -664,7 +680,7 @@ def callbacks(app):
                             filter(
                                 lambda d: d["block_id"] in [
                                     "chr1", "chr2", "chr3"],
-                                graph_data["cytobands"],
+                                circos_graph_data["cytobands"],
                             )
                         ),
                         "config": {
@@ -677,7 +693,7 @@ def callbacks(app):
                     },
                     {
                         "type": "LINE",
-                        "data": graph_data["snp250"],
+                        "data": circos_graph_data["snp250"],
                         "config": {
                             "innerRadius": 0.5,
                             "outerRadius": 0.8,
@@ -712,7 +728,7 @@ def callbacks(app):
                     },
                     {
                         "type": "SCATTER",
-                        "data": graph_data["snp250"],
+                        "data": circos_graph_data["snp250"],
                         "config": {
                             "innerRadius": 0.5,
                             "outerRadius": 0.8,
@@ -729,7 +745,7 @@ def callbacks(app):
                     },
                     {
                         "type": "LINE",
-                        "data": graph_data["snp"],
+                        "data": circos_graph_data["snp"],
                         "config": {
                             "innerRadius": 1.01,
                             "outerRadius": 1.15,
@@ -746,7 +762,7 @@ def callbacks(app):
                     },
                     {
                         "type": "LINE",
-                        "data": graph_data["snp1m"],
+                        "data": circos_graph_data["snp1m"],
                         "config": {
                             "innerRadius": 1.01,
                             "outerRadius": 1.15,
@@ -759,7 +775,7 @@ def callbacks(app):
                     },
                     {
                         "type": "LINE",
-                        "data": graph_data["snp"],
+                        "data": circos_graph_data["snp"],
                         "config": {
                             "innerRadius": 0.85,
                             "outerRadius": 0.95,
@@ -778,7 +794,7 @@ def callbacks(app):
                     },
                     {
                         "type": "LINE",
-                        "data": graph_data["snp1m"],
+                        "data": circos_graph_data["snp1m"],
                         "config": {
                             "innerRadius": 0.85,
                             "outerRadius": 0.95,
@@ -800,7 +816,7 @@ def callbacks(app):
                 selectEvent={"0": "hover", "1": "click"},
                 layout=list(
                     filter(lambda d: d["id"] in [
-                        "chr1", "chr2", "chr3"], graph_data["GRCh37"])
+                        "chr1", "chr2", "chr3"], circos_graph_data["GRCh37"])
                 ),
                 config={
                     "innerRadius": size / 2 - 150,
@@ -819,7 +835,7 @@ def callbacks(app):
                             filter(
                                 lambda d: d["block_id"] in [
                                     "chr1", "chr2", "chr3"],
-                                graph_data["cytobands"],
+                                circos_graph_data["cytobands"],
                             )
                         ),
                         "config": {
@@ -834,7 +850,7 @@ def callbacks(app):
                         "type": "SCATTER",
                         "data": list(
                             filter(lambda d: float(
-                                d["value"]) > 0.007, graph_data["snp250"])
+                                d["value"]) > 0.007, circos_graph_data["snp250"])
                         ),
                         "config": {
                             "innerRadius": 0.65,
@@ -896,7 +912,7 @@ def callbacks(app):
                     },
                     {
                         "type": "SCATTER",
-                        "data": graph_data["snp250"],
+                        "data": circos_graph_data["snp250"],
                         "config": {
                             "tooltipContent": {
                                 "source": "block_id",
@@ -938,7 +954,7 @@ def callbacks(app):
                         "type": "SCATTER",
                         "data": list(
                             filter(lambda d: float(
-                                d["value"]) < 0.002, graph_data["snp250"])
+                                d["value"]) < 0.002, circos_graph_data["snp250"])
                         ),
                         "config": {
                             "tooltipContent": {
@@ -980,7 +996,7 @@ def callbacks(app):
                     },
                     {
                         "type": "SCATTER",
-                        "data": graph_data["snp250"],
+                        "data": circos_graph_data["snp250"],
                         "config": {
                             "tooltipContent": {
                                 "source": "block_id",
@@ -1067,7 +1083,7 @@ def callbacks(app):
                 tracks=[
                     {
                         "type": "STACK",
-                        "data": graph_data["stack"],
+                        "data": circos_graph_data["stack"],
                         "config": {
                             "innerRadius": 0.7,
                             "outerRadius": 1,
@@ -1102,7 +1118,7 @@ def callbacks(app):
             return dash_bio.DashCircos(
                 id="main-circos",
                 selectEvent={"0": "hover", "1": "click"},
-                layout=[graph_data["GRCh37"][0]],
+                layout=[circos_graph_data["GRCh37"][0]],
                 config={
                     "innerRadius": size / 2 - 100,
                     "outerRadius": size / 2 - 80,
@@ -1114,8 +1130,8 @@ def callbacks(app):
                         "type": "HIGHLIGHT",
                         "data": list(
                             filter(
-                                lambda d: d["block_id"] == graph_data["GRCh37"][0]["id"],
-                                graph_data["cytobands"],
+                                lambda d: d["block_id"] == circos_graph_data["GRCh37"][0]["id"],
+                                circos_graph_data["cytobands"],
                             )
                         ),
                         "config": {
@@ -1136,8 +1152,8 @@ def callbacks(app):
                                     "block_id": d["block_id"],
                                 },
                                 filter(
-                                    lambda d: d["block_id"] == graph_data["GRCh37"][0]["id"],
-                                    graph_data["cytobands"],
+                                    lambda d: d["block_id"] == circos_graph_data["GRCh37"][0]["id"],
+                                    circos_graph_data["cytobands"],
                                 ),
                             )
                         ),
