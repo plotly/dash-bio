@@ -236,7 +236,7 @@ def layout():
                                                         [
                                                             html.H5(
                                                                 "Upload Data",
-                                                                className="six columns",
+                                                                className="four columns",
                                                             ),
                                                             html.Button(
                                                                 "Render",
@@ -248,7 +248,7 @@ def layout():
                                                                     "justify-content": "center",
                                                                     "align-items": "center"
                                                                 },
-                                                                className="three columns",
+                                                                className="two columns",
                                                             ),
                                                             html.A(
                                                                 html.Button(
@@ -256,7 +256,7 @@ def layout():
                                                                 ),
                                                                 href="https://github.com/plotly/dash-bio/tree/master/tests/dash/sample_data/circos_sample_data.rar",
                                                                 target="_blank",
-                                                                className="three columns",
+                                                                className="one columns",
                                                                 style={
                                                                     "margin-top": "0.5%",
                                                                     "margin-bottom": "2%",
@@ -1179,12 +1179,14 @@ def callbacks(app):
          State("main-circos", "tracks")],
     )
     def update_table_rows(data_selector, render_button, circos_trigger, selected, layout, tracks):
-        if data_selector == "layout":
-            df = pd.DataFrame(layout)
-        else:
-            df = pd.DataFrame(tracks[data_selector]["data"])
-        return df.to_dict("records")
-
+        try:
+            if data_selector == "layout":
+                df = pd.DataFrame(layout)
+            else:
+                df = pd.DataFrame(tracks[data_selector]["data"])
+            return df.to_dict("records")
+        except:
+            return {}
     @app.callback(
         Output("data-table", "columns"),
         [Input("data-selector", "value"),
@@ -1195,11 +1197,14 @@ def callbacks(app):
          State("main-circos", "tracks")],
     )
     def update_table_columns(data_selector, render_button, circos_trigger, selected, layout, tracks):
-        if data_selector == "layout":
-            df = pd.DataFrame(layout)
-        else:
-            df = pd.DataFrame(tracks[data_selector]["data"])
-        return [{'id': i, 'name': i} for i in df.columns]
+        try:
+            if data_selector == "layout":
+                df = pd.DataFrame(layout)
+            else:
+                df = pd.DataFrame(tracks[data_selector]["data"])
+            return [{'id': i, 'name': i} for i in df.columns]
+        except:
+            return {}
 
     @app.callback(
         Output("event-data", "value"),
