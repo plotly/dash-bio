@@ -1,45 +1,11 @@
 import json
 import urllib.request
-import warnings
-
-
-def extract_mutations(target_url, fname=""):
-
-    recieved_data = False
-    try:
-        with urllib.request.urlopen(target_url + fname) as url:
-            data = json.loads(url.read())
-        recieved_data = True
-    except json.decoder.JSONDecodeError:
-        warnings.warn('problem with the data format, not a JSON file')
-    except urllib.error.HTTPError:
-        warnings.warn("Error 404 : check your url or your internet connexion : %s" % (target_url + fname))
-
-    x = []
-    y = []
-    mutationgroup = []
-    if recieved_data:
-        for data_item in data:
-            x.append(data_item['coord'])
-            y.append(data_item['value'])
-            mutationgroup.append(data_item['category'])
-    return x, y, mutationgroup
-
-
-def extract_domains(target_url, fname=""):
-    domains = []
-    try:
-        with urllib.request.urlopen(target_url + fname) as url:
-            domains = json.loads(url.read())
-    except json.decoder.JSONDecodeError:
-        warnings.warn('problem with the data format, not a JSON file')
-    except urllib.error.HTTPError:
-        warnings.warn("Error 404 : check your url or your internet connexion : %s" % (target_url + fname))
-
-    return domains
 
 
 class UniprotQuery(object):
+    """class which handles the query of gff files from the UniProt database
+        build following https://www.uniprot.org/help/api_queries
+    """
     def __init__(self):
         self._base_url = "https://www.uniprot.org/uniprot/"
         self._base_query = "?query=%s"
@@ -209,6 +175,7 @@ class UniprotQuery(object):
 
     def query_into_file(self, query, fname="", fields=None, parameters=None):
         target_url = self.build_query(query, fields=fields, parameters=parameters)
+        print(target_url)
         with urllib.request.urlopen(target_url) as url:
             content = url.read()
 
@@ -222,21 +189,36 @@ class UniprotQuery(object):
             print(url.read())
 
 
+# https://biopython.org/wiki/GFF_Parsing
+
+
 if __name__ == "__main__":
 
-    e = UniprotQuery()
+    import pandas as pd
+    db = pd.read_csv("TP53_regions.gff",delimiter="\t", skiprows=1, header=None,
+                     names=['name','db','mut','start','end','x1','x2','x3','note'])
+    print(db.columns.values)
+    print(db[db.mut == 'Region'])
 
-    e.query_into_file(
-        "TP53",
-        fname="TP53_regions.txt",
-        fields=dict(
-            revieved='yes',
-            organism='9606',
-            database='pfam'
-        ),
-        parameters=dict(
-            columns="id,entry+name,reviewed,genes,organism",
-            sort="score",
-            format='tab'
-        )
-    )
+
+    # 'Natural Variant' appear more than once, so I need to count their instances to get a value
+    # Need to pop them as I create the file with value
+    # Of loop over the starts and only process if the return pd doesn't have the field already
+
+    # e = UniprotQuery()
+    #
+    # e.query_into_file(
+    #     "TP53",
+    #     fname="TP53_regions.gff",
+    #     fields=dict(
+    #         revieved='yes',
+    #         organism='9606',
+    #         database='pfam',
+    #         accession='P04637',
+    #     ),
+    #     parameters=dict(
+    #         # columns="id,entry+name,reviewed,domains,domain,length,genes,organism",
+    #         # sort="score",
+    #         format='gff'
+    #     )
+    # )
