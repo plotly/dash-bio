@@ -22,3 +22,12 @@ Please make sure you have done these things before asking for approval to finall
 - [ ] Update/regenerate `package-lock.json` (run `npm install`)  
 - [ ] Regenerate tarball (run `python setup.py sdist`, then copy `dist/dash_bio-0.0.1.tar.gz` into the top-level directory)
 - [ ] Ask for a final review and look for a :dancer:!
+- [ ] Have your dancer? Merge to master!
+
+## DDS Deployment
+- [ ] Get the `developers` user credentials from a dash-bio team member.
+- [ ] Checkout the master branch of the dash-bio repository, make sure you have the latest master (`git pull`).
+- [ ] Check remotes associated to your repository: `git remote -v`, make sure you have the dash-bio one: `https://dash-gallery.plotly.host/GIT/dash-bio`.
+- [ ] If you don't have the dash-bio remote add it with https, ssh will not work: `git remote add dash-bio https://dash-gallery.plotly.host/GIT/dash-bio`.
+- [ ] You will be asked to enter the `developers` user credentials, have them ready.
+- [ ] Push local master to the dds dash-bio master: `git push dash-bio master`.
