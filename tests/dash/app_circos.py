@@ -65,8 +65,8 @@ empty = dash_bio.DashCircos(
 
 upload_instructions = (
     "1. Set Circos Graph to Custom. \n" +
-    "2. Select Dataset (Press Data for Sample Data). \n" +
-    "3. Drag and Drop .CSV for each Dataset \n" +
+    "2. Select Dataset (Press Download for Sample Data). \n" +
+    "3. Drag and Drop .CSV for each Dataset dropdown (layout -> layout.csv, etc) \n" +
     "4. Press Render! \n" +
     "5. Reselect Dataset to view data in table." 
 )
