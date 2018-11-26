@@ -257,7 +257,7 @@ def layout():
                                                                 html.Button(
                                                                     "Data"
                                                                 ),
-                                                                href="/tests/dash/sample_data/circos_sample_data.rar",
+                                                                href="/assets/sample_data/circos_sample_data.rar",
                                                                 download="circos_sample_data.rar",
                                                                 className="circos-button-data five columns",
                                                             ),
