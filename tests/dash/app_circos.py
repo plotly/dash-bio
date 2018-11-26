@@ -4,6 +4,7 @@ import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_table as dt
+from dash_bio.utils import circosParser as cp
 import base64
 import io
 import pandas as pd
@@ -11,6 +12,29 @@ import json
 
 with open('./tests/dash/sample_data/circos_graph_data.json', 'r') as circos_graph_data:
     circos_graph_data = json.load(circos_graph_data)
+
+parsed_layout = cp.txt_to_layout(
+    file_one_name="./tests/dash/sample_data/circos_GRCh37.txt",
+    file_two_name="./tests/dash/sample_data/circos_GRCh38.txt",
+    append_one="-GRCh37",
+    append_two="-GRCh38",
+    relPath=True,
+    create_local=False,
+)
+
+parsed_track_one = cp.txt_to_track(
+    file_name="./tests/dash/sample_data/circos_GRCh37.txt",
+    append_block_id="-GRCh37",
+    relPath=True,
+    create_local=False,
+)
+
+parsed_track_two = cp.txt_to_track(
+    file_name="./tests/dash/sample_data/circos_GRCh38.txt",
+    append_block_id="-GRCh38",
+    relPath=True,
+    create_local=False,
+)
 
 
 def description():
@@ -77,285 +101,226 @@ def layout():
                         [
                             html.Div(
                                 [
+                                    dt.DataTable(
+                                        id="data-table",
+                                        row_selectable=True,
+                                        sorting=True,
+                                        filtering=True,
+                                        css=[{
+                                            'selector': '.dash-cell div.dash-cell-value',
+                                            'rule': 'display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;',
+                                        }],
+                                        style_cell={
+                                            'whiteSpace': 'no-wrap',
+                                            'overflow': 'hidden',
+                                            'textOverflow': 'ellipsis',
+                                                            'maxWidth': 0,
+                                        },
+                                        style_table={
+                                            'maxHeight': '30vh',
+                                        },
+                                        n_fixed_rows=1,
+                                    ),
+                                    html.Div(
+                                        id="expected-index"),
+                                ], className="circos-datatable"
+                            ),
+                            html.Div(
+                                [
                                     html.Div(
                                         [
-                                            html.Div(
-                                                [
-                                                    dt.DataTable(
-                                                        id="data-table",
-                                                        row_selectable=True,
-                                                        sorting=True,
-                                                        filtering=True,
-                                                        css=[{
-                                                            'selector': '.dash-cell div.dash-cell-value',
-                                                            'rule': 'display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;',
-                                                        }],
-                                                        style_cell={
-                                                            'whiteSpace': 'no-wrap',
-                                                            'overflow': 'hidden',
-                                                            'textOverflow': 'ellipsis',
-                                                            'maxWidth': 0,
-                                                        },
-                                                        style_table={
-                                                            'maxHeight': '30vh',
-                                                        },
-                                                        n_fixed_rows=1,
-                                                    ),
-                                                    html.Div(
-                                                        id="expected-index"),
-                                                ], style={'overflowY': 'hidden'}
-                                            ),
-                                            html.Div(
-                                                [
-                                                    html.Div(
-                                                        [
-                                                            html.H5(
-                                                                "Select Circos Graph"),
-                                                            dcc.Dropdown(
-                                                                id="circos-selector",
-                                                                options=[
-                                                                    {
-                                                                        "label": "Custom",
-                                                                        "value": "custom",
-                                                                    },
-                                                                    {
-                                                                        "label": "Heatmap",
-                                                                        "value": "heatmap",
-                                                                    },
-                                                                    {
-                                                                        "label": "Chords",
-                                                                        "value": "chords",
-                                                                    },
-                                                                    {
-                                                                        "label": "Highlight",
-                                                                        "value": "highlight",
-                                                                    },
-                                                                    {
-                                                                        "label": "Histogram",
-                                                                        "value": "histogram",
-                                                                    },
-                                                                    {
-                                                                        "label": "Line",
-                                                                        "value": "line",
-                                                                    },
-                                                                    {
-                                                                        "label": "Scatter",
-                                                                        "value": "scatter",
-                                                                    },
-                                                                    {
-                                                                        "label": "Stack",
-                                                                        "value": "stack",
-                                                                    },
-                                                                    {
-                                                                        "label": "Text",
-                                                                        "value": "text",
-                                                                    },
-                                                                ],
-                                                                value="chords",
-                                                            ),
-                                                        ],
-                                                        className="six columns",
-                                                    ),
-                                                    html.Div(
-                                                        [
-                                                            html.H5(
-                                                                "Size Slider"),
-                                                            html.Div(
-                                                                [
-                                                                    dcc.Slider(
-                                                                        id="size-slider",
-                                                                        marks={
-                                                                            500: "Min",
-                                                                            800: "Max",
-                                                                        },
-                                                                        min=500,
-                                                                        max=800,
-                                                                        step=10,
-                                                                        value=600,
-                                                                    )
-                                                                ],
-                                                                style={
-                                                                    "paddingLeft": "3.5%"
-                                                                },
-                                                            ),
-                                                        ],
-                                                        className="six columns",
-                                                    ),
+                                            html.H5(
+                                                "Select Circos Graph"),
+                                            dcc.Dropdown(
+                                                id="circos-selector",
+                                                options=[
+                                                    {
+                                                        "label": "Custom",
+                                                        "value": "custom",
+                                                    },
+                                                    {
+                                                        "label": "Heatmap",
+                                                        "value": "heatmap",
+                                                    },
+                                                    {
+                                                        "label": "Chords",
+                                                        "value": "chords",
+                                                    },
+                                                    {
+                                                        "label": "Highlight",
+                                                        "value": "highlight",
+                                                    },
+                                                    {
+                                                        "label": "Histogram",
+                                                        "value": "histogram",
+                                                    },
+                                                    {
+                                                        "label": "Line",
+                                                        "value": "line",
+                                                    },
+                                                    {
+                                                        "label": "Scatter",
+                                                        "value": "scatter",
+                                                    },
+                                                    {
+                                                        "label": "Stack",
+                                                        "value": "stack",
+                                                    },
+                                                    {
+                                                        "label": "Text",
+                                                        "value": "text",
+                                                    },
+                                                    {
+                                                        "label": "Sample Parser Dataset",
+                                                        "value": "parser_data",
+                                                    },
                                                 ],
-                                                className="row",
-                                                style={"marginTop": "2.5%",
-                                                       "padding": "1% 3% 2% 3%",
-                                                       "border": "1px solid #2a3f5f"
-                                                       },
+                                                value="chords",
                                             ),
+                                        ],
+                                        className="six columns",
+                                    ),
+                                    html.Div(
+                                        [
+                                            html.H5(
+                                                "Size Slider"),
                                             html.Div(
                                                 [
-                                                    html.Div(
-                                                        [
-                                                            html.H5(
-                                                                "Select Data Set"
-                                                            ),
-                                                            dcc.Dropdown(
-                                                                id="data-selector",
-                                                                options=[
-                                                                    {
-                                                                        "label": "Layout",
-                                                                        "value": "layout",
-                                                                    }
-                                                                ],
-                                                                value="layout",
-                                                            ),
-                                                        ], className="six columns",
-                                                    ),
-                                                    html.Div(
-                                                        [
-                                                            html.H5(
-                                                                "Hover/Click Data"
-                                                            ),
-                                                            dcc.Textarea(
-                                                                id="event-data",
-                                                                placeholder="Hover or click on data to see it here.",
-                                                                value="Hover or click on data to see it here.",
-                                                                style={
-                                                                    "width": "100%"},
-                                                            ),
-                                                        ],
-                                                        className="six columns",
-                                                    ),
+                                                    dcc.Slider(
+                                                        id="size-slider",
+                                                        marks={
+                                                            500: "Min",
+                                                            800: "Max",
+                                                        },
+                                                        min=500,
+                                                        max=800,
+                                                        step=10,
+                                                        value=600,
+                                                    )
+                                                ], className="circos-size-slider"
+                                            ),
+                                        ],
+                                        className="six columns",
+                                    ),
+                                ],
+                                className="circos-row-one row",
+                            ),
+                            html.Div(
+                                [
+                                    html.Div(
+                                        [
+                                            html.H5(
+                                                "Select Data Set"
+                                            ),
+                                            dcc.Dropdown(
+                                                id="data-selector",
+                                                options=[
+                                                    {
+                                                        "label": "Layout",
+                                                        "value": "layout",
+                                                    }
                                                 ],
-                                                className="row",
-                                                style={
-                                                    "marginTop": "2.5%",
-                                                    "border": "1px solid #2a3f5f",
-                                                    "padding": "1% 2% 1% 3%"
-                                                },
+                                                value="layout",
+                                            ),
+                                        ], className="six columns",
+                                    ),
+                                    html.Div(
+                                        [
+                                            html.H5(
+                                                "Hover/Click Data"
+                                            ),
+                                            dcc.Textarea(
+                                                id="event-data",
+                                                placeholder="Hover or click on data to see it here.",
+                                                value="Hover or click on data to see it here.",
+                                                className="circos-event-data"
+                                            ),
+                                        ],
+                                        className="six columns",
+                                    ),
+                                ],
+                                className="circos-row-two row",
+                            ),
+                            html.Div(
+                                [
+                                    html.Div(
+                                        [
+                                            html.H5(
+                                                "Upload Data",
+                                                className="six columns",
                                             ),
                                             html.Div(
                                                 [
                                                     html.Div(
                                                         [
-                                                            html.H5(
-                                                                "Upload Data",
-                                                                className="four columns",
+                                                            html.A(
+                                                                html.Button(
+                                                                    "Data"
+                                                                ),
+                                                                href="/assets/circos_sample_data.rar",
+                                                                download="circos_sample_data.rar",
+                                                                className="circos-button-data five columns",
                                                             ),
                                                             html.Button(
                                                                 "Render",
                                                                 id="render-button",
-                                                                style={
-                                                                    "marginTop": "0.5%",
-                                                                    "marginBottom": "2%",
-                                                                    "display": "flex",
-                                                                    "justify-content": "center",
-                                                                    "align-items": "center"
-                                                                },
-                                                                className="two columns",
+                                                                className="circos-button-render six columns",
                                                             ),
-                                                            html.A(
-                                                                html.Button(
-                                                                    "Download Data"
-                                                                ),
-                                                                href="https://github.com/plotly/dash-bio/tree/master/tests/dash/sample_data/circos_sample_data.rar",
-                                                                target="_blank",
-                                                                className="one columns",
-                                                                style={
-                                                                    "margin-top": "0.5%",
-                                                                    "margin-bottom": "2%",
-                                                                    "display": "inline-table"
-                                                                },
-                                                            ),
-                                                        ],
-                                                        className="row",
-                                                        style={
-                                                            "marginTop": "2.5%",
-                                                            "border": "1px solid #2a3f5f",
-                                                            "padding": "1% 0% 0% 3%"
-                                                        },
-                                                    ),
-                                                    html.Div(
-                                                        [
-                                                            html.Div(
-                                                                [
-                                                                    dcc.Textarea(
-                                                                        value=upload_instructions,
-                                                                        style={
-                                                                            'width': '100%',
-                                                                            "height": "12vh"
-                                                                        }
-                                                                    )
-                                                                ], className="six columns"
-                                                            ),
-                                                            html.Div(
-                                                                [
-                                                                    dcc.Upload(
-                                                                        id="upload-data",
-                                                                        children=html.Div(
-                                                                            [
-                                                                                "Drag and Drop .CSV file here!"
-                                                                            ],
-                                                                        ),
-                                                                        style={
-                                                                            "width": "100%",
-                                                                            "height": "11vh",
-                                                                            "lineHeight": "11vh",
-                                                                            "borderWidth": "1px",
-                                                                            "borderStyle": "dashed",
-                                                                            "borderRadius": "3px",
-                                                                            "textAlign": "center",
-                                                                            "margin": "3px",
-                                                                            "display": "inline-table"
-                                                                        },
-                                                                        multiple=True,
-                                                                    )
-                                                                ], className="six columns"
-                                                            )
-                                                        ],
-                                                        className="row",
-                                                        style={
-                                                            "border": "1px solid #2a3f5f",
-                                                            "padding": "2% 2% 1% 2%",
-                                                            "border-top": "0px"
-                                                        }
-                                                    ),
-                                                ],
-                                                className="row",
-                                            ),
+                                                        ], className="row",
+                                                    )
+                                                ], className="six columns"
+                                            )
                                         ],
-                                        className="five columns",
-                                        style={
-                                            "max-height": "88.5vh",
-                                            "overflow": "hidden auto"
-                                        }
+                                        className="circos-row-three row",
                                     ),
                                     html.Div(
-                                        id="circos-hold",
-                                        children=[
-                                            empty
+                                        [
+                                            html.Div(
+                                                [
+                                                    dcc.Textarea(
+                                                        value=upload_instructions,
+                                                        className="circos-text-area"
+                                                    )
+                                                ], className="six columns"
+                                            ),
+                                            html.Div(
+                                                [
+                                                    dcc.Upload(
+                                                        id="upload-data",
+                                                        children=html.Div(
+                                                            [
+                                                                "Drag and Drop .CSV file here!"
+                                                            ],
+                                                        ),
+                                                        className="circos-upload-data",
+                                                        multiple=True,
+                                                    )
+                                                ], className="six columns"
+                                            )
                                         ],
-                                        className="seven columns",
-                                        style={
-                                            "max-height": "88.5vh",
-                                            "overflow": "auto",
-                                            "paddingTop": "5%"
-                                        }
+                                        className="circos-row-four row",
                                     ),
                                 ],
                                 className="row",
                             ),
-                            html.Div(
-                                [
-                                    html.Div(id="slider-hold"),
-                                    html.Div(id="data-table-hold"),
-                                    html.Div(id="click-data"),
-                                    html.Div(id="hover-data"),
-                                    html.Div(id="output-data-upload"),
-                                    dcc.Interval(
-                                        id="init", n_intervals=0, interval=100000000),
-                                ],
-                                style={"display": "none"},
-                            ),
-                        ]
-                    )
-                ]
+                        ],
+                        className="circos-column-one five columns",
+                    ),
+                    html.Div(
+                        id="circos-hold",
+                        children=[
+                            empty
+                        ],
+                        className="circos-column-two seven columns",
+                    ),
+                ], className="row",
+            ),
+            html.Div(
+                [
+                    html.Div(id="output-data-upload"),
+                    dcc.Interval(
+                        id="init", n_intervals=0, interval=100000000),
+                ], className="circos-display-none"
             ),
         ]
     )
@@ -363,17 +328,10 @@ def layout():
 
 def callbacks(app):
     @app.callback(
-        Output("click-data", "children"),
-        [Input("slider-hold", "children")]
-    )
-    def test(children):
-        return "test"
-
-    @app.callback(
         Output("init", "interval"),
         [Input("init", "n_intervals")]
     )
-    def update_output(init):
+    def init_callbacks_on_start(init):
         if init >= 1:
             return 10000000000000
         return 1000
@@ -394,9 +352,13 @@ def callbacks(app):
                     array.append(v)
 
             for i in range(len(tracks)):
-                dropdown.append({"label": "{}".format(array[i]), "value": i})
+                if array[i] != "CHORDS":
+                    dropdown.append(
+                        {"label": "{}".format(array[i]), "value": i})
+
             dropdown.append({"label": "LAYOUT", "value": "layout"}.copy())
             return dropdown
+
         elif circos_select == "custom":
             dropdown = [
                 {"label": "Layout", "value": 0},
@@ -422,7 +384,6 @@ def callbacks(app):
         if data == None:
             array = [None, None, None]
         else:
-            print("loading")
             array = json.loads(data)
 
         if list_of_contents is not None:
@@ -491,6 +452,49 @@ def callbacks(app):
                 size=800,
                 style={"display": "flex", "justify-content": "center"},
             )
+        elif circos_select == "parser_data":
+            return dash_bio.DashCircos(
+                id="main-circos",
+                selectEvent={"0": "hover", "1": "click"},
+                layout=parsed_layout,
+                config={
+                    "innerRadius": size / 2 - 80,
+                    "outerRadius": size / 2 - 40,
+                    "ticks": {"display": False, "labelDenominator": 1000000},
+                    "labels": {
+                        "position": "center",
+                        "display": False,
+                        "size": 8,
+                        "color": "#000",
+                        "radialOffset": 90,
+                    },
+                },
+                tracks=[
+                    {
+                        "type": "HIGHLIGHT",
+                        "data": parsed_track_one,
+                        "config": {
+                                "innerRadius": size / 2 - 80,
+                                "outerRadius": size / 2 - 40,
+                                "opacity": 0.3,
+                                "tooltipContent": {"name": "block_id"},
+                                "color": {"name": "color"},
+                        },
+                    },
+                    {
+                        "type": "HIGHLIGHT",
+                        "data": parsed_track_two,
+                        "config": {
+                                "innerRadius": size / 2 - 80,
+                                "outerRadius": size / 2 - 40,
+                                "opacity": 0.3,
+                                "tooltipContent": {"name": "block_id"},
+                                "color": {"name": "color"},
+                        },
+                    },
+                ],
+                size=800,
+            )
         elif circos_select == "heatmap":
             return dash_bio.DashCircos(
                 id="main-circos",
@@ -547,9 +551,9 @@ def callbacks(app):
                     "labels": {
                         "position": "center",
                         "display": True,
-                        "size": 14,
+                        "size": 11,
                         "color": "#000",
-                        "radialOffset": 70,
+                        "radialOffset": 75,
                     },
                 },
                 tracks=[
@@ -587,7 +591,7 @@ def callbacks(app):
         elif circos_select == "highlight":
             return dash_bio.DashCircos(
                 id="main-circos",
-                selectEvent={"0": "hover", "1": "hover"},
+                selectEvent={"0": "hover"},
                 layout=circos_graph_data["GRCh37"],
                 config={
                     "innerRadius": size / 2 - 100,
@@ -616,7 +620,7 @@ def callbacks(app):
             return dash_bio.DashCircos(
                 id="main-circos",
                 layout=circos_graph_data["GRCh37"],
-                selectEvent={"0": "hover", "1": "click"},
+                selectEvent={"0": "hover", "1": "hover"},
                 config={
                     "innerRadius": size / 2 - 150,
                     "outerRadius": size / 2 - 120,
@@ -652,7 +656,7 @@ def callbacks(app):
         elif circos_select == "line":
             return dash_bio.DashCircos(
                 id="main-circos",
-                selectEvent={"0": "hover", "1": "click"},
+                selectEvent={"0": "both", "1": "both", "2": "both", "3": "both", "4": "both" ,"5": "both", "6": "both", "7":"both"},
                 layout=list(
                     filter(lambda d: d["id"] in [
                         "chr1", "chr2", "chr3"], circos_graph_data["GRCh37"])
@@ -813,7 +817,7 @@ def callbacks(app):
         elif circos_select == "scatter":
             return dash_bio.DashCircos(
                 id="main-circos",
-                selectEvent={"0": "hover", "1": "click"},
+                selectEvent={"0": "hover", "1": "both", "3": "both", "4": "both", "5": "both"},
                 layout=list(
                     filter(lambda d: d["id"] in [
                         "chr1", "chr2", "chr3"], circos_graph_data["GRCh37"])
@@ -1061,7 +1065,7 @@ def callbacks(app):
         elif circos_select == "stack":
             return dash_bio.DashCircos(
                 id="main-circos",
-                selectEvent={"0": "hover", "1": "click"},
+                selectEvent={"0": "hover"},
                 layout=[
                     {"id": "chr9", "len": 8000000,
                         "label": "chr9", "color": "#FFCC00"}
@@ -1117,13 +1121,13 @@ def callbacks(app):
         elif circos_select == "text":
             return dash_bio.DashCircos(
                 id="main-circos",
-                selectEvent={"0": "hover", "1": "click"},
+                selectEvent={"0": "hover", "1": "both"},
                 layout=[circos_graph_data["GRCh37"][0]],
                 config={
                     "innerRadius": size / 2 - 100,
                     "outerRadius": size / 2 - 80,
-                    "labels": {"display": True},
-                    "ticks": {"display": True},
+                    "labels": {"display": False},
+                    "ticks": {"display": False},
                 },
                 tracks=[
                     {
@@ -1187,6 +1191,7 @@ def callbacks(app):
             return df.to_dict("records")
         except:
             return {}
+
     @app.callback(
         Output("data-table", "columns"),
         [Input("data-selector", "value"),
@@ -1205,14 +1210,11 @@ def callbacks(app):
             return [{'id': i, 'name': i} for i in df.columns]
         except:
             return {}
-
+    
     @app.callback(
         Output("event-data", "value"),
-        [Input("main-circos", "hoverDatum"),
-         Input("main-circos", "clickDatum")],
+        [Input("main-circos", "eventDatum")]
     )
-    def event_data(hoverDatum, clickDatum):
-        if hoverDatum != None:
-            return str(hoverDatum)
-        if clickDatum != None:
-            return str(clickDatum)
+    def event_data(eventDatum):
+        return str(eventDatum)
+
