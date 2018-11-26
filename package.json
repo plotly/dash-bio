@@ -18,7 +18,7 @@
     "react-dom": "15.4.2",
     "react-plotly.js": "^2.2.0",
     "plotly.js": "^1.41.3",
-    "circos": "^2.1.0"
+    "ideogram": "git+https://github.com/eweitz/ideogram.git"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
