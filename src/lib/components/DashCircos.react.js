@@ -29,17 +29,17 @@ export default class DashCircos extends Component {
     if (this.props.selectEvent !== undefined) {
       if (this.props.selectEvent[index] === "both") {
         return {
-          'click.alert': (datum) => {
+          'click.alert': datum => {
             setProps(
               {
-                clickDatum: datum
+                eventDatum: datum
               }
             )
           },
-          'mouseover.alert': (datum) => {
+          'mouseover.alert': datum => {
             setProps(
               {
-                hoverDatum: datum
+                eventDatum: datum
               }
             )
           }
@@ -47,10 +47,10 @@ export default class DashCircos extends Component {
       }
       else if (this.props.selectEvent[index] === "hover") {
         return {
-          'mouseover.alert': (datum) => {
+          'mouseover.alert': datum => {
             setProps(
               {
-                hoverDatum: datum
+                eventDatum: datum
               }
             )
           }
@@ -58,16 +58,15 @@ export default class DashCircos extends Component {
       }
       else if (this.props.selectEvent[index] === "click") {
         return {
-          'click.alert': (datum) => {
+          'click.alert': datum => {
             setProps(
               {
-                clickDatum: datum
+                eventDatum: datum
               }
             )
           }
         }
       }
-      return {}
     }
     return {}
   }
@@ -227,12 +226,11 @@ export default class DashCircos extends Component {
       layout,
       tracks,
       size,
-      hoverDatum,
-      clickDatum
+      eventDatum
     } = this.props;
 
     return (
-      <div id={id} style={style} hoverDatum={hoverDatum} clickDatum={clickDatum}>
+      <div id={id} style={style} eventDatum={eventDatum}>
         <div
           id="Circos-container"
           ref={(ref) => { this.ref = ref; }}
@@ -265,20 +263,14 @@ DashCircos.propTypes = {
   style: PropTypes.object,
 
   /**
-   * A Dash prop that returns data on hovering of the tracks
-   * if enabled.
+   * A Dash prop that returns data on clicking or hovering of the tracks.
+   * Depending on what is specified for prop "selectEvent".
    */
-  hoverDatum: PropTypes.object,
-
-  /**
-   * A Dash prop that returns data on clicking of the tracks
-   * if enabled.
-   */
-  clickDatum: PropTypes.object,
+  eventDatum: PropTypes.object,
 
   /**
    * A dictionary used to choose whether tracks should return
-   * data to "clickDatum" or "hoverDatum" on click, hover, or both.
+   * data on click, hover, or both, with the dash prop "eventDatum".
    * The keys of the dictionary represent the index of the list
    * specified for "tracks".
    * 
