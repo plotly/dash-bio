@@ -1,4 +1,6 @@
+import base64
 import json
+import urllib.error
 import urllib.request
 import requests
 import pandas as pd
@@ -256,4 +258,78 @@ class UniprotQueryBuilder(object):
             names=col_names
         )
         return db
+
+
+def pfam_parser(accession):
+    """probe http://pfam.xfam.org/protein/%s/graphic
+    :param (str) accession: the mutation accession number
+    :return: JSON structure with protein domain information
+    """
+    r = requests.get("http://pfam.xfam.org/protein/%s/graphic" % accession)
+    try:
+        return r.json()[0]
+    except json.decoder.JSONDecodeError:
+        return {'regions': []}
+
+
+def load_protein_domains(accession=None, json_fname=None):
+    """take a json file from a local file or from the PFAM database and
+        format it for the app.
+    :param (str) json_fname: name of a JSON file. This JSON file needs to
+                             have a structure with a 'region' field under
+                             which 'text', 'start' and 'end' fields must
+                             be present as well.
+    :param (str) accession: the mutation accession number
+    :return: JSON structure with protein domain information formatted for dash_bio
+    needle plot component
+
+    In case both argument have non-None values, the data from PFAM website will
+    be chosen over the one of the JSON file.
+    """
+    if json_fname is not None:
+        with open(json_fname) as f:
+            domain_data = json.load(f)
+
+    if accession is not None:
+        domain_data = pfam_parser(accession)
+
+    formatted_data = []
+    for region in domain_data['regions']:
+        formatted_data.append(
+            dict(
+                name="%s" % region['text'],
+                coord="%i-%i" % (region['start'], region['end'])
+            )
         )
+    return formatted_data
+
+
+def parse_mutation_data_file(contents, fname):
+    """
+    :param (str) contents: returned by a dcc.Upload 'contents' prop
+    :param (str) fname: the filename associated with the dcc.Upload component
+    :return: formatted mutation data for the dash_bio.NeedlePlot component
+    """
+    data = dict(
+        x=[],
+        y=[],
+        mutationGroups=[],
+        domains=[],
+    )
+
+    if contents is not None:
+        content_type, content_string = contents.split(',')
+        decoded = base64.b64decode(content_string)
+
+        if 'json' in fname:
+            # Assume that the user uploaded a CSV file
+            json_data = json.loads(decoded.decode('utf-8'))
+
+            for k in data:
+                if k in json_data:
+                    data[k] = json_data[k]
+                else:
+                    print('The file %s is not formatted in the correct way to use '
+                          'its mutation data with the dash_bio.NeedlePlot component. '
+                          'The key "%s" is missing' % (fname, k))
+    return data
