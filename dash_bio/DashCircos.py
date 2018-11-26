@@ -15,12 +15,10 @@ on github to learn more about this API.
 Keyword arguments:
 - id (string; optional): The ID of the component to be used in Dash callbacks
 - style (dict; optional): The CSS styling of the div wrapping the component
-- hoverDatum (dict; optional): A Dash prop that returns data on hovering of the tracks
-if enabled.
-- clickDatum (dict; optional): A Dash prop that returns data on clicking of the tracks
-if enabled.
+- eventDatum (dict; optional): A Dash prop that returns data on clicking or hovering of the tracks.
+Depending on what is specified for prop "selectEvent".
 - selectEvent (dict; optional): A dictionary used to choose whether tracks should return
-data to "clickDatum" or "hoverDatum" on click, hover, or both.
+data on click, hover, or both, with the dash prop "eventDatum".
 The keys of the dictionary represent the index of the list
 specified for "tracks".
 
@@ -41,13 +39,13 @@ please check the docs.
 
 Available events: """
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, style=Component.UNDEFINED, hoverDatum=Component.UNDEFINED, clickDatum=Component.UNDEFINED, selectEvent=Component.UNDEFINED, layout=Component.REQUIRED, config=Component.UNDEFINED, size=Component.UNDEFINED, tracks=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'style', 'hoverDatum', 'clickDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks']
+    def __init__(self, id=Component.UNDEFINED, style=Component.UNDEFINED, eventDatum=Component.UNDEFINED, selectEvent=Component.UNDEFINED, layout=Component.REQUIRED, config=Component.UNDEFINED, size=Component.UNDEFINED, tracks=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'style', 'eventDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks']
         self._type = 'DashCircos'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_events = []
-        self.available_properties = ['id', 'style', 'hoverDatum', 'clickDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks']
+        self.available_properties = ['id', 'style', 'eventDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')
