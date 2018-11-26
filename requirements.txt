@@ -11,3 +11,4 @@ dash_bio-0.0.1.tar.gz
 scipy
 sklearn
 matplotlib
+requests
