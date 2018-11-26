@@ -53,10 +53,10 @@
 }
 
 .circos-button-render {
+   display: flex;
    margin-top: 0.5%;
    margin-bottom: 2%;
    margin-left: 9.5%
-   display: flex;
    justify-content: center;
    align-items: center;
 }
