@@ -65,7 +65,7 @@ empty = dash_bio.DashCircos(
 
 upload_instructions = (
     "1. Set Circos Graph to Custom. \n" +
-    "2. Select Dataset (Press Download Data for Sample Data). \n" +
+    "2. Select Dataset (Press Data for Sample Data). \n" +
     "3. Drag and Drop .CSV for each Dataset \n" +
     "4. Press Render!"
 )
@@ -257,7 +257,7 @@ def layout():
                                                                 html.Button(
                                                                     "Data"
                                                                 ),
-                                                                href="/assets/circos_sample_data.rar",
+                                                                href="/tests/dash/sample_data/circos_sample_data.rar",
                                                                 download="circos_sample_data.rar",
                                                                 className="circos-button-data five columns",
                                                             ),
