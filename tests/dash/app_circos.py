@@ -67,7 +67,8 @@ upload_instructions = (
     "1. Set Circos Graph to Custom. \n" +
     "2. Select Dataset (Press Data for Sample Data). \n" +
     "3. Drag and Drop .CSV for each Dataset \n" +
-    "4. Press Render!"
+    "4. Press Render! \n" +
+    "5. Reselect Dataset to view data in table." 
 )
 
 
@@ -247,7 +248,7 @@ def layout():
                                         [
                                             html.H5(
                                                 "Upload Data",
-                                                className="six columns",
+                                                className="circos-select-data-set five columns",
                                             ),
                                             html.Div(
                                                 [
@@ -255,16 +256,16 @@ def layout():
                                                         [
                                                             html.A(
                                                                 html.Button(
-                                                                    "Data"
+                                                                    "Download",
+                                                                    className="circos-button-data five columns",
                                                                 ),
                                                                 href="/assets/sample_data/circos_sample_data.rar",
-                                                                download="circos_sample_data.rar",
-                                                                className="circos-button-data five columns",
+                                                                download="circos_sample_data.rar"
                                                             ),
                                                             html.Button(
                                                                 "Render",
                                                                 id="render-button",
-                                                                className="circos-button-render six columns",
+                                                                className="circos-button-render five columns",
                                                             ),
                                                         ], className="row",
                                                     )
@@ -416,10 +417,10 @@ def callbacks(app):
                 config={
                     "innerRadius": size / 2 - 80,
                     "outerRadius": size / 2 - 40,
-                    "ticks": {"display": True, "labelDenominator": 1000000},
+                    "ticks": {"display": False, "labelDenominator": 1000000},
                     "labels": {
                         "position": "center",
-                        "display": True,
+                        "display": False,
                         "size": 12,
                         "color": "#000",
                         "radialOffset": 70,
@@ -494,6 +495,7 @@ def callbacks(app):
                     },
                 ],
                 size=800,
+                style={"display": "flex", "justify-content": "center"}
             )
         elif circos_select == "heatmap":
             return dash_bio.DashCircos(
@@ -1190,7 +1192,8 @@ def callbacks(app):
                 df = pd.DataFrame(tracks[data_selector]["data"])
             return df.to_dict("records")
         except:
-            return {}
+            df = pd.DataFrame() 
+            return df
 
     @app.callback(
         Output("data-table", "columns"),
@@ -1209,8 +1212,8 @@ def callbacks(app):
                 df = pd.DataFrame(tracks[data_selector]["data"])
             return [{'id': i, 'name': i} for i in df.columns]
         except:
-            return {}
-    
+            df = pd.DataFrame() 
+            return df
     @app.callback(
         Output("event-data", "value"),
         [Input("main-circos", "eventDatum")]
