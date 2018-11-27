@@ -1,13 +1,16 @@
 # Switch into a virtual environment
 # pip install -r requirements.txt
-dash>=0.30.0
-dash-core-components>=0.36.1
-dash-html-components>=0.13.2
-dash-renderer>=0.15.0
+colour==0.1.5
+dash==0.30.0
+dash-core-components==0.36.1
+dash-html-components==0.13.2
+dash-renderer==0.15.0
+dash-table==3.1.3
 dash_bio-0.0.1.tar.gz
 gunicorn
 matplotlib
 mdtraj
 numpy
 pandas
+requests
 sklearn

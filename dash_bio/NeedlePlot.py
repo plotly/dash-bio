@@ -11,10 +11,12 @@ Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.
-- x (string | list; optional)
-- y (string | list; optional)
-- mutationGroups (list; optional)
-- domains (list; optional)
+- mutationData (optional): . mutationData has the following type: dict containing keys 'x', 'y', 'mutationGroups', 'domains'.
+Those keys have the following types: 
+  - x (string | list; optional)
+  - y (string | list; optional)
+  - mutationGroups (list; optional)
+  - domains (list; optional)
 - xlabel (string; optional)
 - ylabel (string; optional)
 - rangeSlider (boolean; optional)
@@ -33,13 +35,13 @@ Those keys have the following types:
 
 Available events: 'click', 'hover', 'unhover', 'selected'"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, x=Component.UNDEFINED, y=Component.UNDEFINED, mutationGroups=Component.UNDEFINED, domains=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, rangeSlider=Component.UNDEFINED, needleStyle=Component.UNDEFINED, domainStyle=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'x', 'y', 'mutationGroups', 'domains', 'xlabel', 'ylabel', 'rangeSlider', 'needleStyle', 'domainStyle']
+    def __init__(self, id=Component.UNDEFINED, mutationData=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, rangeSlider=Component.UNDEFINED, needleStyle=Component.UNDEFINED, domainStyle=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'mutationData', 'xlabel', 'ylabel', 'rangeSlider', 'needleStyle', 'domainStyle']
         self._type = 'NeedlePlot'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_events = ['click', 'hover', 'unhover', 'selected']
-        self.available_properties = ['id', 'x', 'y', 'mutationGroups', 'domains', 'xlabel', 'ylabel', 'rangeSlider', 'needleStyle', 'domainStyle']
+        self.available_properties = ['id', 'mutationData', 'xlabel', 'ylabel', 'rangeSlider', 'needleStyle', 'domainStyle']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')
