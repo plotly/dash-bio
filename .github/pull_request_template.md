@@ -35,7 +35,7 @@ Please make sure you have done these things before asking for approval to finall
 
 ### DDS Deployment Debugging
 
-- If running `git push dash-bio master` on `Windows`, you may encounter the following issue:
+- If running `git push dash-bio master` you may encounter the following issue:
 ```
 remote: User <username> does not have permissions to run git-hook on dash-bio, or dash-bio does not exist
 remote: Access denied
@@ -43,7 +43,15 @@ To https://dash-gallery.plotly.host/GIT/dash-bio
  ! [remote rejected] master -> master (pre-receive hook declined)
 error: failed to push some refs to 'https://dash-gallery.plotly.host/GIT/dash-bio'
 ```
-This is because the `git cli` for `Windows` saves the credentials on the `client-side`. In order to solve this do the following:
+
+This may be because the `git` credentials are saved on the `client-side`. In order to solve this, do the following: 
+
+#### Windows 
 ```
 Go to: Control Panel -> User Accounts -> Manage your credentials -> Windows Credentials -> Under Generic Credentials find: git:https://dash-gallery.plotly.host -> Remove credential OR edit username/password to provided account.
+```
+
+#### OS X 
+```
+Go to: Keychain Access -> Search for dash-gallery.plotly.host -> Change "Account" to "developers" -> Click on "show password" -> Change the password to the one provided -> Click "Save Changes". 
 ```
