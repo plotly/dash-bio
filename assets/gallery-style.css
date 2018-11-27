@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Dosis');
 
 #index-waitfor {
-    background-color: #C8D4E3;
+    background-color: #DFE8F3;
     height: auto;
     min-height:100%; 
     width: 100%;
@@ -35,19 +35,22 @@
     display: inline-block;
     height: 300px; 
     width: 25%;
-    min-width: 275px; 
+    min-width: 275px;
+    padding: 5px; 
     margin-right: 20px;
     margin-bottom:10px;
     vertical-align: top;
     text-align: left;
-    border-radius: 15px 15px 0px 15px;
+    overflow: hidden; 
+    border-radius: 15px 15px 15px 15px;
 }
 .gallery-app-img {
     transition-duration:500ms;
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 15px 15px 0px 15px; 
+    transform: scale(1.1);
+    border-radius: 15px 15px 15px 15px; 
 }
 .gallery-app-info {
     height: calc(100% - 20px); 
@@ -62,43 +65,27 @@
     color: white;
     font-family: 'Dosis';
     font-size: 24pt;
+    line-height: 28pt; 
     font-weight: 100 !important;
 }
 .gallery-app-desc {
-    height: 150px;
+    max-height: 160px;
     width: calc(100% - 30px); 
-    overflow-y: scroll;
+    overflow-y: auto;
     color: white;
-    font-family: 'Open Sans'; 
-    font-size: 10pt;
-    margin: 15px; 
+    font-family: 'Open Sans';
+    font-size: 11pt;
+    margin: 15px;
+    margin-top: 25px; 
 }
 .gallery-app ::-webkit-scrollbar {
-    width: 0px; 
+    display: none; 
 }
 
 .gallery-app:hover .gallery-app-info, .gallery-app:hover .gallery-app-link {
     opacity: 1; 
 }
 .gallery-app:hover .gallery-app-img {
-    -webkit-filter: blur(5px) grayscale(1) brightness(20%);
-}
-
-.gallery-app-link, .gallery-app-link a{
-    font-size: 18pt;
-    font-family: 'Open Sans';
-    font-weight: 100;
-    position: absolute; 
-    bottom: 20px; 
-    right: 20px;
-    text-align: right; 
-    text-decoration: none;
-    opacity: 0;
-    color: #EF553B;
-    font-variant-caps: all-small-caps;
-    transition-duration: 500ms; 
-}
-.gallery-app-link:hover, .gallery-app-link a:hover {
-    color: #F3F6FA; 
-}
+    -webkit-filter: blur(5px) grayscale(0.5) brightness(30%);
+}}
 

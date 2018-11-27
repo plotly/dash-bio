@@ -96,10 +96,6 @@ def display_app(pathname):
                                 html.Div(className='gallery-app-desc', children=[
                                     demoAppDesc(name)
                                 ]),
-                                html.Div(
-                                    'click to view app → ',
-                                    className='gallery-app-link',
-                                )
                             ])
                         ],
                         href="/{}/{}".format(
