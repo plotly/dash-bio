@@ -70,14 +70,13 @@ def layout():
             dcc.Store(id='needle-store'),
             html.Div(
                 className='four columns',
-                style={'maxHeight': '90vh', 'overflow': 'auto'},
                 children=dcc.Tabs(
                     id='tabs',
                     value='tab-data',
                     children=[
                         dcc.Tab(
                             label='Sample Data',
-                            style={'maxHeight': '90vh', 'overflow': 'auto'},
+                            className='needle-tab',
                             value='tab-data',
                             children=[
                                 html.Div(
@@ -154,18 +153,11 @@ def layout():
                                         ),
                                         dcc.Upload(
                                             id='needle-json-file-upload',
+                                            className='needle-upload',
                                             children=html.Div([
                                                 'Drag and Drop or ',
                                                 html.A('Select Files')
                                             ]),
-                                            style={
-                                                'width': '90%',
-                                                'borderWidth': '1px',
-                                                'borderStyle': 'dashed',
-                                                'borderRadius': '5px',
-                                                'textAlign': 'center',
-                                                'margin': '10px'
-                                            },
                                         ),
                                         html.Div(
                                             id='needle-output-data-upload'
@@ -179,7 +171,7 @@ def layout():
                             value='tab-options',
                             children=[
                                 html.Div(
-                                    [
+                                    children=[
                                         html.H3('Config'),
                                         html.H5('Stem thickness'),
                                         dcc.Input(
@@ -208,7 +200,7 @@ def layout():
                                                     ],
                                                     value=STEM_COLOR[0],
                                                 ),
-                                            ], style={'width': '100%'},
+                                            ],
                                         ),
                                         html.H5('Head color(s)'),
                                         html.Div(
@@ -222,7 +214,7 @@ def layout():
                                                     value=HEAD_COLORS[0:4],
                                                     multi=True,
                                                 ),
-                                            ], style={'width': '100%'},
+                                            ],
                                         ),
                                         html.H5('Head symbol(s)'),
                                         html.Div(
@@ -236,7 +228,7 @@ def layout():
                                                     value=HEAD_SYMBOLS[0],
                                                     multi=True
                                                 ),
-                                            ], style={'width': '100%'},
+                                            ],
                                         ),
                                         html.H5('Constant height needles'),
                                         html.Div(
@@ -251,7 +243,7 @@ def layout():
                                                     ],
                                                     value=False
                                                 ),
-                                            ], style={'width': '100%'},
+                                            ],
                                         ),
                                         html.H5('Rangeslider Display'),
                                         html.Div(
@@ -267,11 +259,8 @@ def layout():
                                                     value=True
                                                 ),
                                             ],
-                                            style={
-                                                'width': '100%', 'marginBottom': '4%'},
                                         ),
                                     ],
-                                    style={'maxHeight': '90vh', 'overflow': 'auto'},
                                 ),
                             ],
                         )
@@ -306,6 +295,7 @@ def callbacks(app):
     )
     def toggle_db(method, div_style):
         """updates what the user can use to load data to the graph"""
+
         if method == DATABASE_KEY:
             div_style.pop('display')
         else:
