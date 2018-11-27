@@ -41,7 +41,7 @@
     vertical-align: top;
     text-align: left;
     overflow: hidden; 
-    border-radius: 15px 15px 15px 15px;
+    border-radius: 15px; 
 }
 .gallery-app-img {
     transition-duration:500ms;
@@ -49,7 +49,7 @@
     width: 100%;
     height: 100%;
     transform: scale(1.1);
-    border-radius: 15px 15px 15px 15px; 
+    border-radius: 15px; 
 }
 .gallery-app-info {
     height: calc(100% - 20px); 
