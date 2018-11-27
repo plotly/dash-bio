@@ -9,6 +9,7 @@
 
 # testing
 /coverage
+/src/demo
 
 # misc
 .DS_Store
@@ -16,6 +17,10 @@
 .env.development.local
 .env.test.local
 .env.production.local
+usage.py
+
+# PyCharm
+.idea/
 
 npm-debug.log*
 yarn-debug.log*
