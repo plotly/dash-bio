@@ -67,9 +67,7 @@ def layout():
                                 'rb'
                             ).read()
                         ).decode()
-                    ),
-                    style={'height': '50px',
-                           'margin-right': '50px'}
+                    )
                 ),
                 "Dash sequence viewer"
             ]
@@ -83,15 +81,6 @@ def layout():
                         "Drag and Drop or ",
                         html.A("Select file")
                     ]),
-                    style={
-                        'width': '100%',
-                        'height': '50px',
-                        'lineHeight': '60px',
-                        'borderWidth': '1px',
-                        'borderStyle': 'dashed',
-                        'borderRadius': '5px',
-                        'textAlign': 'center',
-                    }
                 ),
             ]
         ),
@@ -243,9 +232,7 @@ def layout():
             children=[
                 html.Span(
                     "Description: ",
-                    style={
-                        'font-weight': 'bold'
-                    }
+                    className='seq-view-info-element'
                 ),
                 html.Div(
                     id='desc-info',
@@ -255,9 +242,7 @@ def layout():
 
                 html.Span(
                     "Amino acid composition: ",
-                    style={
-                        'font-weight': 'bold'
-                    }
+                    className='seq-view-info-element'
                 ),
                 html.Div(
                     id='test-selection'
@@ -266,9 +251,7 @@ def layout():
 
                 html.Span(
                     "Coverage entry clicked: ",
-                    style={
-                        'font-weight': 'bold'
-                    }
+                    className='seq-view-info-element'
                 ),
                 html.Div(
                     id='test-coverage-clicked'
@@ -277,17 +260,13 @@ def layout():
 
                 html.Span(
                     "Mouse sel: ",
-                    style={
-                        'font-weight': 'bold'
-                    }
+                    className='seq-view-info-element'
                 ),
                 html.Br(),
 
                 html.Span(
                     "Subpart sel: ",
-                    style={
-                        'font-weight': 'bold'
-                    }
+                    className='seq-view-info-element'
                 ),
                 html.Div(
                     id='test-subpart-selection'

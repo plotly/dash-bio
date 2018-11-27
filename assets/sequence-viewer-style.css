@@ -30,6 +30,11 @@
     font-variant: all-small-caps;
 }
 
+#seq-view-header img {
+    height: 50px;
+    margin-right: 50px; 
+}
+
 .inputSearchSeq {
     font-size: 14px;
     width: 100px;
@@ -38,8 +43,19 @@
     border: solid 1px grey;
     margin-left: 10px;
 }
+
+.seq-view-info-element {
+    font-weight: bold;
+}
+
 #seq-view-fasta-upload{
     width: 400px;
+    height: 50px;
+    line-height: 60px;
+    border-width: 1px;
+    border-style: dashed;
+    border-radius: 5px;
+    text-align: center; 
     margin: 20px;
     padding: 10px;
 }
