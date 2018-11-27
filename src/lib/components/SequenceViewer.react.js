@@ -20,7 +20,8 @@ export default class SequenceViewer extends Component {
     constructor(props) {
 	super(props);
 	this.onMouseSelection = this.onMouseSelection.bind(this);
-	this.onSubpartSelected = this.onSubpartSelected.bind(this); 
+	this.onSubpartSelected = this.onSubpartSelected.bind(this);
+	this.getOnClick = this.getOnClick.bind(this); 
     }
 
 
@@ -30,7 +31,7 @@ export default class SequenceViewer extends Component {
     onSubpartSelected(e) {
 	e.detail && this.props.setProps({subpartSelected: e.detail});
     }
-    
+
     shouldComponentUpdate(nextProps, nextState){
 	const {
 	    showLineNumbers,
@@ -107,7 +108,7 @@ export default class SequenceViewer extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
 
 	const {coverage, setProps, sequence} = this.props;
-
+	
 	// if the coverage changed, we need to reset the onclick events
 	if(coverage.length != prevProps.coverage.length || 
 	   coverage.some(
@@ -119,7 +120,7 @@ export default class SequenceViewer extends Component {
 	)) {
 	    for(let i = 0; i < coverage.length; i++) {
 		coverage[i].onclick = this.getOnClick(i);
-	    }   
+	    }
 	}
 
     }
@@ -127,6 +128,7 @@ export default class SequenceViewer extends Component {
     render() {
 
 	const options = {coverage: this.props.coverage,
+			 selection: this.props.selection,
 			 setProps: this.props.setProps,
 			 showLineNumbers: this.props.showLineNumbers, 
 			 wrapAminoAcids: this.props.wrapAminoAcids, 
