@@ -2,8 +2,9 @@
 @import url('https://fonts.googleapis.com/css?family=Dosis');
 
 #index-waitfor {
-    background-color: #F3F6FA;
-    height: 100%;
+    background-color: #C8D4E3;
+    height: auto;
+    min-height:100%; 
     width: 100%;
     position: absolute;
     left: 0px;
@@ -37,17 +38,19 @@
     min-width: 275px; 
     margin-right: 20px;
     margin-bottom:10px;
-    overflow: hidden;
     vertical-align: top;
     text-align: left;
+    border-radius: 15px 15px 0px 15px;
 }
 .gallery-app-img {
     transition-duration:500ms;
     object-fit: cover;
     width: 100%;
-    height: 100%; 
+    height: 100%;
+    border-radius: 15px 15px 0px 15px; 
 }
 .gallery-app-info {
+    height: calc(100% - 20px); 
     border-radius: 10px;
     padding: 10px; 
     position: absolute;
@@ -62,12 +65,15 @@
     font-weight: 100 !important;
 }
 .gallery-app-desc {
+    height: 150px;
+    width: 200px;
+    overflow-y: hidden;
     color: white;
-    width: calc(100% - 30px);
     font-family: 'Open Sans'; 
-    font-size: 12pt;
+    font-size: 10pt;
     margin: 15px; 
 }
+
 .gallery-app:hover .gallery-app-info, .gallery-app:hover .gallery-app-link {
     opacity: 1; 
 }
@@ -79,9 +85,9 @@
     font-size: 18pt;
     font-family: 'Open Sans';
     font-weight: 100;
-    position: relative; 
-    bottom: 0px; 
-    right: 0px;
+    position: absolute; 
+    bottom: 20px; 
+    right: 20px;
     text-align: right; 
     text-decoration: none;
     opacity: 0;
