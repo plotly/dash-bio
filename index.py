@@ -44,9 +44,7 @@ app.layout = html.Div(
                 compatible with Plotly\'s Dash.'
             ]),
         ]),
-        html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_bio.NeedlePlot()),
-        html.Div(style={"display": "none"}, children=dt.DataTable({}))
+        html.Div(id="container")
     ]
 )
 
@@ -87,24 +85,24 @@ def display_app(pathname):
             id='gallery-apps',
             children=[
                 html.Div(className='gallery-app', children=[
-                    html.Img(className='gallery-app-img',
-                             src=demoAppImgSrc(name)),
-                    html.Div(className='gallery-app-info', children=[
-                        html.Div(className='gallery-app-name', children=[
-                            demoAppName(name)
-                        ]),
-                        html.Div(className='gallery-app-desc', children=[
-                            demoAppDesc(name)
-                        ]),
-                        dcc.Link(
-                            'view app → ',
-                            className='gallery-app-link',
-                            href="/{}/{}".format(
-                                DASH_APP_NAME,
-                                name.replace("app_", "").replace("_", "-")
-                            )
+                    dcc.Link(
+                        children=[
+                            html.Img(className='gallery-app-img',
+                                     src=demoAppImgSrc(name)),
+                            html.Div(className='gallery-app-info', children=[
+                                html.Div(className='gallery-app-name', children=[
+                                    demoAppName(name)
+                                ]),
+                                html.Div(className='gallery-app-desc', children=[
+                                    demoAppDesc(name)
+                                ]),
+                            ])
+                        ],
+                        href="/{}/{}".format(
+                            DASH_APP_NAME,
+                            name.replace("app_", "").replace("_", "-")
                         )
-                    ]),
+                    )
                 ]) for name in apps
             ])
 
