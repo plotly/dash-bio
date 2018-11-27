@@ -8,8 +8,8 @@ class NeedlePlot(Component):
 
 
 Keyword arguments:
-- id (string; optional): The ID of this component, used to identify dash components
-in callbacks. The ID needs to be unique across all of the
+- id (string; optional): The ID of this component, used to identify dash components
+in callbacks. The ID needs to be unique across all of the
 components in an app.
 - mutationData (optional): . mutationData has the following type: dict containing keys 'x', 'y', 'mutationGroups', 'domains'.
 Those keys have the following types: 
