@@ -17,15 +17,15 @@ Please make sure you have done these things before asking for approval to finall
 - [ ] Address all comments in the code review.
 - [ ] Make sure you are up-to-date with the latest `master`: checkout the master branch with `git checkout master`, pull from latest master `git pull`, checkout to your branch `git checkout your-branch`, merge master into your branch `git merge master`. [Resolve conflicts](https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/).
 - [ ] Update/regenerate `package-lock.json` (run `npm install`)  
+- [ ] Ensure that your `requirements.txt` is complete
 - [ ] Rebuild (run `npm run build:all` or `npm run build:js` followed by `npm run build:py`
-- [ ] Commit and push the files that were generated in the `dash-bio` folder  by the above command(s)
 - [ ] Regenerate tarball (run `python setup.py sdist`, then copy `dist/dash_bio-0.0.1.tar.gz` into the top-level directory)
-- [ ] Run your application successfully in a [virtual environment](https://realpython.com/python-virtual-environments-a-primer/)
-- [ ] Ensure that your `requirements.txt` is complete and contains the specific versions of all Python packages you are using (if you are running in a virtual environment and have only the necessary packages installed for your component, you can just use `pip freeze > requirements.txt`)
 - [ ] Ensure that you installed the tarball you generated with the above commands (run `pip install dash-bio-X.Y.Z.tar.gz`)
-- [ ] Test all existing apps and make sure they are not broken and make changes as necessary to make it work with the other apps.
+- [ ] Run your application successfully in a [virtual environment](https://realpython.com/python-virtual-environments-a-primer/) and test that other apps still run
+- [ ] Commit and push the files that were generated in the `dash-bio` folder  by the above command(s)
 - [ ] Ask for a final review and look for a :dancer:!
 - [ ] Have your dancer? Merge to master!
+
 
 ## DDS Deployment
 - [ ] Get the `developers` user credentials from a dash-bio team member.
