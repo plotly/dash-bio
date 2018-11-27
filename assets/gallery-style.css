@@ -66,12 +66,15 @@
 }
 .gallery-app-desc {
     height: 150px;
-    width: 200px;
-    overflow-y: hidden;
+    width: calc(100% - 30px); 
+    overflow-y: scroll;
     color: white;
     font-family: 'Open Sans'; 
     font-size: 10pt;
     margin: 15px; 
+}
+.gallery-app ::-webkit-scrollbar {
+    width: 0px; 
 }
 
 .gallery-app:hover .gallery-app-info, .gallery-app:hover .gallery-app-link {
