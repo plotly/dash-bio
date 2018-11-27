@@ -1,10 +1,19 @@
+import base64
 import json
+import urllib.error
 import urllib.request
+import requests
+import pandas as pd
 import warnings
 
 
 def extract_mutations(target_url, fname=""):
-
+    """read mutations json file for the default app values
+        the file should contain a list of structure with label
+        'coord', 'value' and 'category' corresponding to the
+        position of the mutation of the gene, the number of mutations
+        and the type of mutation, respectively
+    """
     recieved_data = False
     try:
         with urllib.request.urlopen(target_url + fname) as url:
@@ -27,6 +36,12 @@ def extract_mutations(target_url, fname=""):
 
 
 def extract_domains(target_url, fname=""):
+    """read protein domain json file for the default app value
+        the file should contain a list of structure with label
+        'coord' and 'name' corresponding to the coordinate of the
+        domain of the gene (in the format "START-END") and its name,
+        respectively
+    """
     domains = []
     try:
         with urllib.request.urlopen(target_url + fname) as url:
@@ -39,7 +54,10 @@ def extract_domains(target_url, fname=""):
     return domains
 
 
-class UniprotQuery(object):
+class UniprotQueryBuilder(object):
+    """class which handles the query of gff files from the UniProt database
+        build following https://www.uniprot.org/help/api_queries
+    """
     def __init__(self):
         self._base_url = "https://www.uniprot.org/uniprot/"
         self._base_query = "?query=%s"
@@ -154,7 +172,7 @@ class UniprotQuery(object):
             if key in self._query_parameters:
                 if key in ['limit', 'offset']:
                     if isinstance(parameters[key], int):
-                        validated_parameters[key] = parameters[key]
+                        validated_parameters[key] = "%i" % parameters[key]
                 elif key == 'format':
                     if parameters[key] in self._query_parameters[key]:
                         validated_parameters[key] = parameters[key]
@@ -179,7 +197,8 @@ class UniprotQuery(object):
 
     def build_query(self, query, fields=None, parameters=None):
         """
-        param (str) query : the name of the sequence on UnitProt
+        param (str) query : the name of the sequence on UnitProt or an entry
+                            respecting https://www.uniprot.org/help/text-search
         param (dict) fields : see https://www.uniprot.org/help/query-fields
             default = {}
         param (dict) parameters : see https://www.uniprot.org/help/api_queries
@@ -204,11 +223,12 @@ class UniprotQuery(object):
         validated_parameters = self._validate_query_parameters(parameters)
         for key in validated_parameters:
             url = url + self._parameter_separator + key + "=" + validated_parameters[key]
-
         return url
 
     def query_into_file(self, query, fname="", fields=None, parameters=None):
+        """saves the result of a query into a file"""
         target_url = self.build_query(query, fields=fields, parameters=parameters)
+
         with urllib.request.urlopen(target_url) as url:
             content = url.read()
 
@@ -216,27 +236,100 @@ class UniprotQuery(object):
             ofs.write(content)
             ofs.close()
 
-    def query_into_pandas(self, query, fields=None, parameters=None):
+    def query_into_pandas(self, query, fields=None, parameters=None, names=None):
+        """returns the result of a query as a Pandas DataFrame"""
         target_url = self.build_query(query, fields=fields, parameters=parameters)
-        with urllib.request.urlopen(target_url) as url:
-            print(url.read())
 
+        col_id = 'columns'
+        col_names = None
+        if names is None:
+            # If the columns of the query are specified (used for 'tab' or 'txt' value of
+            # parameters['format'] only), then we use the same for the DataFrame
+            if col_id in parameters:
+                col_names = parameters[col_id].split(',')
+        else:
+            col_names = names
 
-if __name__ == "__main__":
-
-    e = UniprotQuery()
-
-    e.query_into_file(
-        "TP53",
-        fname="TP53_regions.txt",
-        fields=dict(
-            revieved='yes',
-            organism='9606',
-            database='pfam'
-        ),
-        parameters=dict(
-            columns="id,entry+name,reviewed,genes,organism",
-            sort="score",
-            format='tab'
+        db = pd.read_csv(
+            target_url,
+            delimiter="\t",
+            skiprows=1,
+            header=None,
+            names=col_names
         )
+        return db
+
+
+def pfam_parser(accession):
+    """probe http://pfam.xfam.org/protein/%s/graphic
+    :param (str) accession: the mutation accession number
+    :return: JSON structure with protein domain information
+    """
+    r = requests.get("http://pfam.xfam.org/protein/%s/graphic" % accession)
+    try:
+        return r.json()[0]
+    except json.decoder.JSONDecodeError:
+        return {'regions': []}
+
+
+def load_protein_domains(accession=None, json_fname=None):
+    """take a json file from a local file or from the PFAM database and
+        format it for the app.
+    :param (str) json_fname: name of a JSON file. This JSON file needs to
+                             have a structure with a 'region' field under
+                             which 'text', 'start' and 'end' fields must
+                             be present as well.
+    :param (str) accession: the mutation accession number
+    :return: JSON structure with protein domain information formatted for dash_bio
+    needle plot component
+
+    In case both argument have non-None values, the data from PFAM website will
+    be chosen over the one of the JSON file.
+    """
+    if json_fname is not None:
+        with open(json_fname) as f:
+            domain_data = json.load(f)
+
+    if accession is not None:
+        domain_data = pfam_parser(accession)
+
+    formatted_data = []
+    for region in domain_data['regions']:
+        formatted_data.append(
+            dict(
+                name="%s" % region['text'],
+                coord="%i-%i" % (region['start'], region['end'])
+            )
+        )
+    return formatted_data
+
+
+def parse_mutation_data_file(contents, fname):
+    """
+    :param (str) contents: returned by a dcc.Upload 'contents' prop
+    :param (str) fname: the filename associated with the dcc.Upload component
+    :return: formatted mutation data for the dash_bio.NeedlePlot component
+    """
+    data = dict(
+        x=[],
+        y=[],
+        mutationGroups=[],
+        domains=[],
     )
+
+    if contents is not None:
+        content_type, content_string = contents.split(',')
+        decoded = base64.b64decode(content_string)
+
+        if 'json' in fname:
+            # Assume that the user uploaded a CSV file
+            json_data = json.loads(decoded.decode('utf-8'))
+
+            for k in data:
+                if k in json_data:
+                    data[k] = json_data[k]
+                else:
+                    print('The file %s is not formatted in the correct way to use '
+                          'its mutation data with the dash_bio.NeedlePlot component. '
+                          'The key "%s" is missing' % (fname, k))
+    return data
