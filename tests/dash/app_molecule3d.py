@@ -190,8 +190,9 @@ def callbacks(app):
             res_info = model['atoms'][i]
             residues = {
                 "residue": res_info['residue_name'],
+                "atom": res_info['name'],
                 "chain": res_info['chain'],
-                "xyz_coordinates": res_info['positions']
+                "xyz": res_info['positions']
             }
             res_summary.append(residues)
         return '{} '.format(res_summary)

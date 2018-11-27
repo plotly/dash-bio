@@ -5,9 +5,16 @@ import json
 import io
 
 def createData(pdbPath):
+    '''
+    Function to parse the protein data bank (PDB) file to generate the input modelData
+
+    @param pdbPath
+    Name of the biomolecular structure file in PDB format
+
+    '''
+
     with open(pdbPath, 'r') as infile:
-       lines=infile.readlines() #[line for line in infile]
-    #lines1=io.StringIO(pdbPath)
+       lines=infile.readlines()
 
     varNchains=[]; varNresidues=[]
     serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]; atomType=[]
@@ -17,7 +24,6 @@ def createData(pdbPath):
     datb['atoms']=[]
     datb['bonds']=[]
     for i in lines:    
-    #for i in lines1:
         l=i.split()
         if("ATOM" in l[0] or "HETATM" in l[0]):
             serial.append(int(i[6:11]))
@@ -56,8 +62,7 @@ def createData(pdbPath):
             "serial": i,
         })
 
-
-#def createBonds(pdbPath):
+    ## Create list of bonds using the mdtraj module
     dat=""
     topology = md.load(pdbPath).topology
     table, bonds = topology.to_dataframe()
