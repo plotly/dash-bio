@@ -44,9 +44,7 @@ app.layout = html.Div(
                 compatible with Plotly\'s Dash.'
             ]),
         ]),
-        html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_bio.NeedlePlot()),
-        html.Div(style={"display": "none"}, children=dt.DataTable({}))
+        html.Div(id="container")
     ]
 )
 
