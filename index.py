@@ -3,6 +3,7 @@ import dash_bio
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_table as dt
 import logging
 import os
 from config import DASH_APP_NAME
@@ -44,7 +45,8 @@ app.layout = html.Div(
             ]),
         ]),
         html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_bio.NeedlePlot())
+        html.Div(style={"display": "none"}, children=dash_bio.NeedlePlot()),
+        html.Div(style={"display": "none"}, children=dt.DataTable({}))
     ]
 )
 
@@ -147,4 +149,4 @@ app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=False)
