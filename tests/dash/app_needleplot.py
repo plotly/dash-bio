@@ -21,6 +21,8 @@ DEMO_KEY = 'demo'
 FILE_KEY = 'file'
 DATABASE_KEY = 'db'
 
+DB_LAST_QUERY_KEY = '%s-last-query' % DATABASE_KEY
+
 # An object used to retrieve mutation information on UniPort database
 UNIPROT_QUERY = UniprotQueryBuilder()
 
@@ -349,6 +351,38 @@ def callbacks(app):
         return stored_data['plot']
 
     @app.callback(
+        Output('needle-uniprot-div', 'children'),
+        [
+            Input('needle-store', 'data'),
+        ],
+        [
+            State('needle-dataset-select-radio', 'value'),
+        ]
+    )
+    def display_query_information(stored_data, load_choice):
+        if load_choice in stored_data['info']:
+            return stored_data['info'][load_choice]
+        else:
+            return ''
+
+    @app.callback(
+        Output('needle-sequence-input', 'value'),
+        [
+            Input('needle-store', 'data'),
+        ],
+        [
+            State('needle-dataset-select-radio', 'value'),
+        ]
+    )
+    def reset_database_search(stored_data, load_choice):
+        if load_choice == DATABASE_KEY:
+            return stored_data['info'][DB_LAST_QUERY_KEY]
+        else:
+            return ""
+
+
+
+    @app.callback(
         Output('needle-store', 'data'),
         [
             Input('needle-search-sequence-button', 'n_clicks'),
@@ -374,9 +408,14 @@ def callbacks(app):
         """prepares mutation and protein domain datasets to be passed to
             the needle plot
         """
-        print(stored_data)
         if stored_data is None:
-            stored_data = {'plot': None, 'info': {}}
+            stored_data = {
+                'plot': None,
+                'info': {
+                    DB_LAST_QUERY_KEY : ''
+                }
+            }
+
         x = []
         y = []
         mutationgroups = []
@@ -400,7 +439,6 @@ def callbacks(app):
                         format='tab'
                     )
                 )
-                print(gene_search)
                 print(gene_search.to_string())
                 stored_data['info'][DATABASE_KEY] = gene_search.to_string()
                 if not gene_search.empty:
@@ -427,10 +465,18 @@ def callbacks(app):
                         data = gff_data[gff_data.mut == mut_type]['start'].value_counts()
                         x = np.array(data.index).astype('str')
                         y = np.array(data.values).astype('str')
+
+                        stored_data['info'][DB_LAST_QUERY_KEY] = query
                 else:
                     print("'%s' doesn't yield any results on www.uniprot.org !" % query)
 
-        elif load_choice == DEMO_KEY:
+        else:
+
+            stored_data['info'][DB_LAST_QUERY_KEY] = ""
+            stored_data['info'][DATABASE_KEY] = ""
+
+
+        if load_choice == DEMO_KEY:
             #
             x, y, mutationgroups = extract_mutations(DATA_URL, DATA[demo_choice]['mutData'])
             domains = extract_domains(DATA_URL, DATA[demo_choice]['domains'])
