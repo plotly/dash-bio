@@ -131,17 +131,14 @@ export default class NeedlePlot extends Component {
 
     render() {
         const {id} = this.props;
-
         const {
             data,
-            shapes,
             globalAnnotation,
             domainAnnotations,
         } = this.prepareTraces();
 
         const layout = this.prepareLayout({
             data,
-            shapes,
             globalAnnotation,
             domainAnnotations,
         });
@@ -163,9 +160,8 @@ export default class NeedlePlot extends Component {
 
     // Fetch data
     prepareTraces() {
-        const {x, y, domains} = this.props;
         const {
-            mutationGroups,
+            mutationData:{x, y, mutationGroups, domains},
             domainStyle: {domainColor, displayMinorDomains},
             needleStyle: {
                 stemColor,
@@ -212,7 +208,6 @@ export default class NeedlePlot extends Component {
         const DOMAIN_WIDTH = 33;
 
         const sequenceDomains = [];
-        const shapes = [];
         const domainAnnotations = [];
 
         let hoverlabels = [];
@@ -379,12 +374,12 @@ export default class NeedlePlot extends Component {
                 ],
             },
         ].concat(sequenceDomains);
-        return {data, shapes, globalAnnotation, domainAnnotations};
+        return {data, globalAnnotation, domainAnnotations};
     }
 
     // Fetch layout
     prepareLayout(vars) {
-        const {data, shapes, globalAnnotation, domainAnnotations} = vars;
+        const {data, globalAnnotation, domainAnnotations} = vars;
         const {xlabel, ylabel, rangeSlider} = mergeDeepRight(
             NeedlePlot.defaultProps,
             this.props
@@ -439,7 +434,6 @@ export default class NeedlePlot extends Component {
                 ticks: 'inside',
             },
             margin: {t: 100, l: 40, r: 0, b: 40},
-            shapes: shapes,
             annotations: domainAnnotations.concat(globalAnnotation),
         };
         if (rangeSlider === true) {
@@ -461,25 +455,24 @@ NeedlePlot.propTypes = {
      */
     id: PropTypes.string,
 
-    /*
-    coordinate of mutations on the protein sequence
-    */
-    x: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-
-    /* value (could be the sample count), this property is not necessarily
-    relevant, should match x in size
-    */
-    y: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-
-    /*
-    type of mutations, should match x in size
-    */
-    mutationGroups: PropTypes.arrayOf(PropTypes.string),
-
-    /*
-    protein domains coordinates on the protein sequence
-    */
-    domains: PropTypes.array,
+    mutationData: PropTypes.shape({
+      /*
+      coordinate of mutations on the protein sequence
+      */
+      x: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+      /* value (could be the sample count), this property is not necessarily
+      relevant, should match x in size
+      */
+      y: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+      /*
+      type of mutations, should match x in size
+      */
+      mutationGroups: PropTypes.arrayOf(PropTypes.string),
+      /*
+      protein domains coordinates on the protein sequence
+      */
+      domains: PropTypes.array,
+    }),
 
     // Title of the x-axis
     xlabel: PropTypes.string,
@@ -552,10 +545,12 @@ NeedlePlot.propTypes = {
 };
 
 NeedlePlot.defaultProps = {
-    x: [],
-    y: [],
-    domains: [],
-    mutationGroups: [],
+    mutationData:{
+      x: [],
+      y: [],
+      domains: [],
+      mutationGroups: []
+    },
     rangeSlider: false,
     needleStyle: {
         stemColor: '#444',
