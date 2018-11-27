@@ -67,6 +67,7 @@ def layout():
     app_main_layout = html.Div(
         className='row',
         children=[
+            dcc.Store(id='needle-store'),
             html.Div(
                 className='four columns',
                 style={'maxHeight': '90vh', 'overflow': 'auto'},
@@ -351,6 +352,15 @@ def callbacks(app):
     @app.callback(
         Output('needle-plot', 'mutationData'),
         [
+            Input('needle-store', 'data'),
+        ]
+    )
+    def load_dataset(stored_data):
+        return stored_data['plot']
+
+    @app.callback(
+        Output('needle-store', 'data'),
+        [
             Input('needle-search-sequence-button', 'n_clicks'),
             Input('needle-dataset-select-radio', 'value'),
             Input('needle-dataset-dropdown', 'value'),
@@ -359,6 +369,7 @@ def callbacks(app):
         [
             State('needle-json-file-upload', 'filename'),
             State('needle-sequence-input', 'value'),
+            State('needle-store', 'data')
         ]
     )
     def load_dataset(
@@ -367,10 +378,15 @@ def callbacks(app):
             demo_choice,
             contents,
             fname,
-            query):
+            query,
+            stored_data
+    ):
         """prepares mutation and protein domain datasets to be passed to
             the needle plot
         """
+        print(stored_data)
+        if stored_data is None:
+            stored_data = {'plot': None, 'info': {}}
         x = []
         y = []
         mutationgroups = []
@@ -394,7 +410,9 @@ def callbacks(app):
                         format='tab'
                     )
                 )
-
+                print(gene_search)
+                print(gene_search.to_string())
+                stored_data['info'][DATABASE_KEY] = gene_search.to_string()
                 if not gene_search.empty:
                     accession = gene_search['id'][0]
                     domains = load_protein_domains(accession=accession)
@@ -427,17 +445,19 @@ def callbacks(app):
             x, y, mutationgroups = extract_mutations(DATA_URL, DATA[demo_choice]['mutData'])
             domains = extract_domains(DATA_URL, DATA[demo_choice]['domains'])
 
-        elif load_choice == FILE_KEY:
-            # the user has to provide a file which is then parsed by a function to
-            # make sure it is the right format
-            return parse_mutation_data_file(contents, fname)
-
-        return dict(
+        stored_data['plot'] = dict(
             x=x,
             y=y,
             mutationGroups=mutationgroups,
             domains=np.array(domains),
         )
+
+        if load_choice == FILE_KEY:
+            # the user has to provide a file which is then parsed by a function to
+            # make sure it is the right format
+            stored_data['plot'] = parse_mutation_data_file(contents, fname)
+
+        return stored_data
 
     @app.callback(
         Output('needle-plot', 'rangeSlider'),
