@@ -1,5 +1,6 @@
 # Switch into a virtual environment
 # pip install -r requirements.txt
+biopython
 dash==0.30.0
 dash-core-components==0.36.1
 dash-html-components==0.13.2
