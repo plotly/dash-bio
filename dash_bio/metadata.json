@@ -1,36 +1,1035 @@
 {
-  "src/lib/components/ExampleComponent.react.js": {
-    "description": "ExampleComponent is an example component.\nIt takes a property, `label`, and\ndisplays it.\nIt renders an input with the property `value`\nwhich is editable by the user.",
-    "displayName": "ExampleComponent",
-    "methods": [],
+  "src/lib/components/DashCircos.react.js": {
+    "description": "Dash Circos is a library used to analyze and interpret\r\ndata using a circular layout, based on the popular \r\n'Circos' graph. This Dash Bio component is a useful tool\r\nfor showcasing relationships bewtween data/datasets in a\r\nbeautiful way. Please checkout the Dash Bio repository\r\non github to learn more about this API.",
+    "displayName": "DashCircos",
+    "methods": [
+      {
+        "name": "setEvent",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "setProps",
+            "type": null
+          },
+          {
+            "name": "index",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "setColor",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "configApply",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "setToolTip",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "configApply",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "configIdeogram",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "layout",
+            "type": null
+          },
+          {
+            "name": "config",
+            "type": null
+          },
+          {
+            "name": "tracks",
+            "type": null
+          },
+          {
+            "name": "setProps",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "id": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "The ID used to identify this compnent in Dash callbacks"
+        "description": "The ID of the component to be used in Dash callbacks"
       },
-      "label": {
+      "style": {
         "type": {
-          "name": "string"
-        },
-        "required": true,
-        "description": "A label that will be printed when this component is rendered."
-      },
-      "value": {
-        "type": {
-          "name": "string"
+          "name": "object"
         },
         "required": false,
-        "description": "The value displayed in the input"
+        "description": "The CSS styling of the div wrapping the component"
+      },
+      "eventDatum": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A Dash prop that returns data on clicking or hovering of the tracks.\r\nDepending on what is specified for prop \"selectEvent\"."
+      },
+      "selectEvent": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A dictionary used to choose whether tracks should return\r\ndata on click, hover, or both, with the dash prop \"eventDatum\".\r\nThe keys of the dictionary represent the index of the list\r\nspecified for \"tracks\".\r\n\r\nEx:                 \r\nselectEvent={\r\n        \"0\": \"hover\",\r\n        \"1\": \"click\",\r\n        \"2\": \"both\"\r\n    },"
       },
       "setProps": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change"
+        "description": "Dash provided setProps."
+      },
+      "layout": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "len": {
+                "name": "number",
+                "description": "The length of the block.",
+                "required": true
+              },
+              "color": {
+                "name": "string",
+                "description": "The color of the block.",
+                "required": true
+              },
+              "label": {
+                "name": "string",
+                "description": "The labels of the block.",
+                "required": true
+              },
+              "id": {
+                "name": "string",
+                "description": "The id of the block, where it will recieve\r\ndata from the specified \"track\" id.",
+                "required": true
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": "The overall layout of the Circos graph, provided\r\nas a list of dictionaries."
+      },
+      "config": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Configuration of overall layout of the graph.",
+        "defaultValue": {
+          "value": "{}",
+          "computed": false
+        }
+      },
+      "size": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The overall size of the SVG container holding the\r\ngraph. Set on initilization and unchangeable thereafter.",
+        "defaultValue": {
+          "value": "800",
+          "computed": false
+        }
+      },
+      "tracks": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "id": {
+                "name": "string",
+                "description": "The id of a specific piece of track data.",
+                "required": false
+              },
+              "data": {
+                "name": "array",
+                "description": "The data that makes up the track. It can \r\nbe a Json object.",
+                "required": true
+              },
+              "config": {
+                "name": "object",
+                "description": "The layout of the tracks, where the user\r\ncan configure innerRadius, outterRadius, ticks,\r\nlabels, and more.",
+                "required": false
+              },
+              "type": {
+                "name": "enum",
+                "computed": true,
+                "value": "TRACK_TYPES",
+                "description": "Specify the type of track this is.\r\nPlease check the docs for a list of tracks you can use,\r\nand ensure the name is typed in all capitals.",
+                "required": false
+              },
+              "tooltipContent": {
+                "name": "enum",
+                "value": [
+                  {
+                    "value": "PropTypes.string",
+                    "computed": true
+                  },
+                  {
+                    "value": "PropTypes.shape(\r\n  {\r\n    name: PropTypes.string.isRequired\r\n  }\r\n)",
+                    "computed": true
+                  },
+                  {
+                    "value": "PropTypes.shape(\r\n  {\r\n    source: PropTypes.string.isRequired,\r\n    sourceID: PropTypes.string,\r\n    target: PropTypes.string.isRequired,\r\n    targetEnd: PropTypes.string.isRequired,\r\n    targetID: PropTypes.string\r\n  }\r\n)",
+                    "computed": true
+                  }
+                ],
+                "description": "Specify what data for tooltipContent is\r\ndisplayed.\r\n\r\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks. \r\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\r\n\r\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\r\nEx: \"tooltipContent\": {\"name\": \"all\"}\r\n\r\nEx: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)'. \r\n\"tooltipContent\": {\r\n            \"source\": \"block_id\",\r\n            \"target\": \"position\",\r\n            \"targetEnd\": \"value\"\r\n                                },\r\nEx: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  \r\n\"tooltipContent\": {\r\n            \"source\": \"source\",\r\n            \"sourceID\": \"id\",\r\n            \"target\": \"target\",\r\n            \"targetID\": \"id\",\r\n            \"targetEnd\": \"end\"\r\n        }",
+                "required": false
+              },
+              "color": {
+                "name": "enum",
+                "value": [
+                  {
+                    "value": "PropTypes.string",
+                    "computed": true
+                  },
+                  {
+                    "value": "PropTypes.shape(\r\n  {\r\n    name: PropTypes.string.isRequired\r\n  }\r\n)",
+                    "computed": true
+                  }
+                ],
+                "description": "Specify which dictonary key to grab color values from, in the passed in dataset. \r\nThis can be a string or an object.\r\n\r\nIf using a string, you can specify hex,\r\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu). \r\n\r\nThe key \"name\" is required for this dictionary,\r\nwhere the input for \"name\" points to some list of\r\ndictionaries color values.\r\n\r\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "Tracks that specify specific layouts.\r\nFor a complete list of tracks and usage, \r\nplease check the docs.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      }
+    }
+  },
+  "src/lib/components/DashIdeogram.react.js": {
+    "description": "The Dash Ideogram is used to draw and animate genome-wide\r\ndatasets for organisms such as an human, mouse, and any\r\nother eukaryotes. The Ideogram can be used to compare\r\nhomologous features between chromosomes, and depict,\r\nhaploid, diploid, aneuploidy genomes. It can also display\r\nannotations using histograms, overlays, and simple side\r\nby side tracks to show important genomic data.\r\n\r\nGo here to see it in action: https://eweitz.github.io/ideogram/",
+    "displayName": "DashIdeogram",
+    "methods": [
+      {
+        "name": "onHomologyHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onToolTipHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onBrushHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onLoadHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onRotateHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onMouseOverHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "setConfig",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "initIdeogram",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The ID used to identify this component in Dash callbacks\r\nand used to identify Ideogram instances."
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The component's inline styles"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash specific prop type connecting event handlers to front end."
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The CSS class of the component wrapper"
+      },
+      "annotationsData": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Use this prop in callback to return annotationData when hovered."
+      },
+      "ancestors": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A map associating ancestor labels to colors. Used to color \r\nchromosomes from different ancestors in polyploid genomes."
+      },
+      "annotations": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "name": {
+                "name": "string",
+                "required": false
+              },
+              "chr": {
+                "name": "string",
+                "required": false
+              },
+              "start": {
+                "name": "number",
+                "required": false
+              },
+              "stop": {
+                "name": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "A list of annotation objects. Annotation objects can also have a \r\n name, color, shape, and track index. At the moment there is more\r\n keys specified and the docs need updating."
+      },
+      "annotationHeight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The height of each annotation."
+      },
+      "annotationsLayout": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The layout of this ideogram's annotations. \r\nIt can be one of \"tracks\", \"histogram\", or \"overlay\".\r\n\r\nTracks: Lay out annotations in tracks beside each chromosome.\r\n\r\nHistogram: Layout annotations in a histogram. Clusters annotations\r\nby location. Each cluster/bin is shown as a height of a bar to represent\r\nnumber of annotations on genomic range.\r\n\r\nOverlay: Lay out annotations directly over chromsomes.",
+        "defaultValue": {
+          "value": "\"tracks\"",
+          "computed": false
+        }
+      },
+      "annotationsColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The color of each annotation.",
+        "defaultValue": {
+          "value": "\"#F00\"",
+          "computed": false
+        }
+      },
+      "annotationsPath": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "An absolute or relative URL directing to a JSON file containing\r\nannotation objects (JSON)."
+      },
+      "annotationTracks": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "A list of objects with metadata for each track, \r\ne.g. id, display name, color, shape."
+      },
+      "assembly": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default: latest RefSeq assembly for specified organism. \r\nThe genome assembly to display. \r\nTakes assembly name (e.g. \"GRCh37\"), \r\nRefSeq accession (e.g. \"GCF_000306695.2\"), \r\nor GenBank accession (e.g. \"GCA_000005005.5\")"
+      },
+      "barWidth": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The pixel width of bars drawn when annotationsLayout: 'histogram'.",
+        "defaultValue": {
+          "value": "3",
+          "computed": false
+        }
+      },
+      "brush": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Genomic coordinate range (e.g. \"chr1:104325484-119977655\") for a brush on a \r\nchromosome. Useful when ideogram consists of one chromosome and you want to be \r\nable to focus on a region within that chromosome, \r\nand create an interactive sliding window to other regions"
+      },
+      "brushData": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A dash callback that is activated when the 'brush' prop is used in component.\r\nIt will return an dictionary like so:\r\n\r\n{'start': <value>, 'end': <value>, 'extent': <value>}\r\n\r\nwhere start is the left most edge, end is right most edge, and extent is \r\nthe total width of the brush."
+      },
+      "container": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "CSS styling and the id of the container holding the Ideogram in \r\nreact-ideogram.js, this is where all the d3 magic happens."
+      },
+      "chrHeight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The pixel height of the tallest chromosome in the ideogram",
+        "defaultValue": {
+          "value": "400",
+          "computed": false
+        }
+      },
+      "chrMargin": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The pixel space of margin bewteen each chromosome.",
+        "defaultValue": {
+          "value": "10",
+          "computed": false
+        }
+      },
+      "chrWidth": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The pixel width of each chromosome.",
+        "defaultValue": {
+          "value": "10",
+          "computed": false
+        }
+      },
+      "chromosomes": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "string"
+              }
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "A list of the names of chromosomes to \r\ndisplay. Useful for depicting a subset of the chromosomes in the genome, \r\ne.g. a single chromosome.\r\n\r\nIf Homology (between two different species):\r\nEx: chromosomes={\r\n            'human': ['1'],\r\n            'mouse': ['4']\r\n        }\r\n\r\n        General case to specify specific chromosomes:\r\n        Ex: chromosomes=['1', '2']"
+      },
+      "dataDir": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Absolute or relative URL of the directory \r\ncontaining data needed to draw banded chromosomes.\r\nYou will need to set up you're own database to grab data from\r\nfor custom data."
+      },
+      "fullChromosomeLabels": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to include abbreviation species name in chromosome label. Used\r\nfor homology."
+      },
+      "histogramScaling": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "One of \"absolute\" or \"relative\". The technique to use in scaling the height of histogram bars. The \"absolute\" value sets bar height relative to tallest bar in all chromosomes, \r\nwhile \"relative\" sets bar height relative to tallest bar in each chromosome."
+      },
+      "heatmaps": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "This is a work in progess and will hopefully be fixed in future releases."
+      },
+      "homology": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "chrOne": {
+              "name": "shape",
+              "value": {
+                "organism": {
+                  "name": "string",
+                  "required": true
+                },
+                "start": {
+                  "name": "arrayOf",
+                  "value": {
+                    "name": "number"
+                  },
+                  "required": false
+                },
+                "stop": {
+                  "name": "arrayOf",
+                  "value": {
+                    "name": "number"
+                  },
+                  "required": false
+                }
+              },
+              "required": false
+            },
+            "chrTwo": {
+              "name": "shape",
+              "value": {
+                "organism": {
+                  "name": "string",
+                  "required": true
+                },
+                "start": {
+                  "name": "arrayOf",
+                  "value": {
+                    "name": "number"
+                  },
+                  "required": false
+                },
+                "stop": {
+                  "name": "arrayOf",
+                  "value": {
+                    "name": "number"
+                  },
+                  "required": false
+                }
+              },
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Used to compare two chromosomes with each other.\r\nThe keys \"chrOne\" and \"chrTwo\" represent one chromosome each. Organism is the \r\ntaxID or name. Start is an array, containing start one and \r\nstart two in this order. Stop is array, containing stop one, and stop two, \r\nin this order.\r\nEx: homology={\r\n                    \"chrOne\": {\r\n                        \"organism\": \"9606\",\r\n                        \"start\": [50000, 155701383],\r\n                        \"stop\": [900000, 156030895]\r\n                    },\r\n                    \"chrTwo\": {\r\n                        \"organism\": \"10090\",\r\n                        \"start\": [10001, 50000000],\r\n                        \"stop\": [2781479, 57217415]\r\n                    }\r\n                }"
+      },
+      "filterable": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Whether annotations should be filterable."
+      },
+      "localOrganism": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Provide local JSON organism into this prop from a local user JSON file. \r\nDataDir must not be initiliazed."
+      },
+      "onMouseOver": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash event callback for mousing over data."
+      },
+      "organism": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "array"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. \"human\") or \r\norganism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism, \r\nor an array of organisms' names or taxids to display chromosomes from multiple species.",
+        "defaultValue": {
+          "value": "\"human\"",
+          "computed": false
+        }
+      },
+      "orientation": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The orientation of chromosomes on the page."
+      },
+      "onBrushMove": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback function to invoke when brush moves."
+      },
+      "onDidRotate": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback function to invoke after chromosome has rotated. (React)"
+      },
+      "onDrawAnnots": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback function to invoke when annotations are drawn. (React)"
+      },
+      "onLoad": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback function to invoke when chromosomes are loaded, \r\ni.e. rendered on the page. (React)"
+      },
+      "perspective": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Use perspective: 'comparative' to enable annotations between two chromosomes, \r\neither within the same organism or different organisms. Used for homology."
+      },
+      "ploidy": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The ploidy - number of chromosomes to depict for each chromosome\r\nset.",
+        "defaultValue": {
+          "value": "1",
+          "computed": false
+        }
+      },
+      "ploidyDesc": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "Description of ploidy in each chromosome set in terms of \r\nancestry composition."
+      },
+      "rangeSet": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "List of objects describing segments of recombination \r\namong chromosomes in a chromosome set."
+      },
+      "rotatable": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether chromosomes are rotatable on click.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "rotated": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Dash callback that returns True if rotated, and false if not."
+      },
+      "resolution": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The resolution of cytogenetic bands to show for each chromosome. \r\nThe quantity refers to approximate value in bands per haploid set (bphs). \r\nOne of 450, 550, or 850."
+      },
+      "rows": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Useful for putting ideogram into a small container, \r\nor when dealing with genomes that have many chromosomes. \r\nNote: Not fully working needs to be fixed by developer.",
+        "defaultValue": {
+          "value": "1",
+          "computed": false
+        }
+      },
+      "sex": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Useful for omitting chromosome Y in female mammals. \r\nCurrently only supported for organisms that use XY sex-determination."
+      },
+      "showChromosomeLabels": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to show chromosome labels, e.g. 1, 2, 3, X, Y.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "showBandLabels": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to show cytogenetic band labels, e.g. 1q21",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "showAnnotTooltip": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to show a tooltip upon mousing over an annotation.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "showFullyBanded": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to show fully banded chromosomes for genomes \r\nthat have sufficient data. Useful for showing simpler chromosomes of \r\ncytogenetically well-characterized organisms, e.g. human, beside chromosomes of \r\nless studied organisms, e.g. chimpanzee.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "showNonNuclearChromosomes": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to show non-nuclear chromosomes, \r\ne.g. for mitochondrial (MT) and chloroplast (CP) DNA.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      }
+    }
+  },
+  "src/lib/components/NeedlePlot.react.js": {
+    "description": "",
+    "displayName": "NeedlePlot",
+    "methods": [
+      {
+        "name": "handleChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "event",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "prepareTraces",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "prepareLayout",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "vars",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of this component, used to identify dash components\r\nin callbacks. The ID needs to be unique across all of the\r\ncomponents in an app."
+      },
+      "mutationData": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "x": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "string"
+                },
+                {
+                  "name": "array"
+                }
+              ],
+              "required": false
+            },
+            "y": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "string"
+                },
+                {
+                  "name": "array"
+                }
+              ],
+              "required": false
+            },
+            "mutationGroups": {
+              "name": "arrayOf",
+              "value": {
+                "name": "string"
+              },
+              "required": false
+            },
+            "domains": {
+              "name": "array",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "{\r\n  x: [],\r\n  y: [],\r\n  domains: [],\r\n  mutationGroups: []\r\n}",
+          "computed": false
+        }
+      },
+      "xlabel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "ylabel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "rangeSlider": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "needleStyle": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "stemColor": {
+              "name": "string",
+              "required": false
+            },
+            "stemThickness": {
+              "name": "number",
+              "required": false
+            },
+            "stemConstHeight": {
+              "name": "bool",
+              "required": false
+            },
+            "headSize": {
+              "name": "number",
+              "required": false
+            },
+            "headColor": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "array"
+                },
+                {
+                  "name": "string"
+                }
+              ],
+              "required": false
+            },
+            "headSymbol": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "array"
+                },
+                {
+                  "name": "string"
+                }
+              ],
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "{\r\n    stemColor: '#444',\r\n    stemThickness: 0.5,\r\n    stemConstHeight: false,\r\n    headSize: 5,\r\n    headColor: [\r\n        '#e41a1c',\r\n        '#377eb8',\r\n        '#4daf4a',\r\n        '#984ea3',\r\n        '#ff7f00',\r\n        '#ffff33',\r\n        '#a65628',\r\n        '#f781bf',\r\n        '#999999',\r\n        '#e41a1c',\r\n        '#377eb8',\r\n        '#4daf4a',\r\n        '#984ea3',\r\n        '#ff7f00',\r\n        '#ffff33',\r\n        '#a65628',\r\n        '#f781bf',\r\n        '#999999',\r\n        '#e41a1c',\r\n    ],\r\n    headSymbol: 'circle',\r\n}",
+          "computed": false
+        }
+      },
+      "domainStyle": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "domainColor": {
+              "name": "array",
+              "required": false
+            },
+            "displayMinorDomains": {
+              "name": "bool",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "{\r\n    displayMinorDomains: false,\r\n    domainColor: [\r\n        '#8dd3c7',\r\n        '#ffffb3',\r\n        '#bebada',\r\n        '#fb8072',\r\n        '#80b1d3',\r\n        '#fdb462',\r\n        '#b3de69',\r\n        '#fccde5',\r\n        '#d9d9d9',\r\n        '#bc80bd',\r\n        '#ccebc5',\r\n        '#ffed6f',\r\n        '#8dd3c7',\r\n        '#ffffb3',\r\n        '#bebada',\r\n        '#fb8072',\r\n        '#80b1d3',\r\n        '#fdb462',\r\n        '#b3de69',\r\n    ],\r\n}",
+          "computed": false
+        }
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever any of the\r\nproperties change"
+      },
+      "dashEvents": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'click'",
+              "computed": false
+            },
+            {
+              "value": "'hover'",
+              "computed": false
+            },
+            {
+              "value": "'unhover'",
+              "computed": false
+            },
+            {
+              "value": "'selected'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": ""
+      },
+      "fireEvent": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Function that fires events"
       }
     }
   }

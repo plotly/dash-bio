@@ -3,6 +3,7 @@ import dash_bio
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_table as dt
 import logging
 import os
 from config import DASH_APP_NAME
@@ -44,7 +45,8 @@ app.layout = html.Div(
             ]),
         ]),
         html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_bio.EmptyComponent())
+        html.Div(style={"display": "none"}, children=dash_bio.NeedlePlot()),
+        html.Div(style={"display": "none"}, children=dt.DataTable({}))
     ]
 )
 
@@ -62,7 +64,7 @@ def demoAppImgSrc(name):
             base64.b64encode(
                 open('./assets/dashbio_logo.png', 'rb').read()).decode())
 
-    
+
 def demoAppName(name):
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
@@ -75,7 +77,7 @@ def demoAppDesc(name):
         pass
     return desc
 
-            
+
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == '/{}'.format(DASH_APP_NAME) \
@@ -118,7 +120,7 @@ def display_app(pathname):
         pathname.replace(
             '/{}/'.format(DASH_APP_NAME), '/').replace(
                 "/", "").replace("-", "_")
-    
+
     if app_name in apps:
         return html.Div(id="waitfor", children=apps[app_name].layout())
     else:
@@ -130,7 +132,7 @@ def display_app(pathname):
             app_name, list(apps.keys())
         )
 
-    
+
 @app.callback(
     Output('gallery-header', 'children'),
     [Input('location', 'pathname')]
@@ -149,10 +151,10 @@ def hide_header(pathname):
             compatible with Plotly\'s Dash.'
         ]),
     ]
-        
+
 
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=False)

@@ -1,4 +1,4 @@
-/* Table of contents
+﻿/* Table of contents
 ––––––––––––––––––––––––––––––––––––––––––––––––––
 - Plotly.js
 - Grid
@@ -31,6 +31,12 @@
 .Select {
     z-index: 1002;
 }*/
+
+/* Remove Undo Button
+--------------------------------------------------*/
+._dash-undo-redo {
+    display: none;
+  }
 
 /* Grid
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -131,7 +137,9 @@ body {
   line-height: 1.6;
   font-weight: 400;
   font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: rgb(50, 50, 50); }
+  color: rgb(50, 50, 50); 
+  margin: 0!important;
+  }
 
 
 /* Typography

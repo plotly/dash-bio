@@ -1,5 +1,10 @@
-from .ExampleComponent import ExampleComponent
+from .DashCircos import DashCircos
+from .DashIdeogram import DashIdeogram
+from .NeedlePlot import NeedlePlot
+
 
 __all__ = [
-    "ExampleComponent"
+    "DashCircos",
+    "DashIdeogram",
+    "NeedlePlot",
 ]
