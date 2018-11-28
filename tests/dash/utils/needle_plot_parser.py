@@ -5,6 +5,15 @@ import urllib.request
 import requests
 import pandas as pd
 import warnings
+import copy
+
+
+EMPTY_MUT_DATA = dict(
+    x=[],
+    y=[],
+    mutationGroups=[],
+    domains=[],
+)
 
 
 def extract_mutations(target_url, fname=""):
@@ -272,6 +281,52 @@ def pfam_parser(accession):
         return {'regions': []}
 
 
+def parse_protein_domains_data(domain_data):
+    """take a json object loaded from a local file or from the PFAM database and
+            format it for the app.
+        :param (str) domain_data: json object. It needs to have a structure with a
+                                 'region' field under which 'text', 'start' and 'end'
+                                 fields must be present as well.
+        :return: JSON-like structure with protein domain information formatted for dash_bio
+        needle plot component
+        """
+    region_key = 'regions'
+    region_name_key = 'text'
+    region_start_key = 'start'
+    region_stop_key = 'end'
+
+    formatted_data = []
+    print_warning = False
+
+    if region_key in domain_data:
+        try:
+            for region in domain_data[region_key]:
+                formatted_data.append(
+                    dict(
+                        name="%s" % region[region_name_key],
+                        coord="%i-%i" % (region[region_start_key], region[region_stop_key])
+                    )
+                )
+        except TypeError as e:
+            if 'iterable' not in str(e):
+                raise
+            else:
+                print_warning = True
+        except KeyError:
+            print_warning = True
+    else:
+        print_warning = True
+
+    if print_warning:
+        print(
+            "The '%s' key of the protein domains data should contains a list/array of structures "
+            "with at least the following keys : %s" %
+            (region_key, [region_name_key, region_start_key, region_stop_key])
+        )
+
+    return formatted_data
+
+
 def load_protein_domains(accession=None, json_fname=None):
     """take a json file from a local file or from the PFAM database and
         format it for the app.
@@ -293,29 +348,16 @@ def load_protein_domains(accession=None, json_fname=None):
     if accession is not None:
         domain_data = pfam_parser(accession)
 
-    formatted_data = []
-    for region in domain_data['regions']:
-        formatted_data.append(
-            dict(
-                name="%s" % region['text'],
-                coord="%i-%i" % (region['start'], region['end'])
-            )
-        )
-    return formatted_data
+    return parse_protein_domains_data(domain_data)
 
 
-def parse_mutation_data_file(contents, fname):
+def parse_mutation_upload_file(contents, fname):
     """
     :param (str) contents: returned by a dcc.Upload 'contents' prop
     :param (str) fname: the filename associated with the dcc.Upload component
     :return: formatted mutation data for the dash_bio.NeedlePlot component
     """
-    data = dict(
-        x=[],
-        y=[],
-        mutationGroups=[],
-        domains=[],
-    )
+    data = copy.deepcopy(EMPTY_MUT_DATA)
 
     if contents is not None:
         content_type, content_string = contents.split(',')
@@ -332,4 +374,24 @@ def parse_mutation_data_file(contents, fname):
                     print('The file %s is not formatted in the correct way to use '
                           'its mutation data with the dash_bio.NeedlePlot component. '
                           'The key "%s" is missing' % (fname, k))
+    return data
+
+
+def parse_domain_upload_file(contents, fname):
+    """
+    :param (str) contents: returned by a dcc.Upload 'contents' prop
+    :param (str) fname: the filename associated with the dcc.Upload component
+    :return: formatted protein domain data for the dash_bio.NeedlePlot component
+    """
+    data = []
+
+    if contents is not None:
+        content_type, content_string = contents.split(',')
+        decoded = base64.b64decode(content_string)
+
+        if 'json' in fname:
+            # Assume that the user uploaded a CSV file
+            json_data = json.loads(decoded.decode('utf-8'))
+            data = parse_protein_domains_data(json_data)
+
     return data
