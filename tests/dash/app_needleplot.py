@@ -400,15 +400,6 @@ def callbacks(app):
         return div_style
 
     @app.callback(
-        Output('needle-plot', 'mutationData'),
-        [
-            Input('needle-store', 'data'),
-        ]
-    )
-    def load_dataset(stored_data):
-        return stored_data['plot']
-
-    @app.callback(
         Output('needle-uniprot-div', 'children'),
         [
             Input('needle-store', 'data'),
@@ -418,6 +409,7 @@ def callbacks(app):
         ]
     )
     def display_query_information(stored_data, load_choice):
+        """diplays information about the query to the UniProt database"""
         if load_choice in stored_data['info']:
             return stored_data['info'][load_choice]
         else:
@@ -432,13 +424,125 @@ def callbacks(app):
             State('needle-dataset-select-radio', 'value'),
         ]
     )
-    def reset_database_search(stored_data, load_choice):
+    def reset_database_query(stored_data, load_choice):
+        """resets the last query if the user changed dataset loading option"""
         if load_choice == DATABASE_KEY:
             return stored_data['info'][DB_LAST_QUERY_KEY]
         else:
             return ""
 
+    @app.callback(
+        Output('needle-domain-file-div', 'style'),
+        [
+            Input('needle-protein-domains-select-checklist', 'values'),
+        ],
+        [
+            State('needle-domain-file-div', 'value'),
+        ]
+    )
+    def toggle_individual_domain_loading_in_upload(domains_opt, div_style):
+        """toggles the view of the domain upload div"""
+        if div_style is None:
+            div_style = {'display': 'none'}
 
+        if (INDIV_DOMS_KEY in domains_opt) and (UNIPROT_DOMS_KEY not in domains_opt):
+            div_style['display'] = 'inherit'
+        else:
+            div_style['display'] = 'none'
+
+        return div_style
+
+    @app.callback(
+        Output('needle-domain-query-info-div', 'style'),
+        [
+            Input('needle-protein-domains-select-checklist', 'values'),
+        ],
+        [
+            State('needle-domain-query-info-div', 'value'),
+        ]
+    )
+    def toggle_domain_upload_query_information(domains_opt, div_style):
+        """toggles the view of the output domain upload div which displays
+            information from the Unitprot query"""
+        if div_style is None:
+            div_style = {'display': 'none'}
+
+        if UNIPROT_DOMS_KEY in domains_opt:
+            div_style['display'] = 'inherit'
+        else:
+            div_style['display'] = 'none'
+
+        return div_style
+
+    # UPLOAD RELATED CALLBACKS========
+    @app.callback(
+        Output('needle-mutdata-file-upload', 'contents'),
+        [Input('needle-dataset-select-radio', 'value')],
+        [State('needle-mutdata-file-upload', 'contents')]
+    )
+    def reset_mutdata_upload_content(load_choice, mut_contents):
+        """reset the content of the mutation data upload"""
+        if load_choice == DEMO_KEY:
+            return None
+        else:
+            return mut_contents
+
+    @app.callback(
+        Output('needle-domains-file-upload', 'contents'),
+        [Input('needle-dataset-select-radio', 'value')],
+        [State('needle-domains-file-upload', 'contents')]
+    )
+    def reset_domains_upload_content(load_choice, dom_contents):
+        """reset the content of the proteins domains upload"""
+        if load_choice == DEMO_KEY:
+            return None
+        else:
+            return dom_contents
+
+    @app.callback(
+        Output('needle-mutdata-file-info-div', 'children'),
+        [
+            Input('needle-mutdata-file-upload', 'contents'),
+            Input('needle-mutdata-file-upload', 'filename'),
+        ]
+    )
+    def display_mutdata_upload_file_info(mut_contents, mut_fname):
+        """display the info about the source of the protein mutations data"""
+        if mut_contents is not None:
+            return "Loaded from %s : " % mut_fname
+        else:
+            return []
+
+    @app.callback(
+        Output('needle-domains-file-info-div', 'children'),
+        [
+            Input('needle-domains-file-upload', 'contents'),
+            Input('needle-domains-file-upload', 'filename'),
+        ]
+    )
+    def display_domains_upload_file_info(dom_contents, dom_fname):
+        """display the info about the source of the protein domains data"""
+        if dom_contents is not None:
+            return "Loaded from %s : " % dom_fname
+        else:
+            return []
+
+    @app.callback(
+        Output('needle-domain-query-info-div', 'children'),
+        [Input('needle-store', 'data')]
+    )
+    def display_domain_query_info(stored_data):
+        """display the info about the source of the protein domains data"""
+        return stored_data['info'][DATABASE_KEY]
+
+    # DATA RELATED CALLBACKS==========
+    @app.callback(
+        Output('needle-plot', 'mutationData'),
+        [Input('needle-store', 'data')]
+    )
+    def plot_dataset(stored_data):
+        """reloads the dataset of the graph if the stored data changed"""
+        return stored_data['plot']
 
     @app.callback(
         Output('needle-store', 'data'),
@@ -446,10 +550,13 @@ def callbacks(app):
             Input('needle-search-sequence-button', 'n_clicks'),
             Input('needle-dataset-select-radio', 'value'),
             Input('needle-dataset-dropdown', 'value'),
-            Input('needle-json-file-upload', 'contents'),
+            Input('needle-protein-domains-select-checklist', 'values'),
+            Input('needle-mutdata-file-upload', 'contents'),
+            Input('needle-domains-file-upload', 'contents'),
         ],
         [
-            State('needle-json-file-upload', 'filename'),
+            State('needle-mutdata-file-upload', 'filename'),
+            State('needle-domains-file-upload', 'filename'),
             State('needle-sequence-input', 'value'),
             State('needle-store', 'data')
         ]
@@ -458,8 +565,11 @@ def callbacks(app):
             n_click,
             load_choice,
             demo_choice,
-            contents,
-            fname,
+            domains_opt,
+            mut_contents,
+            dom_contents,
+            mut_fname,
+            dom_fname,
             query,
             stored_data
     ):
@@ -468,16 +578,24 @@ def callbacks(app):
         """
         if stored_data is None:
             stored_data = {
-                'plot': None,
+                'plot': copy.deepcopy(EMPTY_MUT_DATA),
                 'info': {
-                    DB_LAST_QUERY_KEY : ''
+                    DB_LAST_QUERY_KEY: '',
+                    DATABASE_KEY: '',
+                    'previous_choice': '',
                 }
             }
 
-        x = []
-        y = []
-        mutationgroups = []
-        domains = []
+        if load_choice == DEMO_KEY:
+            # Loads datasets from a github repo for demo purpose
+            x, y, mutationgroups = extract_mutations(DATA_URL, DATA[demo_choice]['mutData'])
+            domains = extract_domains(DATA_URL, DATA[demo_choice]['domains'])
+            stored_data['plot'] = dict(
+                x=x,
+                y=y,
+                mutationGroups=mutationgroups,
+                domains=np.array(domains),
+            )
 
         if load_choice == DATABASE_KEY:
             # Performs a simple query in the UniProt database to find an
@@ -497,13 +615,19 @@ def callbacks(app):
                         format='tab'
                     )
                 )
-                print(gene_search.to_string())
+                # Keeps the query in memory
                 stored_data['info'][DATABASE_KEY] = gene_search.to_string()
+
                 if not gene_search.empty:
                     accession = gene_search['id'][0]
                     domains = load_protein_domains(accession=accession)
 
-                    # Query data from a GFF file (http://gmod.org/wiki/GFF3)
+                    stored_data['plot']['domains'] = domains
+                    # Saves the domain to be able to load it separately in file upload option
+                    if UNIPROT_DOMS_KEY in domains_opt:
+                        stored_data[INDIV_DOMS_KEY] = {'domains': domains}
+
+                    # Queries data from a GFF file (http://gmod.org/wiki/GFF3)
                     gff_data = UNIPROT_QUERY.query_into_pandas(
                         query,
                         fields=dict(
@@ -521,8 +645,10 @@ def callbacks(app):
                     if not gff_data.empty:
                         mut_type = 'Natural variant'
                         data = gff_data[gff_data.mut == mut_type]['start'].value_counts()
-                        x = np.array(data.index).astype('str')
-                        y = np.array(data.values).astype('str')
+                        stored_data['plot']['x'] = np.array(data.index).astype('str')
+                        stored_data['plot']['y'] = np.array(data.values).astype('str')
+                        stored_data['plot']['mutationGroups'] = []
+                        # TODO : add mutationGroup information
 
                         stored_data['info'][DB_LAST_QUERY_KEY] = query
                 else:
@@ -530,29 +656,26 @@ def callbacks(app):
 
         else:
 
-            stored_data['info'][DB_LAST_QUERY_KEY] = ""
-            stored_data['info'][DATABASE_KEY] = ""
-
-
-        if load_choice == DEMO_KEY:
-            #
-            x, y, mutationgroups = extract_mutations(DATA_URL, DATA[demo_choice]['mutData'])
-            domains = extract_domains(DATA_URL, DATA[demo_choice]['domains'])
-
-        stored_data['plot'] = dict(
-            x=x,
-            y=y,
-            mutationGroups=mutationgroups,
-            domains=np.array(domains),
-        )
+            stored_data['info'][DB_LAST_QUERY_KEY] = ''
+            stored_data['info'][DATABASE_KEY] = ''
 
         if load_choice == FILE_KEY:
             # the user has to provide a file which is then parsed by a function to
             # make sure it is the right format
-            stored_data['plot'] = parse_mutation_data_file(contents, fname)
+            stored_data['plot'] = copy.deepcopy(EMPTY_MUT_DATA)
+            stored_data['plot'] = parse_mutation_upload_file(mut_contents, mut_fname)
+
+            if INDIV_DOMS_KEY in domains_opt:
+                if UNIPROT_DOMS_KEY not in domains_opt:
+                    if dom_contents is not None:
+                        stored_data['plot']['domains'] = parse_domain_upload_file(dom_contents, dom_fname)
+                else:
+                    if INDIV_DOMS_KEY in stored_data:
+                        stored_data['plot']['domains'] = stored_data[INDIV_DOMS_KEY]['domains']
 
         return stored_data
 
+    # GRAPH OPTIONS CALLBACKS=========
     @app.callback(
         Output('needle-plot', 'rangeSlider'),
         [Input('needle-rangeslider-radioitems', 'value')]
