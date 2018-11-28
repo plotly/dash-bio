@@ -1,0 +1,16 @@
+.needle-upload {
+    width: 90%;
+    height: 11vh;
+    line-height: 11vh;
+    border-width: 1px;
+    border-style: dashed;
+    border-radius: 3px;
+    text-align: center;
+    margin: 3px;
+    display: inline-table;
+}
+
+.needle-tabs {
+    max-height: 90vh;
+    overflow-y: auto;
+}
