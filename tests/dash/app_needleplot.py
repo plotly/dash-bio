@@ -68,7 +68,7 @@ def layout():
         className='row',
         children=[
             html.Div(
-                className='four columns',
+                className='four columns needle-tabs',
                 children=dcc.Tabs(
                     id='tabs',
                     value='tab-data',
@@ -96,7 +96,6 @@ def layout():
                                 ),
                                 html.Div(
                                     id='needle-%s-div' % DEMO_KEY,
-                                    style={'width': '100%', 'display': 'none'},
                                     children=[
                                         html.H5(
                                             'Select demo dataset'
@@ -113,7 +112,6 @@ def layout():
                                 ),
                                 html.Div(
                                     id='needle-%s-div' % DATABASE_KEY,
-                                    style={'width': '100%', 'display': 'none'},
                                     children=[
                                         html.H5(
                                             'Search UniProt'
@@ -145,7 +143,6 @@ def layout():
                                 ),
                                 html.Div(
                                     id='needle-%s-div' % FILE_KEY,
-                                    style={'width': '100%', 'display': 'none'},
                                     children=[
                                         html.H5(
                                             'Upload file'
@@ -294,9 +291,11 @@ def callbacks(app):
     )
     def toggle_db(method, div_style):
         """updates what the user can use to load data to the graph"""
+        if div_style is None:
+            div_style = {'display': 'none'}
 
         if method == DATABASE_KEY:
-            div_style.pop('display')
+            div_style['display'] = 'inherit'
         else:
             div_style['display'] = 'none'
 
@@ -313,8 +312,11 @@ def callbacks(app):
     )
     def toggle_demo(method, div_style):
         """updates what the user can use to load data to the graph"""
+        if div_style is None:
+            div_style = {'display': 'none'}
+
         if method == DEMO_KEY:
-            div_style.pop('display')
+            div_style['display'] = 'inherit'
         else:
             div_style['display'] = 'none'
 
@@ -331,8 +333,11 @@ def callbacks(app):
     )
     def toggle_file(method, div_style):
         """updates what the user can use to load data to the graph"""
+        if div_style is None:
+            div_style = {'display': 'none'}
+
         if method == FILE_KEY:
-            div_style.pop('display')
+            div_style['display'] = 'inherit'
         else:
             div_style['display'] = 'none'
 
