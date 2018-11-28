@@ -1,12 +1,13 @@
 # In[]:
 # Import required libraries
 import numpy as np
+import copy
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import dash_bio
-from .utils.needle_plot_parser import UniprotQueryBuilder, \
-    extract_mutations, extract_domains, load_protein_domains, parse_mutation_data_file
+from .utils.needle_plot_parser import UniprotQueryBuilder, extract_mutations, EMPTY_MUT_DATA,\
+    extract_domains, load_protein_domains, parse_mutation_upload_file, parse_domain_upload_file
 from .utils.app_wrapper import app_page_layout
 
 # Data used for the default demo plot
@@ -20,6 +21,10 @@ DATA = [
 DEMO_KEY = 'demo'
 FILE_KEY = 'file'
 DATABASE_KEY = 'db'
+
+# Value of the cheklist to load the protein domain individually
+INDIV_DOMS_KEY = 'indivual_domain_loading'
+UNIPROT_DOMS_KEY = 'uniprot_domain_loading'
 
 DB_LAST_QUERY_KEY = '%s-last-query' % DATABASE_KEY
 
@@ -82,20 +87,46 @@ def layout():
                             value='tab-data',
                             children=[
                                 html.Div(
-                                    title='"Demo dataset" choice will allow you to play with the options.\n'
-                                          '"UniProt dataset" choice will retrieve protein domain'
-                                          'as well as mutation data from UniProt database.\n"Upload dataset"'
-                                          'choice will let you choose your own mutation data with the option to'
-                                          'load the protein domains from pfam database.',
-                                    children=dcc.RadioItems(
-                                        id='needle-dataset-select-radio',
-                                        options=[
-                                            {'label': 'Demo dataset', 'value': DEMO_KEY},
-                                            {'label': 'Upload dataset', 'value': FILE_KEY},
-                                            {'label': 'UniProt dataset', 'value': DATABASE_KEY},
-                                        ],
-                                        value=DEMO_KEY
-                                    )
+                                    id='needle-dataset-header-div',
+                                    children=[
+                                        html.Div(
+                                            title='"Demo dataset" choice will allow you to play with the options.\n'
+                                                  '"UniProt dataset" choice will retrieve protein domain'
+                                                  'as well as mutation data from UniProt database.\n"Upload dataset"'
+                                                  'choice will let you choose your own mutation data with the option to'
+                                                  'load the protein domains from pfam database.',
+                                            className='needle-dataset-header-div',
+                                            children=dcc.RadioItems(
+                                                id='needle-dataset-select-radio',
+                                                options=[
+                                                    {'label': 'Demo dataset', 'value': DEMO_KEY},
+                                                    {'label': 'Upload dataset', 'value': FILE_KEY},
+                                                    {'label': 'UniProt dataset', 'value': DATABASE_KEY},
+                                                ],
+                                                value=DEMO_KEY
+                                            )
+                                        ),
+                                        html.Div(
+                                            title='If checked, it will allow the user to load mutation data such '
+                                                  'as the protein coordinate (x), mutation number (y) and mutation '
+                                                  'type (mutationGroups), individually from the protein domains',
+                                            className='needle-dataset-header-div',
+                                            children=dcc.Checklist(
+                                                id='needle-protein-domains-select-checklist',
+                                                options=[
+                                                    {
+                                                        'label': 'Load protein domains individually',
+                                                        'value': INDIV_DOMS_KEY
+                                                    },
+                                                    {
+                                                        'label': 'Load protein domains from UniProt only',
+                                                        'value': UNIPROT_DOMS_KEY
+                                                    }
+                                                ],
+                                                values=[]
+                                            )
+                                        ),
+                                    ]
                                 ),
                                 html.Div(
                                     id='needle-%s-div' % DEMO_KEY,
@@ -148,10 +179,10 @@ def layout():
                                     id='needle-%s-div' % FILE_KEY,
                                     children=[
                                         html.H5(
-                                            'Upload file'
+                                            'Upload mutation data json file'
                                         ),
                                         dcc.Upload(
-                                            id='needle-json-file-upload',
+                                            id='needle-mutdata-file-upload',
                                             className='needle-upload',
                                             children=html.Div([
                                                 'Drag and Drop or ',
@@ -159,7 +190,29 @@ def layout():
                                             ]),
                                         ),
                                         html.Div(
-                                            id='needle-output-data-upload'
+                                            id='needle-mutdata-file-info-div'
+                                        ),
+                                        html.Div(
+                                            id='needle-domain-file-div',
+                                            children=[
+                                                html.H5(
+                                                    'Upload protein domains json file'
+                                                ),
+                                                dcc.Upload(
+                                                    id='needle-domains-file-upload',
+                                                    className='needle-upload',
+                                                    children=html.Div([
+                                                        'Drag and Drop or ',
+                                                        html.A('Select Files')
+                                                    ]),
+                                                ),
+                                                html.Div(
+                                                    id='needle-domains-file-info-div'
+                                                ),
+                                            ]
+                                        ),
+                                        html.Div(
+                                            id='needle-domain-query-info-div'
                                         ),
                                     ]
                                 )
