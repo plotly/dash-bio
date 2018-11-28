@@ -13,7 +13,7 @@
   ],
   "buildpacks": [
     {
-      "url": "https://github.com/pl31/heroku-buildpack-conda.git"
+      "url": "https://github.com/icoxfog417/conda-buildpack"
     }
   ]
 }
