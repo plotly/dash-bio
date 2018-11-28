@@ -26,30 +26,28 @@ def description():
 
 def layout():
     main_layout = html.Div(
-        id='page-content',
+        id='mhp-page-content',
         children=[
             html.Div(
-                id='text',
-                children=[
-                    html.Div(
-                        "Visualize genome wide association studies  ("
-                        "GWAS) with efficient manhattan plots. Using "
-                        "WebGL  under the hood, interactively explore  "
-                        "hundred of thousands of points at once or  "
-                        "individually hover over them.",
-                        style=text_style
-                    )
-                ]
+                id='mhp-text',
+                className='mhp-text mhp-intro',
+                children="Visualize genome wide association studies  ("
+                         "GWAS) with efficient manhattan plots. Using "
+                         "WebGL  under the hood, interactively explore  "
+                         "hundred of thousands of points at once or  "
+                         "individually hover over them.",
             ),
             html.Div(
+                id='mhp-controls-div',
                 children=[
                     html.H5(
-                        "Threshold value",
-                        style=text_style
+                        "Threshold value (red line)",
+                        className='mhp-text',
                     ),
                     html.Div(
+                        id='mhp-slider-div',
                         children=dcc.Slider(
-                            id='slider',
+                            id='mhp-slider',
                             vertical=False,
                             updatemode='mouseup',
                             max=9,
@@ -57,47 +55,26 @@ def layout():
                             value=7,
                             marks={i + 1: '{}'.format(i + 1) for i in range(9)}
                         ),
-                        style={
-                            'width': "100%",
-                            'margin': "2px"
-                        }
                     )
-                ],
-                style={
-                    'width': "80%",
-                    'display': 'flex',
-                    'flexDirection': 'row',
-                    'alignItems': 'center',
-                    'justifyContent': 'space-between',
-                }
+                ]
             ),
             html.Div(
-                children=[
-                    dcc.Graph(
-                        figure=fig,
-                        id='graph_manhattan'
-                    ),
-                ],
-                style={
-                    'width': '100%',
-                }
+                id='mhp-graph-div',
+                children=dcc.Graph(
+                    figure=fig,
+                    id='mhp-graph'
+                )
             )
-        ],
-        style={
-            'width': '100%',
-            'display': 'flex',
-            'flexDirection': 'column',
-            'alignItems': 'center',
-        }
+        ]
     )
     return app_page_layout(main_layout, "Manhattan Plot")
 
 
 def callbacks(app):
     @app.callback(
-        Output('graph_manhattan', 'figure'),
+        Output('mhp-graph', 'figure'),
         [
-            Input('slider', 'value'),
+            Input('mhp-slider', 'value'),
         ]
     )
     def update_graph(slider_val):
