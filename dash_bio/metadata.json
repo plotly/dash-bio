@@ -1,4 +1,237 @@
 {
+  "src/lib/components/DashCircos.react.js": {
+    "description": "Dash Circos is a library used to analyze and interpret\ndata using a circular layout, based on the popular \n'Circos' graph. This Dash Bio component is a useful tool\nfor showcasing relationships bewtween data/datasets in a\nbeautiful way. Please checkout the Dash Bio repository\non github to learn more about this API.",
+    "displayName": "DashCircos",
+    "methods": [
+      {
+        "name": "setEvent",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "setProps",
+            "type": null
+          },
+          {
+            "name": "index",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "setColor",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "configApply",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "setToolTip",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "configApply",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "configIdeogram",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "layout",
+            "type": null
+          },
+          {
+            "name": "config",
+            "type": null
+          },
+          {
+            "name": "tracks",
+            "type": null
+          },
+          {
+            "name": "setProps",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of the component to be used in Dash callbacks"
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The CSS styling of the div wrapping the component"
+      },
+      "eventDatum": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A Dash prop that returns data on clicking or hovering of the tracks.\nDepending on what is specified for prop \"selectEvent\"."
+      },
+      "selectEvent": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A dictionary used to choose whether tracks should return\ndata on click, hover, or both, with the dash prop \"eventDatum\".\nThe keys of the dictionary represent the index of the list\nspecified for \"tracks\".\n\nEx:                 \nselectEvent={\n        \"0\": \"hover\",\n        \"1\": \"click\",\n        \"2\": \"both\"\n    },"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash provided setProps."
+      },
+      "layout": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "len": {
+                "name": "number",
+                "description": "The length of the block.",
+                "required": true
+              },
+              "color": {
+                "name": "string",
+                "description": "The color of the block.",
+                "required": true
+              },
+              "label": {
+                "name": "string",
+                "description": "The labels of the block.",
+                "required": true
+              },
+              "id": {
+                "name": "string",
+                "description": "The id of the block, where it will recieve\ndata from the specified \"track\" id.",
+                "required": true
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": "The overall layout of the Circos graph, provided\nas a list of dictionaries."
+      },
+      "config": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Configuration of overall layout of the graph.",
+        "defaultValue": {
+          "value": "{}",
+          "computed": false
+        }
+      },
+      "size": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The overall size of the SVG container holding the\ngraph. Set on initilization and unchangeable thereafter.",
+        "defaultValue": {
+          "value": "800",
+          "computed": false
+        }
+      },
+      "tracks": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "id": {
+                "name": "string",
+                "description": "The id of a specific piece of track data.",
+                "required": false
+              },
+              "data": {
+                "name": "array",
+                "description": "The data that makes up the track. It can \nbe a Json object.",
+                "required": true
+              },
+              "config": {
+                "name": "object",
+                "description": "The layout of the tracks, where the user\ncan configure innerRadius, outterRadius, ticks,\nlabels, and more.",
+                "required": false
+              },
+              "type": {
+                "name": "enum",
+                "computed": true,
+                "value": "TRACK_TYPES",
+                "description": "Specify the type of track this is.\nPlease check the docs for a list of tracks you can use,\nand ensure the name is typed in all capitals.",
+                "required": false
+              },
+              "tooltipContent": {
+                "name": "enum",
+                "value": [
+                  {
+                    "value": "PropTypes.string",
+                    "computed": true
+                  },
+                  {
+                    "value": "PropTypes.shape(\n  {\n    name: PropTypes.string.isRequired\n  }\n)",
+                    "computed": true
+                  },
+                  {
+                    "value": "PropTypes.shape(\n  {\n    source: PropTypes.string.isRequired,\n    sourceID: PropTypes.string,\n    target: PropTypes.string.isRequired,\n    targetEnd: PropTypes.string.isRequired,\n    targetID: PropTypes.string\n  }\n)",
+                    "computed": true
+                  }
+                ],
+                "description": "Specify what data for tooltipContent is\ndisplayed.\n\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks. \nEx: \"tooltipContent\": {\"name\": \"block_id\"},\n\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\n\nEx: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)'. \n\"tooltipContent\": {\n            \"source\": \"block_id\",\n            \"target\": \"position\",\n            \"targetEnd\": \"value\"\n                                },\nEx: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  \n\"tooltipContent\": {\n            \"source\": \"source\",\n            \"sourceID\": \"id\",\n            \"target\": \"target\",\n            \"targetID\": \"id\",\n            \"targetEnd\": \"end\"\n        }",
+                "required": false
+              },
+              "color": {
+                "name": "enum",
+                "value": [
+                  {
+                    "value": "PropTypes.string",
+                    "computed": true
+                  },
+                  {
+                    "value": "PropTypes.shape(\n  {\n    name: PropTypes.string.isRequired\n  }\n)",
+                    "computed": true
+                  }
+                ],
+                "description": "Specify which dictonary key to grab color values from, in the passed in dataset. \nThis can be a string or an object.\n\nIf using a string, you can specify hex,\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu). \n\nThe key \"name\" is required for this dictionary,\nwhere the input for \"name\" points to some list of\ndictionaries color values.\n\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "Tracks that specify specific layouts.\nFor a complete list of tracks and usage, \nplease check the docs.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      }
+    }
+  },
   "src/lib/components/DashIdeogram.react.js": {
     "description": "The Dash Ideogram is used to draw and animate genome-wide\ndatasets for organisms such as an human, mouse, and any\nother eukaryotes. The Ideogram can be used to compare\nhomologous features between chromosomes, and depict,\nhaploid, diploid, aneuploidy genomes. It can also display\nannotations using histograms, overlays, and simple side\nby side tracks to show important genomic data.\n\nGo here to see it in action: https://eweitz.github.io/ideogram/",
     "displayName": "DashIdeogram",
@@ -797,6 +1030,311 @@
         },
         "required": false,
         "description": "Function that fires events"
+      }
+    }
+  },
+  "src/lib/components/SequenceViewer.react.js": {
+    "description": "The sequence viewer component is used to display sequences \nthat represent proteins, strands of genomic information, and\nmore. It can apply a coverage to the sequence supplied (with \nclickable coverage sections that can display specific information, \nand an optional legend to describe the color codes used), \nsearch through the sequence for specific regex, capture \nmouse selection events of subparts of the sequence, display a\ncount of the number of nucleotides or amino acids in the \nsequence,\nRead more about the component here: \nhttps://github.com/FlyBase/react-sequence-viewer",
+    "displayName": "SequenceViewer",
+    "methods": [
+      {
+        "name": "onMouseSelection",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onSubpartSelected",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "getOnClick",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "i",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "sequence": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The amino acid sequence that will be displayed.",
+        "defaultValue": {
+          "value": "'-'",
+          "computed": false
+        }
+      },
+      "showLineNumbers": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to display line numbers.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "wrapAminoAcids": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to display the list of amino acids\nas broken up into separate lines of a fixed length set by \ncharsPerLine.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "charsPerLine": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The number of amino acids that will display per line.",
+        "defaultValue": {
+          "value": "40",
+          "computed": false
+        }
+      },
+      "toolbar": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to display a toolbar at the top\nthat allows the user to choose the number of letters per line.",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "search": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to include a search bar in\nthe header. This supports regex.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "title": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "A string that displays at the top of the component.",
+        "defaultValue": {
+          "value": "''",
+          "computed": false
+        }
+      },
+      "sequenceMaxHeight": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The maximum height of the sequence.",
+        "defaultValue": {
+          "value": "'400px'",
+          "computed": false
+        }
+      },
+      "badge": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to display a badge showing the\namino acid count at the top of the component beside the title.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "selection": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "low": {
+                "name": "number",
+                "required": false
+              },
+              "high": {
+                "name": "number",
+                "required": false
+              },
+              "color": {
+                "name": "string",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "A highlighted section of the sequence; the color of the highlight \ncan also be defined. Takes a list of format [min, max, color] where \nmin is a number that represents the starting index of the selection, \nmax is a number that represents the stopping index of the selection, \nand color is a string that defines the highlight color.\nCannot be used at the same time as coverage.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "coverage": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "start": {
+                "name": "number",
+                "required": false
+              },
+              "end": {
+                "name": "number",
+                "required": false
+              },
+              "color": {
+                "name": "string",
+                "required": false
+              },
+              "bgcolor": {
+                "name": "string",
+                "required": false
+              },
+              "tooltip": {
+                "name": "string",
+                "required": false
+              },
+              "underscore": {
+                "name": "bool",
+                "required": false
+              },
+              "onclick": {
+                "name": "func",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "A coverage of the entire sequence; each section of the sequence\ncan have its own text color, background color, tooltip (on hover),\nand an optional underscore. The props start and end represent the\nbeginning and terminating indices of the section in question.\nCannot be used at the same time as selection.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "legend": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "name": {
+                "name": "string",
+                "required": false
+              },
+              "color": {
+                "name": "string",
+                "required": false
+              },
+              "underscore": {
+                "name": "bool",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "A legend corresponding to the color codes above (optionally displayed)."
+      },
+      "coverageClicked": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Contains the index of the section that was clicked last in \nthe coverage list supplied."
+      },
+      "mouseSelection": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "start": {
+              "name": "number",
+              "required": false
+            },
+            "end": {
+              "name": "number",
+              "required": false
+            },
+            "selection": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Contains information about the subsequence selected \nby the mouse. Start and end refer to the initial and \nfinal indices, respectively, of the subsequence, and \n\"selection\" contains the string that is selected."
+      },
+      "subpartSelected": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "start": {
+                "name": "number",
+                "required": false
+              },
+              "end": {
+                "name": "number",
+                "required": false
+              },
+              "sequence": {
+                "name": "string",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "A list of the subparts selected using the \n\"search\" function or the \"selection\" property."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
       }
     }
   }

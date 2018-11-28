@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+#seq-view-body {
+    position: absolute;
+    overflow: auto;
+    top: 0px;
+    left: 0px;
+    bottom: 0px; 
+    width: 100%;
+    height: 100%;
+    background-color: #F3F6FA; 
+    font-family: 'Open Sans'; 
+}
+#seq-view-controls-container input[type=text]{
+    width: 80%; 
+}
+#seq-view-body ::-webkit-scrollbar{
+    width: 0px;
+    height: 0px;
+}
+#seq-view-header {
+    width: calc(100% - 40px);
+    height: auto;
+    margin: 0px;
+    font-size: 60px;
+    margin-bottom: 20px; 
+    background: #C8D4E3;
+    color: #636efa;
+    font-family: 'Open Sans';
+    font-variant: all-small-caps;
+}
+
+#seq-view-header img {
+    height: 50px;
+    margin-right: 50px; 
+}
+
+.inputSearchSeq {
+    font-size: 14px;
+    width: 100px;
+    padding:5px;
+    border-radius:3px;
+    border: solid 1px grey;
+    margin-left: 10px;
+}
+
+.seq-view-info-element {
+    font-weight: bold;
+}
+
+#seq-view-fasta-upload{
+    width: 400px;
+    height: 50px;
+    line-height: 60px;
+    border-width: 1px;
+    border-style: dashed;
+    border-radius: 5px;
+    text-align: center; 
+    margin: 20px;
+    padding: 10px;
+}
+#sequence-viewer-container{
+    width: 400px;
+    display: inline-block;
+    vertical-align: top;
+    border: solid 1px #636efa;
+    border-radius: 5px;
+    padding: 10px;
+    margin:20px;
+    overflow:scroll;
+}
+
+#seq-view-controls-container {
+    width:150px;
+    height: 500px;
+    overflow: scroll; 
+    display: inline-block;
+    vertical-align: top; 
+    margin: 20px; 
+    border: solid 1px #636efa; 
+    border-radius: 5px;
+    padding: 10px;
+    padding-top:30px;
+}
+
+#seq-view-sel-slider-container {
+    width: 100px;
+    padding: 10px;
+    border: solid 1px #636efa; 
+    border-radius: 5px;
+    margin: 10px;
+    margin-top:30px;
+}
+		   
+#seq-view-info-container {
+    width: 400px;
+    height: 500px;
+    border: solid 1px #636efa; 
+    overflow:scroll;
+    margin: 20px;
+    vertical-align: top; 
+    border-radius: 5px;
+    padding: 20px;
+    display: inline-block;
+}
