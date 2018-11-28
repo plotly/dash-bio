@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-
-const speckRenderer = require('../speck/src/renderer.js'); 
-const speckSystem = require('../speck/src/system.js');
-const speckView = require('../speck/src/view.js');
-const speckInteractions = require('../speck/src/interactions.js');
-
+import { speckRenderer,
+	 speckSystem,
+	 speckView,
+	 speckInteractions
+       } from 'speck'; 
 
 export default class SpeckComponent extends Component {
 
-    
     loadStructure(data) {
 	var system = speckSystem.new();
 	for(var i = 0; i < data.length; i++) {
@@ -48,16 +45,14 @@ export default class SpeckComponent extends Component {
 		    refreshView: false
 		});
 	    }
-	    if(this.state.viewLoaded){
-		this.state.renderer.render(this.props.view);
-	    }
+	    this.state.renderer.render(this.props.view);
+	    
 	}
 	requestAnimationFrame(this.loop); 
     }
     
     constructor(props) {
 	super(props);
-	console.log(this.props);
 
 	// setting refs in this way to allow for easier updating to
 	// react 16
@@ -73,88 +68,30 @@ export default class SpeckComponent extends Component {
 	this.state = {
 	    refreshView: false,
 	    renderer: null,
-	    viewLoaded: false
-	}
-
-	this.presets = {
-	    'default': {
-		'atomScale': 0.6,
-		'relativeAtomScale': 1.0,
-		'atomShade': 0.5,
-		'bonds': true,
-		'bondScale': 0.5,
-		'bondThreshold': 1.2,
-		'bondShade': 0.5,
-		'ao': 0.75,
-		'brightness': 0.5,
-		'aoRes': 256,
-		'spf': 32,
-		'dofStrength': 0.0, 
-		'dofPosition': 0.5
-	    },
-	    'ball-and-stick': {
-		'atomScale': 0.24,
-		'relativeAtomScale': 0.64,
-		'atomShade': 0.5,
-		'bonds': true,
-		'bondScale': 0.5,
-		'bondThreshold': 1.2,
-		'bondShade': 0.5,
-		'ao': 0.75,
-		'brightness': 0.5,
-		'aoRes': 256,
-		'spf': 32,
-		'dofStrength': 0.0,
-		'dofPosition': 0.5
-	    },
-	    'toon': {
-		'atomScale': 0.24,
-		'relativeAtomScale': 0.64,
-		'atomShade': 0.5,
-		'bonds': true,
-		'bondScale': 0.5,
-		'bondThreshold': 1.2,
-		'bondShade': 0.5,
-		'ao': 0.0,
-		'brightness': 0.5,
-		'aoRes': 256,
-		'spf': 0,
-		'dofStrength': 0.0,
-		'dofPositon': 0.5
-	    },
-	    'licorice': {
-		'atomScale': 0.10,
-		'relativeAtomScale': 0.0,
-		'atomShade': 0.5,
-		'bonds': true,
-		'bondScale': 1.0,
-		'bondThreshold': 1.2,
-		'bondShade': 0.5,
-		'ao': 0.75,
-		'brightness': 0.5,
-		'aoRes': 256,
-		'spf': 32,
-		'dofStrength': 0.0,
-		'dofPosition': 0.5
+	    interactions: {
+		buttonDown: false,
+		lastX: 0.0,
+		lastY: 0.0
 	    }
 	}
     }
 
 
     shouldComponentUpdate(nextProps, nextState){
-	let v = this.props.view;
+	const view = this.props.view; 
 
-	if(v.length != nextProps.view.length
-	   || Object.keys(v).some(
+	if(view.length != nextProps.view.length
+	   || Object.keys(view).some(
 	       propertyName =>
-		   v[propertyName] !== nextProps.view[propertyName]
+		   view[propertyName] !== nextProps.view[propertyName]
 	   )){
-	    v = Object.assign(v, nextProps.view);
+	    const v = Object.assign(view, nextProps.view); 
 	    this.props.setProps({
 		view: v
 	    }); 
 	    return true;
 	}
+	return false; 
     }
     
     componentDidMount() {
@@ -173,20 +110,10 @@ export default class SpeckComponent extends Component {
 	    renderer: renderer,
 	    refreshView: true
 	});
-
-	// add initial view
-	let v = speckView.new();
-	v = Object.assign(v, view); 
-	setProps({
-	    view: v,
-	});
-	this.setState({
-	    viewLoaded: true
-	});
 	
 	// add event listeners
-	var interactionHandler = new speckInteractions(this, renderer, container);
-
+	const interactionHandler = new speckInteractions(this, renderer, container); 
+	
 	this.loop();
 	
     }
@@ -196,6 +123,7 @@ export default class SpeckComponent extends Component {
 	    data,
 	    view
 	} = this.props;
+	
 	if(view && this.state.renderer){
 	    this.loadStructure(data);
 	}
@@ -206,7 +134,6 @@ export default class SpeckComponent extends Component {
 	    id
 	} = this.props;
 
-
 	return (
 		<div id={id} ref={this.setContainerRef}>
 		<canvas ref={this.setCanvasRef} width={500} height={500} />
@@ -216,6 +143,12 @@ export default class SpeckComponent extends Component {
     }
 
 }
+
+
+SpeckComponent.defaultProps = {
+    view: speckView.new()
+}
+
 
 SpeckComponent.propTypes = {
 
@@ -250,10 +183,6 @@ SpeckComponent.propTypes = {
 	dofPosition: PropTypes.number,
 	fxaa: PropTypes.number
     }),
-    interactions: PropTypes.shape({
-	buttonDown: PropTypes.bool,
-	lastX: PropTypes.number,
-	lastY: PropTypes.number
-    }),
-    setProps: PropTypes.func,
+    setProps: PropTypes.func
+    
 }

@@ -130,25 +130,30 @@ def callbacks(app):
             }
         ]
 
-    @app.callback(
-        Output('speck', 'view'),
-        [Input('zoom-atom', 'value'),
-         Input('depth-of-field-strength', 'value')],
-        state=[State('speck', 'view')]
-    )
-    def zoom(zoomval, dofval, current):
-        tmp_view = current
-        tmp_view.update(
-            zoom=zoomval,
-            dofStrength=dofval
-        )
-        return tmp_view
 
     @app.callback(
         Output('output', 'children'),
         [Input('speck', 'view')]
     )
     def attach_input_callback(d):
+        if d is None:
+            return 0.0
         return d['zoom']
 
 
+    
+    @app.callback(
+        Output('speck', 'view'),
+        [Input('zoom-atom', 'value')],
+        [State('speck', 'view')]
+    )
+    def zoom_callback(val, view):
+        if(view is not None): 
+            view.update(
+                zoom=val
+            )
+            return view
+        return {
+            'zoom': 0.50
+        }
+        

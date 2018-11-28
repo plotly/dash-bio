@@ -2,6 +2,7 @@ from .DashCircos import DashCircos
 from .DashIdeogram import DashIdeogram
 from .NeedlePlot import NeedlePlot
 from .SequenceViewer import SequenceViewer
+from .SpeckComponent import SpeckComponent
 
 
 __all__ = [
@@ -9,4 +10,5 @@ __all__ = [
     "DashIdeogram",
     "NeedlePlot",
     "SequenceViewer",
+    "SpeckComponent",
 ]
