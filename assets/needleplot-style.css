@@ -23,9 +23,24 @@
 
 }
 
+#needle-download-data-div {
+    display: none;
+}
+
+#needle-download-data-dropdown {
+    width: 140px;
+}
+
 .needle-dataset-header-div {
     flex: 1;
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 2px;
+}
+
+.needle-horizontal-style{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
 }

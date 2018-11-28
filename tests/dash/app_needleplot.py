@@ -2,6 +2,7 @@
 # Import required libraries
 import numpy as np
 import copy
+import json
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
@@ -17,10 +18,15 @@ DATA = [
     {'mutData': 'muts.json', 'domains': 'regions.json', 'label': 'ENST00000557334'},
 ]
 
-# Value of a dropdown
+# Values of a the load dataset dropdown
 DEMO_KEY = 'demo'
 FILE_KEY = 'file'
 DATABASE_KEY = 'db'
+
+# Values of the data download dropdown
+FULL_KEY = 'needleplot'
+MUT_KEY = 'mutations'
+DOM_KEY = 'protein_domains'
 
 # Value of the cheklist to load the protein domain individually
 INDIV_DOMS_KEY = 'indivual_domain_loading'
@@ -103,7 +109,7 @@ def layout():
                                                     {'label': 'Upload dataset', 'value': FILE_KEY},
                                                     {'label': 'UniProt dataset', 'value': DATABASE_KEY},
                                                 ],
-                                                value=DEMO_KEY
+                                                value=FILE_KEY
                                             )
                                         ),
                                         html.Div(
@@ -126,6 +132,32 @@ def layout():
                                                 values=[]
                                             )
                                         ),
+                                    ]
+                                ),
+                                html.Div(
+                                    id='needle-download-data-div',
+                                    className='needle-horizontal-style',
+                                    children=[
+                                        html.A(
+                                            id='needle-download-data-button-link',
+                                            children=html.Button(
+                                                id='needle-download-data-button',
+                                                children='Download data',
+                                                n_clicks=0,
+                                                n_clicks_timestamp=0,
+                                            ),
+                                            href="",
+                                            download="",
+                                        ),
+                                        dcc.Dropdown(
+                                            id='needle-download-data-dropdown',
+                                            options=[
+                                                {'label': 'Whole', 'value': FULL_KEY},
+                                                {'label': 'Mutations', 'value': MUT_KEY},
+                                                {'label': 'Domains', 'value': DOM_KEY},
+                                            ],
+                                            value=FULL_KEY,
+                                        )
                                     ]
                                 ),
                                 html.Div(
@@ -166,12 +198,11 @@ def layout():
                                                     children='submit',
                                                     n_clicks=0,
                                                     n_clicks_timestamp=0,
-                                                )
+                                                ),
                                             ]
                                         ),
                                         html.Div(
                                             id='needle-uniprot-div',
-                                            children='nothing to display',
                                         )
                                     ]
                                 ),
@@ -326,7 +357,6 @@ def layout():
                     id='needle-plot',
                     rangeSlider=True,
                 ),
-
             )
         ]
 
@@ -508,12 +538,68 @@ def callbacks(app):
         return stored_data['info'][DATABASE_KEY]
 
     # DATA RELATED CALLBACKS==========
+
+
+
+    @app.callback(
+        Output('needle-download-data-button-link', 'download'),
+        [
+            Input('needle-plot', 'mutationData'),
+            Input('needle-download-data-dropdown', 'value')
+        ]
+    )
+    def toggle_download_data_fname(plotted_data, dl_data_choice):
+        """rd"""
+        print("%s_data.json" % dl_data_choice)
+        return "%s_data.json" % dl_data_choice
+
+    @app.callback(
+        Output('needle-download-data-button-link', 'href'),
+        [
+            Input('needle-plot', 'mutationData'),
+            Input('needle-download-data-dropdown', 'value')
+         ],
+        [State('needle-store', 'data')]
+    )
+    def toggle_download_data_link(plotted_data, dl_data_choice, stored_data):
+        """rd"""
+        fname = "%s_data.json" % dl_data_choice
+        fpath = "%s%s" % (stored_data['info']['dl_data_path'], fname)
+        print(fpath)
+        return fpath
+
+
+    @app.callback(
+        Output('needle-download-data-div', 'style'),
+        [Input('needle-plot', 'mutationData')],
+        [State('needle-download-data-div', 'style')]
+    )
+    def toggle_download_data_div(plotted_data, div_style):
+        """rd"""
+
+        if div_style is None:
+            div_style = {'display': 'flex'}
+
+        div_style['display'] = 'flex'
+
+        # Disables the download-data-div is there is no data plotted
+        if not plotted_data['domains'] and not plotted_data['x']:
+            div_style['display'] = 'none'
+
+        return div_style
+
     @app.callback(
         Output('needle-plot', 'mutationData'),
-        [Input('needle-store', 'data')]
+        [Input('needle-store', 'data')],
+        [State('needle-download-data-dropdown', 'value')]
     )
-    def plot_dataset(stored_data):
+    def plot_dataset(stored_data, dl_data_choice):
         """reloads the dataset of the graph if the stored data changed"""
+
+        # Saves the data locally if the user wants to download it
+        fname = '%s_data.json' % dl_data_choice
+        with open("%s%s" % (stored_data['info']['dl_data_path'], fname), 'w') as fp:
+            json.dump(stored_data['plot'], fp)
         return stored_data['plot']
 
     @app.callback(
@@ -555,6 +641,7 @@ def callbacks(app):
                     DB_LAST_QUERY_KEY: '',
                     DATABASE_KEY: '',
                     'previous_choice': '',
+                    'dl_data_path': './tests/dash/sample_data/',
                 }
             }
 
@@ -635,8 +722,11 @@ def callbacks(app):
             # the user has to provide a file which is then parsed by a function to
             # make sure it is the right format
             stored_data['plot'] = copy.deepcopy(EMPTY_MUT_DATA)
+
+            # Loads the mutation data (could also contain protein domain)
             stored_data['plot'] = parse_mutation_upload_file(mut_contents, mut_fname)
 
+            # Loads the protein domain from another file or from the last database query
             if INDIV_DOMS_KEY in domains_opt:
                 if UNIPROT_DOMS_KEY not in domains_opt:
                     if dom_contents is not None:
