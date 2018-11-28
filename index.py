@@ -8,7 +8,6 @@ import logging
 import os
 from config import DASH_APP_NAME
 import base64
-import json
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
