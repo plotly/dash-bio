@@ -3,14 +3,16 @@ import tempfile
 
 
 def parse_tsv(
-        contents, rowLabelsSource=None,
+        contents='', filepath='', rowLabelsSource=None,
         rows=None, columns=None,
         headerRows=5, headerCols=2
 ):
-    tf = tempfile.NamedTemporaryFile(mode='w+', delete=False)
-    tf.write(contents)
-    tf.close()
-    df = pd.read_csv(tf.name, sep='\t', skiprows=headerRows-1)
+
+    if(len(contents) > 0):
+        with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tf:
+            tf.write(contents)
+            filepath = tf.name
+    df = pd.read_csv(filepath, sep='\t', skiprows=headerRows-1)
 
     data = {}
 
@@ -21,7 +23,7 @@ def parse_tsv(
     if(rowLabelsSource is not None
        and rowLabelsSource in df.keys().tolist()):
         allRows = df[rowLabelsSource].tolist()
-        
+
     allCols = df.keys().tolist()[headerCols:]
     if rows is not None and columns is not None:
         for r in rows:
@@ -37,9 +39,9 @@ def parse_tsv(
 
         selectedData = df.loc[selectedRows, selectedCols]
         data = selectedData.values
-        
+
     desc = {}
-    info = pd.read_csv(tf.name, sep='^', nrows=headerRows-1, header=None)[0]
+    info = pd.read_csv(filepath, sep='^', nrows=headerRows-1, header=None)[0]
     for i in info:
         tmp = i.strip('#').split(':', 1)
         if(len(tmp) < 2):

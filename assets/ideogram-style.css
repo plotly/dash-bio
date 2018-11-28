@@ -1,0 +1,33 @@
+.ideogram-banner {
+    height: 75px;
+    background-color: rgb(66, 196, 247);
+    border-radius: 2px;
+}
+
+.ideogram-banner h2{
+    color: white;
+    margin-left: 2%;
+    display: inline-block;
+}
+
+.ideogram-banner Img{
+    position: relative;
+    float: right;
+    right: 10px;
+    height: 75px;
+}
+
+.ideogram-column {
+    max-height: 78vh;
+    overflow-y: auto;
+}
+
+.ideogram-custom {
+    max-height: 78vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.ideogram-column-content {
+    width: 100%;
+}
