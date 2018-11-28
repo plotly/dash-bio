@@ -91,10 +91,10 @@ def layout():
                                     children=[
                                         html.Div(
                                             title='"Demo dataset" choice will allow you to play with the options.\n'
-                                                  '"UniProt dataset" choice will retrieve protein domain'
+                                                  '"UniProt dataset" choice will retrieve protein domain '
                                                   'as well as mutation data from UniProt database.\n"Upload dataset"'
                                                   'choice will let you choose your own mutation data with the option to'
-                                                  'load the protein domains from pfam database.',
+                                                  ' load the protein domains from pfam database.',
                                             className='needle-dataset-header-div',
                                             children=dcc.RadioItems(
                                                 id='needle-dataset-select-radio',
@@ -338,12 +338,8 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-%s-div' % DATABASE_KEY, 'style'),
-        [
-            Input('needle-dataset-select-radio', 'value'),
-        ],
-        [
-            State('needle-%s-div' % DATABASE_KEY, 'style'),
-        ]
+        [Input('needle-dataset-select-radio', 'value')],
+        [State('needle-%s-div' % DATABASE_KEY, 'style')]
     )
     def toggle_db(method, div_style):
         """updates what the user can use to load data to the graph"""
@@ -359,12 +355,8 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-%s-div' % DEMO_KEY, 'style'),
-        [
-            Input('needle-dataset-select-radio', 'value'),
-        ],
-        [
-            State('needle-%s-div' % DEMO_KEY, 'style'),
-        ]
+        [Input('needle-dataset-select-radio', 'value')],
+        [State('needle-%s-div' % DEMO_KEY, 'style')]
     )
     def toggle_demo(method, div_style):
         """updates what the user can use to load data to the graph"""
@@ -380,12 +372,8 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-%s-div' % FILE_KEY, 'style'),
-        [
-            Input('needle-dataset-select-radio', 'value'),
-        ],
-        [
-            State('needle-%s-div' % FILE_KEY, 'style'),
-        ]
+        [Input('needle-dataset-select-radio', 'value')],
+        [State('needle-%s-div' % FILE_KEY, 'style')]
     )
     def toggle_file(method, div_style):
         """updates what the user can use to load data to the graph"""
@@ -401,12 +389,8 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-uniprot-div', 'children'),
-        [
-            Input('needle-store', 'data'),
-        ],
-        [
-            State('needle-dataset-select-radio', 'value'),
-        ]
+        [Input('needle-store', 'data')],
+        [State('needle-dataset-select-radio', 'value')]
     )
     def display_query_information(stored_data, load_choice):
         """diplays information about the query to the UniProt database"""
@@ -417,12 +401,8 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-sequence-input', 'value'),
-        [
-            Input('needle-store', 'data'),
-        ],
-        [
-            State('needle-dataset-select-radio', 'value'),
-        ]
+        [Input('needle-store', 'data')],
+        [State('needle-dataset-select-radio', 'value')]
     )
     def reset_database_query(stored_data, load_choice):
         """resets the last query if the user changed dataset loading option"""
@@ -433,12 +413,8 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-domain-file-div', 'style'),
-        [
-            Input('needle-protein-domains-select-checklist', 'values'),
-        ],
-        [
-            State('needle-domain-file-div', 'value'),
-        ]
+        [Input('needle-protein-domains-select-checklist', 'values')],
+        [State('needle-domain-file-div', 'value')]
     )
     def toggle_individual_domain_loading_in_upload(domains_opt, div_style):
         """toggles the view of the domain upload div"""
@@ -454,12 +430,8 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-domain-query-info-div', 'style'),
-        [
-            Input('needle-protein-domains-select-checklist', 'values'),
-        ],
-        [
-            State('needle-domain-query-info-div', 'value'),
-        ]
+        [Input('needle-protein-domains-select-checklist', 'values')],
+        [State('needle-domain-query-info-div', 'value')]
     )
     def toggle_domain_upload_query_information(domains_opt, div_style):
         """toggles the view of the output domain upload div which displays

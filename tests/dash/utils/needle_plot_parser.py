@@ -363,8 +363,8 @@ def parse_mutation_upload_file(contents, fname):
         content_type, content_string = contents.split(',')
         decoded = base64.b64decode(content_string)
 
-        if 'json' in fname:
-            # Assume that the user uploaded a CSV file
+        if fname.endwith('json'):
+            # Assume that the user uploaded a json file
             json_data = json.loads(decoded.decode('utf-8'))
 
             for k in data:
@@ -389,8 +389,8 @@ def parse_domain_upload_file(contents, fname):
         content_type, content_string = contents.split(',')
         decoded = base64.b64decode(content_string)
 
-        if 'json' in fname:
-            # Assume that the user uploaded a CSV file
+        if fname.endwith('json'):
+            # Assumes that the user uploaded a json file
             json_data = json.loads(decoded.decode('utf-8'))
             data = parse_protein_domains_data(json_data)
 
