@@ -8,7 +8,8 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import dash_bio
 from .utils.needle_plot_parser import UniprotQueryBuilder, extract_mutations, EMPTY_MUT_DATA,\
-    extract_domains, load_protein_domains, parse_mutation_upload_file, parse_domain_upload_file
+    extract_domains, load_protein_domains, parse_mutation_upload_file, parse_domain_upload_file,\
+    parse_mutations_uniprot_data
 from .utils.app_wrapper import app_page_layout
 
 # Data used for the default demo plot
@@ -693,15 +694,12 @@ def callbacks(app):
                         names=['name', 'db', 'mut', 'start', 'end', 'x1', 'x2', 'x3', 'note'],
                     )
 
-                    # Gather the number of single mutations as well as their count
+                    # Extract the mutations data from the GFF data
                     if not gff_data.empty:
-                        mut_type = 'Natural variant'
-                        data = gff_data[gff_data.mut == mut_type]['start'].value_counts()
-                        stored_data['plot']['x'] = np.array(data.index).astype('str')
-                        stored_data['plot']['y'] = np.array(data.values).astype('str')
-                        stored_data['plot']['mutationGroups'] = []
-                        # TODO : add mutationGroup information
-
+                        formatted_data = parse_mutations_uniprot_data(gff_data)
+                        stored_data['plot']['x'] = formatted_data['x']
+                        stored_data['plot']['y'] = formatted_data['y']
+                        stored_data['plot']['mutationGroups'] = formatted_data['mutationGroups']
                         stored_data['info'][DB_LAST_QUERY_KEY] = query
                 else:
                     print("'%s' doesn't yield any results on www.uniprot.org !" % query)

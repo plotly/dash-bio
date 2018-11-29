@@ -5,6 +5,7 @@ import urllib.error
 import urllib.request
 import requests
 import pandas as pd
+import numpy as np
 import warnings
 import copy
 
@@ -297,6 +298,64 @@ class UniprotQueryBuilder(object):
         return db
 
 
+def parse_mutations_uniprot_data(gff_data, start='start', stop='end', mut_types_to_skip=None):
+    """parse a gff file downloaded into a pandas DataFrame from Uniprot
+    :param gff_data: pandas DataFrame
+    :param start: the name of the column containing the start coordinate of the mutation
+    :param stop: the name of the column containing the start coordinate of the mutation
+    :param mut_types_to_skip: a list of mutations types to skip
+    :return: formatted mutation data for the dash_bio.NeedlePlot component
+    """
+    if mut_types_to_skip is None:
+        mut_types_to_skip = [
+            'Chain',  # This is the whole protein
+            'Region',  # Those are better described in pfam database
+        ]
+
+    if 'Chain' not in mut_types_to_skip:
+        mut_types_to_skip.append('Chain')
+
+    # Selects the various mutations types in the dataset, except types contained in the above list
+    mut_types = gff_data['mut'].loc[~gff_data['mut'].isin(mut_types_to_skip)].value_counts().index
+
+    x = np.array([]).astype('str')
+    y = np.array([]).astype('str')
+    mutationgroups = np.array([]).astype('str')
+
+    for mut_type in mut_types:
+
+        # Selects the start and end protein coordinates of the mutation
+        data_coord = gff_data[gff_data.mut == mut_type][[start, stop]]
+
+        # Sort between the single and multi-site coordinates
+        single_sites = data_coord.loc[data_coord[start] == data_coord[stop]]
+        multi_sites = data_coord.loc[data_coord[start] != data_coord[stop]]
+
+        # Joins the start and end coordinates into one string
+        multi_sites['sep'] = "-"
+        multi_sites[start] = \
+            multi_sites[start].map(str) \
+            + multi_sites['sep'] \
+            + multi_sites[stop].map(str)
+
+        # Merge the single and multi-site coordinates in one columns and counts the occurrences
+        sorted_data = single_sites[start].append(multi_sites[start]).value_counts()
+        n = (len(sorted_data.index))
+
+        x = np.append(x, np.array(sorted_data.index).astype('str'))
+        y = np.append(y, np.array(sorted_data.values).astype('str'))
+        mutationgroups = np.append(mutationgroups, np.repeat(mut_type, n))
+
+    formatted_data = dict(
+        x=x.tolist(),
+        y=y.tolist(),
+        mutationGroups=mutationgroups.tolist(),
+        domains=[],
+    )
+    jsonschema.validate(formatted_data, MUT_DATA_SCHEMA)
+    return formatted_data
+
+
 def pfam_parser(accession):
     """probe http://pfam.xfam.org/protein/%s/graphic
     :param (str) accession: the mutation accession number
@@ -324,7 +383,6 @@ def parse_protein_domains_data(domain_data):
     region_stop_key = 'end'
 
     formatted_data = []
-    print_warning = False
 
     for region in domain_data[region_key]:
         formatted_data.append(
@@ -332,13 +390,6 @@ def parse_protein_domains_data(domain_data):
                 name="%s" % region[region_name_key],
                 coord="%i-%i" % (region[region_start_key], region[region_stop_key])
             )
-        )
-
-    if print_warning:
-        print(
-            "The '%s' key of the protein domains data should contains a list/array of structures "
-            "with at least the following keys : %s" %
-            (region_key, [region_name_key, region_start_key, region_stop_key])
         )
 
     return formatted_data
