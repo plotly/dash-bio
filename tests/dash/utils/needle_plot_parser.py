@@ -17,20 +17,43 @@ EMPTY_MUT_DATA = dict(
     domains=[],
 )
 
-ARR_SCHEMA = {
-    "type": "array",
-    "items": {"type": ["string", "number"]}
-}
+PFAM_DOM_SCHEMA = {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "region": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "text": {"type": "string"},
+                            "start": {"type": "string"},
+                            "end": {"type": "string"},
+                        },
+                        "required": ["text", "start", "end"]
+                    }
+                },
+            },
+            "required": ["regions"]
+        }
+    }
 
 PROT_DOM_SCHEMA = {
     "type": "array",
-    "contains": {
+    "items": {
         "type": "object",
         "properties": {
             "name": {"type": "string"},
             "coord": {"type": "string"},
-        }
+        },
+        "required": ["name", "coord"]
     }
+}
+
+ARR_SCHEMA = {
+    "type": "array",
+    "items": {"type": ["string", "number"]}
 }
 
 MUT_DATA_SCHEMA = {
@@ -41,7 +64,7 @@ MUT_DATA_SCHEMA = {
         "mutationGroups": ARR_SCHEMA,
         "domains": PROT_DOM_SCHEMA,
     },
-    "required": ['x'],
+    "required": ["x"],
 }
 
 
@@ -356,14 +379,14 @@ def parse_mutations_uniprot_data(gff_data, start='start', stop='end', mut_types_
     return formatted_data
 
 
-def pfam_parser(accession):
+def pfam_domain_parser(accession):
     """probe http://pfam.xfam.org/protein/%s/graphic
     :param (str) accession: the mutation accession number
     :return: JSON structure with protein domain information
     """
     r = requests.get("http://pfam.xfam.org/protein/%s/graphic" % accession)
     try:
-        return r.json()[0]
+        return r.json()
     except json.decoder.JSONDecodeError:
         return {'regions': []}
 
@@ -384,13 +407,27 @@ def parse_protein_domains_data(domain_data):
 
     formatted_data = []
 
-    for region in domain_data[region_key]:
-        formatted_data.append(
-            dict(
-                name="%s" % region[region_name_key],
-                coord="%i-%i" % (region[region_start_key], region[region_stop_key])
+    try:
+        jsonschema.validate(domain_data, PFAM_DOM_SCHEMA)
+        is_pfam = True
+        domain_data = domain_data[0]
+        for region in domain_data[region_key]:
+            formatted_data.append(
+                dict(
+                    name="%s" % region[region_name_key],
+                    coord="%i-%i" % (region[region_start_key], region[region_stop_key])
+                )
             )
-        )
+
+    except jsonschema.exceptions.ValidationError:
+        is_pfam = False
+
+    if not is_pfam:
+        try:
+            jsonschema.validate(domain_data, PROT_DOM_SCHEMA)
+            formatted_data = domain_data
+        except:
+            print("Your .json file did not match the scheme from PFAM or needleplot domain data")
 
     return formatted_data
 
@@ -414,7 +451,7 @@ def load_protein_domains(accession=None, json_fname=None):
             domain_data = json.load(f)
 
     if accession is not None:
-        domain_data = pfam_parser(accession)
+        domain_data = pfam_domain_parser(accession)
 
     return parse_protein_domains_data(domain_data)
 
@@ -467,6 +504,6 @@ def parse_domain_upload_file(contents, fname):
         if fname.endswith('json'):
             # Assumes that the user uploaded a json file
             json_data = json.loads(upload_data)
-            data = parse_protein_domains_data(json_data[0])
+            data = parse_protein_domains_data(json_data)
 
     return data
