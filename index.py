@@ -9,6 +9,8 @@ import os
 from config import DASH_APP_NAME
 import base64
 
+from tests.dash.utils.app_wrapper import app_page_layout
+
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
 app = dash.Dash(__name__)
@@ -112,7 +114,10 @@ def display_app(pathname):
                 "/", "").replace("-", "_")
 
     if app_name in apps:
-        return html.Div(id="waitfor", children=apps[app_name].layout())
+        return html.Div(id="waitfor",
+                        children=app_page_layout(
+                            apps[app_name].layout(),
+                            app_title=demoAppName(app_name)))
     else:
         return """
             App not found.
