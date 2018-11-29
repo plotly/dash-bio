@@ -1,5 +1,6 @@
 import base64
 import json
+import jsonschema
 import urllib.error
 import urllib.request
 import requests
@@ -14,6 +15,33 @@ EMPTY_MUT_DATA = dict(
     mutationGroups=[],
     domains=[],
 )
+
+ARR_SCHEMA = {
+    "type": "array",
+    "items": {"type": ["string", "number"]}
+}
+
+PROT_DOM_SCHEMA = {
+    "type": "array",
+    "contains": {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string"},
+            "coord": {"type": "string"},
+        }
+    }
+}
+
+MUT_DATA_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "x": ARR_SCHEMA,
+        "y": ARR_SCHEMA,
+        "mutationGroups": ARR_SCHEMA,
+        "domains": PROT_DOM_SCHEMA,
+    },
+    "required": ['x'],
+}
 
 
 def extract_mutations(target_url, fname=""):
@@ -298,24 +326,13 @@ def parse_protein_domains_data(domain_data):
     formatted_data = []
     print_warning = False
 
-    if region_key in domain_data:
-        try:
-            for region in domain_data[region_key]:
-                formatted_data.append(
-                    dict(
-                        name="%s" % region[region_name_key],
-                        coord="%i-%i" % (region[region_start_key], region[region_stop_key])
-                    )
-                )
-        except TypeError as e:
-            if 'iterable' not in str(e):
-                raise
-            else:
-                print_warning = True
-        except KeyError:
-            print_warning = True
-    else:
-        print_warning = True
+    for region in domain_data[region_key]:
+        formatted_data.append(
+            dict(
+                name="%s" % region[region_name_key],
+                coord="%i-%i" % (region[region_start_key], region[region_stop_key])
+            )
+        )
 
     if print_warning:
         print(
@@ -351,6 +368,21 @@ def load_protein_domains(accession=None, json_fname=None):
     return parse_protein_domains_data(domain_data)
 
 
+def decode_dcc_upload_contents(contents, encoding='utf-8'):
+    """ decodes the content returned by a dcc.Upload component's callback
+    :param contents: a string with a comma separating the content type and the
+                     encoded content
+    :param encoding: the encoding convention of the encoded content
+    :return: decoded string
+    """
+    decoded = ""
+    if contents is not None:
+        content_type, content_string = contents.split(',')
+        decoded = base64.b64decode(content_string)
+        decoded = decoded.decode(encoding)
+    return decoded
+
+
 def parse_mutation_upload_file(contents, fname):
     """
     :param (str) contents: returned by a dcc.Upload 'contents' prop
@@ -358,22 +390,16 @@ def parse_mutation_upload_file(contents, fname):
     :return: formatted mutation data for the dash_bio.NeedlePlot component
     """
     data = copy.deepcopy(EMPTY_MUT_DATA)
+    upload_data = decode_dcc_upload_contents(contents)
 
-    if contents is not None:
-        content_type, content_string = contents.split(',')
-        decoded = base64.b64decode(content_string)
-
+    if upload_data:
         if fname.endswith('json'):
             # Assume that the user uploaded a json file
-            json_data = json.loads(decoded.decode('utf-8'))
-
+            json_data = json.loads(upload_data)
+            jsonschema.validate(json_data, MUT_DATA_SCHEMA)
             for k in data:
-                if k in json_data:
-                    data[k] = json_data[k]
-                else:
-                    print('The file %s is not formatted in the correct way to use '
-                          'its mutation data with the dash_bio.NeedlePlot component. '
-                          'The key "%s" is missing' % (fname, k))
+                data[k] = json_data[k]
+
     return data
 
 
@@ -384,14 +410,12 @@ def parse_domain_upload_file(contents, fname):
     :return: formatted protein domain data for the dash_bio.NeedlePlot component
     """
     data = []
+    upload_data = decode_dcc_upload_contents(contents)
 
-    if contents is not None:
-        content_type, content_string = contents.split(',')
-        decoded = base64.b64decode(content_string)
-
+    if upload_data:
         if fname.endswith('json'):
             # Assumes that the user uploaded a json file
-            json_data = json.loads(decoded.decode('utf-8'))
-            data = parse_protein_domains_data(json_data)
+            json_data = json.loads(upload_data)
+            data = parse_protein_domains_data(json_data[0])
 
     return data

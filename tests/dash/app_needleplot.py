@@ -538,9 +538,6 @@ def callbacks(app):
         return stored_data['info'][DATABASE_KEY]
 
     # DATA RELATED CALLBACKS==========
-
-
-
     @app.callback(
         Output('needle-download-data-button-link', 'download'),
         [
@@ -550,7 +547,6 @@ def callbacks(app):
     )
     def toggle_download_data_fname(plotted_data, dl_data_choice):
         """rd"""
-        print("%s_data.json" % dl_data_choice)
         return "%s_data.json" % dl_data_choice
 
     @app.callback(
@@ -565,9 +561,7 @@ def callbacks(app):
         """rd"""
         fname = "%s_data.json" % dl_data_choice
         fpath = "%s%s" % (stored_data['info']['dl_data_path'], fname)
-        print(fpath)
         return fpath
-
 
     @app.callback(
         Output('needle-download-data-div', 'style'),
@@ -576,7 +570,6 @@ def callbacks(app):
     )
     def toggle_download_data_div(plotted_data, div_style):
         """rd"""
-
         if div_style is None:
             div_style = {'display': 'flex'}
 
