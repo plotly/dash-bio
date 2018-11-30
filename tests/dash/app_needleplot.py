@@ -145,7 +145,7 @@ def layout():
                                             id='needle-download-data-button-link',
                                             children=html.Button(
                                                 id='needle-download-data-button',
-                                                children='Download data',
+                                                children='Download graph data',
                                                 n_clicks=0,
                                                 n_clicks_timestamp=0,
                                             ),
@@ -245,9 +245,7 @@ def layout():
                                                 ),
                                             ]
                                         ),
-                                        html.Div(
-                                            id='needle-domain-query-info-div'
-                                        ),
+                                        html.Div(id='needle-domain-query-info-div'),
                                     ]
                                 )
                             ],
@@ -446,9 +444,6 @@ def callbacks(app):
         """diplays information about the query to the UniProt database"""
 
         div = []
-        print(stored_data['info']['is_same_key'])
-        print(stored_data['info']['previous_key'])
-        print(load_choice)
         if load_choice == DATABASE_KEY:
             if stored_data['info']['is_same_key']:
                 title = "Query"
@@ -464,10 +459,6 @@ def callbacks(app):
                 )
 
         return div
-
-
-
-
 
     @app.callback(
         Output('needle-sequence-input', 'value'),
@@ -498,31 +489,26 @@ def callbacks(app):
 
         return div_style
 
-
-
-
     @app.callback(
         Output('needle-domain-query-info-div', 'style'),
         [Input('needle-protein-domains-select-checklist', 'values')],
-        [State('needle-domain-query-info-div', 'value')]
+        [
+            State('needle-domain-query-info-div', 'style'),
+            State('needle-dataset-select-radio', 'value')
+        ]
     )
-    def toggle_domain_upload_query_information(domains_opt, div_style):
-        """toggles the view of the output domain upload div which displays
+    def toggle_domain_domain_query_information(domains_opt, div_style, load_choice):
+        """toggles the view of the domain-query-info div which displays
             information from the Unitprot query"""
         if div_style is None:
             div_style = {'display': 'none'}
+        div_style['display'] = 'none'
 
-        if UNIPROT_DOMS_KEY in domains_opt:
-            div_style['display'] = 'inherit'
-        else:
-            div_style['display'] = 'none'
+        if load_choice == FILE_KEY:
+            if UNIPROT_DOMS_KEY in domains_opt:
+                div_style['display'] = 'inherit'
 
         return div_style
-
-
-
-
-
 
     @app.callback(
         Output('needle-protein-domains-select-div', 'style'),
@@ -577,7 +563,7 @@ def callbacks(app):
     def display_mutdata_upload_file_info(mut_contents, mut_fname):
         """display the info about the source of the protein mutations data"""
         if mut_contents is not None:
-            return "Loaded from %s : " % mut_fname
+            return "Loaded from : %s " % mut_fname
         else:
             return []
 
@@ -591,17 +577,33 @@ def callbacks(app):
     def display_domains_upload_file_info(dom_contents, dom_fname):
         """display the info about the source of the protein domains data"""
         if dom_contents is not None:
-            return "Loaded from %s : " % dom_fname
+            return "Loaded from : %s " % dom_fname
         else:
             return []
 
     @app.callback(
         Output('needle-domain-query-info-div', 'children'),
-        [Input('needle-store', 'data')]
+        [Input('needle-store', 'data')],
+        [State('needle-protein-domains-select-checklist', 'values')]
     )
-    def display_domain_query_info(stored_data):
+    def display_domain_query_info(stored_data, domains_opt):
         """display the info about the source of the protein domains data"""
-        return stored_data['info'][DATABASE_KEY]
+
+        div = []
+        accession = stored_data[INDIV_DOMS_KEY]['accession']
+
+        if UNIPROT_DOMS_KEY in domains_opt and accession:
+            div = html.Div(
+                [
+                    html.H5("Protein domains loaded from "),
+                    html.A(
+                        "http://pfam.xfam.org/protein/%s/graphic" % accession,
+                        href="http://pfam.xfam.org/protein/%s/graphic" % accession
+                    )
+                ]
+            )
+
+        return div
 
     # DATA RELATED CALLBACKS==========
     @app.callback(
@@ -704,6 +706,10 @@ def callbacks(app):
                     DATABASE_KEY: '',
                     'previous_choice': '',
                     'dl_data_path': './tests/dash/sample_data/',
+                },
+                INDIV_DOMS_KEY: {
+                    'domains': [],
+                    'accession': ''
                 }
             }
 
@@ -745,7 +751,10 @@ def callbacks(app):
 
                     stored_data['plot']['domains'] = domains
                     # Saves the domain to be able to load it separately in file upload option
-                    stored_data[INDIV_DOMS_KEY] = {'domains': domains}
+                    stored_data[INDIV_DOMS_KEY] = {
+                        'domains': domains,
+                        'accession': accession
+                    }
 
                     # Queries data from a GFF file (http://gmod.org/wiki/GFF3)
                     gff_data = UNIPROT_QUERY.query_into_pandas(
@@ -772,7 +781,6 @@ def callbacks(app):
                     print("'%s' doesn't yield any results on www.uniprot.org !" % query)
 
         else:
-
             stored_data['info'][DB_LAST_QUERY_KEY] = ''
 
         if load_choice == FILE_KEY:
@@ -799,7 +807,8 @@ def callbacks(app):
         else:
             stored_data['info']['is_same_key'] = True
 
-        stored_data['info']['previous_key'] =  load_choice
+        stored_data['info']['previous_key'] = load_choice
+
         return stored_data
 
     # GRAPH OPTIONS CALLBACKS=========
