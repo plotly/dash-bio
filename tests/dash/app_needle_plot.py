@@ -7,7 +7,6 @@ from dash.dependencies import Input, Output, State
 import dash_bio
 from .utils.needle_plot_parser import UniprotQueryBuilder, \
     extract_mutations, extract_domains, load_protein_domains, parse_mutation_data_file
-from .utils.app_wrapper import app_page_layout
 
 # Data used for the default demo plot
 DATA_URL = "https://raw.githubusercontent.com/bbglab/muts-needle-plot/master/snippets/data/"
@@ -64,7 +63,7 @@ def description():
 
 
 def layout():
-    app_main_layout = html.Div(
+    return html.Div(
         className='row',
         children=[
             html.Div(
@@ -275,7 +274,7 @@ def layout():
         ]
 
     )
-    return app_page_layout(app_main_layout, app_title="Dash Bio : Needleplot")
+
 
 
 def callbacks(app):

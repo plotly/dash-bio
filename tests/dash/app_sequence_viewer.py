@@ -57,22 +57,6 @@ def layout():
     return html.Div(id='seq-view-body', children=[
 
         html.Div(
-            id='seq-view-header',
-            children=[
-                html.Img(
-                    src='data:image/png;base64,{}'.format(
-                        base64.b64encode(
-                            open(
-                                './assets/dashbio_logo.png',
-                                'rb'
-                            ).read()
-                        ).decode()
-                    )
-                ),
-                "Dash sequence viewer"
-            ]
-        ),
-        html.Div(
             id='seq-view-fasta-upload',
             children=[
                 dcc.Upload(

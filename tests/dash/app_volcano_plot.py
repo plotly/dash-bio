@@ -7,8 +7,6 @@ from dash.dependencies import Input, Output
 
 import dash_bio
 
-from .utils.app_wrapper import app_page_layout
-
 df = pd.read_csv("tests/dash/sample_data/manhattan_volcano_data.csv")  # Load the data
 
 fig = dash_bio.VolcanoPlot(df)  # Feed the data to a function which creates a Volcano Plot figure
@@ -33,7 +31,7 @@ def description():
 
 def layout():
 
-    main_layout = html.Div(
+    return html.Div(
         id='page-content',
         children=[
             html.Div(
@@ -121,7 +119,7 @@ def layout():
             'justifyContent': 'space-between',
         }
     )
-    return app_page_layout(main_layout, "Volcano Plot")
+
 
 
 def callbacks(app):

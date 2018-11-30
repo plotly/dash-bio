@@ -65,12 +65,6 @@ def description():
 
 def layout():
     return html.Div(id='clustergram-body', children=[
-        html.Div(
-            id='clustergram-header',
-            children=[
-                'Dash Clustergram'
-            ]
-        ),
 
         html.Div(
             id='clustergram-wrapper',
