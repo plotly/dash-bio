@@ -1,9 +1,7 @@
 import dash
-import dash_bio
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_table as dt
 import logging
 import os
 from config import DASH_APP_NAME
@@ -18,6 +16,10 @@ app.config["suppress_callback_exceptions"] = True
 
 server = app.server
 
+# sort apps alphabetically
+appList = os.listdir(os.path.join("tests", "dash"))
+appList.sort()
+
 apps = {
     filename.replace(".py", "").replace("app_", ""): getattr(
         getattr(
@@ -26,7 +28,7 @@ apps = {
         ),
         filename.replace(".py", ""),
     )
-    for filename in os.listdir(os.path.join("tests", "dash"))
+    for filename in appList
     if filename.startswith("app_") and filename.endswith(".py")
 }
 
