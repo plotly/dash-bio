@@ -19,7 +19,8 @@ def createStyle(pdbPath, style, chainsDict=None, atmColor=None):
     datS=""
     ## Read input file
     with open (pdbPath, 'r') as infile:
-        lines=infile.readlines()
+        ## store only non-empty lines
+        lines=[l.strip() for l in infile if l.strip()]
 
     ## Define dictionary of atom and chain colors
     if (chainsDict is None):

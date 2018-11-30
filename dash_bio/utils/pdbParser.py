@@ -14,7 +14,8 @@ def createData(pdbPath):
     '''
 
     with open(pdbPath, 'r') as infile:
-       lines=infile.readlines()
+       ## store only non-empty lines
+       lines=[l.strip() for l in infile if l.strip()]
 
     varNchains=[]; varNresidues=[]
     serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]; atomType=[]
