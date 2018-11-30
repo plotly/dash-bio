@@ -20,7 +20,7 @@ def description():
 def layout():
 
     return html.Div(
-        id='page-content',
+        id='vp-page-content',
         children=[
             html.Div(
                 id='vp-info-panel-div',
@@ -100,7 +100,6 @@ def layout():
             )
         ],
     )
-
 
 
 def callbacks(app):

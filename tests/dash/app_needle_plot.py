@@ -276,7 +276,6 @@ def layout():
     )
 
 
-
 def callbacks(app):
 
     @app.callback(

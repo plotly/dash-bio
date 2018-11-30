@@ -24,7 +24,7 @@ def description():
 
 def layout():
     return html.Div(
-        id='page-content',
+        id='mhp-page-content',
         children=[
             html.Div(
                 id='mhp-text',
@@ -65,7 +65,6 @@ def layout():
             )
         ]
     )
-
 
 
 def callbacks(app):
