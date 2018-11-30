@@ -97,6 +97,7 @@ def layout():
                                     id='needle-dataset-header-div',
                                     children=[
                                         html.Div(
+                                            id='needle-dataset-select-div',
                                             title='"Demo dataset" choice will allow you to play with the options.\n'
                                                   '"UniProt dataset" choice will retrieve protein domain '
                                                   'as well as mutation data from UniProt database.\n"Upload dataset"'
@@ -114,6 +115,7 @@ def layout():
                                             )
                                         ),
                                         html.Div(
+                                            id='needle-protein-domains-select-div',
                                             title='If checked, it will allow the user to load mutation data such '
                                                   'as the protein coordinate (x), mutation number (y) and mutation '
                                                   'type (mutationGroups), individually from the protein domains',
@@ -474,6 +476,24 @@ def callbacks(app):
             div_style['display'] = 'inherit'
         else:
             div_style['display'] = 'none'
+
+        return div_style
+
+    @app.callback(
+        Output('needle-protein-domains-select-div', 'style'),
+        [Input('needle-dataset-select-radio', 'value')],
+        [State('needle-protein-domains-select-div', 'style')]
+    )
+    def toggle_protein_domain_select_div(method, div_style):
+        """toggles the view of the protein domain select div which displays
+            the ability to load protein domains independently form mutation data"""
+        if div_style is None:
+            div_style = {'display': 'inherit'}
+
+        if method == DEMO_KEY:
+            div_style['display'] = 'none'
+        else:
+            div_style['display'] = 'inherit'
 
         return div_style
 
