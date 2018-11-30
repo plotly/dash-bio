@@ -374,12 +374,12 @@ def callbacks(app):
         [Input('needle-dataset-select-radio', 'value')],
         [State('needle-%s-div' % DATABASE_KEY, 'style')]
     )
-    def toggle_db(method, div_style):
+    def toggle_db(load_choice, div_style):
         """updates what the user can use to load data to the graph"""
         if div_style is None:
             div_style = {'display': 'none'}
 
-        if method == DATABASE_KEY:
+        if load_choice == DATABASE_KEY:
             div_style['display'] = 'inherit'
         else:
             div_style['display'] = 'none'
@@ -391,12 +391,12 @@ def callbacks(app):
         [Input('needle-dataset-select-radio', 'value')],
         [State('needle-%s-div' % DEMO_KEY, 'style')]
     )
-    def toggle_demo(method, div_style):
+    def toggle_demo(load_choice, div_style):
         """updates what the user can use to load data to the graph"""
         if div_style is None:
             div_style = {'display': 'none'}
 
-        if method == DEMO_KEY:
+        if load_choice == DEMO_KEY:
             div_style['display'] = 'inherit'
         else:
             div_style['display'] = 'none'
@@ -408,12 +408,12 @@ def callbacks(app):
         [Input('needle-dataset-select-radio', 'value')],
         [State('needle-%s-div' % FILE_KEY, 'style')]
     )
-    def toggle_file(method, div_style):
+    def toggle_file(load_choice, div_style):
         """updates what the user can use to load data to the graph"""
         if div_style is None:
             div_style = {'display': 'none'}
 
-        if method == FILE_KEY:
+        if load_choice == FILE_KEY:
             div_style['display'] = 'inherit'
         else:
             div_style['display'] = 'none'
@@ -461,6 +461,9 @@ def callbacks(app):
 
         return div_style
 
+
+
+
     @app.callback(
         Output('needle-domain-query-info-div', 'style'),
         [Input('needle-protein-domains-select-checklist', 'values')],
@@ -479,21 +482,26 @@ def callbacks(app):
 
         return div_style
 
+
+
+
+
+
     @app.callback(
         Output('needle-protein-domains-select-div', 'style'),
         [Input('needle-dataset-select-radio', 'value')],
         [State('needle-protein-domains-select-div', 'style')]
     )
-    def toggle_protein_domain_select_div(method, div_style):
+    def toggle_protein_domain_select_div(load_choice, div_style):
         """toggles the view of the protein domain select div which displays
             the ability to load protein domains independently form mutation data"""
         if div_style is None:
-            div_style = {'display': 'inherit'}
+            div_style = {'display': 'none'}
 
-        if method == DEMO_KEY:
-            div_style['display'] = 'none'
-        else:
+        if load_choice == FILE_KEY:
             div_style['display'] = 'inherit'
+        else:
+            div_style['display'] = 'none'
 
         return div_style
 
@@ -567,7 +575,8 @@ def callbacks(app):
         ]
     )
     def toggle_download_data_fname(plotted_data, dl_data_choice):
-        """rd"""
+        """changed the file name of the downloadable data based on
+           the user choice"""
         return "%s_data.json" % dl_data_choice
 
     @app.callback(
@@ -579,7 +588,7 @@ def callbacks(app):
         [State('needle-store', 'data')]
     )
     def toggle_download_data_link(plotted_data, dl_data_choice, stored_data):
-        """rd"""
+        """changed the link to the downloadable data"""
         fname = "%s_data.json" % dl_data_choice
         fpath = "%s%s" % (stored_data['info']['dl_data_path'], fname)
         return fpath
@@ -590,7 +599,7 @@ def callbacks(app):
         [State('needle-download-data-div', 'style')]
     )
     def toggle_download_data_div(plotted_data, div_style):
-        """rd"""
+        """toggles the display of the download data div"""
         if div_style is None:
             div_style = {'display': 'flex'}
 
@@ -697,8 +706,7 @@ def callbacks(app):
 
                     stored_data['plot']['domains'] = domains
                     # Saves the domain to be able to load it separately in file upload option
-                    if UNIPROT_DOMS_KEY in domains_opt:
-                        stored_data[INDIV_DOMS_KEY] = {'domains': domains}
+                    stored_data[INDIV_DOMS_KEY] = {'domains': domains}
 
                     # Queries data from a GFF file (http://gmod.org/wiki/GFF3)
                     gff_data = UNIPROT_QUERY.query_into_pandas(
