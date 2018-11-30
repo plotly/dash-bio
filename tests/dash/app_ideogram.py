@@ -17,22 +17,6 @@ def description():
 def layout():
     return html.Div(
         [
-            html.Div(
-                children=[
-                    html.H2("Dash Bio: Ideogram Selector", id="ideogram-title"),
-                    html.A(
-                        html.Img(
-                            src="data:image/png;base64,{}".format(
-                                base64.b64encode(
-                                    open("./assets/dashbio_logo_words.png", "rb").read()
-                                ).decode()
-                            )
-                        ),
-                        href="http://www.dash.bio",
-                    ),
-                ],
-                className="ideogram-banner",
-            ),
             dcc.Tabs(
                 id="tabs",
                 children=[

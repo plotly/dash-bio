@@ -7,8 +7,6 @@ from dash.dependencies import Input, Output
 
 import dash_bio
 
-from .utils.app_wrapper import app_page_layout
-
 df = pd.read_csv("tests/dash/sample_data/manhattan_volcano_data.csv")  # Load the data
 
 fig = dash_bio.ManhattanPlot(df)  # Feed the data to a function which creates a Manhattan Plot figure
@@ -25,7 +23,7 @@ def description():
 
 
 def layout():
-    main_layout = html.Div(
+    return html.Div(
         id='mhp-page-content',
         children=[
             html.Div(
@@ -67,7 +65,6 @@ def layout():
             )
         ]
     )
-    return app_page_layout(main_layout, "Manhattan Plot")
 
 
 def callbacks(app):
