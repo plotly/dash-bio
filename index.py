@@ -78,6 +78,13 @@ def demoAppDesc(name):
     return desc
 
 
+def demoAppHeaderColors(name):
+    try:
+        return apps[name].headerColors()
+    except AttributeError:
+        return {}
+
+
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == '/{}'.format(DASH_APP_NAME) \
@@ -117,7 +124,9 @@ def display_app(pathname):
         return html.Div(id="waitfor",
                         children=app_page_layout(
                             apps[app_name].layout(),
-                            app_title=demoAppName(app_name)))
+                            app_title=demoAppName(app_name),
+                            **demoAppHeaderColors(app_name)
+                        ))
     else:
         return """
             App not found.
