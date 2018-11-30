@@ -76,27 +76,6 @@ def layout():
     return html.Div(
         [
             html.Div(
-                id="header-circos",
-                style={"background-color": "#119DFF"},
-                children=[
-                    html.H2("Dash Bio: Circos Graph Selector"),
-                    html.A(
-                        html.Img(
-                            src='data:image/png;base64,{}'.format(
-                                base64.b64encode(
-                                    open(
-                                        './assets/dashbio_logo_words.png',
-                                        'rb'
-                                    ).read()
-                                ).decode()
-                            )
-                        ),
-                        href="http://www.dash.bio",
-                    ),
-                ],
-                className="circos-banner",
-            ),
-            html.Div(
                 [
                     html.Div(
                         [

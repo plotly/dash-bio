@@ -7,10 +7,10 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import dash_bio
+
 from .utils.needle_plot_parser import UniprotQueryBuilder, extract_mutations, EMPTY_MUT_DATA,\
     extract_domains, load_protein_domains, parse_mutation_upload_file, parse_domain_upload_file,\
     parse_mutations_uniprot_data
-from .utils.app_wrapper import app_page_layout
 
 # Data used for the default demo plot
 DATA_URL = "https://raw.githubusercontent.com/bbglab/muts-needle-plot/master/snippets/data/"
@@ -78,7 +78,7 @@ def description():
 
 
 def layout():
-    app_main_layout = html.Div(
+    return html.Div(
         className='row',
         children=[
             dcc.Store(id='needle-store'),
@@ -241,8 +241,7 @@ def layout():
                                                     id='needle-mutdata-file-info-div'
                                                 ),
                                             ]
-                                        )
-                                        ,
+                                        ),
                                         html.Div(
                                             id='needle-domain-file-div',
                                             title='Protein data files accepted here can be two fold : \n'
@@ -386,7 +385,6 @@ def layout():
         ]
 
     )
-    return app_page_layout(app_main_layout, app_title="Dash Bio : Needleplot")
 
 
 def callbacks(app):
