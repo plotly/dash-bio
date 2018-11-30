@@ -421,16 +421,53 @@ def callbacks(app):
         return div_style
 
     @app.callback(
+        Output('needle-uniprot-div', 'style'),
+        [Input('needle-dataset-select-radio', 'value')],
+        [State('needle-uniprot-div', 'style')]
+    )
+    def toggle_domain_doma(load_choice, div_style):
+        """updates what the user can use to load data to the graph"""
+        if div_style is None:
+            div_style = {'display': 'none'}
+
+        if load_choice == DATABASE_KEY:
+            div_style['display'] = 'inherit'
+        else:
+            div_style['display'] = 'none'
+
+        return div_style
+
+    @app.callback(
         Output('needle-uniprot-div', 'children'),
         [Input('needle-store', 'data')],
         [State('needle-dataset-select-radio', 'value')]
     )
     def display_query_information(stored_data, load_choice):
         """diplays information about the query to the UniProt database"""
-        if load_choice in stored_data['info']:
-            return stored_data['info'][load_choice]
-        else:
-            return ''
+
+        div = []
+        print(stored_data['info']['is_same_key'])
+        print(stored_data['info']['previous_key'])
+        print(load_choice)
+        if load_choice == DATABASE_KEY:
+            if stored_data['info']['is_same_key']:
+                title = "Query"
+            else:
+                title = "Last query"
+            last_query = stored_data['info'][load_choice]
+            if last_query:
+                div = html.Div(
+                    [
+                        html.H5(title),
+                        html.P(last_query)
+                    ]
+                )
+
+        return div
+
+
+
+
 
     @app.callback(
         Output('needle-sequence-input', 'value'),
@@ -661,6 +698,8 @@ def callbacks(app):
             stored_data = {
                 'plot': copy.deepcopy(EMPTY_MUT_DATA),
                 'info': {
+                    'previous_key': load_choice,
+                    'is_same_key': False,
                     DB_LAST_QUERY_KEY: '',
                     DATABASE_KEY: '',
                     'previous_choice': '',
@@ -735,7 +774,6 @@ def callbacks(app):
         else:
 
             stored_data['info'][DB_LAST_QUERY_KEY] = ''
-            stored_data['info'][DATABASE_KEY] = ''
 
         if load_choice == FILE_KEY:
             # the user has to provide a file which is then parsed by a function to
@@ -747,6 +785,7 @@ def callbacks(app):
 
             # Loads the protein domain from another file or from the last database query
             if INDIV_DOMS_KEY in domains_opt:
+                stored_data['plot']['domains'] = []
                 if UNIPROT_DOMS_KEY not in domains_opt:
                     if dom_contents is not None:
                         stored_data['plot']['domains'] = parse_domain_upload_file(dom_contents, dom_fname)
@@ -754,6 +793,13 @@ def callbacks(app):
                     if INDIV_DOMS_KEY in stored_data:
                         stored_data['plot']['domains'] = stored_data[INDIV_DOMS_KEY]['domains']
 
+        # Store the information about this load_choice for Div display
+        if load_choice != stored_data['info']['previous_key']:
+            stored_data['info']['is_same_key'] = False
+        else:
+            stored_data['info']['is_same_key'] = True
+
+        stored_data['info']['previous_key'] =  load_choice
         return stored_data
 
     # GRAPH OPTIONS CALLBACKS=========
