@@ -210,7 +210,7 @@ class _VolcanoPlot(object):
         """
         # checking the validity of the arguments
 
-        # Make sure you have chrm, bp and p columns and that they are of
+        # Make sure you have effect_size and p columns and that they are of
         # numeric type
         if effect_size not in x.columns.values:
             raise KeyError("Column %s not found in 'x' data.frame"
@@ -237,7 +237,7 @@ class _VolcanoPlot(object):
                     raise ValueError("NaN P-values found. These must be "
                                      "removed")
 
-        # Create a new DataFrame with columns named after chrm, bp, and p.
+        # Create a new DataFrame with columns named after effect_size and p.
         self.data = pd.DataFrame(data=x[[effect_size, p]])
 
         if snp is not None:
@@ -360,6 +360,8 @@ class _VolcanoPlot(object):
         # Initialize plot
         xmin = min(self.data[self.effectSize].values)
         xmax = max(self.data[self.effectSize].values)
+        # Taking 105% of the max value of data for x axis range
+        xlim = 1.05 * np.max(np.abs([xmin, xmax]))
 
         if self.logp:
             ymin = min(-np.log10(self.data[self.pName].values))
@@ -381,7 +383,8 @@ class _VolcanoPlot(object):
             },
             xaxis={
                 'title': xlabel,
-                'zeroline': False
+                'zeroline': False,
+                'range': [-xlim, xlim]
             },
             yaxis={
                 'title': ylabel,
@@ -507,7 +510,7 @@ class _VolcanoPlot(object):
                     width=genomewideline_width,
                     dash='dash'
                 ),
-                x0=xmin, x1=xmax, xref="x",
+                x0=-xlim, x1=xlim, xref="x",
                 y0=genomewideline_value, y1=genomewideline_value, yref="y"
             )
             lines.append(genomewideline)
