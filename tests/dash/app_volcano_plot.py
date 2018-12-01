@@ -56,6 +56,7 @@ def layout():
                             ),
                             html.Div(
                                 className='vp-vertical-style',
+                                title='Changes the value of the right vertical dashed line.',
                                 children=[
                                     html.Div(
                                         "Upper effect size",
@@ -72,6 +73,7 @@ def layout():
                             ),
                             html.Div(
                                 className='vp-vertical-style',
+                                title='Changes the value of the horizontal dashed line.',
                                 children=[
                                     html.Div(
                                         "Threshold",

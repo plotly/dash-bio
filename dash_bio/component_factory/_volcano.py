@@ -373,6 +373,12 @@ class _VolcanoPlot(object):
 
         layout = go.Layout(
             title=title,
+            hovermode='closest',
+            legend={
+                'x': 0.85,
+                'y': 0.1,
+                'bgcolor': '#f2f5fa'
+            },
             xaxis={
                 'title': xlabel,
                 'zeroline': False
@@ -433,7 +439,7 @@ class _VolcanoPlot(object):
                             marker=dict(
                                 color=highlight_color,
                                 size=point_size),
-                            name="of interest"
+                            name="Point(s) of interest"
                         )
                     )
 
@@ -462,7 +468,7 @@ class _VolcanoPlot(object):
                     # 'name': "chr%i" % self.data[self.chrName].unique()
                 },
                 text=hover_text,
-                name="data"
+                name="Dataset"
             )
         )
 
