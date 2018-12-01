@@ -34,6 +34,13 @@
     justify-content: space-between;
 }
 
+.vp-horizontal-style {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .vp-input{
     font-size: 1.5em;
     height: 30px;

@@ -7,9 +7,35 @@ from dash.dependencies import Input, Output
 
 import dash_bio
 
-df = pd.read_csv("tests/dash/sample_data/manhattan_volcano_data.csv")  # Load the data
+df1 = pd.read_csv("tests/dash/sample_data/manhattan_volcano_data.csv")  # Load the data
+df2 = pd.read_csv("tests/dash/sample_data/volcano_data.csv", comment='#', header=0)
 
-fig = dash_bio.VolcanoPlot(df)  # Feed the data to a function which creates a Volcano Plot figure
+
+DATASETS = {
+    'SET1': {
+        'label': 'Set1',
+        'dataframe': None,
+        'datafile': 'tests/dash/sample_data/manhattan_volcano_data.csv',
+        'datasource': '',
+        'dataprops': {}
+    },
+    'SET2': {
+        'label': 'Set2',
+        'dataframe': None,
+        'datafile': 'tests/dash/sample_data/volcano_data.csv',
+        'datasource': 'https://doi.org/10.1371/journal.pntd.0001039.s001',
+        'dataprops': dict(
+            effect_size='log2_(L3i/L1)_signal_ratio',
+            p='p-value',
+            snp=None,
+            gene='PFAM_database_id',
+            annotation='annotation'
+        )
+    }
+}
+
+for dset in DATASETS:
+    DATASETS[dset]['dataframe'] = pd.read_csv(DATASETS[dset]['datafile'], comment='#')
 
 
 def description():
@@ -36,10 +62,26 @@ def layout():
                         className='vp-text vp-intro',
                     ),
                     html.Div(
+                        id='vp-dataset-div',
+                        className='vp-horizontal-style',
+                        children=[
+                            html.H5('Choose Dataset to plot :'),
+                            dcc.Dropdown(
+                                id='vp-dataset-dropdown',
+                                options=[
+                                    {'label': DATASETS[dset]['label'], 'value': dset}
+                                    for dset in DATASETS
+                                ],
+                                value=dset
+                            )
+                        ]
+                    ),
+                    html.Div(
                         id='vp-controls-div',
                         children=[
                             html.Div(
                                 className='vp-vertical-style',
+                                title='Changes the value of the left vertical dashed line.',
                                 children=[
                                     html.Div(
                                         "Lower effect size",
@@ -83,7 +125,7 @@ def layout():
                                         className='vp-input',
                                         id='vp-genomic-line',
                                         type='number',
-                                        value=7,
+                                        value=4,
                                         max=10,
                                         min=0
                                     ),
@@ -96,7 +138,6 @@ def layout():
             html.Div(
                 id='vp-graph-div',
                 children=dcc.Graph(
-                    figure=fig,
                     id='vp-graph'
                 ),
             )
@@ -111,12 +152,14 @@ def callbacks(app):
             Input('vp-upper-bound', 'value'),
             Input('vp-lower-bound', 'value'),
             Input('vp-genomic-line', 'value'),
+            Input('vp-dataset-dropdown', 'value')
         ]
     )
-    def update_graph(u_lim, l_lim, genomic_line):
+    def update_graph(u_lim, l_lim, genomic_line, datadsetd):
         """update the data set of interest upon change the dashed lines value"""
         return dash_bio.VolcanoPlot(
-            df,
+            DATASETS[datadsetd]['dataframe'],
             genomewideline_value=float(genomic_line),
             effect_size_line=[float(l_lim), float(u_lim)],
+            **DATASETS[datadsetd]['dataprops']
         )
