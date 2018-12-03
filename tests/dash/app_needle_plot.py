@@ -8,8 +8,10 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import dash_bio
 
-from .utils.needle_plot_parser import UniprotQueryBuilder, extract_mutations, EMPTY_MUT_DATA,\
-    extract_domains, load_protein_domains, parse_mutation_upload_file, parse_domain_upload_file,\
+from dash_bio.utils.uniprotDatabaseTools import UniprotQueryBuilder
+
+from dash_bio.utils.mutationDataParser import extract_mutations, EMPTY_MUT_DATA, \
+    extract_domains, load_protein_domains, parse_mutation_upload_file, parse_domain_upload_file, \
     parse_mutations_uniprot_data
 
 # Data used for the default demo plot
