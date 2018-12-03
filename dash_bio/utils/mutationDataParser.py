@@ -1,10 +1,7 @@
 import base64
 import json
 import jsonschema
-import urllib.error
-import urllib.request
 import numpy as np
-import warnings
 import copy
 
 from dash_bio.utils.uniprotDatabaseTools import pfam_domain_parser
@@ -65,56 +62,6 @@ MUT_DATA_SCHEMA = {
     },
     "required": ["x"],
 }
-
-
-def extract_mutations(target_url, fname=""):
-    """read mutations json file for the default app values
-        the file should contain a list of structure with label
-        'coord', 'value' and 'category' corresponding to the
-        position of the mutation of the gene, the number of mutations
-        and the type of mutation, respectively
-    """
-    recieved_data = False
-    try:
-        with urllib.request.urlopen(target_url + fname) as url:
-            data = json.loads(url.read())
-        recieved_data = True
-    except json.decoder.JSONDecodeError:
-        warnings.warn('problem with the data format, not a JSON file')
-    except urllib.error.HTTPError:
-        warnings.warn("Error 404 : check your url or your internet connexion : %s" % (target_url + fname))
-
-    x = []
-    y = []
-    mutationgroup = []
-    if recieved_data:
-        for data_item in data:
-            x.append(data_item['coord'])
-            y.append(data_item['value'])
-            mutationgroup.append(data_item['category'])
-    return x, y, mutationgroup
-
-
-def extract_domains(target_url, fname=""):
-    """read protein domain json file for the default app value
-        the file should contain a list of structure with label
-        'coord' and 'name' corresponding to the coordinate of the
-        domain of the gene (in the format "START-END") and its name,
-        respectively
-    """
-    domains = []
-    try:
-        with urllib.request.urlopen(target_url + fname) as url:
-            domains = json.loads(url.read())
-    except json.decoder.JSONDecodeError:
-        warnings.warn('problem with the data format, not a JSON file')
-    except urllib.error.HTTPError:
-        warnings.warn("Error 404 : check your url or your internet connexion : %s" % (target_url + fname))
-
-    return domains
-
-
-
 
 
 def parse_mutations_uniprot_data(gff_data, start='start', stop='end', mut_types_to_skip=None):
@@ -210,10 +157,23 @@ def parse_protein_domains_data(domain_data):
         try:
             jsonschema.validate(domain_data, PROT_DOM_SCHEMA)
             formatted_data = domain_data
-        except:
+        except jsonschema.exceptions.ValidationError:
             print("Your .json file did not match the scheme from PFAM or needleplot domain data")
 
     return formatted_data
+
+
+def parse_mutation_data(mutation_data):
+    """take a json object and extract the mutation data based one the schema EMPTY_MUT_DATA
+    :param (dict) mutation_data:
+    :return: formatted mutation data for the dash_bio.NeedlePlot component
+    """
+    data = copy.deepcopy(EMPTY_MUT_DATA)
+    jsonschema.validate(mutation_data, MUT_DATA_SCHEMA)
+    for k in data:
+        data[k] = mutation_data[k]
+
+    return data
 
 
 def load_protein_domains(accession=None, json_fname=None):
@@ -238,6 +198,19 @@ def load_protein_domains(accession=None, json_fname=None):
         domain_data = pfam_domain_parser(accession)
 
     return parse_protein_domains_data(domain_data)
+
+
+def load_mutation_data(json_fname=None):
+    """take a json object and extract the mutation data based one the schema EMPTY_MUT_DATA
+    :param (str) json_fname: name of a JSON file. This JSON file needs to
+                             have a structure like EMPTY_MUT_DATA
+    :return: formatted mutation data for the dash_bio.NeedlePlot component
+    """
+    if json_fname is not None:
+        with open(json_fname) as f:
+            mutation_data = json.load(f)
+
+    return parse_mutation_data(mutation_data)
 
 
 def decode_dcc_upload_contents(contents, encoding='utf-8'):
@@ -268,9 +241,7 @@ def parse_mutation_upload_file(contents, fname):
         if fname.endswith('json'):
             # Assume that the user uploaded a json file
             json_data = json.loads(upload_data)
-            jsonschema.validate(json_data, MUT_DATA_SCHEMA)
-            for k in data:
-                data[k] = json_data[k]
+            data = parse_mutation_data(json_data)
 
     return data
 

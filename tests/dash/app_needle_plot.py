@@ -10,15 +10,19 @@ import dash_bio
 
 from dash_bio.utils.uniprotDatabaseTools import UniprotQueryBuilder
 
-from dash_bio.utils.mutationDataParser import extract_mutations, EMPTY_MUT_DATA, \
-    extract_domains, load_protein_domains, parse_mutation_upload_file, parse_domain_upload_file, \
-    parse_mutations_uniprot_data
+from dash_bio.utils.mutationDataParser import EMPTY_MUT_DATA, \
+    load_protein_domains, parse_mutation_upload_file, parse_domain_upload_file, \
+    parse_mutations_uniprot_data, load_mutation_data
 
 # Data used for the default demo plot
 DATA_URL = "https://raw.githubusercontent.com/bbglab/muts-needle-plot/master/snippets/data/"
-DATA = [
-    {'mutData': 'TP53_MUTATIONS.json', 'domains': 'TP53_REGIONS.json', 'label': 'TP53'},
-    {'mutData': 'muts.json', 'domains': 'regions.json', 'label': 'ENST00000557334'},
+DEMO_DATA = [
+    {'mutData': 'needle_TP53.json', 'label': 'TP53'},
+    {'mutData': 'needle_ACVR1.json', 'label': 'ACVR1'},
+    {'mutData': 'needle_SMARCA4.json', 'label': 'SMARCA4'},
+    {'mutData': 'needle_ENTS00000557334.json', 'label': 'ENST00000557334'},
+    {'mutData': 'needle_PIK3CA.json', 'label': 'PIK3CA'},
+    {'mutData': 'needle_ATRX.json', 'label': 'ATRX'},
 ]
 
 # Values of a the load dataset dropdown
@@ -181,7 +185,7 @@ def layout():
                                             id='needle-dataset-dropdown',
                                             options=[
                                                 {'label': data['label'], 'value': i}
-                                                for i, data in enumerate(DATA)
+                                                for i, data in enumerate(DEMO_DATA)
                                             ],
                                             value=0
                                         ),
@@ -780,14 +784,9 @@ def callbacks(app):
 
         if load_choice == DEMO_KEY:
             # Loads datasets from a github repo for demo purpose
-            x, y, mutationgroups = extract_mutations(DATA_URL, DATA[demo_choice]['mutData'])
-            domains = extract_domains(DATA_URL, DATA[demo_choice]['domains'])
-            stored_data['plot'] = dict(
-                x=x,
-                y=y,
-                mutationGroups=mutationgroups,
-                domains=np.array(domains),
-            )
+            fpath = stored_data['info']['dl_data_path']
+            fname = DEMO_DATA[demo_choice]['mutData']
+            stored_data['plot'] = load_mutation_data('%s%s' % (fpath, fname))
 
         if load_choice == DATABASE_KEY:
             # Performs a simple query in the UniProt database to find an
