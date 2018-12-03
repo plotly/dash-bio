@@ -27,6 +27,14 @@
     align-items: center;
 }
 
+#vp-graph {
+    height: 600px;
+}
+
+#vp-dataset-dropdown{
+    width: 140px;
+}
+
 .vp-vertical-style {
     display: flex;
     flex-direction: column;
@@ -49,6 +57,9 @@
 
 .vp-text {
     font-size: 1.3em;
+    color: #506784;
+}
+.vp-title {
     color: #506784;
 }
 

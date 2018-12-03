@@ -65,7 +65,10 @@ def layout():
                         id='vp-dataset-div',
                         className='vp-horizontal-style',
                         children=[
-                            html.H5('Choose Dataset to plot :'),
+                            html.H5(
+                                children='Choose Dataset to plot :',
+                                className='vp-title'
+                            ),
                             dcc.Dropdown(
                                 id='vp-dataset-dropdown',
                                 options=[
@@ -138,7 +141,7 @@ def layout():
             html.Div(
                 id='vp-graph-div',
                 children=dcc.Graph(
-                    id='vp-graph'
+                    id='vp-graph',
                 ),
             )
         ],
