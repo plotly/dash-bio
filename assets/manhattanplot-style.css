@@ -3,38 +3,54 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    align-content: space-evenly;
+    align-content: space-between;
 }
 
 #mhp-info-div {
     width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
+    flex-grow: 1;
+    overflow-y: visible;
+    margin: 5px;
 }
 
-#mhp-controls-div {
+.mhp-slider-div {
+    flex-grow: 1;
+    width: 20%;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#mhp-graph{
+    height: 650px;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
-
-#mhp-slider-div {
-    width: 50%;
-    margin: 2px;
 }
 
 #mhp-graph-div{
-    width: 100%;
+    height: 600px;
+    width: 60%;
+    margin: 5px;
+}
+
+.mph-control-div {
+    margin-top: 15px;
+}
+
+.mhp-vertical-style {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+}
+
+.mhp-horizontal-style {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .mhp-text {
+    width: 300px;
     color: #506784;
 }
 

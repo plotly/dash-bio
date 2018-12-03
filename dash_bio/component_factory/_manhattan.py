@@ -569,7 +569,8 @@ class _ManhattanPlot(object):
                     'ticktext': self.ticksLabels,
                     'ticks': "outside"
                 },
-                yaxis={'title': ylabel}
+                yaxis={'title': ylabel},
+                hovermode='closest'
             )
 
             icol = 0
