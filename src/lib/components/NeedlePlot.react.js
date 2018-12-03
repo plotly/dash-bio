@@ -519,7 +519,7 @@ NeedlePlot.propTypes = {
     options for the protein domain coloring
     */
     domainStyle: PropTypes.shape({
-        // Color of the stems of the needles
+        // Color of the protein domains
         domainColor: PropTypes.array,
         /*
         the prop x sometimes contains smaller domains (e.g. multi-site

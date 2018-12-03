@@ -50,27 +50,32 @@ HEAD_COLORS = [
     '#a65628',
     '#f781bf',
     '#999999',
-    '#e41a1c',
-    '#377eb8',
-    '#4daf4a',
-    '#984ea3',
-    '#ff7f00',
-    '#ffff33',
-    '#a65628',
-    '#f781bf',
-    '#999999',
-    '#e41a1c',
 ]
 HEAD_SYMBOLS = [
     'circle',
     'square',
-    'up-triangle',
-    'pentagon'
+    'triangle-up',
+    'diamond'
 ]
 STEM_COLOR = [
     'grey',
     'black',
     'white'
+]
+
+DOMAIN_COLORS = [
+    '#8dd3c7',
+    '#ffffb3',
+    '#bebada',
+    '#fb8072',
+    '#80b1d3',
+    '#fdb462',
+    '#b3de69',
+    '#fccde5',
+    '#d9d9d9',
+    '#bc80bd',
+    '#ccebc5',
+    '#ffed6f',
 ]
 
 
@@ -113,7 +118,7 @@ def layout():
                                                     {'label': 'Upload dataset', 'value': FILE_KEY},
                                                     {'label': 'UniProt dataset', 'value': DATABASE_KEY},
                                                 ],
-                                                value=FILE_KEY
+                                                value=DEMO_KEY
                                             )
                                         ),
                                         html.Div(
@@ -152,7 +157,7 @@ def layout():
                                                 n_clicks_timestamp=0,
                                             ),
                                             href="",
-                                            download="",
+                                            download=""
                                         ),
                                         dcc.Dropdown(
                                             id='needle-download-data-dropdown',
@@ -161,12 +166,13 @@ def layout():
                                                 {'label': 'Mutations', 'value': MUT_KEY},
                                                 {'label': 'Domains', 'value': DOM_KEY},
                                             ],
-                                            value=FULL_KEY,
+                                            value=FULL_KEY
                                         )
                                     ]
                                 ),
                                 html.Div(
                                     id='needle-%s-div' % DEMO_KEY,
+                                    className='needle-load-option-div',
                                     children=[
                                         html.H5(
                                             'Select demo dataset'
@@ -177,12 +183,13 @@ def layout():
                                                 {'label': data['label'], 'value': i}
                                                 for i, data in enumerate(DATA)
                                             ],
-                                            value=0,
+                                            value=0
                                         ),
                                     ]
                                 ),
                                 html.Div(
                                     id='needle-%s-div' % DATABASE_KEY,
+                                    className='needle-load-option-div',
                                     children=[
                                         html.H5(
                                             'Search UniProt'
@@ -203,7 +210,7 @@ def layout():
                                                     children='submit',
                                                     n_clicks=0,
                                                     n_clicks_timestamp=0,
-                                                ),
+                                                )
                                             ]
                                         ),
                                         html.Div(
@@ -213,6 +220,7 @@ def layout():
                                 ),
                                 html.Div(
                                     id='needle-%s-div' % FILE_KEY,
+                                    className='needle-load-option-div',
                                     children=[
                                         html.Div(
                                             id='needle-mutdata-file-div',
@@ -241,7 +249,7 @@ def layout():
                                                 ),
                                                 html.Div(
                                                     id='needle-mutdata-file-info-div'
-                                                ),
+                                                )
                                             ]
                                         ),
                                         html.Div(
@@ -267,7 +275,7 @@ def layout():
                                                 ),
                                                 html.Div(
                                                     id='needle-domains-file-info-div'
-                                                ),
+                                                )
                                             ]
                                         ),
                                         html.Div(id='needle-domain-query-info-div'),
@@ -280,27 +288,38 @@ def layout():
                             value='tab-options',
                             children=[
                                 html.Div(
+                                    className='needle-config-option-div',
                                     children=[
-                                        html.H3('Config'),
-                                        html.H5('Stem thickness'),
-                                        dcc.Input(
-                                            id='needle-stem-thick-input',
-                                            type='number',
-                                            value=2,
-                                            min=1,
-                                            max=40
-                                        ),
-                                        html.H5('Needle head size'),
-                                        dcc.Input(
-                                            id='needle-head-size-input',
-                                            type='number',
-                                            value=4,
-                                            min=1,
-                                            max=40,
-                                        ),
-                                        html.H5('Stem color'),
                                         html.Div(
-                                            [
+                                            className='needle-config-item-style',
+                                            children=[
+                                                html.H6('Stem thickness'),
+                                                dcc.Input(
+                                                    id='needle-stem-thick-input',
+                                                    type='number',
+                                                    value=2,
+                                                    min=1,
+                                                    max=40
+                                                )
+                                            ]
+                                        ),
+                                        html.Div(
+                                            className='needle-config-item-style',
+                                            children=[
+                                                html.H6('Needle head size'),
+                                                dcc.Input(
+                                                    id='needle-head-size-input',
+                                                    type='number',
+                                                    value=7,
+                                                    min=1,
+                                                    max=40,
+                                                )
+                                            ]
+                                        ),
+                                        html.Div(
+                                            className='needle-config-item-style',
+                                            children=[
+                                                html.H6('Stem color'),
                                                 dcc.Dropdown(
                                                     id='needle-stem-color-dropdown',
                                                     options=[
@@ -308,12 +327,13 @@ def layout():
                                                         for col in STEM_COLOR
                                                     ],
                                                     value=STEM_COLOR[0],
-                                                ),
-                                            ],
+                                                )
+                                            ]
                                         ),
-                                        html.H5('Head color(s)'),
                                         html.Div(
-                                            [
+                                            className='needle-config-item-style',
+                                            children=[
+                                                html.H6('Head color(s)'),
                                                 dcc.Dropdown(
                                                     id='needle-head-color-dropdown',
                                                     options=[
@@ -325,25 +345,28 @@ def layout():
                                                 ),
                                             ],
                                         ),
-                                        html.H5('Head symbol(s)'),
                                         html.Div(
-                                            [
+                                            className='needle-config-item-style',
+                                            children=[
+                                                html.H6('Head symbol(s)'),
                                                 dcc.Dropdown(
                                                     id='needle-head-symbol-dropdown',
                                                     options=[
                                                         {'label': sym, 'value': sym}
                                                         for sym in HEAD_SYMBOLS
                                                     ],
-                                                    value=HEAD_SYMBOLS[0],
+                                                    value=HEAD_SYMBOLS[0:4],
                                                     multi=True
                                                 ),
                                             ],
                                         ),
-                                        html.H5('Constant height needles'),
                                         html.Div(
-                                            [
+                                            className='needle-config-item-style',
+                                            children=[
+                                                html.H6('Constant height needles'),
                                                 dcc.RadioItems(
                                                     id='needle-stem-height-radioitems',
+                                                    className='needle-radio',
                                                     options=[
                                                         {'label': 'On',
                                                          'value': True},
@@ -354,11 +377,13 @@ def layout():
                                                 ),
                                             ],
                                         ),
-                                        html.H5('Rangeslider Display'),
                                         html.Div(
-                                            [
+                                            className='needle-config-item-style',
+                                            children=[
+                                                html.H6('Rangeslider Display'),
                                                 dcc.RadioItems(
                                                     id='needle-rangeslider-radioitems',
+                                                    className='needle-radio',
                                                     options=[
                                                         {'label': 'On',
                                                          'value': True},
@@ -369,20 +394,36 @@ def layout():
                                                 ),
                                             ],
                                         ),
+                                        html.Div(
+                                            className='needle-config-item-style',
+                                            children=[
+                                                html.H6('Small domains color(s)'),
+                                                dcc.Dropdown(
+                                                    id='needle-domains-color-dropdown',
+                                                    options=[
+                                                        {'label': col, 'value': col}
+                                                        for col in DOMAIN_COLORS
+                                                    ],
+                                                    value=DOMAIN_COLORS[0:4],
+                                                    multi=True,
+                                                ),
+                                            ],
+                                        ),
+
                                     ],
                                 ),
                             ],
                         )
-                    ],
+                    ]
                 ),
             ),
             html.Div(
-                id='needle-plot-area',
-                className='seven columns',
+                id='needle-plot-div',
+                className='eight columns',
                 children=dash_bio.NeedlePlot(
                     id='needle-plot',
                     rangeSlider=True,
-                ),
+                )
             )
         ]
 
@@ -467,7 +508,7 @@ def callbacks(app):
     def display_query_information(stored_data, load_choice):
         """diplays information about the query to the UniProt database"""
 
-        div = []
+        # div = []
         if load_choice == DATABASE_KEY:
             if stored_data['info']['is_same_key']:
                 title = "Query"
@@ -475,14 +516,14 @@ def callbacks(app):
                 title = "Last query"
             last_query = stored_data['info'][load_choice]
             if last_query:
-                div = html.Div(
+                return html.Div(
                     [
                         html.H5(title),
                         html.P(last_query)
                     ]
                 )
 
-        return div
+        # return div
 
     @app.callback(
         Output('needle-sequence-input', 'value'),
@@ -647,7 +688,7 @@ def callbacks(app):
         [
             Input('needle-plot', 'mutationData'),
             Input('needle-download-data-dropdown', 'value')
-         ],
+        ],
         [State('needle-store', 'data')]
     )
     def toggle_download_data_link(plotted_data, dl_data_choice, stored_data):
@@ -862,7 +903,7 @@ def callbacks(app):
             head_size,
             head_colors,
             head_symbols,
-            needle_sty
+            needle_sty,
     ):
         if needle_sty is None:
             needle_sty = {}
@@ -873,3 +914,18 @@ def callbacks(app):
         needle_sty['headColor'] = head_colors
         needle_sty['headSymbol'] = head_symbols
         return needle_sty
+
+    @app.callback(
+        Output('needle-plot', 'domainStyle'),
+        [Input('needle-domains-color-dropdown', 'value')],
+        [State('needle-plot', 'domainStyle')]
+    )
+    def update_domain_style(
+            small_domains_colors,
+            domain_sty
+    ):
+        if domain_sty is None:
+            domain_sty = {}
+
+        domain_sty['domainColor'] = small_domains_colors
+        return domain_sty
