@@ -7,23 +7,9 @@ from dash.dependencies import Input, Output
 
 import dash_bio
 
-from .utils.app_wrapper import app_page_layout
-
 df = pd.read_csv("tests/dash/sample_data/manhattan_volcano_data.csv")  # Load the data
 
 fig = dash_bio.VolcanoPlot(df)  # Feed the data to a function which creates a Volcano Plot figure
-
-vertical_style = {
-    'display': 'flex',
-    'flexDirection': 'column',
-    'alignItems': 'center',
-    'justifyContent': 'space-between',
-}
-
-text_style = {
-    'color': "#506784",
-    'font-family': 'Open Sans'
-}
 
 
 def description():
@@ -33,11 +19,11 @@ def description():
 
 def layout():
 
-    main_layout = html.Div(
-        id='page-content',
+    return html.Div(
+        id='vp-page-content',
         children=[
             html.Div(
-                id='text',
+                id='vp-info-panel-div',
                 children=[
                     html.Div(
                         "Interactively identify clinically meaningful "
@@ -47,90 +33,82 @@ def layout():
                         "Volcano plots are the negative log10 p-values "
                         "plotted against their effect size, odds ratio, "
                         "or log fold-change.",
-                        style=text_style
+                        className='vp-text vp-intro',
                     ),
                     html.Div(
+                        id='vp-controls-div',
                         children=[
                             html.Div(
+                                className='vp-vertical-style',
                                 children=[
                                     html.Div(
                                         "Lower effect size",
-                                        style=text_style
+                                        className='vp-text',
                                     ),
                                     dcc.Input(
-                                        id='lower-bound',
+                                        className='vp-input',
+                                        id='vp-lower-bound',
+                                        type='number',
                                         value=-1,
+                                        max=0,
                                     ),
                                 ],
-                                style=vertical_style
                             ),
                             html.Div(
+                                className='vp-vertical-style',
                                 children=[
                                     html.Div(
                                         "Upper effect size",
-                                        style=text_style
+                                        className='vp-text',
                                     ),
                                     dcc.Input(
-                                        id='upper-bound',
+                                        className='vp-input',
+                                        id='vp-upper-bound',
+                                        type='number',
                                         value=1,
+                                        min=0,
                                     ),
                                 ],
-                                style=vertical_style
                             ),
                             html.Div(
+                                className='vp-vertical-style',
                                 children=[
                                     html.Div(
                                         "Threshold",
-                                        style=text_style
+                                        className='vp-text',
                                     ),
                                     dcc.Input(
-                                        id='genomic-line',
+                                        className='vp-input',
+                                        id='vp-genomic-line',
+                                        type='number',
                                         value=7,
                                         max=10,
                                         min=0
                                     ),
                                 ],
-                                style=vertical_style
                             ),
                         ],
-                        style={
-                            'display': 'flex',
-                            'flexDirection': 'row',
-                            'alignItems': 'center',
-                            'justifyContent': 'space-between',
-                        }
                     ),
                 ],
-                style={
-                    'width': '90%',
-                    'margin': "15px"
-                }
             ),
             html.Div(
+                id='vp-graph-div',
                 children=dcc.Graph(
                     figure=fig,
-                    id='graph_volcano'
+                    id='vp-graph'
                 ),
             )
         ],
-        style={
-            'width': '100%',
-            'display': 'flex',
-            'flexDirection': 'row',
-            'alignItems': 'center',
-            'justifyContent': 'space-between',
-        }
     )
-    return app_page_layout(main_layout, "Volcano Plot")
 
 
 def callbacks(app):
     @app.callback(
-        Output('graph_volcano', 'figure'),
+        Output('vp-graph', 'figure'),
         [
-            Input('upper-bound', 'value'),
-            Input('lower-bound', 'value'),
-            Input('genomic-line', 'value'),
+            Input('vp-upper-bound', 'value'),
+            Input('vp-lower-bound', 'value'),
+            Input('vp-genomic-line', 'value'),
         ]
     )
     def update_graph(u_lim, l_lim, genomic_line):
