@@ -49,7 +49,7 @@ app.layout = html.Div(
 )
 
 
-def demoAppImgSrc(name):
+def demo_app_img_src(name):
     pic_fname = './tests/dash/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
@@ -63,11 +63,11 @@ def demoAppImgSrc(name):
                 open('./assets/dashbio_logo.png', 'rb').read()).decode())
 
 
-def demoAppName(name):
+def demo_app_name(name):
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
 
-def demoAppDesc(name):
+def demo_app_desc(name):
     desc = ''
     try:
         desc = apps[name].description()
@@ -88,13 +88,13 @@ def display_app(pathname):
                     dcc.Link(
                         children=[
                             html.Img(className='gallery-app-img',
-                                     src=demoAppImgSrc(name)),
+                                     src=demo_app_img_src(name)),
                             html.Div(className='gallery-app-info', children=[
                                 html.Div(className='gallery-app-name', children=[
-                                    demoAppName(name)
+                                    demo_app_name(name)
                                 ]),
                                 html.Div(className='gallery-app-desc', children=[
-                                    demoAppDesc(name)
+                                    demo_app_desc(name)
                                 ]),
                             ])
                         ],
