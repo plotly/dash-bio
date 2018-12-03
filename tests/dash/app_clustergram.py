@@ -7,9 +7,9 @@ import base64
 
 
 colorPalette = [
-    'rgb(255,0,0)',
-    'rgb(75,150,255)',
-    'rgb(150,150,250)'
+    'rgb(128, 0, 96)',
+    'rgb(230, 115, 0)',
+    'rgb(255, 191, 0)'
 ]
 
 fig_options = dict(
@@ -19,7 +19,7 @@ fig_options = dict(
     columnLabels=None, rowLabels=None,
     hideLabels=['row'],
     colorThreshold=dict(row=9, col=35),
-    height=650, width=650,
+    height=650, width=800,
     colorMap=[
         [0.0, colorPalette[0]],
         [0.5, colorPalette[1]],
@@ -58,6 +58,13 @@ _, _, initialRows, initialCols = geneExpressionReader.parse_tsv(
 initialRows = initialRows[:10]
 
 
+def header_colors():
+    return {
+        'bg_color': '#3e0f2e',
+        'font_color': 'white'
+    }
+
+
 def description():
     return 'Display hierarchical clustering and a heatmap with this clustergram. \
     Perfect for visualization of gene expression data.'
@@ -66,12 +73,12 @@ def description():
 def layout():
     return html.Div(id='clustergram-body', children=[
 
+        
         html.Div(
             id='clustergram-wrapper',
-            children=[
-            ]
         ),
 
+        
         html.Div(
             id='clustergram-options', children=[
                 html.Div(
@@ -85,13 +92,6 @@ def layout():
                             filename=initialFile
                         )
                     ],
-                    style={
-                        'border': 'dotted 2px white',
-                        'height': '50px',
-                        'width': '230px',
-                        'border-radius': '5px',
-                        'padding': '10px'
-                    }
                 ),
                 html.Hr(),
 
@@ -171,14 +171,14 @@ def layout():
                             value=''
                         ),
                         dcc.Input(
-                            id='annotation',
-                            placeholder='annotation',
+                            id='color',
+                            placeholder='color',
                             type='text',
                             value=''
                         ),
                         dcc.Input(
-                            id='color',
-                            placeholder='color',
+                            id='annotation',
+                            placeholder='annotation',
                             type='text',
                             value=''
                         ),

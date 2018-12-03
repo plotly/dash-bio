@@ -3,7 +3,7 @@
     top: 0px;
     left: 0px;
     margin: 0px;
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
     font-family: Helvetica, sans-serif;
     background:#000000;
@@ -12,81 +12,139 @@
     color: #dddddd;
 }
 
-#clustergram-options::-webkit-scrollbar {
-	width: 2px;
-	background-color: #000;
-    }
-
-#clustergram-options::-webkit-scrollbar-thumb {
-	background: #ddd; 
-    }
-
-#clustergram-header {
-    width: calc(100% - 40px);
-    height:auto;
-    position: static;
-    margin-top:0px;
-    margin-left:0px;
-    font-size:28pt;
-    padding: 10px;
-    background:blue;
-    color:#ffffff;
+#clustergram-options::-webkit-scrollbar { 
+    width: 2px;
+    background-color: #3e0f2e;
+    margin-right:5px;
 }
 
+#clustergram-options::-webkit-scrollbar-thumb {
+    background: #99003d;
+    margin-right:5px;
+}
+
+#clustergram-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+
 #clustergram-options {
-    width: 500px;
+    width: 20%;
+    min-width:75px;
     position: relative;
     float:left;
-    top: 10px; 
-    border: solid 2px white;
-    border-radius: 5px;
+    border: solid 1px #3e0f2e;
     padding: 20px;
-    max-height:300px;
-    overflow:scroll;
-    font-size: 10pt !important; 
+    margin-top:50px;
+    margin-left:20px;
+    margin-bottom:50px;
+    height: 500px;
+    overflow-y:scroll;
+    font-size: 10pt !important;
+    border-radius: 5px;
 }
 
 #clustergram-wrapper {
     height: 600px;
-    width:600px;
-    float:left;
+    width: 100%;
+    max-width:800px; 
+    float:right;
     padding: 0px;
-    margin: 0px; 
+    overflow-x: scroll;
+    margin: 0px;
 }
 #clustergram-body .Select, #clustergram-body .Select-control, #clustergram-body input, #clustergram-body .Select-menu-outer, #clustergram-body .Select-value-label {
     background-color: black !important;
     color: white !important;
+    border-color: #3e0f2e;
 }
 #clustergram-file-upload-container {
-    width: 450px !important;
-    margin-left: 10px !important;
+    width: 80% !important;
+    margin-left: 5%; 
     margin-top: 20px; 
-    height:20px !important; 
 }
 #clustergram-body .Select-control {
-    width: 450px;
-    margin-left: -100px;
+    width: 100%;
 }
 
 #clustergram-body .Select, #clustergram-body input {
-    width: 225px;
+    width: 100%;
     margin:auto;
 }
-#clustergram-body button {
+#clustergram-body #submit-group-marker, #clustergram-body #remove-all-group-markers {
     float: left;
-    width:110px;
-    margin: 6px;
+    font-size:8pt !important;
+    padding: 0px;
+    margin-top: 10px;
+    color: white;
+    font-weight: 100;
+    border-color: #99003d; 
+    text-align: center; 
+    width:48% !important;
+    transition-duration: 500ms;
+}
+
+
+#clustergram-body #submit-group-marker:hover, #clustergram-body #remove-all-group-markers:hover {
+    border-color: white;
+}
+
+#clustergram-body #submit-group-marker {
+    margin-right:2%;
+}
+#clustergram-body #remove-all-group-markers {
+    margin-left: 2%;
+}
+
+#clustergram-body #group-number, #clustergram-body #color {
+    width: 48% !important;
+}
+#clustergram-body #group-number {
+    margin-right: 2% !important;
+}
+#clustergram-body #color {
+    margin-left: 2% !important;
 }
 #clustergram-body input {
     float:left;
-    width: 70px !important;
-    margin: 6px !important;
+    width: 100%; 
+    margin: 0px; 
+    margin-top:5px !important; 
 }
 #clustergram-info {
-    margin-top: 20px;
+    margin-top: 50px;
+    margin-left: 20px;
+    margin-bottom:50px;
     float: left;
-    width: 500px;
+    width: calc(75% - 100px);
     border-radius: 5px;
     padding: 20px; 
-    border: 1px solid white;
+    border: 1px solid #3e0f2e;
 }
+
+#clustergram-file-upload-container{
+    border: dotted 1px #99003d; 
+    height: 50px;
+    width: 80%;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#clustergram-body .Select-value {
+    border-color: #320f2e;
+}
+
+#clustergram-body .Select-value-icon {
+    color: #99003d;
+    border-right: 1px solid #320f2e; 
+}
+
+#clustergram-body .rc-slider-track {
+    background-color: #99003d;
+}
+
+#clustergram-body .rc-slider-handle {
+    border: solid 2px #320f2e;
+    background-color: #99003d;
+}
+
