@@ -88,11 +88,16 @@ def demo_app_desc(name):
 def demo_app_header_colors(name):
     ''' Returns the colors of the header specified in the app, if any. '''
     try:
-        return apps[name].headerColors()
+        return apps[name].header_colors()
     except AttributeError:
         return {}
 
 
+def demo_app_github_url(name):
+    ''' Returns the link with the code for the demo app. ''' 
+    return name
+
+    
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == '/{}'.format(DASH_APP_NAME) \
@@ -112,7 +117,7 @@ def display_app(pathname):
                                 ]),
                                 html.Div(className='gallery-app-desc', children=[
                                     demo_app_desc(name)
-                                ]),
+                                ])
                             ])
                         ],
                         href="/{}/{}".format(
@@ -133,6 +138,7 @@ def display_app(pathname):
                         children=app_page_layout(
                             apps[app_name].layout(),
                             app_title=demo_app_name(app_name),
+                            app_github_url=demo_app_github_url(app_name),
                             **demo_app_header_colors(app_name)
                         ))
     else:
