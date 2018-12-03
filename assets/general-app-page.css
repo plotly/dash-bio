@@ -21,8 +21,26 @@
     float: left;
     padding: 10px;
     padding-bottom: 0px;
+    transition-duration:500ms;
+}
+
+#app-page-header > a > img:hover {
+    filter:brightness(2.00); 
 }
 
 #app-page-header h2 {
     font-size: 34pt;
+    display: inline-block;
+}
+
+#app-page-header #gh-link > img {
+    height: 50px;
+    float:right;
+    margin-top: 15px;
+    margin-right: 10px;
+    transition-duration:500ms;
+}
+
+#app-page-header #gh-link > img:hover {
+    -webkit-filter:invert(100%);
 }
