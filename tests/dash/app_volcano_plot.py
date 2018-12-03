@@ -43,6 +43,14 @@ def description():
     experiments with this volcano plot.'
 
 
+def header_colors():
+    return {
+        'bg_color': '#19d3f3',
+        'font_color': '#2a3f5f',
+        'light_logo': False
+    }
+
+
 def layout():
 
     return html.Div(
