@@ -50,6 +50,8 @@ app.layout = html.Div(
 
 
 def demo_app_img_src(name):
+    ''' Returns the base-64 encoded image corresponding
+        to the specified app.'''
     pic_fname = './tests/dash/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
@@ -64,10 +66,13 @@ def demo_app_img_src(name):
 
 
 def demo_app_name(name):
+    ''' Returns a capitalized title for the app, with "Dash"
+        in front.'''
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
 
 def demo_app_desc(name):
+    ''' Returns the content of the description specified in the app. '''
     desc = ''
     try:
         desc = apps[name].description()
