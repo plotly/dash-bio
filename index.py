@@ -53,7 +53,9 @@ app.layout = html.Div(
 )
 
 
-def demoAppImgSrc(name):
+def demo_app_img_src(name):
+    ''' Returns the base-64 encoded image corresponding
+        to the specified app.'''
     pic_fname = './tests/dash/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
@@ -67,11 +69,14 @@ def demoAppImgSrc(name):
                 open('./assets/dashbio_logo.png', 'rb').read()).decode())
 
 
-def demoAppName(name):
+def demo_app_name(name):
+    ''' Returns a capitalized title for the app, with "Dash"
+        in front.'''
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
 
-def demoAppDesc(name):
+def demo_app_desc(name):
+    ''' Returns the content of the description specified in the app. '''
     desc = ''
     try:
         desc = apps[name].description()
@@ -80,13 +85,19 @@ def demoAppDesc(name):
     return desc
 
 
-def demoAppHeaderColors(name):
+def demo_app_header_colors(name):
+    ''' Returns the colors of the header specified in the app, if any. '''
     try:
-        return apps[name].headerColors()
+        return apps[name].header_colors()
     except AttributeError:
         return {}
 
 
+def demo_app_github_url(name):
+    ''' Returns the link with the code for the demo app. ''' 
+    return name
+
+    
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == '/{}'.format(DASH_APP_NAME) \
@@ -99,14 +110,14 @@ def display_app(pathname):
                     dcc.Link(
                         children=[
                             html.Img(className='gallery-app-img',
-                                     src=demoAppImgSrc(name)),
+                                     src=demo_app_img_src(name)),
                             html.Div(className='gallery-app-info', children=[
                                 html.Div(className='gallery-app-name', children=[
-                                    demoAppName(name)
+                                    demo_app_name(name)
                                 ]),
                                 html.Div(className='gallery-app-desc', children=[
-                                    demoAppDesc(name)
-                                ]),
+                                    demo_app_desc(name)
+                                ])
                             ])
                         ],
                         href="/{}/{}".format(
@@ -126,8 +137,9 @@ def display_app(pathname):
         return html.Div(id="waitfor",
                         children=app_page_layout(
                             apps[app_name].layout(),
-                            app_title=demoAppName(app_name),
-                            **demoAppHeaderColors(app_name)
+                            app_title=demo_app_name(app_name),
+                            app_github_url=demo_app_github_url(app_name),
+                            **demo_app_header_colors(app_name)
                         ))
     else:
         return """
