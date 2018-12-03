@@ -85,7 +85,8 @@ def demo_app_desc(name):
     return desc
 
 
-def demoAppHeaderColors(name):
+def demo_app_header_colors(name):
+    ''' Returns the colors of the header specified in the app, if any. '''
     try:
         return apps[name].headerColors()
     except AttributeError:
@@ -131,8 +132,8 @@ def display_app(pathname):
         return html.Div(id="waitfor",
                         children=app_page_layout(
                             apps[app_name].layout(),
-                            app_title=demoAppName(app_name),
-                            **demoAppHeaderColors(app_name)
+                            app_title=demo_app_name(app_name),
+                            **demo_app_header_colors(app_name)
                         ))
     else:
         return """
