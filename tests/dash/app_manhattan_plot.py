@@ -22,6 +22,14 @@ def description():
     Perfect to visualize genome wide association studies (GWAS).'
 
 
+def header_colors():
+    return {
+        'bg_color': '#0D76BF',
+        'font_color': '#C8D4E3',
+        'light_logo': True
+    }
+
+
 def layout():
     return html.Div(
         id='mhp-page-content',
