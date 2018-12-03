@@ -13,7 +13,7 @@
 .needle-tabs {
     margin-top: 5px;
     max-height: 90vh;
-    overflow-y: auto;
+    overflow-y: visible;
 }
 
 .needle-load-option-div {

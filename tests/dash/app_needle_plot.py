@@ -25,6 +25,7 @@ DEMO_DATA = [
     {'mutData': 'needle_ATRX.json', 'label': 'ATRX'},
 ]
 
+
 # Values of a the load dataset dropdown
 DEMO_KEY = 'demo'
 FILE_KEY = 'file'
@@ -86,6 +87,14 @@ DOMAIN_COLORS = [
 def description():
     return 'Display gene mutation of the genome thanks to this needle plot. \
     Also known under the lollipop plot name.'
+
+
+def header_colors():
+    return {
+        'bg_color': '#00cc96',
+        'font_color': '#DFE8F3',
+        'light_logo': False
+    }
 
 
 def layout():
