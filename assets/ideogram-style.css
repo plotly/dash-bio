@@ -18,16 +18,26 @@
 }
 
 .ideogram-column {
-    max-height: 78vh;
+    padding-left: 0.5%;
+    max-height: 83vh;
     overflow-y: auto;
 }
 
 .ideogram-custom {
-    max-height: 78vh;
+    max-height: 83vh;
     overflow-y: auto;
     position: relative;
 }
 
 .ideogram-column-content {
     width: 100%;
+}
+
+.ideogram-databox-parameters {
+    border: 1px solid #D1D1D1;
+    border-radius: 4px;
+    margin-top: 5%;
+    padding-left: 4%;
+    padding-top: 3%;
+    padding-bottom: 3%;
 }
