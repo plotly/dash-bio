@@ -356,7 +356,8 @@ class _Clustergram(object):
                 [{}, {'colspan': 2}, None, {}]
             ],
             vertical_spacing=0,
-            horizontal_spacing=0
+            horizontal_spacing=0,
+            print_grid=False
         )
 
         fig['layout']['hovermode'] = 'closest'
