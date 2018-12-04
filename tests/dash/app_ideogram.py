@@ -15,8 +15,8 @@ def description():
 
 def header_colors():
     return {
-        'bg_color':'#506784',
-        'font_color':'#000',
+        'bg_color':'#A2B1C6',
+        'font_color':'#FFF',
         'light_logo': True
     }
     
@@ -384,21 +384,21 @@ def layout():
                                             html.Span('',
                                                       id="brush-print-start",
                                                       style={
-                                                          "color": "#377eb8"}
+                                                          "color": "#0D76BF"}
                                                       ),
                                             html.Br(),
                                             'Extent: ',
                                             html.Span('',
                                                       id="brush-print-extent",
                                                       style={
-                                                          "color": "#377eb8"}
+                                                          "color": "#0D76BF"}
                                                       ),
                                             html.Br(),
                                             'End: ',
                                             html.Span('',
                                                       id="brush-print-end",
                                                       style={
-                                                          "color": "#377eb8"}
+                                                          "color": "#0D76BF"}
                                                       ),
                                         ], className='ideogram-databox-parameters'
                                     )
@@ -499,7 +499,7 @@ def layout():
                                                     html.Span('None',
                                                               id="annote-data",
                                                               style={
-                                                                  "color": "#377eb8"}
+                                                                  "color": "#0D76BF"}
                                                               ),
                                                 ], className='ideogram-databox-parameters'
                                             ),
