@@ -46,16 +46,17 @@ fig_options = dict(
         'axis': 1
     }
 )
-computedTraces = None
 
 # initialize app with some data
 initialFile = './tests/dash/sample_data/E-GEOD-38612-query-results.tpms.tsv'
+
 _, _, initialRows, initialCols = geneExpressionReader.parse_tsv(
     filepath=initialFile,
     rowLabelsSource='Gene Name'
 )
 # limit the number of initial selected rows for faster loading
 initialRows = initialRows[:10]
+
 
 
 def header_colors():
@@ -227,12 +228,23 @@ def layout():
 
         dcc.Store(
             id='group-markers'
+        ),
+
+        html.Div(
+            id='test'
         )
     ])
 
 
 def callbacks(app):
 
+    @app.callback(
+        Output('test', 'children'),
+        [Input('computed-traces', 'modified_timestamp')]
+    )
+    def test(ts):
+        return ts
+    
     @app.callback(
         Output('data-options-storage', 'data'),
         [Input('file-upload', 'contents'),
@@ -249,14 +261,19 @@ def callbacks(app):
             rowLabelsSource, clusterBy,
             rowThresh, colThresh,
             selRows, selCols
-    ):    
+    ):
+        print('store_file_data')
         if (contents is None and filename is not None):
+            print('loading default data')
             data, desc, rowOptions, colOptions = \
                 geneExpressionReader.parse_tsv(
                     filepath=filename,
-                    rowLabelsSource='Gene Name'
+                    rowLabelsSource='Gene Name',
+                    rows=selRows,
+                    columns=selCols
                 )
         else:
+            print('loading data from uploaded file')
             content_type, content_string = contents.split('.')
             decoded = base64.b64decode(content_string).decode('UTF-8')
             data, desc, rowOptions, colOptions = \
@@ -266,7 +283,6 @@ def callbacks(app):
                     rows=selRows,
                     columns=selCols
                 )
-            
         return {
             'meta': {
                 'desc': desc,
@@ -275,7 +291,7 @@ def callbacks(app):
             }, 
             'fig_options': {
                 'data': data,
-                'cluster': 'all' if len(clusterBy > 1) else clusterBy[0],
+                'cluster': 'all' if len(clusterBy) > 1 else clusterBy[0],
                 'colorThreshold': {'row': rowThresh,
                                    'col': colThresh},
                 'rowLabels': selRows,
@@ -312,27 +328,25 @@ def callbacks(app):
         }
 
     @app.callback(
-        Output('trace-storage', 'data'),
-        [Input('data-storage', 'modified-timestamp')],
-        state=[State('data-storage', 'data')]
+        Output('computed-traces', 'data'),
+        [Input('data-options-storage', 'modified_timestamp')],
+        state=[State('data-options-storage', 'data')]
     )
     def compute_traces_once(
-            fullData
+            _, fullData
     ):
-        try: 
-            (fig, computed_traces) = dash_bio.Clustergram(
-                **fullData['fig_options']
-            )
-            return {'fig': fig,
-                    'computed_traces': computed_traces}
-        except Exception:
-            return None
+        print('compute_traces_once')
 
+        (fig, computed_traces) = dash_bio.Clustergram(
+            **fullData['fig_options']
+        )
+        return {'fig': fig,
+                'computed_traces': computed_traces}
+        
     @app.callback(
         Output('group-markers', 'data'), 
         [Input('submit-group-marker', 'n_clicks'),
-         Input('remove-all-group-markers', 'n_clicks'),
-         Input('trace_storage', 'children')],
+         Input('remove-all-group-markers', 'n_clicks')],
         state=[State('row-or-col-group', 'value'),
                State('group-number', 'value'),
                State('annotation', 'value'),
@@ -342,11 +356,12 @@ def callbacks(app):
                State('group-markers', 'data')]
     )
     def add_marker(
-            submit_nclicks,  removeAll_nclicks, dendro_traces,
-            groupMarkers, rowOrCol, groupNum, annotation, color,
+            submit_nclicks,  removeAll_nclicks,
+            rowOrCol, groupNum, annotation, color,
             submit_time, remove_time,
             current_group_markers
     ):
+        print('add_marker')
 
         # remove all group markers, if necessary, or
         # initialize the group markers data
@@ -378,7 +393,7 @@ def callbacks(app):
         [Input('data-options-storage', 'modified_timestamp')],
         state=[State('data-options-storage', 'data')]
     )
-    def update_description_info(data):
+    def update_description_info(_, data):
         infoContent = [html.H3('Information')]
         try: 
             for key in data['meta']['desc']:
@@ -393,16 +408,18 @@ def callbacks(app):
     @app.callback(
         Output('clustergram-wrapper', 'children'),
         [Input('group-markers', 'modified_timestamp'),
-         Input('trace-storage', 'modified_timestamp')],
+         Input('computed-traces', 'modified_timestamp')],
         state=[State('group-markers', 'data'),
-               State('trace-storage', 'data'),
-               State('fig-options', 'data')]
+               State('computed-traces', 'data'),
+               State('data-options-storage', 'data')]
     )
     def display_clustergram(
             gm_timestamp, ts_timestamp,
             group_markers, trace_storage,
-            fig_options
+            data_options_storage
     ):
+        print(trace_storage['computed_traces'])
+        print('display-clustergram')
         if(trace_storage is None):
             return html.Div(
                 'No data have been selected to display. Please upload a file, \
@@ -413,7 +430,45 @@ def callbacks(app):
                 }
             )
         
+        else:
+            fig_options = data_options_storage['fig_options']
+
+            fig_options['rowGroupMarker'] = group_markers['rowGroupMarker']
+            fig_options['colGroupMarker'] = group_markers['colGroupMarker']
+
+            try:
+                fig, _ = dash_bio.Clustergram(
+                    computed_traces=trace_storage['computed_traces'],
+                    **fig_options
+                )
+            except ValueError: 
+                return []
+                            
+            return dcc.Graph(
+                id='clustergram',
+                figure=fig
+            )
+
+    @app.callback(
+        Output('selected-rows', 'options'),
+        [Input('data-options-storage', 'modified_timestamp')],
+        state=[State('data-options-storage', 'data')]
+    )
+    def update_row_options(_, data):
+        print('update-row-options')
+        return [{'label': r, 'value': r} for r in data['meta']['rowOptions']]
     
+    @app.callback(
+        Output('selected-columns', 'options'),
+        [Input('data-options-storage', 'modified_timestamp')],
+        state=[State('data-options-storage', 'data')]
+    )
+    def update_col_options(_, data):
+        print('update-col-options')
+        return [{'label': r, 'value': r} for r in data['meta']['colOptions']]
+    
+
+
 '''
  @app.callback(
         Output('selected-rows', 'options'),
