@@ -47,6 +47,8 @@ fig_options = dict(
     }
 )
 
+computedTraces=None
+
 # initialize app with some data
 initialFile = './tests/dash/sample_data/E-GEOD-38612-query-results.tpms.tsv'
 
@@ -56,7 +58,6 @@ _, _, initialRows, initialCols = geneExpressionReader.parse_tsv(
 )
 # limit the number of initial selected rows for faster loading
 initialRows = initialRows[:10]
-
 
 
 def header_colors():
@@ -239,13 +240,6 @@ def layout():
 def callbacks(app):
 
     @app.callback(
-        Output('test', 'children'),
-        [Input('computed-traces', 'modified_timestamp')]
-    )
-    def test(ts):
-        return ts
-    
-    @app.callback(
         Output('data-options-storage', 'data'),
         [Input('file-upload', 'contents'),
          Input('file-upload', 'filename'),
@@ -262,9 +256,7 @@ def callbacks(app):
             rowThresh, colThresh,
             selRows, selCols
     ):
-        print('store_file_data')
         if (contents is None and filename is not None):
-            print('loading default data')
             data, desc, rowOptions, colOptions = \
                 geneExpressionReader.parse_tsv(
                     filepath=filename,
@@ -273,7 +265,6 @@ def callbacks(app):
                     columns=selCols
                 )
         else:
-            print('loading data from uploaded file')
             content_type, content_string = contents.split('.')
             decoded = base64.b64decode(content_string).decode('UTF-8')
             data, desc, rowOptions, colOptions = \
@@ -326,23 +317,7 @@ def callbacks(app):
                 }
             }
         }
-
-    @app.callback(
-        Output('computed-traces', 'data'),
-        [Input('data-options-storage', 'modified_timestamp')],
-        state=[State('data-options-storage', 'data')]
-    )
-    def compute_traces_once(
-            _, fullData
-    ):
-        print('compute_traces_once')
-
-        (fig, computed_traces) = dash_bio.Clustergram(
-            **fullData['fig_options']
-        )
-        return {'fig': fig,
-                'computed_traces': computed_traces}
-        
+ 
     @app.callback(
         Output('group-markers', 'data'), 
         [Input('submit-group-marker', 'n_clicks'),
@@ -408,7 +383,7 @@ def callbacks(app):
     @app.callback(
         Output('clustergram-wrapper', 'children'),
         [Input('group-markers', 'modified_timestamp'),
-         Input('computed-traces', 'modified_timestamp')],
+         Input('data-options-storage', 'modified_timestamp')],
         state=[State('group-markers', 'data'),
                State('computed-traces', 'data'),
                State('data-options-storage', 'data')]
@@ -418,8 +393,8 @@ def callbacks(app):
             group_markers, trace_storage,
             data_options_storage
     ):
-        print(trace_storage['computed_traces'])
-        print('display-clustergram')
+                    
+        '''
         if(trace_storage is None):
             return html.Div(
                 'No data have been selected to display. Please upload a file, \
@@ -428,22 +403,21 @@ def callbacks(app):
                     'padding': '30px',
                     'font-size': '20pt'
                 }
-            )
-        
+            )'''
+
+        if False:
+            pass
         else:
             fig_options = data_options_storage['fig_options']
 
             fig_options['rowGroupMarker'] = group_markers['rowGroupMarker']
             fig_options['colGroupMarker'] = group_markers['colGroupMarker']
 
-            try:
-                fig, _ = dash_bio.Clustergram(
-                    computed_traces=trace_storage['computed_traces'],
-                    **fig_options
-                )
-            except ValueError: 
-                return []
-                            
+            fig, _ = dash_bio.Clustergram(
+                computed_traces=None,
+                **fig_options
+            )
+                                        
             return dcc.Graph(
                 id='clustergram',
                 figure=fig
@@ -455,7 +429,6 @@ def callbacks(app):
         state=[State('data-options-storage', 'data')]
     )
     def update_row_options(_, data):
-        print('update-row-options')
         return [{'label': r, 'value': r} for r in data['meta']['rowOptions']]
     
     @app.callback(
@@ -464,7 +437,6 @@ def callbacks(app):
         state=[State('data-options-storage', 'data')]
     )
     def update_col_options(_, data):
-        print('update-col-options')
         return [{'label': r, 'value': r} for r in data['meta']['colOptions']]
     
 
