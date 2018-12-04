@@ -95,6 +95,15 @@ def layout():
                 ),
                 html.Hr(),
 
+                "Header of row labels column",
+                html.Br(),
+                dcc.Input(
+                    id='row-labels-source',
+                    type='text',
+                    placeholder='Gene Name'
+                ),
+                html.Hr(),
+                
                 "Rows to display",
                 html.Br(),
                 dcc.Dropdown(
@@ -208,21 +217,207 @@ def layout():
             children=[""]
         ),
 
-        html.Div(
-            id='trace-storage',
-            children=[],
-            style={
-                'display': 'None'
-            }
+        dcc.Store(
+            id='data-options-storage'
+        ),
+
+        dcc.Store(
+            id='computed-traces'
+        ),
+
+        dcc.Store(
+            id='group-markers'
         )
     ])
 
 
 def callbacks(app):
+
     @app.callback(
-        Output('selected-rows', 'options'),
+        Output('data-options-storage', 'data'),
         [Input('file-upload', 'contents'),
-         Input('file-upload', 'filename')]
+         Input('file-upload', 'filename'),
+         Input('row-labels-source', 'value'),
+         Input('cluster-checklist', 'value'),
+         Input('row-threshold', 'value'),
+         Input('column-threshold', 'value'),
+         Input('selected-rows', 'value'),
+         Input('selected-columns', 'value')]
+    )
+    def store_file_data(
+            contents, filename,
+            rowLabelsSource, clusterBy,
+            rowThresh, colThresh,
+            selRows, selCols
+    ):    
+        if (contents is None and filename is not None):
+            data, desc, rowOptions, colOptions = \
+                geneExpressionReader.parse_tsv(
+                    filepath=filename,
+                    rowLabelsSource='Gene Name'
+                )
+        else:
+            content_type, content_string = contents.split('.')
+            decoded = base64.b64decode(content_string).decode('UTF-8')
+            data, desc, rowOptions, colOptions = \
+                geneExpressionReader.parse_tsv(
+                    contents=decoded,
+                    rowLabelsSource=rowLabelsSource,
+                    rows=selRows,
+                    columns=selCols
+                )
+            
+        return {
+            'meta': {
+                'desc': desc,
+                'rowOptions': rowOptions,
+                'colOptions': colOptions
+            }, 
+            'fig_options': {
+                'data': data,
+                'cluster': 'all' if len(clusterBy > 1) else clusterBy[0],
+                'colorThreshold': {'row': rowThresh,
+                                   'col': colThresh},
+                'rowLabels': selRows,
+                'columnLabels': selCols,
+                'optimalLeafOrder': False,
+                'displayRatio': [0.3, 0.1],
+                'height': 650, 'width': 800,
+                'colorMap': [
+                    [0.0, colorPalette[0]],
+                    [0.5, colorPalette[1]],
+                    [1.0, colorPalette[2]]
+                ],
+                'colorList': {
+                    'row': [colorPalette[0], colorPalette[1], colorPalette[2]],
+                    'col': [colorPalette[1], colorPalette[2], colorPalette[0]],
+                    'bg': 'rgb(255,255,255)'
+                },
+                'annotationFont': {
+                    'color': 'white',
+                    'size': 10
+                },
+                'tickFont': {
+                    'color': 'rgb(200,200,200)',
+                    'size': 10
+                },
+                'symmetricValue': True,
+                'logTransform': True,
+                'imputeFunction': {
+                    'strategy': 'median',
+                    'missingValues': 'NaN',
+                    'axis': 1
+                }
+            }
+        }
+
+    @app.callback(
+        Output('trace-storage', 'data'),
+        [Input('data-storage', 'modified-timestamp')],
+        state=[State('data-storage', 'data')]
+    )
+    def compute_traces_once(
+            fullData
+    ):
+        try: 
+            (fig, computed_traces) = dash_bio.Clustergram(
+                **fullData['fig_options']
+            )
+            return {'fig': fig,
+                    'computed_traces': computed_traces}
+        except Exception:
+            return None
+
+    @app.callback(
+        Output('group-markers', 'data'), 
+        [Input('submit-group-marker', 'n_clicks'),
+         Input('remove-all-group-markers', 'n_clicks'),
+         Input('trace_storage', 'children')],
+        state=[State('row-or-col-group', 'value'),
+               State('group-number', 'value'),
+               State('annotation', 'value'),
+               State('color', 'value'),
+               State('submit-group-marker', 'n_clicks_timestamp'),
+               State('remove-all-group-markers', 'n_clicks_timestamp'),
+               State('group-markers', 'data')]
+    )
+    def add_marker(
+            submit_nclicks,  removeAll_nclicks, dendro_traces,
+            groupMarkers, rowOrCol, groupNum, annotation, color,
+            submit_time, remove_time,
+            current_group_markers
+    ):
+
+        # remove all group markers, if necessary, or
+        # initialize the group markers data
+        if(current_group_markers is None or remove_time > submit_time):
+            current_group_markers = {'rowGroupMarker': [],
+                                     'colGroupMarker': []}
+
+        if(remove_time > submit_time):
+            return current_group_markers
+            
+        else:
+            # otherwise, add the appropriate marker
+            marker = dict()
+            try:
+                marker['group'] = int(groupNum)
+                marker['annotation'] = annotation
+                marker['color'] = color
+            except ValueError:
+                pass
+            if(rowOrCol == 'row'):
+                current_group_markers['rowGroupMarker'].append(marker)
+            elif(rowOrCol == 'col'):
+                current_group_markers['colGroupMarker'].append(marker)
+
+        return current_group_markers
+
+    @app.callback(
+        Output('clustergram-info', 'children'),
+        [Input('data-options-storage', 'modified_timestamp')],
+        state=[State('data-options-storage', 'data')]
+    )
+    def update_description_info(data):
+        infoContent = [html.H3('Information')]
+        try: 
+            for key in data['meta']['desc']:
+                infoContent.append(html.P("{}: {}".format(
+                    key, data['meta']['desc'][key]
+                )))
+        except Exception:
+            infoContent.append(html.P("Awaiting information..."))
+        
+        return infoContent
+
+    @app.callback(
+        Output('clustergram-wrapper', 'children'),
+        [Input('group-markers', 'modified_timestamp'),
+         Input('trace-storage', 'modified_timestamp')],
+        state=[State('group-markers', 'data'),
+               State('trace-storage', 'data'),
+               State('fig-options', 'data')]
+    )
+    def display_clustergram(
+            gm_timestamp, ts_timestamp,
+            group_markers, trace_storage,
+            fig_options
+    ):
+        if(trace_storage is None):
+            return html.Div(
+                'No data have been selected to display. Please upload a file, \
+                then select at least two columns and two rows.',
+                style={
+                    'padding': '30px',
+                    'font-size': '20pt'
+                }
+            )
+        
+    
+'''
+ @app.callback(
+        Output('selected-rows', 'options'),
+        [Input('trace-storage', 'children')]
     )
     def change_rows_options(contents, filename):
         rowOptions = []
@@ -422,3 +617,4 @@ def callbacks(app):
             **fig_options
         )
         return ['calculated']
+'''
