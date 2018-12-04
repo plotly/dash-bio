@@ -7,22 +7,18 @@ from dash.dependencies import Input, Output
 
 import dash_bio
 
-df1 = pd.read_csv("tests/dash/sample_data/manhattan_volcano_data.csv")  # Load the data
-df2 = pd.read_csv("tests/dash/sample_data/volcano_data.csv", comment='#', header=0)
-
-
 DATASETS = {
     'SET1': {
         'label': 'Set1',
         'dataframe': None,
-        'datafile': 'tests/dash/sample_data/manhattan_volcano_data.csv',
-        'datasource': '',
+        'datafile': 'tests/dash/sample_data/volcano_data1.csv',
+        'datasource': 'ftp://ftp.ncbi.nlm.nih.gov/hapmap/genotypes/2009-01_phaseIII/plink_format/',
         'dataprops': {}
     },
     'SET2': {
         'label': 'Set2',
         'dataframe': None,
-        'datafile': 'tests/dash/sample_data/volcano_data.csv',
+        'datafile': 'tests/dash/sample_data/volcano_data2.csv',
         'datasource': 'https://doi.org/10.1371/journal.pntd.0001039.s001',
         'dataprops': dict(
             effect_size='log2_(L3i/L1)_signal_ratio',
@@ -72,6 +68,7 @@ def layout():
                     html.Div(
                         id='vp-dataset-div',
                         className='vp-horizontal-style',
+                        title='',
                         children=[
                             html.H5(
                                 children='Choose Dataset to plot :',
@@ -166,11 +163,21 @@ def callbacks(app):
             Input('vp-dataset-dropdown', 'value')
         ]
     )
-    def update_graph(u_lim, l_lim, genomic_line, datadsetd):
+    def update_graph(u_lim, l_lim, genomic_line, datadset_id):
         """update the data set of interest upon change the dashed lines value"""
         return dash_bio.VolcanoPlot(
-            DATASETS[datadsetd]['dataframe'],
+            DATASETS[datadset_id]['dataframe'],
             genomewideline_value=float(genomic_line),
             effect_size_line=[float(l_lim), float(u_lim)],
-            **DATASETS[datadsetd]['dataprops']
+            **DATASETS[datadset_id]['dataprops']
         )
+
+    @app.callback(
+        Output('vp-dataset-div', 'title'),
+        [
+            Input('vp-dataset-dropdown', 'value')
+        ]
+    )
+    def update_vp_dataset_div_hover(dataset_id):
+        """update the data set of interest upon change the dashed lines value"""
+        return DATASETS[dataset_id]['datasource']
