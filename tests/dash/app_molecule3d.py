@@ -22,8 +22,20 @@ def layout():
         ## Header container
         html.Div(id="mol3d-header",
             children=[ html.H2("Dash Molecule Visualization", 
-            )]
             ),
+            html.A(
+            html.Img(
+                src="data:image/png;base64,{}".format(
+                    base64.b64encode(
+                        open("./assets/dashbio_logo_words.png", "rb").read()
+                    ).decode()
+                )
+            ),
+            href="http://www.dash.bio",
+            ),
+            ],
+            className="mol3d-banner",
+        ),
 
         html.Div(id="mol3d-controls-container", children= [
 
@@ -50,7 +62,7 @@ def layout():
                     {'label': 'White', 'value':'#ffffff'},
                     {'label': 'Cream', 'value':'#e1dabb'},
                 ],
-                value='#e1dabb'
+                value='#ffffff'
             ),
         ],
         ),
@@ -94,10 +106,10 @@ def layout():
         html.Div(id='mol3d-output-data-upload', children=[] ),
 
         ## Dummy hidden visualization container for initializing dash_bio.DashMolecule3d
-        html.Div(id="molecule-container", 
+        html.Div(id="mol3d-dummy-container", 
             children=[dash_bio.DashMolecule3d(
                 id='mol-3d',
-                backgroundColor='#e1dabb',
+                backgroundColor='#ffffff',
                 modelData=model,
                 selectedAtomIds=[],
                 styles={},

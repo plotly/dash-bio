@@ -3,24 +3,32 @@
     padding: 5px
 }
 
-#mol3d-header {
-    width: 98%;
-    height: 60px;
-    text-align: center;
+.mol3d-banner {
+    height: 50px;
     padding: 16px;
-    background: green;
-    color: black;
+    background: rgba(66, 199, 88, 0.993);
     border-radius: 5px;
 }
 
+.mol3d-banner h2 {
+    color: black;
+    float: left;
+    height: 50px;
+}
+
+.mol3d-banner img {
+    float: right;
+    right: 10px;
+    height: 50px;
+}
+
 #mol3d-upload-container {
-    width: 99%;
     height: 50px;
     line-height: 60px;
     border-width: 1px;
     border-style: dashed;
     border-radius: 5px;
-    text-align: center;
+    text-align: left;
     margin: 3px;
     padding: 5px;
 }
@@ -55,7 +63,7 @@
 #mol3d-output-data-upload {
     position: absolute;
     width: 70%;
-    top:28%;
+    top:25%;
     bottom:10%;
     left: 30%;
     right:2px;
@@ -66,4 +74,13 @@
     height: 30%;
     left: 50%;
     top: 30%;
+}
+
+#mol3d-dummy-container {
+    position: absolute;
+    width: 70%;
+    top:25%;
+    bottom:10%;
+    left: 30%;
+    right:2px;
 }
