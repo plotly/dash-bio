@@ -96,19 +96,24 @@ def layout():
         html.Div(
             id='clustergram-options', children=[
 
+                html.Div(
+                    'View preloaded dataset:',
+                    className='clustergram-option-name'
+                ),
+                
+                html.Br(),
+                
                 dcc.Dropdown(
                     id='clustergram-datasets',
                     options=[
                         {'label': 'Initial',
                          'value': 'initial'},
-                        {'label': 'Anderson\s Iris Data',
-                         'value': 'iris'},
-                        {'label': 'Khan',
-                         'value': 'khan'} 
+                        {'label': 'Anderson\'s Iris Data',
+                         'value': 'iris'}
                     ],
                     value='initial'
                 ), 
-                
+
                 html.Div(
                     id='clustergram-file-upload-container',
                     children=[
@@ -117,15 +122,19 @@ def layout():
                             children=html.Div([
                                 "Drag and drop .tsv files or select files."
                             ])
-                        ),
-                        html.Div(
-                            id='file-upload-name'
                         )
                     ],
                 ),
-                html.Hr(),
+                html.Div(
+                    id='file-upload-name'
+                ),
 
-                "Header of row labels column",
+                html.Hr(),
+                
+                html.Div(
+                    'Header of row labels column in uploaded dataset',
+                    className='clustergram-option-name'
+                ), 
                 html.Br(),
                 dcc.Input(
                     id='row-labels-source',
@@ -134,14 +143,21 @@ def layout():
                 ),
                 html.Hr(),
                 
-                "Rows to display",
+                html.Div(
+                    'Rows to display',
+                    className='clustergram-option-name'
+                ),
                 html.Br(),
                 dcc.Dropdown(
                     id='selected-rows',
                     multi=True,
                     value=[]
                 ),
-                "Columns to display",
+                html.Br(), 
+                html.Div(
+                    'Columns to display',
+                    className='clustergram-option-name'
+                ), 
                 html.Br(),
                 dcc.Dropdown(
                     id='selected-columns',
@@ -150,9 +166,11 @@ def layout():
                 ),
                 html.Hr(),
 
-                "Cluster by:",
+                html.Div(
+                    'Cluster by:',
+                    className='clustergram-option-name'
+                ), 
                 html.Br(),
-
                 dcc.Dropdown(
                     id='cluster-checklist',
                     options=[
@@ -163,13 +181,32 @@ def layout():
                     multi=True
                 ),
 
+                html.Br(),
+                html.Div(
+                    'Hide labels:',
+                    className='clustergram-option-name'
+                ),
+                dcc.Dropdown(
+                    id='hide-labels', 
+                    options=[
+                        {'label': 'Row', 'value': 'row'},
+                        {'label': 'Column', 'value': 'col'}
+                    ],
+                    multi=True,
+                    value=['row']
+                ), 
+                
                 html.Hr(),
 
-                "Change color threshold",
+                html.Div(
+                    'Change color threshold',
+                    className='clustergram-option-name'
+                ), 
                 html.Br(),
                 html.Div(
                     id='threshold-wrapper',
                     children=[
+                        'Column: ', 
                         dcc.Slider(
                             id='column-threshold',
                             min=0,
@@ -178,6 +215,7 @@ def layout():
                             value=10
                         ),
                         html.Br(),
+                        'Row: ', 
                         dcc.Slider(
                             id='row-threshold',
                             min=0,
@@ -190,7 +228,11 @@ def layout():
 
                 html.Hr(),
 
-                "Add or remove all group markers:",
+                html.Div(
+                    'Add or remove all group markers:',
+                    className='clustergram-option-name'
+                ),
+                
                 html.Br(),
 
                 html.Div(
@@ -271,15 +313,16 @@ def layout():
 
 def callbacks(app):
 
-    # this works
     @app.callback(
         Output('data-meta-storage', 'data'), 
         [Input('file-upload', 'contents'),
          Input('file-upload', 'filename'),
-         Input('clustergram-datasets', 'value')]
+         Input('clustergram-datasets', 'value')],
+        state=[State('row-labels-source', 'value')]
     )
     def store_file_meta_data(
-            contents, filename, dataset_name
+            contents, filename, dataset_name,
+            rowLabelsSource
     ):
         if(dataset_name is not None):
             dataset = datasets[dataset_name]
@@ -294,10 +337,13 @@ def callbacks(app):
         elif(contents is not None):
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
+            if(rowLabelsSource is None):
+                rowLabelsSource = 'Gene Name'
+                
             _, desc, rowOptions, colOptions = \
                 geneExpressionReader.parse_tsv(
                     contents=decoded,
-                    rowLabelsSource='Gene Name'
+                    rowLabelsSource=rowLabelsSource
                 )
         else:
             desc = '',
@@ -313,17 +359,18 @@ def callbacks(app):
     
     @app.callback(
         Output('fig-options-storage', 'data'),
-        [Input('row-labels-source', 'value'),
-         Input('cluster-checklist', 'value'),
+        [Input('cluster-checklist', 'value'),
          Input('row-threshold', 'value'),
          Input('column-threshold', 'value'),
          Input('selected-rows', 'value'),
-         Input('selected-columns', 'value')]
+         Input('selected-columns', 'value'),
+         Input('hide-labels', 'value')]
     )
     def store_fig_options(
-            rowLabelsSource, clusterBy,
+            clusterBy,
             rowThresh, colThresh,
-            selRows, selCols
+            selRows, selCols,
+            hideLabels
     ):
         return {
             'cluster': 'all' if len(clusterBy) > 1 else clusterBy[0],
@@ -332,6 +379,7 @@ def callbacks(app):
             'rowLabels': selRows,
             'columnLabels': selCols,
             'optimalLeafOrder': False,
+            'hideLabels': hideLabels,
             'displayRatio': [0.3, 0.1],
             'height': 650, 'width': 800,
             'colorMap': [
@@ -438,15 +486,16 @@ def callbacks(app):
         state=[State('fig-options-storage', 'data'),
                State('clustergram-datasets', 'value'),
                State('file-upload', 'contents'),
-               State('file-upload', 'filename')]
+               State('file-upload', 'filename'),
+               State('row-labels-source', 'value')]
     )
     def display_clustergram(
             _, group_markers,
             selRows, selCols,
             fig_options,
             dataset_name,
-            contents, filename
-            
+            contents, filename,
+            rowLabelsSource
     ):
         if(len(selRows) < 2 or len(selCols) < 2 or fig_options is None): 
             return html.Div(
@@ -474,11 +523,14 @@ def callbacks(app):
         elif(contents is not None and dataset_name is None):
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
-    
+            
+            if rowLabelsSource is None:
+                rowLabelsSource = 'Gene Name'
+                
             data, _, _, _ = \
                 geneExpressionReader.parse_tsv(
                     contents=decoded,
-                    rowLabelsSource='Gene Name',
+                    rowLabelsSource=rowLabelsSource,
                     rows=selRows,
                     columns=selCols
                 )
@@ -559,17 +611,20 @@ def callbacks(app):
     @app.callback(
         Output('file-upload-name', 'children'),
         [Input('file-upload', 'contents'),
-         Input('file-upload', 'filename')],
-        state=[State('clustergram-datasets', 'value')]
+         Input('file-upload', 'filename'),
+         Input('clustergram-datasets', 'value')]
     )
     def show_uploaded_filename(contents, filename, dataset_name):
         if filename is not None and dataset_name is not None:
-            return 'Please ensure that the "preloaded datasets" \
-            dropdown is cleared to show data from the file {}.'.format(
-                filename
-            )
+            return ['Please ensure that the "preloaded datasets" \
+            dropdown is cleared to show data from the file:',
+                    html.Br(),
+                    filename]
+
         if filename is not None: 
-            return 'Successfully uploaded file {}.'.format(filename)
+            return ['Successfully uploaded file: ',
+                    html.Br(),
+                    filename]
         return ''
 
     # clear preloaded dataset if there is a file upload(

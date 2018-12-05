@@ -126,12 +126,22 @@
 
 #clustergram-file-upload-container{
     border: dotted 1px #99003d; 
-    height: 50px;
     width: 80%;
     border-radius: 5px;
     padding: 10px;
 }
 
+#clustergram-body #file-upload-name {
+    display: block;
+    width: 80%;
+    margin-left: 10%; 
+    margin-top: 10px;
+    font-size: 10px; 
+}
+.clustergram-option-name {
+    text-align: center;
+    font-size: 14pt;
+}
 #clustergram-body .Select-value {
     border-color: #320f2e;
 }
