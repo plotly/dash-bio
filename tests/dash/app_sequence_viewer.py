@@ -94,7 +94,11 @@ def layout():
                         {'label': 'keratin',
                          'value': './tests/dash/sample_data/P04264.fasta.txt'},
                         {'label': 'albumin',
-                         'value': './tests/dash/sample_data/NX_P02768.fasta.txt'}
+                         'value': './tests/dash/sample_data/NX_P02768.fasta.txt'},
+                        {'label': 'myosin (gene)',
+                         'value': './tests/dash/sample_data/myosin.fasta.txt'},
+                        {'label': 'HflX (gene)',
+                         'value': './tests/dash/sample_data/hflx.fasta.txt'}
                     ],
                     value='./tests/dash/sample_data/P01308.fasta.txt'
                 ),
@@ -170,7 +174,8 @@ def layout():
                     dcc.Input(
                         id='coverage-tooltip',
                         type='text',
-                        value=''
+                        value='',
+                        placeholder='hover text'
                     ),
                     dcc.Checklist(
                         id='coverage-underscore',
