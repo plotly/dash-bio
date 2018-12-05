@@ -122,10 +122,6 @@ def layout():
                                                                 id="circos-selector",
                                                                 options=[
                                                                     {
-                                                                        "label": "Custom",
-                                                                        "value": "custom",
-                                                                    },
-                                                                    {
                                                                         "label": "Heatmap",
                                                                         "value": "heatmap",
                                                                     },
