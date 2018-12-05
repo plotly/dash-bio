@@ -9,7 +9,6 @@ import base64
 with open("tests/dash/sample_data/human_ideogram_data.json", "r") as human_data:
     human_data = json.load(human_data)
 
-
 def description():
     return "Compare, and analyze chromosome bands with the Dash Ideogram."
 
@@ -37,13 +36,15 @@ def chromosome_div(
                 placeholder="%s StartOne",
                 type="number",
                 value=startone,
+                className="ideogram-homology-inputs"
             ),
             html.P("%s Stop-one" % name_tag),
             dcc.Input(
                 id="%s-stopone" % id_tag,
-                placeholder="Enter chromsomes",
+                placeholder="Enter chromoomes",
                 type="number",
                 value=stopone,
+                className="ideogram-homology-inputs"
             ),
             html.P("%s Start-two" % name_tag),
             dcc.Input(
@@ -51,6 +52,7 @@ def chromosome_div(
                 placeholder="%s Starttwo" % name_tag,
                 type="number",
                 value=starttwo,
+                className="ideogram-homology-inputs"
             ),
             html.P("%s Stop-two" % name_tag),
             dcc.Input(
@@ -58,6 +60,7 @@ def chromosome_div(
                 placeholder="Enter chromsomes",
                 type="number",
                 value=stoptwo,
+                className="ideogram-homology-inputs"
             ),
         ]
     )
@@ -307,6 +310,7 @@ def layout():
                                                 placeholder="Ex: 1,2",
                                                 type="text",
                                                 value="",
+                                                className="ideogram-homology-inputs"
                                             ),
                                             chromosome_div(
                                                 id_tag="chrone",
@@ -535,6 +539,7 @@ def layout():
 
 
 def callbacks(app):
+    ### Brush callbacks
     @app.callback(Output("brush-print-start", "children"), [Input("brush-ideo", "brushData")])
     def brush_data_start(brush_data):
         if brush_data != None:
@@ -552,7 +557,8 @@ def callbacks(app):
         if brush_data != None:
             return brush_data["extent"]
         return
-
+    
+    ### Custom callbacks
     # Organism
 
     @app.callback(
@@ -800,7 +806,7 @@ def callbacks(app):
                 "stop": [stopOneA, stopTwoA],
             },
         }
-
+    ### Brush Callbacks
     @app.callback(Output("brush-ideo", "chromosomes"), [Input("chr-brush", "value")])
     def ideo_select(value):
         if value is not "":
@@ -815,7 +821,8 @@ def callbacks(app):
             return value
         else:
             return "chr1:1-10000000"
-
+    
+    ### Event callbacks
     # Color Change onRotate
     @app.callback(
         Output("ideogram-options", "style"),

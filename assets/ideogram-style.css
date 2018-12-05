@@ -33,6 +33,10 @@
     width: 100%;
 }
 
+.ideogram-homology-inputs {
+    max-width: 100%;
+}
+
 .ideogram-databox-parameters {
     border: 1px solid #D1D1D1;
     border-radius: 4px;
