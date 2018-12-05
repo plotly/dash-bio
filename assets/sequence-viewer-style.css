@@ -11,12 +11,30 @@
     background-color: #F3F6FA; 
     font-family: 'Open Sans'; 
 }
+
 #seq-view-controls-container input[type=text]{
-    width: 80%; 
+    width: 80%;
+    margin-left:auto;
 }
-#seq-view-body ::-webkit-scrollbar{
+#coverage-submit, #coverage-reset {
+    width: 45%;
+    padding: 0px;
+    font-size: 7pt;
+    margin-top:5px; 
+}
+#coverage-submit {
+    margin-right: 5%;
+}
+#coverage-reset {
+    margin-left: 5%;
+}
+
+#seq-view-body ::-webkit-scrollbar {
     width: 0px;
-    height: 0px;
+    height: 0px; 
+}
+#seq-view-number-entries {
+    text-align: center;
 }
 #seq-view-header {
     width: calc(100% - 40px);
@@ -34,6 +52,14 @@
     height: 50px;
     margin-right: 50px; 
 }
+#translation-alphabet {
+    text-align: left;
+    margin-left:20%;
+}
+#sel-color {
+    width: 80%;
+    margin-left: 10%; 
+}
 
 .inputSearchSeq {
     font-size: 14px;
@@ -43,9 +69,17 @@
     border: solid 1px grey;
     margin-left: 10px;
 }
-
+.seq-view-controls-name{
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px; 
+}
 .seq-view-info-element {
     font-weight: bold;
+}
+#preloaded-sequences, #fasta-entry-dropdown {
+    width: 120px;
+    padding-left: 25px; 
 }
 
 #seq-view-fasta-upload{
@@ -71,7 +105,7 @@
 }
 
 #seq-view-controls-container {
-    width:150px;
+    width:175px;
     height: 500px;
     overflow: scroll;
     word-wrap: break-word;
@@ -85,12 +119,19 @@
 }
 
 #seq-view-sel-slider-container {
-    width: 100px;
+    width: 80%;
     padding: 10px;
     border: solid 1px #636efa; 
     border-radius: 5px;
-    margin: 10px;
+    margin: calc(10% - 10px); 
     margin-top:30px;
+    text-align:center;
+    padding:10px;
+}
+#seq-view-body .rc-slider {
+    width: 80%;
+    margin: 10px;
+    margin-left: 10%;
 }
 		   
 #seq-view-info-container {
@@ -104,4 +145,26 @@
     border-radius: 5px;
     padding: 20px;
     display: inline-block;
+}
+
+#preloaded-and-uploaded-alert {
+    width:80%;
+    border: solid 1px #636efa;
+    border-radius: 5px;
+    margin-left: calc(10% - 20px);
+    margin-bottom: 30px; 
+    padding: 20px; 
+}
+
+#cov-options {
+    width: 80%;
+    margin-top:20px; 
+    margin-left: calc(10% - 5px);
+    border: solid 1px #6363fa;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+}
+#selection-or-coverage {
+    margin-left: 10px;
 }

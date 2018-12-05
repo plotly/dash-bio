@@ -78,12 +78,14 @@ def layout():
                 )
             ]
         ),
-
         html.Div(
             id='seq-view-controls-container',
             children=[
-                
-                "Example sequences:",
+
+                html.Div(
+                    "Preloaded sequences",
+                    className='seq-view-controls-name'
+                ),
                 dcc.Dropdown(
                     id='preloaded-sequences',
                     options=[
@@ -96,14 +98,17 @@ def layout():
                     ],
                     value='./tests/dash/sample_data/P01308.fasta.txt'
                 ),
-
-                html.Hr(),
-
+                html.Br(), 
                 html.Div(
                     id='seq-view-entry-dropdown-container',
                     children=[
-                        "Entry to view (for files with more than \
-                        one protein):",
+                        html.Div(
+                            "View entry:",
+                            className='seq-view-controls-name'
+                        ),
+                        html.Div(
+                            id='seq-view-number-entries'
+                        ),
                         dcc.Dropdown(
                             id='fasta-entry-dropdown',
                             options=[
@@ -113,13 +118,14 @@ def layout():
                         )
                     ]
                 ),
-                
-                html.Hr(), 
-
+                html.Br(),                
                 html.Div(
                     id='seq-view-sel-or-cov-container',
                     children=[
-                        "Selection or coverage",
+                        html.Div(
+                            "Selection or coverage",
+                            className='seq-view-controls-name'
+                        ), 
                         dcc.RadioItems(
                             id='selection-or-coverage',
                             options=[
@@ -134,26 +140,33 @@ def layout():
 
                 html.Hr(),
 
-                "Subsequence selected:", 
+                html.Div(
+                    "Mouse selection",
+                    className='seq-view-controls-name'
+                ), 
                 html.Div(
                     id='test-mouse-selection',
                     children="None"
                 ),
 
                 html.Div(id='cov-options', children=[
-                    'Coverage text color: ',
+                    html.Div(
+                        "Add coverage",
+                        style={'font-weight': 'bold'}
+                    ),
+                    'Text color: ',
                     dcc.Input(
                         id='coverage-color',
                         type='text',
                         value='rgb(255, 0, 0)'
                     ),
-                    'Coverage background color: ',
+                    'Background color: ',
                     dcc.Input(
                         id='coverage-bg-color',
                         type='text',
                         value='rgb(0, 0, 255)'
                     ),
-                    'Coverage tooltip: ',
+                    'Tooltip: ',
                     dcc.Input(
                         id='coverage-tooltip',
                         type='text',
@@ -184,29 +197,9 @@ def layout():
                 html.Hr(), 
                 
                 html.Div(
-                    id='seq-view-dna-or-protein-container',
-                    children=[
-                        dcc.RadioItems(
-                            id='translation-alphabet',
-                            options=[
-                                {'label': 'Translate protein',
-                                 'value': 'protein'},
-                                {'label': 'Translate DNA',
-                                 'value': 'dna'},
-                                {'label': 'Translate RNA',
-                                 'value': 'rna'}
-                            ],
-                            value='protein'
-                        )
-                    ]
-                ),
-                
-                html.Hr(),
-
-                html.Div(
                     id='seq-view-sel-slider-container',
                     children=[
-                        "Selection slider",
+                        "Selection region",
                         dcc.RangeSlider(
                             id='sel-slider',
                             min=0,
@@ -214,6 +207,25 @@ def layout():
                             step=1,
                             value=[0, 0]
                         ),
+                        html.Div(
+                            id='seq-view-dna-or-protein-container',
+                            children=[
+                                "Translate from",
+                                dcc.RadioItems(
+                                    id='translation-alphabet',
+                                    options=[
+                                        {'label': 'protein',
+                                         'value': 'protein'},
+                                        {'label': 'DNA',
+                                         'value': 'dna'},
+                                        {'label': 'RNA',
+                                         'value': 'rna'}
+                                    ],
+                                    value='protein'
+                                )
+                            ]
+                        ),
+
                         html.Br(),
                         "Color", 
                         dcc.Dropdown(
@@ -238,6 +250,16 @@ def layout():
         html.Div(
             id='seq-view-info-container',
             children=[
+                html.Div(
+                    id='preloaded-and-uploaded-alert',
+                    children=[
+                        'You have uploaded your own data. In order \
+                        to view it, please ensure that the "protein \
+                        sequences" dropdown has been cleared.'
+                    ],
+                    style={'display': 'none'}
+                ), 
+                
                 html.Span(
                     "Description: ",
                     className='seq-view-info-element'
@@ -267,12 +289,6 @@ def layout():
                 html.Br(),
 
                 html.Span(
-                    "Mouse sel: ",
-                    className='seq-view-info-element'
-                ),
-                html.Br(),
-
-                html.Span(
                     "Subpart sel: ",
                     className='seq-view-info-element'
                 ),
@@ -286,7 +302,29 @@ def layout():
 
 def callbacks(app):
 
-    # sequence viewer display
+    # upload or preloaded
+    @app.callback(
+        Output('preloaded-sequences', 'value'),
+        [Input('upload-fasta-data', 'contents')],
+        state=[State('preloaded-sequences', 'value')]
+    )
+    def remove_preloaded(contents, current):
+        if contents is not None:
+            return None
+        return current
+
+    @app.callback(
+        Output('preloaded-and-uploaded-alert', 'style'),
+        [Input('preloaded-sequences', 'value')],
+        state=[State('upload-fasta-data', 'contents')]
+    )
+    def display_preloaded_uploaded_warning(preloaded, contents):
+        if(contents is not None and preloaded is not None):
+            return {'display': 'inline-block'}
+        return {'display': 'none'}
+
+    # sequence viewer sequence
+    
     @app.callback(
         Output('sequence-viewer', 'sequence'),
         [Input('upload-fasta-data', 'contents'),
@@ -298,9 +336,9 @@ def callbacks(app):
         if entry is None:
             return ''
 
-        if upload_contents is None and preloaded is not None:
+        if preloaded is not None: 
             protein = pr.readFasta(filePath=preloaded)[entry]
-        else:            
+        elif upload_contents is not None and preloaded is None:
             data = ''
             try:
                 content_type, content_string = upload_contents.split(',')
@@ -311,23 +349,23 @@ def callbacks(app):
                 return '-'
 
             protein = pr.readFasta(dataString=data)[entry]
-
-        sequence = protein['sequence']
-
-        return sequence
-
+        else:
+            return '-'
+        
+        return protein['sequence']
+    
+    # coverage
+    
     @app.callback(
         Output('cov-options', 'style'),
         [Input('selection-or-coverage', 'value')]
     )
     def show_cov_options(v):
         if(v == 'cov'):
-            return {'height': 'auto'}
+            return {'display': 'inline-block'}
         else:
-            return {'height': '0px', 'overflow': 'hidden'}
+            return {'display': 'none'}
     
-    # coverage
-
     @app.callback(
         Output('coverage-storage', 'data'),
         [Input('selection-or-coverage', 'value'),
@@ -394,6 +432,7 @@ def callbacks(app):
         return coverage_stored
         
     # controls
+
     @app.callback(
         Output('sel-slider', 'disabled'),
         [Input('selection-or-coverage', 'value')]
@@ -417,6 +456,15 @@ def callbacks(app):
         return [v[0], v[1], color]
 
     @app.callback(
+        Output('seq-view-number-entries', 'children'),
+        [Input('fasta-entry-dropdown', 'options')]
+    )
+    def update_num_entries(entries):
+        return "Number of entries: {}".format(
+            len(entries)
+        )
+    
+    @app.callback(
         Output('fasta-entry-dropdown', 'options'),
         [Input('upload-fasta-data', 'contents'),
          Input('preloaded-sequences', 'value')]
@@ -427,9 +475,9 @@ def callbacks(app):
             {'label': 1, 'value': 0}
         ]
         
-        if upload_contents is None and preloaded is not None:
+        if preloaded is not None:
             proteins = pr.readFasta(filePath=preloaded)
-        elif upload_contents is not None:
+        elif upload_contents is not None and preloaded is None:
             data = ''
             try:
                 content_type, content_string = upload_contents.split(',')
@@ -437,6 +485,9 @@ def callbacks(app):
             except AttributeError:
                 pass
             proteins = pr.readFasta(dataString=data)
+        else:
+            return dropdownOptions
+        
         if(type(proteins) is list):
             dropdownOptions = []
             for i in range(len(proteins)):
@@ -467,10 +518,9 @@ def callbacks(app):
         if entry is None:
             return ''
         
-        if upload_contents is None and preloaded is not None: 
-            protein = pr.readFasta(filePath=preloaded)[0]
-
-        else: 
+        if preloaded is not None: 
+            protein = pr.readFasta(filePath=preloaded)[entry]
+        elif upload_contents is not None and preloaded is None: 
             data = ''
             try:
                 content_type, content_string = upload_contents.split(',')
@@ -479,9 +529,10 @@ def callbacks(app):
                 pass
             if data == '':
                 return ''
-
             protein = pr.readFasta(dataString=data)[entry]
-        
+        else:
+            return ''            
+            
         titles = ['name', 'entry name', 'protein name', 'identifier', 'desc-0']
 
         for t in titles:
@@ -520,7 +571,7 @@ def callbacks(app):
             s = Seq(subsequence, generic_dna)
             try:
                 aaString = str(s.translate())
-            except TranslationError as t:
+            except TranslationError:
                 return "Sequence does not represent DNA."
         elif(alphabet == 'rna'):
             subsequence = subsequence[:-(len(subsequence) % 3)] if \
@@ -528,7 +579,7 @@ def callbacks(app):
             s = Seq(subsequence, generic_rna)
             try:
                 aaString = str(s.translate())
-            except TranslationError as t:
+            except TranslationError:
                 return "Sequence does not represent RNA."
 
         # all unique amino acids
@@ -582,6 +633,14 @@ def callbacks(app):
         return 'None'
 
     @app.callback(
+        Output('fasta-entry-dropdown', 'value'),
+        [Input('preloaded-sequences', 'value'),
+         Input('upload-fasta-data', 'contents')]
+    )
+    def update_dropdown_value(v, c):
+        return 0
+    
+    @app.callback(
         Output('desc-info', 'children'),
         [Input('upload-fasta-data', 'contents'),
          Input('fasta-entry-dropdown', 'value'),
@@ -592,10 +651,10 @@ def callbacks(app):
         if entry is None:
             return 'Please select an entry.'
         
-        if upload_contents is None and preloaded is not None:
+        if preloaded is not None:
             protein = pr.readFasta(filePath=preloaded)[entry]
 
-        else:
+        elif upload_contents is not None and preloaded is None:
             data = ''
 
             try:
@@ -609,6 +668,9 @@ def callbacks(app):
                 protein = pr.readFasta(dataString=data)[entry]
             except Exception:
                 return ['NA']
+        else:
+            return 'Please either upload a file or select one from \
+            the dropdown.'
         
         desc = []
         for key in protein['description']:
