@@ -47,18 +47,6 @@ fig_options = dict(
     }
 )
 
-computedTraces=None
-
-# initialize app with some data
-initialFile = './tests/dash/sample_data/E-GEOD-38612-query-results.tpms.tsv'
-
-_, _, initialRows, initialCols = geneExpressionReader.parse_tsv(
-    filepath=initialFile,
-    rowLabelsSource='Gene Name'
-)
-# limit the number of initial selected rows for faster loading
-initialRows = initialRows[:10]
-
 
 datasets = {
     'initial': {
@@ -75,7 +63,7 @@ datasets = {
         'file': './tests/dash/sample_data/khan.tsv',
         'rowLabelsSource': 'Gene Description',
         'headerRows': 1,
-        'headerCols': 1}
+        'headerCols': 2}
 }
 
 
@@ -92,8 +80,8 @@ def description():
 
 
 def layout():
+    
     return html.Div(id='clustergram-body', children=[
-
         
         html.Div(
             id='clustergram-wrapper',
@@ -284,7 +272,6 @@ def callbacks(app):
     def store_file_meta_data(
             contents, filename, dataset_name
     ):
-        print('getting data')
         if(dataset_name is not None):
             dataset = datasets[dataset_name]
             
@@ -295,7 +282,6 @@ def callbacks(app):
                     headerCols=dataset['headerCols'],
                     rowLabelsSource=dataset['rowLabelsSource']
                 )
-
         elif(contents is not None):
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
@@ -415,7 +401,6 @@ def callbacks(app):
         state=[State('data-meta-storage', 'data')]
     )
     def update_description_info(_, data):
-        print('gettin info')
         infoContent = [html.H3('Information')]
         try: 
             for key in data['desc']:
@@ -445,7 +430,6 @@ def callbacks(app):
             selRows, selCols,
             fig_options
     ):
-        print('displaying clustergram')
         if(len(selRows) < 2 or len(selCols) < 2 or fig_options is None): 
             return html.Div(
                 'No data have been selected to display. Please upload a file, \
@@ -457,16 +441,17 @@ def callbacks(app):
             )
 
         if (dataset_name is not None):
-            print(selRows)
-            print(selCols)
             dataset = datasets[dataset_name]
             data, _, _, _ = \
                 geneExpressionReader.parse_tsv(
                     filepath=dataset['file'],
-                    rowLabelsSource=dataset['headerRows'],
+                    rowLabelsSource=dataset['rowLabelsSource'],
+                    headerRows=dataset['headerRows'],
+                    headerCols=dataset['headerCols'],
                     rows=selRows,
                     columns=selCols
                 )
+
         elif(contents is not None):
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
@@ -478,8 +463,7 @@ def callbacks(app):
                     rows=selRows,
                     columns=selCols
                 )
-        print(data)
-            
+                    
         if group_markers is not None:                
             fig_options['rowGroupMarker'] = group_markers['rowGroupMarker']
             fig_options['colGroupMarker'] = group_markers['colGroupMarker']
