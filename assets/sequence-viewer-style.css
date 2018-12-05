@@ -73,7 +73,8 @@
 #seq-view-controls-container {
     width:150px;
     height: 500px;
-    overflow: scroll; 
+    overflow: scroll;
+    word-wrap: break-word;
     display: inline-block;
     vertical-align: top; 
     margin: 20px; 
@@ -97,6 +98,7 @@
     height: 500px;
     border: solid 1px #636efa; 
     overflow:scroll;
+    word-wrap: break-word;
     margin: 20px;
     vertical-align: top; 
     border-radius: 5px;
