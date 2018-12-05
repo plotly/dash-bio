@@ -156,8 +156,6 @@ def layout():
                                     html.Div(
                                         className='vp-input-like',
                                         id='vp-upper-left',
-                                        #type='number',
-                                        #value='',
                                     ),
                                 ],
                             ),
@@ -172,8 +170,6 @@ def layout():
                                     html.Div(
                                         className='vp-input-like',
                                         id='vp-upper-right',
-                                        #type='number',
-                                        #value='',
                                     ),
                                 ],
                             ),
@@ -229,14 +225,11 @@ def callbacks(app):
         """update the number of points in the upper left zone delimited by the thresholds"""
 
         number = 0
-        if len(fig['data'])>1:
+        if len(fig['data']) > 1:
             x = np.array(fig['data'][0]['x'])
             idx = x < float(l_lim)
             number = len(x[idx])
-
-        print(number)
         return str(number)
-
 
     @app.callback(
         Output('vp-upper-right', 'children'),
@@ -247,10 +240,8 @@ def callbacks(app):
         """update the number of points in the upper right zone delimited by the thresholds"""
 
         number = 0
-        if len(fig['data'])>1:
+        if len(fig['data']) > 1:
             x = np.array(fig['data'][0]['x'])
             idx = x > float(u_lim)
             number = len(x[idx])
-
-        print(number)
         return str(number)
