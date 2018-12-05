@@ -25,18 +25,18 @@ def createStyle(pdbPath, style, chainsDict=None, atmColor=None):
     ## Define dictionary of atom and chain colors
     if (chainsDict is None):
         chainsDict = {
-            "A":"#00ff00",
-            "B":"#0000ff",
-            "C":"#ff0000",
-            "D":"#00ffff",
+            "A":"#32cd32",
+            "B":"#8a2be2",
+            "C":"#ff4500",
+            "D":"#00bfff",
             "E":"#ff00ff",
             "F":"#ffff00",
-            "G":"#4daeb4",
-            "H":"#daf1ff",
-            "I":"#c57ea8",
-            "J":"#dbff33",
+            "G":"#4682b4",
+            "H":"#ffb6c1",
+            "I":"#a52aaa",
+            "J":"#ee82ee",
             "K":"#75FF33",
-            "L":"##FFBD33",
+            "L":"#FFBD33",
             "M":"#400040",
             "N":"#004000",
             "O":"#008080",
@@ -45,13 +45,13 @@ def createStyle(pdbPath, style, chainsDict=None, atmColor=None):
 
     if (atmColor is None):
         atmColor = {
-            "C":"#c0c0c0",
+            "C":"#c8c8c8",
             "H":"#ffffff",
-            "N":"#0000ff",
-            "S":"#ffff00",
-            "O":"#ff0000",
+            "N":"#8f8fff",
+            "S":"#ffc832",
+            "O":"#f00000",
             "F":"#ffff00",
-            "P":"#ff5733",
+            "P":"#ffa500",
             "K":"#42f4ee",
             "G":"#3f3f3f"
         }
