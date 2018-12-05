@@ -268,7 +268,8 @@ def layout():
 
 
 def callbacks(app):
-    
+
+    # this works
     @app.callback(
         Output('data-meta-storage', 'data'), 
         [Input('file-upload', 'contents'),
@@ -278,6 +279,10 @@ def callbacks(app):
     def store_file_meta_data(
             contents, filename, dataset_name
     ):
+        print('-'*30)
+        print('store file meta data')
+        print('dataset name {}'.format(dataset_name))
+        print('contents {}'.format(contents))
         if(dataset_name is not None):
             dataset = datasets[dataset_name]
             
@@ -300,13 +305,14 @@ def callbacks(app):
             desc = '',
             rowOptions = [],
             colOptions = []
-
         return {
             'desc': desc,
             'rowOptions': rowOptions,
             'colOptions': colOptions
         }
-            
+
+    # store figure options
+    
     @app.callback(
         Output('fig-options-storage', 'data'),
         [Input('row-labels-source', 'value'),
@@ -321,6 +327,8 @@ def callbacks(app):
             rowThresh, colThresh,
             selRows, selCols
     ):
+        print('-'*20)
+        print('store fig options') 
         return {
             'cluster': 'all' if len(clusterBy) > 1 else clusterBy[0],
             'colorThreshold': {'row': rowThresh,
@@ -356,7 +364,9 @@ def callbacks(app):
                 'axis': 1
             }
         }
- 
+
+    # add group marker
+    
     @app.callback(
         Output('group-markers', 'data'), 
         [Input('submit-group-marker', 'n_clicks'),
@@ -375,7 +385,8 @@ def callbacks(app):
             submit_time, remove_time,
             current_group_markers
     ):
-
+        print('-'*20)
+        print('add marker')
         # remove all group markers, if necessary, or
         # initialize the group markers data
         if(current_group_markers is None or remove_time > submit_time):
@@ -401,41 +412,53 @@ def callbacks(app):
 
         return current_group_markers
 
+    # description information 
     @app.callback(
         Output('clustergram-info', 'children'),
-        [Input('data-meta-storage', 'modified_timestamp')],
+        [Input('data-meta-storage', 'modified_timestamp')], 
         state=[State('data-meta-storage', 'data')]
     )
     def update_description_info(_, data):
+        print('-'*20)
+        print('update description info')
+        if data is None:
+            return []
         infoContent = [html.H3('Information')]
         try: 
             for key in data['desc']:
                 infoContent.append(html.P("{}: {}".format(
                     key, data['desc'][key]
                 )))
-        except Exception:
-            infoContent.append(html.P("Awaiting information..."))
+        except Exception as e:
+            infoContent.append(html.P("Exception: {}".format(e)))
         
         return infoContent
 
     @app.callback(
         Output('clustergram-wrapper', 'children'),
         [Input('fig-options-storage', 'modified_timestamp'),
-         Input('file-upload', 'contents'),
-         Input('file-upload', 'filename'),
-         Input('clustergram-datasets', 'value'),
          Input('group-markers', 'data'),
          Input('selected-rows', 'value'),
          Input('selected-columns', 'value')],
-        state=[State('fig-options-storage', 'data')]
+        state=[State('fig-options-storage', 'data'),
+               State('clustergram-datasets', 'value'),
+               State('file-upload', 'contents'),
+               State('file-upload', 'filename')]
     )
     def display_clustergram(
-            _, contents, filename,
-            dataset_name,
-            group_markers,
+            _, group_markers,
             selRows, selCols,
-            fig_options
+            fig_options,
+            dataset_name,
+            contents, filename
+            
     ):
+        print('-'*20)
+        print('display_clustergram')
+        print('selRows {}'.format(len(selRows)))
+        print('selCols {}'.format(len(selCols)))
+        print('dataset name {}'.format(dataset_name))
+        print(selRows[:5])
         if(len(selRows) < 2 or len(selCols) < 2 or fig_options is None): 
             return html.Div(
                 'No data have been selected to display. Please upload a file, \
@@ -445,9 +468,9 @@ def callbacks(app):
                     'font-size': '20pt'
                 }
             )
-
-        if (dataset_name is not None):
+        if (dataset_name is not None and contents is None):
             dataset = datasets[dataset_name]
+   
             data, _, _, _ = \
                 geneExpressionReader.parse_tsv(
                     filepath=dataset['file'],
@@ -490,40 +513,72 @@ def callbacks(app):
             
     @app.callback(
         Output('selected-rows', 'options'),
-        [Input('data-meta-storage', 'modified_timestamp')],
+        [Input('data-meta-storage', 'modified_timestamp'),
+         Input('clustergram-datasets', 'value')],
         state=[State('data-meta-storage', 'data')]
     )
-    def update_row_options(_, data):
-        return [{'label': r, 'value': r} for r in data['rowOptions']]
+    def update_row_options(_, dataset_name, data):
+        print('-'*20)
+        print('update row options')
+        print('dataset name {}'.format(dataset_name))
+        print(data['rowOptions'][:5])
+        if dataset_name is not None:
+            return [{'label': r, 'value': r} for r in data['rowOptions']]
+        return []
     
     @app.callback(
         Output('selected-columns', 'options'),
-        [Input('data-meta-storage', 'modified_timestamp')],
+        [Input('data-meta-storage', 'modified_timestamp'),
+         Input('clustergram-datasets', 'value')],
         state=[State('data-meta-storage', 'data')]
     )
-    def update_col_options(_, data):
-        return [{'label': r, 'value': r} for r in data['colOptions']]
+    def update_col_options(_, dataset_name, data):
+        print('-'*20)
+        print('update col options')
+        print('dataset name {}'.format(dataset_name))
+        if dataset_name is not None: 
+            return [{'label': c, 'value': c} for c in data['colOptions']]
+        return []
     
     @app.callback(
         Output('selected-rows', 'value'),
-        [Input('file-upload', 'contents'),
-         Input('clustergram-datasets', 'value')],
-        state=[State('selected-rows', 'options')]
+        [Input('data-meta-storage', 'modified_timestamp'),
+         Input('selected-rows', 'options')],
+        state=[State('clustergram-datasets', 'value'),
+               State('file-upload', 'contents')]
     )
-    def clear_rows(_, dataset_name, row_options):
-        if dataset_name is None or row_options is None:
+    def clear_rows(_, row_options, dataset_name, contents): 
+        print('-'*20)
+        print('clear rows')
+        print('dataset name {}'.format(dataset_name))
+        # if loading in a non-default dataset, clear all row selections
+        if (dataset_name is None and contents is not None) or \
+           row_options is None:
             return []
         else:
+            row_options = [r['value'] for r in row_options]
+            print('row options {}\n selected {}'.format(
+                row_options[:10],
+                row_options[:datasets[dataset_name]['defaultRows']]))
             return row_options[:datasets[dataset_name]['defaultRows']]
         
     @app.callback(
         Output('selected-columns', 'value'),
-        [Input('file-upload', 'contents'),
-         Input('clustergram-datasets', 'value')],
-        state=[State('selected-columns', 'options')]
+        [Input('data-meta-storage', 'modified_timestamp'),
+         Input('selected-columns', 'options')],
+        state=[State('clustergram-datasets', 'value'), 
+               State('file-upload', 'contents')]
     )
-    def clear_cols(_, dataset_name, col_options):
-        if dataset_name is None or col_options is None:
+    def clear_cols(_, col_options, dataset_name, contents): 
+        print('-'*20)
+        print('clear cols')
+        print('dataset name {}'.format(dataset_name))
+        if (dataset_name is None and contents is not None) or \
+           col_options is None:
             return []
         else:
+            col_options = [c['value'] for c in col_options]
+            print('col options {}\n selected {}'.format(
+                col_options[:10],
+                col_options[:datasets[dataset_name]['defaultCols']]))
             return col_options[:datasets[dataset_name]['defaultCols']]
