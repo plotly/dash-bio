@@ -62,7 +62,7 @@ datasets = {
         'headerRows': 1,
         'headerCols': 2,
         'defaultRows': 150,
-        'defaultCols': 3},
+        'defaultCols': 4},
     'khan': {
         'file': './tests/dash/sample_data/khan.tsv',
         'rowLabelsSource': 'Gene Description',
@@ -279,10 +279,6 @@ def callbacks(app):
     def store_file_meta_data(
             contents, filename, dataset_name
     ):
-        print('-'*30)
-        print('store file meta data')
-        print('dataset name {}'.format(dataset_name))
-        print('contents {}'.format(contents))
         if(dataset_name is not None):
             dataset = datasets[dataset_name]
             
@@ -327,8 +323,6 @@ def callbacks(app):
             rowThresh, colThresh,
             selRows, selCols
     ):
-        print('-'*20)
-        print('store fig options') 
         return {
             'cluster': 'all' if len(clusterBy) > 1 else clusterBy[0],
             'colorThreshold': {'row': rowThresh,
@@ -385,8 +379,6 @@ def callbacks(app):
             submit_time, remove_time,
             current_group_markers
     ):
-        print('-'*20)
-        print('add marker')
         # remove all group markers, if necessary, or
         # initialize the group markers data
         if(current_group_markers is None or remove_time > submit_time):
@@ -419,8 +411,6 @@ def callbacks(app):
         state=[State('data-meta-storage', 'data')]
     )
     def update_description_info(_, data):
-        print('-'*20)
-        print('update description info')
         if data is None:
             return []
         infoContent = [html.H3('Information')]
@@ -453,12 +443,6 @@ def callbacks(app):
             contents, filename
             
     ):
-        print('-'*20)
-        print('display_clustergram')
-        print('selRows {}'.format(len(selRows)))
-        print('selCols {}'.format(len(selCols)))
-        print('dataset name {}'.format(dataset_name))
-        print(selRows[:5])
         if(len(selRows) < 2 or len(selCols) < 2 or fig_options is None): 
             return html.Div(
                 'No data have been selected to display. Please upload a file, \
@@ -518,11 +502,7 @@ def callbacks(app):
         state=[State('data-meta-storage', 'data')]
     )
     def update_row_options(_, dataset_name, data):
-        print('-'*20)
-        print('update row options')
-        print('dataset name {}'.format(dataset_name))
-        print(data['rowOptions'][:5])
-        if dataset_name is not None:
+        if dataset_name is not None and data is not None:
             return [{'label': r, 'value': r} for r in data['rowOptions']]
         return []
     
@@ -533,10 +513,7 @@ def callbacks(app):
         state=[State('data-meta-storage', 'data')]
     )
     def update_col_options(_, dataset_name, data):
-        print('-'*20)
-        print('update col options')
-        print('dataset name {}'.format(dataset_name))
-        if dataset_name is not None: 
+        if dataset_name is not None and data is not None: 
             return [{'label': c, 'value': c} for c in data['colOptions']]
         return []
     
@@ -548,18 +525,12 @@ def callbacks(app):
                State('file-upload', 'contents')]
     )
     def clear_rows(_, row_options, dataset_name, contents): 
-        print('-'*20)
-        print('clear rows')
-        print('dataset name {}'.format(dataset_name))
         # if loading in a non-default dataset, clear all row selections
         if (dataset_name is None and contents is not None) or \
            row_options is None:
             return []
         else:
             row_options = [r['value'] for r in row_options]
-            print('row options {}\n selected {}'.format(
-                row_options[:10],
-                row_options[:datasets[dataset_name]['defaultRows']]))
             return row_options[:datasets[dataset_name]['defaultRows']]
         
     @app.callback(
@@ -570,15 +541,9 @@ def callbacks(app):
                State('file-upload', 'contents')]
     )
     def clear_cols(_, col_options, dataset_name, contents): 
-        print('-'*20)
-        print('clear cols')
-        print('dataset name {}'.format(dataset_name))
         if (dataset_name is None and contents is not None) or \
            col_options is None:
             return []
         else:
             col_options = [c['value'] for c in col_options]
-            print('col options {}\n selected {}'.format(
-                col_options[:10],
-                col_options[:datasets[dataset_name]['defaultCols']]))
             return col_options[:datasets[dataset_name]['defaultCols']]
