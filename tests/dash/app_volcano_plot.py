@@ -1,9 +1,10 @@
 # In[]:
 # Import required libraries
 import pandas as pd
+import numpy as np
 import dash_html_components as html
 import dash_core_components as dcc
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 
 import dash_bio
 
@@ -42,7 +43,7 @@ def description():
 def header_colors():
     return {
         'bg_color': '#19d3f3',
-        'font_color': '#2a3f5f',
+        'font_color': 'white',
         'light_logo': False
     }
 
@@ -141,6 +142,43 @@ def layout():
                             ),
                         ],
                     ),
+                    html.Div(
+                        id='vp-indicators-div',
+                        children=[
+                            html.Div(
+                                className='vp-vertical-style',
+                                title='Number of points in the upper left',
+                                children=[
+                                    html.Div(
+                                        "Upper left points",
+                                        className='vp-text',
+                                    ),
+                                    html.Div(
+                                        className='vp-input-like',
+                                        id='vp-upper-left',
+                                        #type='number',
+                                        #value='',
+                                    ),
+                                ],
+                            ),
+                            html.Div(
+                                className='vp-vertical-style',
+                                title='Number of points in the upper right',
+                                children=[
+                                    html.Div(
+                                        "Upper right points",
+                                        className='vp-text',
+                                    ),
+                                    html.Div(
+                                        className='vp-input-like',
+                                        id='vp-upper-right',
+                                        #type='number',
+                                        #value='',
+                                    ),
+                                ],
+                            ),
+                        ],
+                    ),
                 ],
             ),
             html.Div(
@@ -181,3 +219,38 @@ def callbacks(app):
     def update_vp_dataset_div_hover(dataset_id):
         """update the data set of interest upon change the dashed lines value"""
         return DATASETS[dataset_id]['datasource']
+
+    @app.callback(
+        Output('vp-upper-left', 'children'),
+        [Input('vp-graph', 'figure')],
+        [State('vp-lower-bound', 'value')]
+    )
+    def update_upper_left_number(fig, l_lim):
+        """update the number of points in the upper left zone delimited by the thresholds"""
+
+        number = 0
+        if len(fig['data'])>1:
+            x = np.array(fig['data'][0]['x'])
+            idx = x < float(l_lim)
+            number = len(x[idx])
+
+        print(number)
+        return str(number)
+
+
+    @app.callback(
+        Output('vp-upper-right', 'children'),
+        [Input('vp-graph', 'figure')],
+        [State('vp-upper-bound', 'value')]
+    )
+    def update_upper_right_number(fig, u_lim,):
+        """update the number of points in the upper right zone delimited by the thresholds"""
+
+        number = 0
+        if len(fig['data'])>1:
+            x = np.array(fig['data'][0]['x'])
+            idx = x > float(u_lim)
+            number = len(x[idx])
+
+        print(number)
+        return str(number)
