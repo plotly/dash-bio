@@ -240,7 +240,7 @@ def layout():
                                 {'label': 'red', 'value': 'red'}
                             ],
                             value='blue'
-                        )
+                        ),
                     ]
                 ),
 
@@ -360,8 +360,8 @@ def callbacks(app):
         Output('cov-options', 'style'),
         [Input('selection-or-coverage', 'value')]
     )
-    def show_cov_options(v):
-        if(v == 'cov'):
+    def show_cov_options(selOrCov):
+        if(selOrCov == 'cov'):
             return {'display': 'inline-block'}
         else:
             return {'display': 'none'}
@@ -423,38 +423,46 @@ def callbacks(app):
         [Input('coverage-storage', 'data'),
          Input('selection-or-coverage', 'value')]
     )
-    def apply_coverage(coverage_stored,
-                       selOrCov):
+    def apply_coverage(coverage_stored, selOrCov):
         
         if(selOrCov != 'cov'):
             return [] 
 
         return coverage_stored
-        
-    # controls
+    
+    # selection
 
     @app.callback(
-        Output('sel-slider', 'disabled'),
-        [Input('selection-or-coverage', 'value')]
+        Output('sel-slider', 'value'),
+        [Input('sequence-viewer', 'sequence')]
     )
-    def enable_disable_slider(v):
-        if(v == 'sel'):
-            return False
-        return True
-    
+    def reset_selection(_):
+        return [0, 0]
+        
     @app.callback(
         Output('sequence-viewer', 'selection'),
         [Input('sel-slider', 'value'),
          Input('selection-or-coverage', 'value'),
          Input('sel-color', 'value')]
     )
-    def update_sel(v, v2, color):
-        if(v2 != 'sel'):
+    def update_sel(slider_value, selOrCov, color):
+        if(selOrCov != 'sel'):
             return []
         if color is None:
-            color='blue'
-        return [v[0], v[1], color]
+            color = 'blue'
+        return [slider_value[0], slider_value[1], color]
+    
+    # controls
 
+    @app.callback(
+        Output('sel-slider', 'disabled'),
+        [Input('selection-or-coverage', 'value')]
+    )
+    def enable_disable_slider(selOrCov):
+        if(selOrCov == 'sel'):
+            return False
+        return True
+    
     @app.callback(
         Output('seq-view-number-entries', 'children'),
         [Input('fasta-entry-dropdown', 'options')]
