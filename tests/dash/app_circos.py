@@ -9,6 +9,7 @@ import base64
 import io
 import pandas as pd
 import json
+from textwrap import dedent
 
 with open('./tests/dash/sample_data/circos_graph_data.json', 'r') as circos_graph_data:
     circos_graph_data = json.load(circos_graph_data)
@@ -66,7 +67,19 @@ def header_colors():
         'light_logo': True
     }
 
+def circos_explain():
+    return dcc.Markdown(dedent('''
+    Circos is a circular graph best used to show relationships between entities and periodical data.
+    A Circos graph consists of two main parts, being the layout and tracks.The layout sets the basic 
+    parameters of the graph such as radius, ticks, labels, etc. 
+    The tracks are graph layouts that take in a series of data points and can be one of:
+    heatmaps, chords, highlights, histograms, line, scatter, stack and text graphs. Tracks can be 
+    place on and around the layout graph.
 
+    For a look into Circos and the API please go here:
+    [https://github.com/nicgirault/circosJS](https://github.com/nicgirault/circosJS")
+    '''))
+    
 empty = dash_bio.DashCircos(
     id="main-circos", selectEvent={}, layout=[], size=800, config={}, tracks=[]
 )
@@ -78,13 +91,8 @@ upload_instructions = (
     + "4. Go to 'View Dataset' tab to view data in table."
 )
 
-circos_explain = (
-    "Circos is a circular graph best used to show relationships between entities and periodical data. \n"
-    + "A Circos graph consists of two main parts, being the layout and tracks. \n\n"
-    + "The layout sets the basic parameters of the graph such as radius, ticks, labels, etc. \n\n"
-    + "The tracks are graph layouts that take in a series of data points. "
-    + "The tracks can be: heatmaps, chords, highlights, histograms, line, scatter, stack and text graphs. \n\n"
-    + "For a look into Circos and the API please go here: https://github.com/nicgirault/circosJS"
+circos_link = (
+    "For a look into Circos and the API please go here: https://github.com/nicgirault/circosJS"
 )
 
 
@@ -208,11 +216,9 @@ def layout():
                                                     html.Div(
                                                         [
                                                             html.H5(
-                                                                "What is Circos?"),
-                                                            dcc.Textarea(
-                                                                value=circos_explain,
-                                                                className="circos-text-area-explain",
+                                                                "What is Circos?"
                                                             ),
+                                                            circos_explain()
                                                         ],
                                                         className="twelve columns",
                                                     ),
@@ -273,6 +279,13 @@ def layout():
                                                         ],
                                                         className="six columns",
                                                     ),
+                                                    html.Div(
+                                                        id="chords-text",
+                                                        className="circos-chords-text six columns",
+                                                        children=[
+                                                            ""
+                                                        ]
+                                                    )
                                                 ],
                                                 className="circos-row-two row",
                                             ),
@@ -451,9 +464,7 @@ def callbacks(app):
             return 10000000000000
         return 1000
 
-    # Store Previous Tab LIFO
-
-
+    # Store Previous Tab
     @app.callback(
         Output("previous-tab", "children"),
         [Input("circos-tabs", "value")],
@@ -485,8 +496,7 @@ def callbacks(app):
                     array.append(v)
 
             for i in range(len(tracks)):
-                if array[i] != "CHORDS":
-                    dropdown.append({"label": "{}".format(array[i]), "value": i})
+                dropdown.append({"label": "{}".format(array[i]), "value": i})
 
             dropdown.append({"label": "LAYOUT", "value": "layout"}.copy())
             return dropdown
@@ -535,19 +545,20 @@ def callbacks(app):
 
     @app.callback(
         Output("circos-hold", "children"),
-        [
-            Input("circos-tabs", "value"),
-            Input("circos-selector", "value"),
-            Input("size-slider", "value"),
-            Input("size-slider-custom", "value"),
-            Input("init", "n_intervals"),
-            Input("render-button", "n_clicks"),
-        ],
-        [State("output-data-upload", "children")],
+        [Input("circos-tabs", "value"),
+        Input("circos-selector", "value"),
+        Input("size-slider", "value"),
+        Input("size-slider-custom", "value"),
+        Input("init", "n_intervals"),
+        Input("render-button", "n_clicks"),
+        Input("data-table", "selected_rows")],
+        [State("output-data-upload", "children"),
+        State("data-table", "data"),
+        State("data-selector", "value")],
     )
-    def init(tabs, circos_select, size, size_custom, init_onstart, render_button, uploadData):
-        if (tabs == "circos-tab-custom" or tabs == "circos-tab-dataset") and uploadData != None:
-            array = json.loads(uploadData)
+    def init(tabs, circos_select, size, size_custom, init_onstart, render_button ,selected_row, upload_data, table_data, data_selector):
+        if (tabs == "circos-tab-custom" or tabs == "circos-tab-dataset") and upload_data != None:
+            array = json.loads(upload_data)
             return dash_bio.DashCircos(
                 id="main-circos",
                 selectEvent={"0": "both", "1": "both"},
@@ -680,6 +691,12 @@ def callbacks(app):
                 style={"display": "flex", "justify-content": "center"},
             )
         elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset") and circos_select == "chords":
+            if selected_row != None and data_selector == 1:
+                for i in list(range(len(circos_graph_data["chords"]))):
+                    circos_graph_data["chords"][i]["color"] = "#ff5722"
+                for i in selected_row:
+                    circos_graph_data["chords"][i]["color"] = "#00cc96"
+
             return dash_bio.DashCircos(
                 id="main-circos",
                 selectEvent={"0": "both", "1": "both"},
@@ -714,7 +731,7 @@ def callbacks(app):
                         "config": {
                             "logScale": False,
                             "opacity": 0.7,
-                            "color": "#ff5722",
+                            "color": {"name": "color"},
                             "tooltipContent": {
                                 "source": "source",
                                 "sourceID": "id",
@@ -1316,6 +1333,15 @@ def callbacks(app):
 
 
     @app.callback(
+        Output("chords-text", "children"),
+        [Input("circos-selector", "value")]
+    )
+    def update_chords_text(circos_select):
+        if circos_select == "chords":
+            return "Select chords and select row in dash-table to highlight chords."
+        return ""
+
+    @app.callback(
         Output("data-table", "data"),
         [
             Input("data-selector", "value"),
@@ -1331,6 +1357,10 @@ def callbacks(app):
         try:
             if data_selector == "layout":
                 df = pd.DataFrame(layout)
+            elif tracks[data_selector]['type'] == "CHORDS":
+                new_data = {"color": d.pop("color") for d in tracks[data_selector]["data"]}
+                new_chords = [{'{}_{}'.format(k, a): b for k, v in d.items() for a, b in v.items()} for d in tracks[data_selector]["data"]]
+                df = pd.DataFrame(new_chords)
             else:
                 df = pd.DataFrame(tracks[data_selector]["data"])
             return df.to_dict("records")
@@ -1355,6 +1385,10 @@ def callbacks(app):
         try:
             if data_selector == "layout":
                 df = pd.DataFrame(layout)
+            elif tracks[data_selector]['type'] == "CHORDS":
+                new_data = {"color": d.pop("color") for d in tracks[data_selector]["data"]}
+                new_chords = [{'{}_{}'.format(k, a): b for k, v in d.items() for a, b in v.items()} for d in tracks[data_selector]["data"]]
+                df = pd.DataFrame(new_chords)
             else:
                 df = pd.DataFrame(tracks[data_selector]["data"])
             return [{"id": i, "name": i} for i in df.columns]
@@ -1373,3 +1407,5 @@ def callbacks(app):
         Input("main-circos", "eventDatum")])
     def event_data_custom(n_clicks, eventDatum):
         return str(eventDatum)
+
+    
