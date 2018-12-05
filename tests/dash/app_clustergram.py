@@ -53,17 +53,23 @@ datasets = {
         'file': './tests/dash/sample_data/E-GEOD-38612-query-results.tpms.tsv',
         'rowLabelsSource': 'Gene Name',
         'headerRows': 5,
-        'headerCols': 2},
+        'headerCols': 2,
+        'defaultRows': 10,
+        'defaultCols': 4},
     'iris': {
         'file': './tests/dash/sample_data/iris.tsv',
-        'rowLabelsSource': 'Class',
+        'rowLabelsSource': 'Num',
         'headerRows': 1,
-        'headerCols': 1},
+        'headerCols': 2,
+        'defaultRows': 150,
+        'defaultCols': 3},
     'khan': {
         'file': './tests/dash/sample_data/khan.tsv',
         'rowLabelsSource': 'Gene Description',
         'headerRows': 1,
-        'headerCols': 2}
+        'headerCols': 2,
+        'defaultRows': 100,
+        'defaultCols': 20}
 }
 
 
@@ -500,14 +506,24 @@ def callbacks(app):
     
     @app.callback(
         Output('selected-rows', 'value'),
-        [Input('file-upload', 'contents')]
+        [Input('file-upload', 'contents'),
+         Input('clustergram-datasets', 'value')],
+        state=[State('selected-rows', 'options')]
     )
-    def clear_rows(_):
-        return []
-
+    def clear_rows(_, dataset_name, row_options):
+        if dataset_name is None or row_options is None:
+            return []
+        else:
+            return row_options[:datasets[dataset_name]['defaultRows']]
+        
     @app.callback(
         Output('selected-columns', 'value'),
-        [Input('file-upload', 'contents')]
+        [Input('file-upload', 'contents'),
+         Input('clustergram-datasets', 'value')],
+        state=[State('selected-columns', 'options')]
     )
-    def clear_cols(_):
-        return []
+    def clear_cols(_, dataset_name, col_options):
+        if dataset_name is None or col_options is None:
+            return []
+        else:
+            return col_options[:datasets[dataset_name]['defaultCols']]
