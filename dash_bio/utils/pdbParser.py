@@ -1,10 +1,13 @@
 import sys
 import numpy as np
-import mdtraj as md
+import parmed as pmd
+import re
 import json
-import io
+import os
+from shutil import copy2
 
 def createData(pdbPath):
+# def createData(pdbPath):
     '''
     Function to parse the protein data bank (PDB) file to generate the input modelData
 
@@ -13,6 +16,14 @@ def createData(pdbPath):
 
     '''
 
+    ## Create local copy of temp file
+    copy2(pdbPath, './tmp.pdb')
+    ## Use parmed to read the bond information from temp file
+    top=pmd.load_file('tmp.pdb')
+    ## Remove the created temp file
+    os.remove("tmp.pdb")
+
+    ## Read pdb file to create atom/bond information
     with open(pdbPath, 'r') as infile:
        ## store only non-empty lines
        lines=[l.strip() for l in infile if l.strip()]
@@ -63,16 +74,14 @@ def createData(pdbPath):
             "serial": i,
         })
 
-    ## Create list of bonds using the mdtraj module
-    dat=""
-    topology = md.load(pdbPath).topology
-    table, bonds = topology.to_dataframe()
-    for i in range(len(bonds)):
-        bond1=int(bonds[i][0])
-        bond2=int(bonds[i][1])
-        datb['bonds'].append({
-            'atom2_index':bond1,
-            'atom1_index':bond2
-        })
+    ## Create list of bonds using the parmed module
+    for i in range(len(top.bonds)):
+            bondpair=top.bonds[i].__dict__
+            atom1=re.findall('\[(\d+)\]', str(bondpair['atom1']))
+            atom2=re.findall('\[(\d+)\]', str(bondpair['atom2']))
+            datb['bonds'].append({
+                    'atom2_index':int(atom1[0]),
+                    'atom1_index':int(atom2[0])
+            })
 
     return(json.dumps(datb))
