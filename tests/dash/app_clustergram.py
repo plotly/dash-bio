@@ -90,9 +90,8 @@ def layout():
     return html.Div(id='clustergram-body', children=[
         
         html.Div(
-            id='clustergram-wrapper',
+            id='clustergram-wrapper'
         ),
-
         
         html.Div(
             id='clustergram-options', children=[
@@ -118,6 +117,9 @@ def layout():
                             children=html.Div([
                                 "Drag and drop .tsv files or select files."
                             ])
+                        ),
+                        html.Div(
+                            id='file-upload-name'
                         )
                     ],
                 ),
@@ -404,7 +406,8 @@ def callbacks(app):
 
         return current_group_markers
 
-    # description information 
+    # description information
+    
     @app.callback(
         Output('clustergram-info', 'children'),
         [Input('data-meta-storage', 'modified_timestamp')], 
@@ -424,6 +427,8 @@ def callbacks(app):
         
         return infoContent
 
+    # calculate and display clustergram
+    
     @app.callback(
         Output('clustergram-wrapper', 'children'),
         [Input('fig-options-storage', 'modified_timestamp'),
@@ -445,14 +450,15 @@ def callbacks(app):
     ):
         if(len(selRows) < 2 or len(selCols) < 2 or fig_options is None): 
             return html.Div(
-                'No data have been selected to display. Please upload a file, \
-                then select at least two columns and two rows.',
+                'No data have been selected to display. Please upload a file or \
+                select a preloaded file from the dropdown, then select at least \
+                two columns and two rows.',
                 style={
                     'padding': '30px',
                     'font-size': '20pt'
                 }
             )
-        if (dataset_name is not None and contents is None):
+        if (dataset_name is not None): 
             dataset = datasets[dataset_name]
    
             data, _, _, _ = \
@@ -465,7 +471,7 @@ def callbacks(app):
                     columns=selCols
                 )
 
-        elif(contents is not None):
+        elif(contents is not None and dataset_name is None):
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
     
@@ -494,28 +500,30 @@ def callbacks(app):
         
         except Exception as e:
             return "There was an error: {}.".format(e) 
-            
+
+    # update row and column options
+        
     @app.callback(
         Output('selected-rows', 'options'),
-        [Input('data-meta-storage', 'modified_timestamp'),
-         Input('clustergram-datasets', 'value')],
+        [Input('data-meta-storage', 'modified_timestamp')],
         state=[State('data-meta-storage', 'data')]
     )
-    def update_row_options(_, dataset_name, data):
-        if dataset_name is not None and data is not None:
+    def update_row_options(_, data):
+        if data is not None: 
             return [{'label': r, 'value': r} for r in data['rowOptions']]
         return []
     
     @app.callback(
         Output('selected-columns', 'options'),
-        [Input('data-meta-storage', 'modified_timestamp'),
-         Input('clustergram-datasets', 'value')],
+        [Input('data-meta-storage', 'modified_timestamp')],
         state=[State('data-meta-storage', 'data')]
     )
-    def update_col_options(_, dataset_name, data):
-        if dataset_name is not None and data is not None: 
+    def update_col_options(_, data):
+        if data is not None: 
             return [{'label': c, 'value': c} for c in data['colOptions']]
         return []
+
+    # update row and column selections
     
     @app.callback(
         Output('selected-rows', 'value'),
@@ -526,8 +534,7 @@ def callbacks(app):
     )
     def clear_rows(_, row_options, dataset_name, contents): 
         # if loading in a non-default dataset, clear all row selections
-        if (dataset_name is None and contents is not None) or \
-           row_options is None:
+        if dataset_name is None or row_options is None:
             return []
         else:
             row_options = [r['value'] for r in row_options]
@@ -541,9 +548,39 @@ def callbacks(app):
                State('file-upload', 'contents')]
     )
     def clear_cols(_, col_options, dataset_name, contents): 
-        if (dataset_name is None and contents is not None) or \
-           col_options is None:
+        if dataset_name is None or col_options is None:
             return []
         else:
             col_options = [c['value'] for c in col_options]
             return col_options[:datasets[dataset_name]['defaultCols']]
+
+    # show filename that was uploaded
+
+    @app.callback(
+        Output('file-upload-name', 'children'),
+        [Input('file-upload', 'contents'),
+         Input('file-upload', 'filename')],
+        state=[State('clustergram-datasets', 'value')]
+    )
+    def show_uploaded_filename(contents, filename, dataset_name):
+        if filename is not None and dataset_name is not None:
+            return 'Please ensure that the "preloaded datasets" \
+            dropdown is cleared to show data from the file {}.'.format(
+                filename
+            )
+        if filename is not None: 
+            return 'Successfully uploaded file {}.'.format(filename)
+        return ''
+
+    # clear preloaded dataset if there is a file upload(
+
+    @app.callback(
+        Output('clustergram-datasets', 'value'),
+        [Input('file-upload', 'contents'),
+         Input('file-upload', 'filename')],
+        state=[State('clustergram-datasets', 'value')]
+    )
+    def clear_preloaded_on_upload(contents, filename, current):
+        if contents is not None:
+            return None
+        return current

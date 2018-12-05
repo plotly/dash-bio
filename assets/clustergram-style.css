@@ -12,13 +12,13 @@
     color: #dddddd;
 }
 
-#clustergram-options::-webkit-scrollbar { 
+#clustergram-body > ::-webkit-scrollbar { 
     width: 2px;
     background-color: #3e0f2e;
     margin-right:5px;
 }
 
-#clustergram-options::-webkit-scrollbar-thumb {
+#clustergram-body > ::-webkit-scrollbar-thumb {
     background: #99003d;
     margin-right:5px;
 }
@@ -27,12 +27,12 @@
     display: none;
 }
 
-
 #clustergram-options {
-    width: 20%;
+    width: 200px;
     min-width:75px;
-    position: relative;
     float:left;
+    display: inline-block !important;
+    left: 20px; 
     border: solid 1px #3e0f2e;
     padding: 20px;
     margin-top:50px;
@@ -46,12 +46,13 @@
 
 #clustergram-wrapper {
     height: 600px;
-    width: 100%;
-    max-width:800px; 
+    width: 900px;
+    display: inline-block !important; 
     float:right;
     padding: 0px;
     overflow-x: scroll;
     margin: 0px;
+    margin-left: 100px; 
 }
 #clustergram-body .Select, #clustergram-body .Select-control, #clustergram-body input, #clustergram-body .Select-menu-outer, #clustergram-body .Select-value-label {
     background-color: black !important;
@@ -115,8 +116,9 @@
     margin-top: 50px;
     margin-left: 20px;
     margin-bottom:50px;
+    display: inline-block;
     float: left;
-    width: calc(75% - 100px);
+    width: calc(100% - 500px);
     border-radius: 5px;
     padding: 20px; 
     border: 1px solid #3e0f2e;
