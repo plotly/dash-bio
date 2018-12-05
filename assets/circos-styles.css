@@ -21,6 +21,10 @@
     overflowY: hidden;
 }
 
+.circos-chords-text {
+   padding-top: 4%;
+}
+
 .circos-size-slider {
    padding-left: 3.5%;
 }
