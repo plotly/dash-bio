@@ -7,7 +7,8 @@
     left: 0px;
     bottom: 0px; 
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
+    padding-top: 50px; 
     background-color: #F3F6FA; 
     font-family: 'Open Sans'; 
 }
@@ -82,6 +83,12 @@
     padding-left: 25px; 
 }
 
+#seq-view-upload-display {
+    display: inline-block;
+    vertical-align: top; 
+    width: auto;
+    
+}
 #seq-view-fasta-upload{
     width: 400px;
     height: 50px;
@@ -91,12 +98,11 @@
     border-radius: 5px;
     text-align: center; 
     margin: 20px;
+    top: 10px; 
     padding: 10px;
 }
 #sequence-viewer-container{
     width: 400px;
-    display: inline-block;
-    vertical-align: top;
     border: solid 1px #636efa;
     border-radius: 5px;
     padding: 10px;
@@ -106,7 +112,7 @@
 
 #seq-view-controls-container {
     width:175px;
-    height: 500px;
+    height: 540px;
     overflow: scroll;
     word-wrap: break-word;
     display: inline-block;
@@ -135,8 +141,8 @@
 }
 		   
 #seq-view-info-container {
-    width: 400px;
-    height: 500px;
+    width: 380px;
+    height: 540px;
     border: solid 1px #636efa; 
     overflow:scroll;
     word-wrap: break-word;

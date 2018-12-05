@@ -58,26 +58,32 @@ def layout():
 
     return html.Div(id='seq-view-body', children=[
         html.Div(
-            id='seq-view-fasta-upload',
+            id='seq-view-upload-display',
             children=[
-                dcc.Upload(
-                    id='upload-fasta-data',
-                    children=html.Div([
-                        "Drag and Drop or ",
-                        html.A("Select file")
-                    ]),
+                html.Div(
+                    id='seq-view-fasta-upload',
+                    children=[
+                        dcc.Upload(
+                            id='upload-fasta-data',
+                            children=html.Div([
+                                "Drag and Drop or ",
+                                html.A("Select file")
+                            ]),
+                        ),
+                    ]
                 ),
-            ]
-        ),
 
-        html.Div(
-            id='sequence-viewer-container',
-            children=[
-                dash_bio.SequenceViewer(
-                    id='sequence-viewer',
+                html.Div(
+                    id='sequence-viewer-container',
+                    children=[
+                        dash_bio.SequenceViewer(
+                            id='sequence-viewer',
+                        )
+                    ]
                 )
             ]
         ),
+        
         html.Div(
             id='seq-view-controls-container',
             children=[
