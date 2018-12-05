@@ -41,10 +41,12 @@ initialCov = [
      'bgcolor': 'rgb(200,200,0)', 'tooltip': 'Turn', 'underscore': False}
 ]
 
-initialFile = './tests/dash/sample_data/P01308.fasta.txt'
-initialProtein = pr.readFasta(
-    filePath=initialFile
-)[0]
+
+def header_colors():
+    return {
+        'bg_color': '#2b69fb',
+        'font_color': 'white'
+    }
 
 
 def description():
@@ -55,7 +57,6 @@ def description():
 def layout():
 
     return html.Div(id='seq-view-body', children=[
-
         html.Div(
             id='seq-view-fasta-upload',
             children=[
@@ -74,8 +75,6 @@ def layout():
             children=[
                 dash_bio.SequenceViewer(
                     id='sequence-viewer',
-                    sequence=initialProtein['sequence'],
-                    coverage=initialCov
                 )
             ]
         ),
@@ -83,11 +82,28 @@ def layout():
         html.Div(
             id='seq-view-controls-container',
             children=[
+                
+                "Example sequences:",
+                dcc.Dropdown(
+                    id='preloaded-sequences',
+                    options=[
+                        {'label': 'insulin',
+                         'value': './tests/dash/sample_data/P01308.fasta.txt'},
+                        {'label': 'keratin',
+                         'value': './tests/dash/sample_data/P04264.fasta.txt'},
+                        {'label': 'albumin',
+                         'value': './tests/dash/sample_data/NX_P02768.fasta.txt'}
+                    ],
+                    value='./tests/dash/sample_data/P01308.fasta.txt'
+                ),
+
+                html.Hr(),
 
                 html.Div(
                     id='seq-view-entry-dropdown-container',
                     children=[
-                        "Entry to view",
+                        "Entry to view (for files with more than \
+                        one protein):",
                         dcc.Dropdown(
                             id='fasta-entry-dropdown',
                             options=[
@@ -153,6 +169,14 @@ def layout():
                     html.Button(
                         id='coverage-submit',
                         children='Submit'
+                    ),
+                    html.Button(
+                        id='coverage-reset',
+                        children='Reset'
+                    ),                    
+                    dcc.Store(
+                        id='coverage-storage',
+                        data=initialCov
                     )
 
                 ]), 
@@ -266,16 +290,16 @@ def callbacks(app):
     @app.callback(
         Output('sequence-viewer', 'sequence'),
         [Input('upload-fasta-data', 'contents'),
-         Input('fasta-entry-dropdown', 'value')]
+         Input('fasta-entry-dropdown', 'value'),
+         Input('preloaded-sequences', 'value')]
     )
-    def update_sequence(upload_contents, v):
+    def update_sequence(upload_contents, entry, preloaded):
         
-        if v is None:
+        if entry is None:
             return ''
 
-        
-        if upload_contents is None or upload_contents == 0:
-            protein = initialProtein
+        if upload_contents is None and preloaded is not None:
+            protein = pr.readFasta(filePath=preloaded)[entry]
         else:            
             data = ''
             try:
@@ -286,12 +310,11 @@ def callbacks(app):
             if data == '':
                 return '-'
 
-            protein = pr.readFasta(dataString=data)[v]
+            protein = pr.readFasta(dataString=data)[entry]
 
         sequence = protein['sequence']
 
         return sequence
-
 
     @app.callback(
         Output('cov-options', 'style'),
@@ -304,38 +327,43 @@ def callbacks(app):
             return {'height': '0px', 'overflow': 'hidden'}
     
     # coverage
+
     @app.callback(
-        Output('sequence-viewer', 'coverage'),
+        Output('coverage-storage', 'data'),
         [Input('selection-or-coverage', 'value'),
          Input('coverage-submit', 'n_clicks'),
-         Input('upload-fasta-data', 'contents')],
-        state=[State('sequence-viewer', 'mouseSelection'),
-               State('sequence-viewer', 'coverage'), 
+         Input('coverage-reset', 'n_clicks')],
+        state=[State('coverage-storage', 'data'),
+               State('sequence-viewer', 'mouseSelection'),
                State('coverage-color', 'value'),
                State('coverage-bg-color', 'value'),
                State('coverage-underscore', 'values'),
-               State('coverage-tooltip', 'value')]
+               State('coverage-tooltip', 'value'),
+               State('coverage-submit', 'n_clicks_timestamp'),
+               State('coverage-reset', 'n_clicks_timestamp')]
     )
-    def edit_coverage(selOrCov, nclicks, dataContents,
-                      mouseSel, currentCov,
-                      color, bgcolor, underscore,
-                      tooltip):
-        if(dataContents is None and selOrCov == 'cov' and
-           len(currentCov) < len(initialCov)):
-            currentCov = initialCov
+    def edit_coverage(selOrCov, s_nclicks, r_nclicks,
+                      currentCov,
+                      mouseSel, color, bgcolor,
+                      underscore, tooltip,
+                      s_timestamp, r_timestamp):
         
-        if(selOrCov != 'cov'):
-            return [] 
-
+        if(r_timestamp is not None and
+           (s_timestamp is None or s_timestamp < r_timestamp)):
+            return []
+        
         if(mouseSel is not None and color is not None): 
             
             # first ensure that this hasn't already been covered
-            ranges = [(c['start'], c['end']) for c in currentCov]
             for i in range(len(currentCov)): 
-                if(mouseSel['start'] in range(currentCov[i]['start'], currentCov[i]['end']) or
-                   mouseSel['end'] in range(currentCov[i]['start'], currentCov[i]['end']) or
-                   currentCov[i]['start'] in range(mouseSel['start'], mouseSel['end']) or
-                   currentCov[i]['end'] in range(mouseSel['start'], mouseSel['end'])):
+                if(mouseSel['start'] in range(currentCov[i]['start'],
+                                              currentCov[i]['end']) or
+                   mouseSel['end'] in range(currentCov[i]['start'],
+                                            currentCov[i]['end']) or
+                   currentCov[i]['start'] in range(mouseSel['start'],
+                                                   mouseSel['end']) or
+                   currentCov[i]['end'] in range(mouseSel['start'],
+                                                 mouseSel['end'])):
                     return currentCov
             
             currentCov.append(
@@ -344,12 +372,27 @@ def callbacks(app):
                  'color': color,
                  'bgcolor': bgcolor,
                  'underscore': True if len(underscore) > 0 else False,
-                 'tooltip': tooltip
-                }
+                 'tooltip': tooltip}
             )
+
+            # sort so that the tooltips can match up
+            currentCov.sort(key=lambda x: x['start'])
         
         return currentCov
 
+    @app.callback(
+        Output('sequence-viewer', 'coverage'),
+        [Input('coverage-storage', 'data'),
+         Input('selection-or-coverage', 'value')]
+    )
+    def apply_coverage(coverage_stored,
+                       selOrCov):
+        
+        if(selOrCov != 'cov'):
+            return [] 
+
+        return coverage_stored
+        
     # controls
     @app.callback(
         Output('sel-slider', 'disabled'),
@@ -359,16 +402,6 @@ def callbacks(app):
         if(v == 'sel'):
             return False
         return True
-
-    @app.callback(
-        Output('sel-color', 'disabled'),
-        [Input('selection-or-coverage', 'value')]
-    )
-    def enable_disable_slider(v):
-        if(v == 'sel'):
-            return False
-        return True
-
     
     @app.callback(
         Output('sequence-viewer', 'selection'),
@@ -385,14 +418,18 @@ def callbacks(app):
 
     @app.callback(
         Output('fasta-entry-dropdown', 'options'),
-        [Input('upload-fasta-data', 'contents')]
+        [Input('upload-fasta-data', 'contents'),
+         Input('preloaded-sequences', 'value')]
     )
-    def update_protein_options(upload_contents):
+    def update_protein_options(upload_contents, preloaded):
         
         dropdownOptions = [
             {'label': 1, 'value': 0}
         ]
-        if(upload_contents is not None): 
+        
+        if upload_contents is None and preloaded is not None:
+            proteins = pr.readFasta(filePath=preloaded)
+        elif upload_contents is not None:
             data = ''
             try:
                 content_type, content_string = upload_contents.split(',')
@@ -400,13 +437,13 @@ def callbacks(app):
             except AttributeError:
                 pass
             proteins = pr.readFasta(dataString=data)
-            if(type(proteins) is list):
-                dropdownOptions = []
-                for i in range(len(proteins)):
-                    dropdownOptions.append(dict(
-                        label=i+1,
-                        value=i
-                    ))
+        if(type(proteins) is list):
+            dropdownOptions = []
+            for i in range(len(proteins)):
+                dropdownOptions.append(dict(
+                    label=i+1,
+                    value=i
+                ))
         return dropdownOptions
 
     @app.callback(
@@ -421,16 +458,17 @@ def callbacks(app):
     @app.callback(
         Output('sequence-viewer', 'title'),
         [Input('sequence-viewer', 'sequence'),
-         Input('fasta-entry-dropdown', 'value')],
+         Input('fasta-entry-dropdown', 'value'),
+         Input('preloaded-sequences', 'value')],
         state=[State('upload-fasta-data', 'contents')]
     )
-    def update_sequence_title(seq, v, upload_contents):
+    def update_sequence_title(seq, entry, preloaded, upload_contents):
 
-        if v is None:
+        if entry is None:
             return ''
         
-        if upload_contents is None: 
-            protein = initialProtein
+        if upload_contents is None and preloaded is not None: 
+            protein = pr.readFasta(filePath=preloaded)[0]
 
         else: 
             data = ''
@@ -442,7 +480,7 @@ def callbacks(app):
             if data == '':
                 return ''
 
-            protein = pr.readFasta(dataString=data)[v]
+            protein = pr.readFasta(dataString=data)[entry]
         
         titles = ['name', 'entry name', 'protein name', 'identifier', 'desc-0']
 
@@ -522,12 +560,18 @@ def callbacks(app):
 
     @app.callback(
         Output('test-coverage-clicked', 'children'),
-        [Input('sequence-viewer', 'coverageClicked')]
+        [Input('sequence-viewer', 'coverageClicked')],
+        state=[State('coverage-storage', 'data')]
     )
-    def update_cov_clicked(v):
-        return v
-
-
+    def update_cov_clicked(index, currentCov):
+        if index is None or currentCov is None:
+            return ''
+        
+        return 'Index: {} Tooltip: {}'.format(
+            index,
+            currentCov[index]['tooltip']
+        )
+    
     @app.callback(
         Output('test-mouse-selection', 'children'),
         [Input('sequence-viewer', 'mouseSelection')]
@@ -540,12 +584,16 @@ def callbacks(app):
     @app.callback(
         Output('desc-info', 'children'),
         [Input('upload-fasta-data', 'contents'),
-         Input('fasta-entry-dropdown', 'value')],
+         Input('fasta-entry-dropdown', 'value'),
+         Input('preloaded-sequences', 'value')],
     )
-    def update_desc_info(upload_contents, p):
+    def update_desc_info(upload_contents, entry, preloaded):
+
+        if entry is None:
+            return 'Please select an entry.'
         
-        if(upload_contents is None or upload_contents == 0):
-            protein = initialProtein
+        if upload_contents is None and preloaded is not None:
+            protein = pr.readFasta(filePath=preloaded)[entry]
 
         else:
             data = ''
@@ -558,7 +606,7 @@ def callbacks(app):
             if data == '':
                 return []
             try:
-                protein = pr.readFasta(dataString=data)[p]
+                protein = pr.readFasta(dataString=data)[entry]
             except Exception:
                 return ['NA']
         
