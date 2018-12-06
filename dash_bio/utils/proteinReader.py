@@ -122,7 +122,9 @@ def decode_description(description):
             for i in range(len(desc)-1):
                 decoded[dbInfo[i]] = desc[i+1]
     else:
-        for i in range(len(desc)-1):
-            decoded['desc-'+str(i)] = desc[i+1]
-
+        if len(desc) > 1: 
+            for i in range(len(desc)-1):
+                decoded[str(i)] = desc[i+1]
+        else:
+            decoded['Header'] = desc[0]
     return decoded
