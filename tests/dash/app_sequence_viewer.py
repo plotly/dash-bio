@@ -265,7 +265,7 @@ def layout():
                     id='preloaded-and-uploaded-alert',
                     children=[
                         'You have uploaded your own data. In order \
-                        to view it, please ensure that the "protein \
+                        to view it, please ensure that the "preloaded \
                         sequences" dropdown has been cleared.'
                     ],
                     style={'display': 'none'}
