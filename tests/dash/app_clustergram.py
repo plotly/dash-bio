@@ -14,12 +14,11 @@ colorPalette = [
 
 fig_options = dict(
     data=None, cluster='all',
-    optimalLeafOrder=False,
     displayRatio=[0.3, 0.1],
     columnLabels=None, rowLabels=None,
     hideLabels=['row'],
     colorThreshold=dict(row=9, col=35),
-    height=650, width=800,
+    height=650, width=900,
     colorMap=[
         [0.0, colorPalette[0]],
         [0.5, colorPalette[1]],
@@ -35,13 +34,14 @@ fig_options = dict(
         size=10
     ),
     tickFont=dict(
-        size=10,
+        size=7,
         color='rgb(200,200,200)'
     ),
-    symmetricValue=True,
+    optimalLeafOrder=True,
+    symmetricValue=False,
     logTransform=True,
     imputeFunction={
-        'strategy': 'median',
+        'strategy': 'mean',
         'missingValues': 'NaN',
         'axis': 1
     }
@@ -49,27 +49,47 @@ fig_options = dict(
 
 
 datasets = {
-    'initial': {
+    'transcription': {
         'file': './tests/dash/sample_data/E-GEOD-38612-query-results.tpms.tsv',
         'rowLabelsSource': 'Gene Name',
         'headerRows': 5,
         'headerCols': 2,
         'defaultRows': 10,
-        'defaultCols': 4},
+        'defaultCols': 4,
+        'colorThreshold': {
+            'maxRow': 330,
+            'maxCol': 135,
+            'row': 145,
+            'col': 100
+        }
+    }, 
     'iris': {
         'file': './tests/dash/sample_data/iris.tsv',
         'rowLabelsSource': 'Num',
-        'headerRows': 1,
+        'headerRows': 4,
         'headerCols': 2,
         'defaultRows': 150,
-        'defaultCols': 4},
-    'khan': {
-        'file': './tests/dash/sample_data/khan.tsv',
-        'rowLabelsSource': 'Gene Description',
-        'headerRows': 1,
-        'headerCols': 2,
-        'defaultRows': 100,
-        'defaultCols': 20}
+        'defaultCols': 4,
+        'colorThreshold': {
+            'maxRow': 7.5,
+            'maxCol': 60,
+            'row': 3.5,
+            'col': 34}
+    },
+    'mtcars': {
+        'file': './tests/dash/sample_data/mtcars.tsv',
+        'rowLabelsSource': 'model',
+        'headerRows': 4,
+        'headerCols': 1,
+        'defaultRows': 32,
+        'defaultCols': 11,
+        'colorThreshold': {
+            'maxRow': 430,
+            'maxCol': 1460,
+            'row': 215,
+            'col': 660
+        }
+    }
 }
 
 
@@ -106,12 +126,15 @@ def layout():
                 dcc.Dropdown(
                     id='clustergram-datasets',
                     options=[
-                        {'label': 'Initial',
-                         'value': 'initial'},
                         {'label': 'Anderson\'s Iris Data',
-                         'value': 'iris'}
+                         'value': 'iris'},
+                        {'label': 'mtcars',
+                         'value': 'mtcars'},
+                        {'label': 'Arabidopsis roots, leaves, \
+                        flowers and siliques',
+                         'value': 'transcription'},
                     ],
-                    value='initial'
+                    value='iris'
                 ), 
 
                 html.Div(
@@ -355,6 +378,47 @@ def callbacks(app):
             'colOptions': colOptions
         }
 
+    @app.callback(
+        Output('row-threshold', 'value'),
+        [Input('clustergram-datasets', 'value'),
+         Input('file-upload', 'contents')]
+    )
+    def update_row_threshold_value(dataset_name, contents):
+        if dataset_name is None:
+            return 0
+        return datasets[dataset_name]['colorThreshold']['row']
+
+    @app.callback(
+        Output('column-threshold', 'value'),
+        [Input('clustergram-datasets', 'value'),
+         Input('file-upload', 'contents')]
+    )
+    def update_col_threshold_value(dataset_name, contents):
+        if dataset_name is None:
+            return 0
+        return datasets[dataset_name]['colorThreshold']['col']
+
+    @app.callback(
+        Output('row-threshold', 'max'),
+        [Input('clustergram-datasets', 'value'),
+         Input('file-upload', 'contents')]
+    )
+    def update_row_threshold_max(dataset_name, contents):
+        if dataset_name is None:
+            return 20
+        return datasets[dataset_name]['colorThreshold']['maxRow']
+    
+    @app.callback(
+        Output('column-threshold', 'max'),
+        [Input('clustergram-datasets', 'value'),
+         Input('file-upload', 'contents')]
+    )
+    def update_col_threshold_max(dataset_name, contents):
+        if dataset_name is None:
+            return 20
+        return datasets[dataset_name]['colorThreshold']['maxCol']
+
+    
     # store figure options
     
     @app.callback(
@@ -378,10 +442,10 @@ def callbacks(app):
                                'col': colThresh},
             'rowLabels': selRows,
             'columnLabels': selCols,
-            'optimalLeafOrder': False,
+            'optimalLeafOrder': True,
             'hideLabels': hideLabels,
             'displayRatio': [0.3, 0.1],
-            'height': 650, 'width': 800,
+            'height': 650, 'width': 900,
             'colorMap': [
                 [0.0, colorPalette[0]],
                 [0.5, colorPalette[1]],
@@ -400,8 +464,8 @@ def callbacks(app):
                 'color': 'rgb(200,200,200)',
                 'size': 10
             },
-            'symmetricValue': True,
-            'logTransform': True,
+            'symmetricValue': False,
+            'logTransform': False,
             'imputeFunction': {
                 'strategy': 'median',
                 'missingValues': 'NaN',

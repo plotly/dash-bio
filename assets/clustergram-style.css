@@ -52,7 +52,6 @@
     padding: 0px;
     overflow-x: scroll;
     margin: 0px;
-    margin-left: 100px; 
 }
 #clustergram-body .Select, #clustergram-body .Select-control, #clustergram-body input, #clustergram-body .Select-menu-outer, #clustergram-body .Select-value-label {
     background-color: black !important;
