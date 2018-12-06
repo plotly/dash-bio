@@ -8,10 +8,21 @@
 
 #vp-info-panel-div {
     width: 70%;
-    margin: 15;
+    margin: 15px;
+    border: solid 2px #C8D4E3;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 #vp-controls-div {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#vp-indicators-div {
     margin-top: 20px;
     display: flex;
     flex-direction: row;
@@ -24,9 +35,24 @@
     align-items: center;
 }
 
+#vp-graph {
+    height: 600px;
+}
+
+#vp-dataset-dropdown{
+    width: 140px;
+}
+
 .vp-vertical-style {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.vp-horizontal-style {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
@@ -37,8 +63,21 @@
     width: 80px;
 }
 
+.vp-input-like{
+    font-size: 1.5em;
+    height: 30px;
+    width: 80px;
+    border: solid 1px #C8D4E3;
+    border-radius: 5px;
+    text-align: center;
+    align-items: center;
+}
+
 .vp-text {
     font-size: 1.3em;
+    color: #506784;
+}
+.vp-title {
     color: #506784;
 }
 
