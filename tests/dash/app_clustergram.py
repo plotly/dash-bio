@@ -428,13 +428,16 @@ def callbacks(app):
          Input('column-threshold', 'value'),
          Input('selected-rows', 'value'),
          Input('selected-columns', 'value'),
-         Input('hide-labels', 'value')]
+         Input('hide-labels', 'value')],
+        state=[State('clustergram-datasets', 'value'),
+               State('file-upload', 'contents')]
     )
     def store_fig_options(
             clusterBy,
             rowThresh, colThresh,
             selRows, selCols,
-            hideLabels
+            hideLabels,
+            dataset_name, contents
     ):
         return {
             'cluster': 'all' if len(clusterBy) > 1 else clusterBy[0],
@@ -464,8 +467,8 @@ def callbacks(app):
                 'color': 'rgb(200,200,200)',
                 'size': 10
             },
-            'symmetricValue': False,
-            'logTransform': False,
+            'symmetricValue': False if dataset_name is not None else True,
+            'logTransform': False if dataset_name is not None else True,
             'imputeFunction': {
                 'strategy': 'median',
                 'missingValues': 'NaN',
