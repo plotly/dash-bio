@@ -1,19 +1,16 @@
 {
   "name": "dash-bio",
-  "scripts": {
-  },
-  "env": {
-  },
+  "scripts": {},
+  "env": {},
   "formation": {
     "web": {
       "quantity": 1
     }
   },
-  "addons": [
-  ],
+  "addons": [],
   "buildpacks": [
     {
-      "url": "https://github.com/icoxfog417/conda-buildpack"
+      "url": "heroku/python"
     }
   ]
 }
