@@ -21,6 +21,10 @@
     overflowY: hidden;
 }
 
+.circos-chords-text {
+   padding-top: 4%;
+}
+
 .circos-size-slider {
    padding-left: 3.5%;
 }
@@ -38,7 +42,7 @@
 .circos-row-two {
    margin-top: 2.5%; 
    border: 1px solid #2a3f5f;
-   padding: 1% 2% 1% 3%;
+   padding: 1% 2% 3% 3%;
 }
 
 .circos-select-data-set {
@@ -70,7 +74,12 @@
 
 .circos-text-area {
    width: 100%;
-   height: 12vh;
+   height: 20vh;
+}
+
+.circos-text-area-explain {
+   height: 30vh;
+   width: 100%;
 }
 
 .circos-upload-data {
@@ -93,7 +102,8 @@
 
 .circos-column-one {
    max-height: 88.5vh;
-   overflow: hidden auto;
+   padding-left: 1%;
+   padding-top: 1%;
 }
 
 .circos-column-two {

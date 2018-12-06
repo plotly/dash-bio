@@ -356,7 +356,8 @@ class _Clustergram(object):
                 [{}, {'colspan': 2}, None, {}]
             ],
             vertical_spacing=0,
-            horizontal_spacing=0
+            horizontal_spacing=0,
+            print_grid=False
         )
 
         fig['layout']['hovermode'] = 'closest'
@@ -369,22 +370,56 @@ class _Clustergram(object):
 
         # for column dendrogram, leaves are at bottom (y=0)
         for i in range(len(t['col'])):
+            xs = t['col'][i]['x']
+            ys = t['col'][i]['y']
+
+            # during serialization (e.g., in a dcc.Store, the NaN
+            # values become None and the arrays get turned into lists;
+            # they must be converted back 
+            if(isinstance(xs, list)):
+                xs = [x if x is not None else np.nan for x in xs]
+                xs = np.array(xs)
+                t['col'][i].update(
+                    x=xs
+                )
+            if(isinstance(ys, list)):
+                ys = [y if y is not None else np.nan for y in ys]
+                ys = np.array(ys)
+                t['col'][i].update(
+                    y=ys
+                )
             tickvals_col += [
-                t['col'][i]['x'].flatten()[j]
-                for j in range(len(t['col'][i]['x'].flatten()))
-                if t['col'][i]['y'].flatten()[j] == 0.0 and
-                t['col'][i]['x'].flatten()[j] % 10 == 5
+                xs.flatten()[j]
+                for j in range(len(xs.flatten()))
+                if ys.flatten()[j] == 0.0 and
+                xs.flatten()[j] % 10 == 5
             ]
         tickvals_col = list(set(tickvals_col))
 
         # for row dendrogram, leaves are at right(x=0, since we
         # horizontally flipped it)
         for i in range(len(t['row'])):
+            xs = t['row'][i]['x']
+            ys = t['row'][i]['y']
+            
+            if(isinstance(xs, list)):
+                xs = [x if x is not None else np.nan for x in xs]
+                xs = np.array(xs)
+                t['row'][i].update(
+                    x=xs
+                )
+            if(isinstance(ys, list)):
+                ys = [y if y is not None else np.nan for y in ys]
+                ys = np.array(ys)
+                t['row'][i].update(
+                    y=ys
+                )
+            
             tickvals_row += [
-                t['row'][i]['y'].flatten()[j]
-                for j in range(len(t['row'][i]['y'].flatten()))
-                if t['row'][i]['x'].flatten()[j] == 0.0 and
-                t['row'][i]['y'].flatten()[j] % 10 == 5
+                ys.flatten()[j]
+                for j in range(len(ys.flatten()))
+                if xs.flatten()[j] == 0.0 and
+                ys.flatten()[j] % 10 == 5
             ]
 
         tickvals_row = list(set(tickvals_row))
@@ -701,6 +736,7 @@ class _Clustergram(object):
             }
             self._rowLabels = scp.array(Prow['ivl'])
             trace_list['row'] = self._colorDendroClusters(Prow_tmp, 'row')
+
         return trace_list
 
     def _colorDendroClusters(
