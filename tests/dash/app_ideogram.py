@@ -93,18 +93,6 @@ def layout():
                                                                 "value": "drosophila-melanogaster",
                                                             },
                                                             {
-                                                                "label": "Homo-sapiens-400",
-                                                                "value": "homo-sapiens-400",
-                                                            },
-                                                            {
-                                                                "label": "Homo-sapiens-550",
-                                                                "value": "homo-sapiens-550",
-                                                            },
-                                                            {
-                                                                "label": "GCF_000001405-1200",
-                                                                "value": "homo-sapiens-GCF_000001405.12-1200",
-                                                            },
-                                                            {
                                                                 "label": "Zea-mays",
                                                                 "value": "zea-mays",
                                                             },
