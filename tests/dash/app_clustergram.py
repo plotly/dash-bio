@@ -165,30 +165,6 @@ def layout():
                     value='Gene Name'
                 ),
                 html.Hr(),
-                
-                html.Div(
-                    'Rows to display',
-                    className='clustergram-option-name'
-                ),
-                html.Br(),
-                dcc.Dropdown(
-                    id='selected-rows',
-                    multi=True,
-                    value=[]
-                ),
-                html.Br(), 
-                html.Div(
-                    'Columns to display',
-                    className='clustergram-option-name'
-                ), 
-                html.Br(),
-                dcc.Dropdown(
-                    id='selected-columns',
-                    multi=True,
-                    value=[]
-                ),
-                html.Hr(),
-
                 html.Div(
                     'Cluster by:',
                     className='clustergram-option-name'
@@ -302,7 +278,35 @@ def layout():
                     ],
                     n_clicks=0,
                     n_clicks_timestamp=0
-                )
+                ),
+
+                html.Hr(),
+                
+                html.Div(
+                    'Rows to display',
+                    className='clustergram-option-name'
+                ),
+                
+                html.Br(),
+
+                dcc.Dropdown(
+                    id='selected-rows',
+                    multi=True,
+                    value=[]
+                ),
+                
+                html.Br(), 
+                html.Div(
+                    'Columns to display',
+                    className='clustergram-option-name'
+                ), 
+                html.Br(),
+                dcc.Dropdown(
+                    id='selected-columns',
+                    multi=True,
+                    value=[]
+                ),
+
 
             ]
         ),
