@@ -62,7 +62,6 @@ def layout():
             children=[
                 html.Div(
                     id='seq-view-fasta-upload',
-                    title='Upload a file in the FASTA format to be parsed and displayed.',
                     children=[
                         dcc.Upload(
                             id='upload-fasta-data',
@@ -76,10 +75,6 @@ def layout():
 
                 html.Div(
                     id='sequence-viewer-container',
-                    title='The number in the circle represents the number ' + 
-                    'of monomers (nucleotides or amino acids) in the ' + 
-                    'sequence that is being displayed. The search bar ' +
-                    'can be used with regex.',
                     children=[
                         dash_bio.SequenceViewer(
                             id='sequence-viewer',
@@ -95,8 +90,7 @@ def layout():
 
                 html.Div(
                     "Preloaded sequences",
-                    className='seq-view-controls-name',
-                    title='Select a preloaded dataset here.', 
+                    className='seq-view-controls-name'
                 ),
                 dcc.Dropdown(
                     id='preloaded-sequences',
@@ -117,8 +111,6 @@ def layout():
                 html.Br(), 
                 html.Div(
                     id='seq-view-entry-dropdown-container',
-                    title='Some FASTA files contain more than one sequence. ' +
-                    'Use this dropdown to select which sequence is displayed.',
                     children=[
                         html.Div(
                             "View entry:",
@@ -139,7 +131,6 @@ def layout():
                 html.Br(),                
                 html.Div(
                     id='seq-view-sel-or-cov-container',
-                    title='Enable either selection or coverage.',
                     children=[
                         html.Div(
                             "Selection or coverage",
@@ -165,7 +156,6 @@ def layout():
                 ), 
                 html.Div(
                     id='test-mouse-selection',
-                    title='The subsequence selected by the mouse.',
                     children="None"
                 ),
 
@@ -213,16 +203,12 @@ def layout():
                         data=initialCov
                     )
 
-                ], title='Add a new section by selecting a region with your ' +
-                         'mouse and configuring the text style and tooltip that ' +
-                         'will display on hover.'), 
+                ]), 
 
                 html.Hr(), 
                 
                 html.Div(
                     id='seq-view-sel-slider-container',
-                    title='Use the slider to highlight a region of ' +
-                    'the sequence.',
                     children=[
                         "Selection region",
                         dcc.RangeSlider(
@@ -234,10 +220,6 @@ def layout():
                         ),
                         html.Div(
                             id='seq-view-dna-or-protein-container',
-                            title='Translate the highlighted portion into ' +
-                            'an amino acid sequence, and display the amino ' +
-                            'acid counts. DNA and RNA can be transcribed into ' +
-                            'an amino acid sequence.',
                             children=[
                                 "Translate from",
                                 dcc.RadioItems(
@@ -295,8 +277,7 @@ def layout():
                 ),
                 html.Div(
                     id='desc-info',
-                    title='The information parsed from the FASTA file ' +
-                    'selected.', 
+                    children=[]
                 ),
                 html.Br(),
 
@@ -305,9 +286,7 @@ def layout():
                     className='seq-view-info-element'
                 ),
                 html.Div(
-                    id='test-selection',
-                    title='The amino acid composition of the subsequence ' +
-                    'selected by using the slider.'
+                    id='test-selection'
                 ),
                 html.Br(),
 
@@ -316,9 +295,7 @@ def layout():
                     className='seq-view-info-element'
                 ),
                 html.Div(
-                    id='test-coverage-clicked',
-                    title='The index of the coverage entry that was clicked ' +
-                    'last, and the tooltip that corresponds to it.'
+                    id='test-coverage-clicked'
                 ),
                 html.Br(),
 
@@ -327,10 +304,7 @@ def layout():
                     className='seq-view-info-element'
                 ),
                 html.Div(
-                    id='test-subpart-selection',
-                    title='The start and end positions, as well as the ' +
-                    'subsequences, that have been selected using the search ' +
-                    'bar.'
+                    id='test-subpart-selection'
                 )
             ]
         )
