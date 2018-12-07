@@ -340,7 +340,6 @@ def layout():
 def callbacks(app):
 
     # upload or preloaded
-
     @app.callback(
         Output('preloaded-sequences', 'value'),
         [Input('upload-fasta-data', 'contents')],
@@ -489,16 +488,6 @@ def callbacks(app):
         if color is None:
             color = 'blue'
         return [slider_value[0], slider_value[1], color]
-
-    # clear mouse selection
-
-    @app.callback(
-        Output('sequence-viewer', 'mouseSelection'),
-        [Input('sequence-viewer', 'sequence')]
-    )
-    def clear_mouse_selection(_):
-        return None
-    
     
     # controls
 
