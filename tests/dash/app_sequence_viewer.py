@@ -67,8 +67,8 @@ def layout():
                         dcc.Upload(
                             id='upload-fasta-data',
                             children=html.Div([
-                                "Drag and Drop or ",
-                                html.A("Select file")
+                                "Drag and drop or click to upload a \
+                                file."
                             ]),
                         ),
                     ]
