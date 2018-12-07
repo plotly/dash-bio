@@ -143,7 +143,8 @@ def layout():
                         dcc.Upload(
                             id='file-upload',
                             children=html.Div([
-                                "Drag and drop .tsv files or select files."
+                                "Drag and drop .tsv files, or click \
+                                to select files." 
                             ])
                         )
                     ],
@@ -201,7 +202,9 @@ def layout():
                     'Change color threshold',
                     className='clustergram-option-name'
                 ), 
+
                 html.Br(),
+
                 html.Div(
                     id='threshold-wrapper',
                     children=[
@@ -296,6 +299,7 @@ def layout():
                 ),
                 
                 html.Br(), 
+
                 html.Div(
                     'Columns to display',
                     className='clustergram-option-name'
