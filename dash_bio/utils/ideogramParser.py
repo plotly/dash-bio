@@ -19,7 +19,7 @@ parsed_data = ideoParser.ncbi_gdp_to_array('./ideogram_10116_GCF_000000225.4_NA_
         )
 '''
      
-def ncbi_gdp_to_array(file_location="", header_rows=1):
+def ncbi_gdp_to_list(file_location="", header_rows=1):
     '''
     Converts NCBI Genome Ideogram data to a Python list for use with 
     Ideogram.js
