@@ -311,7 +311,6 @@ def layout():
                                             dash_bio.DashIdeogram(
                                                 id="ideo-homology",
                                                 localOrganism=rat_data,
-                                                organism="human",
                                                 orientation="vertical",
                                                 showBandLabels=True,
                                                 showChromosomeLabels=True,
