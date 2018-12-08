@@ -7,7 +7,7 @@ import dash_html_components as html
 import json
 import base64
 
-rat_data = ideoParser.ncbi_gdp_to_json("./tests/dash/sample_data/ideogram_10116_GCF_000000225.4_NA_V1")
+rat_data = ideoParser.ncbi_gdp_to_list("./tests/dash/sample_data/ideogram_10116_GCF_000000225.4_NA_V1")
 
 def description():
     return "Compare, and analyze chromosome bands with the Dash Ideogram."
