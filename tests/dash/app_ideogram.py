@@ -14,25 +14,55 @@ def description():
     return "Compare, and analyze chromosome bands with the Dash Ideogram."
 
 
+def header_colors():
+    return {"bg_color": "#A2B1C6", "font_color": "#FFF", "light_logo": True}
+
+
+# Used to simplify chromosome inputs for Homology
+def chromosome_div(
+    id_tag="chr", name_tag="Chr", startone=0, stopone=1, starttwo=0, stoptwo=1
+):
+    return html.Div(
+        [
+            html.P("%s Start-one" % name_tag),
+            dcc.Input(
+                id="%s-startone" % id_tag,
+                placeholder="%s StartOne",
+                type="number",
+                value=startone,
+                className="ideogram-homology-inputs",
+            ),
+            html.P("%s Stop-one" % name_tag),
+            dcc.Input(
+                id="%s-stopone" % id_tag,
+                placeholder="Enter chromoomes",
+                type="number",
+                value=stopone,
+                className="ideogram-homology-inputs",
+            ),
+            html.P("%s Start-two" % name_tag),
+            dcc.Input(
+                id="%s-starttwo" % id_tag,
+                placeholder="%s Starttwo" % name_tag,
+                type="number",
+                value=starttwo,
+                className="ideogram-homology-inputs",
+            ),
+            html.P("%s Stop-two" % name_tag),
+            dcc.Input(
+                id="%s-stoptwo" % id_tag,
+                placeholder="Enter chromsomes",
+                type="number",
+                value=stoptwo,
+                className="ideogram-homology-inputs",
+            ),
+        ]
+    )
+
+
 def layout():
     return html.Div(
         [
-            html.Div(
-                children=[
-                    html.H2("Dash Bio: Ideogram Selector", id="ideogram-title"),
-                    html.A(
-                        html.Img(
-                            src="data:image/png;base64,{}".format(
-                                base64.b64encode(
-                                    open("./assets/dashbio_logo_words.png", "rb").read()
-                                ).decode()
-                            )
-                        ),
-                        href="http://www.dash.bio",
-                    ),
-                ],
-                className="ideogram-banner",
-            ),
             dcc.Tabs(
                 id="tabs",
                 children=[
@@ -43,7 +73,7 @@ def layout():
                                 [
                                     html.Div(
                                         [
-                                            html.H5("Options"),
+                                            html.H5("Options", id="ideogram-options"),
                                             html.Div(
                                                 [
                                                     html.P("Organism"),
@@ -55,24 +85,24 @@ def layout():
                                                                 "value": "human",
                                                             },
                                                             {
+                                                                "label": "Homo-sapiens",
+                                                                "value": "homo-sapiens",
+                                                            },
+                                                            {
                                                                 "label": "Drosophila-Melanogaster",
                                                                 "value": "drosophila-melanogaster",
                                                             },
                                                             {
-                                                                "label": "Homo-sapiens-400",
-                                                                "value": "homo-sapiens-400",
-                                                            },
-                                                            {
-                                                                "label": "Homo-sapiens-550",
-                                                                "value": "homo-sapiens-550",
-                                                            },
-                                                            {
-                                                                "label": "GCF_000001405-1200",
-                                                                "value": "homo-sapiens-GCF_000001405.12-1200",
-                                                            },
-                                                            {
                                                                 "label": "Zea-mays",
                                                                 "value": "zea-mays",
+                                                            },
+                                                            {
+                                                                "label": "Pan-troglodytes",
+                                                                "value": "pan-troglodytes",
+                                                            },
+                                                            {
+                                                                "label": "Macaca-fascicularis",
+                                                                "value": "macaca-fascicularis",
                                                             },
                                                         ],
                                                         value="human",
@@ -124,38 +154,6 @@ def layout():
                                                                 ],
                                                                 value=True,
                                                             ),
-                                                            html.P("Fully banded"),
-                                                            dcc.Dropdown(
-                                                                id="fullband-switch",
-                                                                options=[
-                                                                    {
-                                                                        "label": "Bands On",
-                                                                        "value": True,
-                                                                    },
-                                                                    {
-                                                                        "label": "Bands Off",
-                                                                        "value": False,
-                                                                    },
-                                                                ],
-                                                                value=True,
-                                                            ),
-                                                            html.P(
-                                                                "Non-nuclear Chromosomes"
-                                                            ),
-                                                            dcc.Dropdown(
-                                                                id="nuclear-switch",
-                                                                options=[
-                                                                    {
-                                                                        "label": "On",
-                                                                        "value": True,
-                                                                    },
-                                                                    {
-                                                                        "label": "Off",
-                                                                        "value": False,
-                                                                    },
-                                                                ],
-                                                                value=False,
-                                                            ),
                                                             html.P("Rotatable"),
                                                             dcc.Dropdown(
                                                                 id="rotatable-switch",
@@ -188,6 +186,42 @@ def layout():
                                                             ),
                                                         ]
                                                     ),
+                                                    html.P("Resolution (Human only)"),
+                                                    dcc.Dropdown(
+                                                        id="resolution-select",
+                                                        options=[
+                                                            {
+                                                                "label": "550 bphs",
+                                                                "value": 550,
+                                                            },
+                                                            {
+                                                                "label": "650 bphs",
+                                                                "value": 850,
+                                                            },
+                                                            {
+                                                                "label": "Off",
+                                                                "value": 1,
+                                                            },
+                                                        ],
+                                                        value=1,
+                                                    ),
+                                                    html.P(
+                                                        "Fully banded (Homosapiens only)"
+                                                    ),
+                                                    dcc.Dropdown(
+                                                        id="fullband-switch",
+                                                        options=[
+                                                            {
+                                                                "label": "Bands On",
+                                                                "value": True,
+                                                            },
+                                                            {
+                                                                "label": "Bands Off",
+                                                                "value": False,
+                                                            },
+                                                        ],
+                                                        value=True,
+                                                    ),
                                                     html.P("Chr Margin"),
                                                     dcc.Input(
                                                         id="chr-margin-input",
@@ -212,29 +246,10 @@ def layout():
                                                         value=8,
                                                         className="ideogram-column-content",
                                                     ),
-                                                    html.P("Resolution"),
-                                                    dcc.Dropdown(
-                                                        id="resolution-select",
-                                                        options=[
-                                                            {
-                                                                "label": "550 bphs",
-                                                                "value": 550,
-                                                            },
-                                                            {
-                                                                "label": "650 bphs",
-                                                                "value": 850,
-                                                            },
-                                                            {
-                                                                "label": "Off",
-                                                                "value": 1,
-                                                            },
-                                                        ],
-                                                        value=1,
-                                                    ),
                                                 ]
                                             ),
                                         ],
-                                        className="three columns ideogram-column",
+                                        className="two columns ideogram-column",
                                     ),
                                     html.Div(
                                         [
@@ -250,7 +265,7 @@ def layout():
                                                 rotatable=True,
                                             )
                                         ],
-                                        className="nine columns ideogram-custom",
+                                        className="ten columns ideogram-custom",
                                     ),
                                 ],
                                 className="row",
@@ -265,71 +280,32 @@ def layout():
                                     html.Div(
                                         [
                                             html.H5("Options"),
-                                            html.P("Select Chromosome"),
+                                            html.P("Select Two Chromosomes"),
                                             dcc.Input(
                                                 id="chr-select",
                                                 placeholder="Ex: 1,2",
                                                 type="text",
                                                 value="",
+                                                className="ideogram-homology-inputs",
                                             ),
-                                            html.P("Chr1: Start-one"),
-                                            dcc.Input(
-                                                id="chrone-startone",
-                                                placeholder="ChrOne StartOne",
-                                                type="number",
-                                                value=50000,
+                                            chromosome_div(
+                                                id_tag="chrone",
+                                                name_tag="Chr 1",
+                                                startone=50000,
+                                                stopone=900000,
+                                                starttwo=155701383,
+                                                stoptwo=156030895,
                                             ),
-                                            html.P("Chr1 : Stop-one"),
-                                            dcc.Input(
-                                                id="chrone-stopone",
-                                                placeholder="Enter chromsomes",
-                                                type="number",
-                                                value=900000,
-                                            ),
-                                            html.P("Chr1: Start-two"),
-                                            dcc.Input(
-                                                id="chrone-starttwo",
-                                                placeholder="ChrOne Starttwo",
-                                                type="number",
-                                                value=155701383,
-                                            ),
-                                            html.P("Chr1 : Stop-two"),
-                                            dcc.Input(
-                                                id="chrone-stoptwo",
-                                                placeholder="Enter chromsomes",
-                                                type="number",
-                                                value=156030895,
-                                            ),
-                                            html.P("Chr2: Start-one"),
-                                            dcc.Input(
-                                                id="chrtwo-startone",
-                                                placeholder="Chrtwo StartOne",
-                                                type="number",
-                                                value=10001,
-                                            ),
-                                            html.P("Chr2 : Stop-one"),
-                                            dcc.Input(
-                                                id="chrtwo-stopone",
-                                                placeholder="Enter chromsomes",
-                                                type="number",
-                                                value=2781479,
-                                            ),
-                                            html.P("Chr2: Start-two"),
-                                            dcc.Input(
-                                                id="chrtwo-starttwo",
-                                                placeholder="Chrtwo Starttwo",
-                                                type="number",
-                                                value=56887903,
-                                            ),
-                                            html.P("Chr2 : Stop-two"),
-                                            dcc.Input(
-                                                id="chrtwo-stoptwo",
-                                                placeholder="Enter chromsomes",
-                                                type="number",
-                                                value=57217415,
+                                            chromosome_div(
+                                                id_tag="chrtwo",
+                                                name_tag="Chr 2",
+                                                startone=10001,
+                                                stopone=2781479,
+                                                starttwo=56887903,
+                                                stoptwo=57217415,
                                             ),
                                         ],
-                                        className="three columns ideogram-column",
+                                        className="two columns ideogram-column",
                                     ),
                                     html.Div(
                                         [
@@ -361,7 +337,7 @@ def layout():
                                                 },
                                             )
                                         ],
-                                        className="nine columns",
+                                        className="ten columns",
                                     ),
                                 ],
                                 className="row",
@@ -374,7 +350,7 @@ def layout():
                             html.Div(
                                 [
                                     html.H5("Options"),
-                                    html.P("Enter Chromosome Values"),
+                                    html.P("Enter Chromosome Value"),
                                     dcc.Input(
                                         id="chr-brush",
                                         placeholder="Ex: (1 - 22 , X, Y)",
@@ -382,14 +358,33 @@ def layout():
                                         value="",
                                         className="ideogram-column-content",
                                     ),
-                                    dcc.Textarea(
-                                        id="brush-print",
-                                        placeholder="",
-                                        value="This is a TextArea component",
-                                        className="ideogram-column-content",
+                                    html.Div(
+                                        children=[
+                                            "Start: ",
+                                            html.Span(
+                                                "",
+                                                id="brush-print-start",
+                                                style={"color": "#0D76BF"},
+                                            ),
+                                            html.Br(),
+                                            "Extent: ",
+                                            html.Span(
+                                                "",
+                                                id="brush-print-extent",
+                                                style={"color": "#0D76BF"},
+                                            ),
+                                            html.Br(),
+                                            "End: ",
+                                            html.Span(
+                                                "",
+                                                id="brush-print-end",
+                                                style={"color": "#0D76BF"},
+                                            ),
+                                        ],
+                                        className="ideogram-databox-parameters",
                                     ),
                                 ],
-                                className="three columns",
+                                className="two columns ideogram-column",
                             ),
                             html.Div(
                                 [
@@ -404,7 +399,7 @@ def layout():
                                         orientation="horizontal",
                                     )
                                 ],
-                                className="nine columns",
+                                className="ten columns",
                             ),
                         ],
                     ),
@@ -416,6 +411,7 @@ def layout():
                                     html.H6("Annotations"),
                                     html.Div(
                                         [
+                                            html.P("Select Annotation"),
                                             dcc.Dropdown(
                                                 id="annotation-select",
                                                 options=[
@@ -434,12 +430,21 @@ def layout():
                                                 ],
                                                 value="histogram",
                                             ),
-                                            html.P("Annotation Color"),
+                                            html.P("Annotation Color (Histogram)"),
                                             dcc.Input(
                                                 id="color-input",
                                                 placeholder="Annotation Color",
                                                 type="text",
                                                 value="#FF0000",
+                                                className="ideogram-column-content",
+                                            ),
+                                            html.P("Bar Width (Histogram)"),
+                                            dcc.Input(
+                                                id="bar-input",
+                                                placeholder="Annotation Height",
+                                                type="number",
+                                                value=3,
+                                                min=1,
                                                 className="ideogram-column-content",
                                             ),
                                             html.P("Annotation Height"),
@@ -448,15 +453,6 @@ def layout():
                                                 placeholder="Annotation Height",
                                                 type="text",
                                                 value="3",
-                                                className="ideogram-column-content",
-                                            ),
-                                            html.P("Bar Width"),
-                                            dcc.Input(
-                                                id="bar-input",
-                                                placeholder="Annotation Height",
-                                                type="number",
-                                                value=3,
-                                                min=1,
                                                 className="ideogram-column-content",
                                             ),
                                             html.P("Orientation"),
@@ -474,20 +470,21 @@ def layout():
                                                 ],
                                                 value="horizontal",
                                             ),
-                                            html.P(
-                                                "Annotation Hover Data (Overlay-1/2)"
+                                            html.P("Hover Data (Overlay-1/2)"),
+                                            html.Div(
+                                                children=[
+                                                    html.Span(
+                                                        "None",
+                                                        id="annote-data",
+                                                        style={"color": "#0D76BF"},
+                                                    )
+                                                ],
+                                                className="ideogram-databox-parameters",
                                             ),
-                                            dcc.Textarea(
-                                                id="annote-data",
-                                                placeholder="",
-                                                value="",
-                                                className="ideogram-column-content",
-                                            ),
-                                        ],
-                                        className="ideogram-column",
+                                        ]
                                     ),
                                 ],
-                                className="three columns",
+                                className="two columns ideogram-column",
                             ),
                             html.Div(
                                 [
@@ -505,28 +502,45 @@ def layout():
                                         className="ideogram-custom",
                                     )
                                 ],
-                                className="nine columns",
+                                className="ten columns",
                             ),
                         ],
                     ),
                 ],
-            ),
+            )
         ]
     )
 
 
 def callbacks(app):
-    # Brush
-    @app.callback(Output("brush-print", "value"), [Input("brush-ideo", "brushData")])
-    def brush_data(brush_data):
+    ### Brush callbacks
+    @app.callback(
+        Output("brush-print-start", "children"), [Input("brush-ideo", "brushData")]
+    )
+    def brush_data_start(brush_data):
         if brush_data != None:
-            start = "Start: " + brush_data["start"] + " "
-            to = "End: " + brush_data["end"] + " "
-            extent = "Extent: " + brush_data["extent"]
-            return start + to + extent
+            return brush_data["start"]
         return
 
+    @app.callback(
+        Output("brush-print-end", "children"), [Input("brush-ideo", "brushData")]
+    )
+    def brush_data_end(brush_data):
+        if brush_data != None:
+            return brush_data["end"]
+        return
+
+    @app.callback(
+        Output("brush-print-extent", "children"), [Input("brush-ideo", "brushData")]
+    )
+    def brush_data_extent(brush_data):
+        if brush_data != None:
+            return brush_data["extent"]
+        return
+
+    ### Custom callbacks
     # Organism
+
     @app.callback(
         Output("ideo-custom", "organism"), [Input("organism-change", "value")]
     )
@@ -542,6 +556,7 @@ def callbacks(app):
         return bandlabel
 
     # ShowChromLabels
+
     @app.callback(
         Output("ideo-custom", "showChromosomeLabels"),
         [Input("chromlabel-switch", "value")],
@@ -549,22 +564,8 @@ def callbacks(app):
     def showChromosomeLabels(value):
         return value
 
-    # Show banded
-    @app.callback(
-        Output("ideo-custom", "showFullyBanded"), [Input("fullband-switch", "value")]
-    )
-    def showFullyBanded(value):
-        return value
-
-    # Show nonnuclear
-    @app.callback(
-        Output("ideo-custom", "showNonNuclearChromosomes"),
-        [Input("nuclear-switch", "value")],
-    )
-    def showNonNuclearChromosomes(value):
-        return value
-
     # Orientation
+
     @app.callback(
         Output("ideo-custom", "orientation"), [Input("orientation-switch", "value")]
     )
@@ -572,6 +573,7 @@ def callbacks(app):
         return orientation
 
     # Chr Width
+
     @app.callback(
         Output("ideo-custom", "chrWidth"), [Input("chr-width-input", "value")]
     )
@@ -579,6 +581,7 @@ def callbacks(app):
         return value
 
     # Chr Height
+
     @app.callback(
         Output("ideo-custom", "chrHeight"), [Input("chr-height-input", "value")]
     )
@@ -586,6 +589,7 @@ def callbacks(app):
         return value
 
     # Chr Margin
+
     @app.callback(
         Output("ideo-custom", "chrMargin"), [Input("chr-margin-input", "value")]
     )
@@ -593,6 +597,7 @@ def callbacks(app):
         return value
 
     # Rotatable
+
     @app.callback(
         Output("ideo-custom", "rotatable"), [Input("rotatable-switch", "value")]
     )
@@ -600,6 +605,7 @@ def callbacks(app):
         return value
 
     # Resolution
+
     @app.callback(
         Output("ideo-custom", "resolution"), [Input("resolution-select", "value")]
     )
@@ -613,9 +619,18 @@ def callbacks(app):
     def sex(value):
         return value
 
+    # Show banded
+
+    @app.callback(
+        Output("ideo-custom", "showFullyBanded"), [Input("fullband-switch", "value")]
+    )
+    def showFullyBanded(value):
+        return value
+
     ### Annotation Callbacks
 
     # Select Annotations Layout
+
     @app.callback(
         Output("ideo-annotations", "annotationsLayout"),
         [Input("annotation-select", "value")],
@@ -628,6 +643,7 @@ def callbacks(app):
         return value
 
     # Bar width
+
     @app.callback(
         Output("ideo-annotations", "barWidth"),
         [Input("annotation-select", "value"), Input("bar-input", "value")],
@@ -636,6 +652,7 @@ def callbacks(app):
         return value
 
     # Dataset
+
     @app.callback(
         Output("ideo-annotations", "annotationsPath"),
         [Input("annotation-select", "value")],
@@ -651,6 +668,7 @@ def callbacks(app):
             return "https://eweitz.github.io/ideogram/data/annotations/1000_virtual_snvs.json"
 
     # Assembly
+
     @app.callback(
         Output("ideo-annotations", "assembly"), [Input("annotation-select", "value")]
     )
@@ -689,6 +707,7 @@ def callbacks(app):
         return None
 
     # Annot Height
+
     @app.callback(
         Output("ideo-annotations", "annotationHeight"), [Input("height-input", "value")]
     )
@@ -698,6 +717,7 @@ def callbacks(app):
         return None
 
     # Annot Color
+
     @app.callback(
         Output("ideo-annotations", "annotationsColor"), [Input("color-input", "value")]
     )
@@ -707,6 +727,7 @@ def callbacks(app):
         return None
 
     # Orientation
+
     @app.callback(
         Output("ideo-annotations", "orientation"), [Input("orientation-anote", "value")]
     )
@@ -755,6 +776,7 @@ def callbacks(app):
             },
         }
 
+    ### Brush Callbacks
     @app.callback(Output("brush-ideo", "chromosomes"), [Input("chr-brush", "value")])
     def ideo_select(value):
         if value is not "":
@@ -770,24 +792,30 @@ def callbacks(app):
         else:
             return "chr1:1-10000000"
 
+    ### Event callbacks
     # Color Change onRotate
     @app.callback(
-        Output("ideogram-title", "style"),
+        Output("ideogram-options", "style"),
         [Input("ideo-custom", "rotated")],
-        [State("ideogram-title", "style")],
+        [State("ideogram-options", "style")],
     )
     def ideo_rotated(value, style):
         if value:
             style = {"color": "#EF553B"}
             return style
-        style = {"color": "#FFF"}
+        style = {"color": "#000"}
         return style
 
     # Event Call Annotation
+
     @app.callback(
-        Output("annote-data", "value"), [Input("ideo-annotations", "annotationsData")]
+        Output("annote-data", "children"),
+        [Input("ideo-annotations", "annotationsData")],
     )
     def annoteData(data):
         if data == None:
-            return "None"
+            data = "None"
+        elif "<br>" in data:
+            data = data.split("<br>")
+            data = data[0] + " " + data[1]
         return data

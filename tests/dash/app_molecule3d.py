@@ -20,22 +20,22 @@ model={"bonds":[], "atoms":[]}
 def layout():
     return html.Div(id="mol3d-body", children=[
         ## Header container
-        html.Div(id="mol3d-header",
-            children=[ html.H2("Dash Molecule Visualization", 
-            ),
-            html.A(
-            html.Img(
-                src="data:image/png;base64,{}".format(
-                    base64.b64encode(
-                        open("./assets/dashbio_logo_words.png", "rb").read()
-                    ).decode()
-                )
-            ),
-            href="http://www.dash.bio",
-            ),
-            ],
-            className="mol3d-banner",
-        ),
+        # html.Div(id="mol3d-header",
+        #     children=[ html.H2("Dash Molecule Visualization", 
+        #     ),
+        #     html.A(
+        #     html.Img(
+        #         src="data:image/png;base64,{}".format(
+        #             base64.b64encode(
+        #                 open("./assets/dashbio_logo_words.png", "rb").read()
+        #             ).decode()
+        #         )
+        #     ),
+        #     href="http://www.dash.bio",
+        #     ),
+        #     ],
+        #     className="mol3d-banner",
+        # ),
 
         html.Div(id="mol3d-controls-container", children= [
 

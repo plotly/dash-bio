@@ -1,13 +1,13 @@
 import dash
-import dash_bio
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_table as dt
 import logging
 import os
 from config import DASH_APP_NAME
 import base64
+
+from tests.dash.utils.app_wrapper import app_page_layout
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
@@ -15,6 +15,10 @@ app = dash.Dash(__name__)
 app.config["suppress_callback_exceptions"] = True
 
 server = app.server
+
+# sort apps alphabetically
+appList = os.listdir(os.path.join("tests", "dash"))
+appList.sort()
 
 apps = {
     filename.replace(".py", "").replace("app_", ""): getattr(
@@ -24,7 +28,7 @@ apps = {
         ),
         filename.replace(".py", ""),
     )
-    for filename in os.listdir(os.path.join("tests", "dash"))
+    for filename in appList
     if filename.startswith("app_") and filename.endswith(".py")
 }
 
@@ -44,14 +48,14 @@ app.layout = html.Div(
                 compatible with Plotly\'s Dash.'
             ]),
         ]),
-        html.Div(id="container"),
-        html.Div(style={"display": "none"}, children=dash_bio.NeedlePlot()),
-        html.Div(style={"display": "none"}, children=dt.DataTable({}))
+        html.Div(id="container")
     ]
 )
 
 
-def demoAppImgSrc(name):
+def demo_app_img_src(name):
+    ''' Returns the base-64 encoded image corresponding
+        to the specified app.'''
     pic_fname = './tests/dash/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
@@ -65,11 +69,14 @@ def demoAppImgSrc(name):
                 open('./assets/dashbio_logo.png', 'rb').read()).decode())
 
 
-def demoAppName(name):
+def demo_app_name(name):
+    ''' Returns a capitalized title for the app, with "Dash"
+        in front.'''
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
 
-def demoAppDesc(name):
+def demo_app_desc(name):
+    ''' Returns the content of the description specified in the app. '''
     desc = ''
     try:
         desc = apps[name].description()
@@ -78,6 +85,19 @@ def demoAppDesc(name):
     return desc
 
 
+def demo_app_header_colors(name):
+    ''' Returns the colors of the header specified in the app, if any. '''
+    try:
+        return apps[name].header_colors()
+    except AttributeError:
+        return {}
+
+
+def demo_app_github_url(name):
+    ''' Returns the link with the code for the demo app. ''' 
+    return name
+
+    
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == '/{}'.format(DASH_APP_NAME) \
@@ -87,24 +107,24 @@ def display_app(pathname):
             id='gallery-apps',
             children=[
                 html.Div(className='gallery-app', children=[
-                    html.Img(className='gallery-app-img',
-                             src=demoAppImgSrc(name)),
-                    html.Div(className='gallery-app-info', children=[
-                        html.Div(className='gallery-app-name', children=[
-                            demoAppName(name)
-                        ]),
-                        html.Div(className='gallery-app-desc', children=[
-                            demoAppDesc(name)
-                        ]),
-                        dcc.Link(
-                            'view app → ',
-                            className='gallery-app-link',
-                            href="/{}/{}".format(
-                                DASH_APP_NAME,
-                                name.replace("app_", "").replace("_", "-")
-                            )
+                    dcc.Link(
+                        children=[
+                            html.Img(className='gallery-app-img',
+                                     src=demo_app_img_src(name)),
+                            html.Div(className='gallery-app-info', children=[
+                                html.Div(className='gallery-app-name', children=[
+                                    demo_app_name(name)
+                                ]),
+                                html.Div(className='gallery-app-desc', children=[
+                                    demo_app_desc(name)
+                                ])
+                            ])
+                        ],
+                        href="/{}/{}".format(
+                            DASH_APP_NAME,
+                            name.replace("app_", "").replace("_", "-")
                         )
-                    ]),
+                    )
                 ]) for name in apps
             ])
 
@@ -114,7 +134,13 @@ def display_app(pathname):
                 "/", "").replace("-", "_")
 
     if app_name in apps:
-        return html.Div(id="waitfor", children=apps[app_name].layout())
+        return html.Div(id="waitfor",
+                        children=app_page_layout(
+                            apps[app_name].layout(),
+                            app_title=demo_app_name(app_name),
+                            app_github_url=demo_app_github_url(app_name),
+                            **demo_app_header_colors(app_name)
+                        ))
     else:
         return """
             App not found.

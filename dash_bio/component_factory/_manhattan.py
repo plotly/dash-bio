@@ -507,7 +507,7 @@ class _ManhattanPlot(object):
                                 color=highlight_color,
                                 size=point_size
                             ),
-                            name="of interest"
+                            name="Point(s) of interest"
                         )
                     )
 
@@ -530,7 +530,8 @@ class _ManhattanPlot(object):
                     'showgrid': showgrid,
                     'range': [xmin, xmax],
                 },
-                yaxis={'title': ylabel}
+                yaxis={'title': ylabel},
+                hovermode='closest'
             )
 
             hover_text = _get_hover_text(
@@ -568,7 +569,8 @@ class _ManhattanPlot(object):
                     'ticktext': self.ticksLabels,
                     'ticks': "outside"
                 },
-                yaxis={'title': ylabel}
+                yaxis={'title': ylabel},
+                hovermode='closest'
             )
 
             icol = 0
@@ -598,7 +600,7 @@ class _ManhattanPlot(object):
                         else tmp[self.pName].values,
                         mode="markers",
                         showlegend=showlegend,
-                        name="chr%i" % chromo,
+                        name="Chr%i" % chromo,
                         marker={
                             'color': col[icol],
                             'size': point_size

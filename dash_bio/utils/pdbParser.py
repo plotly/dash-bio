@@ -18,8 +18,10 @@ def createData(pdbPath):
 
     ## Create local copy of temp file
     copy2(pdbPath, './tmp.pdb')
+
     ## Use parmed to read the bond information from temp file
     top=pmd.load_file('tmp.pdb')
+
     ## Remove the created temp file
     os.remove("tmp.pdb")
 
