@@ -40,9 +40,9 @@ def layout():
                 options=[
                     {'label': 'Small protein', 'value':'./tests/dash/sample_data/3aid.pdb'},
                     {'label': 'Large protein', 'value':'./tests/dash/sample_data/6gbp.pdb'},
-                    {'label': 'DNA', 'value':'./tests/dash/sample_data/1bna.pdb'},
+                    {'label': 'RNA', 'value':'./tests/dash/sample_data/6dls.pdb'},
                 ],
-                value='./tests/dash/sample_data/1bna.pdb'
+                value='./tests/dash/sample_data/6dls.pdb'
             ),
         ],
         ),
