@@ -45,8 +45,13 @@
     height: auto;
 }
 
-#mol3d-control-bgcolor {
+#mol3d-demo-dropdown {
     border-top-style: solid;
+    border-color: grey;
+    border-width: 2px;
+}
+
+#mol3d-control-bgcolor {    
     border-color: grey;
     border-width: 2px;
 }
