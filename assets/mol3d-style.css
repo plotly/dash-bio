@@ -3,19 +3,6 @@
     padding: 5px
 }
 
-.mol3d-banner {
-    height: 50px;
-    padding: 16px;
-    background: rgba(66, 199, 88, 0.993);
-    border-radius: 5px;
-}
-
-.mol3d-banner h2 {
-    color: black;
-    float: left;
-    height: 50px;
-}
-
 .mol3d-banner img {
     float: right;
     right: 10px;
@@ -28,7 +15,8 @@
     border-width: 1px;
     border-style: dashed;
     border-radius: 5px;
-    text-align: left;
+    text-align: center;
+    left: 5%;
     margin: 3px;
     padding: 5px;
 }
@@ -79,13 +67,4 @@
     height: 30%;
     left: 50%;
     top: 30%;
-}
-
-#mol3d-dummy-container {
-    position: absolute;
-    width: 70%;
-    top:25%;
-    bottom:10%;
-    left: 30%;
-    right:2px;
 }
