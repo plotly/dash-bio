@@ -14,33 +14,13 @@ from dash_bio.utils import stylesParser as sparser
 def description():
     return 'Molecule visualization in 3D - perfect for viewing biomolecules like proteins, DNA and RNA'
 
-## Empty input data for molecule3d viewer
-model={"bonds":[], "atoms":[]}
-
 def layout():
     return html.Div(id="mol3d-body", children=[
-        ## Header container
-        # html.Div(id="mol3d-header",
-        #     children=[ html.H2("Dash Molecule Visualization", 
-        #     ),
-        #     html.A(
-        #     html.Img(
-        #         src="data:image/png;base64,{}".format(
-        #             base64.b64encode(
-        #                 open("./assets/dashbio_logo_words.png", "rb").read()
-        #             ).decode()
-        #         )
-        #     ),
-        #     href="http://www.dash.bio",
-        #     ),
-        #     ],
-        #     className="mol3d-banner",
-        # ),
 
         html.Div(id="mol3d-controls-container", children= [
 
         ## Upload container
-        html.Div(id='mol3d-upload-container', children=[
+        html.Div(className='mol3d-controls', id='mol3d-upload-container', children=[
             dcc.Upload(
             id='mol3d-upload-data',
             children=html.Div([
@@ -51,6 +31,22 @@ def layout():
             multiple=True
         ),
         ]),
+
+        ## Dropdown for demo data
+        html.Div(className="mol3d-controls", id="mol3d-demo-dropdown", children=[
+            html.P('Select structure', style={'font-weight':'bold', 'margin-bottom':'10px'}),
+            dcc.Dropdown(
+                id='dropdown-demostr',
+                options=[
+                    {'label': 'Small protein', 'value':'./tests/dash/sample_data/3aid.pdb'},
+                    {'label': 'Large protein', 'value':'./tests/dash/sample_data/6gbp.pdb'},
+                    {'label': 'DNA', 'value':'./tests/dash/sample_data/1bna.pdb'},
+                ],
+                value='./tests/dash/sample_data/1bna.pdb'
+            ),
+        ],
+        ),
+
         
         #Dropdown menu for selecting the background color
         html.Div(className="mol3d-controls", id="mol3d-control-bgcolor", children=[
@@ -105,18 +101,6 @@ def layout():
         #Main molecule visualization container
         html.Div(id='mol3d-output-data-upload', children=[] ),
 
-        ## Dummy hidden visualization container for initializing dash_bio.DashMolecule3d
-        html.Div(id="mol3d-dummy-container", 
-            children=[dash_bio.DashMolecule3d(
-                id='mol-3d',
-                backgroundColor='#ffffff',
-                modelData=model,
-                selectedAtomIds=[],
-                styles={},
-                atomLabelsShown=False,
-            )
-        ], style={"display":"none"}),
-
     ])
 
 ## Function to parse contents - used in the app callbacks below
@@ -138,56 +122,62 @@ def callbacks(app):
     @app.callback(
         Output("mol3d-output-data-upload","children"),
         [Input("mol3d-upload-data","contents"),
-        Input("dropdown-bgcolor", 'value'),
+        Input("dropdown-demostr","value"),
+        Input("dropdown-bgcolor", "value"),
         Input("mol3d-slider-opacity", "value"),
         Input("dropdown-styles", "value")]
     )
-    def use_upload(contents, color, opacity, molStyle):
-        if contents==None:
+    def use_upload(contents, demostr, color, opacity, molStyle):
+        decoded_contents=None
+
+        if contents is None:
             pass
         else:
             decoded_contents=parse_contents(contents)
 
-            ## Create the temporary PDB file for creating the model data and style files
+        if decoded_contents is not None:
             f=tempfile.NamedTemporaryFile(suffix=".pdb",delete=False, mode='w+')
             f.write(decoded_contents)
             fname=f.name
             f.close()
+        else:
+            fname=demostr
 
-            ## Create the model data from the decoded contents
-            mdata=parser.createData(fname)
-            #Use the files_data_style function to create the model data
-            fmodel=files_data_style(mdata)
-            with open(fmodel) as fm:
-                mdata=json.load(fm)
+        ## Create the model data from the decoded contents
+        mdata=parser.createData(fname)
 
-            ## Create the cartoon style from the decoded contents
-            datstyle=sparser.createStyle(fname, molStyle)
-            ## Use the files_data_style function to create the style data
-            fstyle=files_data_style(datstyle)
-            with open(fstyle) as sf:
-                data_style=json.load(sf)
+        #Use the files_data_style function to create the model data
+        fmodel=files_data_style(mdata)
+        with open(fmodel) as fm:
+            mdata=json.load(fm)
 
-            ## Delete all the temporary files that were created
-            for x in [fname, fmodel, fstyle]:
-                if(os.path.isfile(x)):
-                    os.remove(x)
-                else:
-                    pass
+        ## Create the cartoon style from the decoded contents
+        datstyle=sparser.createStyle(fname, molStyle)
+        ## Use the files_data_style function to create the style data
+        fstyle=files_data_style(datstyle)
+        with open(fstyle) as sf:
+            data_style=json.load(sf)
 
-            ## Return the new molecule visualization container
-            return (
-                dash_bio.DashMolecule3d(
-                id='mol-3d',
-                backgroundColor=color,
-                backgroundOpacity=opacity,
-                selectionType='Atom',
-                modelData=mdata,
-                selectedAtomIds=[],
-                styles=data_style,
-                atomLabelsShown=False,
-                )
+        ## Delete all the temporary files that were created
+        for x in [fmodel, fstyle]:
+            if(os.path.isfile(x)):
+                os.remove(x)
+            else:
+                pass
+
+        ## Return the new molecule visualization container
+        return (
+            dash_bio.DashMolecule3d(
+            id='mol-3d',
+            backgroundColor=color,
+            backgroundOpacity=opacity,
+            selectionType='Atom',
+            modelData=mdata,
+            selectedAtomIds=[],
+            styles=data_style,
+            atomLabelsShown=False,
             )
+        )
 
     @app.callback(
         Output("mol3d-selection_output","value"),
