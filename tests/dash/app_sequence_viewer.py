@@ -395,19 +395,8 @@ def callbacks(app):
     # coverage
     
     @app.callback(
-        Output('cov-options', 'style'),
-        [Input('selection-or-coverage', 'value')]
-    )
-    def show_cov_options(selOrCov):
-        if(selOrCov == 'cov'):
-            return {'display': 'inline-block'}
-        else:
-            return {'display': 'none'}
-    
-    @app.callback(
         Output('coverage-storage', 'data'),
-        [Input('selection-or-coverage', 'value'),
-         Input('coverage-submit', 'n_clicks'),
+        [Input('coverage-submit', 'n_clicks'),
          Input('coverage-reset', 'n_clicks')],
         state=[State('coverage-storage', 'data'),
                State('sequence-viewer', 'mouseSelection'),
@@ -418,7 +407,7 @@ def callbacks(app):
                State('coverage-submit', 'n_clicks_timestamp'),
                State('coverage-reset', 'n_clicks_timestamp')]
     )
-    def edit_coverage(selOrCov, s_nclicks, r_nclicks,
+    def edit_coverage(s_nclicks, r_nclicks,
                       currentCov,
                       mouseSel, color, bgcolor,
                       underscore, tooltip,
@@ -428,8 +417,7 @@ def callbacks(app):
            (s_timestamp is None or s_timestamp < r_timestamp)):
             return []
         
-        if(mouseSel is not None and color is not None): 
-            
+        if(mouseSel is not None and color is not None):    
             # first ensure that this hasn't already been covered
             for i in range(len(currentCov)): 
                 if(mouseSel['start'] in range(currentCov[i]['start'],
@@ -498,18 +486,27 @@ def callbacks(app):
     )
     def clear_mouse_selection(_):
         return None
-    
-    
+        
     # controls
 
     @app.callback(
-        Output('sel-slider', 'disabled'),
+        Output('cov-options', 'style'),
+        [Input('selection-or-coverage', 'value')]
+    )
+    def show_cov_options(selOrCov):
+        if(selOrCov == 'cov'):
+            return {'display': 'inline-block'}
+        else:
+            return {'display': 'none'}
+    
+    @app.callback(
+        Output('seq-view-sel-slider-container', 'style'),
         [Input('selection-or-coverage', 'value')]
     )
     def enable_disable_slider(selOrCov):
         if(selOrCov == 'sel'):
-            return False
-        return True
+            return {'display': 'inline-block'}
+        return {'display': 'none'}
     
     @app.callback(
         Output('seq-view-number-entries', 'children'),
