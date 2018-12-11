@@ -330,7 +330,7 @@ class _Clustergram(object):
             self._data = np.log2(self._data)
         if(standardize in ['row', 'column']):
             self._data = self._scale(self._data, standardize)
-
+            
     def figure(
             self,
             computed_traces=None
@@ -377,14 +377,12 @@ class _Clustergram(object):
             # values become None and the arrays get turned into lists;
             # they must be converted back 
             if(isinstance(xs, list)):
-                xs = [x if x is not None else np.nan for x in xs]
-                xs = np.array(xs)
+                xs = np.array(xs, dtype=np.float)
                 t['col'][i].update(
                     x=xs
                 )
             if(isinstance(ys, list)):
-                ys = [y if y is not None else np.nan for y in ys]
-                ys = np.array(ys)
+                ys = np.array(ys, dtype=np.float)
                 t['col'][i].update(
                     y=ys
                 )
@@ -403,14 +401,12 @@ class _Clustergram(object):
             ys = t['row'][i]['y']
             
             if(isinstance(xs, list)):
-                xs = [x if x is not None else np.nan for x in xs]
-                xs = np.array(xs)
+                xs = np.array(xs, dtype=np.float)
                 t['row'][i].update(
                     x=xs
                 )
             if(isinstance(ys, list)):
-                ys = [y if y is not None else np.nan for y in ys]
-                ys = np.array(ys)
+                ys = np.array(ys, dtype=np.float)
                 t['row'][i].update(
                     y=ys
                 )
