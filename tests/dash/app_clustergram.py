@@ -141,7 +141,7 @@ def layout():
 
                 html.Div(
                     id='clustergram-file-upload-container',
-                    title-'Upload your own dataset here.', 
+                    title='Upload your own dataset here.', 
                     children=[
                         dcc.Upload(
                             id='file-upload',
