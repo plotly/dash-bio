@@ -3,9 +3,8 @@
 
 #index-waitfor {
     background-color: #DFE8F3;
-    min-height:100%; 
-    width: 100%;
     position: absolute;
+    width: 100%;
     left: 0px;
     top: 0px; 
 }
@@ -26,7 +25,9 @@
     margin: 0 auto;
     padding: 20px;
     text-align: center;
-    width:90%; 
+    width:calc(100% - 40px); ;
+    height: auto;
+    min-height: 100vh;
 }
 
 .gallery-app {

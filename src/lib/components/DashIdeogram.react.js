@@ -199,12 +199,11 @@ export default class DashIdeogram extends Component {
     setConfig() {
         // Pass in all props into config except setProps
         let config = omit(['setProps'], this.props);
-
         // Event handlers
         config.onDidRotate = this.onRotateHandler
         config.onBrushMove = this.props.brush ? this.onBrushHandler : null
         config.onLoad = this.onLoadHandler
-        config.container = '#ideogram-container' + '-' + this.props.id
+        config.container = '#ideogram-container-' + this.props.id
 
         return config;
     }
@@ -244,7 +243,7 @@ export default class DashIdeogram extends Component {
             <div id={this.props.id} className={this.props.className} style={this.props.style}>
                 <div
                     {...omit(['setProps'], this.props)}
-                    id={'ideogram-container' + '-' + this.props.id}
+                    id={'ideogram-container-' + this.props.id}
                     onMouseOver={this.onMouseOverHandler}
                 ></div>
             </div>

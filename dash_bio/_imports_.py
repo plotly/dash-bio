@@ -4,11 +4,11 @@ from .NeedlePlot import NeedlePlot
 from .SequenceViewer import SequenceViewer
 from .SpeckComponent import SpeckComponent
 
-
 __all__ = [
     "DashCircos",
     "DashIdeogram",
     "NeedlePlot",
     "SequenceViewer",
     "SpeckComponent",
+    "SequenceViewer"
 ]
