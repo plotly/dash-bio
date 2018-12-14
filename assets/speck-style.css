@@ -1,0 +1,21 @@
+#speck-body {
+    min-height: 100vh;
+    background-color: #333;
+    color: #F3F6FA; 
+}
+
+#speck-controls {
+    display:inline-block;
+    margin: 20px; 
+    width: 200px; ;
+    float: left;
+    border: solid 1px #F3F6FA;
+    border-radius: 5px;
+    padding:10px;
+    color: black;
+}
+#speck-container {
+    display: inline-block;
+    float: left;
+    margin: 10px; 
+}

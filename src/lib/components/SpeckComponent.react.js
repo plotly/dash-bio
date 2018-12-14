@@ -9,26 +9,26 @@ import { speckRenderer,
 export default class SpeckComponent extends Component {
 
     loadStructure(data) {
+	
 	var system = speckSystem.new();
+
 	for(var i = 0; i < data.length; i++) {
 	    // get the coordinate data
 	    var a = data[i];
-
+	    
 	    // add to the system
 	    speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
 	}
 	speckSystem.center(system);
-	// bonds are calculated based on whether the distance between
-	// two adjacent atoms is smaller than some function of the
-	// maximum atomic radius
 	speckSystem.calculateBonds(system);
-	// the view refers to the parameters of, e.g., atom shade, etc.
 
+	
 	const renderer = this.state.renderer;
 	const view = this.props.view;  
 
 	
 	renderer.setSystem(system, view);
+
 	// update the resolution
 	renderer.setResolution(view.resolution, view.aoRes);
 
@@ -38,7 +38,8 @@ export default class SpeckComponent extends Component {
     }
 
     loop() {
-	if(this.state.renderer) {
+	
+	if(this.state.renderer && this.props.view) {
 	    if(this.state.refreshView) {
 		this.state.renderer.reset();
 		this.setState({
@@ -65,6 +66,11 @@ export default class SpeckComponent extends Component {
 	this.loop = this.loop.bind(this);
 	this.loadStructure = this.loadStructure.bind(this);
 
+	// initialize view if anything is supplied
+	if(props.view) {
+	    this.props.view = Object.assign(speckView.new(), props.view); 
+	}
+	
 	this.state = {
 	    refreshView: false,
 	    renderer: null,
@@ -78,8 +84,23 @@ export default class SpeckComponent extends Component {
 
 
     shouldComponentUpdate(nextProps, nextState){
-	const view = this.props.view; 
+	const {view, data} = this.props;
 
+	let needsUpdate = false;
+	
+	if(data.length != nextProps.data.length
+	   || Object.keys(data).some(
+	       propertyName =>
+		   data[propertyName] !== nextProps.data[propertyName]
+	   )){
+
+	    this.props.setProps({
+		data: nextProps.data
+	    }); 
+
+	    needsUpdate = true; 
+	}
+	
 	if(view.length != nextProps.view.length
 	   || Object.keys(view).some(
 	       propertyName =>
@@ -89,9 +110,12 @@ export default class SpeckComponent extends Component {
 	    this.props.setProps({
 		view: v
 	    }); 
-	    return true;
+
+	    needsUpdate = true; 
+	    
 	}
-	return false; 
+	
+	return needsUpdate; 
     }
     
     componentDidMount() {
@@ -118,25 +142,31 @@ export default class SpeckComponent extends Component {
 	
     }
 
-    componentWillReceiveProps() {
+    componentDidUpdate(prevProps) {
 	const {
 	    data,
 	    view
 	} = this.props;
-	
-	if(view && this.state.renderer){
+
+	if(view && this.state.renderer && data.length > 0) {
 	    this.loadStructure(data);
 	}
     }
     
     render() {
 	const {
-	    id
+	    id,
+	    view
 	} = this.props;
 
+	let divStyle = {
+	    height: view.resolution,
+	    width: view.resolution
+	}
+	
 	return (
-		<div id={id} ref={this.setContainerRef}>
-		<canvas ref={this.setCanvasRef} width={500} height={500} />
+		<div id={id} ref={this.setContainerRef} style={divStyle}>
+		<canvas ref={this.setCanvasRef} width={view.resolution} height={view.resolution} />
 	    </div>
 	);
 
@@ -146,7 +176,8 @@ export default class SpeckComponent extends Component {
 
 
 SpeckComponent.defaultProps = {
-    view: speckView.new()
+    view: speckView.new(),
+    data: []
 }
 
 
@@ -154,6 +185,7 @@ SpeckComponent.propTypes = {
 
     id: PropTypes.string,
     data: PropTypes.arrayOf(PropTypes.shape({
+	symbol: PropTypes.string,
 	x: PropTypes.number,
 	y: PropTypes.number,
 	z: PropTypes.number,

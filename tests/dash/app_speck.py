@@ -2,158 +2,77 @@ import dash_bio
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
+from dash_bio.utils.xyzReader import readXYZ
 
 
 def layout():
-    return html.Div([
-        dash_bio.SpeckComponent(
-            id='speck',
-            data=[
-                {
-                    'symbol': 'C',
-                    'x': 0.0,
-                    'y': 0.0,
-                    'z': 0.0
-                },
-                {
-                    'symbol': 'H',
-                    'x': 0.0,
-                    'y': 0.0,
-                    'z': 1.089
-                },
-                {
-                    'symbol': 'H',
-                    'x': 1.026719,
-                    'y': 0.0,
-                    'z': -0.363
-                },
-                {
-                    'symbol': 'H',
-                    'x': -0.51336,
-                    'y': -0.889165,
-                    'z': -0.363
-                },
-                {
-                    'symbol': 'H',
-                    'x': -0.51336,
-                    'y': 0.889165,
-                    'z': -0.363
-                }
-            ]
-        ),
+    return html.Div(id='speck-body', children=[
 
+                
         html.Div(
-            id='controls',
-            style={
-                'width': '200px',
-                'font-size': '20pt'
-            },
+            id='speck-container',
             children=[
-                "Move hydrogen atom",
-                html.Br(),
-                dcc.Slider(
-                    id='move-atom',
-                    min=0,
-                    max=5,
-                    step=0.1,
-                    value=0,
-                ),
+                dash_bio.SpeckComponent(
+                    id='speck',
+                    view={'resolution': 400}
+                )
+            ]
+        ), 
 
-                html.Hr(),
+        
+        html.Div(
+            id='speck-controls', 
+            children=[
+                dcc.Dropdown(
+                    id='speck-molecule-dropdown',
+                    options=[
+                        {'label': 'DNA',
+                         'value': './tests/dash/sample_data/dna.xyz.txt'},
+                        {'label': 'Caffeine',
+                         'value': './tests/dash/sample_data/caffeine.xyz.txt'},
+                        {'label': 'Methane',
+                         'value': './tests/dash/sample_data/methane.xyz.txt'}
+                    ],
+                    value='./tests/dash/sample_data/dna.xyz.txt'
+                ), 
 
+                html.Hr(), 
+                
                 "Zoom molecule",
                 html.Br(),
                 dcc.Slider(
                     id='zoom-atom',
                     min=0,
-                    max=1,
-                    step=0.001,
-                    value=0.125,
+                    max=0.1,
+                    step=0.0001,
+                    value=0.02,
                 ),
 
                 html.Hr(),
-
-                "Depth of field",
-                html.Br(),
-                dcc.Slider(
-                    id='depth-of-field-strength',
-                    min=0,
-                    max=100,
-                    step=1,
-                    value=1
-                )
-
             ]
         ),
 
-        html.Div(id='output')
+        
     ])
 
 
 def callbacks(app):
-    
+
     @app.callback(
         Output('speck', 'data'),
-        [Input('move-atom', 'value')]
+        [Input('speck-molecule-dropdown', 'value')]
     )
-    def change_data(n):
-        return [
-            {
-                'symbol': 'C',
-                'x': 0.0,
-                'y': 0.0,
-                'z': 0.0
-            },
-            {
-                'symbol': 'H',
-                'x': 0.0,
-                'y': 0.0+n,
-                'z': 1.089
-            },
-            {
-                'symbol': 'H',
-                'x': 1.026719,
-                'y': 0.0,
-                'z': -0.363
-            },
-            {
-                'symbol': 'H',
-                'x': -0.51336,
-                'y': -0.889165,
-                'z': -0.363
-            },
-            {
-                'symbol': 'H',
-                'x': -0.51336,
-                'y': 0.889165,
-                'z': -0.363
-            }
-        ]
+    def update_molecule(molecule_fname):
+        return readXYZ(molecule_fname)
 
-
-    @app.callback(
-        Output('output', 'children'),
-        [Input('speck', 'view')]
-    )
-    def attach_input_callback(d):
-        if d is None:
-            return 0.0
-        return d['zoom']
-
-
-    
     @app.callback(
         Output('speck', 'view'),
         [Input('zoom-atom', 'value')],
-        [State('speck', 'view')]
+        state=[State('speck', 'view')]
     )
-    def zoom_callback(val, view):
-        if(view is not None): 
-            view.update(
-                zoom=val
+    def zoom_callback(zoomVal, currentView):
+        if currentView is not None:
+            currentView.update(
+                zoom = zoomVal
             )
-            return view
-        return {
-            'zoom': 0.50
-        }
-        
+        return currentView
