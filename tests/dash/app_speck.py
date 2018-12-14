@@ -5,6 +5,17 @@ import dash_core_components as dcc
 from dash_bio.utils.xyzReader import readXYZ
 
 
+def header_colors():
+    return {
+        'bg_color': '#ab63fa',
+        'font_color': 'white'
+    }
+
+
+def description():
+    return 'View molecules beautifully with this webGL renderer.'
+
+
 def layout():
     return html.Div(id='speck-body', children=[
 

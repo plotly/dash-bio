@@ -12,7 +12,11 @@
     border: solid 1px #F3F6FA;
     border-radius: 5px;
     padding:10px;
-    color: black;
+    color: white; 
+}
+
+#speck-molecule-dropdown {
+    color: black; 
 }
 #speck-container {
     display: inline-block;
