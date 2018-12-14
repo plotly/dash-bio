@@ -35,7 +35,7 @@ def ncbi_gdp_to_list(file_location="", header_rows=1):
         for line in csv.reader(tsv, delimiter="\t"): 
             row_string = ' '.join(str(row) for row in line)
             dataset_container.append(row_string)
-    for x in list(range(header_rows)):
+    for x in range(header_rows):
 
         del dataset_container[x] 
     return dataset_container
