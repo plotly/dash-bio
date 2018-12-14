@@ -31,11 +31,14 @@ def ncbi_gdp_to_list(file_location="", header_rows=1):
     '''
     
     dataset_container = []
-    with open(file_location) as tsv:
-        for line in csv.reader(tsv, delimiter="\t"): 
-            row_string = ' '.join(str(row) for row in line)
-            dataset_container.append(row_string)
-    for x in range(header_rows):
+    try:
+        with open(file_location) as tsv:
+            for line in csv.reader(tsv, delimiter="\t"): 
+                row_string = ' '.join(str(row) for row in line)
+                dataset_container.append(row_string)
+            for x in range(header_rows):
 
-        del dataset_container[x] 
-    return dataset_container
+                del dataset_container[x] 
+            return dataset_container
+    except Exception as e:
+        print(e)
