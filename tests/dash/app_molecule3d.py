@@ -1,12 +1,12 @@
 import dash_bio
 import dash
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import base64
 import json
 import tempfile
-import shutil
+from shutil import copy2
 import os
 from dash_bio.utils import pdbParser as parser
 from dash_bio.utils import stylesParser as sparser
@@ -38,8 +38,8 @@ def layout():
             dcc.Dropdown(
                 id='dropdown-demostr',
                 options=[
-                    {'label': 'Small protein', 'value':'./tests/dash/sample_data/3aid.pdb'},
-                    {'label': 'Large protein', 'value':'./tests/dash/sample_data/6gbp.pdb'},
+                    {'label': 'Protein', 'value':'./tests/dash/sample_data/3aid.pdb'},
+                    {'label': 'DNA', 'value':'./tests/dash/sample_data/1bna.pdb'},
                     {'label': 'RNA', 'value':'./tests/dash/sample_data/6dls.pdb'},
                 ],
                 value='./tests/dash/sample_data/6dls.pdb'
@@ -47,6 +47,35 @@ def layout():
         ],
         ),
 
+        #Dropdown to select chain representation (sticks, cartoon, sphere)
+        html.Div(className="mol3d-controls", id='mol3d-style', children=[
+            html.P('Style', style={'font-weight':'bold', 'margin-bottom':'10px'}),
+            dcc.Dropdown(
+                id='dropdown-styles',
+                options=[
+                    {'label': 'Sticks', 'value':'stick'},
+                    {'label': 'Cartoon', 'value':'cartoon'},
+                    {'label': 'Spheres', 'value':'sphere'},    
+                ],
+                value='stick'
+            ),
+        ],
+        ),
+        
+        #Dropdown to select color of representation
+        html.Div(className="mol3d-controls", id='mol3d-style-color', children=[
+            html.P('Color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
+            dcc.Dropdown(
+                id='dropdown-style-color',
+                options=[
+                    {'label': 'atom', 'value':'atomColor'},
+                    {'label': 'residue', 'value':'resColor'},
+                    {'label': 'chain', 'value':'chainColor'},    
+                ],
+                value='atomColor'
+            ),
+        ],
+        ),
         
         #Dropdown menu for selecting the background color
         html.Div(className="mol3d-controls", id="mol3d-control-bgcolor", children=[
@@ -76,21 +105,6 @@ def layout():
         ],
         ),
 
-        #Dropdown to select chain representation (sticks, cartoon, sphere)
-        html.Div(className="mol3d-controls", children=[
-            html.P('Representation', style={'font-weight':'bold', 'margin-bottom':'10px'}),
-            dcc.Dropdown(
-                id='dropdown-styles',
-                options=[
-                    {'label': 'Sticks', 'value':'stick'},
-                    {'label': 'Cartoon', 'value':'cartoon'},
-                    {'label': 'Spheres', 'value':'sphere'},    
-                ],
-                value='stick'
-            ),
-        ],
-        ),
-
         # Textarea container to display the selected atoms
         html.Div(className="mol3d-controls", id="mol3d-selection-display", children=[
             html.P("Selection", style={'font-weight':'bold', 'margin-bottom':'10px'}),
@@ -103,65 +117,66 @@ def layout():
 
     ])
 
-## Function to parse contents - used in the app callbacks below
-def parse_contents(contents):
-    content_type, content_string=str(contents).split(',')
-    decoded=base64.b64decode(content_string).decode("UTF-8")
-    return(decoded)
-
 ## Function to create the modelData and style files for molecule visualization
-def files_data_style(contents):
+def files_data_style(content):
     fdat=tempfile.NamedTemporaryFile(suffix=".js",delete=False, mode='w+')
-    fdat.write(contents)
+    fdat.write(content)
     dataFile=fdat.name
     fdat.close()
     return(dataFile)
 
 def callbacks(app):
+    @app.callback(
+        Output('dropdown-demostr', 'value'),
+        [Input('mol3d-upload-data', 'contents')],
+        [State('dropdown-demostr', 'value')]
+    )
+    def reset_dropdown(upload_content, dem):
+        if upload_content is not None:
+            return None
+        return dem
+        
     ## Callback for molecule visualization based on uploaded PDB file
     @app.callback(
         Output("mol3d-output-data-upload","children"),
         [Input("mol3d-upload-data","contents"),
         Input("dropdown-demostr","value"),
-        Input("dropdown-bgcolor", "value"),
-        Input("mol3d-slider-opacity", "value"),
-        Input("dropdown-styles", "value")]
+        Input("dropdown-styles", "value"),
+        Input("dropdown-style-color", "value")]
     )
-    def use_upload(contents, demostr, color, opacity, molStyle):
-        decoded_contents=None
-
-        if contents is None:
-            pass
+    def use_upload(contents, demostr, molStyle, molcolor):
+        if demostr is not None:
+            copy2(demostr, './str.pdb')
+            fname='./str.pdb'
+        elif contents is not None and demostr is None:
+            try:
+                content_type, content_string=str(contents).split(',')
+                decoded_contents=base64.b64decode(content_string).decode("UTF-8") #parse_contents(contents)
+                f=tempfile.NamedTemporaryFile(suffix=".pdb",delete=False, mode='w+')
+                f.write(decoded_contents)
+                fname=f.name
+                f.close()
+            except AttributeError:
+                pass
         else:
-            decoded_contents=parse_contents(contents)
-
-        if decoded_contents is not None:
-            f=tempfile.NamedTemporaryFile(suffix=".pdb",delete=False, mode='w+')
-            f.write(decoded_contents)
-            fname=f.name
-            f.close()
-        else:
-            fname=demostr
+            print ('demostr and contents are none')
 
         ## Create the model data from the decoded contents
-        mdata=parser.createData(fname)
-
-        #Use the files_data_style function to create the model data
-        fmodel=files_data_style(mdata)
+        modata=parser.createData(fname)
+        fmodel=files_data_style(modata)
         with open(fmodel) as fm:
             mdata=json.load(fm)
 
         ## Create the cartoon style from the decoded contents
-        datstyle=sparser.createStyle(fname, molStyle)
-        ## Use the files_data_style function to create the style data
+        datstyle=sparser.createStyle(fname, molStyle, molcolor)
         fstyle=files_data_style(datstyle)
         with open(fstyle) as sf:
             data_style=json.load(sf)
 
         ## Delete all the temporary files that were created
-        for x in [fmodel, fstyle]:
+        for x in [fname, fmodel, fstyle]:
             if(os.path.isfile(x)):
-                os.remove(x)
+                os.unlink(x)
             else:
                 pass
 
@@ -169,12 +184,12 @@ def callbacks(app):
         return (
             dash_bio.DashMolecule3d(
             id='mol-3d',
-            backgroundColor=color,
-            backgroundOpacity=opacity,
             selectionType='Atom',
             modelData=mdata,
-            selectedAtomIds=[],
             styles=data_style,
+            selectedAtomIds=[],
+            backgroundColor='#ffffff',
+            backgroundOpacity='1',
             atomLabelsShown=False,
             )
         )
@@ -198,3 +213,17 @@ def callbacks(app):
             }
             res_summary.append(residues)
         return '{} '.format(res_summary)
+
+    @app.callback(
+        Output('mol-3d','backgroundColor'),
+        [Input('dropdown-bgcolor', 'value')]
+    )
+    def change_bgcolor(color):
+        return color
+
+    @app.callback(
+        Output('mol-3d', 'backgroundOpacity'),
+        [Input('mol3d-slider-opacity', 'value')]
+    )
+    def change_bgopacity(opacity):
+        return(opacity)
