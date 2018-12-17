@@ -11,7 +11,7 @@ import { TRACK_TYPES } from '../constants/tracks';
  * beautiful way. Please checkout the Dash Bio repository
  * on github to learn more about this API.
  */
-export default class DashCircos extends Component {
+export default class Circos extends Component {
   constructor(props) {
     super(props)
     this.circos = null;
@@ -245,13 +245,13 @@ export default class DashCircos extends Component {
   }
 }
 
-DashCircos.defaultProps = {
+Circos.defaultProps = {
   config: {},
   size: 800,
   tracks: [],
 };
 
-DashCircos.propTypes = {
+Circos.propTypes = {
   /**
    * The ID of the component to be used in Dash callbacks
    */
