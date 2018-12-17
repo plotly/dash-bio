@@ -1,7 +1,7 @@
 {
-  "src/lib/components/DashCircos.react.js": {
-    "description": "Dash Circos is a library used to analyze and interpret\ndata using a circular layout, based on the popular \n'Circos' graph. This Dash Bio component is a useful tool\nfor showcasing relationships bewtween data/datasets in a\nbeautiful way. Please checkout the Dash Bio repository\non github to learn more about this API.",
-    "displayName": "DashCircos",
+  "src/lib/components/Circos.react.js": {
+    "description": "Dash Circos is a library used to analyze and interpret\r\ndata using a circular layout, based on the popular \r\n'Circos' graph. This Dash Bio component is a useful tool\r\nfor showcasing relationships bewtween data/datasets in a\r\nbeautiful way. Please checkout the Dash Bio repository\r\non github to learn more about this API.",
+    "displayName": "Circos",
     "methods": [
       {
         "name": "setEvent",
@@ -232,9 +232,9 @@
       }
     }
   },
-  "src/lib/components/DashIdeogram.react.js": {
-    "description": "The Dash Ideogram is used to draw and animate genome-wide\ndatasets for organisms such as an human, mouse, and any\nother eukaryotes. The Ideogram can be used to compare\nhomologous features between chromosomes, and depict,\nhaploid, diploid, aneuploidy genomes. It can also display\nannotations using histograms, overlays, and simple side\nby side tracks to show important genomic data.\n\nGo here to see it in action: https://eweitz.github.io/ideogram/",
-    "displayName": "DashIdeogram",
+  "src/lib/components/Ideogram.react.js": {
+    "description": "The Dash Ideogram is used to draw and animate genome-wide\r\ndatasets for organisms such as an human, mouse, and any\r\nother eukaryotes. The Ideogram can be used to compare\r\nhomologous features between chromosomes, and depict,\r\nhaploid, diploid, aneuploidy genomes. It can also display\r\nannotations using histograms, overlays, and simple side\r\nby side tracks to show important genomic data.\r\n\r\nGo here to see it in action: https://eweitz.github.io/ideogram/",
+    "displayName": "Ideogram",
     "methods": [
       {
         "name": "onHomologyHandler",
