@@ -472,6 +472,13 @@ def callbacks(app):
         return 0
 
     @app.callback(
+        Output('sel-region-high', 'min'),
+        [Input('sel-region-low', 'value')]
+    )
+    def lower_bound(low_val):
+        return low_val
+    
+    @app.callback(
         Output('sel-region-high', 'value'),
         [Input('sequence-viewer', 'sequence')]
     )
