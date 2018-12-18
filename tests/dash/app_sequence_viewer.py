@@ -297,52 +297,70 @@ def layout():
                     ],
                     style={'display': 'none'}
                 ), 
+
+                html.Div(id='seq-view-info-desc',
+                         children=[
+                             html.Span(
+                                 "Description: ",
+                                 className='seq-view-info-element-title'
+                             ),
+                             html.Div(
+                                 id='desc-info',
+                                 children=[]
+                             )
+                         ]),
                 
-                html.Span(
-                    "Description: ",
-                    className='seq-view-info-element'
-                ),
-                html.Div(
-                    id='desc-info',
-                    children=[]
-                ),
                 html.Br(),
 
-                html.Span(
-                    "Amino acid composition: ",
-                    className='seq-view-info-element'
-                ),
-                html.Div(
-                    id='test-selection'
-                ),
+                html.Div(id='seq-view-info-aa-comp',
+                         children=[
+                             html.Span(
+                                 "Amino acid composition: ",
+                                 className='seq-view-info-element-title'
+                             ),
+                             html.Div(
+                                 id='test-selection'
+                             )
+                         ]),
+                
                 html.Br(),
 
-                html.Span(
-                    "Coverage entry clicked: ",
-                    className='seq-view-info-element'
-                ),
-                html.Div(
-                    id='test-coverage-clicked'
-                ),
+                html.Div(id='seq-view-info-coverage-clicked',
+                         children=[
+                            html.Span(
+                                "Coverage entry clicked: ",
+                                className='seq-view-info-element-title'
+                            ),
+                            html.Div(
+                                id='test-coverage-clicked'
+                            )
+                         ]),
+
                 html.Br(),
 
-                html.Span(
-                    "Mouse selection: ",
-                    className='seq-view-info-element'
-                ), 
-                html.Div(
-                    id='test-mouse-selection'
-                ),
+                html.Div(id='seq-view-info-mouse-selection',
+                         children=[
+                            html.Span(
+                                "Mouse selection: ",
+                                className='seq-view-info-element-title'
+                            ), 
+                            html.Div(
+                                id='test-mouse-selection'
+                            )
+                         ]),
+                
                 html.Br(),
 
-                html.Span(
-                    "Subpart sel: ",
-                    className='seq-view-info-element'
-                ),
-                html.Div(
-                    id='test-subpart-selection'
-                ),
-
+                html.Div(id='seq-view-info-subpart-sel',
+                         children=[
+                            html.Span(
+                                "Subpart sel: ",
+                                className='seq-view-info-element-title'
+                            ),
+                            html.Div(
+                                id='test-subpart-selection'
+                            )
+                         ])
             ]
         )
     ])
