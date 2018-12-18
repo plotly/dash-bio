@@ -327,20 +327,20 @@ def layout():
                 html.Br(),
 
                 html.Span(
-                    "Subpart sel: ",
-                    className='seq-view-info-element'
-                ),
-                html.Div(
-                    id='test-subpart-selection'
-                ),
-                html.Br(),
-
-                html.Span(
                     "Mouse selection: ",
                     className='seq-view-info-element'
                 ), 
                 html.Div(
                     id='test-mouse-selection'
+                ),
+                html.Br(),
+
+                html.Span(
+                    "Subpart sel: ",
+                    className='seq-view-info-element'
+                ),
+                html.Div(
+                    id='test-subpart-selection'
                 ),
 
             ]

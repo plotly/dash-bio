@@ -92,7 +92,7 @@
     
 }
 #seq-view-fasta-upload{
-    width: 400px;
+    width: 430px;
     height: 50px;
     line-height: 60px;
     border-width: 1px;
@@ -104,7 +104,7 @@
     padding: 10px;
 }
 #sequence-viewer-container{
-    width: 400px;
+    width: 430px;
     border: solid 1px #636efa;
     border-radius: 5px;
     padding: 10px;
@@ -133,7 +133,6 @@
     border-radius: 5px;
     margin: calc(10% - 10px); 
     text-align:center;
-    padding:10px;
 }
 #seq-view-body .rc-slider {
     width: 80%;
@@ -176,12 +175,11 @@
 
 #cov-options {
     width: 80%;
-    margin-top:20px; 
-    margin-left: calc(10% - 5px);
-    border: solid 1px #6363fa;
+    padding: 10px;
+    border: solid 1px #636efa; 
     border-radius: 5px;
-    padding: 5px;
-    text-align: center;
+    margin: calc(10% - 10px); 
+    text-align:center;
 }
 #selection-or-coverage {
     margin-left: 10px;
