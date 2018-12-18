@@ -211,6 +211,14 @@ def layout():
                     id='seq-view-sel-slider-container',
                     children=[
                         "Selection region",
+                        dcc.RadioItems(
+                            id='sel-slider-or-input', 
+                            options=[
+                                {'label': 'slider', 'value': 'slider'},
+                                {'label': 'input', 'value': 'input'}
+                            ],
+                            value='slider'
+                        ),
                         dcc.RangeSlider(
                             id='sel-slider',
                             min=0,
@@ -218,6 +226,24 @@ def layout():
                             step=1,
                             value=[0, 0]
                         ),
+                        # optional numeric input for longer sequences
+                        html.Div(
+                            id='sel-region-inputs',
+                            children=[
+                                dcc.Input(id='sel-region-low', type='number',
+                                          min=0, max=0,
+                                          placeholder="low"),
+                                dcc.Input(id='sel-region-high', type='number',
+                                          min=0, max=0,
+                                          placeholder="high"),
+                                html.Button(id='submit-sel-region',
+                                            children="Submit")
+                            ],
+                            style={'display': 'none'}
+                        ),
+                        
+                        html.Br(),
+                        
                         html.Div(
                             id='seq-view-dna-or-protein-container',
                             children=[
@@ -437,20 +463,44 @@ def callbacks(app):
     )
     def reset_selection(_):
         return [0, 0]
-        
+
+    @app.callback(
+        Output('sel-region-low', 'value'),
+        [Input('sequence-viewer', 'sequence'),
+         Input('submit-sel-region', 'n_clicks')]
+    )
+    def reset_selection_low(*_):
+        return 0
+
+    @app.callback(
+        Output('sel-region-high', 'value'),
+        [Input('sequence-viewer', 'sequence'),
+         Input('submit-sel-region', 'n_clicks')]
+    )
+    def reset_selection_high(*_):
+        return 0
+    
     @app.callback(
         Output('sequence-viewer', 'selection'),
         [Input('sel-slider', 'value'),
+         Input('submit-sel-region', 'n_clicks'), 
          Input('selection-or-coverage', 'value'),
-         Input('sel-color', 'value')]
+         Input('sel-color', 'value')],
+        state=[State('sel-slider-or-input', 'value'),
+               State('sel-region-low', 'value'),
+               State('sel-region-high', 'value')]
     )
-    def update_sel(slider_value, selOrCov, color):
+    def update_sel(slider_value, _, selOrCov, color, slider_input,
+                   sel_low, sel_high):
         if(selOrCov != 'sel'):
             return []
         if color is None:
             color = 'blue'
-        return [slider_value[0], slider_value[1], color]
-
+        if(slider_input == 'slider'): 
+            return [slider_value[0], slider_value[1], color]
+        elif(slider_input == 'input'):
+            return [sel_low, sel_high, color]
+        
     # clear mouse selection
 
     @app.callback(
@@ -462,6 +512,22 @@ def callbacks(app):
         
     # controls
 
+    @app.callback(
+        Output('sel-slider', 'style'),
+        [Input('sel-slider-or-input', 'value')]
+    )
+    def show_hide_slider(slider_input):
+        return {'display': 'block'} if slider_input == 'slider' \
+            else {'display': 'none'}
+
+    @app.callback(
+        Output('sel-region-inputs', 'style'),
+        [Input('sel-slider-or-input', 'value')]
+    )
+    def show_hide_inputs(slider_input):
+        return {'display': 'block'} if slider_input == 'input' \
+                else {'display': 'none'}
+    
     @app.callback(
         Output('cov-options', 'style'),
         [Input('selection-or-coverage', 'value')]
@@ -532,6 +598,24 @@ def callbacks(app):
             seq = ''
         return len(seq)
 
+    @app.callback(
+        Output('sel-region-high', 'max'),
+        [Input('sequence-viewer', 'sequence')]
+    )
+    def update_sel_low_max(seq):
+        if seq is None:
+            seq = ''
+        return len(seq)
+
+    @app.callback(
+        Output('sel-region-low', 'max'),
+        [Input('sequence-viewer', 'sequence')]
+    )
+    def update_sel_high_max(seq):
+        if seq is None: 
+            seq = ''
+        return len(seq)
+            
     @app.callback(
         Output('sequence-viewer', 'title'),
         [Input('sequence-viewer', 'sequence'),

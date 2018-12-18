@@ -140,7 +140,18 @@
     margin: 10px;
     margin-left: 10%;
 }
-		   
+
+#sel-region-low, #sel-region-high {
+    width: 40%;
+    padding: 2px;
+    margin: 2px; 
+    font-size: 10pt; 
+}
+
+#sel-slider-or-input label {
+    display: inline; 
+} 
+
 #seq-view-info-container {
     width: 380px;
     height: 600px;
