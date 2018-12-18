@@ -84,14 +84,15 @@
 
 .circos-upload-data {
    width: 100%;
-   height: 11vh;
-   line-height: 11vh;
+   height: 19.5vh;
    border-width: 1px;
    border-style: dashed;
    border-radius: 3px;
    text-align: center;
    margin: 3px;
-   display: inline-table;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .circos-row-four {

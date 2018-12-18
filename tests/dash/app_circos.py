@@ -366,7 +366,7 @@ def layout():
                                                                         id="upload-data",
                                                                         children=html.Div(
                                                                             [
-                                                                                "Drag and Drop .CSV file here!"
+                                                                                "Drag and Drop or click to import .CSV file here!"
                                                                             ]
                                                                         ),
                                                                         className="circos-upload-data",
