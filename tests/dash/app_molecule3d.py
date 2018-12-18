@@ -152,7 +152,7 @@ def callbacks(app):
         elif contents is not None and demostr is None:
             try:
                 content_type, content_string=str(contents).split(',')
-                decoded_contents=base64.b64decode(content_string).decode("UTF-8") #parse_contents(contents)
+                decoded_contents=base64.b64decode(content_string).decode("UTF-8")
                 f=tempfile.NamedTemporaryFile(suffix=".pdb",delete=False, mode='w+')
                 f.write(decoded_contents)
                 fname=f.name
@@ -194,7 +194,7 @@ def callbacks(app):
             atomLabelsShown=False,
             )
         )
-
+    ## Callback to print details of each selected atom of the biomolecule
     @app.callback(
         Output("mol3d-selection_output","value"),
         [Input("mol-3d", "selectedAtomIds"),
@@ -215,6 +215,7 @@ def callbacks(app):
             res_summary.append(residues)
         return '{} '.format(res_summary)
 
+    ## Callback to change background color of molecule visualization container
     @app.callback(
         Output('mol-3d','backgroundColor'),
         [Input('dropdown-bgcolor', 'value')]
@@ -222,6 +223,7 @@ def callbacks(app):
     def change_bgcolor(color):
         return color
 
+    ## Callback to change background opacity of molecule visualization container
     @app.callback(
         Output('mol-3d', 'backgroundOpacity'),
         [Input('mol3d-slider-opacity', 'value')]

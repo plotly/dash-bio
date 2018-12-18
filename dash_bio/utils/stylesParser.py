@@ -97,9 +97,9 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
     for i in ['TRP', 'TYR', 'PHE']:
         residueType[i] = '#ffff00'
     for i in ['A', 'G', 'DA', 'DG']:
-        residueType[i] = '#8000ff'
+        residueType[i] = '#A00042'
     for i in ['DT', 'DC', 'U', 'I', 'C']:
-        residueType[i] = '#00ffbf'
+        residueType[i] = '#4F4600'
 
     if (atmColor is None):
         atmColor = {
@@ -131,8 +131,14 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
             index=str(ct1)
             if(l[0]=="ATOM"):
                 if (molcolor == 'chainColor'):
-                    data[index]={
-                        "color":chainsDict[chain[ct1]],
+                    if (chain[ct1] in chainsDict):
+                        data[index]={
+                            "color":chainsDict[chain[ct1]],
+                            "visualization_type":style
+                        }
+                    else:
+                        data[index]={
+                        "color":'#BEA06E',
                         "visualization_type":style
                     }
                 elif (molcolor == 'resColor'):
@@ -163,12 +169,12 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
                     if atmType[ct1] in atmColor:
                         data[index]={
                             "color":atmColor[atmType[ct1]],
-                            "visualization_type":"stick"
+                            "visualization_type":style
                         }
                     else:
                         data[index]={
                             "color":"#330000",
-                            "visualization_type":"stick"
+                            "visualization_type": style
                         }
 
             else:

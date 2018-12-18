@@ -12,10 +12,10 @@ Keyword arguments:
 - selectionType (string; optional): The selection type - may be atom, residue or chain
 - backgroundColor (string; optional): Property to change the background color of the molecule viewer
 - backgroundOpacity (number; optional): Property to change the backgroun opacity - ranges from 0 to 1
-- styles (dict with strings as keys and values of type dict; optional): Property that can be used to change the representation of
+- styles (dict with strings as keys and values of type dict; optional): Property that can be used to change the representation of
 the molecule. Options include sticks, cartoon and sphere
-- modelData (optional): The data that will be used to display the molecule in 3D
-The data will be in JSON format 
+- modelData (optional): The data that will be used to display the molecule in 3D
+The data will be in JSON format 
 and should have two main dictionaries - atoms, bonds. modelData has the following type: dict containing keys 'atoms', 'bonds'.
 Those keys have the following types: 
   - atoms (list; optional)
