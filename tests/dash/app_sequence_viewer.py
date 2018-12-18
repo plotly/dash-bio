@@ -146,24 +146,26 @@ def layout():
                         )
                     ]
                 ),
+
                 
-
-                html.Hr(),
-
-                html.Div(
-                    "Mouse selection",
-                    className='seq-view-controls-name'
-                ), 
-                html.Div(
-                    id='test-mouse-selection',
-                    children="None"
-                ),
-
+                html.Hr(), 
+                
                 html.Div(id='cov-options', children=[
                     html.Div(
                         "Add coverage",
                         style={'font-weight': 'bold'}
                     ),
+                    dcc.RadioItems(
+                        id='mouse-sel-or-subpart-sel',
+                        options=[
+                            {'label': 'Use mouse selection',
+                             'value': 'mouse'},
+                            {'label': 'Use subpart selection',
+                             'value': 'subpart'}
+                        ],
+                        value='mouse'
+                    ),
+                    html.Br(), 
                     'Text color: ',
                     dcc.Input(
                         id='coverage-color',
@@ -190,6 +192,7 @@ def layout():
                         ],
                         values=[]
                     ),
+                    html.Br(), 
                     html.Button(
                         id='coverage-submit',
                         children='Submit'
@@ -205,8 +208,6 @@ def layout():
 
                 ]), 
 
-                html.Hr(), 
-                
                 html.Div(
                     id='seq-view-sel-slider-container',
                     children=[
@@ -331,7 +332,17 @@ def layout():
                 ),
                 html.Div(
                     id='test-subpart-selection'
-                )
+                ),
+                html.Br(),
+
+                html.Span(
+                    "Mouse selection: ",
+                    className='seq-view-info-element'
+                ), 
+                html.Div(
+                    id='test-mouse-selection'
+                ),
+
             ]
         )
     ])
@@ -392,13 +403,26 @@ def callbacks(app):
         return protein['sequence']
     
     # coverage
+
+    # check if there is an overlap with an existing coverage item
+    def overlaps_coverage(currentCov, covItem):
+        for i in range(len(currentCov)):
+            currentRange = list(range(currentCov[i]['start'],
+                                      currentCov[i]['end']))
+            itemRange = list(range(covItem['start'],
+                                   covItem['end']))
+            if(len(list(set(currentRange) & set(itemRange))) > 0):
+                return True
+        return False
     
     @app.callback(
         Output('coverage-storage', 'data'),
         [Input('coverage-submit', 'n_clicks'),
          Input('coverage-reset', 'n_clicks')],
         state=[State('coverage-storage', 'data'),
+               State('mouse-sel-or-subpart-sel', 'value'), 
                State('sequence-viewer', 'mouseSelection'),
+               State('sequence-viewer', 'subpartSelected'), 
                State('coverage-color', 'value'),
                State('coverage-bg-color', 'value'),
                State('coverage-underscore', 'values'),
@@ -407,40 +431,47 @@ def callbacks(app):
                State('coverage-reset', 'n_clicks_timestamp')]
     )
     def edit_coverage(s_nclicks, r_nclicks,
-                      currentCov,
-                      mouseSel, color, bgcolor,
+                      currentCov, mouse_subpart, 
+                      mouseSel, subpartSel,
+                      color, bgcolor,
                       underscore, tooltip,
                       s_timestamp, r_timestamp):
         
         if(r_timestamp is not None and
            (s_timestamp is None or s_timestamp < r_timestamp)):
             return []
-        
-        if(mouseSel is not None and color is not None):    
-            # first ensure that this hasn't already been covered
-            for i in range(len(currentCov)): 
-                if(mouseSel['start'] in range(currentCov[i]['start'],
-                                              currentCov[i]['end']) or
-                   mouseSel['end'] in range(currentCov[i]['start'],
-                                            currentCov[i]['end']) or
-                   currentCov[i]['start'] in range(mouseSel['start'],
-                                                   mouseSel['end']) or
-                   currentCov[i]['end'] in range(mouseSel['start'],
-                                                 mouseSel['end'])):
-                    return currentCov
-            
-            currentCov.append(
-                {'start': mouseSel['start']-1,
-                 'end': mouseSel['end'],
-                 'color': color,
-                 'bgcolor': bgcolor,
-                 'underscore': True if len(underscore) > 0 else False,
-                 'tooltip': tooltip}
-            )
 
-            # sort so that the tooltips can match up
-            currentCov.sort(key=lambda x: x['start'])
-        
+        if mouse_subpart == 'mouse':
+            if(mouseSel is not None and color is not None):    
+
+                # first ensure that this hasn't already been covered
+                if not overlaps_coverage(currentCov, mouseSel):
+                    currentCov.append(
+                        {'start': mouseSel['start']-1,
+                         'end': mouseSel['end'],
+                         'color': color,
+                         'bgcolor': bgcolor,
+                         'underscore': True if len(underscore) > 0 else False,
+                         'tooltip': tooltip}
+                    )                    
+
+        elif mouse_subpart == 'subpart':
+            cov_items = [{
+                'start': subpart['start']-1,
+                'end': subpart['end'],
+                'color': color,
+                'bgcolor': bgcolor,
+                'underscore': True if len(underscore) > 0 else False,
+                'tooltip': tooltip
+            } for subpart in subpartSel]
+
+            for cov_item in cov_items:
+                if not overlaps_coverage(currentCov, cov_item):
+                    currentCov.append(cov_item)
+                    
+        # sort so that the tooltips can match up
+        currentCov.sort(key=lambda x: x['start'])
+
         return currentCov
 
     @app.callback(
