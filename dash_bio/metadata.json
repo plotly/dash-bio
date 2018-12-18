@@ -1,7 +1,7 @@
 {
-  "src/lib/components/DashCircos.react.js": {
+  "src/lib/components/Circos.react.js": {
     "description": "Dash Circos is a library used to analyze and interpret\ndata using a circular layout, based on the popular \n'Circos' graph. This Dash Bio component is a useful tool\nfor showcasing relationships bewtween data/datasets in a\nbeautiful way. Please checkout the Dash Bio repository\non github to learn more about this API.",
-    "displayName": "DashCircos",
+    "displayName": "Circos",
     "methods": [
       {
         "name": "setEvent",
@@ -232,9 +232,9 @@
       }
     }
   },
-  "src/lib/components/DashIdeogram.react.js": {
+  "src/lib/components/Ideogram.react.js": {
     "description": "The Dash Ideogram is used to draw and animate genome-wide\ndatasets for organisms such as an human, mouse, and any\nother eukaryotes. The Ideogram can be used to compare\nhomologous features between chromosomes, and depict,\nhaploid, diploid, aneuploidy genomes. It can also display\nannotations using histograms, overlays, and simple side\nby side tracks to show important genomic data.\n\nGo here to see it in action: https://eweitz.github.io/ideogram/",
-    "displayName": "DashIdeogram",
+    "displayName": "Ideogram",
     "methods": [
       {
         "name": "onHomologyHandler",

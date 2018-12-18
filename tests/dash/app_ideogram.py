@@ -2,13 +2,12 @@ import dash_bio
 import dash
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
+from dash_bio.utils import ideogramParser as ideoParser
 import dash_html_components as html
 import json
 import base64
 
-with open("tests/dash/sample_data/human_ideogram_data.json", "r") as human_data:
-    human_data = json.load(human_data)
-
+rat_data = ideoParser.ncbi_gdp_to_list("./tests/dash/sample_data/ideogram_10116_GCF_000000225.4_NA_V1")
 
 def description():
     return "Compare, and analyze chromosome bands with the Dash Ideogram."
@@ -253,7 +252,7 @@ def layout():
                                     ),
                                     html.Div(
                                         [
-                                            dash_bio.DashIdeogram(
+                                            dash_bio.Ideogram(
                                                 id="ideo-custom",
                                                 dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
                                                 orientation="horizontal",
@@ -309,10 +308,9 @@ def layout():
                                     ),
                                     html.Div(
                                         [
-                                            dash_bio.DashIdeogram(
+                                            dash_bio.Ideogram(
                                                 id="ideo-homology",
-                                                localOrganism=human_data,
-                                                organism="human",
+                                                localOrganism=rat_data,
                                                 orientation="vertical",
                                                 showBandLabels=True,
                                                 showChromosomeLabels=True,
@@ -388,7 +386,7 @@ def layout():
                             ),
                             html.Div(
                                 [
-                                    dash_bio.DashIdeogram(
+                                    dash_bio.Ideogram(
                                         id="brush-ideo",
                                         dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
                                         organism="human",
@@ -488,7 +486,7 @@ def layout():
                             ),
                             html.Div(
                                 [
-                                    dash_bio.DashIdeogram(
+                                    dash_bio.Ideogram(
                                         id="ideo-annotations",
                                         dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
                                         organism="human",
