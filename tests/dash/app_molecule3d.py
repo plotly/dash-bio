@@ -70,6 +70,7 @@ def layout():
                 options=[
                     {'label': 'atom', 'value':'atomColor'},
                     {'label': 'residue', 'value':'resColor'},
+                    {'label': 'residue type', 'value': 'residueType'},
                     {'label': 'chain', 'value':'chainColor'},    
                 ],
                 value='atomColor'

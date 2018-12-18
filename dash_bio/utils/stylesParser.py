@@ -85,6 +85,22 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
         'U':'#FF8080'
     }
 
+    residueType = {}
+    for i in ['GLY', 'ALA', 'LEU', 'ILE', 'VAL', 'MET', 'PRO']:
+        residueType[i] = '#00ff80'
+    for i in ['ASN', 'GLN', 'SER', 'THR', 'CYS']:
+        residueType[i] = '#ff00bf'
+    for i in ['ASP','GLU']:
+        residueType[i] = '#ff4000'
+    for i in ['LYS', 'ARG', 'HIS']:
+        residueType[i] = '#0040ff'
+    for i in ['TRP', 'TYR', 'PHE']:
+        residueType[i] = '#ffff00'
+    for i in ['A', 'G', 'DA', 'DG']:
+        residueType[i] = '#8000ff'
+    for i in ['DT', 'DC', 'U', 'I', 'C']:
+        residueType[i] = '#00ffbf'
+
     if (atmColor is None):
         atmColor = {
             "C":"#c8c8c8",
@@ -131,6 +147,18 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
                         "color":'#BEA06E',
                         "visualization_type":style
                     }
+                elif (molcolor == 'residueType'):
+                    uresn=resName[ct1].upper()
+                    if (uresn in residueType):
+                        data[index]={
+                        "color":residueType[resName[ct1]],
+                        "visualization_type":style
+                    }
+                    else:
+                        data[index]={
+                        "color":'#BEA06E',
+                        "visualization_type":style
+                    }
                 elif (molcolor == 'atomColor'):
                     if atmType[ct1] in atmColor:
                         data[index]={
@@ -142,34 +170,6 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
                             "color":"#330000",
                             "visualization_type":"stick"
                         }
-                # if (style == 'stick'):
-                #     if atmType[ct1] in atmColor:
-                #         data[index]={
-                #             "color":atmColor[atmType[ct1]],
-                #             "visualization_type":"stick"
-                #         }
-                #     else:
-                #         data[index]={
-                #             "color":"#330000",
-                #             "visualization_type":"stick"
-                #         }
-                # else:
-                #     if (molcolor == 'chainColor'):
-                #         data[index]={
-                #             "color":chainsDict[chain[ct1]],
-                #             "visualization_type":style
-                #         }
-                #     elif (molcolor == 'resColor'):
-                #         if (resName[ct1] in residueColor):
-                #             data[index]={
-                #             "color":residueColor[resName[ct1]],
-                #             "visualization_type":style
-                #         }
-                #         else:
-                #             data[index]={
-                #             "color":'BEA06E',
-                #             "visualization_type":style
-                #         } 
 
             else:
                 if atmType[ct1] in atmColor:
