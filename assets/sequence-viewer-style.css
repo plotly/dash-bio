@@ -114,7 +114,7 @@
 
 #seq-view-controls-container {
     width:175px;
-    height: 600px;
+    height: 540px;
     overflow: scroll;
     word-wrap: break-word;
     display: inline-block;
@@ -154,7 +154,7 @@
 
 #seq-view-info-container {
     width: 380px;
-    height: 600px;
+    height: 540px;
     border: solid 1px #636efa; 
     overflow:scroll;
     word-wrap: break-word;

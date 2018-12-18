@@ -466,16 +466,14 @@ def callbacks(app):
 
     @app.callback(
         Output('sel-region-low', 'value'),
-        [Input('sequence-viewer', 'sequence'),
-         Input('submit-sel-region', 'n_clicks')]
+        [Input('sequence-viewer', 'sequence')]
     )
     def reset_selection_low(*_):
         return 0
 
     @app.callback(
         Output('sel-region-high', 'value'),
-        [Input('sequence-viewer', 'sequence'),
-         Input('submit-sel-region', 'n_clicks')]
+        [Input('sequence-viewer', 'sequence')]
     )
     def reset_selection_high(*_):
         return 0
