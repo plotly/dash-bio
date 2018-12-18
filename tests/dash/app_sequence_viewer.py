@@ -776,7 +776,7 @@ def callbacks(app):
     def update_mouse_sel(v):
         if(v is not None):
             return v['selection']
-        return 'None'
+        return ''
 
     @app.callback(
         Output('fasta-entry-dropdown', 'value'),
@@ -835,6 +835,8 @@ def callbacks(app):
             return ''
         test = []
         for sel in v:
+            if(len(sel['sequence']) == 0):
+                continue
             test.append("Start: %d " % sel['start'])
             test.append("End: %d " % sel['end'])
             test.append("Sequence: %s" % sel['sequence'])
