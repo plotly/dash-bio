@@ -356,7 +356,7 @@ def layout():
                     html.Div(id='seq-view-info-subpart-sel',
                              children=[
                                 html.Span(
-                                    "Subpart sel: ",
+                                    "Subpart selected: ",
                                     className='seq-view-info-element-title'
                                 ),
                                 html.Div(
