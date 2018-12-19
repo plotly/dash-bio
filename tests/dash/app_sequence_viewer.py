@@ -74,6 +74,19 @@ def layout():
                 ),
 
                 html.Div(
+                    children=[
+                        html.A(
+                            html.Button(
+                                "Download sample FASTA data",
+                                id='seq-view-download-sample-data'
+                            ),
+                            href="/assets/sample_data/tubulin.fasta.txt",
+                            download="tubulin.fasta.txt"
+                        )
+                    ]
+                ), 
+
+                html.Div(
                     id='sequence-viewer-container',
                     children=[
                         dash_bio.SequenceViewer(

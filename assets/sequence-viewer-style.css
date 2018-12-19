@@ -134,7 +134,7 @@
 
 #seq-view-controls {
     overflow-y: auto;
-    height: 540px;
+    height: 600px;
     padding-right: 5px;
     word-wrap: break-word;
 }
@@ -178,7 +178,7 @@
 }
 
 #seq-view-info {
-    height: 540px;
+    height: 600px;
     overflow-y: auto;
     word-wrap: break-word;
     padding-right: 10px; 
@@ -236,3 +236,18 @@
     margin-left: 10px;
 }
 
+#seq-view-download-sample-data {
+    width: 470px;
+    height: 42px;
+    margin-left: 20px;
+    padding-left: 10px;
+    padding-right: 10px; 
+    transition-duration: 500ms;
+    border: solid 1px black;
+    color: #303030;
+} 
+
+#seq-view-download-sample-data:hover {
+    border: solid 1px #636efa;
+    color: #6e6efa;
+}
