@@ -7,8 +7,8 @@
     left: 0px;
     bottom: 0px; 
     width: 100%;
-    min-height: 100vh;
-    padding-top: 50px; 
+    min-height: calc(100vh - 100px);
+    padding-top: 0px; 
     background-color: #F3F6FA; 
     font-family: 'Open Sans'; 
 }
@@ -31,9 +31,18 @@
 }
 
 #seq-view-body ::-webkit-scrollbar {
-    width: 0px;
-    height: 0px; 
+    width: 4px;
+    height: 0px;
+    margin-right: 500px; 
+    background-color: white;
 }
+#seq-view-body ::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: rgb(43, 105, 251);
+    border-radius:15px;
+    padding-right:5px; 
+} 
+
 #seq-view-number-entries {
     text-align: center;
 }
@@ -92,7 +101,7 @@
     
 }
 #seq-view-fasta-upload{
-    width: 430px;
+    width: 450px;
     height: 50px;
     line-height: 60px;
     border-width: 1px;
@@ -104,26 +113,29 @@
     padding: 10px;
 }
 #sequence-viewer-container{
-    width: 430px;
+    width: 450px;
     border: solid 1px #636efa;
     border-radius: 5px;
     padding: 10px;
     margin:20px;
-    overflow:scroll;
 }
 
 #seq-view-controls-container {
     width:175px;
-    height: 540px;
-    overflow: scroll;
-    word-wrap: break-word;
     display: inline-block;
-    vertical-align: top; 
+    vertical-align: top;
     margin: 20px; 
-    border: solid 1px #636efa; 
-    border-radius: 5px;
     padding: 10px;
     padding-top:30px;
+    border: solid 1px #636efa; 
+    border-radius: 5px;
+}
+
+#seq-view-controls {
+    overflow-y: auto;
+    height: 540px;
+    padding-right: 5px;
+    word-wrap: break-word;
 }
 
 #seq-view-sel-slider-container {
@@ -153,15 +165,20 @@
 
 #seq-view-info-container {
     width: 380px;
-    height: 540px;
     border: solid 1px #636efa; 
-    overflow:scroll;
-    word-wrap: break-word;
+    overflow-y: auto;
     margin: 20px;
     vertical-align: top; 
     border-radius: 5px;
     padding: 20px;
+    padding-right: 10px; 
     display: inline-block;
+}
+
+#seq-view-info {
+    height: 540px;
+    overflow-y: auto;
+    word-wrap: break-word;
 }
 
 #seq-view-info-desc {
