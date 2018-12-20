@@ -113,7 +113,7 @@ def circos_explain():
     )
 
 # Empty Circos needed for circos graph callback
-empty = dash_bio.DashCircos(
+empty = dash_bio.Circos(
     id="main-circos", selectEvent={}, layout=[], size=800, config={}, tracks=[], enableZoomPan=True, enableDownloadSVG=True
 )
 
@@ -597,7 +597,7 @@ def callbacks(app):
             tabs == "circos-tab-custom" or tabs == "circos-tab-dataset"
         ) and upload_data != None:
             array = json.loads(upload_data)
-            return dash_bio.DashCircos(
+            return dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "both", "1": "both"},
                 layout=array[0],
@@ -643,7 +643,7 @@ def callbacks(app):
         elif (
             tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
         ) and circos_select == "parser_data":
-            return dash_bio.DashCircos(
+            return dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "hover", "1": "click"},
                 layout=parsed_layout,
@@ -689,7 +689,7 @@ def callbacks(app):
         elif (
             tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
         ) and circos_select == "heatmap":
-            return dash_bio.DashCircos(
+            return dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "hover", "1": "hover"},
                 layout=circos_graph_data["month_layout"],
@@ -741,7 +741,7 @@ def callbacks(app):
                 for i in selected_row:
                     circos_graph_data["chords"][i]["color"] = "#00cc96"
 
-            return dash_bio.DashCircos(
+            return dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "both", "1": "both"},
                 layout=circos_graph_data["GRCh37"],
@@ -792,7 +792,7 @@ def callbacks(app):
         elif (
             tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
         ) and circos_select == "highlight":
-            return dash_bio.DashCircos(
+            return dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "hover"},
                 layout=circos_graph_data["GRCh37"],
@@ -822,7 +822,7 @@ def callbacks(app):
         elif (
             tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
         ) and circos_select == "histogram":
-            return dash_bio.DashCircos(
+            return dash_bio.Circos(
                 id="main-circos",
                 layout=circos_graph_data["GRCh37"],
                 selectEvent={"0": "hover", "1": "hover"},
@@ -861,7 +861,7 @@ def callbacks(app):
         elif (
             tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
         ) and circos_select == "line":
-            return dash_bio.DashCircos(
+            return dash_bio.Circos(
                 id="main-circos",
                 selectEvent={
                     "0": "both",
@@ -1029,7 +1029,7 @@ def callbacks(app):
         elif (
             tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
         ) and circos_select == "scatter":
-            return dash_bio.DashCircos(
+            return dash_bio.Circos(
                 id="main-circos",
                 selectEvent={
                     "0": "hover",
@@ -1286,7 +1286,7 @@ def callbacks(app):
         elif (
             tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
         ) and circos_select == "stack":
-            return dash_bio.DashCircos(
+            return dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "hover"},
                 layout=[
@@ -1335,7 +1335,7 @@ def callbacks(app):
         elif (
             tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
         ) and circos_select == "text":
-            return dash_bio.DashCircos(
+            return dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "hover", "1": "both"},
                 layout=[circos_graph_data["GRCh37"][0]],

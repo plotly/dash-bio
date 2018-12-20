@@ -13,6 +13,8 @@ beautiful way. Please checkout the Dash Bio repository
 on github to learn more about this API.
 
 Keyword arguments:
+- enableDownloadSVG (boolean; optional)
+- enableZoomPan (boolean; optional)
 - id (string; optional): The ID of the component to be used in Dash callbacks
 - style (dict; optional): The CSS styling of the div wrapping the component
 - eventDatum (dict; optional): A Dash prop that returns data on clicking or hovering of the tracks.
@@ -39,13 +41,13 @@ please check the docs.
 
 Available events: """
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, style=Component.UNDEFINED, eventDatum=Component.UNDEFINED, selectEvent=Component.UNDEFINED, layout=Component.REQUIRED, config=Component.UNDEFINED, size=Component.UNDEFINED, tracks=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'style', 'eventDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks']
+    def __init__(self, enableDownloadSVG=Component.UNDEFINED, enableZoomPan=Component.UNDEFINED, id=Component.UNDEFINED, style=Component.UNDEFINED, eventDatum=Component.UNDEFINED, selectEvent=Component.UNDEFINED, layout=Component.REQUIRED, config=Component.UNDEFINED, size=Component.UNDEFINED, tracks=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['enableDownloadSVG', 'enableZoomPan', 'id', 'style', 'eventDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks']
         self._type = 'Circos'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_events = []
-        self.available_properties = ['id', 'style', 'eventDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks']
+        self.available_properties = ['enableDownloadSVG', 'enableZoomPan', 'id', 'style', 'eventDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')
