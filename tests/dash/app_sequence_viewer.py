@@ -201,7 +201,8 @@ def layout():
                         dcc.Checklist(
                             id='coverage-underscore',
                             options=[
-                                {'label': 'underscore text', 'value': 'underscore'}
+                                {'label': 'underscore text',
+                                 'value': 'underscore'}
                             ],
                             values=[]
                         ),
@@ -217,8 +218,15 @@ def layout():
                         dcc.Store(
                             id='coverage-storage',
                             data=initialCov
+                        ),
+                        dcc.Store(
+                            id='clear-coverage',
+                            data=0
+                        ),
+                        dcc.Store(
+                            id='current-sequence',
+                            data=0
                         )
-
                     ]), 
 
                     html.Div(
@@ -262,17 +270,15 @@ def layout():
                                 id='seq-view-dna-or-protein-container',
                                 children=[
                                     "Translate from",
-                                    dcc.RadioItems(
+                                    dcc.Dropdown(
                                         id='translation-alphabet',
                                         options=[
-                                            {'label': 'protein',
-                                             'value': 'protein'},
                                             {'label': 'DNA',
                                              'value': 'dna'},
                                             {'label': 'RNA',
                                              'value': 'rna'}
                                         ],
-                                        value='protein'
+                                        value=None
                                     )
                                 ]
                             ),
@@ -447,12 +453,50 @@ def callbacks(app):
             if(len(list(set(currentRange) & set(itemRange))) > 0):
                 return True
         return False
+
+    # a way of getting the timestamp for a dropdown change
+    @app.callback(
+        Output('current-sequence', 'data'),
+        [Input('sequence-viewer', 'sequence')],
+        state=[State('current-sequence', 'data')]
+    )
+    def signal_sequence_updated(_, current):
+        return current + 1
+
+    # whether or not to clear the coverage, based on a
+    # change in the dropdown
+    @app.callback(
+        Output('clear-coverage', 'data'),
+        [Input('current-sequence', 'modified_timestamp'),
+         Input('coverage-submit', 'n_clicks_timestamp')],
+        state=[State('current-sequence', 'modified_timestamp')]
+    )
+    def signal_clear_coverage(_, c_timestamp, s_timestamp):
+        # if the coverage has been modified at all and it was
+        # modified more recently than the sequence, keep the current
+        # coverage
+        if(c_timestamp is not None):
+            if (c_timestamp > s_timestamp):
+                return 0
+            else:
+                return 1
+        # if the coverage has not yet been modified, we can clear
+        # the coverage
+        return 1
+
+    # clear the subpart selected
+    @app.callback(
+        Output('sequence-viewer', 'subpartSelected'),
+        [Input('sequence-viewer', 'sequence')]
+    )
+    def clear_subpart_sel(_):
+        return []
     
     @app.callback(
         Output('coverage-storage', 'data'),
         [Input('coverage-submit', 'n_clicks'),
          Input('coverage-reset', 'n_clicks'),
-         Input('preloaded-sequences', 'value')],
+         Input('clear-coverage', 'data')],
         state=[State('coverage-storage', 'data'),
                State('mouse-sel-or-subpart-sel', 'value'), 
                State('sequence-viewer', 'mouseSelection'),
@@ -465,7 +509,7 @@ def callbacks(app):
                State('coverage-reset', 'n_clicks_timestamp')]
     )
     def edit_coverage(s_nclicks, r_nclicks,
-                      preloaded,
+                      clear_coverage,
                       currentCov, mouse_subpart, 
                       mouseSel, subpartSel,
                       color, bgcolor,
@@ -476,9 +520,9 @@ def callbacks(app):
            (s_timestamp is None or s_timestamp < r_timestamp)):
             return []
 
-        if(preloaded != './tests/dash/sample_data/P01308.fasta.txt'):
-            currentCov = []
-
+        if(clear_coverage == 1):
+            return []
+        
         if mouse_subpart == 'mouse':
             if(mouseSel is not None and color is not None):    
 
@@ -786,7 +830,7 @@ def callbacks(app):
         # include explanation for translation if necessary
         if((alphabet == 'dna' or alphabet == 'rna') and
            len(summary) > 0):
-            return ['(Protein translated from {} to {})'.format(
+            return ['(Protein translated from {}: {})'.format(
                 alphabet.upper(),
                 aaString
             ),

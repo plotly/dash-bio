@@ -63,11 +63,8 @@
     height: 50px;
     margin-right: 50px; 
 }
-#translation-alphabet {
-    text-align: left;
-    margin-left:20%;
-}
-#sel-color {
+
+#sel-color, #translation-alphabet {
     width: 80%;
     margin-left: 10%; 
 }
