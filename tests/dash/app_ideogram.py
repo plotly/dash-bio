@@ -252,7 +252,7 @@ def layout():
                                     ),
                                     html.Div(
                                         [
-                                            dash_bio.DashIdeogram(
+                                            dash_bio.Ideogram(
                                                 id="ideo-custom",
                                                 dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
                                                 orientation="horizontal",
@@ -308,7 +308,7 @@ def layout():
                                     ),
                                     html.Div(
                                         [
-                                            dash_bio.DashIdeogram(
+                                            dash_bio.Ideogram(
                                                 id="ideo-homology",
                                                 localOrganism=rat_data,
                                                 orientation="vertical",
@@ -386,7 +386,7 @@ def layout():
                             ),
                             html.Div(
                                 [
-                                    dash_bio.DashIdeogram(
+                                    dash_bio.Ideogram(
                                         id="brush-ideo",
                                         dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
                                         organism="human",
@@ -486,7 +486,7 @@ def layout():
                             ),
                             html.Div(
                                 [
-                                    dash_bio.DashIdeogram(
+                                    dash_bio.Ideogram(
                                         id="ideo-annotations",
                                         dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
                                         organism="human",

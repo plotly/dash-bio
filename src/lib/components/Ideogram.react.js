@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Ideogram from 'ideogram';
+import {default as IdeogramJS} from 'ideogram';
 import PropTypes from 'prop-types';
 import { omit } from 'ramda';
 
@@ -15,7 +15,7 @@ import { omit } from 'ramda';
  * Go here to see it in action: https://eweitz.github.io/ideogram/
  */
 
-export default class DashIdeogram extends Component {
+export default class Ideogram extends Component {
     constructor() {
 
         super();
@@ -214,7 +214,7 @@ export default class DashIdeogram extends Component {
             this.props.dataDir = null;
             window.chrBands = this.props.localOrganism;
         }
-        this.ideogram = new Ideogram(this.setConfig());
+        this.ideogram = new IdeogramJS(this.setConfig());
     }
 
     shouldComponentUpdate(nextProps) {
@@ -251,7 +251,7 @@ export default class DashIdeogram extends Component {
     }
 }
 
-DashIdeogram.defaultProps = {
+Ideogram.defaultProps = {
     organism: "human",
     annotationsColor: "#F00",
     annotationsLayout: "tracks",
@@ -269,7 +269,7 @@ DashIdeogram.defaultProps = {
     showNonNuclearChromosomes: false,
 }
 
-DashIdeogram.propTypes = {
+Ideogram.propTypes = {
 
     /**
      * The ID used to identify this component in Dash callbacks
