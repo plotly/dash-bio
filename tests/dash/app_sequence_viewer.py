@@ -451,7 +451,8 @@ def callbacks(app):
     @app.callback(
         Output('coverage-storage', 'data'),
         [Input('coverage-submit', 'n_clicks'),
-         Input('coverage-reset', 'n_clicks')],
+         Input('coverage-reset', 'n_clicks'),
+         Input('preloaded-sequences', 'value')],
         state=[State('coverage-storage', 'data'),
                State('mouse-sel-or-subpart-sel', 'value'), 
                State('sequence-viewer', 'mouseSelection'),
@@ -464,6 +465,7 @@ def callbacks(app):
                State('coverage-reset', 'n_clicks_timestamp')]
     )
     def edit_coverage(s_nclicks, r_nclicks,
+                      preloaded,
                       currentCov, mouse_subpart, 
                       mouseSel, subpartSel,
                       color, bgcolor,
@@ -473,6 +475,9 @@ def callbacks(app):
         if(r_timestamp is not None and
            (s_timestamp is None or s_timestamp < r_timestamp)):
             return []
+
+        if(preloaded != './tests/dash/sample_data/P01308.fasta.txt'):
+            currentCov = []
 
         if mouse_subpart == 'mouse':
             if(mouseSel is not None and color is not None):    
