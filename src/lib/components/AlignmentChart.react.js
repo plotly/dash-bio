@@ -190,7 +190,7 @@ AlignmentChart.propTypes = {
     /*
     Toggles whether the overview should be a heatmap, a slider, or none.
     */
-    overview: PropTypes.oneOfType([
+    overview: PropTypes.oneOf(['heatmap', 'slider', 'none'])
         PropTypes.bool,
         PropTypes.string
     ]),
