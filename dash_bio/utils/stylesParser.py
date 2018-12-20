@@ -50,7 +50,8 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
             "x":"#9c6677",
             "Y":"#b7c5c8"
         }
-
+    ## Color each amino acid residue (protein) 
+    ## or nucleotide (DNA/RNA) based on its identity
     residueID = {
         'ALA':'#C8C8C8',
         'ARG':'#145AFF',
@@ -74,7 +75,6 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
         'VAL':'#0F820F',
         'ASX':'#FF69B4',
         'GLX':'#FF69B4',
-        'OTHER':'#BEA06E',
         'A':'#A0A0FF',
         'DA':'#A0A0FF',
         'G':'#FF7070',
@@ -87,19 +87,27 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
         'U':'#FF8080'
     }
 
+    ## Color amino acids based on amino acid type
     residueProperty = {}
+    ## Hydrophobic amino acids
     for i in ['GLY', 'ALA', 'LEU', 'ILE', 'VAL', 'MET', 'PRO']:
         residueProperty[i] = '#00ff80'
+    ## Polar amino acids
     for i in ['ASN', 'GLN', 'SER', 'THR', 'CYS']:
         residueProperty[i] = '#ff00bf'
+    ## Acidic (negatively charged at pH 7) amino acids
     for i in ['ASP','GLU']:
         residueProperty[i] = '#ff4000'
+    ## Basic (positively charged at pH 7) amino acids
     for i in ['LYS', 'ARG', 'HIS']:
         residueProperty[i] = '#0040ff'
+    ## aromatic amino acids
     for i in ['TRP', 'TYR', 'PHE']:
         residueProperty[i] = '#ffff00'
+    ## Purine nucleotides
     for i in ['A', 'G', 'DA', 'DG']:
         residueProperty[i] = '#A00042'
+    ## Pyrimidine nucleotides
     for i in ['DT', 'DC', 'U', 'I', 'C']:
         residueProperty[i] = '#4F4600'
 

@@ -37,26 +37,26 @@ def createData(pdbPath):
     datb={}
     datb['atoms']=[]
     datb['bonds']=[]
-    for i in lines:    
-        l=i.split()
-        if("ATOM" in l[0] or "HETATM" in l[0]):
-            serial.append(int(i[6:11]))
-            atmName.append(i[12:16].strip())
-            val_rName=i[17:20].strip()
+    for l in lines:    
+        line=l.split()
+        if("ATOM" in line[0] or "HETATM" in line[0]):
+            serial.append(int(l[6:11]))
+            atmName.append(l[12:16].strip())
+            val_rName=l[17:20].strip()
             resName.append(val_rName)
-            chain_val=i[21:22].strip()
+            chain_val=l[21:22].strip()
             chain.append(chain_val)
             if (not chain_val in varNchains):
                 varNchains.append(chain_val)
-            val_rId=int(i[22:26])
+            val_rId=int(l[22:26])
             resId.append(val_rId)
-            x = float(i[30:38])
-            y = float(i[38:46])
-            z = float(i[46:54])
+            x = float(l[30:38])
+            y = float(l[38:46])
+            z = float(l[46:54])
             positions.append([x,y,z])
-            occupancy.append(i[54:60].strip())
-            tempFactor.append(i[60:66].strip())
-            atomType.append(i[77:79].strip())
+            occupancy.append(l[54:60].strip())
+            tempFactor.append(l[60:66].strip())
+            atomType.append(l[77:79].strip())
             ct+=1
 
     ## Create list of atoms
