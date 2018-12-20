@@ -13,6 +13,11 @@
     font-family: 'Open Sans'; 
 }
 
+#sequence-viewer input {
+    width: 80% !important;
+    
+} 
+
 #seq-view-controls-container input[type=text]{
     width: 80%;
     margin-left:auto;
@@ -182,31 +187,31 @@
 }
 
 #seq-view-info-desc {
-    border-left: solid 5px red;
+    border-left: solid 5px rgba(255,0,0,0.3);
     border-radius: 5px;
     padding-left: 10px; 
 }
 
 #seq-view-info-aa-comp {
-    border-left: solid 5px blue;
+    border-left: solid 5px rgba(0,0,255,0.3); 
     border-radius: 5px;
     padding-left: 10px; 
 }
 
 #seq-view-info-coverage-clicked {
-    border-left: solid 5px green;
+    border-left: solid 5px rgba(0,20,0,0.3);
     border-radius: 5px;
     padding-left: 10px; 
 }
 
 #seq-view-info-mouse-selection {
-    border-left: solid 5px orange;
+    border-left: solid 5px rgba(255,150,0,0.3);
     border-radius: 5px;
     padding-left: 10px; 
 }
 
 #seq-view-info-subpart-sel {
-    border-left: solid 5px purple;
+    border-left: solid 5px rgba(150,0,200,0.3);;
     border-radius: 5px;
     padding-left: 10px; 
 
