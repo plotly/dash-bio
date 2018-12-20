@@ -46,10 +46,12 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
             "M":"#400040",
             "N":"#004000",
             "O":"#008080",
-            "P":"#008080"
+            "P":"#008080",
+            "x":"#9c6677",
+            "Y":"#b7c5c8"
         }
 
-    residueColor = {
+    residueID = {
         'ALA':'#C8C8C8',
         'ARG':'#145AFF',
         'ASN':'#00DCDC',
@@ -85,21 +87,21 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
         'U':'#FF8080'
     }
 
-    residueType = {}
+    residueProperty = {}
     for i in ['GLY', 'ALA', 'LEU', 'ILE', 'VAL', 'MET', 'PRO']:
-        residueType[i] = '#00ff80'
+        residueProperty[i] = '#00ff80'
     for i in ['ASN', 'GLN', 'SER', 'THR', 'CYS']:
-        residueType[i] = '#ff00bf'
+        residueProperty[i] = '#ff00bf'
     for i in ['ASP','GLU']:
-        residueType[i] = '#ff4000'
+        residueProperty[i] = '#ff4000'
     for i in ['LYS', 'ARG', 'HIS']:
-        residueType[i] = '#0040ff'
+        residueProperty[i] = '#0040ff'
     for i in ['TRP', 'TYR', 'PHE']:
-        residueType[i] = '#ffff00'
+        residueProperty[i] = '#ffff00'
     for i in ['A', 'G', 'DA', 'DG']:
-        residueType[i] = '#A00042'
+        residueProperty[i] = '#A00042'
     for i in ['DT', 'DC', 'U', 'I', 'C']:
-        residueType[i] = '#4F4600'
+        residueProperty[i] = '#4F4600'
 
     if (atmColor is None):
         atmColor = {
@@ -120,16 +122,16 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
     ct=0
     ct1=0
     data={}
-    for i in lines:
-        l=i.split()
-        if("ATOM" in l[0] or "HETATM" in l[0]):
-            chain.append(i[21:22].strip())
-            atmType.append(i[77:78])
-            val_rName=i[17:20].strip()
+    for l in lines:
+        line=l.split()
+        if("ATOM" in line[0] or "HETATM" in line[0]):
+            chain.append(l[21:22].strip())
+            atmType.append(l[77:78])
+            val_rName=l[17:20].strip()
             resName.append(val_rName)
 
             index=str(ct1)
-            if(l[0]=="ATOM"):
+            if(line[0]=="ATOM"):
                 if (molcolor == 'chainColor'):
                     if (chain[ct1] in chainsDict):
                         data[index]={
@@ -141,11 +143,11 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
                         "color":'#BEA06E',
                         "visualization_type":style
                     }
-                elif (molcolor == 'resColor'):
+                elif (molcolor == 'residueID'):
                     uresn=resName[ct1].upper()
-                    if (uresn in residueColor):
+                    if (uresn in residueID):
                         data[index]={
-                        "color":residueColor[resName[ct1]],
+                        "color":residueID[resName[ct1]],
                         "visualization_type":style
                     }
                     else:
@@ -153,11 +155,11 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
                         "color":'#BEA06E',
                         "visualization_type":style
                     }
-                elif (molcolor == 'residueType'):
+                elif (molcolor == 'residueProperty'):
                     uresn=resName[ct1].upper()
-                    if (uresn in residueType):
+                    if (uresn in residueProperty):
                         data[index]={
-                        "color":residueType[resName[ct1]],
+                        "color":residueProperty[resName[ct1]],
                         "visualization_type":style
                     }
                     else:

@@ -1,14 +1,14 @@
 from .Circos import Circos
-from .DashMolecule3d import DashMolecule3d
 from .Ideogram import Ideogram
+from .Molecule3dViewer import Molecule3dViewer
 from .NeedlePlot import NeedlePlot
 from .SequenceViewer import SequenceViewer
 
 
 __all__ = [
     "Circos",
-    "DashMolecule3d",
     "Ideogram",
+    "Molecule3dViewer",
     "NeedlePlot",
     "SequenceViewer",
 ]

@@ -11,6 +11,12 @@ import os
 from dash_bio.utils import pdbParser as parser
 from dash_bio.utils import stylesParser as sparser
 
+def header_colors():
+    return {
+        'bg_color':'#000080',
+        'font_color':'white'
+    }
+
 def description():
     return 'Molecule visualization in 3D - perfect for viewing biomolecules like proteins, DNA and RNA'
 
@@ -20,20 +26,35 @@ def layout():
         html.Div(id="mol3d-controls-container", children= [
 
         ## Upload container
-        html.Div(className='mol3d-controls', id='mol3d-upload-container', children=[
+        html.Div(title='Upload biomolecule to view here',
+         className='mol3d-controls', 
+         id='mol3d-upload-container', children=[
             dcc.Upload(
             id='mol3d-upload-data',
             children=html.Div([
-                'Drag and Drop or ',
-                html.A('Select Files')
+                'Drag and Drop or click to upload a file',
             ]),
             # Allow multiple files to be uploaded
             multiple=True
         ),
         ]),
 
+        html.Div(
+            title='download a sample data file to view',
+            children=[
+                html.A(
+                    html.Button(
+                        "Download sample structure",
+                        id="mol3d-download-sample-data",
+                    ),
+                    href='/assets/sample_data/2mru.pdb',
+                    download='2mru.pdb'
+                )
+            ]
+        ),
+
         ## Dropdown for demo data
-        html.Div(className="mol3d-controls", id="mol3d-demo-dropdown", children=[
+        html.Div(title= 'Select molecule to view', className="mol3d-controls", id="mol3d-demo-dropdown", children=[
             html.P('Select structure', style={'font-weight':'bold', 'margin-bottom':'10px'}),
             dcc.Dropdown(
                 id='dropdown-demostr',
@@ -48,7 +69,8 @@ def layout():
         ),
 
         #Dropdown to select chain representation (sticks, cartoon, sphere)
-        html.Div(className="mol3d-controls", id='mol3d-style', children=[
+        html.Div(title='select style for molecule representation', 
+        className="mol3d-controls", id='mol3d-style', children=[
             html.P('Style', style={'font-weight':'bold', 'margin-bottom':'10px'}),
             dcc.Dropdown(
                 id='dropdown-styles',
@@ -63,14 +85,15 @@ def layout():
         ),
         
         #Dropdown to select color of representation
-        html.Div(className="mol3d-controls", id='mol3d-style-color', children=[
+        html.Div(title='select color scheme for viewing biomolecule', 
+        className="mol3d-controls", id='mol3d-style-color', children=[
             html.P('Color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
             dcc.Dropdown(
                 id='dropdown-style-color',
                 options=[
                     {'label': 'atom', 'value':'atomColor'},
-                    {'label': 'residue', 'value':'resColor'},
-                    {'label': 'residue type', 'value': 'residueType'},
+                    {'label': 'residue identity', 'value':'residueID'},
+                    {'label': 'residue property', 'value': 'residueProperty'},
                     {'label': 'chain', 'value':'chainColor'},    
                 ],
                 value='atomColor'
@@ -79,22 +102,20 @@ def layout():
         ),
         
         #Dropdown menu for selecting the background color
-        html.Div(className="mol3d-controls", id="mol3d-control-bgcolor", children=[
+        html.Div(title='select background color for molecule viewer', className="mol3d-controls", id="mol3d-control-bgcolor", children=[
             html.P('Background color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
-            dcc.Dropdown(
-                id='dropdown-bgcolor',
-                options=[
-                    {'label': 'Black', 'value':'#000000'},
-                    {'label': 'White', 'value':'#ffffff'},
-                    {'label': 'Cream', 'value':'#e1dabb'},
-                ],
+            # dcc.Dropdown(
+            dcc.Input(
+                id='mol3d-input-bgcolor',
+                type='text',
+                placeholder='#000000 (black), #ffffff (white)',
                 value='#ffffff'
             ),
         ],
         ),
 
         #Slider to choose the background opacity
-        html.Div(className="mol3d-controls", children=[
+        html.Div(title='change background opacity of molecule viewer', className="mol3d-controls", children=[
             html.P('Background opacity', style={'font-weight':'bold', 'margin-bottom':'10px'}),
             dcc.Slider(
                 id='mol3d-slider-opacity',
@@ -107,14 +128,15 @@ def layout():
         ),
 
         # Textarea container to display the selected atoms
-        html.Div(className="mol3d-controls", id="mol3d-selection-display", children=[
+        html.Div(title='view information about selected atoms of biomolecule', 
+        className="mol3d-controls", id="mol3d-selection-display", children=[
             html.P("Selection", style={'font-weight':'bold', 'margin-bottom':'10px'}),
             dcc.Textarea(id='mol3d-selection_output'),
         ]),
 
         ]),
         #Main molecule visualization container
-        html.Div(id='mol3d-output-data-upload', children=[] ),
+        html.Div(id='mol3d-biomolecule-viewer', children=[] ),
 
     ])
 
@@ -139,7 +161,7 @@ def callbacks(app):
         
     ## Callback for molecule visualization based on uploaded PDB file
     @app.callback(
-        Output("mol3d-output-data-upload","children"),
+        Output("mol3d-biomolecule-viewer","children"),
         [Input("mol3d-upload-data","contents"),
         Input("dropdown-demostr","value"),
         Input("dropdown-styles", "value"),
@@ -160,7 +182,7 @@ def callbacks(app):
             except AttributeError:
                 pass
         else:
-            print ('demostr and contents are none')
+            return ('demostr and contents are none')
 
         ## Create the model data from the decoded contents
         modata=parser.createData(fname)
@@ -183,7 +205,7 @@ def callbacks(app):
 
         ## Return the new molecule visualization container
         return (
-            dash_bio.DashMolecule3d(
+            dash_bio.Molecule3dViewer(
             id='mol-3d',
             selectionType='Atom',
             modelData=mdata,
@@ -213,12 +235,12 @@ def callbacks(app):
                 "xyz": res_info['positions']
             }
             res_summary.append(residues)
-        return '{} '.format(res_summary)
+        return (str(res_summary))
 
     ## Callback to change background color of molecule visualization container
     @app.callback(
         Output('mol-3d','backgroundColor'),
-        [Input('dropdown-bgcolor', 'value')]
+        [Input('mol3d-input-bgcolor', 'value')]
     )
     def change_bgcolor(color):
         return color
