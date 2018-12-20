@@ -114,7 +114,7 @@ def circos_explain():
 
 # Empty Circos needed for circos graph callback
 empty = dash_bio.DashCircos(
-    id="main-circos", selectEvent={}, layout=[], size=800, config={}, tracks=[]
+    id="main-circos", selectEvent={}, layout=[], size=800, config={}, tracks=[], enableZoomPan=True, enableDownloadSVG=True
 )
 
 # Upload text blurb
