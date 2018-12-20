@@ -115,11 +115,11 @@ AlignmentChart.propTypes = {
     ]),
 
     /*
-    Whether to use most conserved ratio (MLE)
-    or normalized entropy to determine conservation,
+    Whether to use most conserved ratio (MLE) 'conservation'
+    or normalized entropy 'entropy' to determine conservation,
     which is a value between 0 and 1 where 1 is most conserved.
     */
-    conservationmethod: PropTypes.string,
+    conservationmethod: PropTypes.oneOf(['conservation', 'opacity']),
 
     /*
     Whether to normalize the conservation barchart
@@ -190,10 +190,7 @@ AlignmentChart.propTypes = {
     /*
     Toggles whether the overview should be a heatmap, a slider, or none.
     */
-    overview: PropTypes.oneOf(['heatmap', 'slider', 'none'])
-        PropTypes.bool,
-        PropTypes.string
-    ]),
+    overview: PropTypes.oneOf(['heatmap', 'slider', 'none']),
 
     /*
     Sets how many tiles to display across horitontally. If enabled,
@@ -207,7 +204,7 @@ AlignmentChart.propTypes = {
     with each slider movement.
     Has no effect if scroll is not enabled (such as with overview or none).
     */
-    scrollSkip: PropTypes.number,
+    scrollskip: PropTypes.number,
 
     /*
     Determines where to start annotating the first tile.
@@ -279,7 +276,7 @@ AlignmentChart.defaultProps = {
     tileheight: 16,
     numtiles: null,
     overview: 'heatmap',
-    scroll: 10,
+    scrollskip: 10,
     tickstart: null,
     ticksteps: null,
     // Other
