@@ -117,7 +117,7 @@ AlignmentChart.propTypes = {
     /*
     Whether to use most conserved ratio (MLE)
     or normalized entropy to determine conservation,
-    which is ia value between 0 and 1 where 1 is most conserved.
+    which is a value between 0 and 1 where 1 is most conserved.
     */
     conservationmethod: PropTypes.string,
 
