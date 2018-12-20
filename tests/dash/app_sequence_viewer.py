@@ -497,7 +497,8 @@ def callbacks(app):
         [Input('coverage-submit', 'n_clicks'),
          Input('coverage-reset', 'n_clicks'),
          Input('clear-coverage', 'data')],
-        state=[State('coverage-storage', 'data'),
+        state=[State('preloaded-sequences', 'value'),
+               State('coverage-storage', 'data'),
                State('mouse-sel-or-subpart-sel', 'value'), 
                State('sequence-viewer', 'mouseSelection'),
                State('sequence-viewer', 'subpartSelected'), 
@@ -510,11 +511,19 @@ def callbacks(app):
     )
     def edit_coverage(s_nclicks, r_nclicks,
                       clear_coverage,
+                      preloaded,
                       currentCov, mouse_subpart, 
                       mouseSel, subpartSel,
                       color, bgcolor,
                       underscore, tooltip,
                       s_timestamp, r_timestamp):
+
+        # if the coverage hasn't been updated by resetting or
+        # adding, and the sequence hasn't changed from the
+        # initial one, then we return the initial coverage
+        if(s_nclicks is None and r_nclicks is None and
+           'P01308' in preloaded):
+            return initialCov
         
         if(r_timestamp is not None and
            (s_timestamp is None or s_timestamp < r_timestamp)):
