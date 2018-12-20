@@ -207,7 +207,7 @@ AlignmentChart.propTypes = {
     with each slider movement.
     Has no effect if scroll is not enabled (such as with overview or none).
     */
-    scroll: PropTypes.number,
+    scrollSkip: PropTypes.number,
 
     /*
     Determines where to start annotating the first tile.
