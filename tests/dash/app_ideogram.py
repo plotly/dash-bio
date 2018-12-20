@@ -84,10 +84,6 @@ def layout():
                                                                 "value": "human",
                                                             },
                                                             {
-                                                                "label": "Homo-sapiens",
-                                                                "value": "homo-sapiens",
-                                                            },
-                                                            {
                                                                 "label": "Drosophila-Melanogaster",
                                                                 "value": "drosophila-melanogaster",
                                                             },
