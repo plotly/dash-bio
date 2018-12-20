@@ -174,7 +174,8 @@ AlignmentChart.propTypes = {
     /*
     Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
     takes up horizontally. The total number of tiles (numtiles) seen
-    horitontally is automatically determined by rounding
+    horizontally is automatically determined by rounding
+    the Viewer width divided by the tile width.
     the Viewwer width divided by the tile witdth.
     */
     tilewidth: PropTypes.number,
