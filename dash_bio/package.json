@@ -13,22 +13,23 @@
   "author": "The Plotly Team",
   "license": "MIT",
   "dependencies": {
+    "circos": "^2.1.0",
+    "ideogram": "git+https://github.com/eweitz/ideogram.git",
     "plotly.js": "^1.41.3",
     "ramda": "^0.25.0",
     "react": "15.4.2",
+    "react-alignment-viewer": "^0.3.0",
     "react-dom": "15.4.2",
     "react-plotly.js": "^2.2.0",
-    "react-sequence-viewer": "git://github.com/shammamah/react-sequence-viewer.git",
-    "ideogram": "git+https://github.com/eweitz/ideogram.git",
-    "circos": "^2.1.0"
+    "react-sequence-viewer": "git://github.com/shammamah/react-sequence-viewer.git"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
-    "copyfiles": "^2.0.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "copyfiles": "^2.0.0",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
