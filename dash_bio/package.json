@@ -20,7 +20,7 @@
     "react-plotly.js": "^2.2.0",
     "react-sequence-viewer": "git://github.com/shammamah/react-sequence-viewer.git",
     "ideogram": "git+https://github.com/eweitz/ideogram.git",
-    "circos": "^2.1.0"
+    "circos": "git+https://github.com/matthewchan15/circosJS.git#matthewchan15-zoom-pan-svg"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
