@@ -23,10 +23,9 @@
     border-width: 1px;
     border-radius: 5px;
     text-align: center;
-    left: 4%;
     margin: 3px;
-    width: 31%;
     bottom: 10px;
+    width: 99%;
 }
 
 .mol3d-controls {
@@ -37,7 +36,6 @@
     padding: 8px;
     top: 2px;
     right: 5px;
-    width: 30%;
     height: auto;
 }
 
@@ -58,7 +56,7 @@
 }
 
 #mol3d-slider-opacity {
-    width: 95%;
+    width: 90%;
 }
 
 #mol3d-biomolecule-viewer {
@@ -78,4 +76,10 @@
 }
 #mol3d-input-bgcolor {
     width:100%;
+}
+
+#mol3d-controls-container {
+    overflow-y: auto;
+    height:500px;
+    width:32%;
 }
