@@ -1,8 +1,9 @@
 import sys
 import numpy as np
 import json
+import ast
 
-def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
+def createStyle(pdbPath, style, molcolor, customDict, atmColor=None):
     '''
     Function to create the different styles (stick, cartoon, sphere) using the
     protein data bank (PDB) file as input. This function outputs the styles as a JSON file
@@ -29,27 +30,34 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
         lines=[l.strip() for l in infile if l.strip()]
 
     ## Define dictionary of atom and chain colors
-    if (chainsDict is None):
-        chainsDict = {
-            "A":"#32cd32",
-            "B":"#8a2be2",
-            "C":"#ff4500",
-            "D":"#00bfff",
-            "E":"#ff00ff",
-            "F":"#ffff00",
-            "G":"#4682b4",
-            "H":"#ffb6c1",
-            "I":"#a52aaa",
-            "J":"#ee82ee",
-            "K":"#75FF33",
-            "L":"#FFBD33",
-            "M":"#400040",
-            "N":"#004000",
-            "O":"#008080",
-            "P":"#008080",
-            "x":"#9c6677",
-            "Y":"#b7c5c8"
-        }
+    
+    chainsDict = {
+        "A":"#32cd32",
+        "B":"#8a2be2",
+        "C":"#ff4500",
+        "D":"#00bfff",
+        "E":"#ff00ff",
+        "F":"#ffff00",
+        "G":"#4682b4",
+        "H":"#ffb6c1",
+        "I":"#a52aaa",
+        "J":"#ee82ee",
+        "K":"#75FF33",
+        "L":"#FFBD33",
+        "M":"#400040",
+        "N":"#004000",
+        "O":"#008080",
+        "P":"#008080",
+        "x":"#9c6677",
+        "Y":"#b7c5c8"
+    }
+    if (customDict is None or customDict is ''):
+        chainsDict=chainsDict
+    else:
+        d=ast.literal_eval(customDict)
+        for k,v in d.items():
+            chainsDict[k]=v
+
     ## Color each amino acid residue (protein) 
     ## or nucleotide (DNA/RNA) based on its identity
     residueID = {
@@ -126,16 +134,24 @@ def createStyle(pdbPath, style, molcolor, chainsDict=None, atmColor=None):
 
 
     ## Create the styles files in JSON format
+
+    ## Initiationalize variables
     chain=[]; atmType=[]; resName=[]
-    ct=0
     ct1=0
     data={}
+
+    ## Variables that store the character positions of different 
+    ## parameters from the molecule PDB file
+    chainpos=[21, 22] 
+    atmTypepos=[77,78] 
+    rNamepos=[17,20]
+
     for l in lines:
         line=l.split()
         if("ATOM" in line[0] or "HETATM" in line[0]):
-            chain.append(l[21:22].strip())
-            atmType.append(l[77:78])
-            val_rName=l[17:20].strip()
+            chain.append(l[chainpos[0]:chainpos[1]].strip())
+            atmType.append(l[atmTypepos[0]:atmTypepos[1]])
+            val_rName=l[rNamepos[0]:rNamepos[1]].strip()
             resName.append(val_rName)
 
             index=str(ct1)

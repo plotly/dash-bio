@@ -127,6 +127,21 @@ def layout():
         ],
         ),
 
+        html.Div(
+            title='enter dictionary of colors. Example:{\'A\':\'#abcdef\'} for chain', 
+            className="mol3d-controls",
+            children=[
+            html.P('Customize molecule color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
+            dcc.Input(
+                id='mol3d-custom-colors',
+                type='text',
+                placeholder='{\'A\': \'#ff003d\', \'B\': \'#abcdef\'}',
+                value=''
+            ),
+            html.Button(id='mol3d-submit-button', children='Submit'),
+        ]
+        ),
+
         # Textarea container to display the selected atoms
         html.Div(title='view information about selected atoms of biomolecule', 
         className="mol3d-controls", id="mol3d-selection-display", children=[
@@ -165,9 +180,11 @@ def callbacks(app):
         [Input("mol3d-upload-data","contents"),
         Input("dropdown-demostr","value"),
         Input("dropdown-styles", "value"),
-        Input("dropdown-style-color", "value")]
+        Input("dropdown-style-color", "value"),
+        Input('mol3d-submit-button', 'n_clicks')],
+        [State("mol3d-custom-colors", "value")]
     )
-    def use_upload(contents, demostr, molStyle, molcolor):
+    def use_upload(contents, demostr, molStyle, molcolor, n_clicks, customDict):
         if demostr is not None:
             copy2(demostr, './str.pdb')
             fname='./str.pdb'
@@ -191,7 +208,7 @@ def callbacks(app):
             mdata=json.load(fm)
 
         ## Create the cartoon style from the decoded contents
-        datstyle=sparser.createStyle(fname, molStyle, molcolor)
+        datstyle=sparser.createStyle(fname, molStyle, molcolor, customDict)
         fstyle=files_data_style(datstyle)
         with open(fstyle) as sf:
             data_style=json.load(sf)

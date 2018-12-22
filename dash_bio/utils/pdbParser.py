@@ -30,6 +30,7 @@ def createData(pdbPath):
        ## store only non-empty lines
        lines=[l.strip() for l in infile if l.strip()]
 
+    ## Initialize all variables
     varNchains=[]; varNresidues=[]
     serial=[]; atmName=[]; resName=[]; chain=[]; resId=[]; positions=[]; occupancy=[]; tempFactor=[]; atomType=[]
     ct=0
@@ -37,26 +38,41 @@ def createData(pdbPath):
     datb={}
     datb['atoms']=[]
     datb['bonds']=[]
+
+    ## Variables that store the character positions of different 
+    ## parameters from the molecule PDB file
+    serialpos=[6,11]
+    atmNamepos=[12,16]
+    rNamepos=[17,20]
+    chainpos=[21,22]
+    rIdpos=[22,26]
+    xpos=[30,38]
+    ypos=[38,46]
+    zpos=[46,54]
+    occupos=[54,60]
+    Bfacpos=[60,66]
+    atmTypepos=[77,79]
+
     for l in lines:    
         line=l.split()
         if("ATOM" in line[0] or "HETATM" in line[0]):
-            serial.append(int(l[6:11]))
-            atmName.append(l[12:16].strip())
-            val_rName=l[17:20].strip()
+            serial.append(int(l[serialpos[0]:serialpos[1]]))
+            atmName.append(l[atmNamepos[0]:atmNamepos[1]].strip())
+            val_rName=l[rNamepos[0]:rNamepos[1]].strip()
             resName.append(val_rName)
-            chain_val=l[21:22].strip()
+            chain_val=l[chainpos[0]:chainpos[1]].strip()
             chain.append(chain_val)
             if (not chain_val in varNchains):
                 varNchains.append(chain_val)
-            val_rId=int(l[22:26])
+            val_rId=int(l[rIdpos[0]:rIdpos[1]])
             resId.append(val_rId)
-            x = float(l[30:38])
-            y = float(l[38:46])
-            z = float(l[46:54])
+            x = float(l[xpos[0]:xpos[1]])
+            y = float(l[ypos[0]:ypos[1]])
+            z = float(l[zpos[0]:zpos[1]])
             positions.append([x,y,z])
-            occupancy.append(l[54:60].strip())
-            tempFactor.append(l[60:66].strip())
-            atomType.append(l[77:79].strip())
+            occupancy.append(l[occupos[0]:occupos[1]].strip())
+            tempFactor.append(l[Bfacpos[0]:Bfacpos[1]].strip())
+            atomType.append(l[atmTypepos[0]:atmTypepos[1]].strip())
             ct+=1
 
     ## Create list of atoms
