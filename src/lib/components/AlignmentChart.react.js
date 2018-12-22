@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
+import { omit } from 'ramda';
 
 import { AlignmentChart as PreAlignementChart } from 'react-alignment-viewer';
 
@@ -25,13 +26,16 @@ export default class AlignmentChart extends Component {
     render() {
         const {
             id,
-            data,
-            ...other
         } = this.props;
 
         return (
     		<div id={id}>
-    		  <PreAlignementChart data={data} {...other} />
+    		  <PreAlignementChart
+                  {...omit(
+                      ['fireEvent', 'dashEvent', 'setProps'],
+                      this.props
+                  )}
+              />
     		</div>
         );
     }

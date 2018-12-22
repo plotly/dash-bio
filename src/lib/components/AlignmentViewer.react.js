@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 
+import { omit } from 'ramda';
+
 import { AlignmentViewer as PreAlignementViewer } from 'react-alignment-viewer';
 
 
@@ -25,13 +27,16 @@ export default class AlignmentViewer extends Component {
     render() {
         const {
             id,
-            data,
-            ...other
         } = this.props;
 
         return (
     		<div id={id}>
-    		  <PreAlignementViewer data={data} {...other} />
+    		  <PreAlignementViewer
+                  {...omit(
+                      ['fireEvent', 'dashEvent', 'setProps'],
+                      this.props
+                  )}
+              />
     		</div>
         );
     }
