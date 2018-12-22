@@ -48,6 +48,12 @@ AlignmentChart.propTypes = {
     id: PropTypes.string,
 
     /**
+     * Dash-assigned callback that should be called whenever any of the
+     * properties change.
+     */
+    setProps: PropTypes.func,
+
+    /**
      * Input data, either in FASTA or Clustal format.
      */
     data: PropTypes.string,
@@ -135,7 +141,7 @@ AlignmentChart.propTypes = {
      * or normalized entropy 'entropy' to determine conservation,
      * which is a value between 0 and 1 where 1 is most conserved.
      */
-    conservationmethod: PropTypes.oneOf(['conservation', 'opacity']),
+    conservationmethod: PropTypes.oneOf(['conservation', 'entropy']),
 
     /**
      * Whether to normalize the conservation barchart
@@ -263,12 +269,6 @@ AlignmentChart.propTypes = {
         PropTypes.number,
         PropTypes.string
     ]),
-
-    /**
-     * Dash-assigned callback that should be called whenever any of the
-     * properties change.
-     */
-    setProps: PropTypes.func
 };
 
 

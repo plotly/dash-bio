@@ -11,6 +11,13 @@
         "required": false,
         "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique across all of the\ncomponents in an app."
       },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
+      },
       "data": {
         "type": {
           "name": "string"
@@ -188,7 +195,7 @@
               "computed": false
             },
             {
-              "value": "'opacity'",
+              "value": "'entropy'",
               "computed": false
             }
           ]
@@ -452,6 +459,13 @@
         "required": false,
         "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique across all of the\ncomponents in an app."
       },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
+      },
       "data": {
         "type": {
           "name": "string"
@@ -629,7 +643,7 @@
               "computed": false
             },
             {
-              "value": "'opacity'",
+              "value": "'entropy'",
               "computed": false
             }
           ]

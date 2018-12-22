@@ -44,7 +44,7 @@ or as custom Plotly colorscale under a list format.
 Note that this conservationcolorscale argument
 does NOT follow the same format as the colorscale argument.
 - conservationopacity (number | string; optional): Opacity of the conservation secondary barplot as a value between 0 and 1.
-- conservationmethod (a value equal to: 'conservation', 'opacity'; optional): Whether to use most conserved ratio (MLE) 'conservation'
+- conservationmethod (a value equal to: 'conservation', 'entropy'; optional): Whether to use most conserved ratio (MLE) 'conservation'
 or normalized entropy 'entropy' to determine conservation,
 which is a value between 0 and 1 where 1 is most conserved.
 - correctgap (boolean; optional): Whether to normalize the conservation barchart
