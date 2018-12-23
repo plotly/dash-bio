@@ -69,6 +69,20 @@
       }
     ],
     "props": {
+      "enableDownloadSVG": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": ""
+      },
+      "enableZoomPan": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": ""
+      },
       "id": {
         "type": {
           "name": "string"
