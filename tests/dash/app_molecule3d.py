@@ -102,7 +102,8 @@ def layout():
         ),
         
         #Dropdown menu for selecting the background color
-        html.Div(title='select background color for molecule viewer', className="mol3d-controls", id="mol3d-control-bgcolor", children=[
+        html.Div(title='select background color for molecule viewer', 
+        className="mol3d-controls", id="mol3d-control-bgcolor", children=[
             html.P('Background color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
             # dcc.Dropdown(
             dcc.Input(
@@ -115,7 +116,8 @@ def layout():
         ),
 
         #Slider to choose the background opacity
-        html.Div(title='change background opacity of molecule viewer', className="mol3d-controls", children=[
+        html.Div(title='change background opacity of molecule viewer', 
+        className="mol3d-controls", children=[
             html.P('Background opacity', style={'font-weight':'bold', 'margin-bottom':'10px'}),
             dcc.Slider(
                 id='mol3d-slider-opacity',
@@ -128,12 +130,12 @@ def layout():
         ),
 
         html.Div(
-            title='enter dictionary of colors. Example:{\'A\':\'#abcdef\'} for chain', 
+            title='Customize molecule coloring:{\'A\':\'#abcdef\'} for chain, {\'ALA\':\'#bcdefa\'} for residue', 
             className="mol3d-controls",
             children=[
             html.P('Customize molecule color', style={'font-weight':'bold', 'margin-bottom':'10px'}),
             dcc.Input(
-                id='mol3d-custom-colors',
+                id='mol3d-custom-molcolor',
                 type='text',
                 placeholder='{\'A\': \'#ff003d\', \'B\': \'#abcdef\'}',
                 value=''
@@ -182,7 +184,7 @@ def callbacks(app):
         Input("dropdown-styles", "value"),
         Input("dropdown-style-color", "value"),
         Input('mol3d-submit-button', 'n_clicks')],
-        [State("mol3d-custom-colors", "value")]
+        [State("mol3d-custom-molcolor", "value")]
     )
     def use_upload(contents, demostr, molStyle, molcolor, n_clicks, customDict):
         if demostr is not None:

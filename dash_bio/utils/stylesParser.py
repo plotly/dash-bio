@@ -51,12 +51,12 @@ def createStyle(pdbPath, style, molcolor, customDict, atmColor=None):
         "x":"#9c6677",
         "Y":"#b7c5c8"
     }
-    if (customDict is None or customDict is ''):
-        chainsDict=chainsDict
-    else:
-        d=ast.literal_eval(customDict)
-        for k,v in d.items():
-            chainsDict[k]=v
+    # if (customDict is None or customDict is ''):
+    #     chainsDict=chainsDict
+    # else:
+    #     d=ast.literal_eval(customDict)
+    #     for k,v in d.items():
+    #         chainsDict[k]=v
 
     ## Color each amino acid residue (protein) 
     ## or nucleotide (DNA/RNA) based on its identity
@@ -132,6 +132,29 @@ def createStyle(pdbPath, style, molcolor, customDict, atmColor=None):
             "G":"#3f3f3f"
         }
 
+    ## Update molecule colors based on user input dictionary
+    ## Example user inputs:
+    ## To change chain color: {'A':'#abcdef', 'B':'#bcdefa'}
+    ## To chain residue color: {'ALA':'#abcdef', 'GLY':'#bcdefa'}
+    if (customDict is None or customDict is ''):
+        chainsDict=chainsDict
+        residueID=residueID
+        residueProperty=residueProperty
+        atmColor=atmColor
+    else:
+        d=ast.literal_eval(customDict)
+        if (molcolor == 'atomColor'):
+            for k,v in d.items():
+                atmColor[k]=v
+        elif (molcolor == 'chainColor'):
+            for k,v in d.items():
+                chainsDict[k]=v
+        elif (molcolor == 'residueID'):
+            for k,v in d.items():
+                residueID[k]=v
+        elif (molcolor == 'residueProperty'):
+            for k,v in d.items():
+                residueProperty[k]=v
 
     ## Create the styles files in JSON format
 
