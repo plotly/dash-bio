@@ -6,12 +6,12 @@ import { AlignmentChart as PreAlignementChart } from 'react-alignment-viewer';
 
 
 /**
- * The alignment viewer/MSA component is used to align multiple genomic
+ * The Alignment Viewer (MSA) component is used to align multiple genomic
  * or proteomic sequences from a FASTA or Clustal file. Among its
  * extensive set of features, the multiple sequence alignment viewer
  * can display multiple subplots showing gap and conservation info,
  * alongside industry standard colorscale support and consensus sequence.
- * No matter what size your alignment is, aligment viewer is able to display
+ * No matter what size your alignment is, Aligment Viewer is able to display
  * your genes or proteins snappily thanks to the underlying WebGL architecture
  * powering the component. You can quickly scroll through your long sequence
  * with a slider or a heatmap overview.
@@ -23,14 +23,27 @@ import { AlignmentChart as PreAlignementChart } from 'react-alignment-viewer';
  */
 export default class AlignmentChart extends Component {
 
+    constructor(props) {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    // Bind to Dash event handler that puts event back into props
+    handleChange(event) {
+        const eventObj = JSON.stringify(event);
+        this.props.setProps({eventDatum: eventObj});
+    }
+
     render() {
         const {
             id,
+            eventDatum
         } = this.props;
 
         return (
-    		<div id={id}>
+    		<div id={id} eventDatum={eventDatum}>
     		  <PreAlignementChart
+                  onChange={this.handleChange}
                   {...omit(
                       ['fireEvent', 'dashEvent', 'setProps'],
                       this.props
@@ -56,6 +69,11 @@ AlignmentChart.propTypes = {
      * properties change.
      */
     setProps: PropTypes.func,
+
+    /**
+     * A Dash prop that returns data on clicking, hovering or resizing the viewer.
+     */
+    eventDatum: PropTypes.object,
 
     /**
      * Input data, either in FASTA or Clustal format.
