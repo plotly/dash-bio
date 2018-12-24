@@ -5,12 +5,12 @@ from dash.development.base_component import Component, _explicitize_args
 
 class AlignmentChart(Component):
     """A AlignmentChart component.
-The alignment viewer/MSA component is used to align multiple genomic
+The Alignment Viewer (MSA) component is used to align multiple genomic
 or proteomic sequences from a FASTA or Clustal file. Among its
 extensive set of features, the multiple sequence alignment viewer
 can display multiple subplots showing gap and conservation info,
 alongside industry standard colorscale support and consensus sequence.
-No matter what size your alignment is, aligment viewer is able to display
+No matter what size your alignment is, Aligment Viewer is able to display
 your genes or proteins snappily thanks to the underlying WebGL architecture
 powering the component. You can quickly scroll through your long sequence
 with a slider or a heatmap overview.
@@ -24,6 +24,7 @@ Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.
+- eventDatum (dict; optional): A Dash prop that returns data on clicking, hovering or resizing the viewer.
 - data (string; optional): Input data, either in FASTA or Clustal format.
 - extension (string; optional): Format type of the input data, either in FASTA or Clustal.
 - colorscale (string | dict; optional): Colorscale in 'buried', 'cinema', 'clustal', 'clustal2', 'helix', 'hydrophobicity'
@@ -95,13 +96,13 @@ are set.
 
 Available events: """
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, extension=Component.UNDEFINED, colorscale=Component.UNDEFINED, opacity=Component.UNDEFINED, textcolor=Component.UNDEFINED, textsize=Component.UNDEFINED, showlabel=Component.UNDEFINED, showid=Component.UNDEFINED, showconservation=Component.UNDEFINED, conservationcolor=Component.UNDEFINED, conservationcolorscale=Component.UNDEFINED, conservationopacity=Component.UNDEFINED, conservationmethod=Component.UNDEFINED, correctgap=Component.UNDEFINED, showgap=Component.UNDEFINED, gapcolor=Component.UNDEFINED, gapcolorscale=Component.UNDEFINED, gapopacity=Component.UNDEFINED, groupbars=Component.UNDEFINED, showconsensus=Component.UNDEFINED, tilewidth=Component.UNDEFINED, tileheight=Component.UNDEFINED, overview=Component.UNDEFINED, numtiles=Component.UNDEFINED, scrollskip=Component.UNDEFINED, tickstart=Component.UNDEFINED, ticksteps=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'data', 'extension', 'colorscale', 'opacity', 'textcolor', 'textsize', 'showlabel', 'showid', 'showconservation', 'conservationcolor', 'conservationcolorscale', 'conservationopacity', 'conservationmethod', 'correctgap', 'showgap', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'showconsensus', 'tilewidth', 'tileheight', 'overview', 'numtiles', 'scrollskip', 'tickstart', 'ticksteps', 'width', 'height']
+    def __init__(self, id=Component.UNDEFINED, eventDatum=Component.UNDEFINED, data=Component.UNDEFINED, extension=Component.UNDEFINED, colorscale=Component.UNDEFINED, opacity=Component.UNDEFINED, textcolor=Component.UNDEFINED, textsize=Component.UNDEFINED, showlabel=Component.UNDEFINED, showid=Component.UNDEFINED, showconservation=Component.UNDEFINED, conservationcolor=Component.UNDEFINED, conservationcolorscale=Component.UNDEFINED, conservationopacity=Component.UNDEFINED, conservationmethod=Component.UNDEFINED, correctgap=Component.UNDEFINED, showgap=Component.UNDEFINED, gapcolor=Component.UNDEFINED, gapcolorscale=Component.UNDEFINED, gapopacity=Component.UNDEFINED, groupbars=Component.UNDEFINED, showconsensus=Component.UNDEFINED, tilewidth=Component.UNDEFINED, tileheight=Component.UNDEFINED, overview=Component.UNDEFINED, numtiles=Component.UNDEFINED, scrollskip=Component.UNDEFINED, tickstart=Component.UNDEFINED, ticksteps=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'eventDatum', 'data', 'extension', 'colorscale', 'opacity', 'textcolor', 'textsize', 'showlabel', 'showid', 'showconservation', 'conservationcolor', 'conservationcolorscale', 'conservationopacity', 'conservationmethod', 'correctgap', 'showgap', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'showconsensus', 'tilewidth', 'tileheight', 'overview', 'numtiles', 'scrollskip', 'tickstart', 'ticksteps', 'width', 'height']
         self._type = 'AlignmentChart'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_events = []
-        self.available_properties = ['id', 'data', 'extension', 'colorscale', 'opacity', 'textcolor', 'textsize', 'showlabel', 'showid', 'showconservation', 'conservationcolor', 'conservationcolorscale', 'conservationopacity', 'conservationmethod', 'correctgap', 'showgap', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'showconsensus', 'tilewidth', 'tileheight', 'overview', 'numtiles', 'scrollskip', 'tickstart', 'ticksteps', 'width', 'height']
+        self.available_properties = ['id', 'eventDatum', 'data', 'extension', 'colorscale', 'opacity', 'textcolor', 'textsize', 'showlabel', 'showid', 'showconservation', 'conservationcolor', 'conservationcolorscale', 'conservationopacity', 'conservationmethod', 'correctgap', 'showgap', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'showconsensus', 'tilewidth', 'tileheight', 'overview', 'numtiles', 'scrollskip', 'tickstart', 'ticksteps', 'width', 'height']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')
