@@ -21,7 +21,7 @@ Please make sure you have done these things before asking for approval to finall
 - [ ] Regenerate tarball (run `python setup.py sdist`, then copy `dist/dash_bio-X.Y.Z.tar.gz` into the top-level directory)
 - [ ] Ensure that you installed the tarball you generated with the above commands (run `pip install dash-bio-X.Y.Z.tar.gz`)
 - [ ] Run your application successfully in a [virtual environment](https://realpython.com/python-virtual-environments-a-primer/) and test that other apps still run
-- [ ] Commit and push the files that were generated in the `dash-bio` folder by the above command(s)
+- [ ] Commit and push the files that were generated in the `dash_bio/` subfolder by the above command(s)
 - [ ] Ask for a final review and look for a :dancer:!
 - [ ] Have your dancer? Merge to master!
 
