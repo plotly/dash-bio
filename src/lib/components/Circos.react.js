@@ -11,7 +11,7 @@ import { TRACK_TYPES } from '../constants/tracks';
  * beautiful way. Please checkout the Dash Bio repository
  * on github to learn more about this API.
  */
-export default class DashCircos extends Component {
+export default class Circos extends Component {
   constructor(props) {
     super(props)
     this.circos = null;
@@ -184,13 +184,15 @@ export default class DashCircos extends Component {
 
   componentDidMount() {
     const {
-      size, layout, config, tracks, setProps
+      enableDownloadSVG, enableZoomPan, size, layout, config, tracks, setProps
     } = this.props;
 
     this.circos = new CircosJS({
       container: this.ref,
       width: size,
       height: size,
+      enableZoomPan: enableZoomPan,
+      enableDownloadSVG: enableDownloadSVG
     });
     this.configIdeogram(layout, config, tracks, setProps);
   }
@@ -209,12 +211,14 @@ export default class DashCircos extends Component {
 
   componentDidUpdate() {
     const {
-      size, layout, config, tracks, setProps
+      enableDownloadSVG, enableZoomPan, size, layout, config, tracks, setProps
     } = this.props;
     this.circos.removeTracks()
     this.container = this.ref
     this.circos.width = size
     this.circos.height = size
+    this.circos.enableZoomPan = enableZoomPan
+    this.circos.enableDownloadSVG = enableDownloadSVG
     this.configIdeogram(layout, config, tracks, setProps);
   }
 
@@ -245,13 +249,16 @@ export default class DashCircos extends Component {
   }
 }
 
-DashCircos.defaultProps = {
+Circos.defaultProps = {
   config: {},
   size: 800,
   tracks: [],
 };
 
-DashCircos.propTypes = {
+Circos.propTypes = {
+  enableDownloadSVG: PropTypes.bool,
+
+  enableZoomPan: PropTypes.bool,
   /**
    * The ID of the component to be used in Dash callbacks
    */

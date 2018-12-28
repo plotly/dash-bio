@@ -1,7 +1,7 @@
 from .AlignmentChart import AlignmentChart
 from .AlignmentViewer import AlignmentViewer
-from .DashCircos import DashCircos
-from .DashIdeogram import DashIdeogram
+from .Circos import Circos
+from .Ideogram import Ideogram
 from .NeedlePlot import NeedlePlot
 from .SequenceViewer import SequenceViewer
 
@@ -9,8 +9,8 @@ from .SequenceViewer import SequenceViewer
 __all__ = [
     "AlignmentChart",
     "AlignmentViewer",
-    "DashCircos",
-    "DashIdeogram",
+    "Circos",
+    "Ideogram",
     "NeedlePlot",
     "SequenceViewer",
 ]

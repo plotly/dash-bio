@@ -3,8 +3,8 @@
 from dash.development.base_component import Component, _explicitize_args
 
 
-class DashIdeogram(Component):
-    """A DashIdeogram component.
+class Ideogram(Component):
+    """A Ideogram component.
 The Dash Ideogram is used to draw and animate genome-wide
 datasets for organisms such as an human, mouse, and any
 other eukaryotes. The Ideogram can be used to compare
@@ -152,7 +152,7 @@ Available events: """
     @_explicitize_args
     def __init__(self, id=Component.REQUIRED, style=Component.UNDEFINED, className=Component.UNDEFINED, annotationsData=Component.UNDEFINED, ancestors=Component.UNDEFINED, annotations=Component.UNDEFINED, annotationHeight=Component.UNDEFINED, annotationsLayout=Component.UNDEFINED, annotationsColor=Component.UNDEFINED, annotationsPath=Component.UNDEFINED, annotationTracks=Component.UNDEFINED, assembly=Component.UNDEFINED, barWidth=Component.UNDEFINED, brush=Component.UNDEFINED, brushData=Component.UNDEFINED, container=Component.UNDEFINED, chrHeight=Component.UNDEFINED, chrMargin=Component.UNDEFINED, chrWidth=Component.UNDEFINED, chromosomes=Component.UNDEFINED, dataDir=Component.UNDEFINED, fullChromosomeLabels=Component.UNDEFINED, histogramScaling=Component.UNDEFINED, heatmaps=Component.UNDEFINED, homology=Component.UNDEFINED, filterable=Component.UNDEFINED, localOrganism=Component.UNDEFINED, onMouseOver=Component.UNDEFINED, organism=Component.UNDEFINED, orientation=Component.UNDEFINED, onBrushMove=Component.UNDEFINED, onDidRotate=Component.UNDEFINED, onDrawAnnots=Component.UNDEFINED, onLoad=Component.UNDEFINED, perspective=Component.UNDEFINED, ploidy=Component.UNDEFINED, ploidyDesc=Component.UNDEFINED, rangeSet=Component.UNDEFINED, rotatable=Component.UNDEFINED, rotated=Component.UNDEFINED, resolution=Component.UNDEFINED, rows=Component.UNDEFINED, sex=Component.UNDEFINED, showChromosomeLabels=Component.UNDEFINED, showBandLabels=Component.UNDEFINED, showAnnotTooltip=Component.UNDEFINED, showFullyBanded=Component.UNDEFINED, showNonNuclearChromosomes=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'style', 'className', 'annotationsData', 'ancestors', 'annotations', 'annotationHeight', 'annotationsLayout', 'annotationsColor', 'annotationsPath', 'annotationTracks', 'assembly', 'barWidth', 'brush', 'brushData', 'container', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'dataDir', 'fullChromosomeLabels', 'histogramScaling', 'heatmaps', 'homology', 'filterable', 'localOrganism', 'organism', 'orientation', 'perspective', 'ploidy', 'ploidyDesc', 'rangeSet', 'rotatable', 'rotated', 'resolution', 'rows', 'sex', 'showChromosomeLabels', 'showBandLabels', 'showAnnotTooltip', 'showFullyBanded', 'showNonNuclearChromosomes']
-        self._type = 'DashIdeogram'
+        self._type = 'Ideogram'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_events = []
@@ -168,7 +168,7 @@ Available events: """
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
-        super(DashIdeogram, self).__init__(**args)
+        super(Ideogram, self).__init__(**args)
 
     def __repr__(self):
         if(any(getattr(self, c, None) is not None
@@ -186,9 +186,9 @@ Available events: """
                                       if any([c.startswith(wc_attr)
                                       for wc_attr in
                                       self._valid_wildcard_attributes])])
-            return ('DashIdeogram(' + props_string +
+            return ('Ideogram(' + props_string +
                    (', ' + wilds_string if wilds_string != '' else '') + ')')
         else:
             return (
-                'DashIdeogram(' +
+                'Ideogram(' +
                 repr(getattr(self, self._prop_names[0], None)) + ')')
