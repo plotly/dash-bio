@@ -71,48 +71,8 @@ def layout():
                                         value='dataset3',
                                     ),
                                 ], className='alignment-subcard'),
-                                html.Div([
-                                    html.H4(
-                                        "Hover/Click/Event Data"
-                                    ),
-                                    dcc.Textarea(
-                                        id="alignment-events-2",
-                                        placeholder="Hover or click on data to see it here.",
-                                        value="Hover or click on data to see it here.",
-                                        className="alignment-events",
-                                    ),
-                                ], className='alignment-subcard'),
-                                html.Div([
-                                    html.H4(
-                                        "What is Alignment Viewer?"
-                                    ),
-                                    html.P(
-                                        """
-                                        The Alignment Viewer (MSA) component is used to align multiple genomic
-                                        or proteomic sequences from a FASTA or Clustal file. Among its
-                                        extensive set of features, the multiple sequence alignment viewer
-                                        can display multiple subplots showing gap and conservation info,
-                                        alongside industry standard colorscale support and consensus sequence.
-                                        No matter what size your alignment is, Alignment Viewer is able to display
-                                        your genes or proteins snappily thanks to the underlying WebGL architecture
-                                        powering the component. You can quickly scroll through your long sequence
-                                        with a slider or a heatmap overview.
-                                        """
-                                    ),
-                                    html.P(
-                                        """
-                                        Note that the AlignmentChart only returns a chart of the sequence, while
-                                        AlignmentViewer has integrated controls for colorscale, heatmaps, and subplots
-                                        allowing the user to interactively control their sequences.
-                                        """
-                                    ),
-                                    html.P(
-                                        """
-                                        Read more about the component here:
-                                        https://github.com/plotly/react-alignment-viewer
-                                        """
-                                    ),
-                                ], className='alignment-subcard'),
+                                event_div,
+                                description_div
                             ],
                         ),
                         dcc.Tab(
@@ -126,48 +86,8 @@ def layout():
                                         "Drag and drop FASTA files or select files."
                                     ]),
                                 ),
-                                html.Div([
-                                    html.H4(
-                                        "Hover/Click/Event Data"
-                                    ),
-                                    dcc.Textarea(
-                                        id="alignment-events",
-                                        placeholder="Hover or click on data to see it here.",
-                                        value="Hover or click on data to see it here.",
-                                        className="alignment-events",
-                                    ),
-                                ], className='alignment-subcard'),
-                                html.Div([
-                                    html.H4(
-                                        "What is Alignment Viewer?"
-                                    ),
-                                    html.P(
-                                        """
-                                        The Alignment Viewer (MSA) component is used to align multiple genomic
-                                        or proteomic sequences from a FASTA or Clustal file. Among its
-                                        extensive set of features, the multiple sequence alignment viewer
-                                        can display multiple subplots showing gap and conservation info,
-                                        alongside industry standard colorscale support and consensus sequence.
-                                        No matter what size your alignment is, Alignment Viewer is able to display
-                                        your genes or proteins snappily thanks to the underlying WebGL architecture
-                                        powering the component. You can quickly scroll through your long sequence
-                                        with a slider or a heatmap overview.
-                                        """
-                                    ),
-                                    html.P(
-                                        """
-                                        Note that the AlignmentChart only returns a chart of the sequence, while
-                                        AlignmentViewer has integrated controls for colorscale, heatmaps, and subplots
-                                        allowing the user to interactively control their sequences.
-                                        """
-                                    ),
-                                    html.P(
-                                        """
-                                        Read more about the component here:
-                                        https://github.com/plotly/react-alignment-viewer
-                                        """
-                                    ),
-                                ], className='alignment-subcard'),
+                                event_div,
+                                description_div
                             ],
                         ),
                         dcc.Tab(
@@ -185,6 +105,53 @@ def layout():
         ], className='alignment-wrapper row'),
         dcc.Store(id='alignment-data-store'),
     ])
+
+
+event_div = html.Div([
+    html.H4(
+        "Hover/Click/Event Data"
+    ),
+    dcc.Textarea(
+        id="alignment-events-",
+        placeholder="Hover or click on data to see it here.",
+        value="Hover or click on data to see it here.",
+        className="alignment-events",
+    ),
+], className='alignment-subcard'),
+
+
+description_div = html.Div([
+    html.H4(
+        "What is Alignment Viewer?"
+    ),
+    html.P(
+        """
+        The Alignment Viewer (MSA) component is used to align multiple genomic
+        or proteomic sequences from a FASTA or Clustal file. Among its
+        extensive set of features, the multiple sequence alignment viewer
+        can display multiple subplots showing gap and conservation info,
+        alongside industry standard colorscale support and consensus sequence.
+        No matter what size your alignment is, Alignment Viewer is able to
+        display your genes or proteins snappily thanks to the underlying WebGL
+        architecture powering the component. You can quickly scroll through
+        your long sequence with a slider or a heatmap overview.
+        """
+    ),
+    html.P(
+        """
+        Note that the AlignmentChart only returns a chart of the sequence,
+        while AlignmentViewer has integrated controls for colorscale, heatmaps,
+        and subplots allowing the user to interactively
+        control their sequences.
+        """
+    ),
+    html.P(
+        """
+        Read more about the component here:
+        https://github.com/plotly/react-alignment-viewer
+        """
+    ),
+], className='alignment-subcard'),
 
 
 def callbacks(app):
@@ -206,7 +173,6 @@ def callbacks(app):
 
         return content
 
-
     # Handle event data
     @app.callback(
         Output("alignment-events", "value"),
@@ -214,16 +180,6 @@ def callbacks(app):
     )
     def event_data_select(data):
         return str(data)
-
-
-    # Handle event data
-    @app.callback(
-        Output("alignment-events-2", "value"),
-        [Input("alignment-chart", "eventDatum")]
-    )
-    def event_data_select(data):
-        return str(data)
-
 
     # Render main chart
     @app.callback(
