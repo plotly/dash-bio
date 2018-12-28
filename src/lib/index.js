@@ -9,8 +9,8 @@ import AlignmentViewer from './components/AlignmentViewer.react'
 export {
     SequenceViewer,
     NeedlePlot,
-    DashIdeogram,
-    DashCircos,
+    Ideogram,
+    Circos,
     AlignmentViewer,
     AlignmentChart
 };
