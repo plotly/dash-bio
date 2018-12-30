@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-
 import { omit } from 'ramda';
 
 import { AlignmentViewer as PreAlignementViewer } from 'react-alignment-viewer';

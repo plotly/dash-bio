@@ -20,6 +20,7 @@
     "react": "15.4.2",
     "react-alignment-viewer": "^0.5.2",
     "react-dom": "15.4.2",
+    "react-oncoprint": "^1.2.2",
     "react-plotly.js": "^2.2.0",
     "react-sequence-viewer": "git://github.com/shammamah/react-sequence-viewer.git"
   },

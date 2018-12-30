@@ -3,7 +3,9 @@ from .AlignmentViewer import AlignmentViewer
 from .Circos import Circos
 from .Ideogram import Ideogram
 from .NeedlePlot import NeedlePlot
+from .OncoPrint import OncoPrint
 from .SequenceViewer import SequenceViewer
+
 
 __all__ = [
     "AlignmentChart",
@@ -11,5 +13,6 @@ __all__ = [
     "Circos",
     "Ideogram",
     "NeedlePlot",
-    "SequenceViewer"
+    "OncoPrint",
+    "SequenceViewer",
 ]
