@@ -34,5 +34,16 @@ Go to this link to learn about [Dash Bio](https://dash.bio).
 
 ## Getting started
 
-Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for setup instructions,
-running apps locally, etc.
+1. Set up your Python environment:
+   ```bash
+   # Create a virtualenv
+   $ python3 -m venv venv
+   # Activate the virtualenv
+   $ . venv/bin/activate
+   # (On Windows, the above would be: venv\scripts\activate)
+   # Install the dev dependencies
+   $ pip install -r requirements.txt
+   ```
+2. Run `python index.py`
+3. Visit http://localhost:8050 in your web browser and click on the component
+   you want to explore.
