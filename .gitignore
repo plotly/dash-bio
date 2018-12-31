@@ -6,6 +6,7 @@
 # production
 /build
 /demo
+/env
 
 # testing
 /coverage
