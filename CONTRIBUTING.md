@@ -33,9 +33,13 @@ Commit each changeset corresponding to a conceptual entity.
 Write commit messages at the imperative (e.g., "Document workflow").
 Each commit is small; a pull request typically consists of a few commits.
 
-#### Step 3: Run the test suite locally
+#### Step 3: Run tests / example apps locally
 
 TODO: Determine the kind of tests we are talking about.
+```bash
+# FIXME
+python tests/dash/app_alignment_viewer.py
+```
 
 #### Step 4: Rebuild the package
 
