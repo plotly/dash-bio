@@ -34,10 +34,5 @@ Go to this link to learn about [Dash Bio](https://dash.bio).
 
 ## Getting started
 
-```sh
-# Install dependencies
-$ yarn
-
-# Watch source for changes and build to `src/lib/`
-$ yarn start
-```
+Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for setup instructions,
+running apps locally, etc.
