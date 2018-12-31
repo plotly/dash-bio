@@ -3,7 +3,6 @@
 #### Prerequisites
 
 - [Git](https://git-scm.com/)
-- [Dash](https://dash.plot.ly/)
 - [node.js](https://nodejs.org/en/). We recommend using node.js v10.x, but all
   versions starting from v6 should work.  Upgrading and managing node versions
   can be easily done using [`nvm`](https://github.com/creationix/nvm) or its
@@ -36,6 +35,14 @@ Each commit is small; a pull request typically consists of a few commits.
 #### Step 3: Run tests / example apps locally
 
 TODO: Determine the kind of tests we are talking about.
+
+Run the test suite locally:
+```bash
+# FIXME
+python -m unittest discover tests
+```
+
+Run the app you have added or changed:
 ```bash
 # FIXME
 python tests/dash/app_alignment_viewer.py
