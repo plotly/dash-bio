@@ -56,6 +56,8 @@ npm run build:all
 
 TODO: Complete instructions.
 
-#### Step 5: Submit a pull request
+#### Step 5: Submit a pull request (PR)
 
 Fill out the description template in the GitHub interface.
+When you submit the PR, a Heroku review app will be automatically created; it
+will remain available for 5 days.
