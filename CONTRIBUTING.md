@@ -48,13 +48,17 @@ Run the app you have added or changed:
 python tests/dash/app_alignment_viewer.py
 ```
 
-#### Step 4: Rebuild the package
+#### Step 4: Rebuild the package if necessary
+
+If you have made changes to the JS code, then you need to rebuild the package:
 
 ```bash
 npm run build:all
 ```
 
-TODO: Complete instructions.
+The auto-generated Python files will reflect your updates to the logic.
+If, instead, you have made changes to the layout, you do not need to rebuild
+the package.
 
 #### Step 5: Submit a pull request (PR)
 
