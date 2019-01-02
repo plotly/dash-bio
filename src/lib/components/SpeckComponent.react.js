@@ -190,6 +190,7 @@ SpeckComponent.propTypes = {
 	y: PropTypes.number,
 	z: PropTypes.number,
     })),
+    scrollZoom: PropTypes.bool,
     view: PropTypes.shape({
 	aspect: PropTypes.number,
 	zoom: PropTypes.number,

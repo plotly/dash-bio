@@ -25,7 +25,8 @@ def layout():
             children=[
                 dash_bio.SpeckComponent(
                     id='speck',
-                    view={'resolution': 400}
+                    view={'resolution': 600},
+                    scrollZoom=True
                 )
             ]
         ), 
@@ -48,17 +49,29 @@ def layout():
                 ), 
 
                 html.Hr(), 
-                
-                "Zoom molecule",
-                html.Br(),
-                dcc.Slider(
-                    id='zoom-atom',
-                    min=0,
-                    max=0.1,
-                    step=0.0001,
-                    value=0.02,
+
+                dcc.Checklist(
+                    id='speck-scroll-zoom-enable',
+                    options=[
+                        {'label': 'Scroll to zoom', 'value': 'scrollzoom'}
+                    ],
+                    values=['scrollzoom']
                 ),
 
+                html.Div(
+                    id='speck-zoom-slider-container', children=[
+                        "Zoom molecule",
+                        html.Br(),
+                        dcc.Slider(
+                            id='speck-zoom-slider', 
+                            min=0,
+                            max=0.1,
+                            step=0.0001,
+                            value=0.02,
+                        ),
+                    ]
+                ),
+                
                 html.Hr(),
             ]
         ),
@@ -77,8 +90,26 @@ def callbacks(app):
         return readXYZ(molecule_fname)
 
     @app.callback(
+        Output('speck', 'scrollZoom'),
+        [Input('speck-scroll-zoom-enable', 'values')]
+    )
+    def toggle_scroll_zoom(scroll_zoom):
+        if(len(scroll_zoom) > 0):
+            return True
+        return False
+
+    @app.callback(
+        Output('speck-zoom-slider-container', 'style'),
+        [Input('speck-scroll-zoom-enable', 'values')]
+    )
+    def toggle_zoom_slider_display(scroll_zoom):
+        if(len(scroll_zoom) > 0):
+            return {'display': 'none'}
+        return {'display': 'block'}
+    
+    @app.callback(
         Output('speck', 'view'),
-        [Input('zoom-atom', 'value')],
+        [Input('speck-zoom-slider', 'value')],
         state=[State('speck', 'view')]
     )
     def zoom_callback(zoomVal, currentView):

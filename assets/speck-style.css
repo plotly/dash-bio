@@ -1,5 +1,5 @@
 #speck-body {
-    min-height: 100vh;
+    min-height: calc(100vh - 100px);
     background-color: #333;
     color: #F3F6FA; 
 }

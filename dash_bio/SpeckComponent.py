@@ -10,6 +10,7 @@ class SpeckComponent(Component):
 Keyword arguments:
 - id (string; optional)
 - data (list; optional)
+- scrollZoom (boolean; optional)
 - view (optional): . view has the following type: dict containing keys 'aspect', 'zoom', 'translation', 'atomScale', 'relativeAtomScale', 'bondScale', 'rotation', 'ao', 'aoRes', 'brightness', 'outline', 'spf', 'bonds', 'bondThreshold', 'bondShade', 'atomShade', 'resolution', 'dofStrength', 'dofPosition', 'fxaa'.
 Those keys have the following types: 
   - aspect (number; optional)
@@ -38,13 +39,13 @@ Those keys have the following types:
 
 Available events: """
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, view=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'data', 'view']
+    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, scrollZoom=Component.UNDEFINED, view=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'data', 'scrollZoom', 'view']
         self._type = 'SpeckComponent'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_events = []
-        self.available_properties = ['id', 'data', 'view']
+        self.available_properties = ['id', 'data', 'scrollZoom', 'view']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')
