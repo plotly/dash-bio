@@ -22,7 +22,74 @@ npm install
 
 #### Step 2: Start developing
 
-TODO: Describe a typical workflow between editor and web browser.
+Development of a component for this repository comprises two parts: the component itself, and a sample application that showcases the capabilities of your component and how it interacts with Dash. 
+
+##### Components
+Components can be created using React, or they can be purely written in Python. 
+
+
+##### Demo applications 
+Instead of creating standalone Dash apps for each component, there is a file structure in place to create a main "gallery" page that contains links to each application. Consequently, the application files need to follow a certain structure in order to be displayed and run correctly.  
+
+###### Setup 
+In the `tests/dash` folder, please create a file named `app_{your component name in snake case}.py`. In that file, please include the following functions: 
+
+* `layout()` should return whatever you would have in your `app.layout`. Due to the way that the CSS is set up for each application, it is advisable to create a container div that will house your application. e.g., 
+
+```python
+def layout(): 
+    return html.Div(id='my-component-container', children=[
+        "A sample component", 
+        dash_bio.MyComponent(id='my-component'),
+        html.Div(id='my-component-output'),
+    ])
+```
+* `callbacks(app)` should contain all of the callbacks in the application and not return anything. e.g., 
+```python 
+def callbacks(app): 
+    @app.callback(
+        Output('my-component-output', 'children'),
+        [Input('my-component', 'someProperty')]
+    )
+    def update_output(property): 
+        return "Value: {}".format(str(property))
+```
+
+###### Testing 
+Test out your application by going to the repository's root directory and running 
+
+```bash
+python index.py 
+```
+Then navigate in your browser to `localhost:8050`. You should see the gallery page. To get to your application, click on the square that displays the name of your component upon hover. 
+
+You will need to quit the Python application and re-run it if you have made changes to the Python file itself, or have recently rebuilt/reinstalled the Dash Bio package. To see updated CSS changes, you can simply reload the webpage in your browser. 
+
+
+###### CSS 
+All custom CSS stylesheets should go in the `assets` folder. Please create a stylesheet with a filename specific to your component. In addition, all ids and class names in your application should be prefixed by the name of your component (this is done so that the stylesheet for one application doesn't accidentally affect another application).
+
+Please note that the header on your application is part of the page; therefore, if you want to make a container div for your application as mentioned in the Setup section, please account for an extra height of `100px` that is taken up by the header when you are specifying the height of the container. 
+
+
+###### Final touches 
+In the folder `tests/dash/images`, please include a PNG file named `pic_{your component name in snake case}.png`. 
+
+In your demo app file, please include the following functions:
+* `description()` is responsible for the text that shows up on hovering over your application in the gallery page. It should return a short string with a description of the component. e.g., 
+```python 
+def description(): 
+    return "Display bioinformatics data with this component."
+```
+* `header_colors()` controls the appearance of the header for your application. It should return a dictionary with any or all of the specified keys `bg_color` (string), `font_color` (string), and `light_logo` (boolean). Please change the background color from default, and try to choose one that hasn't been used by another application. e.g., 
+```python 
+def header_colors(): 
+    return {
+        'bg_color': 'rgb(255, 0, 0)',
+        'font_color': 'rgb(255, 255, 255)',
+        'light_logo': True
+    }
+```
 
 Please lint any additions to Python code with `pylint` and `flake8`.
 TODO: Provide more guidance, perhaps along the lines of
