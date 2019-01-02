@@ -108,9 +108,7 @@
 }
 
 .circos-column-two {
-   max-height: 88.5vh;
    overflow: auto;
-   padding-top: 5%;
 }
 
 .circos-display-none {

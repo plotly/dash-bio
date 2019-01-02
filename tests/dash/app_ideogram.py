@@ -72,7 +72,10 @@ def layout():
                                 [
                                     html.Div(
                                         [
-                                            html.H5("Options", id="ideogram-options"),
+                                            html.H5(
+                                                "Options", 
+                                                id="ideogram-options"
+                                                ),
                                             html.Div(
                                                 [
                                                     html.P("Organism"),
@@ -82,10 +85,6 @@ def layout():
                                                             {
                                                                 "label": "Human",
                                                                 "value": "human",
-                                                            },
-                                                            {
-                                                                "label": "Homo-sapiens",
-                                                                "value": "homo-sapiens",
                                                             },
                                                             {
                                                                 "label": "Drosophila-Melanogaster",
@@ -204,23 +203,6 @@ def layout():
                                                         ],
                                                         value=1,
                                                     ),
-                                                    html.P(
-                                                        "Fully banded (Homosapiens only)"
-                                                    ),
-                                                    dcc.Dropdown(
-                                                        id="fullband-switch",
-                                                        options=[
-                                                            {
-                                                                "label": "Bands On",
-                                                                "value": True,
-                                                            },
-                                                            {
-                                                                "label": "Bands Off",
-                                                                "value": False,
-                                                            },
-                                                        ],
-                                                        value=True,
-                                                    ),
                                                     html.P("Chr Margin"),
                                                     dcc.Input(
                                                         id="chr-margin-input",
@@ -257,7 +239,6 @@ def layout():
                                                 dataDir="https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/",
                                                 orientation="horizontal",
                                                 organism="human",
-                                                showBandLabels=True,
                                                 chrHeight=300,
                                                 chrMargin=10,
                                                 chrWidth=8,
