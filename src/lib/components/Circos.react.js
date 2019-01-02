@@ -184,13 +184,15 @@ export default class Circos extends Component {
 
   componentDidMount() {
     const {
-      size, layout, config, tracks, setProps
+      enableDownloadSVG, enableZoomPan, size, layout, config, tracks, setProps
     } = this.props;
 
     this.circos = new CircosJS({
       container: this.ref,
       width: size,
       height: size,
+      enableZoomPan: enableZoomPan,
+      enableDownloadSVG: enableDownloadSVG
     });
     this.configIdeogram(layout, config, tracks, setProps);
   }
@@ -209,12 +211,14 @@ export default class Circos extends Component {
 
   componentDidUpdate() {
     const {
-      size, layout, config, tracks, setProps
+      enableDownloadSVG, enableZoomPan, size, layout, config, tracks, setProps
     } = this.props;
     this.circos.removeTracks()
     this.container = this.ref
     this.circos.width = size
     this.circos.height = size
+    this.circos.enableZoomPan = enableZoomPan
+    this.circos.enableDownloadSVG = enableDownloadSVG
     this.configIdeogram(layout, config, tracks, setProps);
   }
 
@@ -252,6 +256,9 @@ Circos.defaultProps = {
 };
 
 Circos.propTypes = {
+  enableDownloadSVG: PropTypes.bool,
+
+  enableZoomPan: PropTypes.bool,
   /**
    * The ID of the component to be used in Dash callbacks
    */

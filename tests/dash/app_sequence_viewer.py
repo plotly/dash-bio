@@ -66,12 +66,25 @@ def layout():
                         dcc.Upload(
                             id='upload-fasta-data',
                             children=html.Div([
-                                "Drag and Drop or ",
-                                html.A("Select file")
+                                "Drag and drop or click to upload a \
+                                file."
                             ]),
                         ),
                     ]
                 ),
+
+                html.Div(
+                    children=[
+                        html.A(
+                            html.Button(
+                                "Download sample FASTA data",
+                                id='seq-view-download-sample-data'
+                            ),
+                            href="/assets/sample_data/tubulin.fasta.txt",
+                            download="tubulin.fasta.txt"
+                        )
+                    ]
+                ), 
 
                 html.Div(
                     id='sequence-viewer-container',
@@ -87,228 +100,291 @@ def layout():
         html.Div(
             id='seq-view-controls-container',
             children=[
-
-                html.Div(
-                    "Preloaded sequences",
-                    className='seq-view-controls-name'
-                ),
-                dcc.Dropdown(
-                    id='preloaded-sequences',
-                    options=[
-                        {'label': 'insulin',
-                         'value': './tests/dash/sample_data/P01308.fasta.txt'},
-                        {'label': 'keratin',
-                         'value': './tests/dash/sample_data/P04264.fasta.txt'},
-                        {'label': 'albumin',
-                         'value': './tests/dash/sample_data/NX_P02768.fasta.txt'},
-                        {'label': 'myosin (gene)',
-                         'value': './tests/dash/sample_data/myosin.fasta.txt'},
-                        {'label': 'HflX (gene)',
-                         'value': './tests/dash/sample_data/hflx.fasta.txt'}
-                    ],
-                    value='./tests/dash/sample_data/P01308.fasta.txt'
-                ),
-                html.Br(), 
-                html.Div(
-                    id='seq-view-entry-dropdown-container',
-                    children=[
-                        html.Div(
-                            "View entry:",
-                            className='seq-view-controls-name'
-                        ),
-                        html.Div(
-                            id='seq-view-number-entries'
-                        ),
-                        dcc.Dropdown(
-                            id='fasta-entry-dropdown',
-                            options=[
-                                {'label': 1, 'value': 0}
-                            ],
-                            value=0
-                        )
-                    ]
-                ),
-                html.Br(),                
-                html.Div(
-                    id='seq-view-sel-or-cov-container',
-                    children=[
-                        html.Div(
-                            "Selection or coverage",
-                            className='seq-view-controls-name'
-                        ), 
-                        dcc.RadioItems(
-                            id='selection-or-coverage',
-                            options=[
-                                {'label': 'Enable selection', 'value': 'sel'},
-                                {'label': 'Enable coverage', 'value': 'cov'}
-                            ],
-                            value='sel'
-                        )
-                    ]
-                ),
-                
-
-                html.Hr(),
-
-                html.Div(
-                    "Mouse selection",
-                    className='seq-view-controls-name'
-                ), 
-                html.Div(
-                    id='test-mouse-selection',
-                    children="None"
-                ),
-
-                html.Div(id='cov-options', children=[
+                html.Div(id='seq-view-controls', children=[
                     html.Div(
-                        "Add coverage",
-                        style={'font-weight': 'bold'}
+                        "Preloaded sequences",
+                        className='seq-view-controls-name'
                     ),
-                    'Text color: ',
-                    dcc.Input(
-                        id='coverage-color',
-                        type='text',
-                        value='rgb(255, 0, 0)'
-                    ),
-                    'Background color: ',
-                    dcc.Input(
-                        id='coverage-bg-color',
-                        type='text',
-                        value='rgb(0, 0, 255)'
-                    ),
-                    'Tooltip: ',
-                    dcc.Input(
-                        id='coverage-tooltip',
-                        type='text',
-                        value='',
-                        placeholder='hover text'
-                    ),
-                    dcc.Checklist(
-                        id='coverage-underscore',
+                    dcc.Dropdown(
+                        id='preloaded-sequences',
                         options=[
-                            {'label': 'underscore text', 'value': 'underscore'}
+                            {'label': 'insulin',
+                             'value': './tests/dash/sample_data/P01308.fasta.txt'},
+                            {'label': 'keratin',
+                             'value': './tests/dash/sample_data/P04264.fasta.txt'},
+                            {'label': 'albumin',
+                             'value': './tests/dash/sample_data/NX_P02768.fasta.txt'},
+                            {'label': 'myosin (gene)',
+                             'value': './tests/dash/sample_data/myosin.fasta.txt'},
+                            {'label': 'HflX (gene)',
+                             'value': './tests/dash/sample_data/hflx.fasta.txt'}
                         ],
-                        values=[]
+                        value='./tests/dash/sample_data/P01308.fasta.txt'
                     ),
-                    html.Button(
-                        id='coverage-submit',
-                        children='Submit'
+                    html.Br(), 
+                    html.Div(
+                        id='seq-view-entry-dropdown-container',
+                        children=[
+                            html.Div(
+                                "View entry:",
+                                className='seq-view-controls-name'
+                            ),
+                            html.Div(
+                                id='seq-view-number-entries'
+                            ),
+                            dcc.Dropdown(
+                                id='fasta-entry-dropdown',
+                                options=[
+                                    {'label': 1, 'value': 0}
+                                ],
+                                value=0
+                            )
+                        ]
                     ),
-                    html.Button(
-                        id='coverage-reset',
-                        children='Reset'
-                    ),                    
-                    dcc.Store(
-                        id='coverage-storage',
-                        data=initialCov
-                    )
+                    html.Br(),                
+                    html.Div(
+                        id='seq-view-sel-or-cov-container',
+                        children=[
+                            html.Div(
+                                "Selection or coverage",
+                                className='seq-view-controls-name'
+                            ), 
+                            dcc.RadioItems(
+                                id='selection-or-coverage',
+                                options=[
+                                    {'label': 'Enable selection', 'value': 'sel'},
+                                    {'label': 'Enable coverage', 'value': 'cov'}
+                                ],
+                                value='sel'
+                            )
+                        ]
+                    ),
 
-                ]), 
 
-                html.Hr(), 
-                
-                html.Div(
-                    id='seq-view-sel-slider-container',
-                    children=[
-                        "Selection region",
-                        dcc.RangeSlider(
-                            id='sel-slider',
-                            min=0,
-                            max=0,
-                            step=1,
-                            value=[0, 0]
-                        ),
+                    html.Hr(), 
+
+                    html.Div(id='cov-options', children=[
                         html.Div(
-                            id='seq-view-dna-or-protein-container',
-                            children=[
-                                "Translate from",
-                                dcc.RadioItems(
-                                    id='translation-alphabet',
-                                    options=[
-                                        {'label': 'protein',
-                                         'value': 'protein'},
-                                        {'label': 'DNA',
-                                         'value': 'dna'},
-                                        {'label': 'RNA',
-                                         'value': 'rna'}
-                                    ],
-                                    value='protein'
-                                )
-                            ]
+                            "Add coverage",
+                            style={'font-weight': 'bold'}
                         ),
-
-                        html.Br(),
-                        "Color", 
-                        dcc.Dropdown(
-                            id='sel-color',
+                        dcc.RadioItems(
+                            id='mouse-sel-or-subpart-sel',
                             options=[
-                                {'label': 'violet', 'value': 'violet'},
-                                {'label': 'indigo', 'value': 'indigo'}, 
-                                {'label': 'blue', 'value': 'blue'},
-                                {'label': 'green', 'value': 'green'},
-                                {'label': 'yellow', 'value': 'yellow'},
-                                {'label': 'orange', 'value': 'orange'},
-                                {'label': 'red', 'value': 'red'}
+                                {'label': 'Use mouse selection',
+                                 'value': 'mouse'},
+                                {'label': 'Use subpart selection',
+                                 'value': 'subpart'}
                             ],
-                            value='blue'
+                            value='mouse'
                         ),
-                    ]
-                ),
+                        html.Br(), 
+                        'Text color: ',
+                        dcc.Input(
+                            id='coverage-color',
+                            type='text',
+                            value='rgb(255, 0, 0)'
+                        ),
+                        'Background color: ',
+                        dcc.Input(
+                            id='coverage-bg-color',
+                            type='text',
+                            value='rgb(0, 0, 255)'
+                        ),
+                        'Tooltip: ',
+                        dcc.Input(
+                            id='coverage-tooltip',
+                            type='text',
+                            value='',
+                            placeholder='hover text'
+                        ),
+                        dcc.Checklist(
+                            id='coverage-underscore',
+                            options=[
+                                {'label': 'underscore text',
+                                 'value': 'underscore'}
+                            ],
+                            values=[]
+                        ),
+                        html.Br(), 
+                        html.Button(
+                            id='coverage-submit',
+                            children='Submit'
+                        ),
+                        html.Button(
+                            id='coverage-reset',
+                            children='Reset'
+                        ),                    
+                        dcc.Store(
+                            id='coverage-storage',
+                            data=initialCov
+                        ),
+                        dcc.Store(
+                            id='clear-coverage',
+                            data=0
+                        ),
+                        dcc.Store(
+                            id='current-sequence',
+                            data=0
+                        )
+                    ]), 
 
+                    html.Div(
+                        id='seq-view-sel-slider-container',
+                        children=[
+                            "Selection region",
+                            dcc.RadioItems(
+                                id='sel-slider-or-input', 
+                                options=[
+                                    {'label': 'slider', 'value': 'slider'},
+                                    {'label': 'input', 'value': 'input'}
+                                ],
+                                value='slider'
+                            ),
+                            dcc.RangeSlider(
+                                id='sel-slider',
+                                min=0,
+                                max=0,
+                                step=1,
+                                value=[0, 0]
+                            ),
+                            # optional numeric input for longer sequences
+                            html.Div(
+                                id='sel-region-inputs',
+                                children=[
+                                    dcc.Input(id='sel-region-low', type='number',
+                                              min=0, max=0,
+                                              placeholder="low"),
+                                    dcc.Input(id='sel-region-high', type='number',
+                                              min=0, max=0,
+                                              placeholder="high"),
+                                    html.Button(id='submit-sel-region',
+                                                children="Submit")
+                                ],
+                                style={'display': 'none'}
+                            ),
+
+                            html.Br(),
+
+                            html.Div(
+                                id='seq-view-dna-or-protein-container',
+                                children=[
+                                    "Translate from",
+                                    dcc.Dropdown(
+                                        id='translation-alphabet',
+                                        options=[
+                                            {'label': 'DNA',
+                                             'value': 'dna'},
+                                            {'label': 'RNA',
+                                             'value': 'rna'}
+                                        ],
+                                        value=None
+                                    )
+                                ]
+                            ),
+
+                            html.Br(),
+                            "Color", 
+                            dcc.Dropdown(
+                                id='sel-color',
+                                options=[
+                                    {'label': 'violet', 'value': 'violet'},
+                                    {'label': 'indigo', 'value': 'indigo'}, 
+                                    {'label': 'blue', 'value': 'blue'},
+                                    {'label': 'green', 'value': 'green'},
+                                    {'label': 'yellow', 'value': 'yellow'},
+                                    {'label': 'orange', 'value': 'orange'},
+                                    {'label': 'red', 'value': 'red'}
+                                ],
+                                value='blue'
+                            ),
+                        ]
+                    ),
+
+                ])
             ]
         ),
 
         html.Div(
             id='seq-view-info-container',
             children=[
-                html.Div(
-                    id='preloaded-and-uploaded-alert',
-                    children=[
-                        'You have uploaded your own data. In order \
-                        to view it, please ensure that the "preloaded \
-                        sequences" dropdown has been cleared.'
-                    ],
-                    style={'display': 'none'}
-                ), 
-                
-                html.Span(
-                    "Description: ",
-                    className='seq-view-info-element'
-                ),
-                html.Div(
-                    id='desc-info',
-                    children=[]
-                ),
-                html.Br(),
+                html.Div(id='seq-view-info', children=[
+                    html.Div(
+                        id='preloaded-and-uploaded-alert',
+                        children=[
+                            'You have uploaded your own data. In order \
+                            to view it, please ensure that the "preloaded \
+                            sequences" dropdown has been cleared.'
+                        ],
+                        style={'display': 'none'}
+                    ), 
 
-                html.Span(
-                    "Amino acid composition: ",
-                    className='seq-view-info-element'
-                ),
-                html.Div(
-                    id='test-selection'
-                ),
-                html.Br(),
+                    html.Div(id='seq-view-info-desc',
+                             children=[
+                                 html.Span(
+                                     "Description: ",
+                                     className='seq-view-info-element-title'
+                                 ),
+                                 html.Div(
+                                     id='desc-info',
+                                     children=[]
+                                 )
+                             ]),
 
-                html.Span(
-                    "Coverage entry clicked: ",
-                    className='seq-view-info-element'
-                ),
-                html.Div(
-                    id='test-coverage-clicked'
-                ),
-                html.Br(),
+                    html.Br(),
 
-                html.Span(
-                    "Subpart sel: ",
-                    className='seq-view-info-element'
-                ),
-                html.Div(
-                    id='test-subpart-selection'
-                )
-            ]
-        )
-    ])
+                    html.Div(id='seq-view-info-aa-comp',
+                             children=[
+                                 html.Span(
+                                     "Amino acid composition: ",
+                                     className='seq-view-info-element-title'
+                                 ),
+                                 html.Div(
+                                     id='test-selection'
+                                 )
+                             ]),
+
+                    html.Br(),
+
+                    html.Div(id='seq-view-info-coverage-clicked',
+                             children=[
+                                html.Span(
+                                    "Coverage entry clicked: ",
+                                    className='seq-view-info-element-title'
+                                ),
+                                html.Div(
+                                    id='test-coverage-clicked'
+                                )
+                             ]),
+
+                    html.Br(),
+
+                    html.Div(id='seq-view-info-mouse-selection',
+                             children=[
+                                html.Span(
+                                    "Mouse selection: ",
+                                    className='seq-view-info-element-title'
+                                ), 
+                                html.Div(
+                                    id='test-mouse-selection'
+                                )
+                             ]),
+
+                    html.Br(),
+
+                    html.Div(id='seq-view-info-subpart-sel',
+                             children=[
+                                html.Span(
+                                    "Subpart selected: ",
+                                    className='seq-view-info-element-title'
+                                ),
+                                html.Div(
+                                    id='test-subpart-selection'
+                                )
+                             ])
+                ])
+            ])
+        ])
 
 
 def callbacks(app):
@@ -366,24 +442,66 @@ def callbacks(app):
         return protein['sequence']
     
     # coverage
-    
+
+    # check if there is an overlap with an existing coverage item
+    def overlaps_coverage(currentCov, covItem):
+        for i in range(len(currentCov)):
+            currentRange = list(range(currentCov[i]['start'],
+                                      currentCov[i]['end']))
+            itemRange = list(range(covItem['start'],
+                                   covItem['end']))
+            if(len(list(set(currentRange) & set(itemRange))) > 0):
+                return True
+        return False
+
+    # a way of getting the timestamp for a dropdown change
     @app.callback(
-        Output('cov-options', 'style'),
-        [Input('selection-or-coverage', 'value')]
+        Output('current-sequence', 'data'),
+        [Input('sequence-viewer', 'sequence')],
+        state=[State('current-sequence', 'data')]
     )
-    def show_cov_options(selOrCov):
-        if(selOrCov == 'cov'):
-            return {'display': 'inline-block'}
-        else:
-            return {'display': 'none'}
+    def signal_sequence_updated(_, current):
+        return current + 1
+
+    # whether or not to clear the coverage, based on a
+    # change in the dropdown
+    @app.callback(
+        Output('clear-coverage', 'data'),
+        [Input('current-sequence', 'modified_timestamp'),
+         Input('coverage-submit', 'n_clicks_timestamp')],
+        state=[State('current-sequence', 'modified_timestamp')]
+    )
+    def signal_clear_coverage(_, c_timestamp, s_timestamp):
+        # if the coverage has been modified at all and it was
+        # modified more recently than the sequence, keep the current
+        # coverage
+        if(c_timestamp is not None):
+            if (c_timestamp > s_timestamp):
+                return 0
+            else:
+                return 1
+        # if the coverage has not yet been modified, we can clear
+        # the coverage
+        return 1
+
+    # clear the subpart selected
+    @app.callback(
+        Output('sequence-viewer', 'subpartSelected'),
+        [Input('sequence-viewer', 'sequence')]
+    )
+    def clear_subpart_sel(_):
+        return []
     
     @app.callback(
         Output('coverage-storage', 'data'),
-        [Input('selection-or-coverage', 'value'),
-         Input('coverage-submit', 'n_clicks'),
-         Input('coverage-reset', 'n_clicks')],
-        state=[State('coverage-storage', 'data'),
+        [Input('coverage-submit', 'n_clicks'),
+         Input('coverage-reset', 'n_clicks'),
+         Input('clear-coverage', 'data')],
+        state=[State('preloaded-sequences', 'value'),
+               State('coverage-storage', 'data'),
+               State('mouse-sel-or-subpart-sel', 'value'), 
                State('sequence-viewer', 'mouseSelection'),
+               State('sequence-viewer', 'subpartSelected'), 
                State('coverage-color', 'value'),
                State('coverage-bg-color', 'value'),
                State('coverage-underscore', 'values'),
@@ -391,42 +509,60 @@ def callbacks(app):
                State('coverage-submit', 'n_clicks_timestamp'),
                State('coverage-reset', 'n_clicks_timestamp')]
     )
-    def edit_coverage(selOrCov, s_nclicks, r_nclicks,
-                      currentCov,
-                      mouseSel, color, bgcolor,
+    def edit_coverage(s_nclicks, r_nclicks,
+                      clear_coverage,
+                      preloaded,
+                      currentCov, mouse_subpart, 
+                      mouseSel, subpartSel,
+                      color, bgcolor,
                       underscore, tooltip,
                       s_timestamp, r_timestamp):
+
+        # if the coverage hasn't been updated by resetting or
+        # adding, and the sequence hasn't changed from the
+        # initial one, then we return the initial coverage
+        if(s_nclicks is None and r_nclicks is None and
+           'P01308' in preloaded):
+            return initialCov
         
         if(r_timestamp is not None and
            (s_timestamp is None or s_timestamp < r_timestamp)):
             return []
-        
-        if(mouseSel is not None and color is not None): 
-            
-            # first ensure that this hasn't already been covered
-            for i in range(len(currentCov)): 
-                if(mouseSel['start'] in range(currentCov[i]['start'],
-                                              currentCov[i]['end']) or
-                   mouseSel['end'] in range(currentCov[i]['start'],
-                                            currentCov[i]['end']) or
-                   currentCov[i]['start'] in range(mouseSel['start'],
-                                                   mouseSel['end']) or
-                   currentCov[i]['end'] in range(mouseSel['start'],
-                                                 mouseSel['end'])):
-                    return currentCov
-            
-            currentCov.append(
-                {'start': mouseSel['start']-1,
-                 'end': mouseSel['end'],
-                 'color': color,
-                 'bgcolor': bgcolor,
-                 'underscore': True if len(underscore) > 0 else False,
-                 'tooltip': tooltip}
-            )
 
-            # sort so that the tooltips can match up
-            currentCov.sort(key=lambda x: x['start'])
+        if(clear_coverage == 1):
+            return []
         
+        if mouse_subpart == 'mouse':
+            if(mouseSel is not None and color is not None):    
+
+                # first ensure that this hasn't already been covered
+                if not overlaps_coverage(currentCov, mouseSel):
+                    currentCov.append(
+                        {'start': mouseSel['start']-1,
+                         'end': mouseSel['end'],
+                         'color': color,
+                         'bgcolor': bgcolor,
+                         'underscore': True if len(underscore) > 0 else False,
+                         'tooltip': tooltip}
+                    )                    
+
+        elif mouse_subpart == 'subpart':
+            cov_items = [{
+                'start': subpart['start']-1,
+                'end': subpart['end'],
+                'color': color,
+                'bgcolor': bgcolor,
+                'underscore': True if len(underscore) > 0 else False,
+                'tooltip': tooltip
+            } for subpart in subpartSel]
+
+            for cov_item in cov_items:
+                if not overlaps_coverage(currentCov, cov_item):
+                    currentCov.append(cov_item)
+                    
+        # sort so that the tooltips can match up
+        currentCov.sort(key=lambda x: x['start'])
+
         return currentCov
 
     @app.callback(
@@ -449,30 +585,94 @@ def callbacks(app):
     )
     def reset_selection(_):
         return [0, 0]
-        
+
+    @app.callback(
+        Output('sel-region-low', 'value'),
+        [Input('sequence-viewer', 'sequence')]
+    )
+    def reset_selection_low(*_):
+        return 0
+
+    @app.callback(
+        Output('sel-region-high', 'min'),
+        [Input('sel-region-low', 'value')]
+    )
+    def lower_bound(low_val):
+        return low_val
+    
+    @app.callback(
+        Output('sel-region-high', 'value'),
+        [Input('sequence-viewer', 'sequence')]
+    )
+    def reset_selection_high(*_):
+        return 0
+    
     @app.callback(
         Output('sequence-viewer', 'selection'),
         [Input('sel-slider', 'value'),
+         Input('submit-sel-region', 'n_clicks'), 
          Input('selection-or-coverage', 'value'),
-         Input('sel-color', 'value')]
+         Input('sel-color', 'value')],
+        state=[State('sel-slider-or-input', 'value'),
+               State('sel-region-low', 'value'),
+               State('sel-region-high', 'value')]
     )
-    def update_sel(slider_value, selOrCov, color):
+    def update_sel(slider_value, _, selOrCov, color, slider_input,
+                   sel_low, sel_high):
         if(selOrCov != 'sel'):
             return []
         if color is None:
             color = 'blue'
-        return [slider_value[0], slider_value[1], color]
-    
+        if(slider_input == 'slider'): 
+            return [slider_value[0], slider_value[1], color]
+        elif(slider_input == 'input'):
+            return [sel_low, sel_high, color]
+        
+    # clear mouse selection
+
+    @app.callback(
+        Output('sequence-viewer', 'mouseSelection'),
+        [Input('sequence-viewer', 'sequence')]
+    )
+    def clear_mouse_selection(_):
+        return None
+        
     # controls
 
     @app.callback(
-        Output('sel-slider', 'disabled'),
+        Output('sel-slider', 'style'),
+        [Input('sel-slider-or-input', 'value')]
+    )
+    def show_hide_slider(slider_input):
+        return {'display': 'block'} if slider_input == 'slider' \
+            else {'display': 'none'}
+
+    @app.callback(
+        Output('sel-region-inputs', 'style'),
+        [Input('sel-slider-or-input', 'value')]
+    )
+    def show_hide_inputs(slider_input):
+        return {'display': 'block'} if slider_input == 'input' \
+                else {'display': 'none'}
+    
+    @app.callback(
+        Output('cov-options', 'style'),
+        [Input('selection-or-coverage', 'value')]
+    )
+    def show_cov_options(selOrCov):
+        if(selOrCov == 'cov'):
+            return {'display': 'inline-block'}
+        else:
+            return {'display': 'none'}
+    
+    @app.callback(
+        Output('seq-view-sel-slider-container', 'style'),
         [Input('selection-or-coverage', 'value')]
     )
     def enable_disable_slider(selOrCov):
         if(selOrCov == 'sel'):
-            return False
-        return True
+            return {'display': 'inline-block'}
+        return {'display': 'none'}
     
     @app.callback(
         Output('seq-view-number-entries', 'children'),
@@ -525,6 +725,24 @@ def callbacks(app):
             seq = ''
         return len(seq)
 
+    @app.callback(
+        Output('sel-region-high', 'max'),
+        [Input('sequence-viewer', 'sequence')]
+    )
+    def update_sel_low_max(seq):
+        if seq is None:
+            seq = ''
+        return len(seq)
+
+    @app.callback(
+        Output('sel-region-low', 'max'),
+        [Input('sequence-viewer', 'sequence')]
+    )
+    def update_sel_high_max(seq):
+        if seq is None: 
+            seq = ''
+        return len(seq)
+            
     @app.callback(
         Output('sequence-viewer', 'title'),
         [Input('sequence-viewer', 'sequence'),
@@ -621,7 +839,7 @@ def callbacks(app):
         # include explanation for translation if necessary
         if((alphabet == 'dna' or alphabet == 'rna') and
            len(summary) > 0):
-            return ['(Protein translated from {} to {})'.format(
+            return ['(Protein translated from {}: {})'.format(
                 alphabet.upper(),
                 aaString
             ),
@@ -649,7 +867,7 @@ def callbacks(app):
     def update_mouse_sel(v):
         if(v is not None):
             return v['selection']
-        return 'None'
+        return ''
 
     @app.callback(
         Output('fasta-entry-dropdown', 'value'),
@@ -708,6 +926,8 @@ def callbacks(app):
             return ''
         test = []
         for sel in v:
+            if(len(sel['sequence']) == 0):
+                continue
             test.append("Start: %d " % sel['start'])
             test.append("End: %d " % sel['end'])
             test.append("Sequence: %s" % sel['sequence'])

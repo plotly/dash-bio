@@ -6,21 +6,21 @@ Dash components for bioinformatics
 
 #### Bioinformatics charts
 
-- Dash Circos
-- Dash Clustergram
+- **Dash Circos**
+- **Dash Clustergram**
 - Dash Phylocanvas
 - **Dash Cytoscape**
 - **Dash Oncoprint**
-- Dash Needle
-- Dash Manhattan
-- Dash Volcano
+- **Dash Needle**
+- **Dash Manhattan**
+- **Dash Volcano**
 
 #### Sequence analysis tools
 
-- Dash neXtProt Sequence Viewer
+- **Dash neXtProt Sequence Viewer**
 - Dash Multiple Sequence Alignment
 - Dash Track Viewer
-- Dash Ideogram
+- **Dash Ideogram**
 
 ##### Molecular and structural bioinformatics visualization
 
