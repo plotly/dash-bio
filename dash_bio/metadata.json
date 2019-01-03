@@ -1751,6 +1751,146 @@
       }
     }
   },
+  "src/lib/components/Molecule3dViewer.js": {
+    "description": "",
+    "displayName": "Molecule3dViewer",
+    "methods": [
+      {
+        "name": "onChangeSelection",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "selectedAtomIds",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onRenderNewData",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "glviewer",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in callbacks"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever properties change"
+      },
+      "selectionType": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The selection type - may be atom, residue or chain"
+      },
+      "backgroundColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Property to change the background color of the molecule viewer"
+      },
+      "backgroundOpacity": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Property to change the backgroun opacity - ranges from 0 to 1"
+      },
+      "styles": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'stick'",
+              "computed": false
+            },
+            {
+              "value": "'cartoon'",
+              "computed": false
+            },
+            {
+              "value": "'sphere'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "Property that can be used to change the representation of\nthe molecule. Options include sticks, cartoon and sphere"
+      },
+      "modelData": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "atoms": {
+              "name": "array",
+              "required": false
+            },
+            "bonds": {
+              "name": "array",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "The data that will be used to display the molecule in 3D\nThe data will be in JSON format \nand should have two main dictionaries - atoms, bonds"
+      },
+      "atomLabelsShown": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Property to either show or hide labels"
+      },
+      "selectedAtomIds": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "Property that stores a list of all selected atoms"
+      },
+      "labels": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "labels corresponding to the atoms of the molecule"
+      },
+      "onRenderNewData": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback to re-render molecule viewer\nwhen modelData is changed"
+      },
+      "onChangeSelection": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback to change append selectedAtomIds \nwhen a selection is made"
+      }
+    }
+  },
   "src/lib/components/NeedlePlot.react.js": {
     "description": "",
     "displayName": "NeedlePlot",

@@ -13,6 +13,7 @@
   "author": "The Plotly Team",
   "license": "MIT",
   "dependencies": {
+    "molecule-3d-for-react": "^0.4.5",
     "circos": "^2.1.0",
     "ideogram": "git+https://github.com/eweitz/ideogram.git",
     "plotly.js": "^1.41.3",
