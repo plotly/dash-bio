@@ -20,7 +20,7 @@ cd dash-bio
 npm install
 ```
 
-#### Step 2: Start developing
+#### Step 2: Develop
 
 Development of a component for this repository comprises two parts:
 the component itself, and a sample application that showcases the capabilities
@@ -125,21 +125,13 @@ Commit each changeset corresponding to a conceptual entity.
 Write commit messages at the imperative (e.g., "Document workflow").
 Each commit is small; a pull request typically consists of a few commits.
 
-#### Step 3: Run tests / example apps locally
+#### Step 3: Run tests locally
 
-TODO: Determine the kind of tests we are talking about.
+Our suite of unit tests and integration tests is not ready yet.
 
-Run the test suite locally:
-```bash
-# FIXME
-python -m unittest discover tests
-```
+FIXME Update `tests/test_render.py` so that `dash_bio` imports are existent.
 
-Run the app you have added or changed:
-```bash
-# FIXME
-python tests/dash/app_alignment_viewer.py
-```
+TODO Include at least one unit test per component.
 
 #### Step 4: Rebuild the package if necessary
 
