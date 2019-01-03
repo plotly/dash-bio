@@ -64,7 +64,7 @@ export default class SequenceViewer extends Component {
 
 	// go through selection
 	// save some time by comparing lengths first
-	if(selection.length != nextProps.selection.length){
+	if(selection.length !== nextProps.selection.length){
 	    return true;
 	}
 	if(Object.keys(selection).some(
@@ -75,7 +75,7 @@ export default class SequenceViewer extends Component {
 	}
 		
 	// otherwise, go through all of the coverage and compare
-	if(coverage.length != nextProps.coverage.length ||
+	if(coverage.length !== nextProps.coverage.length ||
 	   coverage.some(
 	    (cov, i) =>
 		Object.keys(cov).some(
@@ -101,7 +101,7 @@ export default class SequenceViewer extends Component {
     componentDidUpdate(prevProps, prevState) {
 	const {coverage} = this.props;
 	
-	if(coverage.length != prevProps.coverage.length ||
+	if(coverage.length !== prevProps.coverage.length ||
 	   coverage.some(
 	       (cov, i) =>
 		   Object.keys(cov).some(
