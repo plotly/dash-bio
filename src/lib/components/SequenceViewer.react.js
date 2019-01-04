@@ -64,7 +64,7 @@ export default class SequenceViewer extends Component {
 
 	// go through selection
 	// save some time by comparing lengths first
-	if(selection.length != nextProps.selection.length){
+	if(selection.length !== nextProps.selection.length){
 	    return true;
 	}
 	if(Object.keys(selection).some(
@@ -74,22 +74,15 @@ export default class SequenceViewer extends Component {
 	    return true;
 	}
 		
-
-	// go through coverage
-	// save some time by comparing lengths first
-	if(coverage.length != nextProps.coverage.length){
-	    return true;
-	}
 	// otherwise, go through all of the coverage and compare
-
-	if(coverage.some(
+	if(coverage.length !== nextProps.coverage.length ||
+	   coverage.some(
 	    (cov, i) =>
 		Object.keys(cov).some(
 		    propertyName =>
 			coverage[i][propertyName] !== nextProps.coverage[i][propertyName]
 		)
 	)) {
-
 	    return true;
 	}
 
@@ -104,26 +97,28 @@ export default class SequenceViewer extends Component {
 	    });
 	}
     }
-    
-    componentDidUpdate(prevProps, prevState, snapshot) {
 
-	const {coverage, setProps, sequence} = this.props;
+    componentDidUpdate(prevProps, prevState) {
+	const {coverage} = this.props;
 	
-	// if the coverage changed, we need to reset the onclick events
-	if(coverage.length != prevProps.coverage.length || 
+	if(coverage.length !== prevProps.coverage.length ||
 	   coverage.some(
-	    (cov, i) =>
-		Object.keys(cov).some(
-		    propertyName =>
-			coverage[i][propertyName] !== prevProps.coverage[i][propertyName]
-		)
-	)) {
+	       (cov, i) =>
+		   Object.keys(cov).some(
+		       propertyName =>
+			   coverage[i][propertyName] !== prevProps.coverage[i][propertyName]
+		   )
+	   )) {
 	    for(let i = 0; i < coverage.length; i++) {
 		coverage[i].onclick = this.getOnClick(i);
 	    }
+	    
+	    // force update to ensure that all onclick events have registered
+	    this.forceUpdate(); 
 	}
-
     }
+
+
     
     render() {
 
