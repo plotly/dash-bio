@@ -2425,6 +2425,7 @@
         },
         "required": false,
         "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
+<<<<<<< HEAD
       }
     }
   },
@@ -2611,6 +2612,8 @@
         },
         "required": false,
         "description": ""
+=======
+>>>>>>> master
       }
     }
   }

@@ -8,6 +8,7 @@ from .SequenceViewer import SequenceViewer
 from .Speck import Speck
 
 
+
 __all__ = [
     "AlignmentChart",
     "AlignmentViewer",
@@ -16,5 +17,8 @@ __all__ = [
     "Molecule3dViewer",
     "NeedlePlot",
     "SequenceViewer",
+<<<<<<< HEAD
     "Speck",
+=======
+>>>>>>> master
 ]
