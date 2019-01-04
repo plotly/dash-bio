@@ -83,7 +83,7 @@ export default class Speck extends Component {
     }
 
 
-    shouldComponentUpdate(nextProps, nextState){
+    shouldComponentUpdate(nextProps, nextState) {
 	const {view, data} = this.props;
 
 	let needsUpdate = false;
