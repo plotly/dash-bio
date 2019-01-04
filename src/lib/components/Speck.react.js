@@ -10,11 +10,11 @@ export default class Speck extends Component {
 
     loadStructure(data) {
 	
-	var system = speckSystem.new();
+	let system = speckSystem.new();
 
-	for(var i = 0; i < data.length; i++) {
+	for(let i = 0; i < data.length; i++) {
 	    // get the coordinate data
-	    var a = data[i];
+	    let a = data[i];
 	    
 	    // add to the system
 	    speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
