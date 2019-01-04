@@ -39,13 +39,13 @@ def layout():
                     id='speck-molecule-dropdown',
                     options=[
                         {'label': 'DNA',
-                         'value': './tests/dash/sample_data/dna.xyz.txt'},
+                         'value': './tests/dash/sample_data/dna.xyz'},
                         {'label': 'Caffeine',
-                         'value': './tests/dash/sample_data/caffeine.xyz.txt'},
+                         'value': './tests/dash/sample_data/caffeine.xyz'},
                         {'label': 'Methane',
-                         'value': './tests/dash/sample_data/methane.xyz.txt'}
+                         'value': './tests/dash/sample_data/methane.xyz'}
                     ],
-                    value='./tests/dash/sample_data/dna.xyz.txt'
+                    value='./tests/dash/sample_data/dna.xyz'
                 ), 
 
                 html.Hr(), 
