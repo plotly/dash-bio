@@ -88,7 +88,7 @@ export default class Speck extends Component {
 
 	let needsUpdate = false;
 	
-	if(data.length != nextProps.data.length
+	if(data.length !== nextProps.data.length
 	   || Object.keys(data).some(
 	       propertyName =>
 		   data[propertyName] !== nextProps.data[propertyName]
@@ -101,7 +101,7 @@ export default class Speck extends Component {
 	    needsUpdate = true; 
 	}
 	
-	if(view.length != nextProps.view.length
+	if(view.length !== nextProps.view.length
 	   || Object.keys(view).some(
 	       propertyName =>
 		   view[propertyName] !== nextProps.view[propertyName]
