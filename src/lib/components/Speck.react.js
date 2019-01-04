@@ -92,7 +92,7 @@ export default class Speck extends Component {
 	   || Object.keys(data).some(
 	       propertyName =>
 		   data[propertyName] !== nextProps.data[propertyName]
-	   )){
+	   )) {
 
 	    this.props.setProps({
 		data: nextProps.data
