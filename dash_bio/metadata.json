@@ -2605,6 +2605,31 @@
           "computed": true
         }
       },
+      "presetView": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'default'",
+              "computed": false
+            },
+            {
+              "value": "'stickball'",
+              "computed": false
+            },
+            {
+              "value": "'toon'",
+              "computed": false
+            },
+            {
+              "value": "'licorice'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "One of several pre-loaded views: default, stick-ball, toon, \nand licorice"
+      },
       "setProps": {
         "type": {
           "name": "func"

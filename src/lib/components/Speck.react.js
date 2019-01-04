@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { speckRenderer,
 	 speckSystem,
 	 speckView,
-	 speckInteractions
+	 speckInteractions,
+	 speckPresetViews
        } from 'speck'; 
 
 export default class Speck extends Component {
@@ -80,14 +81,16 @@ export default class Speck extends Component {
 		lastY: 0.0
 	    }
 	}
+
     }
 
 
     shouldComponentUpdate(nextProps, nextState) {
-	const {view, data} = this.props;
+	const {view, data, presetView} = this.props;
 
 	let needsUpdate = false;
-	
+
+	// update if data have changed
 	if(data.length !== nextProps.data.length
 	   || Object.keys(data).some(
 	       propertyName =>
@@ -100,19 +103,29 @@ export default class Speck extends Component {
 
 	    needsUpdate = true; 
 	}
-	
+
+	// add the appropriate preset view, if that has recently changed
+	if(presetView !== nextProps.presetView) {
+	    const v = Object.assign(view, speckPresetViews[nextProps.presetView]);
+	    this.props.setProps({
+		view: v
+	    });
+
+	    needsUpdate = true;
+	} 
+
+	// finally apply the user-supplied view parameters
 	if(view.length !== nextProps.view.length
 	   || Object.keys(view).some(
 	       propertyName =>
 		   view[propertyName] !== nextProps.view[propertyName]
-	   )){
+	   )) {
 	    const v = Object.assign(view, nextProps.view); 
 	    this.props.setProps({
 		view: v
 	    }); 
 
 	    needsUpdate = true; 
-	    
 	}
 	
 	return needsUpdate; 
@@ -236,6 +249,12 @@ Speck.propTypes = {
 	fxaa: PropTypes.number
     }),
 
+    /**
+     * One of several pre-loaded views: default, stick-ball, toon, 
+     * and licorice
+     */
+    presetView: PropTypes.oneOf(['default', 'stickball', 'toon', 'licorice']),
+    
     /**
      * Dash-assigned callback that should be called whenever any of the
      * properties change.

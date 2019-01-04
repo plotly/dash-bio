@@ -40,16 +40,18 @@ Those keys have the following types:
   - dofStrength (number; optional)
   - dofPosition (number; optional)
   - fxaa (number; optional)
+- presetView (a value equal to: 'default', 'stickball', 'toon', 'licorice'; optional): One of several pre-loaded views: default, stick-ball, toon, 
+and licorice
 
 Available events: """
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, scrollZoom=Component.UNDEFINED, view=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'data', 'scrollZoom', 'view']
+    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, scrollZoom=Component.UNDEFINED, view=Component.UNDEFINED, presetView=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'data', 'scrollZoom', 'view', 'presetView']
         self._type = 'Speck'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_events = []
-        self.available_properties = ['id', 'data', 'scrollZoom', 'view']
+        self.available_properties = ['id', 'data', 'scrollZoom', 'view', 'presetView']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

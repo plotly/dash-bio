@@ -46,7 +46,17 @@ def layout():
                          'value': './tests/dash/sample_data/methane.xyz'}
                     ],
                     value='./tests/dash/sample_data/dna.xyz'
-                ), 
+                ),
+
+                dcc.Dropdown(
+                    id='speck-preset-dropdown',
+                    options=[
+                        {'label': 'Default', 'value': 'default'},
+                        {'label': 'Ball-and-stick', 'value': 'stickball'},
+                        {'label': 'Toon', 'value': 'toon'},
+                        {'label': 'Licorice', 'value': 'licorice'}
+                    ]                    
+                ),
 
                 html.Hr(), 
 
@@ -118,3 +128,10 @@ def callbacks(app):
                 zoom = zoomVal
             )
         return currentView
+
+    @app.callback(
+        Output('speck', 'presetView'),
+        [Input('speck-preset-dropdown', 'value')]
+    )
+    def preset_callback(presetVal):
+        return presetVal
