@@ -2458,7 +2458,7 @@
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "The ID used to identify this component in Dash callbacks."
       },
       "data": {
         "type": {
@@ -2486,7 +2486,7 @@
           }
         },
         "required": false,
-        "description": "",
+        "description": "The xyz file data; a list of atoms such that each atom\nhas a dictionary defining the x, y, and z coordinates \nalong with the atom's symbol.",
         "defaultValue": {
           "value": "[]",
           "computed": false
@@ -2497,7 +2497,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": ""
+        "description": "The option of whether or not to allow scrolling to control\nthe zoom."
       },
       "view": {
         "type": {
@@ -2599,7 +2599,7 @@
           }
         },
         "required": false,
-        "description": "",
+        "description": "An object that determines and controls various parameters\nrelated to how the molecule is displayed.",
         "defaultValue": {
           "value": "speckView.new()",
           "computed": true
@@ -2610,7 +2610,7 @@
           "name": "func"
         },
         "required": false,
-        "description": ""
+        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
       }
     }
   }

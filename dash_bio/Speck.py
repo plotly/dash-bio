@@ -8,10 +8,14 @@ class Speck(Component):
 
 
 Keyword arguments:
-- id (string; optional)
-- data (list; optional)
-- scrollZoom (boolean; optional)
-- view (optional): . view has the following type: dict containing keys 'aspect', 'zoom', 'translation', 'atomScale', 'relativeAtomScale', 'bondScale', 'rotation', 'ao', 'aoRes', 'brightness', 'outline', 'spf', 'bonds', 'bondThreshold', 'bondShade', 'atomShade', 'resolution', 'dofStrength', 'dofPosition', 'fxaa'.
+- id (string; optional): The ID used to identify this component in Dash callbacks.
+- data (list; optional): The xyz file data; a list of atoms such that each atom
+has a dictionary defining the x, y, and z coordinates 
+along with the atom's symbol.
+- scrollZoom (boolean; optional): The option of whether or not to allow scrolling to control
+the zoom.
+- view (optional): An object that determines and controls various parameters
+related to how the molecule is displayed.. view has the following type: dict containing keys 'aspect', 'zoom', 'translation', 'atomScale', 'relativeAtomScale', 'bondScale', 'rotation', 'ao', 'aoRes', 'brightness', 'outline', 'spf', 'bonds', 'bondThreshold', 'bondShade', 'atomShade', 'resolution', 'dofStrength', 'dofPosition', 'fxaa'.
 Those keys have the following types: 
   - aspect (number; optional)
   - zoom (number; optional)
