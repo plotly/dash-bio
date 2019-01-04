@@ -6,7 +6,7 @@ import { speckRenderer,
 	 speckInteractions
        } from 'speck'; 
 
-export default class SpeckComponent extends Component {
+export default class Speck extends Component {
 
     loadStructure(data) {
 	
@@ -175,13 +175,13 @@ export default class SpeckComponent extends Component {
 }
 
 
-SpeckComponent.defaultProps = {
+Speck.defaultProps = {
     view: speckView.new(),
     data: []
 }
 
 
-SpeckComponent.propTypes = {
+Speck.propTypes = {
 
     id: PropTypes.string,
     data: PropTypes.arrayOf(PropTypes.shape({

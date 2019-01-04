@@ -1,4 +1,0 @@
-def xyzReader(fname):
-    dict = {} 
-    with open(fname, 'r') as f:
-        

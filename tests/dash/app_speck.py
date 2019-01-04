@@ -23,7 +23,7 @@ def layout():
         html.Div(
             id='speck-container',
             children=[
-                dash_bio.SpeckComponent(
+                dash_bio.Speck(
                     id='speck',
                     view={'resolution': 600},
                     scrollZoom=True
