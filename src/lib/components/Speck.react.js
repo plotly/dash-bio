@@ -183,14 +183,33 @@ Speck.defaultProps = {
 
 Speck.propTypes = {
 
+    /**
+     * The ID used to identify this component in Dash callbacks. 
+     */ 
     id: PropTypes.string,
+
+    /** 
+     * The xyz file data; a list of atoms such that each atom
+     * has a dictionary defining the x, y, and z coordinates 
+     * along with the atom's symbol.
+     */ 
     data: PropTypes.arrayOf(PropTypes.shape({
 	symbol: PropTypes.string,
 	x: PropTypes.number,
 	y: PropTypes.number,
 	z: PropTypes.number,
     })),
+
+    /**
+     * The option of whether or not to allow scrolling to control
+     * the zoom.
+     */ 
     scrollZoom: PropTypes.bool,
+
+    /**
+     * An object that determines and controls various parameters
+     * related to how the molecule is displayed. 
+     */
     view: PropTypes.shape({
 	aspect: PropTypes.number,
 	zoom: PropTypes.number,
@@ -216,6 +235,11 @@ Speck.propTypes = {
 	dofPosition: PropTypes.number,
 	fxaa: PropTypes.number
     }),
+
+    /**
+     * Dash-assigned callback that should be called whenever any of the
+     * properties change.
+     */ 
     setProps: PropTypes.func
     
 }
