@@ -13,7 +13,7 @@ def header_colors():
 
 
 def description():
-    return 'View molecules beautifully with this webGL renderer.'
+    return 'View molecules beautifully with this WebGL renderer.'
 
 
 def layout():
