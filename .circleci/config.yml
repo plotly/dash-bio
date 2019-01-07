@@ -70,11 +70,11 @@ jobs:
                 when: always
 
             - run:
-                name: Integration Tests
+                name: Run Integration Tests
                 command: |
                     . venv/bin/activate
-                    python -m unittest tests.test_render
-                when: always
+                    pip install -r tests/requirements.txt
+                    pytest --driver chrome tests
 
 
 workflows:
