@@ -1,0 +1,25 @@
+#speck-body {
+    min-height: calc(100vh - 100px);
+    background-color: #333;
+    color: #F3F6FA; 
+}
+
+#speck-controls {
+    display:inline-block;
+    margin: 20px; 
+    width: 200px; ;
+    float: left;
+    border: solid 1px #F3F6FA;
+    border-radius: 5px;
+    padding: 10px;
+    color: white; 
+}
+
+#speck-molecule-dropdown {
+    color: black; 
+}
+#speck-container {
+    display: inline-block;
+    float: left;
+    margin: 10px; 
+}

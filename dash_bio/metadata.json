@@ -2427,5 +2427,216 @@
         "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
       }
     }
+  },
+  "src/lib/components/Speck.react.js": {
+    "description": "",
+    "displayName": "Speck",
+    "methods": [
+      {
+        "name": "loadStructure",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "data",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "loop",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "data": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "symbol": {
+                "name": "string",
+                "required": false
+              },
+              "x": {
+                "name": "number",
+                "required": false
+              },
+              "y": {
+                "name": "number",
+                "required": false
+              },
+              "z": {
+                "name": "number",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "The xyz file data; a list of atoms such that each atom\nhas a dictionary defining the x, y, and z coordinates \nalong with the atom's symbol.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "scrollZoom": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to allow scrolling to control\nthe zoom."
+      },
+      "view": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "aspect": {
+              "name": "number",
+              "required": false
+            },
+            "zoom": {
+              "name": "number",
+              "required": false
+            },
+            "translation": {
+              "name": "shape",
+              "value": {
+                "x": {
+                  "name": "number",
+                  "required": false
+                },
+                "y": {
+                  "name": "number",
+                  "required": false
+                }
+              },
+              "required": false
+            },
+            "atomScale": {
+              "name": "number",
+              "required": false
+            },
+            "relativeAtomScale": {
+              "name": "number",
+              "required": false
+            },
+            "bondScale": {
+              "name": "number",
+              "required": false
+            },
+            "rotation": {
+              "name": "arrayOf",
+              "value": {
+                "name": "number"
+              },
+              "required": false
+            },
+            "ao": {
+              "name": "number",
+              "required": false
+            },
+            "aoRes": {
+              "name": "number",
+              "required": false
+            },
+            "brightness": {
+              "name": "number",
+              "required": false
+            },
+            "outline": {
+              "name": "number",
+              "required": false
+            },
+            "spf": {
+              "name": "number",
+              "required": false
+            },
+            "bonds": {
+              "name": "bool",
+              "required": false
+            },
+            "bondThreshold": {
+              "name": "number",
+              "required": false
+            },
+            "bondShade": {
+              "name": "number",
+              "required": false
+            },
+            "atomShade": {
+              "name": "number",
+              "required": false
+            },
+            "resolution": {
+              "name": "number",
+              "required": false
+            },
+            "dofStrength": {
+              "name": "number",
+              "required": false
+            },
+            "dofPosition": {
+              "name": "number",
+              "required": false
+            },
+            "fxaa": {
+              "name": "number",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "An object that determines and controls various parameters\nrelated to how the molecule is displayed.",
+        "defaultValue": {
+          "value": "speckView.new()",
+          "computed": true
+        }
+      },
+      "presetView": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'default'",
+              "computed": false
+            },
+            {
+              "value": "'stickball'",
+              "computed": false
+            },
+            {
+              "value": "'toon'",
+              "computed": false
+            },
+            {
+              "value": "'licorice'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "One of several pre-loaded views: default, stick-ball, toon, \nand licorice"
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
+      }
+    }
   }
 }

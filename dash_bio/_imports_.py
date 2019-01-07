@@ -5,6 +5,7 @@ from .Ideogram import Ideogram
 from .Molecule3dViewer import Molecule3dViewer
 from .NeedlePlot import NeedlePlot
 from .SequenceViewer import SequenceViewer
+from .Speck import Speck
 
 
 __all__ = [
@@ -15,4 +16,5 @@ __all__ = [
     "Molecule3dViewer",
     "NeedlePlot",
     "SequenceViewer",
+    "Speck",
 ]
