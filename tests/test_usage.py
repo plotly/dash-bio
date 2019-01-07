@@ -11,7 +11,7 @@ from pytest_dash.utils import (
 
 def test_install(cookies, dash_threaded, selenium):
     results = cookies.bake(extra_context={
-        'project_name': 'DashCanvas',
+        'project_name': 'Dash Bio',
         'author_name': 'test',
         'author_email': 'test',
     })
