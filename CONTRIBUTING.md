@@ -127,9 +127,15 @@ Each commit is small; a pull request typically consists of a few commits.
 
 #### Step 3: Run tests locally
 
-Our suite of unit tests and integration tests is not ready yet.
+To run integration tests locally on, say, Google Chrome:
+```bash
+pip install -r tests/requirements.txt
+pytest --driver chrome tests
+```
 
-FIXME Update `tests/test_render.py` so that `dash_bio` imports are existent.
+We want more integration tests.
+
+We do not have a suite of unit tests yet.
 
 TODO Include at least one unit test per component.
 
