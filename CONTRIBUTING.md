@@ -11,6 +11,11 @@
   node.js v10.x) to ensure that the
   [`package-lock.json`](https://docs.npmjs.com/files/package-lock.json) file is
   used and updated correctly.
+- A Unix shell, to run the Bash commands given in these contribution
+  guidelines. If you use Windows, you do not have a Unix shell automatically
+  installed; you may want to use a Unix emulator such as Cygwin or an SSH
+  client
+  ([setup instructions](http://faculty.smu.edu/reynolds/unixtut/windows.html)).
 
 #### Step 1: Clone the dash-bio repo and install its dependencies
 
