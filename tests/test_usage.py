@@ -17,6 +17,8 @@ def test_start(dash_threaded, selenium):
     and start it in a thread.
     """
 
-    # Test that `index.py` (the main gallery) works
-    dash_threaded(import_app('index'))
+    app = import_app('index')
+    assert 'gallery', 'bioinformatics' in str(app.layout)
 
+    # Test that `index.py` (the main gallery) works
+    dash_threaded(app)
