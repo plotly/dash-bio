@@ -135,7 +135,7 @@ Each commit is small; a pull request typically consists of a few commits.
 To run integration tests locally on, say, Google Chrome:
 ```bash
 pip install -r tests/requirements.txt
-pytest --driver chrome tests
+pytest tests --driver Chrome
 ```
 
 We want more integration tests.
