@@ -11,6 +11,11 @@
   node.js v10.x) to ensure that the
   [`package-lock.json`](https://docs.npmjs.com/files/package-lock.json) file is
   used and updated correctly.
+- A Unix shell, to run the Bash commands given in these contribution
+  guidelines. If you use Windows, you do not have a Unix shell automatically
+  installed; you may want to use a Unix emulator such as Cygwin or an SSH
+  client
+  ([setup instructions](http://faculty.smu.edu/reynolds/unixtut/windows.html)).
 
 #### Step 1: Clone the dash-bio repo and install its dependencies
 
@@ -127,9 +132,18 @@ Each commit is small; a pull request typically consists of a few commits.
 
 #### Step 3: Run tests locally
 
-Our suite of unit tests and integration tests is not ready yet.
+To run integration tests locally on, say, Google Chrome:
+```bash
+pip install -r tests/requirements.txt
+pytest tests --driver Chrome
+```
+Do not worry if you get errors running this last command. You will have to
+download a Chrome driver, install it, and add its path. Follow what the error
+messages point to (this will be platform-specific).
 
-FIXME Update `tests/test_render.py` so that `dash_bio` imports are existent.
+We want more integration tests.
+
+We do not have a suite of unit tests yet.
 
 TODO Include at least one unit test per component.
 
