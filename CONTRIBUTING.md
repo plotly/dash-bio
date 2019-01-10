@@ -137,6 +137,9 @@ To run integration tests locally on, say, Google Chrome:
 pip install -r tests/requirements.txt
 pytest tests --driver Chrome
 ```
+Do not worry if you get errors running this last command. You will have to
+download a Chrome driver, install it, and add its path. Follow what the error
+messages point to (this will be platform-specific).
 
 We want more integration tests.
 
