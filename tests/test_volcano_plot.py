@@ -22,3 +22,12 @@ def test_click_app_link_from_gallery(dash_threaded, selenium):
 
     assert selenium.current_url.replace('http://localhost:8050', '') == '/dash-bio/volcano-plot'
 
+
+def test_change_dataset(dash_threaded, selenium):
+
+    access_the_app(dash_threaded, selenium)
+
+    dataset_dropdown = wait_for_element_by_id(selenium, 'vp-dataset-dropdown')
+    dataset_dropdown.get_property('value')
+
+    assert dataset_dropdown.get_property('value') == 'Set2'
