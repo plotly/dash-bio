@@ -54,8 +54,8 @@ app.layout = html.Div(
 
 
 def demo_app_img_src(name):
-    ''' Returns the base-64 encoded image corresponding
-        to the specified app.'''
+    """ Returns the base-64 encoded image corresponding
+        to the specified app."""
     pic_fname = './tests/dash/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
@@ -70,13 +70,13 @@ def demo_app_img_src(name):
 
 
 def demo_app_name(name):
-    ''' Returns a capitalized title for the app, with "Dash"
-        in front.'''
+    """ Returns a capitalized title for the app, with "Dash"
+        in front."""
     return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
 
 
 def demo_app_desc(name):
-    ''' Returns the content of the description specified in the app. '''
+    """ Returns the content of the description specified in the app. """
     desc = ''
     try:
         desc = apps[name].description()
@@ -86,7 +86,7 @@ def demo_app_desc(name):
 
 
 def demo_app_header_colors(name):
-    ''' Returns the colors of the header specified in the app, if any. '''
+    """ Returns the colors of the header specified in the app, if any. """
     try:
         return apps[name].header_colors()
     except AttributeError:
@@ -94,12 +94,12 @@ def demo_app_header_colors(name):
 
 
 def demo_app_github_url(name):
-    ''' Returns the link with the code for the demo app. ''' 
+    """ Returns the link with the code for the demo app. """ 
     return name
 
 
 def demo_app_link_id(name):
-    '''Returns the value of the id of the dcc.Link related to the demo app. '''
+    """Returns the value of the id of the dcc.Link related to the demo app. """
     return 'app-link-id-{}'.format(name)
 
 
