@@ -97,7 +97,12 @@ def demo_app_github_url(name):
     ''' Returns the link with the code for the demo app. ''' 
     return name
 
-    
+
+def demo_app_link_id(name):
+    '''Returns the value of the id of the dcc.Link related to the demo app. '''
+    return 'app-link-id-{}'.format(name)
+
+
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
 def display_app(pathname):
     if pathname == '/{}'.format(DASH_APP_NAME) \
@@ -120,6 +125,7 @@ def display_app(pathname):
                                 ])
                             ])
                         ],
+                        id=demo_app_link_id(name),
                         href="/{}/{}".format(
                             DASH_APP_NAME,
                             name.replace("app_", "").replace("_", "-")
