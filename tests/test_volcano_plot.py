@@ -1,3 +1,4 @@
+import os
 from selenium.webdriver.common.keys import Keys
 
 from pytest_dash.utils import (
@@ -11,7 +12,7 @@ from pytest_dash.utils import (
 
 from .test_common_features import access_demo_app
 
-APP_NAME = "volcano_plot"
+APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '')
 
 
 def test_click_app_link_from_gallery(dash_threaded, selenium):
