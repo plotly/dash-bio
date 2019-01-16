@@ -1,3 +1,5 @@
+from selenium.webdriver.common.keys import Keys
+
 from pytest_dash.utils import (
     import_app,
     wait_for_text_to_equal,
@@ -19,11 +21,19 @@ def test_click_app_link_from_gallery(dash_threaded, selenium):
     assert selenium.current_url.replace('http://localhost:8050', '') == '/dash-bio/volcano-plot'
 
 
+def test_initial_dataset(dash_threaded, selenium):
+    """check the default dataset is Set2"""
+    access_demo_app(dash_threaded, selenium, APP_NAME)
+    wait_for_text_to_equal(selenium, '#vp-dataset-dropdown .Select-value-label', 'Set2')
+
+
 def test_change_dataset(dash_threaded, selenium):
+    """change dataset using the dropdown"""
+    access_demo_app(dash_threaded, selenium, APP_NAME)
+    dataset_dropdown = wait_for_element_by_css_selector(selenium, '#vp-dataset-dropdown .Select-input input')
 
-    access_the_app(dash_threaded, selenium)
+    dataset_dropdown.send_keys('Set1')
+    dataset_dropdown.send_keys(Keys.RETURN)
 
-    dataset_dropdown = wait_for_element_by_id(selenium, 'vp-dataset-dropdown')
-    dataset_dropdown.get_property('value')
+    wait_for_text_to_equal(selenium, '#vp-dataset-dropdown .Select-value-label', 'Set1')
 
-    assert dataset_dropdown.get_property('value') == 'Set2'
