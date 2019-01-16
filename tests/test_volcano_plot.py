@@ -37,3 +37,26 @@ def test_change_dataset(dash_threaded, selenium):
 
     wait_for_text_to_equal(selenium, '#vp-dataset-dropdown .Select-value-label', 'Set1')
 
+
+def test_lower_genomic_line(dash_threaded, selenium):
+    """lower the threshold genomic line and verify the change in the highlight points number"""
+    access_demo_app(dash_threaded, selenium, APP_NAME)
+
+    # initial check
+    wait_for_text_to_equal(selenium, '#vp-dataset-dropdown .Select-value-label', 'Set2')
+    wait_for_text_to_equal(selenium, '#vp-upper-left', '14')
+    wait_for_text_to_equal(selenium, '#vp-upper-right', '92')
+
+    threshold = wait_for_element_by_css_selector(selenium, '#vp-genomic-line')
+    lower_bound = wait_for_element_by_css_selector(selenium, '#vp-lower-bound')
+    upper_bound = wait_for_element_by_css_selector(selenium, '#vp-upper-bound')
+
+    assert int(lower_bound.get_attribute('value')) == -1
+    assert int(upper_bound.get_attribute('value')) == 1
+
+    # lower the threshold
+    threshold.send_keys(Keys.ARROW_DOWN)
+
+    # number of points in the upper left and upper right quadrants
+    wait_for_text_to_equal(selenium, '#vp-upper-left', '154')
+    wait_for_text_to_equal(selenium, '#vp-upper-right', '271')
