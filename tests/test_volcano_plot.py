@@ -7,18 +7,14 @@ from pytest_dash.utils import (
     wait_for_property_to_equal
 )
 
+from .test_common_features import access_demo_app
 
-def access_the_app(dash_threaded, selenium):
-    """mimic a user click on the app link from the gallery"""
-    dash_bio_index = import_app('index')
-    dash_threaded(dash_bio_index)
-    link = wait_for_element_by_id(selenium, 'app-link-id-volcano_plot')
-    link.click()
+APP_NAME = "volcano_plot"
 
 
 def test_click_app_link_from_gallery(dash_threaded, selenium):
 
-    access_the_app(dash_threaded, selenium)
+    access_demo_app(dash_threaded, selenium, APP_NAME)
 
     assert selenium.current_url.replace('http://localhost:8050', '') == '/dash-bio/volcano-plot'
 
