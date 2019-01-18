@@ -7,9 +7,11 @@ from dash.dependencies import Input, Output
 
 import dash_bio
 
-df = pd.read_csv("tests/dash/sample_data/manhattan_volcano_data.csv")  # Load the data
+# Load the data
+df = pd.read_csv("tests/dash/sample_data/manhattan_volcano_data.csv")
 
-fig = dash_bio.ManhattanPlot(df)  # Feed the data to a function which creates a Manhattan Plot figure
+# Feed the data to a function which creates a Manhattan Plot figure
+fig = dash_bio.ManhattanPlot(df)
 
 text_style = {
     'color': "#506784",
@@ -18,7 +20,8 @@ text_style = {
 
 
 def description():
-    return 'Display genomic studies results sorted out by chromosome with this Manhattan plot.\
+    return 'Display genomic studies results sorted out by chromosome with ' \
+           'this Manhattan plot.\
     Perfect to visualize genome wide association studies (GWAS).'
 
 
@@ -50,11 +53,11 @@ def layout():
                     html.Div(
                         id='mhp-text',
                         className='row mhp-text mhp-intro',
-                        children="Visualize genome wide association studies  ("
-                                 "GWAS) with efficient manhattan plots. Using "
-                                 "WebGL  under the hood, interactively explore  "
-                                 "hundred of thousands of points at once or  "
-                                 "individually hover over them.",
+                        children="Visualize genome wide association studies "
+                                 "(GWAS) with efficient manhattan plots. "
+                                 "Using WebGL under the hood, interactively "
+                                 "explore hundred of thousands of points at "
+                                 "once or individually hover over them.",
                     ),
                     html.Div(
                         className='mhp-horizontal-style mph-control-div',
@@ -74,7 +77,10 @@ def layout():
                                     max=9,
                                     min=1,
                                     value=7,
-                                    marks={i + 1: '{}'.format(i + 1) for i in range(9)},
+                                    marks={
+                                        i + 1: '{}'.format(i + 1)
+                                        for i in range(9)
+                                    },
                                     step=0.05
                                 ),
                             )
@@ -97,7 +103,10 @@ def layout():
                                     max=9,
                                     min=1,
                                     value=6,
-                                    marks={i + 1: '{}'.format(i + 1) for i in range(9)},
+                                    marks={
+                                        i + 1: '{}'.format(i + 1)
+                                        for i in range(9)
+                                    },
                                     step=0.05
                                 ),
                             )
