@@ -86,7 +86,7 @@ def layout():
                                     }
                                     for dset in DATASETS
                                 ],
-                                value=DATASETS['SET2']
+                                value='SET2'
                             )
                         ]
                     ),
