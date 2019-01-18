@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { speckRenderer,
+import { speckRenderer as SpeckRenderer,
 	 speckSystem,
 	 speckView,
-	 speckInteractions,
+	 speckInteractions as SpeckInteractions,
 	 speckPresetViews
        } from 'speck'; 
 
 export default class Speck extends Component {
 
     loadStructure(data) {
-	
-	let system = speckSystem.new();
+
+	const system = speckSystem.new();
 
 	for(let i = 0; i < data.length; i++) {
 	    // get the coordinate data
-	    let a = data[i];
-	    
+	    const a = data[i];
 	    // add to the system
 	    speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
 	}
@@ -85,7 +84,7 @@ export default class Speck extends Component {
     }
 
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps, _) {
 	const {view, data, presetView} = this.props;
 
 	let needsUpdate = false;
@@ -115,6 +114,7 @@ export default class Speck extends Component {
 	} 
 
 	// finally apply the user-supplied view parameters
+	// TODO: 'view.length' is missing in props validation (react/prop-types)	
 	if(view.length !== nextProps.view.length
 	   || Object.keys(view).some(
 	       propertyName =>
@@ -132,30 +132,28 @@ export default class Speck extends Component {
     }
     
     componentDidMount() {
-	const {
-	    view,
-	    data,
-	    setProps
-	} = this.props; 
 
 	// add canvas, container, and renderer
 	const canvas = this.canvas;
 	const container = this.container;
-	const renderer = new speckRenderer(canvas, 200, 300);
+	const resolution = 200;
+	const aoResolution = 300;
+	const renderer = new SpeckRenderer(canvas, resolution, aoResolution);
 
 	this.setState({
 	    renderer: renderer,
 	    refreshView: true
 	});
 	
+
 	// add event listeners
-	const interactionHandler = new speckInteractions(this, renderer, container); 
-	
+	// TODO: 'interactionHandler' is assigned a value but never used. (no-unused-vars)
+	const interactionHandler = new SpeckInteractions(this, renderer, container);
 	this.loop();
 	
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(_) {
 	const {
 	    data,
 	    view
@@ -172,7 +170,7 @@ export default class Speck extends Component {
 	    view
 	} = this.props;
 
-	let divStyle = {
+	const divStyle = {
 	    height: view.resolution,
 	    width: view.resolution
 	}
