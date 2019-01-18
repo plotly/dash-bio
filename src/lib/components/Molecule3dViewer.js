@@ -15,7 +15,8 @@ export default class Molecule3dViewer extends Component {
 
     onRenderNewData(glviewer) {
         glviewer.center();
-        glviewer.zoom(0.8)
+        const zoomRatio = 0.8;
+        glviewer.zoom(zoomRatio)
     }
 
     shouldComponentUpdate(nextProps) {
@@ -31,20 +32,6 @@ export default class Molecule3dViewer extends Component {
     render() {
         const {
             id,
-            color,
-            modelData,
-            atoms,
-            bonds,
-            backgroundColor,
-            backgroundOpacity,
-            atomLabelsShown,
-            selectionType,
-            selectedAtomIds,
-            labels,
-            setProps,
-            styles,
-            onRenderNewData,
-            onChangeSelection,
         }=this.props;
 
         return (
