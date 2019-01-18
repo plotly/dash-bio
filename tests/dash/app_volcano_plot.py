@@ -13,7 +13,8 @@ DATASETS = {
         'label': 'Set1',
         'dataframe': None,
         'datafile': 'tests/dash/sample_data/volcano_data1.csv',
-        'datasource': 'ftp://ftp.ncbi.nlm.nih.gov/hapmap/genotypes/2009-01_phaseIII/plink_format/',
+        'datasource': 'ftp://ftp.ncbi.nlm.nih.gov/hapmap/genotypes/'
+                      '2009-01_phaseIII/plink_format/',
         'dataprops': {}
     },
     'SET2': {
@@ -31,8 +32,9 @@ DATASETS = {
     }
 }
 
-for dset in DATASETS:
-    DATASETS[dset]['dataframe'] = pd.read_csv(DATASETS[dset]['datafile'], comment='#')
+for dataset in DATASETS:
+    DATASETS[dataset]['dataframe'] = pd.read_csv(
+        DATASETS[dataset]['datafile'], comment='#')
 
 
 def description():
@@ -78,10 +80,13 @@ def layout():
                             dcc.Dropdown(
                                 id='vp-dataset-dropdown',
                                 options=[
-                                    {'label': DATASETS[dset]['label'], 'value': dset}
+                                    {
+                                        'label': DATASETS[dset]['label'],
+                                        'value': dset
+                                    }
                                     for dset in DATASETS
                                 ],
-                                value=dset
+                                value=DATASETS['SET2']
                             )
                         ]
                     ),
@@ -90,7 +95,8 @@ def layout():
                         children=[
                             html.Div(
                                 className='vp-vertical-style',
-                                title='Changes the value of the left vertical dashed line.',
+                                title='Changes the value of the left '
+                                      'vertical dashed line.',
                                 children=[
                                     html.Div(
                                         "Lower effect size",
@@ -107,7 +113,8 @@ def layout():
                             ),
                             html.Div(
                                 className='vp-vertical-style',
-                                title='Changes the value of the right vertical dashed line.',
+                                title='Changes the value of the right '
+                                      'vertical dashed line.',
                                 children=[
                                     html.Div(
                                         "Upper effect size",
@@ -124,7 +131,8 @@ def layout():
                             ),
                             html.Div(
                                 className='vp-vertical-style',
-                                title='Changes the value of the horizontal dashed line.',
+                                title='Changes the value of the '
+                                      'horizontal dashed line.',
                                 children=[
                                     html.Div(
                                         "Threshold",
@@ -198,7 +206,9 @@ def callbacks(app):
         ]
     )
     def update_graph(u_lim, l_lim, genomic_line, datadset_id):
-        """update the data set of interest upon change the dashed lines value"""
+        """Update the data set of interest upon change the dashed lines
+        value.
+        """
         return dash_bio.VolcanoPlot(
             DATASETS[datadset_id]['dataframe'],
             genomewideline_value=float(genomic_line),
@@ -213,7 +223,9 @@ def callbacks(app):
         ]
     )
     def update_vp_dataset_div_hover(dataset_id):
-        """update the data set of interest upon change the dashed lines value"""
+        """Update the data set of interest upon change the dashed lines
+        value.
+        """
         return DATASETS[dataset_id]['datasource']
 
     @app.callback(
@@ -222,7 +234,9 @@ def callbacks(app):
         [State('vp-lower-bound', 'value')]
     )
     def update_upper_left_number(fig, l_lim):
-        """update the number of points in the upper left zone delimited by the thresholds"""
+        """Update the number of points in the upper left zone delimited by
+        the thresholds.
+        """
 
         number = 0
         if len(fig['data']) > 1:
@@ -237,7 +251,9 @@ def callbacks(app):
         [State('vp-upper-bound', 'value')]
     )
     def update_upper_right_number(fig, u_lim,):
-        """update the number of points in the upper right zone delimited by the thresholds"""
+        """Update the number of points in the upper right zone delimited by
+        the thresholds.
+        """
 
         number = 0
         if len(fig['data']) > 1:
