@@ -74,12 +74,12 @@ export default class Ideogram extends Component {
          * 'homology' prop.
          */
 
-        let chrs = this.ideogram.chromosomes
+        const chrs = this.ideogram.chromosomes
         let chrOne = null
         let chrTwo = null
-        let organism = this.props.organism
-        let chromosomes = this.props.chromosomes
-        let homology = this.props.homology
+        const organism = this.props.organism
+        const chromosomes = this.props.chromosomes
+        const homology = this.props.homology
 
         if (typeof (this.props.organism) !== "string") {
             chrOne = chrs[homology.chrOne.organism][chromosomes[organism[0]]]
@@ -90,13 +90,13 @@ export default class Ideogram extends Component {
             chrTwo = chrs[homology.chrTwo.organism][chromosomes[1]]
         }
 
-        let par1X = { chr: chrOne, start: homology.chrOne.start[0], stop: homology.chrOne.stop[0] };
-        let par1Y = { chr: chrTwo, start: homology.chrTwo.start[0], stop: homology.chrTwo.stop[0] };
+        const par1X = { chr: chrOne, start: homology.chrOne.start[0], stop: homology.chrOne.stop[0] };
+        const par1Y = { chr: chrTwo, start: homology.chrTwo.start[0], stop: homology.chrTwo.stop[0] };
 
-        let par2X = { chr: chrOne, start: homology.chrOne.start[1], stop: homology.chrOne.stop[1] };
-        let par2Y = { chr: chrTwo, start: homology.chrTwo.start[1], stop: homology.chrTwo.stop[1] };
+        const par2X = { chr: chrOne, start: homology.chrOne.start[1], stop: homology.chrOne.stop[1] };
+        const par2Y = { chr: chrTwo, start: homology.chrTwo.start[1], stop: homology.chrTwo.stop[1] };
 
-        let regions = [
+        const regions = [
             { 'r1': par1X, 'r2': par1Y },
             { 'r1': par2X, 'r2': par2Y }
         ];
@@ -129,12 +129,12 @@ export default class Ideogram extends Component {
          * with the prop 'brushData'.
          */
 
-        let r = this.ideogram.selectedRegion,
+        const r = this.ideogram.selectedRegion,
             start = r.from.toLocaleString(),
             end = r.to.toLocaleString(),
             extent = r.extent.toLocaleString();
 
-        if (this.props.brush !== undefined && this.props.setProps !== undefined) {
+        if (typeof this.props.brush !== "undefined" && typeof this.props.setProps !== "undefined") {
             this.props.setProps(
                 {
                     brushData: {
@@ -155,10 +155,10 @@ export default class Ideogram extends Component {
          * Ideogram.
          */
 
-        if (this.props.brush !== undefined) {
+        if (typeof this.props.brush !== "undefined") {
             this.onBrushHandler();
         }
-        else if (this.props.homology !== undefined) {
+        else if (typeof this.props.homology !== "undefined") {
             this.onHomologyHandler();
 
         }
@@ -192,13 +192,14 @@ export default class Ideogram extends Component {
 
         if (this.props.setProps) {
             this.tooltipData = document.getElementById('_ideogramTooltip').innerHTML;
-            this.tooltipData !== this.tooltipDataTwo ? this.onToolTipHandler() : this.tooltipDataTwo = document.getElementById('_ideogramTooltip').innerHTML;
+            this.tooltipDataTwo = this.tooltipData !== this.tooltipDataTwo
+            ? this.onToolTipHandler() : document.getElementById('_ideogramTooltip').innerHTML;
         }
     }
 
     setConfig() {
         // Pass in all props into config except setProps
-        let config = omit(['setProps'], this.props);
+        const config = omit(['setProps'], this.props);
         // Event handlers
         config.onDidRotate = this.onRotateHandler
         config.onBrushMove = this.props.brush ? this.onBrushHandler : null
