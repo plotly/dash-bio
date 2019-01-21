@@ -1,5 +1,7 @@
 # Dash Bio
 
+[![CircleCI](https://circleci.com/gh/plotly/dash-bio/tree/master.svg?style=svg&circle-token=514e349727fb30e6b85bdaa8269aef3b3e1d320e)](https://circleci.com/gh/plotly/dash-bio/tree/master)
+
 Dash components for bioinformatics
 
 ## Progress
