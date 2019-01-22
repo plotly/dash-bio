@@ -489,8 +489,8 @@ def callbacks(app):
                 'color': 'rgb(200,200,200)',
                 'size': 10
             },
-            'symmetricValue': not dataset_name is not None,
-            'logTransform': not dataset_name is not None,
+            'symmetricValue': dataset_name is None,
+            'logTransform': dataset_name is None,
             'imputeFunction': {
                 'strategy': 'median',
                 'missingValues': 'NaN',
