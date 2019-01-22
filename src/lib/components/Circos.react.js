@@ -381,13 +381,13 @@ Circos.propTypes = {
          * To display all data in the dataset use "all" as the entry for the key "name".
          * Ex: "tooltipContent": {"name": "all"}
          * 
-         * Ex: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)'. 
+         * Ex: This will return (source) + ' ->' + (target) + ': ' + (targetEnd)'. 
          * "tooltipContent": {
             "source": "block_id",
             "target": "position",
             "targetEnd": "value"
                                 },
-         * Ex: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  
+         * Ex: This will return (source)(sourceID) + ' -> ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  
          * "tooltipContent": {
             "source": "source",
             "sourceID": "id",
