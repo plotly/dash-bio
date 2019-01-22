@@ -59,7 +59,7 @@ jobs:
                 name: Run pylint
                 command: |
                     . venv/bin/activate
-                    pylint usage.py tests
+                    pylint tests/
                 when: always
 
             - run:
