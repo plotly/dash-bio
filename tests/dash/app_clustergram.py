@@ -160,8 +160,8 @@ def layout():
 
                 html.Div(
                     'Header of row labels column in uploaded dataset',
-                    title='If a dataset was uploaded, enter the header of the ' +
-                    'column that contains the title of each row.',
+                    title='If a dataset was uploaded, enter the header of' +
+                    'the column that contains the title of each row.',
                     className='clustergram-option-name'
                 ),
                 html.Br(),
@@ -443,7 +443,6 @@ def callbacks(app):
             return 20
         return datasets[dataset_name]['colorThreshold']['maxCol']
 
-
     # store figure options
 
     @app.callback(
@@ -589,11 +588,11 @@ def callbacks(app):
             contents, filename,
             rowLabelsSource
     ):
-        if(len(selRows) < 2 or len(selCols) < 2 or fig_options is None):
+        if (len(selRows) < 2 or len(selCols) < 2 or fig_options is None):
             return html.Div(
-                'No data have been selected to display. Please upload a file or \
-                select a preloaded file from the dropdown, then select at least \
-                two columns and two rows.',
+                'No data have been selected to display. Please upload a file \
+                or select a preloaded file from the dropdown, then select at \
+                least two columns and two rows.',
                 style={
                     'padding': '30px',
                     'font-size': '20pt'
