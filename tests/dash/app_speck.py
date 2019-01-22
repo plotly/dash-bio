@@ -1,7 +1,7 @@
-import dash_bio
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
+import dash_bio
 from dash_bio.utils.xyzReader import readXYZ
 
 
@@ -19,7 +19,7 @@ def description():
 def layout():
     return html.Div(id='speck-body', children=[
 
-                
+
         html.Div(
             id='speck-container',
             children=[
@@ -29,11 +29,11 @@ def layout():
                     scrollZoom=True
                 )
             ]
-        ), 
+        ),
 
-        
+
         html.Div(
-            id='speck-controls', 
+            id='speck-controls',
             children=[
                 dcc.Dropdown(
                     id='speck-molecule-dropdown',
@@ -55,10 +55,10 @@ def layout():
                         {'label': 'Ball-and-stick', 'value': 'stickball'},
                         {'label': 'Toon', 'value': 'toon'},
                         {'label': 'Licorice', 'value': 'licorice'}
-                    ]                    
+                    ]
                 ),
 
-                html.Hr(), 
+                html.Hr(),
 
                 dcc.Checklist(
                     id='speck-scroll-zoom-enable',
@@ -73,7 +73,7 @@ def layout():
                         "Zoom molecule",
                         html.Br(),
                         dcc.Slider(
-                            id='speck-zoom-slider', 
+                            id='speck-zoom-slider',
                             min=0,
                             max=0.1,
                             step=0.0001,
@@ -81,12 +81,12 @@ def layout():
                         ),
                     ]
                 ),
-                
+
                 html.Hr(),
             ]
         ),
 
-        
+
     ])
 
 
@@ -116,7 +116,7 @@ def callbacks(app):
         if(len(scroll_zoom) > 0):
             return {'display': 'none'}
         return {'display': 'block'}
-    
+
     @app.callback(
         Output('speck', 'view'),
         [Input('speck-zoom-slider', 'value')],
@@ -125,7 +125,7 @@ def callbacks(app):
     def zoom_callback(zoomVal, currentView):
         if currentView is not None:
             currentView.update(
-                zoom = zoomVal
+                zoom=zoomVal
             )
         return currentView
 
