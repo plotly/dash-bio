@@ -372,7 +372,7 @@ def callbacks(app):
             contents, filename, dataset_name,
             rowLabelsSource
     ):
-        if(dataset_name is not None):
+        if dataset_name is not None:
             dataset = datasets[dataset_name]
 
             _, desc, rowOptions, colOptions = \
@@ -382,10 +382,10 @@ def callbacks(app):
                     headerCols=dataset['headerCols'],
                     rowLabelsSource=dataset['rowLabelsSource']
                 )
-        elif(contents is not None):
+        elif contents is not None:
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
-            if(rowLabelsSource is None):
+            if rowLabelsSource is None:
                 rowLabelsSource = 'Gene Name'
 
             _, desc, rowOptions, colOptions = \
@@ -394,9 +394,7 @@ def callbacks(app):
                     rowLabelsSource=rowLabelsSource
                 )
         else:
-            desc = '',
-            rowOptions = [],
-            colOptions = []
+            desc, rowOptions, colOptions = '', [], []
         return {
             'desc': desc,
             'rowOptions': rowOptions,
@@ -491,8 +489,8 @@ def callbacks(app):
                 'color': 'rgb(200,200,200)',
                 'size': 10
             },
-            'symmetricValue': False if dataset_name is not None else True,
-            'logTransform': False if dataset_name is not None else True,
+            'symmetricValue': not dataset_name is not None,
+            'logTransform': not dataset_name is not None,
             'imputeFunction': {
                 'strategy': 'median',
                 'missingValues': 'NaN',
@@ -515,33 +513,32 @@ def callbacks(app):
                State('group-markers', 'data')]
     )
     def add_marker(
-            submit_nclicks,  removeAll_nclicks,
+            submit_nclicks, removeAll_nclicks,
             rowOrCol, groupNum, annotation, color,
             submit_time, remove_time,
             current_group_markers
     ):
         # remove all group markers, if necessary, or
         # initialize the group markers data
-        if(current_group_markers is None or remove_time > submit_time):
+        if current_group_markers is None or remove_time > submit_time:
             current_group_markers = {'rowGroupMarker': [],
                                      'colGroupMarker': []}
 
-        if(remove_time > submit_time):
+        if remove_time > submit_time:
             return current_group_markers
 
-        else:
-            # otherwise, add the appropriate marker
-            marker = dict()
-            try:
-                marker['group'] = int(groupNum)
-                marker['annotation'] = annotation
-                marker['color'] = color
-            except ValueError:
-                pass
-            if(rowOrCol == 'row'):
-                current_group_markers['rowGroupMarker'].append(marker)
-            elif(rowOrCol == 'col'):
-                current_group_markers['colGroupMarker'].append(marker)
+        # otherwise, add the appropriate marker
+        marker = dict()
+        try:
+            marker['group'] = int(groupNum)
+            marker['annotation'] = annotation
+            marker['color'] = color
+        except ValueError:
+            pass
+        if rowOrCol == 'row':
+            current_group_markers['rowGroupMarker'].append(marker)
+        elif rowOrCol == 'col':
+            current_group_markers['colGroupMarker'].append(marker)
 
         return current_group_markers
 
@@ -583,12 +580,12 @@ def callbacks(app):
     def display_clustergram(
             _, group_markers,
             selRows, selCols,
-            fig_options,
+            fig_opts,
             dataset_name,
             contents, filename,
             rowLabelsSource
     ):
-        if (len(selRows) < 2 or len(selCols) < 2 or fig_options is None):
+        if (len(selRows) < 2 or len(selCols) < 2 or fig_opts is None):
             return html.Div(
                 'No data have been selected to display. Please upload a file \
                 or select a preloaded file from the dropdown, then select at \
@@ -598,7 +595,7 @@ def callbacks(app):
                     'font-size': '20pt'
                 }
             )
-        if (dataset_name is not None):
+        if dataset_name is not None:
             dataset = datasets[dataset_name]
 
             data, _, _, _ = \
@@ -611,7 +608,7 @@ def callbacks(app):
                     columns=selCols
                 )
 
-        elif(contents is not None and dataset_name is None):
+        elif contents is not None and dataset_name is None:
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
 
@@ -627,13 +624,13 @@ def callbacks(app):
                 )
 
         if group_markers is not None:
-            fig_options['rowGroupMarker'] = group_markers['rowGroupMarker']
-            fig_options['colGroupMarker'] = group_markers['colGroupMarker']
+            fig_opts['rowGroupMarker'] = group_markers['rowGroupMarker']
+            fig_opts['colGroupMarker'] = group_markers['colGroupMarker']
         try:
             fig, _ = dash_bio.Clustergram(
                 computed_traces=None,
                 data=data,
-                **fig_options
+                **fig_opts
             )
 
             return dcc.Graph(
@@ -679,9 +676,8 @@ def callbacks(app):
         # if loading in a non-default dataset, clear all row selections
         if dataset_name is None or row_options is None:
             return []
-        else:
-            row_options = [r['value'] for r in row_options]
-            return row_options[:datasets[dataset_name]['defaultRows']]
+        row_options = [r['value'] for r in row_options]
+        return row_options[:datasets[dataset_name]['defaultRows']]
 
     @app.callback(
         Output('selected-columns', 'value'),
@@ -693,9 +689,8 @@ def callbacks(app):
     def clear_cols(_, col_options, dataset_name, contents):
         if dataset_name is None or col_options is None:
             return []
-        else:
-            col_options = [c['value'] for c in col_options]
-            return col_options[:datasets[dataset_name]['defaultCols']]
+        col_options = [c['value'] for c in col_options]
+        return col_options[:datasets[dataset_name]['defaultCols']]
 
     # show filename that was uploaded
 
