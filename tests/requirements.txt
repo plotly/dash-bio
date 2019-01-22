@@ -11,9 +11,13 @@ ipdb==0.11
 percy==2.0.1
 selenium==3.141.0
 biopython
+colour==0.1.5
 flake8==3.6.0
 pylint==2.2.2
 pytest-dash==1.1.0
 pandas
+parmed
 plotly==3.5
 dash-table==3.1.3
+scipy>=1.1.0
+sklearn
