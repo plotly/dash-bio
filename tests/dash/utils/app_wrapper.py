@@ -19,9 +19,10 @@ def app_page_layout(page_layout,
                     dcc.Link(
                         html.Img(
                             src='data:image/png;base64,{}'.format(
-                                base64.b64encode(open(
-                                    './assets/dashbio_logo_transparent.png',
-                                    'rb').read()
+                                base64.b64encode(
+                                    open(
+                                        './assets/dashbio_logo_transparent.png', 'rb'
+                                    ).read()
                                 ).decode()
                             )
                         ),
@@ -35,15 +36,19 @@ def app_page_layout(page_layout,
                         children=[
                             html.Img(
                                 src='data:image/png;base64,{}'.format(
-                                    base64.b64encode(open(
-                                        './assets/GitHub-Mark-{}64px.png'.format(
-                                            'Light-' if light_logo else ''),
-                                        'rb').read()
+                                    base64.b64encode(
+                                        open(
+                                            './assets/GitHub-Mark-{}64px.png'.format(
+                                                'Light-' if light_logo else ''
+                                            ),
+                                            'rb'
+                                        ).read()
                                     ).decode()
                                 )
                             )
-                        ], 
-                        href="http://github.com/plotly/dash-bio/blob/master/tests/dash/app_{}.py".format(app_github_url)
+                        ],
+                        href="http://github.com/plotly/dash-bio/"
+                             "blob/master/tests/dash/app_{}.py".format(app_github_url)
                     )
                 ],
                 style={
