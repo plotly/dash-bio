@@ -114,3 +114,9 @@
 .circos-display-none {
    display: none;
 }
+
+#main-circos {
+    display: flex;
+     justify-content: center;
+
+}

@@ -1,19 +1,20 @@
-import dash_bio
-import dash
-import dash_core_components as dcc
-from dash.dependencies import Input, Output, State
-import dash_html_components as html
-import dash_table as dt
-from dash_bio.utils import circosParser as cp
 from textwrap import dedent
 import base64
 import io
 import pandas as pd
 import json
 
+import dash_bio
+from dash_bio.utils import circosParser as cp
+import dash_core_components as dcc
+from dash.dependencies import Input, Output, State
+import dash_html_components as html
+import dash_table as dt
+
 
 # Main dataset used for all graphs
-with open("./tests/dash/sample_data/circos_graph_data.json", "r") as circos_graph_data:
+with open("./tests/dash/sample_data/circos_graph_data.json", "r") \
+        as circos_graph_data:
     circos_graph_data = json.load(circos_graph_data)
 
 # Parsed data using circosParser for parsed_dataset graph
@@ -40,21 +41,23 @@ parsed_track_two = cp.txt_to_track(
     create_local=False,
 )
 
+
 # Description for gallery
 def description():
-    return "Dash Circos is a library used to analyze and interpret data using a circular layout, \
-    based on the popular Circos graph. Showcase relationships between data/datasets in a \
+    return "Dash Circos is a library used to analyze and " \
+           "interpret data using a circular layout, \
+    based on the popular Circos graph. Showcase relationships " \
+           "between data/datasets in a \
     beautiful way."
 
-# Dash table call back data
-def update_dash_table(data_selector, layout, tracks, orientation):
+
+# Dash table call back dat
+def update_dash_table(data_selector, a_layout, tracks, orientation):
+    answer = None
     try:
         if data_selector == "layout":
-            df = pd.DataFrame(layout)
+            df = pd.DataFrame(a_layout)
         elif tracks[data_selector]["type"] == "CHORDS":
-            new_data = {
-                "color": d.pop("color") for d in tracks[data_selector]["data"]
-            }
             new_chords = [
                 {
                     "{}_{}".format(k, a): b
@@ -67,54 +70,68 @@ def update_dash_table(data_selector, layout, tracks, orientation):
         else:
             df = pd.DataFrame(tracks[data_selector]["data"])
         if orientation == "column":
-            return [{"id": i, "name": i} for i in df.columns]
+            answer = [{"id": i, "name": i} for i in df.columns]
         elif orientation == "row":
-            return df.to_dict("records")
-    except:
-        df = pd.DataFrame()
-        return df
-        
+            answer = df.to_dict("records")
+    except Exception:
+        answer = pd.DataFrame()
+    return answer
+
+
 # Content parser used for dcc.Upload
-def parse_contents(contents, filename, date):
-    content_type, content_string = contents.split(",")
+def parse_contents(contents, filename, _):
+    _, content_string = contents.split(",")
 
     decoded = base64.b64decode(content_string).decode("UTF-8")
+    answer = None
     try:
         if "csv" in filename:
             # Assume that the user uploaded a CSV file
             df = pd.read_csv(io.StringIO(decoded))
             df = df.to_dict(orient="records")
-            return df
+            answer = df
     except Exception as e:
+        answer = html.Div(["There was an error processing this file."])
         print(e)
-        return html.Div(["There was an error processing this file."])
-    return
+    return answer
+
 
 # Header colors
 def header_colors():
     return {"bg_color": "#000", "font_color": "#FFF", "light_logo": True}
 
-# Circos explaination blurb
+
+# Circos explanation blurb
 def circos_explain():
     return dcc.Markdown(
         dedent(
             """
-    Circos is a circular graph best used to show relationships between entities and periodical data.
-    A Circos graph consists of two main parts, being the layout and tracks.The layout sets the basic 
-    parameters of the graph such as radius, ticks, labels, etc. 
-    The tracks are graph layouts that take in a series of data points and can be one of:
-    heatmaps, chords, highlights, histograms, line, scatter, stack and text graphs. Tracks can be 
-    place on and around the layout graph.
+    Circos is a circular graph best used to show relationships between
+    entities and periodical data. A Circos graph consists of two main parts,
+    being the layout and tracks.The layout sets the basic parameters of the
+    graph such as radius, ticks, labels, etc. The tracks are graph layouts
+    that take in a series of data points and can be one of:  heatmaps,
+    chords, highlights, histograms, line, scatter, stack and text graphs.
+    Tracks can be place on and around the layout graph.
 
     For a look into Circos and the API please go here:
-    [https://github.com/nicgirault/circosJS](https://github.com/nicgirault/circosJS")
+    [https://github.com/nicgirault/circosJS](
+     https://github.com/nicgirault/circosJS")
     """
         )
     )
 
+
 # Empty Circos needed for circos graph callback
 empty = dash_bio.Circos(
-    id="main-circos", selectEvent={}, layout=[], size=800, config={}, tracks=[], enableZoomPan=True, enableDownloadSVG=True
+    id="main-circos",
+    selectEvent={},
+    layout=[],
+    size=800,
+    config={},
+    tracks=[],
+    enableZoomPan=True,
+    enableDownloadSVG=True
 )
 
 # Upload text blurb
@@ -184,7 +201,8 @@ def layout():
                                                                         "value": "text",
                                                                     },
                                                                     {
-                                                                        "label": "Sample Parser Dataset",
+                                                                        "label": "Sample Parser "
+                                                                                 "Dataset",
                                                                         "value": "parser_data",
                                                                     },
                                                                 ],
@@ -195,7 +213,8 @@ def layout():
                                                     ),
                                                     html.Div(
                                                         [
-                                                            html.H5("Size Slider"),
+                                                            html.H5(
+                                                                "Size Slider"),
                                                             html.Div(
                                                                 [
                                                                     dcc.Slider(
@@ -222,11 +241,14 @@ def layout():
                                                 [
                                                     html.Div(
                                                         [
-                                                            html.H5("Hover/Click Data"),
+                                                            html.H5(
+                                                                "Hover/Click Data"),
                                                             dcc.Textarea(
                                                                 id="event-data-select",
-                                                                placeholder="Hover or click on data to see it here.",
-                                                                value="Hover or click on data to see it here.",
+                                                                placeholder="Hover or click on "
+                                                                            "data to see it here.",
+                                                                value="Hover or click on "
+                                                                      "data to see it here.",
                                                                 className="circos-event-data",
                                                             ),
                                                         ],
@@ -239,7 +261,8 @@ def layout():
                                                 [
                                                     html.Div(
                                                         [
-                                                            html.H5("What is Circos?"),
+                                                            html.H5(
+                                                                "What is Circos?"),
                                                             circos_explain(),
                                                         ],
                                                         className="twelve columns",
@@ -262,8 +285,12 @@ def layout():
                                                         filtering=True,
                                                         css=[
                                                             {
-                                                                "selector": ".dash-cell div.dash-cell-value",
-                                                                "rule": "display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;",
+                                                                "selector":  ".dash-cell "
+                                                                             "div.dash-cell-value",
+                                                                "rule":  "display: inline; "
+                                                                         "white-space: inherit; "
+                                                                         "overflow: inherit; "
+                                                                         "text-overflow: inherit;",
                                                             }
                                                         ],
                                                         style_cell={
@@ -277,7 +304,8 @@ def layout():
                                                         },
                                                         n_fixed_rows=1,
                                                     ),
-                                                    html.Div(id="expected-index"),
+                                                    html.Div(
+                                                        id="expected-index"),
                                                 ],
                                                 className="circos-datatable",
                                             ),
@@ -435,7 +463,8 @@ def layout():
                                                     ),
                                                     html.Div(
                                                         [
-                                                            html.H5("Hover/Click Data"),
+                                                            html.H5(
+                                                                "Hover/Click Data"),
                                                             dcc.Textarea(
                                                                 id="event-data-custom",
                                                                 placeholder="Hover or click on data to see it here.",
@@ -508,6 +537,9 @@ def callbacks(app):
         [State("main-circos", "tracks"), State("previous-tab", "children")],
     )
     def event_dropdown(dropdown, circos_select, tabs, tracks, prev_tab):
+
+        answer = ["blank"]
+
         if tracks is not None and prev_tab[0] == "circos-tab-select":
             array = []
             dropdown = []
@@ -520,7 +552,7 @@ def callbacks(app):
                 dropdown.append({"label": "{}".format(array[i]), "value": i})
 
             dropdown.append({"label": "LAYOUT", "value": "layout"}.copy())
-            return dropdown
+            answer = dropdown
 
         elif prev_tab[0] == "circos-tab-custom":
             dropdown = [
@@ -528,9 +560,9 @@ def callbacks(app):
                 {"label": "HIGHLIGHT", "value": 0},
                 {"label": "HIGHLIGHT", "value": 1},
             ]
-            return dropdown
-        else:
-            return ["blank"]
+            answer = dropdown
+
+        return answer
 
     # Take in and return uploaded .CSV data
     @app.callback(
@@ -544,9 +576,16 @@ def callbacks(app):
         ],
     )
     def update_output(
-        list_of_contents, list_of_names, list_of_dates, data, upload_select
+            list_of_contents,
+            list_of_names,
+            list_of_dates,
+            data,
+            upload_select
     ):
-        if data == None:
+
+        answer = None
+
+        if data is None:
             array = [None, None, None]
         else:
             array = json.loads(data)
@@ -560,8 +599,8 @@ def callbacks(app):
             )
             children = children[0]
             array[upload_select] = children
-            return json.dumps(array)
-        return
+            answer = json.dumps(array)
+        return answer
 
     # Return Circos Graph with specified layout & dataset
     @app.callback(
@@ -582,22 +621,21 @@ def callbacks(app):
         ],
     )
     def init(
-        tabs,
-        circos_select,
-        size,
-        size_custom,
-        init_onstart,
-        render_button,
-        selected_row,
-        upload_data,
-        table_data,
-        data_selector,
+            tabs,
+            circos_select,
+            size,
+            size_custom,
+            init_onstart,
+            render_button,
+            selected_row,
+            upload_data,
+            table_data,
+            data_selector,
     ):
-        if (
-            tabs == "circos-tab-custom" or tabs == "circos-tab-dataset"
-        ) and upload_data != None:
+        if (tabs == "circos-tab-custom" or tabs == "circos-tab-dataset")\
+                and upload_data is not None:
             array = json.loads(upload_data)
-            return dash_bio.Circos(
+            answer = dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "both", "1": "both"},
                 layout=array[0],
@@ -638,12 +676,10 @@ def callbacks(app):
                     },
                 ],
                 size=800,
-                style={"display": "flex", "justify-content": "center"},
             )
-        elif (
-            tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
-        ) and circos_select == "parser_data":
-            return dash_bio.Circos(
+        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+                and circos_select == "parser_data":
+            answer = dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "hover", "1": "click"},
                 layout=parsed_layout,
@@ -684,12 +720,10 @@ def callbacks(app):
                     },
                 ],
                 size=800,
-                style={"display": "flex", "justify-content": "center"},
             )
-        elif (
-            tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
-        ) and circos_select == "heatmap":
-            return dash_bio.Circos(
+        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+                and circos_select == "heatmap":
+            answer = dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "hover", "1": "hover"},
                 layout=circos_graph_data["month_layout"],
@@ -730,18 +764,16 @@ def callbacks(app):
                     },
                 ],
                 size=800,
-                style={"display": "flex", "justify-content": "center"},
             )
-        elif (
-            tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
-        ) and circos_select == "chords":
-            if selected_row != None and data_selector == 1:
+        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+                and circos_select == "chords":
+            if selected_row is not None and data_selector == 1:
                 for i in list(range(len(circos_graph_data["chords"]))):
                     circos_graph_data["chords"][i]["color"] = "#ff5722"
                 for i in selected_row:
                     circos_graph_data["chords"][i]["color"] = "#00cc96"
 
-            return dash_bio.Circos(
+            answer = dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "both", "1": "both"},
                 layout=circos_graph_data["GRCh37"],
@@ -787,12 +819,10 @@ def callbacks(app):
                     },
                 ],
                 size=800,
-                style={"display": "flex", "justify-content": "center"},
             )
-        elif (
-            tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
-        ) and circos_select == "highlight":
-            return dash_bio.Circos(
+        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+                and circos_select == "highlight":
+            answer = dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "hover"},
                 layout=circos_graph_data["GRCh37"],
@@ -816,13 +846,11 @@ def callbacks(app):
                     }
                 ],
                 size=800,
-                style={"display": "flex", "justify-content": "center"},
             )
 
-        elif (
-            tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
-        ) and circos_select == "histogram":
-            return dash_bio.Circos(
+        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+                and circos_select == "histogram":
+            answer = dash_bio.Circos(
                 id="main-circos",
                 layout=circos_graph_data["GRCh37"],
                 selectEvent={"0": "hover", "1": "hover"},
@@ -856,12 +884,10 @@ def callbacks(app):
                     },
                 ],
                 size=800,
-                style={"display": "flex", "justify-content": "center"},
             )
-        elif (
-            tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
-        ) and circos_select == "line":
-            return dash_bio.Circos(
+        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+                and circos_select == "line":
+            answer = dash_bio.Circos(
                 id="main-circos",
                 selectEvent={
                     "0": "both",
@@ -896,7 +922,8 @@ def callbacks(app):
                         "type": "HIGHLIGHT",
                         "data": list(
                             filter(
-                                lambda d: d["block_id"] in ["chr1", "chr2", "chr3"],
+                                lambda d: d["block_id"] in [
+                                    "chr1", "chr2", "chr3"],
                                 circos_graph_data["cytobands"],
                             )
                         ),
@@ -921,7 +948,11 @@ def callbacks(app):
                                 "targetEnd": "value",
                             },
                             "axes": [
-                                {"spacing": 0.001, "thickness": 1, "color": "#666666"}
+                                {
+                                    "spacing": 0.001,
+                                    "thickness": 1,
+                                    "color": "#666666"
+                                }
                             ],
                             "backgrounds": [
                                 {
@@ -1024,12 +1055,10 @@ def callbacks(app):
                     },
                 ],
                 size=800,
-                style={"display": "flex", "justify-content": "center"},
             )
-        elif (
-            tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
-        ) and circos_select == "scatter":
-            return dash_bio.Circos(
+        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+                and circos_select == "scatter":
+            answer = dash_bio.Circos(
                 id="main-circos",
                 selectEvent={
                     "0": "hover",
@@ -1055,7 +1084,8 @@ def callbacks(app):
                         "type": "HIGHLIGHT",
                         "data": list(
                             filter(
-                                lambda d: d["block_id"] in ["chr1", "chr2", "chr3"],
+                                lambda d: d["block_id"] in [
+                                    "chr1", "chr2", "chr3"],
                                 circos_graph_data["cytobands"],
                             )
                         ),
@@ -1281,16 +1311,19 @@ def callbacks(app):
                     },
                 ],
                 size=800,
-                style={"display": "flex", "justify-content": "center"},
             )
-        elif (
-            tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
-        ) and circos_select == "stack":
-            return dash_bio.Circos(
+        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+                and circos_select == "stack":
+            answer = dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "hover"},
                 layout=[
-                    {"id": "chr9", "len": 8000000, "label": "chr9", "color": "#FFCC00"}
+                    {
+                        "id": "chr9",
+                        "len": 8000000,
+                        "label": "chr9",
+                        "color": "#FFCC00"
+                    }
                 ],
                 config={
                     "innerRadius": size / 2 - 50,
@@ -1310,7 +1343,6 @@ def callbacks(app):
                             "direction": "out",
                             "strokeWidth": 0,
                             "opacity": 0.5,
-                            "color": "#d3d3d3",
                             "tooltipContent": {"name": "chr"},
                             "color": {
                                 "conditional": {
@@ -1330,12 +1362,10 @@ def callbacks(app):
                     }
                 ],
                 size=800,
-                style={"display": "flex", "justify-content": "center"},
             )
-        elif (
-            tabs == "circos-tab-select" or tabs == "circos-tab-dataset"
-        ) and circos_select == "text":
-            return dash_bio.Circos(
+        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+                and circos_select == "text":
+            answer = dash_bio.Circos(
                 id="main-circos",
                 selectEvent={"0": "hover", "1": "both"},
                 layout=[circos_graph_data["GRCh37"][0]],
@@ -1387,13 +1417,16 @@ def callbacks(app):
                     },
                 ],
                 size=800,
-                style={"display": "flex", "justify-content": "center"},
             )
-        return empty
+        else:
+            answer = empty
+
+        return answer
 
     # If chords graph selected, output text blurb to let user know of highlight feature
     @app.callback(
-        Output("chords-text", "children"), [Input("circos-selector", "value")]
+        Output("chords-text", "children"),
+        [Input("circos-selector", "value")]
     )
     def update_chords_text(circos_select):
         if circos_select == "chords":
@@ -1409,12 +1442,20 @@ def callbacks(app):
             Input("data-selector", "options"),
             Input("data-table", "selected_cells"),
         ],
-        [State("main-circos", "layout"), State("main-circos", "tracks")],
+        [
+            State("main-circos", "layout"),
+            State("main-circos", "tracks")
+        ],
     )
     def update_table_rows(
-        data_selector, render_button, circos_trigger, selected, layout, tracks
+            data_selector,
+            render_button,
+            circos_trigger,
+            selected,
+            a_layout,
+            tracks
     ):
-        return update_dash_table(data_selector, layout, tracks, "row")
+        return update_dash_table(data_selector, a_layout, tracks, "row")
 
     # Return dataset to columns of data table
     @app.callback(
@@ -1425,24 +1466,34 @@ def callbacks(app):
             Input("data-selector", "options"),
             Input("data-table", "selected_cells"),
         ],
-        [State("main-circos", "layout"), State("main-circos", "tracks")],
+        [
+            State("main-circos", "layout"),
+            State("main-circos", "tracks")
+        ],
     )
     def update_table_columns(
-        data_selector, render_button, circos_trigger, selected, layout, tracks
+            data_selector,
+            render_button,
+            circos_trigger,
+            selected,
+            a_layout,
+            tracks
     ):
-        return update_dash_table(data_selector, layout, tracks, "column")
+        return update_dash_table(data_selector, a_layout, tracks, "column")
 
     # Hover/click event handler data for preset graph
     @app.callback(
-        Output("event-data-select", "value"), [Input("main-circos", "eventDatum")]
+        Output("event-data-select", "value"),
+        [Input("main-circos", "eventDatum")]
     )
     def event_data_select(eventDatum):
         return str(eventDatum)
 
     # Hover click event handler data for custom graph
-    @app.callback( 
+    @app.callback(
         Output("event-data-custom", "value"),
-        [Input("render-button", "n_clicks"), Input("main-circos", "eventDatum")],
+        [Input("render-button", "n_clicks"),
+         Input("main-circos", "eventDatum")],
     )
     def event_data_custom(n_clicks, eventDatum):
         return str(eventDatum)
