@@ -349,7 +349,8 @@ def layout():
                                                         [
                                                             html.H5(
                                                                 "Upload Data",
-                                                                className="circos-select-data-set five columns",
+                                                                className="circos-select-data-set "
+                                                                          "five columns",
                                                             ),
                                                             html.Div(
                                                                 [
@@ -358,15 +359,27 @@ def layout():
                                                                             html.A(
                                                                                 html.Button(
                                                                                     "Download",
-                                                                                    className="circos-button-data five columns",
+                                                                                    className=
+                                                                                    "circos-"
+                                                                                    "button-data "
+                                                                                    "five columns",
                                                                                 ),
-                                                                                href="/assets/sample_data/circos_sample_data.rar",
-                                                                                download="circos_sample_data.rar",
+                                                                                href=
+                                                                                "/assets/"
+                                                                                "sample_data/"
+                                                                                "circos_"
+                                                                                "sample_data.rar",
+                                                                                download=
+                                                                                "circos_"
+                                                                                "sample_data.rar",
                                                                             ),
                                                                             html.Button(
                                                                                 "Render",
                                                                                 id="render-button",
-                                                                                className="circos-button-render five columns",
+                                                                                className=
+                                                                                "circos-button-"
+                                                                                "render "
+                                                                                "five columns",
                                                                             ),
                                                                         ],
                                                                         className="row",
@@ -383,7 +396,8 @@ def layout():
                                                                 [
                                                                     dcc.Textarea(
                                                                         value=upload_instructions,
-                                                                        className="circos-text-area",
+                                                                        className=
+                                                                        "circos-text-area",
                                                                     )
                                                                 ],
                                                                 className="six columns",
@@ -394,10 +408,13 @@ def layout():
                                                                         id="upload-data",
                                                                         children=html.Div(
                                                                             [
-                                                                                "Drag and Drop or click to import .CSV file here!"
+                                                                                "Drag and Drop or "
+                                                                                "click to import "
+                                                                                ".CSV file here!"
                                                                             ]
                                                                         ),
-                                                                        className="circos-upload-data",
+                                                                        className=
+                                                                        "circos-upload-data",
                                                                         multiple=True,
                                                                     )
                                                                 ],
@@ -442,7 +459,10 @@ def layout():
                                                                     html.Div(
                                                                         [
                                                                             dcc.Slider(
-                                                                                id="size-slider-custom",
+                                                                                id=
+                                                                                "size-"
+                                                                                "slider-"
+                                                                                "custom",
                                                                                 marks={
                                                                                     500: "Min",
                                                                                     800: "Max",
@@ -453,7 +473,8 @@ def layout():
                                                                                 value=600,
                                                                             )
                                                                         ],
-                                                                        className="circos-size-slider",
+                                                                        className=
+                                                                        "circos-size-slider",
                                                                     ),
                                                                 ],
                                                                 className="six columns",
@@ -467,7 +488,8 @@ def layout():
                                                                 "Hover/Click Data"),
                                                             dcc.Textarea(
                                                                 id="event-data-custom",
-                                                                placeholder="Hover or click on data to see it here.",
+                                                                placeholder="Hover or click on "
+                                                                            "data to see it here.",
                                                                 value="",
                                                                 className="circos-event-data",
                                                             ),
@@ -508,8 +530,8 @@ def layout():
 def callbacks(app):
     # Init all callbacks on start of application
     @app.callback(Output("init", "interval"), [Input("init", "n_intervals")])
-    def init_callbacks_on_start(init):
-        if init >= 1:
+    def init_callbacks_on_start(init_interval):
+        if init_interval >= 1:
             return 10000000000000
         return 1000
 
@@ -632,7 +654,7 @@ def callbacks(app):
             table_data,
             data_selector,
     ):
-        if (tabs == "circos-tab-custom" or tabs == "circos-tab-dataset")\
+        if (tabs == "circos-tab-custom" or tabs == "circos-tab-dataset") \
                 and upload_data is not None:
             array = json.loads(upload_data)
             answer = dash_bio.Circos(
@@ -677,7 +699,7 @@ def callbacks(app):
                 ],
                 size=800,
             )
-        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "parser_data":
             answer = dash_bio.Circos(
                 id="main-circos",
@@ -721,7 +743,7 @@ def callbacks(app):
                 ],
                 size=800,
             )
-        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "heatmap":
             answer = dash_bio.Circos(
                 id="main-circos",
@@ -765,7 +787,7 @@ def callbacks(app):
                 ],
                 size=800,
             )
-        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "chords":
             if selected_row is not None and data_selector == 1:
                 for i in list(range(len(circos_graph_data["chords"]))):
@@ -820,7 +842,7 @@ def callbacks(app):
                 ],
                 size=800,
             )
-        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "highlight":
             answer = dash_bio.Circos(
                 id="main-circos",
@@ -848,7 +870,7 @@ def callbacks(app):
                 size=800,
             )
 
-        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "histogram":
             answer = dash_bio.Circos(
                 id="main-circos",
@@ -885,7 +907,7 @@ def callbacks(app):
                 ],
                 size=800,
             )
-        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "line":
             answer = dash_bio.Circos(
                 id="main-circos",
@@ -1056,7 +1078,7 @@ def callbacks(app):
                 ],
                 size=800,
             )
-        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "scatter":
             answer = dash_bio.Circos(
                 id="main-circos",
@@ -1312,7 +1334,7 @@ def callbacks(app):
                 ],
                 size=800,
             )
-        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "stack":
             answer = dash_bio.Circos(
                 id="main-circos",
@@ -1363,7 +1385,7 @@ def callbacks(app):
                 ],
                 size=800,
             )
-        elif (tabs == "circos-tab-select" or tabs == "circos-tab-dataset")\
+        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "text":
             answer = dash_bio.Circos(
                 id="main-circos",
@@ -1380,8 +1402,7 @@ def callbacks(app):
                         "type": "HIGHLIGHT",
                         "data": list(
                             filter(
-                                lambda d: d["block_id"]
-                                == circos_graph_data["GRCh37"][0]["id"],
+                                lambda d: d["block_id"] == circos_graph_data["GRCh37"][0]["id"],
                                 circos_graph_data["cytobands"],
                             )
                         ),
@@ -1403,8 +1424,8 @@ def callbacks(app):
                                     "block_id": d["block_id"],
                                 },
                                 filter(
-                                    lambda d: d["block_id"]
-                                    == circos_graph_data["GRCh37"][0]["id"],
+                                    lambda d: d["block_id"] ==
+                                    circos_graph_data["GRCh37"][0]["id"],
                                     circos_graph_data["cytobands"],
                                 ),
                             )
@@ -1486,8 +1507,8 @@ def callbacks(app):
         Output("event-data-select", "value"),
         [Input("main-circos", "eventDatum")]
     )
-    def event_data_select(eventDatum):
-        return str(eventDatum)
+    def event_data_select(event_datum):
+        return str(event_datum)
 
     # Hover click event handler data for custom graph
     @app.callback(
@@ -1495,5 +1516,5 @@ def callbacks(app):
         [Input("render-button", "n_clicks"),
          Input("main-circos", "eventDatum")],
     )
-    def event_data_custom(n_clicks, eventDatum):
-        return str(eventDatum)
+    def event_data_custom(_, event_datum):
+        return str(event_datum)

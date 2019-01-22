@@ -118,11 +118,14 @@ def layout():
                                     children=[
                                         html.Div(
                                             id='needle-dataset-select-div',
-                                            title='"Demo dataset" choice will allow you to play with the options.\n'
-                                                  '"UniProt dataset" choice will retrieve protein domain '
-                                                  'as well as mutation data from UniProt database.\n"Upload dataset"'
-                                                  'choice will let you choose your own mutation data with the option to'
-                                                  ' load the protein domains from pfam database.',
+                                            title='"Demo dataset" choice will allow you to play '
+                                                  'with the options.\n'
+                                                  '"UniProt dataset" choice will retrieve protein '
+                                                  'domain as well as mutation data from UniProt '
+                                                  'database.\n"Upload dataset" choice will let '
+                                                  'you choose your own mutation data with the '
+                                                  'option to load the protein domains from pfam '
+                                                  'database.',
                                             className='needle-dataset-header-div',
                                             children=dcc.RadioItems(
                                                 id='needle-dataset-select-radio',
@@ -145,19 +148,23 @@ def layout():
                                         ),
                                         html.Div(
                                             id='needle-protein-domains-select-div',
-                                            title='If checked, it will allow the user to load mutation data such '
-                                                  'as the protein coordinate (x), mutation number (y) and mutation '
-                                                  'type (mutationGroups), individually from the protein domains',
+                                            title='If checked, it will allow the user to load '
+                                                  'mutation data such as the protein coordinate '
+                                                  '(x), mutation number (y) and mutation type '
+                                                  '(mutationGroups), individually from the protein'
+                                                  ' domains',
                                             className='needle-dataset-header-div',
                                             children=dcc.Checklist(
                                                 id='needle-protein-domains-select-checklist',
                                                 options=[
                                                     {
-                                                        'label': 'Load protein domains individually',
+                                                        'label': 'Load protein domains '
+                                                                 'individually',
                                                         'value': INDIV_DOMS_KEY
                                                     },
                                                     {
-                                                        'label': 'Load protein domains from UniProt only',
+                                                        'label': 'Load protein domains from '
+                                                                 'UniProt only',
                                                         'value': UNIPROT_DOMS_KEY
                                                     }
                                                 ],
@@ -258,16 +265,19 @@ def layout():
                                     children=[
                                         html.Div(
                                             id='needle-mutdata-file-div',
-                                            title='Mutation data files are json files containing the fields :\n'
+                                            title='Mutation data files are json files containing '
+                                                  'the fields :\n'
                                                   '- "x" (protein coordinate of the mutation) \n'
                                                   '- "y" (number of recorded mutations) \n'
                                                   '- "mutationGroups" (type of mutations) \n'
                                                   '- "domains" (protein domains.\n '
-                                                  '"x", "y", "mutationGroups" are arrays, they must have the '
-                                                  'same length or be empty, "x" is required. The "domains" is'
-                                                  'an array of json objects with the required fields "name" and'
-                                                  '"coord", which are a string and a string  detailing the start '
-                                                  'and end of the domains in protein coordinate (eg. "23-34"), '
+                                                  '"x", "y", "mutationGroups" are arrays, they '
+                                                  'must have the same length or be empty, '
+                                                  '"x" is required. The "domains" is an array of '
+                                                  'json objects with the required fields "name" '
+                                                  'and "coord", which are a string and a string '
+                                                  'detailing the start and end of the domains in '
+                                                  'protein coordinate (eg. "23-34"), '
                                                   'respectively.',
                                             children=[
                                                 html.H5(
@@ -288,13 +298,16 @@ def layout():
                                         ),
                                         html.Div(
                                             id='needle-domain-file-div',
-                                            title='Protein data files accepted here can be two fold : \n'
-                                                  '- an array of json objects with the required fields "name" '
-                                                  'and "coord", which are a string and a string  detailing the start '
-                                                  'and end of the domains in protein coordinate (eg. "23-34"), '
-                                                  'respectively.\n'
-                                                  '- an json file with the same structure as the one in the PFAM '
-                                                  'database : http://pfam.xfam.org/protein/P04637/graphic.',
+                                            title='Protein data files accepted here can be two'
+                                                  ' fold : \n'
+                                                  '- an array of json objects with the required '
+                                                  'fields "name" and "coord", which are a string '
+                                                  'and a string  detailing the start and end of '
+                                                  'the domains in protein coordinate (eg. "23-34")'
+                                                  ', respectively.\n'
+                                                  '- an json file with the same structure as the '
+                                                  'one in the PFAM database : '
+                                                  'http://pfam.xfam.org/protein/P04637/graphic.',
                                             children=[
                                                 html.H5(
                                                     'Upload protein domains json file'

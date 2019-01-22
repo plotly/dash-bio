@@ -1,12 +1,12 @@
-import dash_bio
-from dash.dependencies import Input, Output, State
-import dash_html_components as html
-import dash_core_components as dcc
+import os
 import base64
 import json
 import tempfile
 from shutil import copy2
-import os
+from dash.dependencies import Input, Output, State
+import dash_html_components as html
+import dash_core_components as dcc
+import dash_bio
 from dash_bio.utils import pdbParser as parser, stylesParser as sparser
 
 
@@ -23,186 +23,225 @@ def description():
 
 
 def layout():
-    return html.Div(id="mol3d-body", children=[
+    return html.Div(
+        id="mol3d-body",
+        children=[
 
-        html.Div(id="mol3d-controls-container", children=[
-
-            # Upload container
             html.Div(
-                title='Upload biomolecule to view here',
-                className='mol3d-controls',
-                id='mol3d-upload-container', children=[
-                    dcc.Upload(
-                        id='mol3d-upload-data',
-                        children=html.Div([
-                            'Drag and Drop or click to upload a file',
+                id="mol3d-controls-container",
+                children=[
+                    # Upload container
+                    html.Div(
+                        title='Upload biomolecule to view here',
+                        className='mol3d-controls',
+                        id='mol3d-upload-container', children=[
+                            dcc.Upload(
+                                id='mol3d-upload-data',
+                                children=html.Div([
+                                    'Drag and Drop or click to upload a file',
+                                ]),
+                                # Allow multiple files to be uploaded
+                                multiple=True
+                            ),
                         ]),
-                        # Allow multiple files to be uploaded
-                        multiple=True
+
+                    html.Div(
+                        title='download a sample data file to view',
+                        children=[
+                            html.A(
+                                html.Button(
+                                    "Download sample structure",
+                                    id="mol3d-download-sample-data",
+                                ),
+                                href='/assets/sample_data/2mru.pdb',
+                                download='2mru.pdb'
+                            )
+                        ]
                     ),
+                    # Dropdown for demo data
+                    html.Div(
+                        title='Select molecule to view',
+                        className="mol3d-controls",
+                        id="mol3d-demo-dropdown",
+                        children=[
+                            html.P(
+                                'Select structure',
+                                style={
+                                    'font-weight': 'bold',
+                                    'margin-bottom': '10px'
+                                }
+                            ),
+                            dcc.Dropdown(
+                                id='dropdown-demostr',
+                                options=[
+                                    {
+                                        'label': 'Protein',
+                                        'value': './tests/dash/sample_data/'
+                                                 '3aid.pdb'
+                                    },
+                                    {
+                                        'label': 'DNA',
+                                        'value': './tests/dash/sample_data/'
+                                                 '1bna.pdb'
+                                    },
+                                    {
+                                        'label': 'RNA',
+                                        'value': './tests/dash/sample_data/'
+                                                 '6dls.pdb'
+                                    },
+                                ],
+                                value='./tests/dash/sample_data/6dls.pdb'
+                            ),
+                        ],
+                    ),
+                    # Dropdown to select chain representation
+                    # (sticks, cartoon, sphere)
+                    html.Div(
+                        title='select style for molecule representation',
+                        className="mol3d-controls",
+                        id='mol3d-style',
+                        children=[
+                            html.P(
+                                'Style',
+                                style={
+                                    'font-weight': 'bold',
+                                    'margin-bottom': '10px'
+                                }
+                            ),
+                            dcc.Dropdown(
+                                id='dropdown-styles',
+                                options=[
+                                    {'label': 'Sticks', 'value': 'stick'},
+                                    {'label': 'Cartoon', 'value': 'cartoon'},
+                                    {'label': 'Spheres', 'value': 'sphere'},
+                                ],
+                                value='stick'
+                            ),
+                        ],
+                    ),
+
+                    # Dropdown to select color of representation
+                    html.Div(
+                        title='select color scheme for viewing biomolecule',
+                        className="mol3d-controls",
+                        id='mol3d-style-color',
+                        children=[
+                            html.P(
+                                'Color',
+                                style={
+                                    'font-weight': 'bold',
+                                    'margin-bottom': '10px'
+                                }
+                            ),
+                            dcc.Dropdown(
+                                id='dropdown-style-color',
+                                options=[
+                                    {'label': 'atom', 'value': 'atomColor'},
+                                    {'label': 'residue identity',
+                                     'value': 'residueID'},
+                                    {'label': 'residue property',
+                                     'value': 'residueProperty'},
+                                    {'label': 'chain', 'value': 'chainColor'},
+                                ],
+                                value='atomColor'
+                            ),
+                        ],
+                    ),
+                    # Dropdown menu for selecting the background color
+                    html.Div(
+                        title='select background color for molecule viewer',
+                        className="mol3d-controls",
+                        id="mol3d-control-bgcolor",
+                        children=[
+                            html.P(
+                                'Background color',
+                                style={
+                                    'font-weight': 'bold',
+                                    'margin-bottom': '10px'
+                                }
+                            ),
+                            dcc.Input(
+                                id='mol3d-input-bgcolor',
+                                type='text',
+                                placeholder='#000000 (black), #ffffff (white)',
+                                value='#ffffff'
+                            ),
+                        ],
+                    ),
+                    # Slider to choose the background opacity
+                    html.Div(
+                        title='change background opacity of molecule viewer',
+                        className="mol3d-controls",
+                        children=[
+                            html.P(
+                                'Background opacity',
+                                style={
+                                    'font-weight': 'bold',
+                                    'margin-bottom': '10px'
+                                }
+                            ),
+                            dcc.Slider(
+                                id='mol3d-slider-opacity',
+                                min=0,
+                                max=1.0,
+                                step=0.1,
+                                value=1,
+                            ),
+                        ],
+                    ),
+                    html.Div(
+                        title='Customize molecule coloring:{\'A\':\'#abcdef\'}'
+                              ' for chain, {\'ALA\':\'#bcdefa\'} for residue',
+                        className="mol3d-controls",
+                        children=[
+                            html.P(
+                                'Customize molecule color',
+                                style={
+                                    'font-weight': 'bold',
+                                    'margin-bottom': '10px'
+                                }
+                            ),
+                            dcc.Input(
+                                id='mol3d-custom-molcolor',
+                                type='text',
+                                placeholder='{\'A\': \'#ff003d\','
+                                            ' \'B\': \'#abcdef\'}',
+                                value=''
+                            ),
+                            html.Button(
+                                id='mol3d-submit-button',
+                                children='Submit'
+                            ),
+                        ]
+                    ),
+                    # Textarea container to display the selected atoms
+                    html.Div(
+                        title='view information about selected atoms '
+                              'of biomolecule',
+                        className="mol3d-controls",
+                        id="mol3d-selection-display",
+                        children=[
+                            html.P(
+                                "Selection",
+                                style={
+                                    'font-weight': 'bold',
+                                    'margin-bottom': '10px'
+                                }
+                            ),
+                            dcc.Textarea(id='mol3d-selection_output'),
+                        ]),
+
                 ]),
-
+            # Main molecule visualization container
             html.Div(
-                title='download a sample data file to view',
-                children=[
-                    html.A(
-                        html.Button(
-                            "Download sample structure",
-                            id="mol3d-download-sample-data",
-                        ),
-                        href='/assets/sample_data/2mru.pdb',
-                        download='2mru.pdb'
-                    )
-                ]
+                id='mol3d-biomolecule-viewer',
+                children=[]
             ),
 
-            # Dropdown for demo data
-            html.Div(
-                title='Select molecule to view',
-                className="mol3d-controls",
-                id="mol3d-demo-dropdown",
-                children=[
-                    html.P('Select structure', style={
-                        'font-weight': 'bold', 'margin-bottom': '10px'}),
-                    dcc.Dropdown(
-                        id='dropdown-demostr',
-                        options=[
-                            {
-                                'label': 'Protein',
-                                'value': './tests/dash/sample_data/3aid.pdb'
-                            },
-                            {
-                                'label': 'DNA',
-                                'value': './tests/dash/sample_data/1bna.pdb'
-                            },
-                            {
-                                'label': 'RNA',
-                                'value': './tests/dash/sample_data/6dls.pdb'
-                            },
-                        ],
-                        value='./tests/dash/sample_data/6dls.pdb'
-                    ),
-                ],
-            ),
+        ])
 
-            # Dropdown to select chain representation (sticks, cartoon, sphere)
-            html.Div(
-                title='select style for molecule representation',
-                className="mol3d-controls",
-                id='mol3d-style',
-                children=[
-                    html.P('Style', style={
-                        'font-weight': 'bold', 'margin-bottom': '10px'}),
-                    dcc.Dropdown(
-                        id='dropdown-styles',
-                        options=[
-                            {'label': 'Sticks', 'value': 'stick'},
-                            {'label': 'Cartoon', 'value': 'cartoon'},
-                            {'label': 'Spheres', 'value': 'sphere'},
-                        ],
-                        value='stick'
-                    ),
-                ],
-            ),
-
-            # Dropdown to select color of representation
-            html.Div(
-                title='select color scheme for viewing biomolecule',
-                className="mol3d-controls",
-                id='mol3d-style-color',
-                children=[
-                    html.P('Color', style={
-                        'font-weight': 'bold', 'margin-bottom': '10px'}),
-                    dcc.Dropdown(
-                        id='dropdown-style-color',
-                        options=[
-                            {'label': 'atom', 'value': 'atomColor'},
-                            {'label': 'residue identity',
-                             'value': 'residueID'},
-                            {'label': 'residue property',
-                             'value': 'residueProperty'},
-                            {'label': 'chain', 'value': 'chainColor'},
-                        ],
-                        value='atomColor'
-                    ),
-                ],
-            ),
-
-            # Dropdown menu for selecting the background color
-            html.Div(
-                title='select background color for molecule viewer',
-                className="mol3d-controls",
-                id="mol3d-control-bgcolor",
-                children=[
-                    html.P('Background color', style={
-                        'font-weight': 'bold', 'margin-bottom': '10px'}),
-                    # dcc.Dropdown(
-                    dcc.Input(
-                        id='mol3d-input-bgcolor',
-                        type='text',
-                        placeholder='#000000 (black), #ffffff (white)',
-                        value='#ffffff'
-                    ),
-                ],
-            ),
-
-            # Slider to choose the background opacity
-            html.Div(
-                title='change background opacity of molecule viewer',
-                className="mol3d-controls",
-                children=[
-                    html.P('Background opacity', style={
-                        'font-weight': 'bold', 'margin-bottom': '10px'}),
-                    dcc.Slider(
-                        id='mol3d-slider-opacity',
-                        min=0,
-                        max=1.0,
-                        step=0.1,
-                        value=1,
-                    ),
-                ],
-            ),
-
-            html.Div(
-                title='Customize molecule coloring:{\'A\':\'#abcdef\'} for '
-                      'chain, {\'ALA\':\'#bcdefa\'} for residue',
-                className="mol3d-controls",
-                children=[
-                    html.P('Customize molecule color', style={
-                        'font-weight': 'bold', 'margin-bottom': '10px'}),
-                    dcc.Input(
-                        id='mol3d-custom-molcolor',
-                        type='text',
-                        placeholder='{\'A\': \'#ff003d\', \'B\': \'#abcdef\'}',
-                        value=''
-                    ),
-                    html.Button(id='mol3d-submit-button', children='Submit'),
-                ]
-            ),
-
-            # Textarea container to display the selected atoms
-            html.Div(
-                title='view information about selected atoms of biomolecule',
-                className="mol3d-controls",
-                id="mol3d-selection-display",
-                children=[
-                    html.P("Selection", style={
-                        'font-weight': 'bold', 'margin-bottom': '10px'}),
-                    dcc.Textarea(id='mol3d-selection_output'),
-                ]),
-
-        ]),
-        # Main molecule visualization container
-        html.Div(
-            id='mol3d-biomolecule-viewer',
-            children=[]
-        ),
-
-    ])
 
 # Function to create the modelData and style files for molecule visualization
-
-
 def files_data_style(content):
     fdat = tempfile.NamedTemporaryFile(suffix=".js", delete=False, mode='w+')
     fdat.write(content)

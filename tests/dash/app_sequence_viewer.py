@@ -577,7 +577,7 @@ def callbacks(app):
                          'end': mouse_sel['end'],
                          'color': color,
                          'bgcolor': bgcolor,
-                         'underscore': True if len(underscore) > 0 else False,
+                         'underscore': bool(len(underscore) > 0),
                          'tooltip': tooltip}
                     )
 
@@ -587,7 +587,7 @@ def callbacks(app):
                 'end': subpart['end'],
                 'color': color,
                 'bgcolor': bgcolor,
-                'underscore': True if len(underscore) > 0 else False,
+                'underscore': bool(len(underscore) > 0),
                 'tooltip': tooltip
             } for subpart in subpart_sel]
 
@@ -894,7 +894,7 @@ def callbacks(app):
                         for aac in aa_counts]
 
                     # include explanation for translation if necessary
-                    if(alphabet == 'dna' or alphabet == 'rna') \
+                    if alphabet in ('dna', 'rna') \
                             and len(summary) > 0:
                         answer = [
                             '(Protein translated from {}: {})'.format(

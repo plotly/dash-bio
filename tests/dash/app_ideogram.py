@@ -648,11 +648,12 @@ def callbacks(app):
         [Input("annotation-select", "value")],
     )
     def annot_select(value):
-        if value == "tracks" or value == "overlay-2":
-            return ""
+        answer = ""
+        if value in ("tracks", "overlay-2"):
+            pass
         elif value == "overlay-1":
-            return "overlay"
-        return value
+            answer = "overlay"
+        return answer
 
     # Bar width
 

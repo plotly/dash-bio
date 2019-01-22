@@ -104,7 +104,7 @@ def callbacks(app):
         [Input('speck-scroll-zoom-enable', 'values')]
     )
     def toggle_scroll_zoom(scroll_zoom):
-        if(len(scroll_zoom) > 0):
+        if len(scroll_zoom) > 0:
             return True
         return False
 
@@ -113,7 +113,7 @@ def callbacks(app):
         [Input('speck-scroll-zoom-enable', 'values')]
     )
     def toggle_zoom_slider_display(scroll_zoom):
-        if(len(scroll_zoom) > 0):
+        if len(scroll_zoom) > 0:
             return {'display': 'none'}
         return {'display': 'block'}
 
@@ -122,16 +122,16 @@ def callbacks(app):
         [Input('speck-zoom-slider', 'value')],
         state=[State('speck', 'view')]
     )
-    def zoom_callback(zoomVal, currentView):
-        if currentView is not None:
-            currentView.update(
-                zoom=zoomVal
+    def zoom_callback(zoom_val, current_view):
+        if current_view is not None:
+            current_view.update(
+                zoom=zoom_val
             )
-        return currentView
+        return current_view
 
     @app.callback(
         Output('speck', 'presetView'),
         [Input('speck-preset-dropdown', 'value')]
     )
-    def preset_callback(presetVal):
-        return presetVal
+    def preset_callback(preset_val):
+        return preset_val
