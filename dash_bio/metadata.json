@@ -1152,7 +1152,7 @@
                     "computed": true
                   }
                 ],
-                "description": "Specify what data for tooltipContent is\ndisplayed.\n\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks. \nEx: \"tooltipContent\": {\"name\": \"block_id\"},\n\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\n\nEx: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)'. \n\"tooltipContent\": {\n            \"source\": \"block_id\",\n            \"target\": \"position\",\n            \"targetEnd\": \"value\"\n                                },\nEx: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  \n\"tooltipContent\": {\n            \"source\": \"source\",\n            \"sourceID\": \"id\",\n            \"target\": \"target\",\n            \"targetID\": \"id\",\n            \"targetEnd\": \"end\"\n        }",
+                "description": "Specify what data for tooltipContent is\ndisplayed.\n\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks. \nEx: \"tooltipContent\": {\"name\": \"block_id\"},\n\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\n\nEx: This will return (source) + ' ->' + (target) + ': ' + (targetEnd)'. \n\"tooltipContent\": {\n            \"source\": \"block_id\",\n            \"target\": \"position\",\n            \"targetEnd\": \"value\"\n                                },\nEx: This will return (source)(sourceID) + ' -> ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  \n\"tooltipContent\": {\n            \"source\": \"source\",\n            \"sourceID\": \"id\",\n            \"target\": \"target\",\n            \"targetID\": \"id\",\n            \"targetEnd\": \"end\"\n        }",
                 "required": false
               },
               "color": {
@@ -1177,6 +1177,142 @@
         "description": "Tracks that specify specific layouts.\nFor a complete list of tracks and usage, \nplease check the docs.",
         "defaultValue": {
           "value": "[]",
+          "computed": false
+        }
+      }
+    }
+  },
+  "src/lib/components/GenomeViewer.js": {
+    "description": "Dash GenomeViewer is a library used to analyze and interpret\nPlease checkout the Dash Bio repository\non github to learn more about this API.",
+    "displayName": "GenomeViewer",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The ID used to identify this component in Dash callbacks\nand used to identify Ideogram instances."
+      },
+      "genomedata": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The component's inline styles"
+      },
+      "trackdata": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The component's inline styles"
+      },
+      "trackindex": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The component's inline styles"
+      },
+      "contig": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The component's inline styles"
+      },
+      "start": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": "The component's inline styles"
+      },
+      "stop": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": "The component's inline styles"
+      },
+      "showscale": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The component's inline styles",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "showlocation": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The component's inline styles",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "showvariants": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The component's inline styles",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "variantdata": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The component's inline styles"
+      },
+      "showgenes": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The component's inline styles",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "genedata": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The component's inline styles"
+      },
+      "showcoverage": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The component's inline styles",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "compare": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The component's inline styles",
+        "defaultValue": {
+          "value": "false",
           "computed": false
         }
       }

@@ -16,6 +16,7 @@
     "circos": "^2.1.0",
     "ideogram": "git+https://github.com/eweitz/ideogram.git",
     "molecule-3d-for-react": "^0.4.5",
+    "pileup": "^0.6.10",
     "plotly.js": "^1.41.3",
     "ramda": "^0.25.0",
     "react": "15.4.2",
