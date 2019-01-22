@@ -1,7 +1,7 @@
-import dash_bio
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
+import dash_bio
 from dash_bio.utils.xyzReader import readXYZ
 
 
@@ -19,7 +19,7 @@ def description():
 def layout():
     return html.Div(id='speck-body', children=[
 
-                
+
         html.Div(
             id='speck-container',
             children=[
@@ -29,11 +29,11 @@ def layout():
                     scrollZoom=True
                 )
             ]
-        ), 
+        ),
 
-        
+
         html.Div(
-            id='speck-controls', 
+            id='speck-controls',
             children=[
                 dcc.Dropdown(
                     id='speck-molecule-dropdown',
@@ -55,10 +55,10 @@ def layout():
                         {'label': 'Ball-and-stick', 'value': 'stickball'},
                         {'label': 'Toon', 'value': 'toon'},
                         {'label': 'Licorice', 'value': 'licorice'}
-                    ]                    
+                    ]
                 ),
 
-                html.Hr(), 
+                html.Hr(),
 
                 dcc.Checklist(
                     id='speck-scroll-zoom-enable',
@@ -73,7 +73,7 @@ def layout():
                         "Zoom molecule",
                         html.Br(),
                         dcc.Slider(
-                            id='speck-zoom-slider', 
+                            id='speck-zoom-slider',
                             min=0,
                             max=0.1,
                             step=0.0001,
@@ -81,12 +81,12 @@ def layout():
                         ),
                     ]
                 ),
-                
+
                 html.Hr(),
             ]
         ),
 
-        
+
     ])
 
 
@@ -104,7 +104,7 @@ def callbacks(app):
         [Input('speck-scroll-zoom-enable', 'values')]
     )
     def toggle_scroll_zoom(scroll_zoom):
-        if(len(scroll_zoom) > 0):
+        if len(scroll_zoom) > 0:
             return True
         return False
 
@@ -113,25 +113,25 @@ def callbacks(app):
         [Input('speck-scroll-zoom-enable', 'values')]
     )
     def toggle_zoom_slider_display(scroll_zoom):
-        if(len(scroll_zoom) > 0):
+        if len(scroll_zoom) > 0:
             return {'display': 'none'}
         return {'display': 'block'}
-    
+
     @app.callback(
         Output('speck', 'view'),
         [Input('speck-zoom-slider', 'value')],
         state=[State('speck', 'view')]
     )
-    def zoom_callback(zoomVal, currentView):
-        if currentView is not None:
-            currentView.update(
-                zoom = zoomVal
+    def zoom_callback(zoom_val, current_view):
+        if current_view is not None:
+            current_view.update(
+                zoom=zoom_val
             )
-        return currentView
+        return current_view
 
     @app.callback(
         Output('speck', 'presetView'),
         [Input('speck-preset-dropdown', 'value')]
     )
-    def preset_callback(presetVal):
-        return presetVal
+    def preset_callback(preset_val):
+        return preset_val

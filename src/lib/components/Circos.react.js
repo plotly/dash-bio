@@ -26,7 +26,7 @@ export default class Circos extends Component {
     * Used to set a click or hover event on tracks/layout that will show annotations for the circos grpah. 
     **/
 
-    if (this.props.selectEvent !== undefined) {
+    if (typeof this.props.selectEvent !== "undefined") {
       if (this.props.selectEvent[index] === "both") {
         return {
           'click.alert': datum => {
@@ -78,19 +78,22 @@ export default class Circos extends Component {
      * in the dataset provided, and apply them directly to the tracks/layout specified
      * by ID.
      */
-    if (configApply.color !== undefined) {
-      if (configApply.color.name !== undefined) {
+    if (typeof configApply.color !== "undefined") {
+      if (typeof configApply.color.name !== "undefined") {
         var colorName = configApply.color.name
         configApply.color = d => d[colorName]
       }
-      else if (configApply.color.conditional !== undefined) {
+      else if (typeof configApply.color.conditional !== "undefined") {
         var condColor = configApply.color.conditional
         configApply.color = d => {
+          let returnedColor;
           for (var i = 0; i < condColor.value.length; i++) {
             if (d[condColor.end] - d[condColor.start] > condColor.value[i]) {
-              return condColor.color[i]
+              returnedColor = condColor.color[i];
+              break
             }
           }
+          return returnedColor
         }
       }
     }
@@ -102,8 +105,8 @@ export default class Circos extends Component {
     * Set the tool tip event handler. It allows the user to specify what data they want
     * to show on annotation click or hover
     */
-    if (configApply.tooltipContent !== undefined) {
-      if (configApply.tooltipContent.name !== undefined) {
+    if (typeof configApply.tooltipContent !== "undefined") {
+      if (typeof configApply.tooltipContent.name !== "undefined") {
         if (configApply.tooltipContent.name === "all") {
           configApply.tooltipContent = d => {
             var contents = "";
@@ -119,10 +122,10 @@ export default class Circos extends Component {
           configApply.tooltipContent = d => d[toolName]
         }
       }
-      else if (configApply.tooltipContent.source !== undefined) {
+      else if (typeof configApply.tooltipContent.source !== "undefined") {
         var tooltipData = configApply.tooltipContent
 
-        if (tooltipData.sourceID !== undefined && tooltipData.targetID !== undefined) {
+        if (typeof tooltipData.sourceID !== "undefined" && typeof tooltipData.targetID !== "undefined") {
           configApply.tooltipContent = function (d) {
             return '<h3>' + d[tooltipData.source][tooltipData.sourceID] +
               ' ➤ ' +
@@ -163,7 +166,7 @@ export default class Circos extends Component {
       // Since config is const, can't manipulate and throws error
       let configApply
 
-      if (config !== undefined) {
+      if (typeof config !== "undefined") {
         configApply = config
 
         // Set Event Handling

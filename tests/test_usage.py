@@ -1,11 +1,5 @@
-import shutil
-import sys
-
-
 from pytest_dash.utils import (
     import_app,
-    wait_for_text_to_equal,
-    wait_for_element_by_css_selector
 )
 
 

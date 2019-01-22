@@ -1,6 +1,4 @@
 import base64
-
-import pandas as pd
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
@@ -64,9 +62,18 @@ def layout():
                                         id='alignment-dropdown',
                                         className='alignment-select',
                                         options=[
-                                            {'label': 'Sample.fasta', 'value': 'dataset1'},
-                                            {'label': 'P53.fasta naive', 'value': 'dataset2'},
-                                            {'label': 'P53.fasta aligned (ClustalW)', 'value': 'dataset3'},
+                                            {
+                                                'label': 'Sample.fasta',
+                                                'value': 'dataset1'
+                                            },
+                                            {
+                                                'label': 'P53.fasta naive',
+                                                'value': 'dataset2'
+                                            },
+                                            {
+                                                'label': 'P53.fasta aligned (ClustalW)',
+                                                'value': 'dataset3'
+                                            },
                                         ],
                                         value='dataset3',
                                     ),
@@ -88,23 +95,26 @@ def layout():
                                     ),
                                     html.P(
                                         """
-                                        The Alignment Viewer (MSA) component is used to align multiple genomic
-                                        or proteomic sequences from a FASTA or Clustal file. Among its
-                                        extensive set of features, the multiple sequence alignment viewer
-                                        can display multiple subplots showing gap and conservation info,
-                                        alongside industry standard colorscale support and consensus sequence.
-                                        No matter what size your alignment is, Alignment Viewer is able to
-                                        display your genes or proteins snappily thanks to the underlying WebGL
-                                        architecture powering the component. You can quickly scroll through
-                                        your long sequence with a slider or a heatmap overview.
+                                        The Alignment Viewer (MSA) component is used to align
+                                        multiple genomic or proteomic sequences from a FASTA or
+                                        Clustal file. Among its extensive set of features,
+                                        the multiple sequence alignment viewer can display
+                                        multiple subplots showing gap and conservation info,
+                                        alongside industry standard colorscale support and
+                                        consensus sequence. No matter what size your alignment
+                                        is, Alignment Viewer is able to display your genes or
+                                        proteins snappily thanks to the underlying WebGL
+                                        architecture powering the component. You can quickly
+                                        scroll through your long sequence with a slider or a
+                                        heatmap overview.
                                         """
                                     ),
                                     html.P(
                                         """
-                                        Note that the AlignmentChart only returns a chart of the sequence,
-                                        while AlignmentViewer has integrated controls for colorscale, heatmaps,
-                                        and subplots allowing the user to interactively
-                                        control their sequences.
+                                        Note that the AlignmentChart only returns a chart of
+                                        the sequence, while AlignmentViewer has integrated
+                                        controls for colorscale, heatmaps, and subplots allowing
+                                        the user to interactively control their sequences.
                                         """
                                     ),
                                     html.P(
@@ -144,23 +154,26 @@ def layout():
                                     ),
                                     html.P(
                                         """
-                                        The Alignment Viewer (MSA) component is used to align multiple genomic
-                                        or proteomic sequences from a FASTA or Clustal file. Among its
-                                        extensive set of features, the multiple sequence alignment viewer
-                                        can display multiple subplots showing gap and conservation info,
-                                        alongside industry standard colorscale support and consensus sequence.
-                                        No matter what size your alignment is, Alignment Viewer is able to
-                                        display your genes or proteins snappily thanks to the underlying WebGL
-                                        architecture powering the component. You can quickly scroll through
-                                        your long sequence with a slider or a heatmap overview.
+                                        The Alignment Viewer (MSA) component is used to align
+                                        multiple genomic or proteomic sequences from a FASTA or
+                                        Clustal file. Among its extensive set of features,
+                                        the multiple sequence alignment viewer can display
+                                        multiple subplots showing gap and conservation info,
+                                        alongside industry standard colorscale support and
+                                        consensus sequence. No matter what size your alignment
+                                        is, Alignment Viewer is able to display your genes or
+                                        proteins snappily thanks to the underlying WebGL
+                                        architecture powering the component. You can quickly
+                                        scroll through your long sequence with a slider or a
+                                        heatmap overview.
                                         """
                                     ),
                                     html.P(
                                         """
-                                        Note that the AlignmentChart only returns a chart of the sequence,
-                                        while AlignmentViewer has integrated controls for colorscale, heatmaps,
-                                        and subplots allowing the user to interactively
-                                        control their sequences.
+                                        Note that the AlignmentChart only returns a chart of
+                                        the sequence, while AlignmentViewer has integrated
+                                        controls for colorscale, heatmaps, and subplots
+                                        allowing the user to interactivelycontrol their sequences.
                                         """
                                     ),
                                     html.P(
@@ -221,7 +234,7 @@ def callbacks(app):
         Output("alignment-events-2", "value"),
         [Input("alignment-chart", "eventDatum")]
     )
-    def event_data_select(data):
+    def event_data_select_2(data):
         return str(data)
 
     # Render main chart
@@ -229,5 +242,5 @@ def callbacks(app):
         Output('alignment-chart', 'data'),
         [Input('alignment-data-store', 'data')]
     )
-    def update_chart(input):
-        return input
+    def update_chart(input_data):
+        return input_data

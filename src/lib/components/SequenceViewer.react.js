@@ -26,13 +26,13 @@ export default class SequenceViewer extends Component {
 
 
     onMouseSelection(e) {
-	e.detail && this.props.setProps({mouseSelection: e.detail});
+      if(e.detail){this.props.setProps({mouseSelection: e.detail});}
     }
     onSubpartSelected(e) {
-	e.detail && this.props.setProps({subpartSelected: e.detail});
+      if(e.detail){this.props.setProps({subpartSelected: e.detail});}
     }
 
-    shouldComponentUpdate(nextProps, nextState){
+    shouldComponentUpdate(nextProps, _){
 	const {
 	    showLineNumbers,
 	    wrapAminoAcids,
@@ -91,14 +91,14 @@ export default class SequenceViewer extends Component {
     }
 
     getOnClick(i) {
-	return (e) => {
+	return (_) => {
 	    this.props.setProps({
 		coverageClicked: i
 	    });
 	}
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, _) {
 	const {coverage} = this.props;
 	
 	if(coverage.length !== prevProps.coverage.length ||

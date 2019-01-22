@@ -1,14 +1,15 @@
-import dash_bio
-from dash_bio.utils import proteinReader as pr
 import base64
-from dash.dependencies import Input, Output, State
-import dash_html_components as html
-import dash_core_components as dcc
 from Bio.SeqUtils import seq3
 from Bio.Alphabet import generic_dna, generic_rna
 from Bio.Seq import Seq
 from Bio.Data.CodonTable import TranslationError
+import dash_bio
+from dash_bio.utils import proteinReader as pr
+from dash.dependencies import Input, Output, State
+import dash_html_components as html
+import dash_core_components as dcc
 
+DATA_PATH = './tests/dash/sample_data/'
 proteinFolder = 'proteins'
 sequence = '-'
 
@@ -84,7 +85,7 @@ def layout():
                             download="tubulin.fasta.txt"
                         )
                     ]
-                ), 
+                ),
 
                 html.Div(
                     id='sequence-viewer-container',
@@ -96,7 +97,7 @@ def layout():
                 )
             ]
         ),
-        
+
         html.Div(
             id='seq-view-controls-container',
             children=[
@@ -108,20 +109,32 @@ def layout():
                     dcc.Dropdown(
                         id='preloaded-sequences',
                         options=[
-                            {'label': 'insulin',
-                             'value': './tests/dash/sample_data/P01308.fasta.txt'},
-                            {'label': 'keratin',
-                             'value': './tests/dash/sample_data/P04264.fasta.txt'},
-                            {'label': 'albumin',
-                             'value': './tests/dash/sample_data/NX_P02768.fasta.txt'},
-                            {'label': 'myosin (gene)',
-                             'value': './tests/dash/sample_data/myosin.fasta.txt'},
-                            {'label': 'HflX (gene)',
-                             'value': './tests/dash/sample_data/hflx.fasta.txt'}
+                            {
+                                'label': 'insulin',
+                                'value': '{}P01308.fasta.txt'.format(DATA_PATH)
+                            },
+                            {
+                                'label': 'keratin',
+                                'value': '{}P04264.fasta.txt'.format(DATA_PATH)
+                            },
+                            {
+                                'label': 'albumin',
+                                'value': '{}NX_P02768.fasta.txt'.format(
+                                    DATA_PATH
+                                )
+                            },
+                            {
+                                'label': 'myosin (gene)',
+                                'value': '{}myosin.fasta.txt'.format(DATA_PATH)
+                            },
+                            {
+                                'label': 'HflX (gene)',
+                                'value': '{}hflx.fasta.txt'.format(DATA_PATH)
+                            }
                         ],
-                        value='./tests/dash/sample_data/P01308.fasta.txt'
+                        value='{}P01308.fasta.txt'.format(DATA_PATH)
                     ),
-                    html.Br(), 
+                    html.Br(),
                     html.Div(
                         id='seq-view-entry-dropdown-container',
                         children=[
@@ -141,19 +154,25 @@ def layout():
                             )
                         ]
                     ),
-                    html.Br(),                
+                    html.Br(),
                     html.Div(
                         id='seq-view-sel-or-cov-container',
                         children=[
                             html.Div(
                                 "Selection or coverage",
                                 className='seq-view-controls-name'
-                            ), 
+                            ),
                             dcc.RadioItems(
                                 id='selection-or-coverage',
                                 options=[
-                                    {'label': 'Enable selection', 'value': 'sel'},
-                                    {'label': 'Enable coverage', 'value': 'cov'}
+                                    {
+                                        'label': 'Enable selection',
+                                        'value': 'sel'
+                                    },
+                                    {
+                                        'label': 'Enable coverage',
+                                        'value': 'cov'
+                                    }
                                 ],
                                 value='sel'
                             )
@@ -161,7 +180,7 @@ def layout():
                     ),
 
 
-                    html.Hr(), 
+                    html.Hr(),
 
                     html.Div(id='cov-options', children=[
                         html.Div(
@@ -178,7 +197,7 @@ def layout():
                             ],
                             value='mouse'
                         ),
-                        html.Br(), 
+                        html.Br(),
                         'Text color: ',
                         dcc.Input(
                             id='coverage-color',
@@ -206,7 +225,7 @@ def layout():
                             ],
                             values=[]
                         ),
-                        html.Br(), 
+                        html.Br(),
                         html.Button(
                             id='coverage-submit',
                             children='Submit'
@@ -214,7 +233,7 @@ def layout():
                         html.Button(
                             id='coverage-reset',
                             children='Reset'
-                        ),                    
+                        ),
                         dcc.Store(
                             id='coverage-storage',
                             data=initialCov
@@ -227,14 +246,14 @@ def layout():
                             id='current-sequence',
                             data=0
                         )
-                    ]), 
+                    ]),
 
                     html.Div(
                         id='seq-view-sel-slider-container',
                         children=[
                             "Selection region",
                             dcc.RadioItems(
-                                id='sel-slider-or-input', 
+                                id='sel-slider-or-input',
                                 options=[
                                     {'label': 'slider', 'value': 'slider'},
                                     {'label': 'input', 'value': 'input'}
@@ -252,12 +271,20 @@ def layout():
                             html.Div(
                                 id='sel-region-inputs',
                                 children=[
-                                    dcc.Input(id='sel-region-low', type='number',
-                                              min=0, max=0,
-                                              placeholder="low"),
-                                    dcc.Input(id='sel-region-high', type='number',
-                                              min=0, max=0,
-                                              placeholder="high"),
+                                    dcc.Input(
+                                        id='sel-region-low',
+                                        type='number',
+                                        min=0,
+                                        max=0,
+                                        placeholder="low"
+                                    ),
+                                    dcc.Input(
+                                        id='sel-region-high',
+                                        type='number',
+                                        min=0,
+                                        max=0,
+                                        placeholder="high"
+                                    ),
                                     html.Button(id='submit-sel-region',
                                                 children="Submit")
                                 ],
@@ -284,12 +311,12 @@ def layout():
                             ),
 
                             html.Br(),
-                            "Color", 
+                            "Color",
                             dcc.Dropdown(
                                 id='sel-color',
                                 options=[
                                     {'label': 'violet', 'value': 'violet'},
-                                    {'label': 'indigo', 'value': 'indigo'}, 
+                                    {'label': 'indigo', 'value': 'indigo'},
                                     {'label': 'blue', 'value': 'blue'},
                                     {'label': 'green', 'value': 'green'},
                                     {'label': 'yellow', 'value': 'yellow'},
@@ -317,7 +344,7 @@ def layout():
                             sequences" dropdown has been cleared.'
                         ],
                         style={'display': 'none'}
-                    ), 
+                    ),
 
                     html.Div(id='seq-view-info-desc',
                              children=[
@@ -348,43 +375,43 @@ def layout():
 
                     html.Div(id='seq-view-info-coverage-clicked',
                              children=[
-                                html.Span(
-                                    "Coverage entry clicked: ",
-                                    className='seq-view-info-element-title'
-                                ),
-                                html.Div(
-                                    id='test-coverage-clicked'
-                                )
+                                 html.Span(
+                                     "Coverage entry clicked: ",
+                                     className='seq-view-info-element-title'
+                                 ),
+                                 html.Div(
+                                     id='test-coverage-clicked'
+                                 )
                              ]),
 
                     html.Br(),
 
                     html.Div(id='seq-view-info-mouse-selection',
                              children=[
-                                html.Span(
-                                    "Mouse selection: ",
-                                    className='seq-view-info-element-title'
-                                ), 
-                                html.Div(
-                                    id='test-mouse-selection'
-                                )
+                                 html.Span(
+                                     "Mouse selection: ",
+                                     className='seq-view-info-element-title'
+                                 ),
+                                 html.Div(
+                                     id='test-mouse-selection'
+                                 )
                              ]),
 
                     html.Br(),
 
                     html.Div(id='seq-view-info-subpart-sel',
                              children=[
-                                html.Span(
-                                    "Subpart selected: ",
-                                    className='seq-view-info-element-title'
-                                ),
-                                html.Div(
-                                    id='test-subpart-selection'
-                                )
+                                 html.Span(
+                                     "Subpart selected: ",
+                                     className='seq-view-info-element-title'
+                                 ),
+                                 html.Div(
+                                     id='test-subpart-selection'
+                                 )
                              ])
                 ])
             ])
-        ])
+    ])
 
 
 def callbacks(app):
@@ -406,12 +433,13 @@ def callbacks(app):
         state=[State('upload-fasta-data', 'contents')]
     )
     def display_preloaded_uploaded_warning(preloaded, contents):
-        if(contents is not None and preloaded is not None):
-            return {'display': 'inline-block'}
-        return {'display': 'none'}
+        answer = {'display': 'none'}
+        if contents is not None and preloaded is not None:
+            answer = {'display': 'inline-block'}
+        return answer
 
     # sequence viewer sequence
-    
+
     @app.callback(
         Output('sequence-viewer', 'sequence'),
         [Input('upload-fasta-data', 'contents'),
@@ -419,11 +447,11 @@ def callbacks(app):
          Input('preloaded-sequences', 'value')]
     )
     def update_sequence(upload_contents, entry, preloaded):
-        
+
         if entry is None:
             return ''
 
-        if preloaded is not None: 
+        if preloaded is not None:
             protein = pr.readFasta(filePath=preloaded)[entry]
         elif upload_contents is not None and preloaded is None:
             data = ''
@@ -438,19 +466,19 @@ def callbacks(app):
             protein = pr.readFasta(dataString=data)[entry]
         else:
             return '-'
-        
+
         return protein['sequence']
-    
+
     # coverage
 
     # check if there is an overlap with an existing coverage item
-    def overlaps_coverage(currentCov, covItem):
-        for i in range(len(currentCov)):
-            currentRange = list(range(currentCov[i]['start'],
-                                      currentCov[i]['end']))
-            itemRange = list(range(covItem['start'],
-                                   covItem['end']))
-            if(len(list(set(currentRange) & set(itemRange))) > 0):
+    def overlaps_coverage(current_cov, cov_item):
+        for i in range(len(current_cov)):
+            current_range = list(range(current_cov[i]['start'],
+                                       current_cov[i]['end']))
+            item_range = list(range(cov_item['start'],
+                                    cov_item['end']))
+            if len(list(set(current_range) & set(item_range))) > 0:
                 return True
         return False
 
@@ -475,14 +503,15 @@ def callbacks(app):
         # if the coverage has been modified at all and it was
         # modified more recently than the sequence, keep the current
         # coverage
-        if(c_timestamp is not None):
-            if (c_timestamp > s_timestamp):
-                return 0
+        answer = 1
+        if c_timestamp is not None:
+            if c_timestamp > s_timestamp:
+                answer = 0
             else:
-                return 1
+                answer = 1
         # if the coverage has not yet been modified, we can clear
         # the coverage
-        return 1
+        return answer
 
     # clear the subpart selected
     @app.callback(
@@ -491,7 +520,7 @@ def callbacks(app):
     )
     def clear_subpart_sel(_):
         return []
-    
+
     @app.callback(
         Output('coverage-storage', 'data'),
         [Input('coverage-submit', 'n_clicks'),
@@ -499,9 +528,9 @@ def callbacks(app):
          Input('clear-coverage', 'data')],
         state=[State('preloaded-sequences', 'value'),
                State('coverage-storage', 'data'),
-               State('mouse-sel-or-subpart-sel', 'value'), 
+               State('mouse-sel-or-subpart-sel', 'value'),
                State('sequence-viewer', 'mouseSelection'),
-               State('sequence-viewer', 'subpartSelected'), 
+               State('sequence-viewer', 'subpartSelected'),
                State('coverage-color', 'value'),
                State('coverage-bg-color', 'value'),
                State('coverage-underscore', 'values'),
@@ -509,42 +538,48 @@ def callbacks(app):
                State('coverage-submit', 'n_clicks_timestamp'),
                State('coverage-reset', 'n_clicks_timestamp')]
     )
-    def edit_coverage(s_nclicks, r_nclicks,
-                      clear_coverage,
-                      preloaded,
-                      currentCov, mouse_subpart, 
-                      mouseSel, subpartSel,
-                      color, bgcolor,
-                      underscore, tooltip,
-                      s_timestamp, r_timestamp):
-
+    def edit_coverage(
+            s_nclicks,
+            r_nclicks,
+            clear_coverage,
+            preloaded,
+            current_cov,
+            mouse_subpart,
+            mouse_sel,
+            subpart_sel,
+            color,
+            bgcolor,
+            underscore,
+            tooltip,
+            s_timestamp,
+            r_timestamp
+    ):
         # if the coverage hasn't been updated by resetting or
         # adding, and the sequence hasn't changed from the
         # initial one, then we return the initial coverage
-        if(s_nclicks is None and r_nclicks is None and
-           'P01308' in preloaded):
+        if s_nclicks is None and r_nclicks is None and 'P01308' in preloaded:
             return initialCov
-        
-        if(r_timestamp is not None and
-           (s_timestamp is None or s_timestamp < r_timestamp)):
+
+        if r_timestamp is not None \
+                and (s_timestamp is None or s_timestamp < r_timestamp):
             return []
 
-        if(clear_coverage == 1):
+        if clear_coverage == 1:
             return []
-        
+
         if mouse_subpart == 'mouse':
-            if(mouseSel is not None and color is not None):    
+            if mouse_sel is not None and color is not None:
 
                 # first ensure that this hasn't already been covered
-                if not overlaps_coverage(currentCov, mouseSel):
-                    currentCov.append(
-                        {'start': mouseSel['start']-1,
-                         'end': mouseSel['end'],
+                if not overlaps_coverage(current_cov, mouse_sel):
+                    current_cov.append(
+                        {'start': mouse_sel['start']-1,
+                         'end': mouse_sel['end'],
                          'color': color,
                          'bgcolor': bgcolor,
-                         'underscore': True if len(underscore) > 0 else False,
+                         'underscore': bool(len(underscore) > 0),
                          'tooltip': tooltip}
-                    )                    
+                    )
 
         elif mouse_subpart == 'subpart':
             cov_items = [{
@@ -552,31 +587,31 @@ def callbacks(app):
                 'end': subpart['end'],
                 'color': color,
                 'bgcolor': bgcolor,
-                'underscore': True if len(underscore) > 0 else False,
+                'underscore': bool(len(underscore) > 0),
                 'tooltip': tooltip
-            } for subpart in subpartSel]
+            } for subpart in subpart_sel]
 
             for cov_item in cov_items:
-                if not overlaps_coverage(currentCov, cov_item):
-                    currentCov.append(cov_item)
-                    
-        # sort so that the tooltips can match up
-        currentCov.sort(key=lambda x: x['start'])
+                if not overlaps_coverage(current_cov, cov_item):
+                    current_cov.append(cov_item)
 
-        return currentCov
+        # sort so that the tooltips can match up
+        current_cov.sort(key=lambda x: x['start'])
+
+        return current_cov
 
     @app.callback(
         Output('sequence-viewer', 'coverage'),
         [Input('coverage-storage', 'data'),
          Input('selection-or-coverage', 'value')]
     )
-    def apply_coverage(coverage_stored, selOrCov):
-        
-        if(selOrCov != 'cov'):
-            return [] 
+    def apply_coverage(coverage_stored, sel_or_cov):
+
+        if sel_or_cov != 'cov':
+            return []
 
         return coverage_stored
-    
+
     # selection
 
     @app.callback(
@@ -599,35 +634,45 @@ def callbacks(app):
     )
     def lower_bound(low_val):
         return low_val
-    
+
     @app.callback(
         Output('sel-region-high', 'value'),
         [Input('sequence-viewer', 'sequence')]
     )
     def reset_selection_high(*_):
         return 0
-    
+
     @app.callback(
         Output('sequence-viewer', 'selection'),
         [Input('sel-slider', 'value'),
-         Input('submit-sel-region', 'n_clicks'), 
+         Input('submit-sel-region', 'n_clicks'),
          Input('selection-or-coverage', 'value'),
          Input('sel-color', 'value')],
         state=[State('sel-slider-or-input', 'value'),
                State('sel-region-low', 'value'),
                State('sel-region-high', 'value')]
     )
-    def update_sel(slider_value, _, selOrCov, color, slider_input,
-                   sel_low, sel_high):
-        if(selOrCov != 'sel'):
-            return []
-        if color is None:
-            color = 'blue'
-        if(slider_input == 'slider'): 
-            return [slider_value[0], slider_value[1], color]
-        elif(slider_input == 'input'):
-            return [sel_low, sel_high, color]
-        
+    def update_sel(
+            slider_value,
+            _,
+            sel_or_cov,
+            color,
+            slider_input,
+            sel_low,
+            sel_high
+    ):
+        answer = []
+        if sel_or_cov != 'sel':
+            answer = []
+        else:
+            if color is None:
+                color = 'blue'
+            if slider_input == 'slider':
+                answer = [slider_value[0], slider_value[1], color]
+            elif slider_input == 'input':
+                answer = [sel_low, sel_high, color]
+        return answer
+
     # clear mouse selection
 
     @app.callback(
@@ -636,7 +681,7 @@ def callbacks(app):
     )
     def clear_mouse_selection(_):
         return None
-        
+
     # controls
 
     @app.callback(
@@ -653,27 +698,28 @@ def callbacks(app):
     )
     def show_hide_inputs(slider_input):
         return {'display': 'block'} if slider_input == 'input' \
-                else {'display': 'none'}
-    
+            else {'display': 'none'}
+
     @app.callback(
         Output('cov-options', 'style'),
         [Input('selection-or-coverage', 'value')]
     )
-    def show_cov_options(selOrCov):
-        if(selOrCov == 'cov'):
-            return {'display': 'inline-block'}
-        else:
-            return {'display': 'none'}
-    
+    def show_cov_options(sel_or_cov):
+        answer = {'display': 'none'}
+        if sel_or_cov == 'cov':
+            answer = {'display': 'inline-block'}
+        return answer
+
     @app.callback(
         Output('seq-view-sel-slider-container', 'style'),
         [Input('selection-or-coverage', 'value')]
     )
-    def enable_disable_slider(selOrCov):
-        if(selOrCov == 'sel'):
-            return {'display': 'inline-block'}
-        return {'display': 'none'}
-    
+    def enable_disable_slider(sel_or_cov):
+        answer = {'display': 'none'}
+        if sel_or_cov == 'sel':
+            answer = {'display': 'inline-block'}
+        return answer
+
     @app.callback(
         Output('seq-view-number-entries', 'children'),
         [Input('fasta-entry-dropdown', 'options')]
@@ -682,18 +728,18 @@ def callbacks(app):
         return "Number of entries: {}".format(
             len(entries)
         )
-    
+
     @app.callback(
         Output('fasta-entry-dropdown', 'options'),
         [Input('upload-fasta-data', 'contents'),
          Input('preloaded-sequences', 'value')]
     )
     def update_protein_options(upload_contents, preloaded):
-        
-        dropdownOptions = [
+
+        dropdown_options = [
             {'label': 1, 'value': 0}
         ]
-        
+
         if preloaded is not None:
             proteins = pr.readFasta(filePath=preloaded)
         elif upload_contents is not None and preloaded is None:
@@ -705,16 +751,16 @@ def callbacks(app):
                 pass
             proteins = pr.readFasta(dataString=data)
         else:
-            return dropdownOptions
-        
-        if(type(proteins) is list):
-            dropdownOptions = []
+            return dropdown_options
+
+        if isinstance(proteins, list):
+            dropdown_options = []
             for i in range(len(proteins)):
-                dropdownOptions.append(dict(
+                dropdown_options.append(dict(
                     label=i+1,
                     value=i
                 ))
-        return dropdownOptions
+        return dropdown_options
 
     @app.callback(
         Output('sel-slider', 'max'),
@@ -739,10 +785,10 @@ def callbacks(app):
         [Input('sequence-viewer', 'sequence')]
     )
     def update_sel_high_max(seq):
-        if seq is None: 
+        if seq is None:
             seq = ''
         return len(seq)
-            
+
     @app.callback(
         Output('sequence-viewer', 'title'),
         [Input('sequence-viewer', 'sequence'),
@@ -750,14 +796,14 @@ def callbacks(app):
          Input('preloaded-sequences', 'value')],
         state=[State('upload-fasta-data', 'contents')]
     )
-    def update_sequence_title(seq, entry, preloaded, upload_contents):
+    def update_sequence_title(_, entry, preloaded, upload_contents):
 
         if entry is None:
             return ''
-        
-        if preloaded is not None: 
+
+        if preloaded is not None:
             protein = pr.readFasta(filePath=preloaded)[entry]
-        elif upload_contents is not None and preloaded is None: 
+        elif upload_contents is not None and preloaded is None:
             data = ''
             try:
                 content_type, content_string = upload_contents.split(',')
@@ -768,16 +814,16 @@ def callbacks(app):
                 return ''
             protein = pr.readFasta(dataString=data)[entry]
         else:
-            return ''            
-            
+            return ''
+
         titles = ['name', 'entry name', 'protein name', 'identifier', 'desc-0']
 
         for t in titles:
             try:
                 return protein['description'][t]
             except KeyError:
-                continue 
-            
+                continue
+
         return ''
 
     # info display
@@ -788,84 +834,99 @@ def callbacks(app):
          Input('sequence-viewer', 'sequence')],
     )
     def get_aa_comp(v, alphabet, seq):
-        
-        if(v is None):
-            return ''
-        if(len(v) < 2):
-            return ''
-        try:
-            subsequence = seq[v[0]:v[1]]
-        except TypeError:
-            return html.Table([])
-
-        # default - file represents a protein
-        aaString = subsequence
-        
-        if(alphabet == 'dna'):
-            # remove partial codons
-            subsequence = subsequence[:-(len(subsequence) % 3)] if \
-                (len(subsequence) % 3) != 0 else subsequence            
-            s = Seq(subsequence, generic_dna)
+        answer = ''
+        break_and_return = False
+        if v is None or len(v) < 2:
+            pass
+        else:
             try:
-                aaString = str(s.translate())
-            except TranslationError:
-                return "Sequence does not represent DNA."
-        elif(alphabet == 'rna'):
-            subsequence = subsequence[:-(len(subsequence) % 3)] if \
-                (len(subsequence) % 3) != 0 else subsequence
-            s = Seq(subsequence, generic_rna)
-            try:
-                aaString = str(s.translate())
-            except TranslationError:
-                return "Sequence does not represent RNA."
+                subsequence = seq[v[0]:v[1]]
+            except TypeError:
+                answer = html.Table([])
+                break_and_return = True
 
-        # all unique amino acids
-        aminoAcids = list(set(aaString))
-        aaCounts = [{'aa': seq3(aa),
-                     'count': aaString.count(aa)}
-                    for aa in aminoAcids]
+            if not break_and_return:
+                # default - file represents a protein
+                aa_string = subsequence
 
-        # sort by most common AA in sequence
-        aaCounts.sort(
-            key=lambda x: x['count'],
-            reverse=True
-        )
-        
-        summary = [
-            html.Tr([html.Td(aac['aa']),
-                     html.Td(str(aac['count']))])
-            for aac in aaCounts]
+                if alphabet == 'dna':
+                    # remove partial codons
+                    subsequence = subsequence[:-(len(subsequence) % 3)] \
+                        if (len(subsequence) % 3) != 0 \
+                        else subsequence
+                    s = Seq(subsequence, generic_dna)
+                    try:
+                        aa_string = str(s.translate())
+                    except TranslationError:
+                        answer = "Sequence does not represent DNA."
+                        break_and_return = True
+                elif alphabet == 'rna':
+                    subsequence = subsequence[:-(len(subsequence) % 3)] \
+                        if (len(subsequence) % 3) != 0 \
+                        else subsequence
+                    s = Seq(subsequence, generic_rna)
+                    try:
+                        aa_string = str(s.translate())
+                    except TranslationError:
+                        answer = "Sequence does not represent RNA."
+                        break_and_return = True
 
-        # include explanation for translation if necessary
-        if((alphabet == 'dna' or alphabet == 'rna') and
-           len(summary) > 0):
-            return ['(Protein translated from {}: {})'.format(
-                alphabet.upper(),
-                aaString
-            ),
-                    html.Table(summary)]
-        return html.Table(summary)
+                if not break_and_return:
+                    # all unique amino acids
+                    amino_acids = list(set(aa_string))
+                    aa_counts = [
+                        {
+                            'aa': seq3(aa),
+                            'count': aa_string.count(aa)
+                        }
+                        for aa in amino_acids
+                    ]
+
+                    # sort by most common AA in sequence
+                    aa_counts.sort(
+                        key=lambda x: x['count'],
+                        reverse=True
+                    )
+
+                    summary = [
+                        html.Tr([html.Td(aac['aa']),
+                                 html.Td(str(aac['count']))])
+                        for aac in aa_counts]
+
+                    # include explanation for translation if necessary
+                    if alphabet in ('dna', 'rna') \
+                            and len(summary) > 0:
+                        answer = [
+                            '(Protein translated from {}: {})'.format(
+                                alphabet.upper(),
+                                aa_string
+                            ),
+                            html.Table(summary)
+                        ]
+                    else:
+                        answer = html.Table(summary)
+        return answer
 
     @app.callback(
         Output('test-coverage-clicked', 'children'),
         [Input('sequence-viewer', 'coverageClicked')],
         state=[State('coverage-storage', 'data')]
     )
-    def update_cov_clicked(index, currentCov):
-        if index is None or currentCov is None:
+    def update_cov_clicked(index, current_cov):
+        if index is None or current_cov is None:
             return ''
-        
+
         return 'Index: {} Tooltip: {}'.format(
             index,
-            currentCov[index]['tooltip']
+            current_cov[index]['tooltip']
         )
-    
+
     @app.callback(
         Output('test-mouse-selection', 'children'),
         [Input('sequence-viewer', 'mouseSelection')]
     )
     def update_mouse_sel(v):
-        if(v is not None):
+        if v is not None:
             return v['selection']
         return ''
 
@@ -876,7 +937,7 @@ def callbacks(app):
     )
     def update_dropdown_value(v, c):
         return 0
-    
+
     @app.callback(
         Output('desc-info', 'children'),
         [Input('upload-fasta-data', 'contents'),
@@ -887,7 +948,7 @@ def callbacks(app):
 
         if entry is None:
             return 'Please select an entry.'
-        
+
         if preloaded is not None:
             protein = pr.readFasta(filePath=preloaded)[entry]
 
@@ -908,7 +969,7 @@ def callbacks(app):
         else:
             return 'Please either upload a file or select one from \
             the dropdown.'
-        
+
         desc = []
         for key in protein['description']:
             tmp = key.title() + ': ' if 'desc-' not in key else '-'
@@ -922,16 +983,14 @@ def callbacks(app):
         [Input('sequence-viewer', 'subpartSelected')]
     )
     def update_subpart_sel(v):
-        if(v is None):
+        if v is None:
             return ''
         test = []
         for sel in v:
-            if(len(sel['sequence']) == 0):
+            if len(sel['sequence']) == 0:
                 continue
             test.append("Start: %d " % sel['start'])
             test.append("End: %d " % sel['end'])
             test.append("Sequence: %s" % sel['sequence'])
             test.append(html.Br())
         return test
-
-
