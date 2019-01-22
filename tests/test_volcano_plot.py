@@ -15,8 +15,7 @@ def test_click_app_link_from_gallery(dash_threaded, selenium):
 
     access_demo_app(dash_threaded, selenium, APP_NAME)
 
-    assert selenium.current_url.replace('http://localhost:8050', '') ==\
-           '/dash-bio/volcano-plot'
+    assert selenium.current_url.replace('http://localhost:8050', '') == '/dash-bio/volcano-plot'
 
 
 def test_initial_dataset(dash_threaded, selenium):
