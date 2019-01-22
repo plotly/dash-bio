@@ -354,36 +354,34 @@ def layout():
                                                             ),
                                                             html.Div(
                                                                 [
-                                                                    html.Div(
-                                                                        [
-                                                                            html.A(
-                                                                                html.Button(
-                                                                                    "Download",
-                                                                                    className=
-                                                                                    "circos-"
-                                                                                    "button-data "
-                                                                                    "five columns",
-                                                                                ),
-                                                                                href=
-                                                                                "/assets/"
-                                                                                "sample_data/"
-                                                                                "circos_"
-                                                                                "sample_data.rar",
-                                                                                download=
-                                                                                "circos_"
-                                                                                "sample_data.rar",
-                                                                            ),
+                                                                    html.Div([
+                                                                        html.A(
                                                                             html.Button(
-                                                                                "Render",
-                                                                                id="render-button",
+                                                                                "Download",
                                                                                 className=
-                                                                                "circos-button-"
-                                                                                "render "
+                                                                                "circos-"
+                                                                                "button-data "
                                                                                 "five columns",
                                                                             ),
-                                                                        ],
-                                                                        className="row",
-                                                                    )
+                                                                            href=
+                                                                            "/assets/"
+                                                                            "sample_data/"
+                                                                            "circos_"
+                                                                            "sample_data.rar",
+                                                                            download=
+                                                                            "circos_"
+                                                                            "sample_data.rar",
+                                                                        ),
+                                                                        html.Button(
+                                                                            "Render",
+                                                                            id="render-button",
+                                                                            className=
+                                                                            "circos-button-"
+                                                                            "render "
+                                                                            "five columns",
+                                                                        ),
+                                                                    ],
+                                                                             className="row",)
                                                                 ],
                                                                 className="six columns",
                                                             ),
