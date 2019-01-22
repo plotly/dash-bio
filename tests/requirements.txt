@@ -13,3 +13,6 @@ selenium==3.141.0
 flake8==3.6.0
 pylint==2.2.2
 pytest-dash==1.1.0
+pandas
+plotly==3.5
+dash-table==3.1.3
