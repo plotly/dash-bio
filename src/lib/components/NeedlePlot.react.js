@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Plot from 'react-plotly.js';
 import {reduce, max, range, repeat, mergeDeepRight, omit} from 'ramda';
 
-
 /**
  * Checks if a variable is representation of a number or not
  * https://stackoverflow.com/questions/9716468/pure-javascript-a-function-like-jquerys-isnumeric
@@ -11,7 +10,7 @@ import {reduce, max, range, repeat, mergeDeepRight, omit} from 'ramda';
  * @return {Bool}            True if n is a number, false otherwise.
  */
 function isNumeric(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+    return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 /**
@@ -47,11 +46,8 @@ function extractSmallDomains(protein_pos_array) {
     const idx_bogus_entry = [];
     protein_pos_array.forEach((dx, i) => {
         if (dx.indexOf('-') > -1) {
-            const domains_limits = dx.split('-')
-            if (
-                isNumeric(domains_limits[0]) ||
-                isNumeric(domains_limits[1])
-            ) {
+            const domains_limits = dx.split('-');
+            if (isNumeric(domains_limits[0]) || isNumeric(domains_limits[1])) {
                 idx_bogus_entry.push(i);
             } else {
                 domains_array.push(dx);
@@ -161,7 +157,7 @@ export default class NeedlePlot extends Component {
     // Fetch data
     prepareTraces() {
         const {
-            mutationData:{x, y, mutationGroups, domains},
+            mutationData: {x, y, mutationGroups, domains},
             domainStyle: {domainColor, displayMinorDomains},
             needleStyle: {
                 stemColor,
@@ -177,19 +173,17 @@ export default class NeedlePlot extends Component {
         const [
             x_single_site,
             small_domains,
-            idx_old_positions_array
+            idx_old_positions_array,
         ] = extractSmallDomains(x);
 
         // manage whether headColor is an array or a string
-        const fixed_mutation_colors =
-            Array.isArray(headColor)
-                ? headColor
-                : mutationGroups.map(() => headColor);
+        const fixed_mutation_colors = Array.isArray(headColor)
+            ? headColor
+            : mutationGroups.map(() => headColor);
 
-        const fixed_mutation_symbols =
-            Array.isArray(headSymbol)
-                ? headSymbol
-                : mutationGroups.map(() => headSymbol);
+        const fixed_mutation_symbols = Array.isArray(headSymbol)
+            ? headSymbol
+            : mutationGroups.map(() => headSymbol);
 
         const fixed_domain_colors = domainColor;
 
@@ -203,7 +197,7 @@ export default class NeedlePlot extends Component {
         const XSPAN_RATIO = 0.2;
         const Y_BUFFER = stemConstHeight === true ? 0.5 : Y_DATA_MAX / 10;
         // this is used to scale the position for the annotations
-        const Y_BUFFER_DIVIDER = 2
+        const Y_BUFFER_DIVIDER = 2;
         const Y_TOP = stemConstHeight === true ? 2 : Y_DATA_MAX + Y_BUFFER;
         const DOMAIN_WIDTH = 33;
 
@@ -229,7 +223,7 @@ export default class NeedlePlot extends Component {
 
         // build the different protein large domains
         domains.forEach((dom, i) => {
-            const domainLimits = dom.coord.split('-')
+            const domainLimits = dom.coord.split('-');
             const x0 = Number(domainLimits[0]);
             const x1 = Number(domainLimits[1]);
             const domainLength = x1 - x0;
@@ -273,7 +267,7 @@ export default class NeedlePlot extends Component {
             // Name of the protein domain
             domainAnnotations.push({
                 x: (x0 + x1) / Y_BUFFER_DIVIDER,
-                y: - Y_BUFFER / Y_BUFFER_DIVIDER,
+                y: -Y_BUFFER / Y_BUFFER_DIVIDER,
                 showarrow: false,
                 text: dom.name,
                 width: domainLength,
@@ -283,14 +277,14 @@ export default class NeedlePlot extends Component {
 
         if (displayMinorDomains === true) {
             // build the different protein small domains
-            small_domains.forEach((dom) => {
+            small_domains.forEach(dom => {
                 const x0 = Number(dom.split('-')[0]);
                 const x1 = Number(dom.split('-')[1]);
                 const gname = mutationGroups[x.indexOf(dom)];
                 const [line_x, line_y] = createHorizontalLine(
                     x0,
                     x1,
-                    - Y_BUFFER / Y_BUFFER_DIVIDER,
+                    -Y_BUFFER / Y_BUFFER_DIVIDER,
                     x1 - x0
                 );
                 // Range of the protein domain on the xaxis
@@ -300,9 +294,10 @@ export default class NeedlePlot extends Component {
                     x: line_x,
                     y: line_y,
                     fill: 'tozeroy',
-                    fillcolor: fixed_mutation_colors[
-                                [...new Set(mutationGroups)].indexOf(gname)
-                            ],
+                    fillcolor:
+                        fixed_mutation_colors[
+                            [...new Set(mutationGroups)].indexOf(gname)
+                        ],
                     hoveron: 'points+fills',
                     xaxis: 'x2',
                     hoverinfo: 'name+text',
@@ -456,22 +451,22 @@ NeedlePlot.propTypes = {
     id: PropTypes.string,
 
     mutationData: PropTypes.shape({
-      /*
+        /*
       coordinate of mutations on the protein sequence
       */
-      x: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-      /* value (could be the sample count), this property is not necessarily
+        x: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+        /* value (could be the sample count), this property is not necessarily
       relevant, should match x in size
       */
-      y: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-      /*
+        y: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+        /*
       type of mutations, should match x in size
       */
-      mutationGroups: PropTypes.arrayOf(PropTypes.string),
-      /*
+        mutationGroups: PropTypes.arrayOf(PropTypes.string),
+        /*
       protein domains coordinates on the protein sequence
       */
-      domains: PropTypes.array,
+        domains: PropTypes.array,
     }),
 
     // Title of the x-axis
@@ -545,11 +540,11 @@ NeedlePlot.propTypes = {
 };
 
 NeedlePlot.defaultProps = {
-    mutationData:{
-      x: [],
-      y: [],
-      domains: [],
-      mutationGroups: []
+    mutationData: {
+        x: [],
+        y: [],
+        domains: [],
+        mutationGroups: [],
     },
     rangeSlider: false,
     needleStyle: {
