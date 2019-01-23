@@ -59,6 +59,7 @@ def test_lower_genomic_line(dash_threaded, selenium):
     lower_bound = wait_for_element_by_css_selector(selenium, '#vp-lower-bound')
     upper_bound = wait_for_element_by_css_selector(selenium, '#vp-upper-bound')
 
+    assert int(threshold.get_attribute('value')) == 4
     assert int(lower_bound.get_attribute('value')) == -1
     assert int(upper_bound.get_attribute('value')) == 1
 
@@ -68,3 +69,34 @@ def test_lower_genomic_line(dash_threaded, selenium):
     # number of points in the upper left and upper right quadrants
     wait_for_text_to_equal(selenium, '#vp-upper-left', '154')
     wait_for_text_to_equal(selenium, '#vp-upper-right', '271')
+
+
+def test_effect_size_min_and_max(dash_threaded, selenium):
+    """move the lower and upper effect size lines to their max and min, respectively"""
+
+    access_demo_app(dash_threaded, selenium, APP_NAME)
+
+    lower_bound = wait_for_element_by_css_selector(selenium, '#vp-lower-bound')
+    upper_bound = wait_for_element_by_css_selector(selenium, '#vp-upper-bound')
+
+    lower_bound.send_keys(Keys.ARROW_UP)
+    assert int(lower_bound.get_attribute('value')) == 0
+
+    # maximum should be set to 0
+    lower_bound.send_keys(Keys.ARROW_UP)
+    assert int(lower_bound.get_attribute('value')) == 0
+
+    # number of points in the upper left and upper right quadrants
+    wait_for_text_to_equal(selenium, '#vp-upper-left', '24')
+    wait_for_text_to_equal(selenium, '#vp-upper-right', '92')
+
+    upper_bound.send_keys(Keys.ARROW_DOWN)
+    assert int(upper_bound.get_attribute('value')) == 0
+
+    # minimum should be set to 0
+    upper_bound.send_keys(Keys.ARROW_DOWN)
+    assert int(upper_bound.get_attribute('value')) == 0
+
+    # number of points in the upper left and upper right quadrants
+    wait_for_text_to_equal(selenium, '#vp-upper-left', '24')
+    wait_for_text_to_equal(selenium, '#vp-upper-right', '99')
