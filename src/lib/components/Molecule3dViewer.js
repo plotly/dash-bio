@@ -5,49 +5,48 @@ import Molecule3d from 'molecule-3d-for-react';
 export default class Molecule3dViewer extends Component {
     constructor(props) {
         super(props);
-        this.onChangeSelection=this.onChangeSelection.bind(this);
-        this.onRenderNewData=this.onRenderNewData.bind(this);
+        this.onChangeSelection = this.onChangeSelection.bind(this);
+        this.onRenderNewData = this.onRenderNewData.bind(this);
     }
-    
+
     onChangeSelection(selectedAtomIds) {
-        this.props.setProps({selectedAtomIds: selectedAtomIds})
+        this.props.setProps({selectedAtomIds: selectedAtomIds});
     }
 
     onRenderNewData(glviewer) {
         glviewer.center();
         const zoomRatio = 0.8;
-        glviewer.zoom(zoomRatio)
+        glviewer.zoom(zoomRatio);
     }
 
     shouldComponentUpdate(nextProps) {
-        if(this.props.modelData !== nextProps.modelData ||
+        if (
+            this.props.modelData !== nextProps.modelData ||
             this.props.backgroundColor !== nextProps.backgroundColor ||
             this.props.backgroundOpacity !== nextProps.backgroundOpacity ||
-            this.props.styles !== nextProps.styles) {
-                return true;
-            }
-        return false
+            this.props.styles !== nextProps.styles
+        ) {
+            return true;
+        }
+        return false;
     }
 
     render() {
-        const {
-            id,
-        }=this.props;
+        const {id} = this.props;
 
         return (
             <div id={id}>
-                <Molecule3d {...this.props}
-                onChangeSelection={this.onChangeSelection}
-                onRenderNewData={this.onRenderNewData}
+                <Molecule3d
+                    {...this.props}
+                    onChangeSelection={this.onChangeSelection}
+                    onRenderNewData={this.onRenderNewData}
                 />
-
             </div>
-        )
+        );
     }
 }
 
 Molecule3dViewer.propTypes = {
-    
     /**
      * The ID used to identify this component in callbacks
      */
@@ -81,7 +80,7 @@ Molecule3dViewer.propTypes = {
 
     /**
      * The data that will be used to display the molecule in 3D
-     * The data will be in JSON format 
+     * The data will be in JSON format
      * and should have two main dictionaries - atoms, bonds
      */
     modelData: PropTypes.shape({
@@ -111,9 +110,8 @@ Molecule3dViewer.propTypes = {
     onRenderNewData: PropTypes.func,
 
     /**
-     * Callback to change append selectedAtomIds 
+     * Callback to change append selectedAtomIds
      * when a selection is made
      */
     onChangeSelection: PropTypes.func,
-    
 };
