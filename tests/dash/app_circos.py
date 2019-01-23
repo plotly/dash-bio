@@ -113,7 +113,7 @@ def circos_explain():
 
     For a look into Circos and the API please go here:
     [https://github.com/nicgirault/circosJS](
-     https://github.com/nicgirault/circosJS")
+     https://github.com/nicgirault/circosJS)
     """
         )
     )
