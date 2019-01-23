@@ -5,16 +5,16 @@ from dash.development.base_component import Component, _explicitize_args
 
 class SequenceViewer(Component):
     """A SequenceViewer component.
-The sequence viewer component is used to display sequences 
+The sequence viewer component is used to display sequences
 that represent proteins, strands of genomic information, and
-more. It can apply a coverage to the sequence supplied (with 
-clickable coverage sections that can display specific information, 
-and an optional legend to describe the color codes used), 
-search through the sequence for specific regex, capture 
+more. It can apply a coverage to the sequence supplied (with
+clickable coverage sections that can display specific information,
+and an optional legend to describe the color codes used),
+search through the sequence for specific regex, capture
 mouse selection events of subparts of the sequence, display a
-count of the number of nucleotides or amino acids in the 
+count of the number of nucleotides or amino acids in the
 sequence,
-Read more about the component here: 
+Read more about the component here:
 https://github.com/FlyBase/react-sequence-viewer
 
 Keyword arguments:
@@ -22,7 +22,7 @@ Keyword arguments:
 - sequence (string; optional): The amino acid sequence that will be displayed.
 - showLineNumbers (boolean; optional): The option of whether or not to display line numbers.
 - wrapAminoAcids (boolean; optional): The option of whether or not to display the list of amino acids
-as broken up into separate lines of a fixed length set by 
+as broken up into separate lines of a fixed length set by
 charsPerLine.
 - charsPerLine (number; optional): The number of amino acids that will display per line.
 - toolbar (boolean; optional): The option of whether or not to display a toolbar at the top
@@ -33,10 +33,10 @@ the header. This supports regex.
 - sequenceMaxHeight (string; optional): The maximum height of the sequence.
 - badge (boolean; optional): The option of whether or not to display a badge showing the
 amino acid count at the top of the component beside the title.
-- selection (list; optional): A highlighted section of the sequence; the color of the highlight 
-can also be defined. Takes a list of format [min, max, color] where 
-min is a number that represents the starting index of the selection, 
-max is a number that represents the stopping index of the selection, 
+- selection (list; optional): A highlighted section of the sequence; the color of the highlight
+can also be defined. Takes a list of format [min, max, color] where
+min is a number that represents the starting index of the selection,
+max is a number that represents the stopping index of the selection,
 and color is a string that defines the highlight color.
 Cannot be used at the same time as coverage.
 - coverage (list; optional): A coverage of the entire sequence; each section of the sequence
@@ -45,17 +45,17 @@ and an optional underscore. The props start and end represent the
 beginning and terminating indices of the section in question.
 Cannot be used at the same time as selection.
 - legend (list; optional): A legend corresponding to the color codes above (optionally displayed).
-- coverageClicked (number; optional): Contains the index of the section that was clicked last in 
+- coverageClicked (number; optional): Contains the index of the section that was clicked last in
 the coverage list supplied.
-- mouseSelection (optional): Contains information about the subsequence selected 
-by the mouse. Start and end refer to the initial and 
-final indices, respectively, of the subsequence, and 
+- mouseSelection (optional): Contains information about the subsequence selected
+by the mouse. Start and end refer to the initial and
+final indices, respectively, of the subsequence, and
 "selection" contains the string that is selected.. mouseSelection has the following type: dict containing keys 'start', 'end', 'selection'.
 Those keys have the following types: 
   - start (number; optional)
   - end (number; optional)
   - selection (string; optional)
-- subpartSelected (list; optional): A list of the subparts selected using the 
+- subpartSelected (list; optional): A list of the subparts selected using the
 "search" function or the "selection" property.
 
 Available events: """
