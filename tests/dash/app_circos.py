@@ -44,11 +44,8 @@ parsed_track_two = cp.txt_to_track(
 
 # Description for gallery
 def description():
-    return "Dash Circos is a library used to analyze and " \
-           "interpret data using a circular layout, \
-    based on the popular Circos graph. Showcase relationships " \
-           "between data/datasets in a \
-    beautiful way."
+    return "Vizualize and analyze similarities and differences between " \
+           "genes in a single plot, using the powerful Circos graph."
 
 
 # Dash table call back dat
