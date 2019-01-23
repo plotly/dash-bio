@@ -146,8 +146,7 @@ export default class Speck extends Component {
 	
 
 	// add event listeners
-	// TODO: 'interactionHandler' is assigned a value but never used. (no-unused-vars)
-	const interactionHandler = new SpeckInteractions(this, renderer, container);
+	const interactionHandler = new SpeckInteractions(this, renderer, container); // eslint-disable-line no-unused-vars
 	this.loop();
 	
     }
