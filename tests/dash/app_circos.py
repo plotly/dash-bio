@@ -103,13 +103,15 @@ def circos_explain():
     return dcc.Markdown(
         dedent(
             """
-    Circos is a circular graph best used to show relationships between
-    entities and periodical data. A Circos graph consists of two main parts,
-    being the layout and tracks.The layout sets the basic parameters of the
+    A Circos graph consists of two main parts: the layout and the tracks.
+    The layout sets the basic parameters of the
     graph such as radius, ticks, labels, etc. The tracks are graph layouts
     that take in a series of data points and can be one of:  heatmaps,
     chords, highlights, histograms, line, scatter, stack and text graphs.
-    Tracks can be place on and around the layout graph.
+    Tracks can be placed on and around the layout graph.
+
+    Scientific reference for Circos : [Circos's source](
+    http://www.doi.org/10.1101/gr.092759.109)
 
     For a look into Circos and the API please go here:
     [https://github.com/nicgirault/circosJS](
