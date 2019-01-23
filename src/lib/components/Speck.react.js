@@ -114,8 +114,7 @@ export default class Speck extends Component {
 	} 
 
 	// finally apply the user-supplied view parameters
-	// TODO: 'view.length' is missing in props validation (react/prop-types)	
-	if(view.length !== nextProps.view.length
+	if(Object.keys(view).length !== Object.keys(nextProps.view).length
 	   || Object.keys(view).some(
 	       propertyName =>
 		   view[propertyName] !== nextProps.view[propertyName]
@@ -147,8 +146,7 @@ export default class Speck extends Component {
 	
 
 	// add event listeners
-	// TODO: 'interactionHandler' is assigned a value but never used. (no-unused-vars)
-	const interactionHandler = new SpeckInteractions(this, renderer, container);
+	const interactionHandler = new SpeckInteractions(this, renderer, container); // eslint-disable-line no-unused-vars
 	this.loop();
 	
     }
