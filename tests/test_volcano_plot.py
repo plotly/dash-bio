@@ -126,6 +126,12 @@ def test_lower_genomic_line(dash_threaded, selenium):
     wait_for_text_to_equal(selenium, '#vp-upper-left', '154')
     wait_for_text_to_equal(selenium, '#vp-upper-right', '271')
 
+    threshold.send_keys(Keys.ARROW_DOWN)
+    threshold.send_keys(Keys.ARROW_DOWN)
+    threshold.send_keys(Keys.ARROW_DOWN)
+    threshold.send_keys(Keys.ARROW_DOWN)
+
+    assert int(threshold.get_attribute('value')) == 0
 
 def test_effect_size_min_and_max(dash_threaded, selenium):
     """move the lower and upper effect size lines to their max and min, respectively"""
