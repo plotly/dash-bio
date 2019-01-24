@@ -204,3 +204,60 @@ def template_test_parameters_volcanoplot(
     btn = wait_for_element_by_css_selector(selenium, '#test-btn')
     btn.click()
     wait_for_text_to_equal(selenium, '#test-assert-value-div', 'PASSED')
+
+
+def test_xlabel(dash_threaded, selenium):
+    """Change xlabel."""
+
+    def assert_callback(fig, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            if input_value == fig['layout']['xaxis']['title']['text']:
+                answer = 'PASSED'
+        return answer
+
+    template_test_parameters_volcanoplot(
+        dash_threaded,
+        selenium,
+        assert_callback,
+        'xlabel',
+        'x-label-test'
+    )
+
+
+def test_ylabel(dash_threaded, selenium):
+    """Change ylabel."""
+
+    def assert_callback(fig, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            if input_value == fig['layout']['yaxis']['title']['text']:
+                answer = 'PASSED'
+        return answer
+
+    template_test_parameters_volcanoplot(
+        dash_threaded,
+        selenium,
+        assert_callback,
+        'ylabel',
+        'y-label-test'
+    )
+
+
+def test_title(dash_threaded, selenium):
+    """Change title."""
+
+    def assert_callback(fig, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            if input_value == fig['layout']['title']['text']:
+                answer = 'PASSED'
+        return answer
+
+    template_test_parameters_volcanoplot(
+        dash_threaded,
+        selenium,
+        assert_callback,
+        'title',
+        'x-label-test'
+    )
