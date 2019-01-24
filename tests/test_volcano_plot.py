@@ -16,15 +16,15 @@ APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '')
 
 
 LAYOUT = html.Div(
-    id='-test-graph-div',
+    id='test-vp-graph-div',
     children=[
         dcc.Graph(
-            id='test-graph',
+            id='test-vp-graph',
         ),
-        html.Button(id='test-btn', children='click me'),
-        dcc.Input(id='test-param-name-input', value=''),
-        dcc.Input(id='test-param-value-input', value=''),
-        html.Div(id='test-assert-value-div', children='')
+        html.Button(id='test-vp-btn', children='click me'),
+        dcc.Input(id='test-vp-param-name-input', value=''),
+        dcc.Input(id='test-vp-param-value-input', value=''),
+        html.Div(id='test-vp-assert-value-div', children='')
     ]
 )
 
@@ -183,11 +183,11 @@ def template_test_parameters_volcanoplot(
     dummy_app.layout = LAYOUT
 
     @dummy_app.callback(
-        Output('test-graph', 'figure'),
-        [Input('test-btn', 'n_clicks')],
+        Output('test-vp-graph', 'figure'),
+        [Input('test-vp-btn', 'n_clicks')],
         [
-            State('test-param-name-input', 'value'),
-            State('test-param-value-input', 'value')
+            State('test-vp-param-name-input', 'value'),
+            State('test-vp-param-value-input', 'value')
         ]
     )
     def update_graph(nclicks, par_name, par_value):
@@ -195,11 +195,11 @@ def template_test_parameters_volcanoplot(
         return volcano_plot_test_param_callback(nclicks, par_name, par_value, par_type)
 
     @dummy_app.callback(
-        Output('test-assert-value-div', 'children'),
-        [Input('test-graph', 'figure')],
+        Output('test-vp-assert-value-div', 'children'),
+        [Input('test-vp-graph', 'figure')],
         [
-            State('test-btn', 'n_clicks'),
-            State('test-param-value-input', 'value')
+            State('test-vp-btn', 'n_clicks'),
+            State('test-vp-param-value-input', 'value')
         ]
     )
     def assert_value(fig, nclicks, input_value):
@@ -207,15 +207,15 @@ def template_test_parameters_volcanoplot(
 
     dash_threaded(dummy_app)
 
-    param_name_input = wait_for_element_by_css_selector(selenium, '#test-param-name-input')
-    param_value_input = wait_for_element_by_css_selector(selenium, '#test-param-value-input')
+    param_name_input = wait_for_element_by_css_selector(selenium, '#test-vp-param-name-input')
+    param_value_input = wait_for_element_by_css_selector(selenium, '#test-vp-param-value-input')
 
     param_name_input.send_keys(param_name)
     param_value_input.send_keys(param_value)
 
-    btn = wait_for_element_by_css_selector(selenium, '#test-btn')
+    btn = wait_for_element_by_css_selector(selenium, '#test-vp-btn')
     btn.click()
-    wait_for_text_to_equal(selenium, '#test-assert-value-div', 'PASSED')
+    wait_for_text_to_equal(selenium, '#test-vp-assert-value-div', 'PASSED')
 
 
 def test_xlabel(dash_threaded, selenium):
