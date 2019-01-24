@@ -10,7 +10,7 @@ class Speck(Component):
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in Dash callbacks.
 - data (list; optional): The xyz file data; a list of atoms such that each atom
-has a dictionary defining the x, y, and z coordinates 
+has a dictionary defining the x, y, and z coordinates
 along with the atom's symbol.
 - scrollZoom (boolean; optional): The option of whether or not to allow scrolling to control
 the zoom.
@@ -40,7 +40,7 @@ Those keys have the following types:
   - dofStrength (number; optional)
   - dofPosition (number; optional)
   - fxaa (number; optional)
-- presetView (a value equal to: 'default', 'stickball', 'toon', 'licorice'; optional): One of several pre-loaded views: default, stick-ball, toon, 
+- presetView (a value equal to: 'default', 'stickball', 'toon', 'licorice'; optional): One of several pre-loaded views: default, stick-ball, toon,
 and licorice
 
 Available events: """

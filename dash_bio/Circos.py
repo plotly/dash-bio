@@ -6,7 +6,7 @@ from dash.development.base_component import Component, _explicitize_args
 class Circos(Component):
     """A Circos component.
 Dash Circos is a library used to analyze and interpret
-data using a circular layout, based on the popular 
+data using a circular layout, based on the popular
 'Circos' graph. This Dash Bio component is a useful tool
 for showcasing relationships bewtween data/datasets in a
 beautiful way. Please checkout the Dash Bio repository
@@ -36,7 +36,7 @@ as a list of dictionaries.
 - size (number; optional): The overall size of the SVG container holding the
 graph. Set on initilization and unchangeable thereafter.
 - tracks (list; optional): Tracks that specify specific layouts.
-For a complete list of tracks and usage, 
+For a complete list of tracks and usage,
 please check the docs.
 
 Available events: """

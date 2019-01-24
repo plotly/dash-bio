@@ -8,12 +8,12 @@ export const STACK = 'STACK';
 export const TEXT = 'TEXT';
 
 export const TRACK_TYPES = [
-  CHORDS,
-  HEATMAP,
-  HIGHLIGHT,
-  HISTOGRAM,
-  LINE,
-  SCATTER,
-  STACK,
-  TEXT,
+    CHORDS,
+    HEATMAP,
+    HIGHLIGHT,
+    HISTOGRAM,
+    LINE,
+    SCATTER,
+    STACK,
+    TEXT,
 ];

@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
-import { omit } from 'ramda';
+import {omit} from 'ramda';
 
-import { AlignmentViewer as PreAlignementViewer } from 'react-alignment-viewer';
-
+import {AlignmentViewer as PreAlignementViewer} from 'react-alignment-viewer';
 
 /**
  * The Alignment Viewer (MSA) component is used to align multiple genomic
@@ -23,7 +22,6 @@ import { AlignmentViewer as PreAlignementViewer } from 'react-alignment-viewer';
  * https://github.com/plotly/react-alignment-viewer
  */
 export default class AlignmentViewer extends Component {
-
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -36,28 +34,23 @@ export default class AlignmentViewer extends Component {
     }
 
     render() {
-        const {
-            id,
-            eventDatum
-        } = this.props;
+        const {id, eventDatum} = this.props;
 
         return (
-    		<div id={id} eventDatum={eventDatum}>
-    		  <PreAlignementViewer
-                  onChange={this.handleChange}
-                  {...omit(
-                      ['fireEvent', 'dashEvent', 'setProps'],
-                      this.props
-                  )}
-              />
-    		</div>
+            <div id={id} eventDatum={eventDatum}>
+                <PreAlignementViewer
+                    onChange={this.handleChange}
+                    {...omit(
+                        ['fireEvent', 'dashEvent', 'setProps'],
+                        this.props
+                    )}
+                />
+            </div>
         );
     }
 }
 
-
 AlignmentViewer.propTypes = {
-
     /**
      * The ID of this component, used to identify dash components
      * in callbacks. The ID needs to be unique across all of the
@@ -92,18 +85,12 @@ AlignmentViewer.propTypes = {
      * or your own colorscale as a {'nucleotide': COLOR} dict.
      * Note that this is NOT a standard plotly colorscale.
      */
-    colorscale: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.object
-    ]),
+    colorscale: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
     /**
      * Opacity of the main plot as a value between 0 and 1.
      */
-    opacity: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
+    opacity: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Color of the nucleotide labels, in common name, hex, rgb or rgba format.
@@ -114,10 +101,7 @@ AlignmentViewer.propTypes = {
     /**
      * Size of the nucleotide labels, as a number.
      */
-    textsize: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
+    textsize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Toggles displaying sequence labels at left of alignment
@@ -148,7 +132,7 @@ AlignmentViewer.propTypes = {
      */
     conservationcolorscale: PropTypes.oneOfType([
         PropTypes.string,
-        PropTypes.array
+        PropTypes.array,
     ]),
 
     /**
@@ -156,7 +140,7 @@ AlignmentViewer.propTypes = {
      */
     conservationopacity: PropTypes.oneOfType([
         PropTypes.number,
-        PropTypes.string
+        PropTypes.string,
     ]),
 
     /**
@@ -190,18 +174,12 @@ AlignmentViewer.propTypes = {
      * Note that this conservationcolorscale argument
      * does NOT follow the same format as the colorscale argument.
      */
-    gapcolorscale: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.array
-    ]),
+    gapcolorscale: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 
     /**
      * Opacity of the gap secondary barplot as a value between 0 and 1.
      */
-    gapopacity: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
+    gapopacity: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * If both conservation and gap are enabled,
@@ -257,10 +235,7 @@ AlignmentViewer.propTypes = {
      * Equivalent to Plotly's tick0 property.
      * Does not function if overview mode 'slider' is applied. (Current bug)
      */
-    tickstart: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
+    tickstart: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Determines at what interval to keep annotating the tiles.
@@ -268,32 +243,22 @@ AlignmentViewer.propTypes = {
      * Equivalent to Plotly's dtick property.
      * Does not function if overview mode 'slider' is applied. (Current bug)
      */
-    ticksteps: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
+    ticksteps: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Width of the Viewer.
      * Property takes precedence over tileswidth and numtiles
      * if either of them is set.
      */
-    width: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Width of the Viewer.
      * Property takes precedence over tilesheight if both
      * are set.
      */
-    height: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
-
 
 AlignmentViewer.defaultProps = {
     // Data
@@ -326,5 +291,5 @@ AlignmentViewer.defaultProps = {
     ticksteps: null,
     // Other
     width: null,
-    height: 900
+    height: 900,
 };
