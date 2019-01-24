@@ -9,6 +9,8 @@ import dash
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
+from dash_bio import VolcanoPlot
+from tests.dash.app_volcano_plot import DATASETS
 from .test_common_features import access_demo_app
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '')
@@ -26,6 +28,45 @@ LAYOUT = html.Div(
         html.Div(id='test-assert-value-div', children='')
     ]
 )
+
+PARAM_TYPES = {
+    'int': int,
+    'float': float,
+    'bool': bool,
+    'str': str
+}
+
+
+def volcano_plot_test_param_callback(
+        nclicks,
+        param_name,
+        param_value,
+        param_type=None,
+        dataset=DATASETS['SET1']['dataframe']
+):
+    """Create a volcano plot with a single user chosen prop.
+        :param nclicks: (string) html.Button 'n_clicks' Input
+        :param param_name: (string) dcc.Input 'value' State
+        :param param_value: (string) dcc.Input 'value' State
+        :param param_type: (string) one of PARAM_TYPES keys
+            default: None
+        :param dataset: (panda DataFrame): a DataFrame with volcano plot data
+        :return: a dash_bio.VolcanoPlot instance (which is a plotly.graph_objs.Figure instance)
+    """
+    answer = {'data': [], 'layout': {}}
+    # avoid triggering the
+    if nclicks is not None:
+        # convert the parameter value to the right type
+        if param_type in PARAM_TYPES:
+            param_value = PARAM_TYPES[param_type](param_value)
+        arg_to_pass = {param_name: param_value}
+        answer = VolcanoPlot(
+            dataset,
+            **arg_to_pass
+        )
+    return answer
+
+
 def test_click_app_link_from_gallery(dash_threaded, selenium):
 
     access_demo_app(dash_threaded, selenium, APP_NAME)
@@ -115,3 +156,51 @@ def test_effect_size_min_and_max(dash_threaded, selenium):
     # number of points in the upper left and upper right quadrants
     wait_for_text_to_equal(selenium, '#vp-upper-left', '24')
     wait_for_text_to_equal(selenium, '#vp-upper-right', '99')
+
+
+def template_test_parameters_volcanoplot(
+        dash_threaded,
+        selenium,
+        assert_callback,
+        param_name,
+        param_value,
+        par_type=None
+):
+    """Share reusable test code for testing Volcano Plot single parameter assignation."""
+    dummy_app = dash.Dash(__name__)
+    dummy_app.layout = LAYOUT
+
+    @dummy_app.callback(
+        Output('test-graph', 'figure'),
+        [Input('test-btn', 'n_clicks')],
+        [
+            State('test-param-name-input', 'value'),
+            State('test-param-value-input', 'value')
+        ]
+    )
+    def update_graph(nclicks, par_name, par_value):
+        """Update the figure of the dcc.Graph component when a button is clicked."""
+        return volcano_plot_test_param_callback(nclicks, par_name, par_value, par_type)
+
+    @dummy_app.callback(
+        Output('test-assert-value-div', 'children'),
+        [Input('test-graph', 'figure')],
+        [
+            State('test-btn', 'n_clicks'),
+            State('test-param-value-input', 'value')
+        ]
+    )
+    def assert_value(fig, nclicks, input_value):
+        return assert_callback(fig, nclicks, input_value)
+
+    dash_threaded(dummy_app)
+
+    param_name_input = wait_for_element_by_css_selector(selenium, '#test-param-name-input')
+    param_value_input = wait_for_element_by_css_selector(selenium, '#test-param-value-input')
+
+    param_name_input.send_keys(param_name)
+    param_value_input.send_keys(param_value)
+
+    btn = wait_for_element_by_css_selector(selenium, '#test-btn')
+    btn.click()
+    wait_for_text_to_equal(selenium, '#test-assert-value-div', 'PASSED')
