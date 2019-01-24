@@ -1,6 +1,5 @@
 import os
 from selenium.webdriver.common.keys import Keys
-
 from pytest_dash.utils import (
     wait_for_text_to_equal,
     wait_for_element_by_css_selector,
@@ -67,6 +66,9 @@ def volcano_plot_test_param_callback(
     return answer
 
 
+# Demo app tests
+
+
 def test_click_app_link_from_gallery(dash_threaded, selenium):
 
     access_demo_app(dash_threaded, selenium, APP_NAME)
@@ -75,7 +77,7 @@ def test_click_app_link_from_gallery(dash_threaded, selenium):
 
 
 def test_initial_dataset(dash_threaded, selenium):
-    """check the default dataset is Set2"""
+    """Check the default dataset is Set2."""
     access_demo_app(dash_threaded, selenium, APP_NAME)
     wait_for_text_to_equal(
         selenium,
@@ -85,7 +87,7 @@ def test_initial_dataset(dash_threaded, selenium):
 
 
 def test_change_dataset(dash_threaded, selenium):
-    """change dataset using the dropdown"""
+    """Change dataset using the dropdown."""
     access_demo_app(dash_threaded, selenium, APP_NAME)
     dataset_dropdown = wait_for_element_by_css_selector(
         selenium,
@@ -103,7 +105,7 @@ def test_change_dataset(dash_threaded, selenium):
 
 
 def test_lower_genomic_line(dash_threaded, selenium):
-    """lower the threshold genomic line and verify the change in the highlight points number"""
+    """Lower the threshold genomic line and verify the change in the highlight points number."""
     access_demo_app(dash_threaded, selenium, APP_NAME)
 
     # initial check
@@ -133,8 +135,9 @@ def test_lower_genomic_line(dash_threaded, selenium):
 
     assert int(threshold.get_attribute('value')) == 0
 
+
 def test_effect_size_min_and_max(dash_threaded, selenium):
-    """move the lower and upper effect size lines to their max and min, respectively"""
+    """Move the lower and upper effect size lines to their max and min, respectively."""
 
     access_demo_app(dash_threaded, selenium, APP_NAME)
 
@@ -162,6 +165,9 @@ def test_effect_size_min_and_max(dash_threaded, selenium):
     # number of points in the upper left and upper right quadrants
     wait_for_text_to_equal(selenium, '#vp-upper-left', '24')
     wait_for_text_to_equal(selenium, '#vp-upper-right', '99')
+
+
+# Volcano Plot component tests
 
 
 def template_test_parameters_volcanoplot(
