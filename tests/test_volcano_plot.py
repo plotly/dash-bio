@@ -53,7 +53,7 @@ def volcano_plot_test_param_callback(
         :return: a dash_bio.VolcanoPlot instance (which is a plotly.graph_objs.Figure instance)
     """
     answer = {'data': [], 'layout': {}}
-    # avoid triggering the
+    # avoid triggering at the creation of the button in the layout
     if nclicks is not None:
         # convert the parameter value to the right type
         if param_type in PARAM_TYPES:
