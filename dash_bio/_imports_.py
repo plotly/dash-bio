@@ -7,6 +7,7 @@ from .NeedlePlot import NeedlePlot
 from .SequenceViewer import SequenceViewer
 from .Speck import Speck
 
+
 __all__ = [
     "AlignmentChart",
     "AlignmentViewer",
@@ -15,5 +16,5 @@ __all__ = [
     "Molecule3dViewer",
     "NeedlePlot",
     "SequenceViewer",
-    "Speck"
+    "Speck",
 ]
