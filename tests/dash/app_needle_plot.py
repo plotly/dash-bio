@@ -1,6 +1,5 @@
 # In[]:
 # Import required libraries
-import numpy as np
 import copy
 import json
 import dash_core_components as dcc
@@ -11,11 +10,12 @@ import dash_bio
 from dash_bio.utils.uniprotDatabaseTools import UniprotQueryBuilder
 
 from dash_bio.utils.mutationDataParser import EMPTY_MUT_DATA, \
-    load_protein_domains, parse_mutation_upload_file, parse_domain_upload_file, \
-    parse_mutations_uniprot_data, load_mutation_data
+    load_protein_domains, parse_mutation_upload_file, \
+    parse_domain_upload_file, parse_mutations_uniprot_data, load_mutation_data
 
 # Data used for the default demo plot
-DATA_URL = "https://raw.githubusercontent.com/bbglab/muts-needle-plot/master/snippets/data/"
+DATA_URL = "https://raw.githubusercontent.com/bbglab/" \
+           "muts-needle-plot/master/snippets/data/"
 DEMO_DATA = [
     {'mutData': 'needle_TP53.json', 'label': 'TP53'},
     {'mutData': 'needle_ACVR1.json', 'label': 'ACVR1'},
@@ -118,37 +118,53 @@ def layout():
                                     children=[
                                         html.Div(
                                             id='needle-dataset-select-div',
-                                            title='"Demo dataset" choice will allow you to play with the options.\n'
-                                                  '"UniProt dataset" choice will retrieve protein domain '
-                                                  'as well as mutation data from UniProt database.\n"Upload dataset"'
-                                                  'choice will let you choose your own mutation data with the option to'
-                                                  ' load the protein domains from pfam database.',
+                                            title='"Demo dataset" choice will allow you to play '
+                                                  'with the options.\n'
+                                                  '"UniProt dataset" choice will retrieve protein '
+                                                  'domain as well as mutation data from UniProt '
+                                                  'database.\n"Upload dataset" choice will let '
+                                                  'you choose your own mutation data with the '
+                                                  'option to load the protein domains from pfam '
+                                                  'database.',
                                             className='needle-dataset-header-div',
                                             children=dcc.RadioItems(
                                                 id='needle-dataset-select-radio',
                                                 options=[
-                                                    {'label': 'Demo dataset', 'value': DEMO_KEY},
-                                                    {'label': 'Upload dataset', 'value': FILE_KEY},
-                                                    {'label': 'UniProt dataset', 'value': DATABASE_KEY},
+                                                    {
+                                                        'label': 'Demo dataset',
+                                                        'value': DEMO_KEY
+                                                    },
+                                                    {
+                                                        'label': 'Upload dataset',
+                                                        'value': FILE_KEY
+                                                    },
+                                                    {
+                                                        'label': 'UniProt dataset',
+                                                        'value': DATABASE_KEY
+                                                    },
                                                 ],
                                                 value=DEMO_KEY
                                             )
                                         ),
                                         html.Div(
                                             id='needle-protein-domains-select-div',
-                                            title='If checked, it will allow the user to load mutation data such '
-                                                  'as the protein coordinate (x), mutation number (y) and mutation '
-                                                  'type (mutationGroups), individually from the protein domains',
+                                            title='If checked, it will allow the user to load '
+                                                  'mutation data such as the protein coordinate '
+                                                  '(x), mutation number (y) and mutation type '
+                                                  '(mutationGroups), individually from the protein'
+                                                  ' domains',
                                             className='needle-dataset-header-div',
                                             children=dcc.Checklist(
                                                 id='needle-protein-domains-select-checklist',
                                                 options=[
                                                     {
-                                                        'label': 'Load protein domains individually',
+                                                        'label': 'Load protein domains '
+                                                                 'individually',
                                                         'value': INDIV_DOMS_KEY
                                                     },
                                                     {
-                                                        'label': 'Load protein domains from UniProt only',
+                                                        'label': 'Load protein domains from '
+                                                                 'UniProt only',
                                                         'value': UNIPROT_DOMS_KEY
                                                     }
                                                 ],
@@ -175,9 +191,18 @@ def layout():
                                         dcc.Dropdown(
                                             id='needle-download-data-dropdown',
                                             options=[
-                                                {'label': 'Whole', 'value': FULL_KEY},
-                                                {'label': 'Mutations', 'value': MUT_KEY},
-                                                {'label': 'Domains', 'value': DOM_KEY},
+                                                {
+                                                    'label': 'Whole',
+                                                    'value': FULL_KEY
+                                                },
+                                                {
+                                                    'label': 'Mutations',
+                                                    'value': MUT_KEY
+                                                },
+                                                {
+                                                    'label': 'Domains',
+                                                    'value': DOM_KEY
+                                                },
                                             ],
                                             value=FULL_KEY
                                         )
@@ -193,7 +218,10 @@ def layout():
                                         dcc.Dropdown(
                                             id='needle-dataset-dropdown',
                                             options=[
-                                                {'label': data['label'], 'value': i}
+                                                {
+                                                    'label': data['label'],
+                                                    'value': i
+                                                }
                                                 for i, data in enumerate(DEMO_DATA)
                                             ],
                                             value=0
@@ -237,16 +265,19 @@ def layout():
                                     children=[
                                         html.Div(
                                             id='needle-mutdata-file-div',
-                                            title='Mutation data files are json files containing the fields :\n'
+                                            title='Mutation data files are json files containing '
+                                                  'the fields :\n'
                                                   '- "x" (protein coordinate of the mutation) \n'
                                                   '- "y" (number of recorded mutations) \n'
                                                   '- "mutationGroups" (type of mutations) \n'
                                                   '- "domains" (protein domains.\n '
-                                                  '"x", "y", "mutationGroups" are arrays, they must have the '
-                                                  'same length or be empty, "x" is required. The "domains" is'
-                                                  'an array of json objects with the required fields "name" and'
-                                                  '"coord", which are a string and a string  detailing the start '
-                                                  'and end of the domains in protein coordinate (eg. "23-34"), '
+                                                  '"x", "y", "mutationGroups" are arrays, they '
+                                                  'must have the same length or be empty, '
+                                                  '"x" is required. The "domains" is an array of '
+                                                  'json objects with the required fields "name" '
+                                                  'and "coord", which are a string and a string '
+                                                  'detailing the start and end of the domains in '
+                                                  'protein coordinate (eg. "23-34"), '
                                                   'respectively.',
                                             children=[
                                                 html.H5(
@@ -267,13 +298,16 @@ def layout():
                                         ),
                                         html.Div(
                                             id='needle-domain-file-div',
-                                            title='Protein data files accepted here can be two fold : \n'
-                                                  '- an array of json objects with the required fields "name" '
-                                                  'and "coord", which are a string and a string  detailing the start '
-                                                  'and end of the domains in protein coordinate (eg. "23-34"), '
-                                                  'respectively.\n'
-                                                  '- an json file with the same structure as the one in the PFAM '
-                                                  'database : http://pfam.xfam.org/protein/P04637/graphic.',
+                                            title='Protein data files accepted here can be two'
+                                                  ' fold : \n'
+                                                  '- an array of json objects with the required '
+                                                  'fields "name" and "coord", which are a string '
+                                                  'and a string  detailing the start and end of '
+                                                  'the domains in protein coordinate (eg. "23-34")'
+                                                  ', respectively.\n'
+                                                  '- an json file with the same structure as the '
+                                                  'one in the PFAM database : '
+                                                  'http://pfam.xfam.org/protein/P04637/graphic.',
                                             children=[
                                                 html.H5(
                                                     'Upload protein domains json file'
@@ -291,7 +325,8 @@ def layout():
                                                 )
                                             ]
                                         ),
-                                        html.Div(id='needle-domain-query-info-div'),
+                                        html.Div(
+                                            id='needle-domain-query-info-div'),
                                     ]
                                 )
                             ],
@@ -336,7 +371,10 @@ def layout():
                                                 dcc.Dropdown(
                                                     id='needle-stem-color-dropdown',
                                                     options=[
-                                                        {'label': col, 'value': col}
+                                                        {
+                                                            'label': col,
+                                                            'value': col
+                                                        }
                                                         for col in STEM_COLOR
                                                     ],
                                                     value=STEM_COLOR[0],
@@ -350,7 +388,10 @@ def layout():
                                                 dcc.Dropdown(
                                                     id='needle-head-color-dropdown',
                                                     options=[
-                                                        {'label': col, 'value': col}
+                                                        {
+                                                            'label': col,
+                                                            'value': col
+                                                        }
                                                         for col in HEAD_COLORS
                                                     ],
                                                     value=HEAD_COLORS[0:4],
@@ -365,7 +406,10 @@ def layout():
                                                 dcc.Dropdown(
                                                     id='needle-head-symbol-dropdown',
                                                     options=[
-                                                        {'label': sym, 'value': sym}
+                                                        {
+                                                            'label': sym,
+                                                            'value': sym
+                                                        }
                                                         for sym in HEAD_SYMBOLS
                                                     ],
                                                     value=HEAD_SYMBOLS[0:4],
@@ -376,7 +420,8 @@ def layout():
                                         html.Div(
                                             className='needle-config-item-style',
                                             children=[
-                                                html.H6('Constant height needles'),
+                                                html.H6(
+                                                    'Constant height needles'),
                                                 dcc.RadioItems(
                                                     id='needle-stem-height-radioitems',
                                                     className='needle-radio',
@@ -410,11 +455,15 @@ def layout():
                                         html.Div(
                                             className='needle-config-item-style',
                                             children=[
-                                                html.H6('Small domains color(s)'),
+                                                html.H6(
+                                                    'Small domains color(s)'),
                                                 dcc.Dropdown(
                                                     id='needle-domains-color-dropdown',
                                                     options=[
-                                                        {'label': col, 'value': col}
+                                                        {
+                                                            'label': col,
+                                                            'value': col
+                                                        }
                                                         for col in DOMAIN_COLORS
                                                     ],
                                                     value=DOMAIN_COLORS[0:4],
@@ -521,7 +570,7 @@ def callbacks(app):
     def display_query_information(stored_data, load_choice):
         """diplays information about the query to the UniProt database"""
 
-        # div = []
+        div = html.Div()
         if load_choice == DATABASE_KEY:
             if stored_data['info']['is_same_key']:
                 title = "Query"
@@ -529,14 +578,13 @@ def callbacks(app):
                 title = "Last query"
             last_query = stored_data['info'][load_choice]
             if last_query:
-                return html.Div(
+                div = html.Div(
                     [
                         html.H5(title),
                         html.P(last_query)
                     ]
                 )
-
-        # return div
+        return div
 
     @app.callback(
         Output('needle-sequence-input', 'value'),
@@ -546,9 +594,10 @@ def callbacks(app):
     def reset_database_query(stored_data, load_choice):
         """resets the last query if the user changed dataset loading option"""
         if load_choice == DATABASE_KEY:
-            return stored_data['info'][DB_LAST_QUERY_KEY]
+            answer = stored_data['info'][DB_LAST_QUERY_KEY]
         else:
-            return ""
+            answer = ""
+        return answer
 
     @app.callback(
         Output('needle-domain-file-div', 'style'),
@@ -560,7 +609,8 @@ def callbacks(app):
         if div_style is None:
             div_style = {'display': 'none'}
 
-        if (INDIV_DOMS_KEY in domains_opt) and (UNIPROT_DOMS_KEY not in domains_opt):
+        if (INDIV_DOMS_KEY in domains_opt) \
+                and (UNIPROT_DOMS_KEY not in domains_opt):
             div_style['display'] = 'inherit'
         else:
             div_style['display'] = 'none'
@@ -575,7 +625,11 @@ def callbacks(app):
             State('needle-dataset-select-radio', 'value')
         ]
     )
-    def toggle_domain_domain_query_information(domains_opt, div_style, load_choice):
+    def toggle_domain_domain_query_information(
+            domains_opt,
+            div_style,
+            load_choice
+    ):
         """toggles the view of the domain-query-info div which displays
             information from the Unitprot query"""
         if div_style is None:
@@ -595,7 +649,9 @@ def callbacks(app):
     )
     def toggle_protein_domain_select_div(load_choice, div_style):
         """toggles the view of the protein domain select div which displays
-            the ability to load protein domains independently form mutation data"""
+            the ability to load protein domains independently form mutation
+            data
+        """
         if div_style is None:
             div_style = {'display': 'none'}
 
@@ -615,9 +671,10 @@ def callbacks(app):
     def reset_mutdata_upload_content(load_choice, mut_contents):
         """reset the content of the mutation data upload"""
         if load_choice == DEMO_KEY:
-            return None
+            answer = None
         else:
-            return mut_contents
+            answer = mut_contents
+        return answer
 
     @app.callback(
         Output('needle-domains-file-upload', 'contents'),
@@ -627,9 +684,10 @@ def callbacks(app):
     def reset_domains_upload_content(load_choice, dom_contents):
         """reset the content of the proteins domains upload"""
         if load_choice == DEMO_KEY:
-            return None
+            answer = None
         else:
-            return dom_contents
+            answer = dom_contents
+        return answer
 
     @app.callback(
         Output('needle-mutdata-file-info-div', 'children'),
@@ -641,9 +699,10 @@ def callbacks(app):
     def display_mutdata_upload_file_info(mut_contents, mut_fname):
         """display the info about the source of the protein mutations data"""
         if mut_contents is not None:
-            return "Loaded from : %s " % mut_fname
+            answer = "Loaded from : %s " % mut_fname
         else:
-            return []
+            answer = []
+        return answer
 
     @app.callback(
         Output('needle-domains-file-info-div', 'children'),
@@ -655,9 +714,10 @@ def callbacks(app):
     def display_domains_upload_file_info(dom_contents, dom_fname):
         """display the info about the source of the protein domains data"""
         if dom_contents is not None:
-            return "Loaded from : %s " % dom_fname
+            answer = "Loaded from : %s " % dom_fname
         else:
-            return []
+            answer = []
+        return answer
 
     @app.callback(
         Output('needle-domain-query-info-div', 'children'),
@@ -676,7 +736,8 @@ def callbacks(app):
                     html.H5("Protein domains loaded from "),
                     html.A(
                         "http://pfam.xfam.org/protein/%s/graphic" % accession,
-                        href="http://pfam.xfam.org/protein/%s/graphic" % accession
+                        href="http://pfam.xfam.org/protein/"
+                             "%s/graphic" % accession
                     )
                 ]
             )
@@ -691,7 +752,7 @@ def callbacks(app):
             Input('needle-download-data-dropdown', 'value')
         ]
     )
-    def toggle_download_data_fname(plotted_data, dl_data_choice):
+    def toggle_download_data_fname(_, dl_data_choice):
         """changed the file name of the downloadable data based on
            the user choice"""
         return "%s_data.json" % dl_data_choice
@@ -704,7 +765,7 @@ def callbacks(app):
         ],
         [State('needle-store', 'data')]
     )
-    def toggle_download_data_link(plotted_data, dl_data_choice, stored_data):
+    def toggle_download_data_link(_, dl_data_choice, stored_data):
         """changed the link to the downloadable data"""
         fname = "%s_data.json" % dl_data_choice
         fpath = "%s%s" % (stored_data['info']['dl_data_path'], fname)
@@ -738,7 +799,8 @@ def callbacks(app):
 
         # Saves the data locally if the user wants to download it
         fname = '%s_data.json' % dl_data_choice
-        with open("%s%s" % (stored_data['info']['dl_data_path'], fname), 'w') as fp:
+        with open("%s%s" % (stored_data['info']['dl_data_path'], fname), 'w') \
+                as fp:
             json.dump(stored_data['plot'], fp)
         return stored_data['plot']
 
@@ -760,7 +822,7 @@ def callbacks(app):
         ]
     )
     def load_dataset(
-            n_click,
+            _,
             load_choice,
             demo_choice,
             domains_opt,
@@ -823,7 +885,8 @@ def callbacks(app):
                     domains = load_protein_domains(accession=accession)
 
                     stored_data['plot']['domains'] = domains
-                    # Saves the domain to be able to load it separately in file upload option
+                    # Saves the domain to be able to load it separately in
+                    # file upload option
                     stored_data[INDIV_DOMS_KEY] = {
                         'domains': domains,
                         'accession': accession
@@ -840,7 +903,8 @@ def callbacks(app):
                         parameters=dict(
                             format='gff'
                         ),
-                        names=['name', 'db', 'mut', 'start', 'end', 'x1', 'x2', 'x3', 'note'],
+                        names=['name', 'db', 'mut', 'start',
+                               'end', 'x1', 'x2', 'x3', 'note'],
                     )
 
                     # Extract the mutations data from the GFF data
@@ -848,31 +912,39 @@ def callbacks(app):
                         formatted_data = parse_mutations_uniprot_data(gff_data)
                         stored_data['plot']['x'] = formatted_data['x']
                         stored_data['plot']['y'] = formatted_data['y']
-                        stored_data['plot']['mutationGroups'] = formatted_data['mutationGroups']
+                        stored_data['plot']['mutationGroups'] = \
+                            formatted_data['mutationGroups']
                         stored_data['info'][DB_LAST_QUERY_KEY] = query
                 else:
-                    print("'%s' doesn't yield any results on www.uniprot.org !" % query)
+                    print(
+                        "'%s' doesn't yield any results on www.uniprot.org !"
+                        % query
+                    )
 
         else:
             stored_data['info'][DB_LAST_QUERY_KEY] = ''
 
         if load_choice == FILE_KEY:
-            # the user has to provide a file which is then parsed by a function to
-            # make sure it is the right format
+            # the user has to provide a file which is then parsed by a
+            # function to make sure it is the right format
             stored_data['plot'] = copy.deepcopy(EMPTY_MUT_DATA)
 
             # Loads the mutation data (could also contain protein domain)
-            stored_data['plot'] = parse_mutation_upload_file(mut_contents, mut_fname)
+            stored_data['plot'] = parse_mutation_upload_file(
+                mut_contents, mut_fname)
 
-            # Loads the protein domain from another file or from the last database query
+            # Loads the protein domain from another file or from
+            # the last database query
             if INDIV_DOMS_KEY in domains_opt:
                 stored_data['plot']['domains'] = []
                 if UNIPROT_DOMS_KEY not in domains_opt:
                     if dom_contents is not None:
-                        stored_data['plot']['domains'] = parse_domain_upload_file(dom_contents, dom_fname)
+                        stored_data['plot']['domains'] = \
+                            parse_domain_upload_file(dom_contents, dom_fname)
                 else:
                     if INDIV_DOMS_KEY in stored_data:
-                        stored_data['plot']['domains'] = stored_data[INDIV_DOMS_KEY]['domains']
+                        stored_data['plot']['domains'] = \
+                            stored_data[INDIV_DOMS_KEY]['domains']
 
         # Store the information about this load_choice for Div display
         if load_choice != stored_data['info']['previous_key']:

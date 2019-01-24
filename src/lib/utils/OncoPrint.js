@@ -2,54 +2,53 @@ import _ from 'lodash';
 
 import PrecomputedComparator from './PrecomputedComparator';
 
-
 const MutationEventTypes = ['INFRAME', 'TRUNC', 'MISSENSE'];
 
 export const SupportedEvents = {
     // Mutations
     MISSENSE: {
         colorHTML: '#008000',
-        displayName: 'Missense mutation'
+        displayName: 'Missense mutation',
     },
     INFRAME: {
         colorHTML: '#993404',
-        displayName: 'Inframe mutation'
+        displayName: 'Inframe mutation',
     },
     TRUNC: {
         colorHTML: '#000000',
-        displayName: 'Truncation mutation'
+        displayName: 'Truncation mutation',
     },
     // Fusion
     FUSION: {
         colorHTML: '#8b00c9',
-        displayName: 'Fusion'
+        displayName: 'Fusion',
     },
     // Copy number alterations
     AMP: {
         colorHTML: '#ff0000',
-        displayName: 'Amplification'
+        displayName: 'Amplification',
     },
     GAIN: {
         colorHTML: '#ffb6c1',
-        displayName: 'Gain'
+        displayName: 'Gain',
     },
     HETLOSS: {
         colorHTML: '#8fd8d8',
-        displayName: 'Shallow deletion'
+        displayName: 'Shallow deletion',
     },
     HOMDEL: {
         colorHTML: '#0000ff',
-        displayName: 'Deep deletion'
+        displayName: 'Deep deletion',
     },
     // mRNA expressions
     UP: {
         colorHTML: '#ff9999',
-        displayName: 'mRNA Upregulation'
+        displayName: 'mRNA Upregulation',
     },
     DOWN: {
         colorHTML: '#6699cc',
-        displayName: 'mRNA Downregulation'
-    }
+        displayName: 'mRNA Downregulation',
+    },
 };
 
 // Describes the order of importance for CNA events.
@@ -58,7 +57,7 @@ const AlterationsOrder = {
     GAIN: 2,
     HETLOSS: 3,
     HOMDEL: 1,
-    undefined: 4
+    undefined: 4,
 };
 
 // Describes the order of importance for mutation events.
@@ -66,26 +65,23 @@ const MutationsOrder = {
     INFRAME: 1,
     MISSENSE: 3,
     TRUNC: 0,
-    undefined: 4
+    undefined: 4,
 };
 
 // Describes the order of importance for mRNA expression events.
 const ExpressionsOrder = {
     UP: 0,
     DOWN: 1,
-    undefined: 2
+    undefined: 2,
 };
 
-
 // Retrieves the gene names in a set of events.
-export const getGeneNames = (events) =>
-    events.map((e) => e.gene).filter((gene) => gene !== null);
-
+export const getGeneNames = events =>
+    events.map(e => e.gene).filter(gene => gene !== null);
 
 // Returns the set of genes (unique) reversed to display on the Y axis.
-export const getSortedGenes = (events) =>
+export const getSortedGenes = events =>
     [...new Set(getGeneNames(events))].reverse();
-
 
 // Returns a hash map with the percentage of events (value) per gene (key).
 export const getEventRatiosPerGene = (events, nbSamples) => {
@@ -101,22 +97,19 @@ export const getEventRatiosPerGene = (events, nbSamples) => {
         return acc;
     }, {});
 
-    Object.keys(map).forEach((gene) => {
-        map[gene] = Math.floor(map[gene] / nbSamples * 100);
+    Object.keys(map).forEach(gene => {
+        map[gene] = Math.floor((map[gene] / nbSamples) * 100);
     });
 
     return map;
 };
 
-
 // Returns true if an event is a mutation, false otherwise.
-export const isMutation = (event) =>
-    MutationEventTypes.includes(event.type);
-
+export const isMutation = event => MutationEventTypes.includes(event.type);
 
 // Returns a comparator result value given an integer that may not be -1, 0 or
 // 1 (which are the only allowed sorting return values).
-const sign = (x) => {
+const sign = x => {
     if (x > 0) {
         return 1;
     } else if (x < 0) {
@@ -126,10 +119,12 @@ const sign = (x) => {
     return 0;
 };
 
-
 // Returns a comparator for the samples (matrix column), combining all the
 // precomputed comparators created for each gene (i.e. matrix row).
-const samplesComparator = (genes, samplesToIndex, perGeneComparators) => (s1, s2) => {
+const samplesComparator = (genes, samplesToIndex, perGeneComparators) => (
+    s1,
+    s2
+) => {
     let result = 0;
     let absoluteResult = 0;
 
@@ -153,7 +148,6 @@ const samplesComparator = (genes, samplesToIndex, perGeneComparators) => (s1, s2
 
     return result > 0 ? 1 : -1;
 };
-
 
 // Returns a comparator to sort the samples given a gene .
 const sortEventsForGene = (s1, s2, gene, samplesMap) => {
@@ -184,13 +178,11 @@ const sortEventsForGene = (s1, s2, gene, samplesMap) => {
     return 0;
 };
 
-
 // Returns a map to gather information on each sample, per gene, per event.
-export const createSamplesMap = (events) => {
+export const createSamplesMap = events => {
     const samplesMap = {};
 
-    events.forEach((e) => {
-
+    events.forEach(e => {
         const s = samplesMap[e.sample] || {};
         const v = s[e.gene] || {};
 
@@ -200,37 +192,33 @@ export const createSamplesMap = (events) => {
             v[e.type] = e.alteration;
         }
 
-        samplesMap[e.sample] = Object.assign(
-            {},
-            samplesMap[e.sample],
-            { [e.gene]: v }
-        );
+        samplesMap[e.sample] = Object.assign({}, samplesMap[e.sample], {
+            [e.gene]: v,
+        });
     });
 
     return samplesMap;
 };
 
-
 // Helper function to create a comparator for each gene.
 export const createSortEventsForGeneComparator = (gene, map) => (s1, s2) =>
     sortEventsForGene(s1, s2, gene, map);
-
 
 // Returns the list of samples sorted with mutual exclusion. The sorting
 // algorithm is similar to the one used on cBioPortal and takes both the rows
 // (genes) and columns (samples) into account. We returns the sorted set of
 // samples to display on X axix.
-export const getSortedSamples = (events) => {
+export const getSortedSamples = events => {
     // Get a map with samples sorted by gene and events.
     const samplesMap = createSamplesMap(events);
     // Get a unique list of genes, sorted by the natural order in the events.
     const genes = [...new Set(getGeneNames(events))];
     // Sort the samples alphabetically.
-    const samples = [...new Set(events.map((e) => e.sample))].sort();
+    const samples = [...new Set(events.map(e => e.sample))].sort();
 
     // Build one comparator per gene.
     const perGeneComparators = [];
-    genes.forEach((gene) => {
+    genes.forEach(gene => {
         perGeneComparators.push(
             // This actually sorts the samples, but for each gene only.
             new PrecomputedComparator(
@@ -255,12 +243,11 @@ export const getSortedSamples = (events) => {
     return sortedSamples;
 };
 
-
 // Returns the events aggregated by type (if mutation) or alteration.
-export const aggregate = (events) => {
+export const aggregate = events => {
     const out = {};
 
-    events.forEach((e) => {
+    events.forEach(e => {
         if (!e.type || e.type === 'NONE') {
             return;
         }
@@ -269,7 +256,7 @@ export const aggregate = (events) => {
         const v = out[k] || {
             type: e.type,
             alteration: e.alteration,
-            events: []
+            events: [],
         };
 
         v.events.push(e);
@@ -279,14 +266,12 @@ export const aggregate = (events) => {
     return out;
 };
 
-
 // Returns the display name of an event.
-export const getDisplayName = (event) => {
+export const getDisplayName = event => {
     const eventName = isMutation(event) ? event.type : event.alteration;
 
     return SupportedEvents[eventName].displayName;
 };
-
 
 // Returns the color of an event.
 export const getColor = (event, colorscale) => {

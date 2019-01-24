@@ -1,4 +1,9 @@
-export const hasElementsInInterval = function(arr, func, lowerBound, upperBound) {
+export const hasElementsInInterval = function(
+    arr,
+    func,
+    lowerBound,
+    upperBound
+) {
     // in: arr, an array sorted in increasing order of func
     //     func, a function that takes an element of sorted_list and returns a number
     //     lowerBound and upperBound: define a half-open interval [lowerBound, upperBound)
@@ -7,13 +12,12 @@ export const hasElementsInInterval = function(arr, func, lowerBound, upperBound)
     let upperCounter = arr.length;
     let middle, middle_val;
 
-    while (true) {
-
+    for (;;) {
         if (lowerCounter >= upperCounter) {
             return false;
         }
 
-        middle = Math.floor((lowerCounter + upperCounter) / 2)
+        middle = Math.floor((lowerCounter + upperCounter) / 2);
         middle_val = func(arr[middle]);
 
         if (middle_val >= upperBound) {
@@ -28,12 +32,10 @@ export const hasElementsInInterval = function(arr, func, lowerBound, upperBound)
     }
 };
 
-
 // PrecomputedComparator is similar to the OncoPrintJs implementation with
 // three notable changes: rewritten with Flow/ES next and as a class, the input
 // data structure is different, and no direction.
 export default class PrecomputedComparator {
-
     constructor(data, comparator) {
         this.comparator = comparator;
         this.data = data;
@@ -50,7 +52,10 @@ export default class PrecomputedComparator {
                 break;
             }
 
-            if (this.comparator(this.sortedData[i], this.sortedData[i + 1]) !== 0) {
+            if (
+                this.comparator(this.sortedData[i], this.sortedData[i + 1]) !==
+                0
+            ) {
                 this.changePoints.push(i);
             }
         }
@@ -85,7 +90,7 @@ export default class PrecomputedComparator {
         }
 
         let res = 0;
-        if (hasElementsInInterval(this.changePoints, (x) => x, i1, i2)) {
+        if (hasElementsInInterval(this.changePoints, x => x, i1, i2)) {
             res = -1;
         }
 

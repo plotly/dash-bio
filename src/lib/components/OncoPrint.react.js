@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types'
-import { omit } from 'ramda';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {omit} from 'ramda';
 
-import { OncoPrint as PreOncoPrint } from 'react-oncoprint';
-
+import {OncoPrint as PreOncoPrint} from 'react-oncoprint';
 
 /**
  * The OncoPrint component is used to view multile genetic alteration events
@@ -17,7 +16,6 @@ import { OncoPrint as PreOncoPrint } from 'react-oncoprint';
  * https://github.com/plotly/react-oncoprint
  */
 export default class OncoPrint extends Component {
-
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -30,28 +28,23 @@ export default class OncoPrint extends Component {
     }
 
     render() {
-        const {
-            id,
-            eventDatum
-        } = this.props;
+        const {id, eventDatum} = this.props;
 
         return (
-    		<div id={id} eventDatum={eventDatum}>
-    		  <PreOncoPrint
-                  onChange={this.handleChange}
-                  {...omit(
-                      ['fireEvent', 'dashEvent', 'setProps'],
-                      this.props
-                  )}
-              />
-    		</div>
+            <div id={id} eventDatum={eventDatum}>
+                <PreOncoPrint
+                    onChange={this.handleChange}
+                    {...omit(
+                        ['fireEvent', 'dashEvent', 'setProps'],
+                        this.props
+                    )}
+                />
+            </div>
         );
     }
 }
 
-
 OncoPrint.propTypes = {
-
     /**
      * The ID of this component, used to identify dash components
      * in callbacks. The ID needs to be unique across all of the
@@ -93,10 +86,7 @@ OncoPrint.propTypes = {
      * 'AMP', 'GAIN', 'HETLOSS', 'HMODEL', 'UP', 'DOWN']
      * Note that this is NOT a standard plotly colorscale.
      */
-    colorscale: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.object
-    ]),
+    colorscale: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 
     /**
      * Default color for the tracks, in common name, hex, rgb or rgba format.
@@ -125,21 +115,14 @@ OncoPrint.propTypes = {
      * Width of the OncoPrint.
      * Will disable auto-resizing of plots if set.
      */
-    width: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Width of the OncoPrint.
      * Will disable auto-resizing of plots if set.
      */
-    height: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
-
 
 OncoPrint.defaultProps = {
     // Data
@@ -152,5 +135,5 @@ OncoPrint.defaultProps = {
     showoverview: true,
     // Other
     width: null,
-    height: 500
-}
+    height: 500,
+};
