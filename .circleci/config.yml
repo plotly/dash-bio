@@ -59,14 +59,14 @@ jobs:
                 name: Run pylint
                 command: |
                     . venv/bin/activate
-                    pylint tests/
+                    pylint tests/ dash_bio/
                 when: always
 
             - run:
                 name: Run flake8
                 command: |
                     . venv/bin/activate
-                    flake8 --max-line-length=100 tests/
+                    flake8 --max-line-length=100 tests/ dash_bio/
                 when: always
 
             - run:
