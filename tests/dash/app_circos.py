@@ -110,7 +110,7 @@ def circos_explain():
     chords, highlights, histograms, line, scatter, stack and text graphs.
     Tracks can be placed on and around the layout graph.
 
-    Scientific reference for Circos : [Circos's source](
+    Reference : [Seminal paper](
     http://www.doi.org/10.1101/gr.092759.109)
 
     For a look into Circos and the API please go here:
