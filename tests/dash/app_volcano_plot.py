@@ -209,6 +209,7 @@ def callbacks(app):
         """Update the data set of interest upon change the dashed lines
         value.
         """
+        print(DATASETS[datadset_id]['dataprops'])
         return dash_bio.VolcanoPlot(
             DATASETS[datadset_id]['dataframe'],
             genomewideline_value=float(genomic_line),

@@ -5,12 +5,27 @@ from pytest_dash.utils import (
     wait_for_text_to_equal,
     wait_for_element_by_css_selector,
 )
-
+import dash
+from dash.dependencies import Input, Output, State
+import dash_html_components as html
+import dash_core_components as dcc
 from .test_common_features import access_demo_app
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '')
 
 
+LAYOUT = html.Div(
+    id='-test-graph-div',
+    children=[
+        dcc.Graph(
+            id='test-graph',
+        ),
+        html.Button(id='test-btn', children='click me'),
+        dcc.Input(id='test-param-name-input', value=''),
+        dcc.Input(id='test-param-value-input', value=''),
+        html.Div(id='test-assert-value-div', children='')
+    ]
+)
 def test_click_app_link_from_gallery(dash_threaded, selenium):
 
     access_demo_app(dash_threaded, selenium, APP_NAME)
