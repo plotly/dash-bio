@@ -159,9 +159,9 @@ def layout():
                 html.Hr(),
 
                 html.Div(
-                    'Header of row labels column in uploaded dataset',
+                    'Header of index column in uploaded dataset',
                     title='If a dataset was uploaded, enter the header of' +
-                    'the column that contains the title of each row.',
+                    'the column that contains the indices.',
                     className='clustergram-option-name'
                 ),
                 html.Br(),
