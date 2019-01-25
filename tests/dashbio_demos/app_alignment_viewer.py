@@ -1,4 +1,5 @@
 import base64
+import os
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
@@ -10,15 +11,16 @@ text_style = {
     'font-family': 'Open Sans'
 }
 
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "alignment_viewer_")
 
 # Datasets
-with open('tests/dash/sample_data/sample.fasta', encoding='utf-8') as data_file:
+with open('{}sample.fasta'.format(DATAPATH), encoding='utf-8') as data_file:
     dataset1 = data_file.read()
 
-with open('tests/dash/sample_data/p53.fasta', encoding='utf-8') as data_file:
+with open('{}p53.fasta'.format(DATAPATH), encoding='utf-8') as data_file:
     dataset2 = data_file.read()
 
-with open('./tests/dash/sample_data/p53_clustalo.fasta', encoding='utf-8') as data_file:
+with open('{}p53_clustalo.fasta'.format(DATAPATH), encoding='utf-8') as data_file:
     dataset3 = data_file.read()
 
 datasets = {

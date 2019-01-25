@@ -1,11 +1,13 @@
+import os
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_bio
 from dash_bio.utils import ideogramParser as ideoParser
 
-rat_data = ideoParser.ncbi_gdp_to_list(
-    "./tests/dash/sample_data/ideogram_10116_GCF_000000225.4_NA_V1")
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "ideogram_")
+
+rat_data = ideoParser.ncbi_gdp_to_list("{}10116_GCF_000000225.4_NA_V1".format(DATAPATH))
 
 
 def description():

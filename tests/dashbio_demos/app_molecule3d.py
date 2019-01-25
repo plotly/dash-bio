@@ -9,6 +9,8 @@ import dash_core_components as dcc
 import dash_bio
 from dash_bio.utils import pdbParser as parser, stylesParser as sparser
 
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "molecule3d_")
+
 
 def header_colors():
     return {
@@ -76,21 +78,18 @@ def layout():
                                 options=[
                                     {
                                         'label': 'Protein',
-                                        'value': './tests/dash/sample_data/'
-                                                 '3aid.pdb'
+                                        'value': '{}3aid.pdb'.format(DATAPATH)
                                     },
                                     {
                                         'label': 'DNA',
-                                        'value': './tests/dash/sample_data/'
-                                                 '1bna.pdb'
+                                        'value': '{}1bna.pdb'.format(DATAPATH)
                                     },
                                     {
                                         'label': 'RNA',
-                                        'value': './tests/dash/sample_data/'
-                                                 '6dls.pdb'
+                                        'value': '{}6dls.pdb'.format(DATAPATH)
                                     },
                                 ],
-                                value='./tests/dash/sample_data/6dls.pdb'
+                                value='{}6dls.pdb'.format(DATAPATH)
                             ),
                         ],
                     ),
