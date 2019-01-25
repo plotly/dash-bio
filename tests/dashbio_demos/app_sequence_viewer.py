@@ -1,3 +1,4 @@
+import os
 import base64
 from Bio.SeqUtils import seq3
 from Bio.Alphabet import generic_dna, generic_rna
@@ -9,7 +10,7 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 
-DATA_PATH = './tests/dash/sample_data/'
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "sequence_viewer_")
 proteinFolder = 'proteins'
 sequence = '-'
 
@@ -111,28 +112,26 @@ def layout():
                         options=[
                             {
                                 'label': 'insulin',
-                                'value': '{}P01308.fasta.txt'.format(DATA_PATH)
+                                'value': '{}P01308.fasta.txt'.format(DATAPATH)
                             },
                             {
                                 'label': 'keratin',
-                                'value': '{}P04264.fasta.txt'.format(DATA_PATH)
+                                'value': '{}P04264.fasta.txt'.format(DATAPATH)
                             },
                             {
                                 'label': 'albumin',
-                                'value': '{}NX_P02768.fasta.txt'.format(
-                                    DATA_PATH
-                                )
+                                'value': '{}NX_P02768.fasta.txt'.format(DATAPATH)
                             },
                             {
                                 'label': 'myosin (gene)',
-                                'value': '{}myosin.fasta.txt'.format(DATA_PATH)
+                                'value': '{}myosin.fasta.txt'.format(DATAPATH)
                             },
                             {
                                 'label': 'HflX (gene)',
-                                'value': '{}hflx.fasta.txt'.format(DATA_PATH)
+                                'value': '{}hflx.fasta.txt'.format(DATAPATH)
                             }
                         ],
-                        value='{}P01308.fasta.txt'.format(DATA_PATH)
+                        value='{}P01308.fasta.txt'.format(DATAPATH)
                     ),
                     html.Br(),
                     html.Div(
