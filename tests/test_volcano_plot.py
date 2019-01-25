@@ -9,7 +9,7 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 from dash_bio import VolcanoPlot
-from tests.dash.app_volcano_plot import DATASETS
+from tests.dashbio_demos.app_volcano_plot import DATASETS
 from .test_common_features import access_demo_app
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '')
