@@ -5,7 +5,7 @@
 biopython
 colour==0.1.5
 cython>=0.19
-dash_bio
+dash_bio==0.0.1
 dash-core-components==0.36.1
 dash-html-components==0.13.2
 dash-renderer==0.15.0
