@@ -1,13 +1,13 @@
+import os
+from config import DASH_APP_NAME
+import base64
 import dash
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 import logging
-import os
-from config import DASH_APP_NAME
-import base64
 
-from tests.dash.utils.app_wrapper import app_page_layout
+from tests.dashbio_demos.utils.app_wrapper import app_page_layout
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
@@ -17,14 +17,14 @@ app.config["suppress_callback_exceptions"] = True
 server = app.server
 
 # sort apps alphabetically
-appList = os.listdir(os.path.join("tests", "dash"))
+appList = os.listdir(os.path.join("tests", "dashbio_demos"))
 appList.sort()
 
 apps = {
     filename.replace(".py", "").replace("app_", ""): getattr(
         getattr(
             __import__(".".join(
-                ["tests", "dash", filename.replace(".py", "")])), "dash"
+                ["tests", "dashbio_demos", filename.replace(".py", "")])), "dash"
         ),
         filename.replace(".py", ""),
     )
@@ -56,7 +56,7 @@ app.layout = html.Div(
 def demo_app_img_src(name):
     """ Returns the base-64 encoded image corresponding
         to the specified app."""
-    pic_fname = './tests/dash/images/pic_{}.png'.format(
+    pic_fname = './tests/dashbio_demos/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
     try:

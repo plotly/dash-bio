@@ -1,18 +1,20 @@
 # In[]:
 # Import required libraries
+import os
 import pandas as pd
 import numpy as np
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
-
 import dash_bio
+
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "volcano_")
 
 DATASETS = {
     'SET1': {
         'label': 'Set1',
         'dataframe': None,
-        'datafile': 'tests/dash/sample_data/volcano_data1.csv',
+        'datafile': '{}data1.csv'.format(DATAPATH),
         'datasource': 'ftp://ftp.ncbi.nlm.nih.gov/hapmap/genotypes/'
                       '2009-01_phaseIII/plink_format/',
         'dataprops': {}
@@ -20,7 +22,7 @@ DATASETS = {
     'SET2': {
         'label': 'Set2',
         'dataframe': None,
-        'datafile': 'tests/dash/sample_data/volcano_data2.csv',
+        'datafile': '{}data2.csv'.format(DATAPATH),
         'datasource': 'https://doi.org/10.1371/journal.pntd.0001039.s001',
         'dataprops': dict(
             effect_size='log2_(L3i/L1)_signal_ratio',

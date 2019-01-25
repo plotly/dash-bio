@@ -1,5 +1,6 @@
 # In[]:
 # Import required libraries
+import os
 import pandas as pd
 import dash_html_components as html
 import dash_core_components as dcc
@@ -7,8 +8,10 @@ from dash.dependencies import Input, Output
 
 import dash_bio
 
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "manhattan_")
+
 # Load the data
-df = pd.read_csv("tests/dash/sample_data/manhattan_volcano_data.csv")
+df = pd.read_csv("{}data.csv".format(DATAPATH))
 
 # Feed the data to a function which creates a Manhattan Plot figure
 fig = dash_bio.ManhattanPlot(df)

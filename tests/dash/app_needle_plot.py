@@ -1,5 +1,6 @@
 # In[]:
 # Import required libraries
+import os
 import copy
 import json
 import dash_core_components as dcc
@@ -12,6 +13,8 @@ from dash_bio.utils.uniprotDatabaseTools import UniprotQueryBuilder
 from dash_bio.utils.mutationDataParser import EMPTY_MUT_DATA, \
     load_protein_domains, parse_mutation_upload_file, \
     parse_domain_upload_file, parse_mutations_uniprot_data, load_mutation_data
+
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "needle_")
 
 # Data used for the default demo plot
 DATA_URL = "https://raw.githubusercontent.com/bbglab/" \
@@ -845,7 +848,7 @@ def callbacks(app):
                     DB_LAST_QUERY_KEY: '',
                     DATABASE_KEY: '',
                     'previous_choice': '',
-                    'dl_data_path': './tests/dash/sample_data/',
+                    'dl_data_path': DATAPATH,
                 },
                 INDIV_DOMS_KEY: {
                     'domains': [],
