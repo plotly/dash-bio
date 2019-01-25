@@ -14,7 +14,7 @@ import dash_table as dt
 
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "circos_")
 # Main dataset used for all graphs
-with open("{}circos_graph_data.json".format(DATAPATH), "r") \
+with open("{}graph_data.json".format(DATAPATH), "r") \
         as circos_graph_data:
     circos_graph_data = json.load(circos_graph_data)
 

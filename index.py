@@ -24,7 +24,7 @@ apps = {
     filename.replace(".py", "").replace("app_", ""): getattr(
         getattr(
             __import__(".".join(
-                ["tests", "dashbio_demos", filename.replace(".py", "")])), "dash"
+                ["tests", "dashbio_demos", filename.replace(".py", "")])), "dashbio_demos"
         ),
         filename.replace(".py", ""),
     )

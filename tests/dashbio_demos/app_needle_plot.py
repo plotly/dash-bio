@@ -20,12 +20,12 @@ DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "needle_")
 DATA_URL = "https://raw.githubusercontent.com/bbglab/" \
            "muts-needle-plot/master/snippets/data/"
 DEMO_DATA = [
-    {'mutData': 'needle_TP53.json', 'label': 'TP53'},
-    {'mutData': 'needle_ACVR1.json', 'label': 'ACVR1'},
-    {'mutData': 'needle_SMARCA4.json', 'label': 'SMARCA4'},
-    {'mutData': 'needle_ENTS00000557334.json', 'label': 'ENST00000557334'},
-    {'mutData': 'needle_PIK3CA.json', 'label': 'PIK3CA'},
-    {'mutData': 'needle_ATRX.json', 'label': 'ATRX'},
+    {'mutData': 'TP53.json', 'label': 'TP53'},
+    {'mutData': 'ACVR1.json', 'label': 'ACVR1'},
+    {'mutData': 'SMARCA4.json', 'label': 'SMARCA4'},
+    {'mutData': 'ENTS00000557334.json', 'label': 'ENST00000557334'},
+    {'mutData': 'PIK3CA.json', 'label': 'PIK3CA'},
+    {'mutData': 'ATRX.json', 'label': 'ATRX'},
 ]
 
 
