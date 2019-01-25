@@ -3,6 +3,7 @@ import base64
 import io
 import pandas as pd
 import json
+import os
 
 import dash_bio
 from dash_bio.utils import circosParser as cp
@@ -11,16 +12,16 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_table as dt
 
-
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "circos_")
 # Main dataset used for all graphs
-with open("./tests/dash/sample_data/circos_graph_data.json", "r") \
+with open("{}graph_data.json".format(DATAPATH), "r") \
         as circos_graph_data:
     circos_graph_data = json.load(circos_graph_data)
 
 # Parsed data using circosParser for parsed_dataset graph
 parsed_layout = cp.txt_to_layout(
-    file_one_name="./tests/dash/sample_data/circos_GRCh37.txt",
-    file_two_name="./tests/dash/sample_data/circos_GRCh38.txt",
+    file_one_name="{}GRCh37.txt".format(DATAPATH),
+    file_two_name="{}GRCh38.txt".format(DATAPATH),
     append_one="-GRCh37",
     append_two="-GRCh38",
     relPath=True,
@@ -28,14 +29,14 @@ parsed_layout = cp.txt_to_layout(
 )
 
 parsed_track_one = cp.txt_to_track(
-    file_name="./tests/dash/sample_data/circos_GRCh37.txt",
+    file_name="{}GRCh37.txt".format(DATAPATH),
     append_block_id="-GRCh37",
     relPath=True,
     create_local=False,
 )
 
 parsed_track_two = cp.txt_to_track(
-    file_name="./tests/dash/sample_data/circos_GRCh38.txt",
+    file_name="{}GRCh38.txt".format(DATAPATH),
     append_block_id="-GRCh38",
     relPath=True,
     create_local=False,
@@ -44,11 +45,8 @@ parsed_track_two = cp.txt_to_track(
 
 # Description for gallery
 def description():
-    return "Dash Circos is a library used to analyze and " \
-           "interpret data using a circular layout, \
-    based on the popular Circos graph. Showcase relationships " \
-           "between data/datasets in a \
-    beautiful way."
+    return "Vizualize and analyze similarities and differences between " \
+           "genes in a single plot, using the powerful Circos graph."
 
 
 # Dash table call back dat
@@ -106,17 +104,19 @@ def circos_explain():
     return dcc.Markdown(
         dedent(
             """
-    Circos is a circular graph best used to show relationships between
-    entities and periodical data. A Circos graph consists of two main parts,
-    being the layout and tracks.The layout sets the basic parameters of the
+    A Circos graph consists of two main parts: the layout and the tracks.
+    The layout sets the basic parameters of the
     graph such as radius, ticks, labels, etc. The tracks are graph layouts
     that take in a series of data points and can be one of:  heatmaps,
     chords, highlights, histograms, line, scatter, stack and text graphs.
-    Tracks can be place on and around the layout graph.
+    Tracks can be placed on and around the layout graph.
+
+    Reference : [Seminal paper](
+    http://www.doi.org/10.1101/gr.092759.109)
 
     For a look into Circos and the API please go here:
     [https://github.com/nicgirault/circosJS](
-     https://github.com/nicgirault/circosJS")
+     https://github.com/nicgirault/circosJS)
     """
         )
     )

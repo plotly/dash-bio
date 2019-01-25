@@ -1,8 +1,11 @@
+import os
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bio
 from dash_bio.utils.xyzReader import readXYZ
+
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "speck_")
 
 
 def header_colors():
@@ -39,13 +42,13 @@ def layout():
                     id='speck-molecule-dropdown',
                     options=[
                         {'label': 'DNA',
-                         'value': './tests/dash/sample_data/dna.xyz'},
+                         'value': '{}dna.xyz'.format(DATAPATH)},
                         {'label': 'Caffeine',
-                         'value': './tests/dash/sample_data/caffeine.xyz'},
+                         'value': '{}caffeine.xyz'.format(DATAPATH)},
                         {'label': 'Methane',
-                         'value': './tests/dash/sample_data/methane.xyz'}
+                         'value': '{}methane.xyz'.format(DATAPATH)}
                     ],
-                    value='./tests/dash/sample_data/dna.xyz'
+                    value='{}dna.xyz'.format(DATAPATH)
                 ),
 
                 dcc.Dropdown(
