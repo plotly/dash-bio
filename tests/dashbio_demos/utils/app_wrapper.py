@@ -48,7 +48,7 @@ def app_page_layout(page_layout,
                             )
                         ],
                         href="http://github.com/plotly/dash-bio/"
-                             "blob/master/tests/dash/app_{}.py".format(app_github_url)
+                             "blob/master/tests/dashbio_demos/app_{}.py".format(app_github_url)
                     )
                 ],
                 style={

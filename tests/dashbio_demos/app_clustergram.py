@@ -1,10 +1,12 @@
+import base64
+import os
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bio
 from dash_bio.utils import geneExpressionReader
-import base64
 
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "clustergram_")
 
 colorPalette = [
     'rgb(128, 0, 96)',
@@ -50,7 +52,7 @@ fig_options = dict(
 
 datasets = {
     'transcription': {
-        'file': './tests/dash/sample_data/E-GEOD-38612-query-results.tpms.tsv',
+        'file': '{}E-GEOD-38612-query-results.tpms.tsv'.format(DATAPATH),
         'rowLabelsSource': 'Gene Name',
         'headerRows': 5,
         'headerCols': 2,
@@ -64,7 +66,7 @@ datasets = {
         }
     },
     'iris': {
-        'file': './tests/dash/sample_data/iris.tsv',
+        'file': '{}iris.tsv'.format(DATAPATH),
         'rowLabelsSource': 'Num',
         'headerRows': 4,
         'headerCols': 2,
@@ -77,7 +79,7 @@ datasets = {
             'col': 34}
     },
     'mtcars': {
-        'file': './tests/dash/sample_data/mtcars.tsv',
+        'file': '{}mtcars.tsv'.format(DATAPATH),
         'rowLabelsSource': 'model',
         'headerRows': 4,
         'headerCols': 1,
