@@ -21,9 +21,9 @@ def layout():
             dash_bio.GenomeViewer(
             id='genome-viewer',
 	    genomedata="http://www.biodalliance.org/datasets/hg19.2bit",
-            trackdata="tests/dash/genome_data/synth3.normal.17.7500000-7515000.bam",
-            trackindex="tests/dash/genome_data/synth3.normal.17.7500000-7515000.bam.bai",
-            variantdata="tests/dash/genome_data/snv.chr17.vcf",
+            trackdata='tests/dash/sample_data/synth3.normal.17.7500000-7515000.bam',
+            trackindex='tests/dash/sample_data/synth3.normal.17.7500000-7515000.bam.bai',
+            variantdata='tests/dash/sample_data/snv.chr17.vcf',
             genedata="http://www.biodalliance.org/datasets/ensGene.bb",
             contig="chr17",
             start=7512284,

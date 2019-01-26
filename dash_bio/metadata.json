@@ -1182,7 +1182,7 @@
       }
     }
   },
-  "src/lib/components/GenomeViewer.js": {
+  "src/lib/components/GenomeViewer.react.js": {
     "description": "Dash GenomeViewer is a library used to analyze and interpret\nPlease checkout the Dash Bio repository\non github to learn more about this API.",
     "displayName": "GenomeViewer",
     "methods": [],
@@ -1199,49 +1199,49 @@
           "name": "string"
         },
         "required": true,
-        "description": "The component's inline styles"
+        "description": "URL or data string of genome data, in .2bit format"
       },
       "trackdata": {
         "type": {
           "name": "string"
         },
         "required": true,
-        "description": "The component's inline styles"
+        "description": "Track data, in .bam format"
       },
       "trackindex": {
         "type": {
           "name": "string"
         },
         "required": true,
-        "description": "The component's inline styles"
+        "description": "Track index for track data, in .bam.bai style"
       },
       "contig": {
         "type": {
           "name": "string"
         },
         "required": true,
-        "description": "The component's inline styles"
+        "description": "Name of contig"
       },
       "start": {
         "type": {
           "name": "number"
         },
         "required": true,
-        "description": "The component's inline styles"
+        "description": "First basis pair"
       },
       "stop": {
         "type": {
           "name": "number"
         },
         "required": true,
-        "description": "The component's inline styles"
+        "description": "Last basis pair"
       },
       "showscale": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "The component's inline styles",
+        "description": "If True, display a scale with the number of represented \nbasis pairs.",
         "defaultValue": {
           "value": "true",
           "computed": false
@@ -1252,7 +1252,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "The component's inline styles",
+        "description": "If True, display the number of the central basis pair.",
         "defaultValue": {
           "value": "true",
           "computed": false
@@ -1263,7 +1263,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "The component's inline styles",
+        "description": "If True, show possible variants.",
         "defaultValue": {
           "value": "true",
           "computed": false
@@ -1274,14 +1274,14 @@
           "name": "string"
         },
         "required": false,
-        "description": "The component's inline styles"
+        "description": "Variant data"
       },
       "showgenes": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "The component's inline styles",
+        "description": "If True, the location of genes is displayed.",
         "defaultValue": {
           "value": "true",
           "computed": false
@@ -1292,7 +1292,7 @@
           "name": "string"
         },
         "required": true,
-        "description": "The component's inline styles"
+        "description": "Gene data."
       },
       "showcoverage": {
         "type": {

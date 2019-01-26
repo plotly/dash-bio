@@ -12,18 +12,19 @@ on github to learn more about this API.
 Keyword arguments:
 - id (string; required): The ID used to identify this component in Dash callbacks
 and used to identify Ideogram instances.
-- genomedata (string; required): The component's inline styles
-- trackdata (string; required): The component's inline styles
-- trackindex (string; required): The component's inline styles
-- contig (string; required): The component's inline styles
-- start (number; required): The component's inline styles
-- stop (number; required): The component's inline styles
-- showscale (boolean; optional): The component's inline styles
-- showlocation (boolean; optional): The component's inline styles
-- showvariants (boolean; optional): The component's inline styles
-- variantdata (string; optional): The component's inline styles
-- showgenes (boolean; optional): The component's inline styles
-- genedata (string; required): The component's inline styles
+- genomedata (string; required): URL or data string of genome data, in .2bit format
+- trackdata (string; required): Track data, in .bam format
+- trackindex (string; required): Track index for track data, in .bam.bai style
+- contig (string; required): Name of contig
+- start (number; required): First basis pair
+- stop (number; required): Last basis pair
+- showscale (boolean; optional): If True, display a scale with the number of represented 
+basis pairs.
+- showlocation (boolean; optional): If True, display the number of the central basis pair.
+- showvariants (boolean; optional): If True, show possible variants.
+- variantdata (string; optional): Variant data
+- showgenes (boolean; optional): If True, the location of genes is displayed.
+- genedata (string; required): Gene data.
 - showcoverage (boolean; optional): The component's inline styles
 - compare (boolean; optional): The component's inline styles
 

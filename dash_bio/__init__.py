@@ -20,7 +20,7 @@ _basepath = _os.path.dirname(__file__)
 _filepath = _os.path.abspath(_os.path.join(_basepath, 'package.json'))
 with open(_filepath) as f:
     package = json.load(f)
-    
+
 package_name = package['name'].replace(' ', '_').replace('-', '_')
 __version__ = package['version']
 
@@ -44,8 +44,13 @@ _js_dist = [
     }
 ]
 
-_css_dist = []
 
+_css_dist = [{
+    'relative_package_path': ['pileup.css'],
+    'external_url': [
+        'https://unpkg.com/dash-bio@{}/dash_bio/pileup.css'.format(__version__)],
+    'namespace': package_name
+}]
 
 for _component in _components:
     setattr(_this_module, _component.__name__, _component)
