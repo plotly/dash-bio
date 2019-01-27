@@ -451,7 +451,7 @@ def callbacks(app):
             return ''
 
         if preloaded is not None:
-            protein = pr.read_fasta(filePath=preloaded)[entry]
+            protein = pr.read_fasta(file_path=preloaded)[entry]
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
@@ -740,7 +740,7 @@ def callbacks(app):
         ]
 
         if preloaded is not None:
-            proteins = pr.read_fasta(filePath=preloaded)
+            proteins = pr.read_fasta(file_path=preloaded)
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
