@@ -372,7 +372,7 @@ def callbacks(app):
     )
     def store_file_meta_data(
             contents, filename, dataset_name,
-            rowLabelsSource
+            row_labels_source
     ):
         if dataset_name is not None:
             dataset = datasets[dataset_name]
@@ -380,20 +380,20 @@ def callbacks(app):
             _, desc, rowOptions, colOptions = \
                 geneExpressionReader.parse_tsv(
                     filepath=dataset['file'],
-                    headerRows=dataset['headerRows'],
-                    headerCols=dataset['headerCols'],
-                    rowLabelsSource=dataset['rowLabelsSource']
+                    header_rows=dataset['headerRows'],
+                    header_cols=dataset['headerCols'],
+                    row_labels_source=dataset['rowLabelsSource']
                 )
         elif contents is not None:
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
-            if rowLabelsSource is None:
-                rowLabelsSource = 'Gene Name'
+            if row_labels_source is None:
+                row_labels_source = 'Gene Name'
 
             _, desc, rowOptions, colOptions = \
                 geneExpressionReader.parse_tsv(
                     contents=decoded,
-                    rowLabelsSource=rowLabelsSource
+                    row_labels_source=row_labels_source
                 )
         else:
             desc, rowOptions, colOptions = '', [], []
@@ -585,7 +585,7 @@ def callbacks(app):
             fig_opts,
             dataset_name,
             contents, filename,
-            rowLabelsSource
+            row_labels_source
     ):
         if (len(selRows) < 2 or len(selCols) < 2 or fig_opts is None):
             return html.Div(
@@ -603,9 +603,9 @@ def callbacks(app):
             data, _, _, _ = \
                 geneExpressionReader.parse_tsv(
                     filepath=dataset['file'],
-                    rowLabelsSource=dataset['rowLabelsSource'],
-                    headerRows=dataset['headerRows'],
-                    headerCols=dataset['headerCols'],
+                    row_labels_source=dataset['rowLabelsSource'],
+                    header_rows=dataset['headerRows'],
+                    header_cols=dataset['headerCols'],
                     rows=selRows,
                     columns=selCols
                 )
@@ -614,13 +614,13 @@ def callbacks(app):
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
 
-            if rowLabelsSource is None:
-                rowLabelsSource = 'Gene Name'
+            if row_labels_source is None:
+                row_labels_source = 'Gene Name'
 
             data, _, _, _ = \
                 geneExpressionReader.parse_tsv(
                     contents=decoded,
-                    rowLabelsSource=rowLabelsSource,
+                    row_labels_source=row_labels_source,
                     rows=selRows,
                     columns=selCols
                 )
