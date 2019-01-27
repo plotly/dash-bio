@@ -2,6 +2,8 @@ import pandas as pd
 import tempfile
 
 
+# pylint: disable=unnecessary-lambda
+
 def parse_tsv(
         contents='',
         filepath='',

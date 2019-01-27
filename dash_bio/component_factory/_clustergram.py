@@ -11,7 +11,7 @@ import plotly.graph_objs as go
 from plotly import tools
 
 
-# pylint: disable=assignment-from-no-return
+# pylint: disable=assignment-from-no-return, no-self-use
 
 def Clustergram(
         data=None,
