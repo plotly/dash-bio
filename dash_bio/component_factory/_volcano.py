@@ -151,7 +151,7 @@ def VolcanoPlot(
     )
 
 
-class _VolcanoPlot(object):
+class _VolcanoPlot():
 
     def __init__(
             self,

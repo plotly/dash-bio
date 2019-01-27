@@ -12,35 +12,35 @@ from plotly import tools
 
 
 def Clustergram(
-    data=None,
-    computed_traces=None,
-    rowLabels=None,
-    columnLabels=None,
-    hideLabels=[],
-    standardize='none',
-    cluster='all',
-    rowDist='euclidean',
-    colDist='euclidean',
-    distFun=scs.distance.pdist,
-    linkFun=lambda x, **kwargs: sch.linkage(x, 'complete', **kwargs),
-    colorThreshold=dict(row=0, col=0),
-    optimalLeafOrder=False,
-    colorMap=None,
-    colorList=None,
-    displayRange=3,
-    symmetricValue=True,
-    logTransform=False,
-    displayRatio=0.2,
-    imputeFunction=None,
-    rowGroupMarker=None,    # group number, annotation, color
-    colGroupMarker=None,    # same as above
-    tickFont=None,
-    annotationFont=None,
-    lineWidth=0.5,
-    paperBgColor='rgba(0,0,0,0)',
-    plotBgColor='rgba(0,0,0,0)',
-    height=500,
-    width=500
+        data=None,
+        computed_traces=None,
+        rowLabels=None,
+        columnLabels=None,
+        hideLabels=[],
+        standardize='none',
+        cluster='all',
+        rowDist='euclidean',
+        colDist='euclidean',
+        distFun=scs.distance.pdist,
+        linkFun=lambda x, **kwargs: sch.linkage(x, 'complete', **kwargs),
+        colorThreshold=dict(row=0, col=0),
+        optimalLeafOrder=False,
+        colorMap=None,
+        colorList=None,
+        displayRange=3,
+        symmetricValue=True,
+        logTransform=False,
+        displayRatio=0.2,
+        imputeFunction=None,
+        rowGroupMarker=None,    # group number, annotation, color
+        colGroupMarker=None,    # same as above
+        tickFont=None,
+        annotationFont=None,
+        lineWidth=0.5,
+        paperBgColor='rgba(0,0,0,0)',
+        plotBgColor='rgba(0,0,0,0)',
+        height=500,
+        width=500
 ):
     """
     Function that returns a Dash Bio clustergram component.
@@ -134,10 +134,10 @@ def Clustergram(
     ).figure(
         computed_traces=computed_traces
     )
-    return(go.Figure(fig), ct)
+    return go.Figure(fig), ct
 
 
-class _Clustergram(object):
+class _Clustergram():
     """
     Function that returns a Dash Bio clustergram.
 
@@ -263,7 +263,7 @@ class _Clustergram(object):
         self._linkFun = linkFun
         self._colorThreshold = colorThreshold
         self._optimalLeafOrder = optimalLeafOrder
-        if(colorMap is None):
+        if colorMap is None:
             self._colorMap = [[0.0, 'rgb(255,0,0)'],
                               [0.5, 'rgb(0,0,0)'],
                               [1.0, 'rgb(0,255,0)']]
@@ -274,19 +274,19 @@ class _Clustergram(object):
         self._symmetricValue = symmetricValue
         self._displayRatio = displayRatio
         self._imputeFunction = imputeFunction
-        if(rowGroupMarker is None):
+        if rowGroupMarker is None:
             self._rowGroupMarker = []
         else:
             self._rowGroupMarker = rowGroupMarker
-        if(colGroupMarker is None):
+        if colGroupMarker is None:
             self._colGroupMarker = []
         else:
             self._colGroupMarker = colGroupMarker
-        if(tickFont is None):
+        if tickFont is None:
             self._tickFont = dict()
         else:
             self._tickFont = tickFont
-        if(annotationFont is None):
+        if annotationFont is None:
             self._annotationFont = dict()
         else:
             self._annotationFont = annotationFont
@@ -297,28 +297,28 @@ class _Clustergram(object):
 
         # convert line width to list if necessary
         self._lineWidth = [0, 0]
-        if(isinstance(lineWidth, list)):
+        if isinstance(lineWidth, list):
             self._lineWidth = lineWidth
         else:
             self._lineWidth = [lineWidth, lineWidth]
 
         # convert display ratio to list if necessary
-        if(not isinstance(displayRatio, list)):
+        if not isinstance(displayRatio, list):
             self._displayRatio = [displayRatio, displayRatio]
-        if(self._cluster == 'row'):
+        if self._cluster == 'row':
             self._displayRatio = [displayRatio[0], 0]
-        elif(self._cluster == 'col'):
+        elif self._cluster == 'col':
             self._displayRatio = [0, displayRatio[1]]
 
         self._hideLabels = []
 
-        if('row' in hideLabels):
+        if 'row' in hideLabels:
             self._hideLabels.append('yaxis5')
-        if('col' in hideLabels):
+        if 'col' in hideLabels:
             self._hideLabels.append('xaxis5')
 
         # preprocessing data
-        if(self._imputeFunction is not None):
+        if self._imputeFunction is not None:
             imp = Imputer(
                 missing_values=self._imputeFunction['missingValues'],
                 strategy=self._imputeFunction['strategy'],
@@ -326,17 +326,17 @@ class _Clustergram(object):
             )
             self._data = imp.fit_transform(self._data)
 
-        if(logTransform):
+        if logTransform:
             self._data = np.log2(self._data)
-        if(standardize in ['row', 'column']):
+        if standardize in ['row', 'column']:
             self._data = self._scale(self._data, standardize)
-            
+
     def figure(
             self,
             computed_traces=None
     ):
         t = None
-        if(computed_traces is None):
+        if computed_traces is None:
             t = self._dendrogramTraces()
         else:
             t = computed_traces
@@ -375,13 +375,13 @@ class _Clustergram(object):
 
             # during serialization (e.g., in a dcc.Store, the NaN
             # values become None and the arrays get turned into lists;
-            # they must be converted back 
-            if(isinstance(xs, list)):
+            # they must be converted back
+            if isinstance(xs, list):
                 xs = np.array(xs, dtype=np.float)
                 t['col'][i].update(
                     x=xs
                 )
-            if(isinstance(ys, list)):
+            if isinstance(ys, list):
                 ys = np.array(ys, dtype=np.float)
                 t['col'][i].update(
                     y=ys
@@ -399,18 +399,18 @@ class _Clustergram(object):
         for i in range(len(t['row'])):
             xs = t['row'][i]['x']
             ys = t['row'][i]['y']
-            
-            if(isinstance(xs, list)):
+
+            if isinstance(xs, list):
                 xs = np.array(xs, dtype=np.float)
                 t['row'][i].update(
                     x=xs
                 )
-            if(isinstance(ys, list)):
+            if isinstance(ys, list):
                 ys = np.array(ys, dtype=np.float)
                 t['row'][i].update(
                     y=ys
                 )
-            
+
             tickvals_row += [
                 ys.flatten()[j]
                 for j in range(len(ys.flatten()))
@@ -475,7 +475,7 @@ class _Clustergram(object):
             scaleanchor='x5'
         )
 
-        if(len(tickvals_col) > 0):
+        if len(tickvals_col) > 0:
             # add in all of the labels
             fig['layout']['xaxis5'].update(
                 tickmode='array',
@@ -490,7 +490,7 @@ class _Clustergram(object):
                 # the graph cuts off and must be scaled manually
             )
 
-        if(len(tickvals_row) > 0):
+        if len(tickvals_row) > 0:
             fig['layout']['yaxis5'].update(
                 tickmode='array',
                 tickvals=tickvals_row,
@@ -513,7 +513,7 @@ class _Clustergram(object):
         heat_data = self._data
 
         # symmetrize the heatmap about zero, if necessary
-        if(self._symmetricValue):
+        if self._symmetricValue:
             heat_data = np.subtract(heat_data, np.mean(heat_data))
 
         # row heatmap
@@ -539,10 +539,10 @@ class _Clustergram(object):
 
         # the argument can be either in list form or float form
         # first is ratio for row; second is ratio for column
-        if(self._displayRatio[0] != 0):
+        if self._displayRatio[0] != 0:
             rowRatio = \
                 0.95/float(1 + int(1/self._displayRatio[0]))
-        if(self._displayRatio[1] != 0):
+        if self._displayRatio[1] != 0:
             colRatio = \
                 0.95/float(1 + int(1/self._displayRatio[1]))
 
@@ -592,7 +592,7 @@ class _Clustergram(object):
             scaleanchor='y5',
             scaleratio=1
         )
-        if(len(tickvals_row) > 0):
+        if len(tickvals_row) > 0:
             fig['layout']['yaxis6'].update(
                 range=[min(tickvals_row), max(tickvals_row)]
             )
@@ -608,7 +608,7 @@ class _Clustergram(object):
             scaleanchor='x5',
             scaleratio=1
         )
-        if(len(tickvals_col) > 0):
+        if len(tickvals_col) > 0:
             fig['layout']['xaxis8'].update(
                 range=[min(tickvals_col), max(tickvals_col)]
             )
@@ -661,9 +661,9 @@ class _Clustergram(object):
 
         std = np.zeros(self._data.shape)
 
-        if(dim == 'row'):
+        if dim == 'row':
             std = scp.stats.zscore(self._data, axis=1)
-        elif(dim == 'column'):
+        elif dim == 'column':
             std = scp.stats.zscore(self._data, axis=0)
 
         return std
@@ -828,14 +828,14 @@ class _Clustergram(object):
             # add the color to the current cycle
             currCycle += clist[i]
             # treat the end of the list as the end of a cycle
-            if(i == len(clist)-1):
+            if i == len(clist)-1:
                 cycles.append(currCycle)
                 break
             # otherwise, the end of a cycle is signified by
             # a sequence k, g - however, we also have b for
             # the links above the color threshold; so we
             # include this as well
-            if(clist[i] in ['k', 'b'] and clist[i+1] == 'g'):
+            if clist[i] in ['k', 'b'] and clist[i+1] == 'g':
                 cycles.append(currCycle)
                 currCycle = ''
             # finally, increment the counter
@@ -850,10 +850,10 @@ class _Clustergram(object):
         n = 6*len(cycles)
 
         # fill in the user-provided color list if possible
-        if(self._colorList is not None and dim in self._colorList):
+        if self._colorList is not None and dim in self._colorList:
             colorList = self._colorList[dim]
             # if there aren't enough colors, repeat the list
-            if(len(colorList) < n and len(colorList) > 0):
+            if len(colorList) < n and len(colorList) > 0:
                 colorList = colorList * (int(n/len(colorList)) + 1)
 
         else:
@@ -884,10 +884,10 @@ class _Clustergram(object):
                 color = "rgb(%d,%d,%d)" % (r, g, b)
 
                 # priority is all of the pure colors
-                if((r == 255 or g == 255 or b == 255) and r + g + b == 255):
+                if (r == 255 or g == 255 or b == 255) and r + g + b == 255:
                     pure.append(color)
                     # then, all of the mixtures of pure colors
-                elif((r == 0 or g == 0 or b == 0) and r + g + b == 510):
+                elif (r == 0 or g == 0 or b == 0) and r + g + b == 510:
                     mixed.append(color)
                     # all of the intermediate colors that are created
                 else:
@@ -902,7 +902,7 @@ class _Clustergram(object):
         colors = []
 
         # get the color for the background trace, if one is supplied
-        if(self._colorList is not None and 'bg' in self._colorList):
+        if self._colorList is not None and 'bg' in self._colorList:
             bgColor = self._colorList['bg']
 
         # the sequence
@@ -948,7 +948,7 @@ class _Clustergram(object):
         tmp_rdt = []
         tmp_cdt = []
 
-        if(len(rdt) > 0):
+        if len(rdt) > 0:
             # first, find background trace: (max 'x')
             rdt.sort(key=lambda t: -1*max(list(t['x'])))
             tmp_rdt.append(rdt[0])
@@ -956,7 +956,7 @@ class _Clustergram(object):
             r = rdt[1:]
             r.sort(key=lambda t: -1*min(list(t['y'])))
             tmp_rdt += r
-        if(len(cdt) > 0):
+        if len(cdt) > 0:
             # background trace has max 'y'
             cdt.sort(key=lambda t: -1*max(list(t['y'])))
             tmp_cdt.append(cdt[0])
@@ -992,9 +992,9 @@ class _Clustergram(object):
         colAnnotations = []
 
         for rgm in self._rowGroupMarker:
-            if(len(rowClusters) == 0):
+            if len(rowClusters) == 0:
                 break
-            if(rgm['group'] >= len(rowClusters)):
+            if rgm['group'] >= len(rowClusters):
                 continue
             # get upper and lower bounds of group
             ymin = min(rowClusters[rgm['group']]['y'])
@@ -1023,9 +1023,9 @@ class _Clustergram(object):
             ))
 
         for cgm in self._colGroupMarker:
-            if(len(colClusters) == 0):
+            if len(colClusters) == 0:
                 break
-            if(cgm['group'] >= len(colClusters)):
+            if cgm['group'] >= len(colClusters):
                 continue
             # get leftmost and rightmost bounds of group
             xmin = min(colClusters[cgm['group']]['x'])
