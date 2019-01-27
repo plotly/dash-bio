@@ -11,6 +11,8 @@ import plotly.graph_objs as go
 from plotly import tools
 
 
+# pylint: disable=assignment-from-no-return
+
 def Clustergram(
         data=None,
         computed_traces=None,
@@ -23,7 +25,7 @@ def Clustergram(
         colDist='euclidean',
         distFun=scs.distance.pdist,
         linkFun=lambda x, **kwargs: sch.linkage(x, 'complete', **kwargs),
-        colorThreshold=dict(row=0, col=0),
+        colorThreshold=None,
         optimalLeafOrder=False,
         colorMap=None,
         colorList=None,
@@ -130,7 +132,7 @@ def Clustergram(
     if hideLabels is None:
         hideLabels = []
     if colorThreshold is None:
-        colorThreshold=dict(row=0, col=0)
+        colorThreshold = dict(row=0, col=0)
     kwargs = locals()
     kwargs.pop('computed_traces')
     (fig, ct) = _Clustergram(
@@ -260,7 +262,7 @@ class _Clustergram():
         if hideLabels is None:
             hideLabels = []
         if colorThreshold is None:
-            colorThreshold=dict(row=0, col=0)
+            colorThreshold = dict(row=0, col=0)
         self._data = data
         self._rowLabels = rowLabels
         self._columnLabels = columnLabels
@@ -330,7 +332,7 @@ class _Clustergram():
             imp = Imputer(
                 missing_values=self._imputeFunction['missingValues'],
                 strategy=self._imputeFunction['strategy'],
-                axis=self._imputeFunction['axis']  #pylint: disable=assignment-from-no-return
+                axis=self._imputeFunction['axis']
             )
             self._data = imp.fit_transform(self._data)
 
@@ -832,7 +834,7 @@ class _Clustergram():
 
         # iterate through the list of colors
         i = 0
-        while(i < len(clist)):
+        while i < len(clist):
             # add the color to the current cycle
             currCycle += clist[i]
             # treat the end of the list as the end of a cycle
