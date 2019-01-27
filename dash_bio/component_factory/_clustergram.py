@@ -16,7 +16,7 @@ def Clustergram(
         computed_traces=None,
         rowLabels=None,
         columnLabels=None,
-        hideLabels=[],
+        hideLabels=None,
         standardize='none',
         cluster='all',
         rowDist='euclidean',
@@ -127,6 +127,10 @@ def Clustergram(
     :param (int) height: The height of the graph, in px (default 500).
     :param (int) width: The width of the graph, in px (default 500).
 """
+    if hideLabels is None:
+        hideLabels = []
+    if colorThreshold is None:
+        colorThreshold=dict(row=0, col=0)
     kwargs = locals()
     kwargs.pop('computed_traces')
     (fig, ct) = _Clustergram(
@@ -227,14 +231,14 @@ class _Clustergram():
             data=None,
             rowLabels=None,
             columnLabels=None,
-            hideLabels=[],
+            hideLabels=None,
             standardize='none',
             cluster='all',
             rowDist='euclidean',
             colDist='euclidean',
             distFun=scs.distance.pdist,
             linkFun=lambda x, **kwargs: sch.linkage(x, 'complete', **kwargs),
-            colorThreshold=dict(row=0, col=0),
+            colorThreshold=None,
             optimalLeafOrder=False,
             colorMap=None,
             colorList=None,
@@ -253,6 +257,10 @@ class _Clustergram():
             height=500,
             width=500
     ):
+        if hideLabels is None:
+            hideLabels = []
+        if colorThreshold is None:
+            colorThreshold=dict(row=0, col=0)
         self._data = data
         self._rowLabels = rowLabels
         self._columnLabels = columnLabels
@@ -322,7 +330,7 @@ class _Clustergram():
             imp = Imputer(
                 missing_values=self._imputeFunction['missingValues'],
                 strategy=self._imputeFunction['strategy'],
-                axis=self._imputeFunction['axis']
+                axis=self._imputeFunction['axis']  #pylint: disable=assignment-from-no-return
             )
             self._data = imp.fit_transform(self._data)
 
