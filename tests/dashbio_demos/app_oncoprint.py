@@ -87,7 +87,7 @@ def description():
 
 def header_colors():
     return {
-        'bg_color': '#84CFDB',
+        'bg_color': '#0F5BA7',
         'font_color': 'white',
     }
 
