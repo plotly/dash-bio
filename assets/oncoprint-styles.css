@@ -1,3 +1,4 @@
+/* Generic components */
 .oncoprint-wrapper {
     margin: 16px;
     padding: 32px;
@@ -25,27 +26,47 @@
     box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.05);
 }
 
+
+/* Subcomponents */
+.oncoprint-events {
+    width: 100%;
+    min-height: 100px;
+    height: 10vh;
+    border-radius: 4px;
+}
+
+.oncoprint-settings {
+    margin-top: 8px;
+    width: 100%;
+}
+
+.oncoprint-half-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.oncoprint-half-settings {
+    margin-top: 8px;
+    margin-right: 8px;
+    width: 50%;
+}
+
+.oncoprint-display-none {
+   display: none;
+}
+
+
+/* Selectors */
 .oncoprint-select {
     margin-top: 16px;
 }
 
-.oncoprint-events {
-   width: 100%;
-   min-height: 100px;
-   height: 10vh;
-   border-radius: 4px;
-}
-
-.oncoprint-upload {
-    margin-top: 16px;
-    padding: 16px;
-    height: 10vh;
-    line-height: 10vh;
-    border-width: 1px;
-    background-color: #F5F5F5;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.15);
+.oncoprint-slider {
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .oncoprint-radio {
@@ -55,34 +76,7 @@
     align-items: center;
 }
 
-.oncoprint-radio p {
-    margin-top: 8px;
-    margin-left: 15px;
-}
-
-#oncoprint-colorscale-div {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: center;
-}
-
-#oncoprint-colorscale-mutation-dropdown {
-    width: 140px;
-}
-
-#oncoprint-colorscale-color-dropdown {
-    width: 140px;
-}
-
-.oncoprint-colorscale-mutation{
-    margin-right: 25px;
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    align-items: center;
-}
-
-.oncoprint-display-none {
-   display: none;
+.oncoprint-separator {
+    margin-top: 16px;
+    margin-bottom: 8px;
 }
