@@ -214,7 +214,7 @@ def layout():
                                         children=[
                                             html.H6("Padding"),
                                             html.P(
-                                                'Adjust the padding (as percentage) ',
+                                                'Adjust the padding (as percentage) '
                                                 'between two tracks.'
                                             ),
                                             dcc.Slider(
@@ -244,7 +244,7 @@ def layout():
                                         children=[
                                             html.H6("Track color"),
                                             html.P(
-                                                'Change the default background ',
+                                                'Change the default background '
                                                 'color for the tracks.'
                                             ),
                                             dcc.Dropdown(
@@ -262,7 +262,7 @@ def layout():
                                     html.Hr(className='oncoprint-separator'),
                                     html.H6("Mutation colors"),
                                     html.P(
-                                        "Select a mutation type and a color ",
+                                        "Select a mutation type and a color "
                                         "to customize its look."
                                     ),
                                     html.Div(
