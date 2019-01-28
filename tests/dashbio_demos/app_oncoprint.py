@@ -1,4 +1,5 @@
 import base64
+import os
 import json
 
 import pandas as pd
@@ -13,21 +14,22 @@ text_style = {
     'font-family': 'Open Sans'
 }
 
+DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "oncoprint_")
 
 # Datasets
-with open('tests/dash/sample_data/dataset1.json', encoding='utf-8') as data_file:
+with open('{}dataset1.json'.format(DATAPATH), encoding='utf-8') as data_file:
     dataset1 = json.loads(data_file.read())
 
-with open('tests/dash/sample_data/dataset2.json', encoding='utf-8') as data_file:
+with open('{}dataset2.json'.format(DATAPATH), encoding='utf-8') as data_file:
     dataset2 = json.loads(data_file.read())
 
-with open('./tests/dash/sample_data/dataset3.json', encoding='utf-8') as data_file:
+with open('{}dataset3.json'.format(DATAPATH), encoding='utf-8') as data_file:
     dataset3 = json.loads(data_file.read())
 
-with open('./tests/dash/sample_data/cBioPortalData.json', encoding='utf-8') as data_file:
+with open('{}cBioPortalData.json'.format(DATAPATH), encoding='utf-8') as data_file:
     cBioPortalData = json.loads(data_file.read())
 
-datasets = {
+DATASETS = {
     'dataset1': dataset1,
     'dataset2': dataset2,
     'dataset3': dataset3,
@@ -69,10 +71,11 @@ def layout():
                                         id='oncoprint-dropdown',
                                         className='oncoprint-select',
                                         options=[
-                                            {'label': 'dataset1.json', 'value': 'dataset1'},
-                                            {'label': 'dataset2.json', 'value': 'dataset2'},
-                                            {'label': 'dataset3.json', 'value': 'dataset3'},
-                                            {'label': 'cBioPortal.json', 'value': 'cBioPortalData'},
+                                            {
+                                                'label': '{}.json'.format(ds),
+                                                'value': ds
+                                            }
+                                            for ds in DATASETS
                                         ],
                                         value='dataset3',
                                     ),
