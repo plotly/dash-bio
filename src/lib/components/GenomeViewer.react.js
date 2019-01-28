@@ -257,12 +257,12 @@ GenomeViewer.propTypes = {
       genedata: PropTypes.string.isRequired,
 
       /**
-       * The component's inline styles
+       * If True, coverage is shown.
        */
       showcoverage: PropTypes.bool,
 
       /**
-       * The component's inline styles
+       * If True, (???)
        */
       compare: PropTypes.bool,
 
