@@ -1,11 +1,7 @@
-import base64
 import os
 import json
-
-import pandas as pd
 import dash_html_components as html
 import dash_core_components as dcc
-from dash.dependencies import Input, Output
 from dash.dependencies import Input, Output, State
 import dash_bio
 
@@ -144,13 +140,15 @@ def layout():
                                     ),
                                     html.P(
                                         """
-                                        The OncoPrint component is used to view multile genetic alteration events
-                                        through an interactive and zoomable heatmap. It is a React/Dash port of the
-                                        popular oncoPrint() function from the BioConductor R package.
-                                        Under the hood, the rending is done using Plotly.js built upon D3.
-                                        Plotly's interactivity allows the user to bind clicks and hovers to genetic
-                                        events, allowing the user to create complex bioinformatic apps or workflows
-                                        that rely on crossfiltering.
+                                        The OncoPrint component is used to view multile genetic
+                                        alteration events through an interactive and zoomable
+                                        heatmap. It is a React/Dash port of the popular
+                                        oncoPrint() function from the BioConductor R
+                                        package. Under the hood, the rending is done using
+                                        Plotly.js built upon D3. Plotly's interactivity allows
+                                        the user to bind clicks and hovers to genetic events,
+                                        allowing the user to create complex bioinformatic apps
+                                        or workflows that rely on crossfiltering.
                                         """
                                     ),
                                     html.P(
@@ -190,12 +188,18 @@ def layout():
                         #             ),
                         #             html.P(
                         #                 """
-                        #                 The OncoPrint component is used to view multile genetic alteration events
-                        #                 through an interactive and zoomable heatmap. It is a React/Dash port of the
-                        #                 popular oncoPrint() function from the BioConductor R package.
-                        #                 Under the hood, the rending is done using Plotly.js built upon D3.
-                        #                 Plotly's interactivity allows the user to bind clicks and hovers to genetic
-                        #                 events, allowing the user to create complex bioinformatic apps or workflows
+                        #                 The OncoPrint component is used to view multile
+                        # genetic alteration events
+                        #                 through an interactive and zoomable heatmap. It is a
+                        # React/Dash port of the
+                        #                 popular oncoPrint() function from the BioConductor  R
+                        # package.
+                        #                 Under the hood, the rending is done using Plotly.js
+                        # built upon D3.
+                        #                 Plotly's interactivity allows the user to bind clicks
+                        #  and hovers to genetic
+                        #                 events, allowing the user to create complex
+                        # bioinformatic apps or workflows
                         #                 that rely on crossfiltering.
                         #                 """
                         #             ),
