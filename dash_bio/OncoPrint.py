@@ -5,10 +5,10 @@ from dash.development.base_component import Component, _explicitize_args
 
 class OncoPrint(Component):
     """A OncoPrint component.
-The OncoPrint component is used to view multile genetic alteration events
+The OncoPrint component is used to view multiple genetic alteration events
 through an interactive and zoomable heatmap. It is a React/Dash port of the
 popular oncoPrint() function from the BioConductor R package.
-Under the hood, the rending is done using Plotly.js built upon D3.
+Under the hood, the rendering is done using Plotly.js built upon D3.
 Plotly's interactivity allows the user to bind clicks and hovers to genetic
 events, allowing the user to create complex bioinformatic apps or workflows
 that rely on crossfiltering.
@@ -17,18 +17,17 @@ https://github.com/plotly/react-oncoprint
 
 Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components
-in callbacks. The ID needs to be unique across all of the
-components in an app.
+in callbacks. The ID needs to be unique to the component.
 - eventDatum (dict; optional): A Dash prop that returns data on clicking, hovering or resizing the viewer.
 - data (list; optional): Input data, in CBioPortal format where each list entry is a dict
 consisting of 'sample', 'gene', 'alteration', and 'type'
-- padding (number; optional): Adjusts the padding (amount of whitespace) between two tracks.
+- padding (number; optional): Adjusts the padding (as a proportion of whitespace) between two tracks.
 Value is a ratio between 0 and 1.
-Default of 0.05 or 5%. If set to 0 plot will look like a heatmap.
+Defaults to 0.05 (e.g. 5%). If set to 0, plot will look like a heatmap.
 - colorscale (boolean | dict; optional): If not null, will override the default OncoPrint colorscale.
 Default OncoPrint colorscale same as CBioPortal implementation.
 Make your own colrscale as a {'mutation': COLOR} dict.
-Supported mutation keys in ['MISSENSE, 'INFRAME', 'FUSION',
+Supported mutation keys are ['MISSENSE, 'INFRAME', 'FUSION',
 'AMP', 'GAIN', 'HETLOSS', 'HMODEL', 'UP', 'DOWN']
 Note that this is NOT a standard plotly colorscale.
 - backgroundcolor (string; optional): Default color for the tracks, in common name, hex, rgb or rgba format.
@@ -40,7 +39,7 @@ with mutation information.
 - showoverview (boolean; optional): .Toogles whether or not to show a heatmap overview of the tracks.
 - width (number | string; optional): Width of the OncoPrint.
 Will disable auto-resizing of plots if set.
-- height (number | string; optional): Width of the OncoPrint.
+- height (number | string; optional): Height of the OncoPrint.
 Will disable auto-resizing of plots if set.
 
 Available events: """

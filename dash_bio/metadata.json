@@ -2124,7 +2124,7 @@
     }
   },
   "src/lib/components/OncoPrint.react.js": {
-    "description": "The OncoPrint component is used to view multile genetic alteration events\nthrough an interactive and zoomable heatmap. It is a React/Dash port of the\npopular oncoPrint() function from the BioConductor R package.\nUnder the hood, the rending is done using Plotly.js built upon D3.\nPlotly's interactivity allows the user to bind clicks and hovers to genetic\nevents, allowing the user to create complex bioinformatic apps or workflows\nthat rely on crossfiltering.\nRead more about the component here:\nhttps://github.com/plotly/react-oncoprint",
+    "description": "The OncoPrint component is used to view multiple genetic alteration events\nthrough an interactive and zoomable heatmap. It is a React/Dash port of the\npopular oncoPrint() function from the BioConductor R package.\nUnder the hood, the rendering is done using Plotly.js built upon D3.\nPlotly's interactivity allows the user to bind clicks and hovers to genetic\nevents, allowing the user to create complex bioinformatic apps or workflows\nthat rely on crossfiltering.\nRead more about the component here:\nhttps://github.com/plotly/react-oncoprint",
     "displayName": "OncoPrint",
     "methods": [
       {
@@ -2146,7 +2146,7 @@
           "name": "string"
         },
         "required": false,
-        "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique across all of the\ncomponents in an app."
+        "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique to the component."
       },
       "setProps": {
         "type": {
@@ -2174,7 +2174,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "Adjusts the padding (amount of whitespace) between two tracks.\nValue is a ratio between 0 and 1.\nDefault of 0.05 or 5%. If set to 0 plot will look like a heatmap.",
+        "description": "Adjusts the padding (as a proportion of whitespace) between two tracks.\nValue is a ratio between 0 and 1.\nDefaults to 0.05 (e.g. 5%). If set to 0, plot will look like a heatmap.",
         "defaultValue": {
           "value": "0.05",
           "computed": false
@@ -2193,7 +2193,7 @@
           ]
         },
         "required": false,
-        "description": "If not null, will override the default OncoPrint colorscale.\nDefault OncoPrint colorscale same as CBioPortal implementation.\nMake your own colrscale as a {'mutation': COLOR} dict.\nSupported mutation keys in ['MISSENSE, 'INFRAME', 'FUSION',\n'AMP', 'GAIN', 'HETLOSS', 'HMODEL', 'UP', 'DOWN']\nNote that this is NOT a standard plotly colorscale.",
+        "description": "If not null, will override the default OncoPrint colorscale.\nDefault OncoPrint colorscale same as CBioPortal implementation.\nMake your own colrscale as a {'mutation': COLOR} dict.\nSupported mutation keys are ['MISSENSE, 'INFRAME', 'FUSION',\n'AMP', 'GAIN', 'HETLOSS', 'HMODEL', 'UP', 'DOWN']\nNote that this is NOT a standard plotly colorscale.",
         "defaultValue": {
           "value": "null",
           "computed": false
@@ -2275,7 +2275,7 @@
           ]
         },
         "required": false,
-        "description": "Width of the OncoPrint.\nWill disable auto-resizing of plots if set.",
+        "description": "Height of the OncoPrint.\nWill disable auto-resizing of plots if set.",
         "defaultValue": {
           "value": "500",
           "computed": false

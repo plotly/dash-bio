@@ -8,7 +8,6 @@ from .OncoPrint import OncoPrint
 from .SequenceViewer import SequenceViewer
 from .Speck import Speck
 
-
 __all__ = [
     "AlignmentChart",
     "AlignmentViewer",
@@ -18,5 +17,5 @@ __all__ = [
     "NeedlePlot",
     "OncoPrint",
     "SequenceViewer",
-    "Speck",
+    "Speck"
 ]
