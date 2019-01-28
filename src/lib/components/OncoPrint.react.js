@@ -47,8 +47,7 @@ export default class OncoPrint extends Component {
 OncoPrint.propTypes = {
     /**
      * The ID of this component, used to identify dash components
-     * in callbacks. The ID needs to be unique across all of the
-     * components in an app.
+     * in callbacks. The ID needs to be unique to the component.
      */
     id: PropTypes.string,
 
@@ -95,8 +94,8 @@ OncoPrint.propTypes = {
     backgroundcolor: PropTypes.string,
 
     /**
-     *.Toogles whether or not to show a legend on the right side of the plot,
-     * with mutation information.
+     * TODO : find out what this prop does
+     *
      */
     range: PropTypes.array,
 
@@ -118,7 +117,7 @@ OncoPrint.propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
-     * Width of the OncoPrint.
+     * Height of the OncoPrint.
      * Will disable auto-resizing of plots if set.
      */
     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
