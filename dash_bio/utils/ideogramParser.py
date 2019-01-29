@@ -20,7 +20,7 @@ import csv
 
 def ncbi_gdp_to_list(file_location="", header_rows=1):
     """
-    Converts NCBI Genome Ideogram data to a Python list for use with
+    Convert NCBI Genome Ideogram data to a Python list for use with
     Ideogram.js
 
     :param file_location: The location of the file you want to parse, using a relative path.
