@@ -26,11 +26,11 @@ def layout():
     return html.Div(id='genome-body', children=[
             dash_bio.GenomeViewer(
             id='genome-viewer',
-	    genomedata="http://www.biodalliance.org/datasets/hg19.2bit",
+	    genomedata="https://www.biodalliance.org/datasets/hg19.2bit",
             trackdata='/static/synth3.normal.17.7500000-7515000.bam',
             trackindex='/static/synth3.normal.17.7500000-7515000.bam.bai',
             variantdata='/static/snv.chr17.vcf',
-            genedata="http://www.biodalliance.org/datasets/ensGene.bb",
+            genedata="https://www.biodalliance.org/datasets/ensGene.bb",
             contig="chr17",
             start=7512284,
             stop=7512644,
