@@ -9,7 +9,7 @@ from colour import Color
 # Group: Mapping and Sequencing
 # Track: Chromosome band (Ideogram)
 #
-# The parser can either create local .JSON or.CSV files, or be used directly
+# The parser can either create local JSON or CSV files, or be used directly
 # in your code.
 
 
