@@ -84,7 +84,7 @@ def read_fasta(
 
 def decode_description(description):
     """
-    Parses the first line of a FASTA file using the specifications of
+    Parse the first line of a FASTA file using the specifications of
     several different database headers (in _databases).
 
     :param (string) description: The header line with the initial '>'
