@@ -21,13 +21,13 @@ and used to identify Ideogram instances.
 - style (dict; optional): The component's inline styles
 - className (string; optional): The CSS class of the component wrapper
 - annotationsData (string; optional): Use this prop in callback to return annotationData when hovered.
-- ancestors (dict; optional): A map associating ancestor labels to colors. Used to color 
+- ancestors (dict; optional): A map associating ancestor labels to colors. Used to color
 chromosomes from different ancestors in polyploid genomes.
-- annotations (list; optional): A list of annotation objects. Annotation objects can also have a 
+- annotations (list; optional): A list of annotation objects. Annotation objects can also have a
  name, color, shape, and track index. At the moment there is more
  keys specified and the docs need updating.
 - annotationHeight (number; optional): The height of each annotation.
-- annotationsLayout (string; optional): The layout of this ideogram's annotations. 
+- annotationsLayout (string; optional): The layout of this ideogram's annotations.
 It can be one of "tracks", "histogram", or "overlay".
 
 Tracks: Lay out annotations in tracks beside each chromosome.
@@ -40,26 +40,26 @@ Overlay: Lay out annotations directly over chromsomes.
 - annotationsColor (string; optional): The color of each annotation.
 - annotationsPath (string; optional): An absolute or relative URL directing to a JSON file containing
 annotation objects (JSON).
-- annotationTracks (list; optional): A list of objects with metadata for each track, 
+- annotationTracks (list; optional): A list of objects with metadata for each track,
 e.g. id, display name, color, shape.
-- assembly (string; optional): Default: latest RefSeq assembly for specified organism. 
-The genome assembly to display. 
-Takes assembly name (e.g. "GRCh37"), 
-RefSeq accession (e.g. "GCF_000306695.2"), 
+- assembly (string; optional): Default: latest RefSeq assembly for specified organism.
+The genome assembly to display.
+Takes assembly name (e.g. "GRCh37"),
+RefSeq accession (e.g. "GCF_000306695.2"),
 or GenBank accession (e.g. "GCA_000005005.5")
 - barWidth (number; optional): The pixel width of bars drawn when annotationsLayout: 'histogram'.
-- brush (string; optional): Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a 
-chromosome. Useful when ideogram consists of one chromosome and you want to be 
-able to focus on a region within that chromosome, 
+- brush (string; optional): Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a
+chromosome. Useful when ideogram consists of one chromosome and you want to be
+able to focus on a region within that chromosome,
 and create an interactive sliding window to other regions
 - brushData (string; optional): A dash callback that is activated when the 'brush' prop is used in component.
 It will return an dictionary like so:
 
 {'start': <value>, 'end': <value>, 'extent': <value>}
 
-where start is the left most edge, end is right most edge, and extent is 
+where start is the left most edge, end is right most edge, and extent is
 the total width of the brush.
-- container (string; optional): CSS styling and the id of the container holding the Ideogram in 
+- container (string; optional): CSS styling and the id of the container holding the Ideogram in
 react-ideogram.js, this is where all the d3 magic happens.
 - chrHeight (number; optional): The pixel height of the tallest chromosome in the ideogram
 - chrMargin (number; optional): The pixel space of margin bewteen each chromosome.
@@ -76,13 +76,13 @@ Ex: chromosomes={
 
         General case to specify specific chromosomes:
         Ex: chromosomes=['1', '2']
-- dataDir (string; optional): Absolute or relative URL of the directory 
+- dataDir (string; optional): Absolute or relative URL of the directory
 containing data needed to draw banded chromosomes.
 You will need to set up you're own database to grab data from
 for custom data.
 - fullChromosomeLabels (boolean; optional): Whether to include abbreviation species name in chromosome label. Used
 for homology.
-- histogramScaling (string; optional): One of "absolute" or "relative". The technique to use in scaling the height of histogram bars. The "absolute" value sets bar height relative to tallest bar in all chromosomes, 
+- histogramScaling (string; optional): One of "absolute" or "relative". The technique to use in scaling the height of histogram bars. The "absolute" value sets bar height relative to tallest bar in all chromosomes,
 while "relative" sets bar height relative to tallest bar in each chromosome.
 - heatmaps (list; optional): This is a work in progess and will hopefully be fixed in future releases.
 - homology (optional): Used to compare two chromosomes with each other.
@@ -114,38 +114,38 @@ Those keys have the following types:
   - start (list; optional)
   - stop (list; optional)
 - filterable (number; optional): Whether annotations should be filterable.
-- localOrganism (dict; optional): Provide local JSON organism into this prop from a local user JSON file. 
+- localOrganism (dict; optional): Provide local JSON organism into this prop from a local user JSON file.
 DataDir must not be initiliazed.
-- organism (string | list; optional): Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or 
-organism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism, 
+- organism (string | list; optional): Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or
+organism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism,
 or an array of organisms' names or taxids to display chromosomes from multiple species.
 - orientation (string; optional): The orientation of chromosomes on the page.
-- perspective (string; optional): Use perspective: 'comparative' to enable annotations between two chromosomes, 
+- perspective (string; optional): Use perspective: 'comparative' to enable annotations between two chromosomes,
 either within the same organism or different organisms. Used for homology.
 - ploidy (number; optional): The ploidy - number of chromosomes to depict for each chromosome
 set.
-- ploidyDesc (list; optional): Description of ploidy in each chromosome set in terms of 
+- ploidyDesc (list; optional): Description of ploidy in each chromosome set in terms of
 ancestry composition.
-- rangeSet (list; optional): List of objects describing segments of recombination 
+- rangeSet (list; optional): List of objects describing segments of recombination
 among chromosomes in a chromosome set.
 - rotatable (boolean; optional): Whether chromosomes are rotatable on click.
 - rotated (boolean; optional): Dash callback that returns True if rotated, and false if not.
-- resolution (number; optional): The resolution of cytogenetic bands to show for each chromosome. 
-The quantity refers to approximate value in bands per haploid set (bphs). 
+- resolution (number; optional): The resolution of cytogenetic bands to show for each chromosome.
+The quantity refers to approximate value in bands per haploid set (bphs).
 One of 450, 550, or 850.
-- rows (number; optional): Useful for putting ideogram into a small container, 
-or when dealing with genomes that have many chromosomes. 
+- rows (number; optional): Useful for putting ideogram into a small container,
+or when dealing with genomes that have many chromosomes.
 Note: Not fully working needs to be fixed by developer.
-- sex (string; optional): Useful for omitting chromosome Y in female mammals. 
+- sex (string; optional): Useful for omitting chromosome Y in female mammals.
 Currently only supported for organisms that use XY sex-determination.
 - showChromosomeLabels (boolean; optional): Whether to show chromosome labels, e.g. 1, 2, 3, X, Y.
 - showBandLabels (boolean; optional): Whether to show cytogenetic band labels, e.g. 1q21
 - showAnnotTooltip (boolean; optional): Whether to show a tooltip upon mousing over an annotation.
-- showFullyBanded (boolean; optional): Whether to show fully banded chromosomes for genomes 
-that have sufficient data. Useful for showing simpler chromosomes of 
-cytogenetically well-characterized organisms, e.g. human, beside chromosomes of 
+- showFullyBanded (boolean; optional): Whether to show fully banded chromosomes for genomes
+that have sufficient data. Useful for showing simpler chromosomes of
+cytogenetically well-characterized organisms, e.g. human, beside chromosomes of
 less studied organisms, e.g. chimpanzee.
-- showNonNuclearChromosomes (boolean; optional): Whether to show non-nuclear chromosomes, 
+- showNonNuclearChromosomes (boolean; optional): Whether to show non-nuclear chromosomes,
 e.g. for mitochondrial (MT) and chloroplast (CP) DNA.
 
 Available events: """

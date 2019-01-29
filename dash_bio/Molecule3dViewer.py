@@ -15,7 +15,7 @@ Keyword arguments:
 - styles (a value equal to: 'stick', 'cartoon', 'sphere'; optional): Property that can be used to change the representation of
 the molecule. Options include sticks, cartoon and sphere
 - modelData (optional): The data that will be used to display the molecule in 3D
-The data will be in JSON format 
+The data will be in JSON format
 and should have two main dictionaries - atoms, bonds. modelData has the following type: dict containing keys 'atoms', 'bonds'.
 Those keys have the following types: 
   - atoms (list; optional)

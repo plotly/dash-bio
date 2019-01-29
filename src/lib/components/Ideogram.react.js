@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {default as IdeogramJS} from 'ideogram';
 import PropTypes from 'prop-types';
-import { omit } from 'ramda';
+import {omit} from 'ramda';
 
 /**
  * The Dash Ideogram is used to draw and animate genome-wide
@@ -11,13 +11,12 @@ import { omit } from 'ramda';
  * haploid, diploid, aneuploidy genomes. It can also display
  * annotations using histograms, overlays, and simple side
  * by side tracks to show important genomic data.
- * 
+ *
  * Go here to see it in action: https://eweitz.github.io/ideogram/
  */
 
 export default class Ideogram extends Component {
     constructor() {
-
         super();
         this.ideogram = null;
         this.isRotated = false;
@@ -52,8 +51,8 @@ export default class Ideogram extends Component {
             'assembly',
             'barWidth',
             'filterable',
-            'homology'
-        ]
+            'homology',
+        ];
 
         this.onBrushHandler = this.onBrushHandler.bind(this);
         this.onLoadHandler = this.onLoadHandler.bind(this);
@@ -68,38 +67,50 @@ export default class Ideogram extends Component {
     onHomologyHandler() {
         /**
          * An event handler used to compare two chromosomes,
-         * where the user can specify the connection 
+         * where the user can specify the connection
          * bewteen two points of two chromosomes. The user
-         * can supply the homology locations using the 
+         * can supply the homology locations using the
          * 'homology' prop.
          */
 
-        let chrs = this.ideogram.chromosomes
-        let chrOne = null
-        let chrTwo = null
-        let organism = this.props.organism
-        let chromosomes = this.props.chromosomes
-        let homology = this.props.homology
+        const chrs = this.ideogram.chromosomes;
+        let chrOne = null;
+        let chrTwo = null;
+        const organism = this.props.organism;
+        const chromosomes = this.props.chromosomes;
+        const homology = this.props.homology;
 
-        if (typeof (this.props.organism) !== "string") {
-            chrOne = chrs[homology.chrOne.organism][chromosomes[organism[0]]]
-            chrTwo = chrs[homology.chrTwo.organism][chromosomes[organism[1]]]
+        if (typeof this.props.organism !== 'string') {
+            chrOne = chrs[homology.chrOne.organism][chromosomes[organism[0]]];
+            chrTwo = chrs[homology.chrTwo.organism][chromosomes[organism[1]]];
+        } else {
+            chrOne = chrs[homology.chrOne.organism][chromosomes[0]];
+            chrTwo = chrs[homology.chrTwo.organism][chromosomes[1]];
         }
-        else {
-            chrOne = chrs[homology.chrOne.organism][chromosomes[0]]
-            chrTwo = chrs[homology.chrTwo.organism][chromosomes[1]]
-        }
 
-        let par1X = { chr: chrOne, start: homology.chrOne.start[0], stop: homology.chrOne.stop[0] };
-        let par1Y = { chr: chrTwo, start: homology.chrTwo.start[0], stop: homology.chrTwo.stop[0] };
+        const par1X = {
+            chr: chrOne,
+            start: homology.chrOne.start[0],
+            stop: homology.chrOne.stop[0],
+        };
+        const par1Y = {
+            chr: chrTwo,
+            start: homology.chrTwo.start[0],
+            stop: homology.chrTwo.stop[0],
+        };
 
-        let par2X = { chr: chrOne, start: homology.chrOne.start[1], stop: homology.chrOne.stop[1] };
-        let par2Y = { chr: chrTwo, start: homology.chrTwo.start[1], stop: homology.chrTwo.stop[1] };
+        const par2X = {
+            chr: chrOne,
+            start: homology.chrOne.start[1],
+            stop: homology.chrOne.stop[1],
+        };
+        const par2Y = {
+            chr: chrTwo,
+            start: homology.chrTwo.start[1],
+            stop: homology.chrTwo.stop[1],
+        };
 
-        let regions = [
-            { 'r1': par1X, 'r2': par1Y },
-            { 'r1': par2X, 'r2': par2Y }
-        ];
+        const regions = [{r1: par1X, r2: par1Y}, {r1: par2X, r2: par2Y}];
 
         this.ideogram.drawSynteny(regions);
     }
@@ -111,39 +122,38 @@ export default class Ideogram extends Component {
          * 'annotationsData'.
          */
 
-        this.tooltipDataTwo = this.tooltipData
+        this.tooltipDataTwo = this.tooltipData;
         if (this.props.setProps) {
-            this.props.setProps(
-                {
-                    annotationsData: this.tooltipData
-                }
-            )
+            this.props.setProps({
+                annotationsData: this.tooltipData,
+            });
         }
     }
 
     onBrushHandler() {
         /**
          * An event handler that is called when an Ideogram
-         * is using the brush prop. This event handler 
+         * is using the brush prop. This event handler
          * returns brush data in to the Dash application
          * with the prop 'brushData'.
          */
 
-        let r = this.ideogram.selectedRegion,
+        const r = this.ideogram.selectedRegion,
             start = r.from.toLocaleString(),
             end = r.to.toLocaleString(),
             extent = r.extent.toLocaleString();
 
-        if (this.props.brush !== undefined && this.props.setProps !== undefined) {
-            this.props.setProps(
-                {
-                    brushData: {
-                        start: start,
-                        end: end,
-                        extent: extent
-                    }
-                }
-            )
+        if (
+            typeof this.props.brush !== 'undefined' &&
+            typeof this.props.setProps !== 'undefined'
+        ) {
+            this.props.setProps({
+                brushData: {
+                    start: start,
+                    end: end,
+                    extent: extent,
+                },
+            });
         }
     }
 
@@ -155,14 +165,12 @@ export default class Ideogram extends Component {
          * Ideogram.
          */
 
-        if (this.props.brush !== undefined) {
+        if (typeof this.props.brush !== 'undefined') {
             this.onBrushHandler();
-        }
-        else if (this.props.homology !== undefined) {
+        } else if (typeof this.props.homology !== 'undefined') {
             this.onHomologyHandler();
-
         }
-        return null
+        return null;
     }
 
     onRotateHandler() {
@@ -172,38 +180,41 @@ export default class Ideogram extends Component {
          * in their Dash application to see this effect.
          */
 
-        this.isRotated = this.isRotated ? false : true
+        this.isRotated = this.isRotated ? false : true;
 
         if (this.props.setProps) {
-            this.props.setProps(
-                {
-                    rotated: this.isRotated
-                }
-            )
+            this.props.setProps({
+                rotated: this.isRotated,
+            });
         }
     }
 
     onMouseOverHandler() {
-        /** 
-         * Event handler that activates when you hover the mouse over an annotation. 
-         * This event handler allows the user to add an prop `onMouseOver` into their 
+        /**
+         * Event handler that activates when you hover the mouse over an annotation.
+         * This event handler allows the user to add an prop `onMouseOver` into their
          * Dash application, that will return the annotation that the mouse hovers over.
          */
 
         if (this.props.setProps) {
-            this.tooltipData = document.getElementById('_ideogramTooltip').innerHTML;
-            this.tooltipData !== this.tooltipDataTwo ? this.onToolTipHandler() : this.tooltipDataTwo = document.getElementById('_ideogramTooltip').innerHTML;
+            this.tooltipData = document.getElementById(
+                '_ideogramTooltip'
+            ).innerHTML;
+            this.tooltipDataTwo =
+                this.tooltipData !== this.tooltipDataTwo
+                    ? this.onToolTipHandler()
+                    : document.getElementById('_ideogramTooltip').innerHTML;
         }
     }
 
     setConfig() {
         // Pass in all props into config except setProps
-        let config = omit(['setProps'], this.props);
+        const config = omit(['setProps'], this.props);
         // Event handlers
-        config.onDidRotate = this.onRotateHandler
-        config.onBrushMove = this.props.brush ? this.onBrushHandler : null
-        config.onLoad = this.onLoadHandler
-        config.container = '#ideogram-container-' + this.props.id
+        config.onDidRotate = this.onRotateHandler;
+        config.onBrushMove = this.props.brush ? this.onBrushHandler : null;
+        config.onLoad = this.onLoadHandler;
+        config.container = '#ideogram-container-' + this.props.id;
 
         return config;
     }
@@ -218,10 +229,9 @@ export default class Ideogram extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return (
-            this.propKeys.some(
-                currentKey => { return this.props[currentKey] !== nextProps[currentKey] }
-            ));
+        return this.propKeys.some(currentKey => {
+            return this.props[currentKey] !== nextProps[currentKey];
+        });
     }
 
     componentDidMount() {
@@ -230,31 +240,35 @@ export default class Ideogram extends Component {
 
     componentDidUpdate() {
         // Have to remove old data, because it breaks new instances
-        delete window.chrBands
+        delete window.chrBands;
         this.initIdeogram();
     }
 
     componentWillUnmount() {
-        delete window.chrBands
+        delete window.chrBands;
     }
 
     render() {
         return (
-            <div id={this.props.id} className={this.props.className} style={this.props.style}>
+            <div
+                id={this.props.id}
+                className={this.props.className}
+                style={this.props.style}
+            >
                 <div
                     {...omit(['setProps'], this.props)}
                     id={'ideogram-container-' + this.props.id}
                     onMouseOver={this.onMouseOverHandler}
-                ></div>
+                />
             </div>
         );
     }
 }
 
 Ideogram.defaultProps = {
-    organism: "human",
-    annotationsColor: "#F00",
-    annotationsLayout: "tracks",
+    organism: 'human',
+    annotationsColor: '#F00',
+    annotationsLayout: 'tracks',
     barWidth: 3,
     chrHeight: 400,
     chrMargin: 10,
@@ -267,10 +281,9 @@ Ideogram.defaultProps = {
     showAnnotTooltip: true,
     showFullyBanded: true,
     showNonNuclearChromosomes: false,
-}
+};
 
 Ideogram.propTypes = {
-
     /**
      * The ID used to identify this component in Dash callbacks
      * and used to identify Ideogram instances.
@@ -298,27 +311,25 @@ Ideogram.propTypes = {
     annotationsData: PropTypes.string,
 
     /**
-     *  A map associating ancestor labels to colors. Used to color 
+     *  A map associating ancestor labels to colors. Used to color
      * chromosomes from different ancestors in polyploid genomes.
      */
 
     ancestors: PropTypes.object,
 
     /**
-     *  A list of annotation objects. Annotation objects can also have a 
+     *  A list of annotation objects. Annotation objects can also have a
      *  name, color, shape, and track index. At the moment there is more
      *  keys specified and the docs need updating.
      */
 
     annotations: PropTypes.arrayOf(
-        PropTypes.shape(
-            {
-                name: PropTypes.string,
-                chr: PropTypes.string,
-                start: PropTypes.number,
-                stop: PropTypes.number
-            }
-        )
+        PropTypes.shape({
+            name: PropTypes.string,
+            chr: PropTypes.string,
+            start: PropTypes.number,
+            stop: PropTypes.number,
+        })
     ),
 
     /**
@@ -327,15 +338,15 @@ Ideogram.propTypes = {
     annotationHeight: PropTypes.number,
 
     /**
-     * The layout of this ideogram's annotations. 
+     * The layout of this ideogram's annotations.
      * It can be one of "tracks", "histogram", or "overlay".
-     * 
+     *
      * Tracks: Lay out annotations in tracks beside each chromosome.
-     * 
+     *
      * Histogram: Layout annotations in a histogram. Clusters annotations
      * by location. Each cluster/bin is shown as a height of a bar to represent
      * number of annotations on genomic range.
-     * 
+     *
      * Overlay: Lay out annotations directly over chromsomes.
      */
     annotationsLayout: PropTypes.string,
@@ -352,16 +363,16 @@ Ideogram.propTypes = {
     annotationsPath: PropTypes.string,
 
     /**
-     * A list of objects with metadata for each track, 
+     * A list of objects with metadata for each track,
      * e.g. id, display name, color, shape.
      */
     annotationTracks: PropTypes.arrayOf(PropTypes.object),
 
     /**
-     * Default: latest RefSeq assembly for specified organism. 
-     * The genome assembly to display. 
-     * Takes assembly name (e.g. "GRCh37"), 
-     * RefSeq accession (e.g. "GCF_000306695.2"), 
+     * Default: latest RefSeq assembly for specified organism.
+     * The genome assembly to display.
+     * Takes assembly name (e.g. "GRCh37"),
+     * RefSeq accession (e.g. "GCF_000306695.2"),
      * or GenBank accession (e.g. "GCA_000005005.5")
      */
     assembly: PropTypes.string,
@@ -372,9 +383,9 @@ Ideogram.propTypes = {
     barWidth: PropTypes.number,
 
     /**
-     * Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a 
-     * chromosome. Useful when ideogram consists of one chromosome and you want to be 
-     * able to focus on a region within that chromosome, 
+     * Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a
+     * chromosome. Useful when ideogram consists of one chromosome and you want to be
+     * able to focus on a region within that chromosome,
      * and create an interactive sliding window to other regions
      */
 
@@ -383,17 +394,17 @@ Ideogram.propTypes = {
     /**
      * A dash callback that is activated when the 'brush' prop is used in component.
      * It will return an dictionary like so:
-     * 
+     *
      * {'start': <value>, 'end': <value>, 'extent': <value>}
-     * 
-     * where start is the left most edge, end is right most edge, and extent is 
+     *
+     * where start is the left most edge, end is right most edge, and extent is
      * the total width of the brush.
-     * 
+     *
      */
     brushData: PropTypes.string,
 
     /**
-     * CSS styling and the id of the container holding the Ideogram in 
+     * CSS styling and the id of the container holding the Ideogram in
      * react-ideogram.js, this is where all the d3 magic happens.
      */
     container: PropTypes.string,
@@ -427,15 +438,13 @@ Ideogram.propTypes = {
         General case to specify specific chromosomes:
         Ex: chromosomes=['1', '2']
      */
-    chromosomes: PropTypes.oneOfType(
-        [
-            PropTypes.arrayOf(PropTypes.string),
-            PropTypes.object
-        ]
-    ),
+    chromosomes: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.object,
+    ]),
 
     /**
-     * Absolute or relative URL of the directory 
+     * Absolute or relative URL of the directory
      * containing data needed to draw banded chromosomes.
      * You will need to set up you're own database to grab data from
      * for custom data.
@@ -449,7 +458,7 @@ Ideogram.propTypes = {
     fullChromosomeLabels: PropTypes.bool,
 
     /**
-     * One of "absolute" or "relative". The technique to use in scaling the height of histogram bars. The "absolute" value sets bar height relative to tallest bar in all chromosomes, 
+     * One of "absolute" or "relative". The technique to use in scaling the height of histogram bars. The "absolute" value sets bar height relative to tallest bar in all chromosomes,
      * while "relative" sets bar height relative to tallest bar in each chromosome.
      */
     histogramScaling: PropTypes.string,
@@ -478,40 +487,26 @@ Ideogram.propTypes = {
                     }
                 }
      */
-    homology: PropTypes.shape(
-        {
-            chrOne: PropTypes.shape(
-                {
-                    organism: PropTypes.string.isRequired,
-                    start: PropTypes.arrayOf(
-                        PropTypes.number.isRequired
-                    ),
-                    stop: PropTypes.arrayOf(
-                        PropTypes.number.isRequired
-                    )
-                }
-            ),
-            chrTwo: PropTypes.shape(
-                {
-                    organism: PropTypes.string.isRequired,
-                    start: PropTypes.arrayOf(
-                        PropTypes.number.isRequired
-                    ),
-                    stop: PropTypes.arrayOf(
-                        PropTypes.number.isRequired
-                    )
-                }
-            ),
-        }
-    ),
+    homology: PropTypes.shape({
+        chrOne: PropTypes.shape({
+            organism: PropTypes.string.isRequired,
+            start: PropTypes.arrayOf(PropTypes.number.isRequired),
+            stop: PropTypes.arrayOf(PropTypes.number.isRequired),
+        }),
+        chrTwo: PropTypes.shape({
+            organism: PropTypes.string.isRequired,
+            start: PropTypes.arrayOf(PropTypes.number.isRequired),
+            stop: PropTypes.arrayOf(PropTypes.number.isRequired),
+        }),
+    }),
 
     /**
-     * Whether annotations should be filterable. 
+     * Whether annotations should be filterable.
      */
     filterable: PropTypes.number,
 
     /**
-     * Provide local JSON organism into this prop from a local user JSON file. 
+     * Provide local JSON organism into this prop from a local user JSON file.
      * DataDir must not be initiliazed.
      */
     localOrganism: PropTypes.object,
@@ -522,16 +517,11 @@ Ideogram.propTypes = {
     onMouseOver: PropTypes.func,
 
     /**
-     * Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or 
-     * organism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism, 
+     * Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or
+     * organism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism,
      * or an array of organisms' names or taxids to display chromosomes from multiple species.
      */
-    organism: PropTypes.oneOfType(
-        [
-            PropTypes.string,
-            PropTypes.array
-        ]
-    ),
+    organism: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     /**
      * The orientation of chromosomes on the page.
      */
@@ -553,13 +543,13 @@ Ideogram.propTypes = {
     onDrawAnnots: PropTypes.func,
 
     /**
-      * Callback function to invoke when chromosomes are loaded, 
-      * i.e. rendered on the page. (React)
-      */
+     * Callback function to invoke when chromosomes are loaded,
+     * i.e. rendered on the page. (React)
+     */
     onLoad: PropTypes.func,
 
     /**
-     * Use perspective: 'comparative' to enable annotations between two chromosomes, 
+     * Use perspective: 'comparative' to enable annotations between two chromosomes,
      * either within the same organism or different organisms. Used for homology.
      */
     perspective: PropTypes.string,
@@ -571,13 +561,13 @@ Ideogram.propTypes = {
     ploidy: PropTypes.number,
 
     /**
-     * Description of ploidy in each chromosome set in terms of 
+     * Description of ploidy in each chromosome set in terms of
      * ancestry composition.
      */
     ploidyDesc: PropTypes.arrayOf(PropTypes.object),
 
     /**
-     * List of objects describing segments of recombination 
+     * List of objects describing segments of recombination
      * among chromosomes in a chromosome set.
      */
     rangeSet: PropTypes.arrayOf(PropTypes.object),
@@ -594,21 +584,21 @@ Ideogram.propTypes = {
     rotated: PropTypes.bool,
 
     /**
-     * The resolution of cytogenetic bands to show for each chromosome. 
-     * The quantity refers to approximate value in bands per haploid set (bphs). 
+     * The resolution of cytogenetic bands to show for each chromosome.
+     * The quantity refers to approximate value in bands per haploid set (bphs).
      * One of 450, 550, or 850.
      */
     resolution: PropTypes.number,
 
     /**
-     * Useful for putting ideogram into a small container, 
-     * or when dealing with genomes that have many chromosomes. 
+     * Useful for putting ideogram into a small container,
+     * or when dealing with genomes that have many chromosomes.
      * Note: Not fully working needs to be fixed by developer.
      */
     rows: PropTypes.number,
 
     /**
-     * Useful for omitting chromosome Y in female mammals. 
+     * Useful for omitting chromosome Y in female mammals.
      * Currently only supported for organisms that use XY sex-determination.
      */
     sex: PropTypes.string,
@@ -620,7 +610,7 @@ Ideogram.propTypes = {
 
     /**
      * Whether to show cytogenetic band labels, e.g. 1q21
-    **/
+     **/
     showBandLabels: PropTypes.bool,
 
     /**
@@ -629,19 +619,16 @@ Ideogram.propTypes = {
     showAnnotTooltip: PropTypes.bool,
 
     /**
-     * Whether to show fully banded chromosomes for genomes 
-     * that have sufficient data. Useful for showing simpler chromosomes of 
-     * cytogenetically well-characterized organisms, e.g. human, beside chromosomes of 
+     * Whether to show fully banded chromosomes for genomes
+     * that have sufficient data. Useful for showing simpler chromosomes of
+     * cytogenetically well-characterized organisms, e.g. human, beside chromosomes of
      * less studied organisms, e.g. chimpanzee.
      */
     showFullyBanded: PropTypes.bool,
 
     /**
-     * Whether to show non-nuclear chromosomes, 
-     * e.g. for mitochondrial (MT) and chloroplast (CP) DNA. 
+     * Whether to show non-nuclear chromosomes,
+     * e.g. for mitochondrial (MT) and chloroplast (CP) DNA.
      */
-    showNonNuclearChromosomes: PropTypes.bool
+    showNonNuclearChromosomes: PropTypes.bool,
 };
-
-
-
