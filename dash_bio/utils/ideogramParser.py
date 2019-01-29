@@ -1,6 +1,6 @@
 import csv
 
-# A simple tab-delimited parser for the ideogram, that parses data from NCBI
+# A simple tab-delimited parser for the ideogram, that parses data from the NCBI
 # genome ideogram data. The simple function below returns an array, containing
 # the rows of the dataset as strings.
 #
