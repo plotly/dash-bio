@@ -66,7 +66,7 @@ def track_rename_columns(main_data):
 
 
 def create_local_files(data, file_name):
-    """Create local .JSON file and .CSV files."""
+    """Create local JSON and CSV files."""
     data.to_csv("{}.csv".format(file_name), encoding="utf-8", index=False)
     data = data.to_dict(orient='records')
     json_file = open("{}.json".format(file_name), 'w')
