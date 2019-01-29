@@ -184,7 +184,7 @@ def txt_to_track(file_name='', append_block_id='', rel_path=False, create_local=
     Set to "True" if using a relative path for file_name.
 
     @param create_local
-    Set to to "True" if you want to create a .CSV and .JSON version of your dataset. When this
+    Set to "True" if you want to create a .CSV and .JSON version of your dataset. When this
     is "False" the program will return a direct python dict/JSON object that can be used in dash.
     """
 
