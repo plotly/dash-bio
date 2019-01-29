@@ -10,9 +10,9 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash_bio import VolcanoPlot
 from tests.dashbio_demos.app_volcano_plot import DATASETS
-from .test_common_features import access_demo_app
+from .test_common_features import init_demo_app
 
-APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '')
+APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
 
 
 LAYOUT = html.Div(
@@ -67,18 +67,17 @@ def volcano_plot_test_param_callback(
 
 
 # Demo app tests
-
-
+@init_demo_app(APP_NAME)
 def test_click_app_link_from_gallery(dash_threaded, selenium):
 
-    access_demo_app(dash_threaded, selenium, APP_NAME)
+    assert selenium.current_url.replace('http://localhost:8050', '') == '/dash-bio/{}'.format(
+        APP_NAME
+    )
 
-    assert selenium.current_url.replace('http://localhost:8050', '') == '/dash-bio/volcano-plot'
 
-
+@init_demo_app(APP_NAME)
 def test_initial_dataset(dash_threaded, selenium):
     """Check the default dataset is Set2."""
-    access_demo_app(dash_threaded, selenium, APP_NAME)
     wait_for_text_to_equal(
         selenium,
         '#vp-dataset-dropdown .Select-value-label',
@@ -86,9 +85,9 @@ def test_initial_dataset(dash_threaded, selenium):
     )
 
 
+@init_demo_app(APP_NAME)
 def test_change_dataset(dash_threaded, selenium):
     """Change dataset using the dropdown."""
-    access_demo_app(dash_threaded, selenium, APP_NAME)
     dataset_dropdown = wait_for_element_by_css_selector(
         selenium,
         '#vp-dataset-dropdown .Select-input input'
@@ -104,9 +103,9 @@ def test_change_dataset(dash_threaded, selenium):
     )
 
 
+@init_demo_app(APP_NAME)
 def test_lower_genomic_line(dash_threaded, selenium):
     """Lower the threshold genomic line and verify the change in the highlight points number."""
-    access_demo_app(dash_threaded, selenium, APP_NAME)
 
     # initial check
     wait_for_text_to_equal(selenium, '#vp-dataset-dropdown .Select-value-label', 'Set2')
@@ -136,10 +135,9 @@ def test_lower_genomic_line(dash_threaded, selenium):
     assert int(threshold.get_attribute('value')) == 0
 
 
+@init_demo_app(APP_NAME)
 def test_effect_size_min_and_max(dash_threaded, selenium):
     """Move the lower and upper effect size lines to their max and min, respectively."""
-
-    access_demo_app(dash_threaded, selenium, APP_NAME)
 
     lower_bound = wait_for_element_by_css_selector(selenium, '#vp-lower-bound')
     upper_bound = wait_for_element_by_css_selector(selenium, '#vp-upper-bound')
