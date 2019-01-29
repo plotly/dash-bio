@@ -14,7 +14,7 @@ from colour import Color
 
 
 def colors_array_layout(data):
-    """Creates an array of colors that is used to specify the layout datum colors.
+    """Create an array of colors that is used to specify the layout datum colors.
     The colors are based on a gradient between two specified colors. In this case
     they are "red" and "blue". Simply change these colors if you'd like a different
     gradient.
