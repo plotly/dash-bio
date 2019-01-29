@@ -26,7 +26,7 @@ def parse_tsv(
     selected_cols = []
 
     all_rows = []
-    if(row_labels_source is not None
+    if (row_labels_source is not None
        and row_labels_source in df.keys().tolist()):
         all_rows = df[row_labels_source].tolist()
 
