@@ -31,7 +31,7 @@ def read_fasta(
         data_string='',
 ):
     """
-    Reads a file in FASTA format, either from a file or from a string of raw
+    Read a file in FASTA format, either from a file or from a string of raw
     data.
 
     :param (string) file_path: The full path to the FASTA file (can be relative
