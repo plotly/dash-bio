@@ -24,21 +24,21 @@ parsed_layout = cp.txt_to_layout(
     file_two_name="{}GRCh38.txt".format(DATAPATH),
     append_one="-GRCh37",
     append_two="-GRCh38",
-    relPath=True,
+    rel_path=True,
     create_local=False,
 )
 
 parsed_track_one = cp.txt_to_track(
     file_name="{}GRCh37.txt".format(DATAPATH),
     append_block_id="-GRCh37",
-    relPath=True,
+    rel_path=True,
     create_local=False,
 )
 
 parsed_track_two = cp.txt_to_track(
     file_name="{}GRCh38.txt".format(DATAPATH),
     append_block_id="-GRCh38",
-    relPath=True,
+    rel_path=True,
     create_local=False,
 )
 

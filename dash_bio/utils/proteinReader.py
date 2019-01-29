@@ -26,69 +26,65 @@ _databases = {
 }
 
 
-def readFasta(
-        filePath='',
-        dataString='',
-        cleanData=True
+def read_fasta(
+        file_path='',
+        data_string='',
 ):
-    '''
-    Reads a file in FASTA format, either from a file or from a string of raw
+    """
+    Read a file in FASTA format, either from a file or from a string of raw
     data.
 
-    :param (string) filePath: The full path to the FASTA file (can be relative
+    :param (string) file_path: The full path to the FASTA file (can be relative
                               or absolute).
-    :param (string) dataString: A string corresponding to the FASTA file
+    :param (string) data_string: A string corresponding to the FASTA file
                                 (including newline characters).
 
     :rtype (list[dict]): A list of protein objects, each containing a
                          description (based on the header line) and the amino
                          acid sequence with, optionally, all non-amino-acid
                          letters removed.
-    '''
-    fastaData = []
-    
+    """
+
     # ensure we are only given one file specification
-    if(len(filePath) > 0 and len(dataString) > 0):
+    if len(file_path) > 0 and len(data_string) > 0:
         raise Exception(
             "Please specify either a file path or a \
             string of data."
         )
 
-    rawData = []
-    
+    raw_data = []
+
     # open file if given a path
-    if(len(filePath) > 0):
-        with open(filePath, 'r') as f:
+    if len(file_path) > 0:
+        with open(file_path, 'r') as f:
             lines = f.readlines()
-            if('>' not in lines[0]):
-                rawData = ['>']
-            rawData += lines
-            
+            if '>' not in lines[0]:
+                raw_data = ['>']
+            raw_data += lines
+
     # or read the raw string
     else:
-        lines = dataString.split('\n')
-        if('>' not in lines[0]):
-            rawData = ['>']
-        rawData += lines
-
-    records = []
+        lines = data_string.split('\n')
+        if '>' not in lines[0]:
+            raw_data = ['>']
+        raw_data += lines
 
     with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tf:
-        tf.write('\n'.join(rawData))
-        
+        tf.write('\n'.join(raw_data))
+
     records = list(SeqIO.parse(tf.name, 'fasta'))
-    
-    fastaData = [
+
+    fasta_data = [
         {'description': decode_description(r.description),
          'sequence': str(r.seq)}
         for r in records]
 
-    return fastaData
+    return fasta_data
 
-    
+
 def decode_description(description):
-    '''
-    Parses the first line of a FASTA file using the specifications of
+    """
+    Parse the first line of a FASTA file using the specifications of
     several different database headers (in _databases).
 
     :param (string) description: The header line with the initial '>'
@@ -98,31 +94,31 @@ def decode_description(description):
                    value of that property given by the header. If the
                    database is not recognized, the keys are given as
                    'desc-n' where n is the position of the property.
-    '''
-    if(len(description) == 0):
+    """
+    if len(description) == 0:
         return {'-1': 'no description'}
-                   
+
     decoded = {}
-    
+
     desc = description.split('|')
     if desc[0] in _databases:
-        dbInfo = _databases[desc[0]]
+        db_info = _databases[desc[0]]
         if desc[0] in ['sp', 'tr']:
             decoded['accession'] = desc[1]
             # using regex to get the other information
             rs = re.search(
-                '([^\s]+)(.*)\ OS=(.*)\ OX=(.*)\ GN=(.*)\ PE=(.*)\ SV=(.*)$',
+                r'([^\s]+)(.*)\ OS=(.*)\ OX=(.*)\ GN=(.*)\ PE=(.*)\ SV=(.*)$',
                 string=desc[2]
             )
-            for i in range(2, len(dbInfo)):
-                decoded[dbInfo[i]] = rs.group(i)
+            for i in range(2, len(db_info)):
+                decoded[db_info[i]] = rs.group(i)
         else:
             # shift by one, since first section in header describes
             # the database
             for i in range(len(desc)-1):
-                decoded[dbInfo[i]] = desc[i+1]
+                decoded[db_info[i]] = desc[i+1]
     else:
-        if len(desc) > 1: 
+        if len(desc) > 1:
             for i in range(len(desc)-1):
                 decoded[str(i)] = desc[i+1]
         else:
