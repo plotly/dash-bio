@@ -8,7 +8,7 @@ from shutil import copy2
 def create_data(pdb_path):
     """
     Function to parse the protein data bank (PDB) file to generate
-    the input modelData
+    input modelData
 
     @param pdb_path
     Name of the biomolecular structure file in PDB format
