@@ -24,7 +24,7 @@ def create_data(pdb_path):
     # Remove the created temp file
     os.remove('tmp.pdb')
 
-    # Read pdb file to create atom/bond information
+    # Read PDB file to create atom/bond information
     with open(pdb_path, 'r') as infile:
         # store only non-empty lines
         lines = [l.strip() for l in infile if l.strip()]
