@@ -2123,6 +2123,166 @@
       }
     }
   },
+  "src/lib/components/OncoPrint.react.js": {
+    "description": "The OncoPrint component is used to view multiple genetic alteration events\nthrough an interactive and zoomable heatmap. It is a React/Dash port of the\npopular oncoPrint() function from the BioConductor R package.\nUnder the hood, the rendering is done using Plotly.js built upon D3.\nPlotly's interactivity allows the user to bind clicks and hovers to genetic\nevents, allowing the user to create complex bioinformatic apps or workflows\nthat rely on crossfiltering.\nRead more about the component here:\nhttps://github.com/plotly/react-oncoprint",
+    "displayName": "OncoPrint",
+    "methods": [
+      {
+        "name": "handleChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "event",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique to the component."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
+      },
+      "eventDatum": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A Dash prop that returns data on clicking, hovering or resizing the viewer."
+      },
+      "data": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "Input data, in CBioPortal format where each list entry is a dict\nconsisting of 'sample', 'gene', 'alteration', and 'type'"
+      },
+      "padding": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Adjusts the padding (as a proportion of whitespace) between two tracks.\nValue is a ratio between 0 and 1.\nDefaults to 0.05 (e.g. 5%). If set to 0, plot will look like a heatmap.",
+        "defaultValue": {
+          "value": "0.05",
+          "computed": false
+        }
+      },
+      "colorscale": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "bool"
+            },
+            {
+              "name": "object"
+            }
+          ]
+        },
+        "required": false,
+        "description": "If not null, will override the default OncoPrint colorscale.\nDefault OncoPrint colorscale same as CBioPortal implementation.\nMake your own colrscale as a {'mutation': COLOR} dict.\nSupported mutation keys are ['MISSENSE, 'INFRAME', 'FUSION',\n'AMP', 'GAIN', 'HETLOSS', 'HMODEL', 'UP', 'DOWN']\nNote that this is NOT a standard plotly colorscale.",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "backgroundcolor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default color for the tracks, in common name, hex, rgb or rgba format.\nIf left blank, will default to a light grey rgb(190, 190, 190).",
+        "defaultValue": {
+          "value": "'rgb(190, 190, 190)'",
+          "computed": false
+        }
+      },
+      "range": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": ".Toogles whether or not to show a legend on the right side of the plot,\nwith mutation information.",
+        "defaultValue": {
+          "value": "[null, null]",
+          "computed": false
+        }
+      },
+      "showlegend": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": ".Toogles whether or not to show a legend on the right side of the plot,\nwith mutation information.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "showoverview": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": ".Toogles whether or not to show a heatmap overview of the tracks.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "width": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Width of the OncoPrint.\nWill disable auto-resizing of plots if set.",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "height": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Height of the OncoPrint.\nWill disable auto-resizing of plots if set.",
+        "defaultValue": {
+          "value": "500",
+          "computed": false
+        }
+      }
+    }
+  },
   "src/lib/components/SequenceViewer.react.js": {
     "description": "The sequence viewer component is used to display sequences\nthat represent proteins, strands of genomic information, and\nmore. It can apply a coverage to the sequence supplied (with\nclickable coverage sections that can display specific information,\nand an optional legend to describe the color codes used),\nsearch through the sequence for specific regex, capture\nmouse selection events of subparts of the sequence, display a\ncount of the number of nucleotides or amino acids in the\nsequence,\nRead more about the component here:\nhttps://github.com/FlyBase/react-sequence-viewer",
     "displayName": "SequenceViewer",
