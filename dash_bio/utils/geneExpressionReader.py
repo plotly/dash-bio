@@ -26,12 +26,11 @@ def parse_tsv(
     selected_cols = []
 
     all_rows = []
-    if (row_labels_source is not None
-       and row_labels_source in df.keys().tolist()):
+    if (row_labels_source is not None) and (row_labels_source in df.keys().tolist()):
         all_rows = df[row_labels_source].tolist()
 
     all_cols = df.keys().tolist()[header_cols:]
-    if rows is not None and columns is not None:
+    if (rows is not None) and (columns is not None):
         for r in rows:
             if r not in all_rows:
                 continue
