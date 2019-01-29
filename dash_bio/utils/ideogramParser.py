@@ -1,7 +1,7 @@
 import csv
 
 # A simple tab-delimited parser for the ideogram, that parses data from the NCBI
-# genome ideogram data. The simple function below returns an array, containing
+# Genome Ideogram data bank. The function below returns an array, containing
 # the rows of the dataset as strings.
 #
 # NCBI Genome Ideogram data bank: ftp://ftp.ncbi.nlm.nih.gov/pub/gdp/ (grab data from here)
