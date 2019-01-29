@@ -19,5 +19,6 @@ setup(
     install_requires=[
         'dash',
         'dash-html-components'
-    ]
+    ],
+    python_requires='~=3.3'
 )
