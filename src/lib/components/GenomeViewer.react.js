@@ -1,17 +1,15 @@
-import React, {Component } from "react";
-import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-import {formats, viz, create} from "pileup";
-
+import {formats, viz, create} from 'pileup';
 
 /**
-   * Dash GenomeViewer is a library used to analyze and interpret
-   * Please checkout the Dash Bio repository
-   * on github to learn more about this API.
-   */
+ * Dash GenomeViewer is a library used to analyze and interpret
+ * Please checkout the Dash Bio repository
+ * on github to learn more about this API.
+ */
 export default class GenomeViewer extends Component {
-
     constructor(props) {
         super(props);
 
@@ -21,8 +19,8 @@ export default class GenomeViewer extends Component {
             trackdata,
             trackindex,
             contig,
-	    start,
-	    stop,
+            start,
+            stop,
             // Optional
             showscale,
             showlocation,
@@ -31,12 +29,12 @@ export default class GenomeViewer extends Component {
             showgenes,
             genedata,
             showcoverage,
-            compare
+            compare,
         } = props;
 
         const track = formats.bam({
             url: trackdata,
-            indexUrl: trackindex
+            indexUrl: trackindex,
         });
 
         this.tracks = [];
@@ -46,105 +44,105 @@ export default class GenomeViewer extends Component {
             viz: viz.genome(),
             isReference: true,
             data: formats.twoBit({
-                url: genomedata
+                url: genomedata,
             }),
-            name: "Reference"
+            name: 'Reference',
         });
 
         // Showscale and location for above
         if (showscale) {
-	    console.log('showscale');
+            console.log('showscale');
             this.tracks.push({
                 viz: viz.scale(),
-                name: "Scale"
+                name: 'Scale',
             });
         }
 
         if (showlocation) {
-	    console.log('showlocation');
+            console.log('showlocation');
             this.tracks.push({
                 viz: viz.location(),
-                name: "Location"
+                name: 'Location',
             });
         }
 
         // Show variant track if supplied
         if (showvariants && variantdata) {
-	    console.log('showvariants');
+            console.log('showvariants');
             this.tracks.push({
                 viz: viz.variants(),
                 data: formats.vcf({
-                    url: variantdata
+                    url: variantdata,
                 }),
                 options: {
                     variantHeightByFrequency: true,
                     onVariantClicked: function(data) {
-                        var content = "Variants:\n";
-                        for (var i =0;i< data.length;i++) {
-                            content +=data[i].id+" - "+data[i].vcfLine+"\n";
+                        var content = 'Variants:\n';
+                        for (var i = 0; i < data.length; i++) {
+                            content +=
+                                data[i].id + ' - ' + data[i].vcfLine + '\n';
                         }
-                        alert(content);
                     },
                 },
-                name: "Variants"
+                name: 'Variants',
             });
         }
 
         // Show gene track if supplied
         if (showgenes && genedata) {
-	    console.log('showgenes');
+            console.log('showgenes');
             this.tracks.push({
                 viz: viz.genes(),
                 data: formats.bigBed({
-                    url: genedata
+                    url: genedata,
                 }),
-                name: "Genes"
+                name: 'Genes',
             });
         }
 
         // Show coverage
         if (showcoverage) {
-	    console.log('showcoverage');
+            console.log('showcoverage');
             this.tracks.push({
                 viz: viz.coverage(),
                 data: track,
-                cssClass: "normal",
-                name: "Coverage"
+                cssClass: 'normal',
+                name: 'Coverage',
             });
-	    console.log('endcoverage');
+            console.log('endcoverage');
         }
 
         // Show track
-	console.log('showalignments');
+        console.log('showalignments');
         this.tracks.push({
             viz: viz.pileup(),
             data: track,
-            cssClass: "normal",
-            name: "Alignments"
+            cssClass: 'normal',
+            name: 'Alignments',
         });
 
         // Secondary track as pairs if viewed
         if (compare) {
-	    console.log('compare');
+            console.log('compare');
             this.tracks.push({
                 viz: viz.coverage(),
                 data: track,
-                cssClass: "tumor",
-                name: "Coverage"
+                cssClass: 'tumor',
+                name: 'Coverage',
             });
             this.tracks.push({
                 viz: viz.pileup({
-                    viewAsPairs: true
+                    viewAsPairs: true,
                 }),
                 data: track,
-                cssClass: "tumor",
-                name: "Alignments"
+                cssClass: 'tumor',
+                name: 'Alignments',
             });
         }
 
         this.contig = contig;
-	this.start = start;
-	this.stop = stop;
+        this.start = start;
+        this.stop = stop;
     }
 
     componentDidMount() {
@@ -153,118 +151,116 @@ export default class GenomeViewer extends Component {
             trackindex,
             genomedata,
             contig,
-	    start,
-	    stop
+            start,
+            stop,
         } = this.props;
 
         // Only load if all data is supplied
-        if (trackdata && trackindex && genomedata && contig 
-	    && start && stop) {
-	    console.log('all tracks created');
-            this.pileup = create(this.refs.pileup, {
-		range: {contig:this.contig, start:this.start, stop:this.stop},
-                tracks: this.tracks
+        if (trackdata && trackindex && genomedata && contig && start && stop) {
+            console.log('all tracks created');
+            this.pileup = create(this.pileup, {
+                range: {
+                    contig: this.contig,
+                    start: this.start,
+                    stop: this.stop,
+                },
+                tracks: this.tracks,
             });
         } else {
-	    console.log("bla");
-            ReactDOM.render(this.refs.pileup);
+            console.log('bla');
+            ReactDOM.render(this.pileup);
         }
     }
 
     render() {
-        return (
-            <div ref="pileup"></div>
-        );
+        return <div ref={ref => (this.pileup = ref)} />;
     }
 }
 
 GenomeViewer.defaultProps = {
-      showscale: true,
-      showlocation: true,
-      showvariants: true,
-      showgenes: true,
-      showcoverage: true,
-      compare: false
-}  
-
-GenomeViewer.propTypes = {
-  
-      /**
-       * The ID used to identify this component in Dash callbacks
-       * and used to identify Ideogram instances.
-       */
-      id: PropTypes.string.isRequired,
-  
-      /**
-       * URL or data string of genome data, in .2bit format
-       */
-      genomedata: PropTypes.string.isRequired,
-
-      /**
-       * Track data, in .bam format
-       */
-      trackdata: PropTypes.string.isRequired,
-
-      /**
-       * Track index for track data, in .bam.bai style
-       */
-      trackindex: PropTypes.string.isRequired,
-
-      /**
-       * Name of contig
-       */
-      contig: PropTypes.string.isRequired,
-
-      /**
-       * First basis pair
-       */
-      start: PropTypes.number.isRequired,
-
-      /**
-       * Last basis pair
-       */
-      stop: PropTypes.number.isRequired,
-
-      /**
-       * If True, display a scale with the number of represented 
-       * basis pairs.
-       */
-      showscale: PropTypes.bool,
-
-      /**
-       * If True, display the number of the central basis pair.
-       */
-      showlocation:PropTypes.bool,
-
-      /**
-       * If True, show possible variants.
-       */
-      showvariants:PropTypes.bool,
-
-      /**
-       * Variant data
-       */
-      variantdata:PropTypes.string,
-
-      /**
-       * If True, the location of genes is displayed.
-       */
-      showgenes:PropTypes.bool,
-
-      /**
-       * Gene data.
-       */
-      genedata: PropTypes.string.isRequired,
-
-      /**
-       * If True, coverage is shown.
-       */
-      showcoverage: PropTypes.bool,
-
-      /**
-       * If True, (???)
-       */
-      compare: PropTypes.bool,
-
+    showscale: true,
+    showlocation: true,
+    showvariants: true,
+    showgenes: true,
+    showcoverage: true,
+    compare: false,
 };
 
+GenomeViewer.propTypes = {
+    /**
+     * The ID used to identify this component in Dash callbacks
+     * and used to identify Ideogram instances.
+     */
+    id: PropTypes.string.isRequired,
+
+    /**
+     * URL or data string of genome data, in .2bit format
+     */
+    genomedata: PropTypes.string.isRequired,
+
+    /**
+     * Track data, in .bam format
+     */
+    trackdata: PropTypes.string.isRequired,
+
+    /**
+     * Track index for track data, in .bam.bai style
+     */
+    trackindex: PropTypes.string.isRequired,
+
+    /**
+     * Name of contig
+     */
+    contig: PropTypes.string.isRequired,
+
+    /**
+     * First basis pair
+     */
+    start: PropTypes.number.isRequired,
+
+    /**
+     * Last basis pair
+     */
+    stop: PropTypes.number.isRequired,
+
+    /**
+     * If True, display a scale with the number of represented
+     * basis pairs.
+     */
+    showscale: PropTypes.bool,
+
+    /**
+     * If True, display the number of the central basis pair.
+     */
+    showlocation: PropTypes.bool,
+
+    /**
+     * If True, show possible variants.
+     */
+    showvariants: PropTypes.bool,
+
+    /**
+     * Variant data
+     */
+    variantdata: PropTypes.string,
+
+    /**
+     * If True, the location of genes is displayed.
+     */
+    showgenes: PropTypes.bool,
+
+    /**
+     * Gene data.
+     */
+    genedata: PropTypes.string.isRequired,
+
+    /**
+     * If True, coverage is shown.
+     */
+    showcoverage: PropTypes.bool,
+
+    /**
+     * If True, (???)
+     */
+    compare: PropTypes.bool,
+};

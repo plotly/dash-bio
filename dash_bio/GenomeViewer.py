@@ -18,15 +18,15 @@ and used to identify Ideogram instances.
 - contig (string; required): Name of contig
 - start (number; required): First basis pair
 - stop (number; required): Last basis pair
-- showscale (boolean; optional): If True, display a scale with the number of represented 
+- showscale (boolean; optional): If True, display a scale with the number of represented
 basis pairs.
 - showlocation (boolean; optional): If True, display the number of the central basis pair.
 - showvariants (boolean; optional): If True, show possible variants.
 - variantdata (string; optional): Variant data
 - showgenes (boolean; optional): If True, the location of genes is displayed.
 - genedata (string; required): Gene data.
-- showcoverage (boolean; optional): The component's inline styles
-- compare (boolean; optional): The component's inline styles
+- showcoverage (boolean; optional): If True, coverage is shown.
+- compare (boolean; optional): If True, (???)
 
 Available events: """
     @_explicitize_args

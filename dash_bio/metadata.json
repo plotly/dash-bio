@@ -1241,7 +1241,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "If True, display a scale with the number of represented \nbasis pairs.",
+        "description": "If True, display a scale with the number of represented\nbasis pairs.",
         "defaultValue": {
           "value": "true",
           "computed": false
@@ -1299,7 +1299,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "The component's inline styles",
+        "description": "If True, coverage is shown.",
         "defaultValue": {
           "value": "true",
           "computed": false
@@ -1310,7 +1310,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "The component's inline styles",
+        "description": "If True, (???)",
         "defaultValue": {
           "value": "false",
           "computed": false
