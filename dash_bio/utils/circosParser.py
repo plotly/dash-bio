@@ -27,7 +27,7 @@ def colors_array_layout(data):
 
 
 def colors_array_track(data):
-    """Replaces the "stain" provided by the dataset, with a RGB color that the
+    """Replace the "stain" provided by the dataset with a RGB color that the
     circos graph can display.
     """
     data['color'] = data['color'].ffill()
