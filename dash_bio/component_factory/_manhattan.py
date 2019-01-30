@@ -166,7 +166,7 @@ def ManhattanPlot(
     )
 
 
-class _ManhattanPlot(object):
+class _ManhattanPlot():
 
     def __init__(
             self,

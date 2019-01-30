@@ -451,7 +451,7 @@ def callbacks(app):
             return ''
 
         if preloaded is not None:
-            protein = pr.readFasta(filePath=preloaded)[entry]
+            protein = pr.read_fasta(file_path=preloaded)[entry]
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
@@ -462,7 +462,7 @@ def callbacks(app):
             if data == '':
                 return '-'
 
-            protein = pr.readFasta(dataString=data)[entry]
+            protein = pr.read_fasta(data_string=data)[entry]
         else:
             return '-'
 
@@ -740,7 +740,7 @@ def callbacks(app):
         ]
 
         if preloaded is not None:
-            proteins = pr.readFasta(filePath=preloaded)
+            proteins = pr.read_fasta(file_path=preloaded)
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
@@ -748,7 +748,7 @@ def callbacks(app):
                 data = base64.b64decode(content_string).decode('UTF-8')
             except AttributeError:
                 pass
-            proteins = pr.readFasta(dataString=data)
+            proteins = pr.read_fasta(data_string=data)
         else:
             return dropdown_options
 
@@ -801,7 +801,7 @@ def callbacks(app):
             return ''
 
         if preloaded is not None:
-            protein = pr.readFasta(filePath=preloaded)[entry]
+            protein = pr.read_fasta(file_path=preloaded)[entry]
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
@@ -811,7 +811,7 @@ def callbacks(app):
                 pass
             if data == '':
                 return ''
-            protein = pr.readFasta(dataString=data)[entry]
+            protein = pr.read_fasta(data_string=data)[entry]
         else:
             return ''
 
@@ -949,7 +949,7 @@ def callbacks(app):
             return 'Please select an entry.'
 
         if preloaded is not None:
-            protein = pr.readFasta(filePath=preloaded)[entry]
+            protein = pr.read_fasta(file_path=preloaded)[entry]
 
         elif upload_contents is not None and preloaded is None:
             data = ''
@@ -962,7 +962,7 @@ def callbacks(app):
             if data == '':
                 return []
             try:
-                protein = pr.readFasta(dataString=data)[entry]
+                protein = pr.read_fasta(data_string=data)[entry]
             except Exception:
                 return ['NA']
         else:
