@@ -5,7 +5,7 @@ import requests
 import pandas as pd
 
 
-class UniprotQueryBuilder(object):
+class UniprotQueryBuilder():
     """class which handles the query of gff files from the UniProt database
         build following https://www.uniprot.org/help/api_queries
     """

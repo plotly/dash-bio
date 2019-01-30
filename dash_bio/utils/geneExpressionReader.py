@@ -2,51 +2,56 @@ import pandas as pd
 import tempfile
 
 
+# pylint: disable=unnecessary-lambda
+
 def parse_tsv(
-        contents='', filepath='', rowLabelsSource=None,
-        rows=None, columns=None,
-        headerRows=5, headerCols=2
+        contents='',
+        filepath='',
+        row_labels_source=None,
+        rows=None,
+        columns=None,
+        header_rows=5,
+        header_cols=2
 ):
 
-    if(len(contents) > 0):
+    if len(contents) > 0:
         with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tf:
             tf.write(contents)
             filepath = tf.name
-    df = pd.read_csv(filepath, sep='\t', skiprows=headerRows-1)
+    df = pd.read_csv(filepath, sep='\t', skiprows=header_rows-1)
 
     data = {}
 
-    selectedRows = []
-    selectedCols = []
+    selected_rows = []
+    selected_cols = []
 
-    allRows = []
-    if(rowLabelsSource is not None
-       and rowLabelsSource in df.keys().tolist()):
-        allRows = df[rowLabelsSource].tolist()
+    all_rows = []
+    if (row_labels_source is not None) and (row_labels_source in df.keys().tolist()):
+        all_rows = df[row_labels_source].tolist()
 
-    allCols = df.keys().tolist()[headerCols:]
-    if rows is not None and columns is not None:
+    all_cols = df.keys().tolist()[header_cols:]
+    if (rows is not None) and (columns is not None):
         for r in rows:
-            if r not in allRows:
+            if r not in all_rows:
                 continue
-            selectedRows.append(r)
-        selectedRows = list(map(lambda x: allRows.index(x), selectedRows))
+            selected_rows.append(r)
+        selected_rows = list(map(lambda x: all_rows.index(x), selected_rows))
 
         for c in columns:
-            if c not in allCols:
+            if c not in all_cols:
                 continue
-            selectedCols.append(c)
+            selected_cols.append(c)
 
-        selectedData = df.loc[selectedRows, selectedCols]
-        data = selectedData.values
+        selected_data = df.loc[selected_rows, selected_cols]
+        data = selected_data.values
 
     desc = {}
-    info = pd.read_csv(filepath, sep='^', nrows=headerRows-1, header=None)[0]
+    info = pd.read_csv(filepath, sep='^', nrows=header_rows-1, header=None)[0]
     for i in info:
         tmp = i.strip('#').split(':', 1)
-        if(len(tmp) < 2):
+        if len(tmp) < 2:
             desc['Source'] = tmp[0]
             continue
         desc[tmp[0]] = tmp[1]
 
-    return(data, desc, allRows, allCols)
+    return data, desc, all_rows, all_cols

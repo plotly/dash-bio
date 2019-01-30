@@ -3,7 +3,7 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bio
-from dash_bio.utils.xyzReader import readXYZ
+from dash_bio.utils.xyzReader import read_xyz
 
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "speck_")
 
@@ -100,7 +100,7 @@ def callbacks(app):
         [Input('speck-molecule-dropdown', 'value')]
     )
     def update_molecule(molecule_fname):
-        return readXYZ(molecule_fname)
+        return read_xyz(molecule_fname)
 
     @app.callback(
         Output('speck', 'scrollZoom'),
