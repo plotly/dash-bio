@@ -8,6 +8,9 @@ import plotly.graph_objs as go
 
 from dash_bio.utils.hoverTools import _get_hover_text
 
+SUGGESTIVE_LINE_LABEL = "suggestive line"
+GENOMEWIDE_LINE_LABEL = "genomewide line"
+
 
 def ManhattanPlot(
         dataframe,
@@ -438,6 +441,7 @@ class _ManhattanPlot():
 
         if suggestiveline_value:
             suggestiveline = go.layout.Shape(
+                name=SUGGESTIVE_LINE_LABEL,
                 type="line",
                 fillcolor=suggestiveline_color,
                 line=dict(
@@ -451,6 +455,7 @@ class _ManhattanPlot():
 
         if genomewideline_value:
             genomewideline = go.layout.Shape(
+                name=GENOMEWIDE_LINE_LABEL,
                 type="line",
                 fillcolor=genomewideline_color,
                 line=dict(
