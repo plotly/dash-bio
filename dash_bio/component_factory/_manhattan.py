@@ -566,7 +566,7 @@ class _ManhattanPlot():
             layout = go.Layout(
                 title=title,
                 xaxis={
-                    'title': self.xlabel,
+                    'title': self.xlabel if xlabel is None else xlabel,
                     'showgrid': showgrid,
                     'range': [xmin, xmax],
                     'tickmode': "array",
