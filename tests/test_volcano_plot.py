@@ -9,6 +9,8 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 from dash_bio import VolcanoPlot
+from dash_bio.component_factory._volcano import GENOMEWIDE_LINE_LABEL, \
+    EFFECT_SIZE_LINE_MIN_LABEL, EFFECT_SIZE_LINE_MAX_LABEL
 from tests.dashbio_demos.app_volcano_plot import DATASETS
 from .test_common_features import init_demo_app
 
@@ -32,7 +34,8 @@ PARAM_TYPES = {
     'int': int,
     'float': float,
     'bool': bool,
-    'str': str
+    'str': str,
+    'array': lambda x: [float(el) for el in x.split(',')]
 }
 
 
@@ -167,7 +170,6 @@ def test_effect_size_min_and_max(dash_threaded, selenium):
 
 # Volcano Plot component tests
 
-
 def template_test_parameters_volcanoplot(
         dash_threaded,
         selenium,
@@ -201,6 +203,9 @@ def template_test_parameters_volcanoplot(
         ]
     )
     def assert_value(fig, nclicks, input_value):
+        """Callback provided by the test user is called here.
+        This callback should return the string 'PASSED' if the test defined in it is successful.
+        """
         return assert_callback(fig, nclicks, input_value)
 
     dash_threaded(dummy_app)
@@ -269,5 +274,152 @@ def test_title(dash_threaded, selenium):
         selenium,
         assert_callback,
         'title',
-        'x-label-test'
+        'title-test'
+    )
+
+
+def test_effect_size_line_input_value(dash_threaded, selenium):
+    """Modifies the effect_size line value."""
+
+    def assert_callback(fig, nclicks, input_value):
+        min_val, max_val = PARAM_TYPES['array'](input_value)
+        print(min_val, max_val)
+        answer = ''
+        min_ok = False
+        max_ok = False
+        if nclicks is not None:
+            for shape in fig['layout']['shapes']:
+                if shape['name'] == EFFECT_SIZE_LINE_MIN_LABEL:
+                    min_ok = shape['x0'] == min_val
+                if shape['name'] == EFFECT_SIZE_LINE_MAX_LABEL:
+                    max_ok = shape['x0'] == max_val
+        if min_ok and max_ok:
+            answer = 'PASSED'
+        return answer
+
+    template_test_parameters_volcanoplot(
+        dash_threaded,
+        selenium,
+        assert_callback,
+        'effect_size_line',
+        '-1.5, 2.2',
+        'array'
+    )
+
+
+def test_genomewide_line_input_value(dash_threaded, selenium):
+    """Modifies the genomic line value."""
+
+    def assert_callback(fig, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            for shape in fig['layout']['shapes']:
+                if shape['name'] == GENOMEWIDE_LINE_LABEL:
+                    if shape['y0'] == float(input_value):
+                        answer = 'PASSED'
+        return answer
+
+    template_test_parameters_volcanoplot(
+        dash_threaded,
+        selenium,
+        assert_callback,
+        'genomewideline_value',
+        '4.5',
+        'float'
+    )
+
+
+def test_effect_size_line_input_color(dash_threaded, selenium):
+    """Modifies the effect_size line color."""
+
+    def assert_callback(fig, nclicks, input_value):
+        answer = ''
+        min_ok = False
+        max_ok = False
+        if nclicks is not None:
+            for shape in fig['layout']['shapes']:
+                if shape['name'] == EFFECT_SIZE_LINE_MIN_LABEL:
+                    min_ok = shape['line']['color'] == input_value
+                if shape['name'] == EFFECT_SIZE_LINE_MAX_LABEL:
+                    max_ok = shape['line']['color'] == input_value
+        if min_ok and max_ok:
+            answer = 'PASSED'
+        return answer
+
+    template_test_parameters_volcanoplot(
+        dash_threaded,
+        selenium,
+        assert_callback,
+        'effect_size_line_color',
+        'red'
+    )
+
+
+def test_genomewide_line_input_color(dash_threaded, selenium):
+    """Modifies the genomic line color."""
+
+    def assert_callback(fig, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            for shape in fig['layout']['shapes']:
+                if shape['name'] == GENOMEWIDE_LINE_LABEL:
+                    if shape['line']['color'] == input_value:
+                        answer = 'PASSED'
+        return answer
+
+    template_test_parameters_volcanoplot(
+        dash_threaded,
+        selenium,
+        assert_callback,
+        'genomewideline_color',
+        'green'
+    )
+
+
+def test_effect_size_line_input_width(dash_threaded, selenium):
+    """Modifies the effect_size line width."""
+
+    def assert_callback(fig, nclicks, input_value):
+        answer = ''
+        min_ok = False
+        max_ok = False
+        if nclicks is not None:
+            for shape in fig['layout']['shapes']:
+                if shape['name'] == EFFECT_SIZE_LINE_MIN_LABEL:
+                    min_ok = shape['line']['width'] == float(input_value)
+                if shape['name'] == EFFECT_SIZE_LINE_MAX_LABEL:
+                    max_ok = shape['line']['width'] == float(input_value)
+        if min_ok and max_ok:
+            answer = 'PASSED'
+        return answer
+
+    template_test_parameters_volcanoplot(
+        dash_threaded,
+        selenium,
+        assert_callback,
+        'effect_size_line_width',
+        '3',
+        'float'
+    )
+
+
+def test_genomewide_line_input_width(dash_threaded, selenium):
+    """Modifies the genomic line width."""
+
+    def assert_callback(fig, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            for shape in fig['layout']['shapes']:
+                if shape['name'] == GENOMEWIDE_LINE_LABEL:
+                    if shape['line']['width'] == float(input_value):
+                        answer = 'PASSED'
+        return answer
+
+    template_test_parameters_volcanoplot(
+        dash_threaded,
+        selenium,
+        assert_callback,
+        'genomewideline_width',
+        '3',
+        'float'
     )
