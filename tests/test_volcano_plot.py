@@ -12,7 +12,7 @@ from dash_bio import VolcanoPlot
 from dash_bio.component_factory._volcano import GENOMEWIDE_LINE_LABEL, \
     EFFECT_SIZE_LINE_MIN_LABEL, EFFECT_SIZE_LINE_MAX_LABEL
 from tests.dashbio_demos.app_volcano_plot import DATASETS
-from .test_common_features import init_demo_app
+from .test_common_features import init_demo_app, template_test_component_single_prop
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
 
@@ -41,29 +41,27 @@ PARAM_TYPES = {
 
 def volcano_plot_test_param_callback(
         nclicks,
-        param_name,
-        param_value,
-        param_type=None,
-        dataset=DATASETS['SET1']['dataframe']
+        p_name,
+        p_value,
+        prop_type=None,
 ):
     """Create a volcano plot with a single user chosen prop.
         :param nclicks: (string) html.Button 'n_clicks' Input
-        :param param_name: (string) dcc.Input 'value' State
-        :param param_value: (string) dcc.Input 'value' State
-        :param param_type: (string) one of PARAM_TYPES keys
+        :param p_name: (string) dcc.Input 'value' State
+        :param p_value: (string) dcc.Input 'value' State
+        :param prop_type: (string) one of PARAM_TYPES keys
             default: None
-        :param dataset: (panda DataFrame): a DataFrame with volcano plot data
         :return: a dash_bio.VolcanoPlot instance (which is a plotly.graph_objs.Figure instance)
     """
     answer = {'data': [], 'layout': {}}
     # avoid triggering at the creation of the button in the layout
     if nclicks is not None:
         # convert the parameter value to the right type
-        if param_type in PARAM_TYPES:
-            param_value = PARAM_TYPES[param_type](param_value)
-        arg_to_pass = {param_name: param_value}
+        if prop_type in PARAM_TYPES:
+            p_value = PARAM_TYPES[prop_type](p_value)
+        arg_to_pass = {p_name: p_value}
         answer = VolcanoPlot(
-            dataset,
+            DATASETS['SET1']['dataframe'],
             **arg_to_pass
         )
     return answer
@@ -230,10 +228,12 @@ def test_xlabel(dash_threaded, selenium):
                 answer = 'PASSED'
         return answer
 
-    template_test_parameters_volcanoplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        volcano_plot_test_param_callback,
         'xlabel',
         'x-label-test'
     )
@@ -249,10 +249,12 @@ def test_ylabel(dash_threaded, selenium):
                 answer = 'PASSED'
         return answer
 
-    template_test_parameters_volcanoplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        volcano_plot_test_param_callback,
         'ylabel',
         'y-label-test'
     )
@@ -268,10 +270,12 @@ def test_title(dash_threaded, selenium):
                 answer = 'PASSED'
         return answer
 
-    template_test_parameters_volcanoplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        volcano_plot_test_param_callback,
         'title',
         'title-test'
     )
@@ -296,10 +300,12 @@ def test_effect_size_line_input_value(dash_threaded, selenium):
             answer = 'PASSED'
         return answer
 
-    template_test_parameters_volcanoplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        volcano_plot_test_param_callback,
         'effect_size_line',
         '-1.5, 2.2',
         'array'
@@ -318,10 +324,12 @@ def test_genomewide_line_input_value(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_parameters_volcanoplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        volcano_plot_test_param_callback,
         'genomewideline_value',
         '4.5',
         'float'
@@ -345,10 +353,12 @@ def test_effect_size_line_input_color(dash_threaded, selenium):
             answer = 'PASSED'
         return answer
 
-    template_test_parameters_volcanoplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        volcano_plot_test_param_callback,
         'effect_size_line_color',
         'red'
     )
@@ -366,10 +376,12 @@ def test_genomewide_line_input_color(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_parameters_volcanoplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        volcano_plot_test_param_callback,
         'genomewideline_color',
         'green'
     )
@@ -392,10 +404,12 @@ def test_effect_size_line_input_width(dash_threaded, selenium):
             answer = 'PASSED'
         return answer
 
-    template_test_parameters_volcanoplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        volcano_plot_test_param_callback,
         'effect_size_line_width',
         '3',
         'float'
@@ -414,10 +428,12 @@ def test_genomewide_line_input_width(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_parameters_volcanoplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        volcano_plot_test_param_callback,
         'genomewideline_width',
         '3',
         'float'
