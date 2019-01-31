@@ -7,7 +7,7 @@ def run_standalone_app(layout, callbacks, port=8050, debug=True):
     app.scripts.config.serve_locally = True
     app.config['suppress_callback_exceptions'] = True
 
-    server = app.server
+    server = app.server  # noqa : F841
 
     app.layout = layout()  # assign layout
     callbacks(app)  # register all callbacks
