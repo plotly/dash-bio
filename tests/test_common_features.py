@@ -73,11 +73,31 @@ def template_test_component_single_prop(
         prop_name,
         prop_value,
         prop_type=None,
-        component_base=COMPONENT_PYTHON_BASE,
+        component_base=COMPONENT_PYTHON_BASE
 ):
-    """Share reusable test code for testing single props assignation to a component."""
-    dummy_app = dash.Dash(__name__)
-    dummy_app.layout = create_test_layout(app_name, component_base)
+    """Share reusable test code for testing single props assignation to a component.
+
+    :param dash_threaded: from pytest_dash
+    :param selenium: used to mimic a user programmatically
+    :param app_name: (string) name of the app
+    :param assert_callback: (func) this function is where the test should be explicitly defined,
+    this 'assert_callback' function should typically be defined within a test function which calls
+    'template_test_component_single_prop'.
+    :param update_component_callback: (func) this function will be assigned as a callback
+    which output is the component prop and which is triggered programmatically by a click on a
+    button which is inside the simple_app created to test the component
+    :param prop_name: (string) name of the component prop to test
+    :param prop_value: (string) value to pass to the component prop
+    :param prop_type: (string) specify what type is the component prop is, see PROP_TYPES
+        default: None
+    :param component_base: (string) specify whether the component is based on react or python
+        default: COMPONENT_PYTHON_BASE
+    :return:
+    """
+
+    simple_app = dash.Dash(__name__)
+    # generate a simple app to test the component's prop
+    simple_app.layout = create_test_layout(app_name, component_base)
 
     # the following callbacks depends whether the component is python or react based
     if component_base == COMPONENT_REACT_BASE:
@@ -85,7 +105,7 @@ def template_test_component_single_prop(
     else:
         component_prop = 'figure'
 
-    @dummy_app.callback(
+    @simple_app.callback(
         Output('test-{}-component'.format(app_name), component_prop),
         [Input('test-{}-btn'.format(app_name), 'n_clicks')],
         [
@@ -97,7 +117,7 @@ def template_test_component_single_prop(
         """Update the prop of the component when the button is clicked."""
         return update_component_callback(nclicks, p_name, p_value, prop_type)
 
-    @dummy_app.callback(
+    @simple_app.callback(
         Output('test-{}-assert-value-div'.format(app_name), 'children'),
         [Input('test-{}-component'.format(app_name), component_prop)],
         [
@@ -111,7 +131,7 @@ def template_test_component_single_prop(
         """
         return assert_callback(fig, nclicks, input_value)
 
-    dash_threaded(dummy_app)
+    dash_threaded(simple_app)
 
     prop_name_input = wait_for_element_by_css_selector(
         selenium,
