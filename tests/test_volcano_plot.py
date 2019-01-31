@@ -143,10 +143,10 @@ def volcano_plot_test_param_callback(
 def test_xlabel(dash_threaded, selenium):
     """Change xlabel."""
 
-    def assert_callback(fig, nclicks, input_value):
+    def assert_callback(p_value, nclicks, input_value):
         answer = ''
         if nclicks is not None:
-            if input_value == fig['layout']['xaxis']['title']['text']:
+            if input_value == p_value['layout']['xaxis']['title']['text']:
                 answer = 'PASSED'
         return answer
 
@@ -164,10 +164,10 @@ def test_xlabel(dash_threaded, selenium):
 def test_ylabel(dash_threaded, selenium):
     """Change ylabel."""
 
-    def assert_callback(fig, nclicks, input_value):
+    def assert_callback(p_value, nclicks, input_value):
         answer = ''
         if nclicks is not None:
-            if input_value == fig['layout']['yaxis']['title']['text']:
+            if input_value == p_value['layout']['yaxis']['title']['text']:
                 answer = 'PASSED'
         return answer
 
@@ -185,10 +185,10 @@ def test_ylabel(dash_threaded, selenium):
 def test_title(dash_threaded, selenium):
     """Change title."""
 
-    def assert_callback(fig, nclicks, input_value):
+    def assert_callback(p_value, nclicks, input_value):
         answer = ''
         if nclicks is not None:
-            if input_value == fig['layout']['title']['text']:
+            if input_value == p_value['layout']['title']['text']:
                 answer = 'PASSED'
         return answer
 
@@ -206,14 +206,14 @@ def test_title(dash_threaded, selenium):
 def test_effect_size_line_input_value(dash_threaded, selenium):
     """Modifies the effect_size line value."""
 
-    def assert_callback(fig, nclicks, input_value):
+    def assert_callback(p_value, nclicks, input_value):
         min_val, max_val = PROP_TYPES['array'](input_value)
         print(min_val, max_val)
         answer = ''
         min_ok = False
         max_ok = False
         if nclicks is not None:
-            for shape in fig['layout']['shapes']:
+            for shape in p_value['layout']['shapes']:
                 if shape['name'] == EFFECT_SIZE_LINE_MIN_LABEL:
                     min_ok = shape['x0'] == min_val
                 if shape['name'] == EFFECT_SIZE_LINE_MAX_LABEL:
@@ -237,10 +237,10 @@ def test_effect_size_line_input_value(dash_threaded, selenium):
 def test_genomewide_line_input_value(dash_threaded, selenium):
     """Modifies the genomic line value."""
 
-    def assert_callback(fig, nclicks, input_value):
+    def assert_callback(p_value, nclicks, input_value):
         answer = ''
         if nclicks is not None:
-            for shape in fig['layout']['shapes']:
+            for shape in p_value['layout']['shapes']:
                 if shape['name'] == GENOMEWIDE_LINE_LABEL:
                     if shape['y0'] == float(input_value):
                         answer = 'PASSED'
@@ -261,12 +261,12 @@ def test_genomewide_line_input_value(dash_threaded, selenium):
 def test_effect_size_line_input_color(dash_threaded, selenium):
     """Modifies the effect_size line color."""
 
-    def assert_callback(fig, nclicks, input_value):
+    def assert_callback(p_value, nclicks, input_value):
         answer = ''
         min_ok = False
         max_ok = False
         if nclicks is not None:
-            for shape in fig['layout']['shapes']:
+            for shape in p_value['layout']['shapes']:
                 if shape['name'] == EFFECT_SIZE_LINE_MIN_LABEL:
                     min_ok = shape['line']['color'] == input_value
                 if shape['name'] == EFFECT_SIZE_LINE_MAX_LABEL:
@@ -289,10 +289,10 @@ def test_effect_size_line_input_color(dash_threaded, selenium):
 def test_genomewide_line_input_color(dash_threaded, selenium):
     """Modifies the genomic line color."""
 
-    def assert_callback(fig, nclicks, input_value):
+    def assert_callback(p_value, nclicks, input_value):
         answer = ''
         if nclicks is not None:
-            for shape in fig['layout']['shapes']:
+            for shape in p_value['layout']['shapes']:
                 if shape['name'] == GENOMEWIDE_LINE_LABEL:
                     if shape['line']['color'] == input_value:
                         answer = 'PASSED'
@@ -312,12 +312,12 @@ def test_genomewide_line_input_color(dash_threaded, selenium):
 def test_effect_size_line_input_width(dash_threaded, selenium):
     """Modifies the effect_size line width."""
 
-    def assert_callback(fig, nclicks, input_value):
+    def assert_callback(p_value, nclicks, input_value):
         answer = ''
         min_ok = False
         max_ok = False
         if nclicks is not None:
-            for shape in fig['layout']['shapes']:
+            for shape in p_value['layout']['shapes']:
                 if shape['name'] == EFFECT_SIZE_LINE_MIN_LABEL:
                     min_ok = shape['line']['width'] == float(input_value)
                 if shape['name'] == EFFECT_SIZE_LINE_MAX_LABEL:
@@ -341,10 +341,10 @@ def test_effect_size_line_input_width(dash_threaded, selenium):
 def test_genomewide_line_input_width(dash_threaded, selenium):
     """Modifies the genomic line width."""
 
-    def assert_callback(fig, nclicks, input_value):
+    def assert_callback(p_value, nclicks, input_value):
         answer = ''
         if nclicks is not None:
-            for shape in fig['layout']['shapes']:
+            for shape in p_value['layout']['shapes']:
                 if shape['name'] == GENOMEWIDE_LINE_LABEL:
                     if shape['line']['width'] == float(input_value):
                         answer = 'PASSED'

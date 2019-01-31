@@ -133,11 +133,11 @@ def template_test_component_single_prop(
             State('test-{}-prop-value-input'.format(app_name), 'value')
         ]
     )
-    def assert_value(fig, nclicks, input_value):
+    def assert_value(p_value, nclicks, input_value):
         """Callback provided by the test user is called here.
         This callback should return the string 'PASSED' if the test defined in it is successful.
         """
-        return assert_callback(fig, nclicks, input_value)
+        return assert_callback(p_value, nclicks, input_value)
 
     dash_threaded(simple_app)
 
