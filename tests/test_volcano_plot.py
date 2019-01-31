@@ -73,9 +73,8 @@ def volcano_plot_test_param_callback(
 @init_demo_app(APP_NAME)
 def test_click_app_link_from_gallery(dash_threaded, selenium):
 
-    assert selenium.current_url.replace('http://localhost:8050', '') == '/dash-bio/{}'.format(
-        APP_NAME
-    )
+    assert selenium.current_url.replace('http://localhost:8050', '').strip('/') == \
+           'dash-bio/{}'.format(APP_NAME)
 
 
 @init_demo_app(APP_NAME)
