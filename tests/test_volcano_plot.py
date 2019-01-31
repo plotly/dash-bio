@@ -12,7 +12,7 @@ from dash_bio import VolcanoPlot
 from dash_bio.component_factory._volcano import GENOMEWIDE_LINE_LABEL, \
     EFFECT_SIZE_LINE_MIN_LABEL, EFFECT_SIZE_LINE_MAX_LABEL
 from tests.dashbio_demos.app_volcano_plot import DATASETS
-from .test_common_features import init_demo_app, template_test_component_single_prop
+from .test_common_features import init_demo_app, template_test_component_single_prop, PROP_TYPES
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
 
@@ -30,13 +30,6 @@ LAYOUT = html.Div(
     ]
 )
 
-PARAM_TYPES = {
-    'int': int,
-    'float': float,
-    'bool': bool,
-    'str': str,
-    'array': lambda x: [float(el) for el in x.split(',')]
-}
 
 
 def volcano_plot_test_param_callback(
@@ -57,8 +50,8 @@ def volcano_plot_test_param_callback(
     # avoid triggering at the creation of the button in the layout
     if nclicks is not None:
         # convert the parameter value to the right type
-        if prop_type in PARAM_TYPES:
-            p_value = PARAM_TYPES[prop_type](p_value)
+        if prop_type in PROP_TYPES:
+            p_value = PROP_TYPES[prop_type](p_value)
         arg_to_pass = {p_name: p_value}
         answer = VolcanoPlot(
             DATASETS['SET1']['dataframe'],
@@ -285,7 +278,7 @@ def test_effect_size_line_input_value(dash_threaded, selenium):
     """Modifies the effect_size line value."""
 
     def assert_callback(fig, nclicks, input_value):
-        min_val, max_val = PARAM_TYPES['array'](input_value)
+        min_val, max_val = PROP_TYPES['array'](input_value)
         print(min_val, max_val)
         answer = ''
         min_ok = False

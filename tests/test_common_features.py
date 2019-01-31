@@ -13,6 +13,14 @@ import dash_core_components as dcc
 COMPONENT_PYTHON_BASE = 'python'
 COMPONENT_REACT_BASE = 'react'
 
+PROP_TYPES = {
+    'int': int,
+    'float': float,
+    'bool': bool,
+    'str': str,
+    'array': lambda x: [float(el) for el in x.split(',')]
+}
+
 
 def access_demo_app(dash_threaded, selenium, app_name):
     """Mimic a user click on the app link from the gallery."""
