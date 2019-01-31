@@ -1,4 +1,5 @@
 import functools
+from importlib import import_module
 from pytest_dash.utils import (
     import_app,
     wait_for_element_by_id,
@@ -44,16 +45,33 @@ def init_demo_app(app_name):
     return decorator_init_demo_app
 
 
-def create_test_layout(app_name, component_base):
+def import_component(component_name):
+    """Imports a component from the dash_bio package given its name.
+        :param component_name: (string) formatted like 'part_1-part_2-...-part_N', where each
+        part_i are in lower case.
+        :return: a dash_bio.ComponentName class, where ComponentName is the same as
+        component_name with '-' removed and each part_i having the first letter in upper case.
+    Example: 'needle-plot' will return dash_bio.NeedlePlot class.
+    """
+    name_parts = component_name.split('-')
+    component_name = ''
+    # loop over the parts
+    for name in name_parts:
+        component_name = '{}{}{}'.format(component_name, name[0].upper(), name[1:])
+    component_module = import_module('.{}'.format(component_name), package='dash_bio')
+    return getattr(component_module, component_name)
+
+
+def create_test_layout(app_name, component_base, **kwargs):
+    """Create a simple layout for an app to test component's props."""
     component_id = 'test-{}-component'.format(app_name)
+
     if component_base == COMPONENT_PYTHON_BASE:
         component = dcc.Graph(id=component_id)
     elif component_base == COMPONENT_REACT_BASE:
-        # TODO : find a way to load dashbio.VolcanoPlot if we have 'volcano-plot' for app_name
-        # this placeholder code would then read
-        # component = dashbio.ComponentName(id=component_id)
-        # or similar
-        component = dcc.Graph(id=component_id)
+        # equivalent to `component = dashbio.ComponentName(id=component_id)`
+        component_class = import_component(app_name)
+        component = component_class(id=component_id, **kwargs)
     else:
         raise ValueError("component_base argument must be one of {}".format([
             COMPONENT_PYTHON_BASE,
@@ -81,7 +99,8 @@ def template_test_component_single_prop(
         prop_name,
         prop_value,
         prop_type=None,
-        component_base=COMPONENT_PYTHON_BASE
+        component_base=COMPONENT_PYTHON_BASE,
+        **kwargs
 ):
     """Share reusable test code for testing single props assignation to a component.
 
@@ -105,7 +124,7 @@ def template_test_component_single_prop(
 
     simple_app = dash.Dash(__name__)
     # generate a simple app to test the component's prop
-    simple_app.layout = create_test_layout(app_name, component_base)
+    simple_app.layout = create_test_layout(app_name, component_base, **kwargs)
 
     # the following callbacks depends whether the component is python or react based
     if component_base == COMPONENT_REACT_BASE:
