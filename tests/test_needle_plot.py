@@ -1,4 +1,5 @@
 import os
+import json
 from tests.dashbio_demos.app_needle_plot import load_mutation_data, DATAPATH, DEMO_DATA
 from .test_common_features import init_demo_app, template_test_component_single_prop, \
     PROP_TYPES, COMPONENT_REACT_BASE
@@ -29,11 +30,9 @@ def needle_plot_test_props_callback(
             default: None
         :return: the value of the prop to the dash.dependencies.Ouput()
     """
-    print('In update value callback')
-    print(p_name)
-    print(p_value)
-    print(prop_type)
     answer = None
+    if prop_type == 'dict':
+        answer = {}
     # avoid triggering at the creation of the button in the layout
     if nclicks is not None:
         # convert the parameter value to the right type
@@ -48,9 +47,6 @@ def test_rangeslider(dash_threaded, selenium):
 
     def assert_callback(p_value, nclicks, input_value):
         answer = ''
-        print(p_value)
-        print(nclicks)
-        print(input_value)
         if nclicks is not None:
             if bool(input_value) == p_value:
                 answer = 'PASSED'
@@ -75,10 +71,6 @@ def test_xlabel(dash_threaded, selenium):
 
     def assert_callback(p_value, nclicks, input_value):
         answer = ''
-        print('In assert callback')
-        print(p_value)
-        print(nclicks)
-        print(input_value)
         if nclicks is not None:
             if input_value == p_value:
                 answer = 'PASSED'
@@ -102,10 +94,6 @@ def test_ylabel(dash_threaded, selenium):
 
     def assert_callback(p_value, nclicks, input_value):
         answer = ''
-        print('In assert callback')
-        print(p_value)
-        print(nclicks)
-        print(input_value)
         if nclicks is not None:
             if input_value == p_value:
                 answer = 'PASSED'
@@ -122,3 +110,67 @@ def test_ylabel(dash_threaded, selenium):
         component_base=COMPONENT_REACT_BASE,
         mutationData=load_mutation_data('{}{}'.format(DATAPATH, DEMO_DATA[0]['mutData']))
     )
+
+
+def generate_assert_callback_subprop(subprop, subprop_type):
+    """Test props which are within a dict."""
+    def assert_callback_subprop(p_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            input_value = json.loads(input_value)
+            if PROP_TYPES[subprop_type](input_value[subprop]) \
+                    == PROP_TYPES[subprop_type](p_value[subprop]):
+                answer = 'PASSED'
+        return answer
+    return assert_callback_subprop
+
+
+def generate_subprop_test(dash_threaded, selenium, prop, subprop, subprop_type, subprop_val):
+    """Create a test for a prop within a dict."""
+    template_test_component_single_prop(
+        dash_threaded,
+        selenium,
+        APP_NAME,
+        generate_assert_callback_subprop(subprop, subprop_type),
+        needle_plot_test_props_callback,
+        prop,
+        '{"%s": %s}' % (subprop, subprop_val),
+        prop_type='dict',
+        component_base=COMPONENT_REACT_BASE,
+        mutationData=load_mutation_data('{}{}'.format(DATAPATH, DEMO_DATA[0]['mutData']))
+    )
+
+
+def test_needlestyle_stemcolor(dash_threaded, selenium):
+    sp = 'stemColor'
+    sp_type = 'str'
+    sp_val = '"blue"'
+    generate_subprop_test(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
+
+
+def test_needlestyle_stemthickness(dash_threaded, selenium):
+    sp = 'stemThickness'
+    sp_type = 'int'
+    sp_val = 5
+    generate_subprop_test(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
+
+
+def test_needlestyle_stemconstheight(dash_threaded, selenium):
+    sp = 'stemConstHeight'
+    sp_type = 'bool'
+    sp_val = '"true"'
+    generate_subprop_test(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
+
+
+def test_needlestyle_headsize(dash_threaded, selenium):
+    sp = 'headSize'
+    sp_type = 'int'
+    sp_val = 10
+    generate_subprop_test(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
+
+
+def test_needlestyle_headcolor(dash_threaded, selenium):
+    sp = 'headColor'
+    sp_type = 'str'
+    sp_val = '"grey"'
+    generate_subprop_test(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
