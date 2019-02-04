@@ -1,11 +1,10 @@
 # File adapted from dash-docs/tutorial/tools.py
-from index import app
 
 
 def exception_handler(func):
-    def wrapper(path):
+    def wrapper(path, app):
         try:
-            return func(path)
+            return func(path, app)
         except Exception as e:
             print('\nError running {}\n{}'.format(
                 path,
@@ -17,7 +16,8 @@ def exception_handler(func):
 
 
 @exception_handler
-def load_example(path):
+def load_example(path, app):
+    """Read source into string for demo app code and layout."""
     with open(path, 'r') as _f:
         _source = _f.read()
         _example = _source
