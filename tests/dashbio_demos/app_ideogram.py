@@ -11,7 +11,8 @@ DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "ideogram_
 
 rat_data = ideoParser.ncbi_gdp_to_list("{}10116_GCF_000000225.4_NA_V1".format(DATAPATH))
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__,
+                assets_folder='assets/')
 
 # Handle callback to component with id "fullband-switch"
 app.config['suppress_callback_exceptions'] = True
