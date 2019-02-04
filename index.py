@@ -8,6 +8,8 @@ import dash_html_components as html
 import logging
 
 from tests.dashbio_demos.utils.tools import load_example
+from tests.dashbio_demos.utils.app_wrapper import app_page_layout
+
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
@@ -31,6 +33,9 @@ apps = {
     for filename in appList
     if filename.startswith("app_") and filename.endswith(".py")
 }
+
+for key in apps:
+    apps[key].callbacks(app)
 
 # TODO Remove line below once all demo apps are adapted.
 apps = {'ideogram': apps['ideogram']}
@@ -146,6 +151,15 @@ def display_app(pathname):
     if app_name in apps.keys():
         app_path = os.path.join('.', 'tests', 'dashbio_demos', 'app_' + app_name + '.py')
         [source_code, app_layout] = load_example(app_path, app)
+        return html.Div(
+            id="waitfor",
+            children=app_page_layout(
+                app_layout,
+                app_title=demo_app_name(app_name),
+                app_github_url=demo_app_github_url(app_name),
+                **demo_app_header_colors(app_name)
+            )
+        )
     else:
         return """
             App not found.

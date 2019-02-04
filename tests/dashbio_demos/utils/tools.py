@@ -48,9 +48,12 @@ def load_example(path, app):
         # Remove the "# Run the server" commands
         if 'app.run_server' not in _example:
             raise Exception('app.run_server missing')
+
+        _example = _example.replace('\n    callbacks(app)', '\n    # callbacks(app)')
+
         _example = _example.replace(
             '\n    app.run_server',
-            'print("Running")\n    # app.run_server'
+            '    print("Running")\n    # app.run_server'
         )
 
         scope = {'app': app}
