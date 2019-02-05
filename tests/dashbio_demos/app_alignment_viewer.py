@@ -246,3 +246,8 @@ def callbacks(app):
     )
     def update_chart(input_data):
         return input_data
+
+
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+    run_standalone_app(layout, callbacks)

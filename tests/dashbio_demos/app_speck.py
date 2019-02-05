@@ -138,3 +138,8 @@ def callbacks(app):
     )
     def preset_callback(preset_val):
         return preset_val
+
+
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+    run_standalone_app(layout, callbacks)

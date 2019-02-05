@@ -727,3 +727,8 @@ def callbacks(app):
         if contents is not None:
             return None
         return current
+
+
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+    run_standalone_app(layout, callbacks)
