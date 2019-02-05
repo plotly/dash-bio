@@ -171,7 +171,7 @@ will remain available for 5 days.
 *Deployment is done from the `master` branch only.*
 
 #### Step 1: Initialize the app on the playground server
-Log in to your account on
+Log into your account on
 [dash-playground.plotly.host](dash-playground.plotly.host) and create
 a new application. The name of the application should consist of the
 component name in lowercase, with words separated by dashes (`-`). The
