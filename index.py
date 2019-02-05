@@ -32,6 +32,7 @@ apps = {
     if filename.startswith("app_") and filename.endswith(".py")
 }
 
+
 for key in apps:
     apps[key].callbacks(app)
 
@@ -100,7 +101,7 @@ def demo_app_github_url(name):
 
 def demo_app_link_id(name):
     """Returns the value of the id of the dcc.Link related to the demo app. """
-    return 'app-link-id-{}'.format(name)
+    return 'app-link-id-{}'.format(name.replace("_", "-"))
 
 
 @app.callback(Output("container", "children"), [Input("location", "pathname")])
