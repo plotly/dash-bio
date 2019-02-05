@@ -187,7 +187,7 @@ you made to the `Procfile`.
 
 #### Step 3: Push to the playground server
 Run `git push gallery-test master`. This will deploy the app on the
-playground server. Test that it works by visiting the url that is
+playground server. Test that it works by visiting the URL that is
 displayed in the console.
 
 #### Step 4: Initialize the app on the dash-bio server and push to it 
