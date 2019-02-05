@@ -199,7 +199,7 @@ URL]`). Then, run `git push gallery master`.
 
 #### Step 5: Undo the `Procfile` commit 
 Run `git log` to find the ID of the commit prior to the one that you
-just made to change the `Procfile`. Then, reset yoru local branch to
+just made to change the `Procfile`. Then, reset your local branch to
 this commit so that the `index.py` app still deploys and runs
 normally. You can do this by running `git reset --hard [commit ID]`.
 
