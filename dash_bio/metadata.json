@@ -2088,38 +2088,6 @@
         },
         "required": false,
         "description": "Dash-assigned callback that should be called whenever any of the\nproperties change"
-      },
-      "dashEvents": {
-        "type": {
-          "name": "enum",
-          "value": [
-            {
-              "value": "'click'",
-              "computed": false
-            },
-            {
-              "value": "'hover'",
-              "computed": false
-            },
-            {
-              "value": "'unhover'",
-              "computed": false
-            },
-            {
-              "value": "'selected'",
-              "computed": false
-            }
-          ]
-        },
-        "required": false,
-        "description": ""
-      },
-      "fireEvent": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Function that fires events"
       }
     }
   },
