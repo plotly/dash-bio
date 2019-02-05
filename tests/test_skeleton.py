@@ -1,3 +1,5 @@
+# pylint: skip-file
+
 import os
 from selenium.webdriver.common.keys import Keys
 from pytest_dash.utils import (
