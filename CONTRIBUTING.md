@@ -171,7 +171,7 @@ will remain available for 5 days.
 *Deployment is done from the `master` branch only.*
 
 #### Step 1: Initialize the app on the playground server
-Log in to your account on
+Log into your account on
 [dash-playground.plotly.host](dash-playground.plotly.host) and create
 a new application. The name of the application should consist of the
 component name in lowercase, with words separated by dashes (`-`). The
@@ -207,7 +207,5 @@ normally. You can do this by running `git reset --hard [commit ID]`.
 Since you've reverted the change, running `git diff` should return
 nothing.
 
-#### Step 7: Deploying updates to the `master` branch
-If the `master` branch has been updated, you can push all the changes
-to the dash-bio remote. However, make sure that the `Procfile` on the
-dash-bio remote stays the same.
+#### Step 7: Deploy updates to the `master` branch
+If the `master` branch has been updated, you can push all the changes to the dash-bio remote. However, make sure that the `Procfile` on the dash-bio remote stays the same. 
