@@ -1,4 +1,5 @@
 # pylint: skip-file
+# flake8: noqa
 
 import os
 from selenium.webdriver.common.keys import Keys
