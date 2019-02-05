@@ -176,7 +176,7 @@ Log into your account on
 a new application. The name of the application should consist of the
 component name in lowercase, with words separated by dashes (`-`). The
 deployment server will provide a remote repository URL that will
-contain the app. Add this to the list of remotes by running `git
+contain the app. Add it to the list of remotes by running `git
 remote add gallery-test [deployment server git URL]`.
 
 #### Step 2: Edit and commit the `Procfile`
@@ -187,7 +187,7 @@ you made to the `Procfile`.
 
 #### Step 3: Push to the playground server
 Run `git push gallery-test master`. This will deploy the app on the
-playground server. Test that it works by visiting the url that is
+playground server. Test that it works by visiting the URL that is
 displayed in the console.
 
 #### Step 4: Initialize the app on the dash-bio server and push to it 
@@ -199,7 +199,7 @@ URL]`). Then, run `git push gallery master`.
 
 #### Step 5: Undo the `Procfile` commit 
 Run `git log` to find the ID of the commit prior to the one that you
-just made to change the `Procfile`. Then, reset yoru local branch to
+just made to change the `Procfile`. Then, reset your local branch to
 this commit so that the `index.py` app still deploys and runs
 normally. You can do this by running `git reset --hard [commit ID]`.
 
