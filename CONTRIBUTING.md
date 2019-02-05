@@ -207,5 +207,5 @@ normally. You can do this by running `git reset --hard [commit ID]`.
 Since you've reverted the change, running `git diff` should return
 nothing.
 
-#### Step 7: Deploying updates to the `master` branch
+#### Step 7: Deploy updates to the `master` branch
 If the `master` branch has been updated, you can push all the changes to the dash-bio remote. However, make sure that the `Procfile` on the dash-bio remote stays the same. 
