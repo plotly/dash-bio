@@ -12,14 +12,12 @@ static_image_route = '/static/'
 
 
 def header_colors():
-      return {
-          'bg_color': '#4d0000',
-          'font_color': 'white'
-      }
-  
-  
+    return {'bg_color': '#4d0000',
+            'font_color': 'white'}
+
+
 def description():
-      return "An interactive genome viewer with multiple tracks, aimed at investigating genomic variants."
+    return "An interactive genome viewer with multiple tracks, aimed at investigating genomic variants."
 
 
 def layout():
@@ -43,5 +41,7 @@ def callbacks(app):
     print("ok")
     @app.server.route('{}<data_path>'.format(static_image_route))
     def serve_image(data_path):
-        data_path
+        if data_path not in list_of_data:
+            raise Exception(
+        '"{}" is excluded from the allowed static files'.format(data_path))
         return flask.send_from_directory(data_directory, data_path)
