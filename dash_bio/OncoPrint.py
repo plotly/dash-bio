@@ -40,13 +40,16 @@ with mutation information.
 - width (number | string; optional): Width of the OncoPrint.
 Will disable auto-resizing of plots if set.
 - height (number | string; optional): Height of the OncoPrint.
-Will disable auto-resizing of plots if set."""
+Will disable auto-resizing of plots if set.
+
+Available events: """
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, eventDatum=Component.UNDEFINED, data=Component.UNDEFINED, padding=Component.UNDEFINED, colorscale=Component.UNDEFINED, backgroundcolor=Component.UNDEFINED, range=Component.UNDEFINED, showlegend=Component.UNDEFINED, showoverview=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'eventDatum', 'data', 'padding', 'colorscale', 'backgroundcolor', 'range', 'showlegend', 'showoverview', 'width', 'height']
         self._type = 'OncoPrint'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
+        self.available_events = []
         self.available_properties = ['id', 'eventDatum', 'data', 'padding', 'colorscale', 'backgroundcolor', 'range', 'showlegend', 'showoverview', 'width', 'height']
         self.available_wildcard_properties =            []
 

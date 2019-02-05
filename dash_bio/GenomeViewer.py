@@ -10,8 +10,7 @@ Please checkout the Dash Bio repository
 on github to learn more about this API.
 
 Keyword arguments:
-- id (string; required): The ID used to identify this component in Dash callbacks
-and used to identify Ideogram instances.
+- id (string; required): The ID used to identify this component in Dash callbacks.
 - genomedata (string; required): URL or data string of genome data, in .2bit format
 - trackdata (string; required): Track data, in .bam format
 - trackindex (string; required): Track index for track data, in .bam.bai style
@@ -21,10 +20,12 @@ and used to identify Ideogram instances.
 - showscale (boolean; optional): If True, display a scale with the number of represented
 basis pairs.
 - showlocation (boolean; optional): If True, display the number of the central basis pair.
-- showvariants (boolean; optional): If True, show possible variants.
-- variantdata (string; optional): Variant data
-- showgenes (boolean; optional): If True, the location of genes is displayed.
-- genedata (string; required): Gene data.
+- showvariants (boolean; optional): If True, display variant track for marking regions on the genome
+containing a called variant.
+- variantdata (string; optional): URL of variant data
+- showgenes (boolean; optional): If True, display track for annotating genomic regions with gene
+names (introns, exons, coding regions).
+- genedata (string; required): URL of gene data.
 - showcoverage (boolean; optional): If True, coverage is shown.
 - compare (boolean; optional): If True, (???)
 

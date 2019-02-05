@@ -1192,7 +1192,7 @@
           "name": "string"
         },
         "required": true,
-        "description": "The ID used to identify this component in Dash callbacks\nand used to identify Ideogram instances."
+        "description": "The ID used to identify this component in Dash callbacks."
       },
       "genomedata": {
         "type": {
@@ -1263,7 +1263,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "If True, show possible variants.",
+        "description": "If True, display variant track for marking regions on the genome\ncontaining a called variant.",
         "defaultValue": {
           "value": "true",
           "computed": false
@@ -1274,14 +1274,14 @@
           "name": "string"
         },
         "required": false,
-        "description": "Variant data"
+        "description": "URL of variant data"
       },
       "showgenes": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "If True, the location of genes is displayed.",
+        "description": "If True, display track for annotating genomic regions with gene\nnames (introns, exons, coding regions).",
         "defaultValue": {
           "value": "true",
           "computed": false
@@ -1292,7 +1292,7 @@
           "name": "string"
         },
         "required": true,
-        "description": "Gene data."
+        "description": "URL of gene data."
       },
       "showcoverage": {
         "type": {

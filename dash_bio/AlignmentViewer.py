@@ -92,13 +92,16 @@ Property takes precedence over tileswidth and numtiles
 if either of them is set.
 - height (number | string; optional): Width of the Viewer.
 Property takes precedence over tilesheight if both
-are set."""
+are set.
+
+Available events: """
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, eventDatum=Component.UNDEFINED, data=Component.UNDEFINED, extension=Component.UNDEFINED, colorscale=Component.UNDEFINED, opacity=Component.UNDEFINED, textcolor=Component.UNDEFINED, textsize=Component.UNDEFINED, showlabel=Component.UNDEFINED, showid=Component.UNDEFINED, showconservation=Component.UNDEFINED, conservationcolor=Component.UNDEFINED, conservationcolorscale=Component.UNDEFINED, conservationopacity=Component.UNDEFINED, conservationmethod=Component.UNDEFINED, correctgap=Component.UNDEFINED, showgap=Component.UNDEFINED, gapcolor=Component.UNDEFINED, gapcolorscale=Component.UNDEFINED, gapopacity=Component.UNDEFINED, groupbars=Component.UNDEFINED, showconsensus=Component.UNDEFINED, tilewidth=Component.UNDEFINED, tileheight=Component.UNDEFINED, overview=Component.UNDEFINED, numtiles=Component.UNDEFINED, scrollskip=Component.UNDEFINED, tickstart=Component.UNDEFINED, ticksteps=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'eventDatum', 'data', 'extension', 'colorscale', 'opacity', 'textcolor', 'textsize', 'showlabel', 'showid', 'showconservation', 'conservationcolor', 'conservationcolorscale', 'conservationopacity', 'conservationmethod', 'correctgap', 'showgap', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'showconsensus', 'tilewidth', 'tileheight', 'overview', 'numtiles', 'scrollskip', 'tickstart', 'ticksteps', 'width', 'height']
         self._type = 'AlignmentViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
+        self.available_events = []
         self.available_properties = ['id', 'eventDatum', 'data', 'extension', 'colorscale', 'opacity', 'textcolor', 'textsize', 'showlabel', 'showid', 'showconservation', 'conservationcolor', 'conservationcolorscale', 'conservationopacity', 'conservationmethod', 'correctgap', 'showgap', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'showconsensus', 'tilewidth', 'tileheight', 'overview', 'numtiles', 'scrollskip', 'tickstart', 'ticksteps', 'width', 'height']
         self.available_wildcard_properties =            []
 

@@ -173,7 +173,7 @@ export default class GenomeViewer extends Component {
     }
 
     render() {
-        return <div ref={(ref) => this.pileup = ref} />;
+        return <div ref={ref => (this.pileup = ref)} />;
     }
 }
 
