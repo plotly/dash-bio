@@ -8,6 +8,10 @@ import plotly.graph_objs as go
 
 from dash_bio.utils.hoverTools import _get_hover_text
 
+GENOMEWIDE_LINE_LABEL = "genomewide_line"
+EFFECT_SIZE_LINE_MIN_LABEL = "effect size min line"
+EFFECT_SIZE_LINE_MAX_LABEL = "effect size max line"
+
 
 def VolcanoPlot(
         dataframe,
@@ -479,6 +483,7 @@ class _VolcanoPlot():
         if effect_size_line:
             lines = [
                 go.layout.Shape(
+                    name=EFFECT_SIZE_LINE_MIN_LABEL,
                     type="line",
                     line=dict(
                         color=effect_size_line_color,
@@ -489,6 +494,7 @@ class _VolcanoPlot():
                     y0=ymin, y1=ymax, yref="y"
                 ),
                 go.layout.Shape(
+                    name=EFFECT_SIZE_LINE_MAX_LABEL,
                     type="line",
                     line=dict(
                         color=effect_size_line_color,
@@ -504,6 +510,7 @@ class _VolcanoPlot():
 
         if genomewideline_value:
             genomewideline = go.layout.Shape(
+                name=GENOMEWIDE_LINE_LABEL,
                 type="line",
                 line=dict(
                     color=genomewideline_color,
