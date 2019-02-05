@@ -51,7 +51,6 @@ export default class GenomeViewer extends Component {
 
         // Showscale and location for above
         if (showscale) {
-            console.log('showscale');
             this.tracks.push({
                 viz: viz.scale(),
                 name: 'Scale',
@@ -59,7 +58,6 @@ export default class GenomeViewer extends Component {
         }
 
         if (showlocation) {
-            console.log('showlocation');
             this.tracks.push({
                 viz: viz.location(),
                 name: 'Location',
@@ -68,7 +66,6 @@ export default class GenomeViewer extends Component {
 
         // Show variant track if supplied
         if (showvariants && variantdata) {
-            console.log('showvariants');
             this.tracks.push({
                 viz: viz.variants(),
                 data: formats.vcf({
@@ -90,7 +87,6 @@ export default class GenomeViewer extends Component {
 
         // Show gene track if supplied
         if (showgenes && genedata) {
-            console.log('showgenes');
             this.tracks.push({
                 viz: viz.genes(),
                 data: formats.bigBed({
@@ -102,18 +98,15 @@ export default class GenomeViewer extends Component {
 
         // Show coverage
         if (showcoverage) {
-            console.log('showcoverage');
             this.tracks.push({
                 viz: viz.coverage(),
                 data: track,
                 cssClass: 'normal',
                 name: 'Coverage',
             });
-            console.log('endcoverage');
         }
 
         // Show track
-        console.log('showalignments');
         this.tracks.push({
             viz: viz.pileup(),
             data: track,
@@ -123,7 +116,6 @@ export default class GenomeViewer extends Component {
 
         // Secondary track as pairs if viewed
         if (compare) {
-            console.log('compare');
             this.tracks.push({
                 viz: viz.coverage(),
                 data: track,
@@ -157,7 +149,6 @@ export default class GenomeViewer extends Component {
 
         // Only load if all data is supplied
         if (trackdata && trackindex && genomedata && contig && start && stop) {
-            console.log('all tracks created');
             this.pileup = create(this.pileup, {
                 range: {
                     contig: this.contig,
@@ -167,7 +158,6 @@ export default class GenomeViewer extends Component {
                 tracks: this.tracks,
             });
         } else {
-            console.log('bla');
             ReactDOM.render(this.pileup);
         }
     }
