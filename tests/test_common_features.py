@@ -47,17 +47,15 @@ def init_demo_app(app_name):
 
 def import_component(component_name):
     """Imports a component from the dash_bio package given its name.
-        :param component_name: (string) formatted like 'part_1-part_2-...-part_N', where each
-        part_i are in lower case.
-        :return: a dash_bio.ComponentName class, where ComponentName is the same as
-        component_name with '-' removed and each part_i having the first letter in upper case.
-    Example: 'needle-plot' will return dash_bio.NeedlePlot class.
+        :param component_name: (string) name of dash_bio component in snake case.
+        :return: a dash_bio.ComponentName class, where ComponentName is the component nane in
+        upper camel case.
+    Example: 'needle_plot' will return dash_bio.NeedlePlot class.
+    Example: 'needle-plot' will also return dash_bio.NeedlePlot class.
     """
-    name_parts = component_name.split('-')
-    component_name = ''
-    # loop over the parts
-    for name in name_parts:
-        component_name = '{}{}{}'.format(component_name, name[0].upper(), name[1:])
+    name_parts = component_name.replace('-', '_').split('_')
+    # Make the component name upper camel case
+    component_name = ''.join([name_part.title() for name_part in name_parts])
     component_module = import_module('.{}'.format(component_name), package='dash_bio')
     return getattr(component_module, component_name)
 
