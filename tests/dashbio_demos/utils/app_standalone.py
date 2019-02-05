@@ -15,13 +15,13 @@ def run_standalone_app(
     # Handle callback to component with id "fullband-switch"
     app.config['suppress_callback_exceptions'] = True
 
-    # Get all information from filename 
+    # Get all information from filename
     app_name = os.path.basename(filename).replace(
         '.py', '').replace(
             'app_', '')
 
     app_title = "Dash {}".format(app_name.replace('_', ' ').title())
-    
+
     # Assign layout
     app.layout = app_page_layout(
         page_layout=layout(),
