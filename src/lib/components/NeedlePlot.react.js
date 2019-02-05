@@ -145,10 +145,7 @@ export default class NeedlePlot extends Component {
                     data={data}
                     layout={layout}
                     onRelayout={this.handleChange}
-                    {...omit(
-                        ['fireEvent', 'dashEvent', 'setProps'],
-                        this.props
-                    )}
+                    {...omit(['setProps'], this.props)}
                 />
             </div>
         );
@@ -528,15 +525,6 @@ NeedlePlot.propTypes = {
      * properties change
      */
     setProps: PropTypes.func,
-
-    /**
-     *
-     */
-    dashEvents: PropTypes.oneOf(['click', 'hover', 'unhover', 'selected']),
-    /**
-     * Function that fires events
-     */
-    fireEvent: PropTypes.func,
 };
 
 NeedlePlot.defaultProps = {

@@ -14,26 +14,26 @@ EMPTY_MUT_DATA = dict(
 )
 
 PFAM_DOM_SCHEMA = {
-        "type": "array",
-        "items": {
-            "type": "object",
-            "properties": {
-                "region": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "text": {"type": "string"},
-                            "start": {"type": "string"},
-                            "end": {"type": "string"},
-                        },
-                        "required": ["text", "start", "end"]
-                    }
-                },
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "region": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "text": {"type": "string"},
+                        "start": {"type": "string"},
+                        "end": {"type": "string"},
+                    },
+                    "required": ["text", "start", "end"]
+                }
             },
-            "required": ["regions"]
-        }
+        },
+        "required": ["regions"]
     }
+}
 
 PROT_DOM_SCHEMA = {
     "type": "array",

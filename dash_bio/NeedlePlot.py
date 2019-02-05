@@ -12,7 +12,7 @@ Keyword arguments:
 in callbacks. The ID needs to be unique across all of the
 components in an app.
 - mutationData (optional): . mutationData has the following type: dict containing keys 'x', 'y', 'mutationGroups', 'domains'.
-Those keys have the following types: 
+Those keys have the following types:
   - x (string | list; optional)
   - y (string | list; optional)
   - mutationGroups (list; optional)
@@ -21,7 +21,7 @@ Those keys have the following types:
 - ylabel (string; optional)
 - rangeSlider (boolean; optional)
 - needleStyle (optional): . needleStyle has the following type: dict containing keys 'stemColor', 'stemThickness', 'stemConstHeight', 'headSize', 'headColor', 'headSymbol'.
-Those keys have the following types: 
+Those keys have the following types:
   - stemColor (string; optional)
   - stemThickness (number; optional)
   - stemConstHeight (boolean; optional)
@@ -29,18 +29,15 @@ Those keys have the following types:
   - headColor (list | string; optional)
   - headSymbol (list | string; optional)
 - domainStyle (optional): . domainStyle has the following type: dict containing keys 'domainColor', 'displayMinorDomains'.
-Those keys have the following types: 
+Those keys have the following types:
   - domainColor (list; optional)
-  - displayMinorDomains (boolean; optional)
-
-Available events: 'click', 'hover', 'unhover', 'selected'"""
+  - displayMinorDomains (boolean; optional)"""
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, mutationData=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, rangeSlider=Component.UNDEFINED, needleStyle=Component.UNDEFINED, domainStyle=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'mutationData', 'xlabel', 'ylabel', 'rangeSlider', 'needleStyle', 'domainStyle']
         self._type = 'NeedlePlot'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_events = ['click', 'hover', 'unhover', 'selected']
         self.available_properties = ['id', 'mutationData', 'xlabel', 'ylabel', 'rangeSlider', 'needleStyle', 'domainStyle']
         self.available_wildcard_properties =            []
 
