@@ -173,7 +173,7 @@ export default class GenomeViewer extends Component {
     }
 
     render() {
-        return <div ref={ref => (this.pileup = ref)} />;
+        return <div ref={(ref) => this.pileup = ref} />;
     }
 }
 
@@ -188,8 +188,7 @@ GenomeViewer.defaultProps = {
 
 GenomeViewer.propTypes = {
     /**
-     * The ID used to identify this component in Dash callbacks
-     * and used to identify Ideogram instances.
+     * The ID used to identify this component in Dash callbacks.
      */
     id: PropTypes.string.isRequired,
 
@@ -235,22 +234,24 @@ GenomeViewer.propTypes = {
     showlocation: PropTypes.bool,
 
     /**
-     * If True, show possible variants.
+     * If True, display variant track for marking regions on the genome
+     * containing a called variant.
      */
     showvariants: PropTypes.bool,
 
     /**
-     * Variant data
+     * URL of variant data
      */
     variantdata: PropTypes.string,
 
     /**
-     * If True, the location of genes is displayed.
+     * If True, display track for annotating genomic regions with gene
+     * names (introns, exons, coding regions).
      */
     showgenes: PropTypes.bool,
 
     /**
-     * Gene data.
+     * URL of gene data.
      */
     genedata: PropTypes.string.isRequired,
 
