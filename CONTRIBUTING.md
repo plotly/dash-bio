@@ -176,7 +176,7 @@ Log into your account on
 a new application. The name of the application should consist of the
 component name in lowercase, with words separated by dashes (`-`). The
 deployment server will provide a remote repository URL that will
-contain the app. Add this to the list of remotes by running `git
+contain the app. Add it to the list of remotes by running `git
 remote add gallery-test [deployment server git URL]`.
 
 #### Step 2: Edit and commit the `Procfile`
