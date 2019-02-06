@@ -6,14 +6,14 @@ import dash_bio
 from dash_bio.utils.xyzReader import read_xyz
 
 # running directly with Python
-if __name__ == '__main__': 
+if __name__ == '__main__':
     from utils.app_standalone import run_standalone_app
-    
+
 # running with gunicorn
 elif 'DASH_PATH_ROUTING' in os.environ:
     from tests.dashbio_demos.utils.app_standalone import run_standalone_app
 
-    
+
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "speck_")
 
 
@@ -102,7 +102,7 @@ def layout():
     ])
 
 
-def callbacks(app):
+def callbacks(app):  #pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('speck', 'data'),
@@ -152,5 +152,5 @@ def callbacks(app):
 app = run_standalone_app(layout, callbacks, header_colors, __file__)
 server = app.server
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     app.run_server(debug=True, port=8050)
