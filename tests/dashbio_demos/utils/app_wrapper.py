@@ -27,7 +27,9 @@ def app_page_layout(page_layout,
                                 ).decode()
                             )
                         ),
-                        href="/dash-{}".format(app_name) if standalone else "/dash-bio"
+                        href="/dash-{}".format(
+                            app_name.replace('_', '-')
+                        ) if standalone else "/dash-bio"
                     ),
                     html.H2(
                         app_title
