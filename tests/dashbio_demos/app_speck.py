@@ -150,7 +150,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
 
 # only declare app/server if the file is being run directly
-if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__': 
+if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
     app = run_standalone_app(layout, callbacks, header_colors, __file__)
     server = app.server
 
