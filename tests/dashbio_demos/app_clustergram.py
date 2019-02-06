@@ -6,6 +6,15 @@ import dash_html_components as html
 import dash_bio
 from dash_bio.utils import geneExpressionReader
 
+# running directly with Python
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+
+# running with gunicorn (on servers)
+elif 'DASH_PATH_ROUTING' in os.environ:
+    from tests.dashbio_demos.utils.app_standalone import run_standalone_app
+
+
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "clustergram_")
 
 colorPalette = [
@@ -361,7 +370,7 @@ def layout():
     ])
 
 
-def callbacks(app):
+def callbacks(app): # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('data-meta-storage', 'data'),
@@ -729,6 +738,10 @@ def callbacks(app):
         return current
 
 
+# only declare app/server if the file is being run directly
+if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
+    app = run_standalone_app(layout, callbacks, header_colors, __file__)
+    server = app.server
+
 if __name__ == '__main__':
-    from utils.app_standalone import run_standalone_app
-    run_standalone_app(layout, callbacks, header_colors, __file__)
+    app.run_server(debug=True, port=8050)
