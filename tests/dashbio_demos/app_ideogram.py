@@ -854,3 +854,8 @@ def callbacks(app):
             data = data.split("<br>")
             data = data[0] + " " + data[1]
         return data
+
+
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+    run_standalone_app(layout, callbacks, header_colors, __file__)

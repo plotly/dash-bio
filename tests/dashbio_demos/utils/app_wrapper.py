@@ -5,8 +5,9 @@ import base64
 
 def app_page_layout(page_layout,
                     app_title="Dash Bio App",
-                    app_github_url="",
+                    app_name="",
                     light_logo=True,
+                    standalone=False,
                     bg_color="#506784",
                     font_color="#F3F6FA"):
     return html.Div(
@@ -47,8 +48,11 @@ def app_page_layout(page_layout,
                                 )
                             )
                         ],
-                        href="http://github.com/plotly/dash-bio/"
-                             "blob/master/tests/dashbio_demos/app_{}.py".format(app_github_url)
+                        href="/" if standalone else
+                        "http://github.com/plotly/dash-bio/"
+                        "blob/master/tests/dashbio_demos/app_{}.py".format(
+                            app_name
+                        )
                     )
                 ],
                 style={

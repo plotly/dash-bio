@@ -1012,3 +1012,8 @@ def callbacks(app):
 
         domain_sty['domainColor'] = small_domains_colors
         return domain_sty
+
+
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+    run_standalone_app(layout, callbacks, header_colors, __file__)

@@ -263,3 +263,8 @@ def callbacks(app):
             idx = x > float(u_lim)
             number = len(x[idx])
         return str(number)
+
+
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+    run_standalone_app(layout, callbacks, header_colors, __file__)
