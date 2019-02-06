@@ -27,6 +27,7 @@ def run_standalone_app(
         page_layout=layout(),
         app_title=app_title,
         app_name=app_name,
+        standalone=True,
         **header_colors()
     )
 

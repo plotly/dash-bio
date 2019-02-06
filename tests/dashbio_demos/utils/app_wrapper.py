@@ -27,7 +27,7 @@ def app_page_layout(page_layout,
                                 ).decode()
                             )
                         ),
-                        href="/dash-bio"
+                        href="/" if standalone else "/dash-bio"
                     ),
                     html.H2(
                         app_title
