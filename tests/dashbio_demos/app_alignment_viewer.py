@@ -5,6 +5,14 @@ import dash_core_components as dcc
 from dash.dependencies import Input, Output
 import dash_bio
 
+# running directly with Python
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+
+# running with gunicorn (on servers)
+elif 'DASH_PATH_ROUTING' in os.environ:
+    from tests.dashbio_demos.utils.app_standalone import run_standalone_app
+
 
 text_style = {
     'color': "#506784",
@@ -204,7 +212,7 @@ def layout():
     ])
 
 
-def callbacks(app):
+def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # Handle file upload/selection into data store
     @app.callback(
@@ -248,6 +256,10 @@ def callbacks(app):
         return input_data
 
 
+# only declare app/server if the file is being run directly
+if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
+    app = run_standalone_app(layout, callbacks, header_colors, __file__)
+    server = app.server
+
 if __name__ == '__main__':
-    from utils.app_standalone import run_standalone_app
-    run_standalone_app(layout, callbacks, header_colors, __file__)
+    app.run_server(debug=True, port=8050)
