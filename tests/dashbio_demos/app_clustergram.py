@@ -370,7 +370,7 @@ def layout():
     ])
 
 
-def callbacks(app): # pylint: disable=redefined-outer-name
+def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('data-meta-storage', 'data'),
