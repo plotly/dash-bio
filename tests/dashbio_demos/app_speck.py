@@ -9,7 +9,7 @@ from dash_bio.utils.xyzReader import read_xyz
 if __name__ == '__main__':
     from utils.app_standalone import run_standalone_app
 
-# running with gunicorn
+# running with gunicorn (on servers)
 elif 'DASH_PATH_ROUTING' in os.environ:
     from tests.dashbio_demos.utils.app_standalone import run_standalone_app
 
@@ -149,8 +149,10 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return preset_val
 
 
-app = run_standalone_app(layout, callbacks, header_colors, __file__)
-server = app.server
+# only declare app/server if the file is being run directly
+if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__': 
+    app = run_standalone_app(layout, callbacks, header_colors, __file__)
+    server = app.server
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=8050)
