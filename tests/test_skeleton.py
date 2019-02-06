@@ -139,7 +139,7 @@ def test_PROPNAME(dash_threaded, selenium):
 
     # replace "None" with a string that defines the type of the prop
     # (e.g., 'int', 'float', 'list')
-    propType = None  
+    prop_type = None  
 
     template_test_component_single_prop(
         dash_threaded,
@@ -149,7 +149,7 @@ def test_PROPNAME(dash_threaded, selenium):
         COMPONENTNAME_test_props_callback,
         PROPNAME,
         input_PROPNAME,
-        propType=propType,
+        prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
         # add any arguments you want to send to your component
         # e.g.,
