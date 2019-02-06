@@ -86,19 +86,21 @@ def COMPONENTNAME_test_props_callback(
              prop_name, after casting it to the correct type. 
     """
 
+    typed_prop_value = None
+    
     # avoid triggering this callback when the button is first created
     if nclicks is not None:
         # cast the string representation of the desired prop value
         # into the appropriate type
 
         if prop_type in PROP_TYPES:
-            return PROP_TYPES[prop_type](prop_value)
+            typed_prop_value = PROP_TYPES[prop_type](prop_value)
 
         # define any other "translations" from a string to a datatype
         # below; e.g.,
-        # elif prop_type == 'list': return ...
+        # elif prop_type == 'list': typed_prop_value = ...
 
-    return None
+    return typed_prop_value
 
 
 # below, write tests for changing the props of the React component
