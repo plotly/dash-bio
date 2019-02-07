@@ -177,30 +177,18 @@ a new application. The name of the application should consist of the
 component name in lowercase, with words separated by dashes (`-`). The
 deployment server will provide a remote repository URL that will
 contain the app. Add it to the list of remotes by running `git
-remote add [component name]-test [deployment server git URL]`.
+remote add gallery-test [deployment server git URL]`.
 
-#### Step 2: Edit and commit app-specific files
-
-##### Step 2a: Edit the `Procfile`
+#### Step 2: Edit and commit the `Procfile`
 Edit the `Procfile` in the repository to say `gunicorn
-tests.dashbio_demos.app_name:server`, where `app_name` is the name of
-the app you want to deploy in the `tests/dashbio_demos/` folder. 
-
-##### Step 2b: Edit `config.py`
-Edit the `config.py` file in the repository such that the variable
-`DASH_APP_NAME` is set to `dash-component-name`, where
-`component-name` is the component name in lowercase, with words
-separated by dashes (`-`).
-
-##### Step 2c: Commit the changes
-Commit the `Procfile` and `config.py`, but *do not push to the
-`dash-bio` repo*!
+app_name:server`, where `app_name` is the name of the app you want to
+deploy in the `tests/dashbio_demos/` folder. Then, commit the change
+you made to the `Procfile`.
 
 #### Step 3: Push to the playground server
-Run `git push [component name]-test master`. This will deploy the app
-on the playground server. Test that it works by visiting the URL that
-is displayed in the console. Try out a few of the callbacks to make
-sure that they are working.
+Run `git push gallery-test master`. This will deploy the app on the
+playground server. Test that it works by visiting the URL that is
+displayed in the console.
 
 #### Step 4: Initialize the app on the dash-bio server and push to it 
 Log into the `admin` account on
@@ -209,7 +197,7 @@ instructions as in Step 1, but give this remote a different name
 (e.g., by running `git remote add gallery [deployment server git
 URL]`). Then, run `git push gallery master`.
 
-#### Step 5: Undo the app-specific commit 
+#### Step 5: Undo the `Procfile` commit 
 Run `git log` to find the ID of the commit prior to the one that you
 just made to change the `Procfile`. Then, reset your local branch to
 this commit so that the `index.py` app still deploys and runs
