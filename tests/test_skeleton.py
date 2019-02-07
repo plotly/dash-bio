@@ -115,7 +115,7 @@ def test_PROPNAME(dash_threaded, selenium):
             nclicks,
             input_PROPNAME
     ):
-        """Determines the pass/fail status of this test.
+        """Determine the pass/fail status of this test.
 
         :param (string) component_PROPNAME: The value of PROPNAME for the 
                                             component after it is set
