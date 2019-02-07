@@ -30,7 +30,7 @@ FAIL = 'FAILED'
 
 @init_demo_app(APP_NAME)
 def test_click_app_name_from_gallery(dash_threaded, selenium):
-    """Test that clicking on the appropriate app goes to the correct URL."""
+    """Test that clicking on the given app goes to the expected URL."""
     assert selenium.current_url.replace('http://localhost:8050', '').strip('/') == \
         'dash-bio/{}'.format(APP_NAME)
 
@@ -64,7 +64,7 @@ def test_CHANGESOMETHING(dash_threaded, selenium):
 # this callback will be used in the simple test app, which consists of
 # the component, a single button, and two inputs
 
-def COMPONENTNAME_test_props_callback(
+def test_COMPONENTNAME_props_callback(
         nclicks,
         prop_name,
         prop_value,
@@ -112,7 +112,7 @@ def test_PROPNAME(dash_threaded, selenium):
             nclicks,
             input_PROPNAME
     ):
-        """Determines the pass/fail status of this test.
+        """Determine the pass/fail status of this test.
 
         :param (string) component_PROPNAME: The value of PROPNAME for the 
                                             component after it is set
@@ -148,7 +148,7 @@ def test_PROPNAME(dash_threaded, selenium):
         input_PROPNAME,
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
-        # add any arguments you want to send to your component
+        # add any arguments you want to send to your component,
         # e.g.,
         # sequence='GATTACA',
         # showLineNumbers=False
