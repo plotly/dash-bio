@@ -27,7 +27,9 @@ def app_page_layout(page_layout,
                                 ).decode()
                             )
                         ),
-                        href="/dash-bio"
+                        href="/dash-{}".format(
+                            app_name.replace('_', '-')
+                        ) if standalone else "/dash-bio"
                     ),
                     html.H2(
                         app_title
@@ -48,8 +50,7 @@ def app_page_layout(page_layout,
                                 )
                             )
                         ],
-                        href="/" if standalone else
-                        "http://github.com/plotly/dash-bio/"
+                        href="http://github.com/plotly/dash-bio/"
                         "blob/master/tests/dashbio_demos/app_{}.py".format(
                             app_name
                         )

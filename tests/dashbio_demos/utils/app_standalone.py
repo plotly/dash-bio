@@ -7,8 +7,8 @@ def run_standalone_app(
         layout,
         callbacks,
         header_colors,
-        filename,
-        port=8050, debug=True):
+        filename
+):
     """Run demo app (tests/dashbio_demos/app_*.py) as standalone app."""
     app = dash.Dash(__name__, assets_folder='assets/')
     app.scripts.config.serve_locally = True
@@ -27,9 +27,12 @@ def run_standalone_app(
         page_layout=layout(),
         app_title=app_title,
         app_name=app_name,
+        standalone=True,
         **header_colors()
     )
 
     # Register all callbacks
     callbacks(app)
-    app.run_server(debug=debug, port=port)
+
+    # return app object
+    return app
