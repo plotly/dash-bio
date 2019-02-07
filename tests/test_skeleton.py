@@ -41,7 +41,8 @@ def test_click_app_name_from_gallery(dash_threaded, selenium):
 @init_demo_app(APP_NAME)
 def test_INITIALCONDITION(dash_threaded, selenium):
     """Test some initial condition here (e.g., that the correct dataset
-    has been loaded)."""
+    has been loaded).
+    """
 
 
 # below, write tests for interactions with the app (e.g., selecting a
@@ -51,7 +52,8 @@ def test_INITIALCONDITION(dash_threaded, selenium):
 @init_demo_app(APP_NAME)
 def test_CHANGESOMETHING(dash_threaded, selenium):
     """Test the results of changing something here (e.g., the value
-    of a dropdown)."""
+    of a dropdown).
+    """
 
 
 # Component tests 
