@@ -151,7 +151,7 @@ def test_PROPNAME(dash_threaded, selenium):
         input_PROPNAME,
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
-        # add any arguments you want to send to your component
+        # add any arguments you want to send to your component,
         # e.g.,
         # sequence='GATTACA',
         # showLineNumbers=False
