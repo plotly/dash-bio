@@ -33,7 +33,7 @@ FAIL = 'FAILED'
 
 @init_demo_app(APP_NAME)
 def test_click_app_name_from_gallery(dash_threaded, selenium):
-    """Test that clicking on the appropriate app goes to the correct URL."""
+    """Test that clicking on the given app goes to the expected URL."""
     assert selenium.current_url.replace('http://localhost:8050', '').strip('/') == \
         'dash-bio/{}'.format(APP_NAME)
 
