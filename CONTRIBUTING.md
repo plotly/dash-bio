@@ -43,7 +43,7 @@ to follow a specific file structure for the corresponding app to be displayed
 and run correctly.
 
 ###### Setup
-In the `tests/dash/` subfolder, please create a file named
+In the `tests/dashbio_demos/` subfolder, please create a file named
 `app_{your component name in snake case}.py`. In this file, please include the
 following functions:
 
@@ -99,7 +99,7 @@ Setup subsection, please account for an extra height of `100px` that is taken
 up by the header when you are specifying the height of the container.
 
 ###### Final touches 
-In the `tests/dash/images/` subfolder, please include a PNG file named
+In the `tests/dashbio_demos/images/` subfolder, please include a PNG file named
 `pic_{your component name in snake case}.png`.
 
 In your demo app file, please include the following functions:
