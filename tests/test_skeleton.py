@@ -67,7 +67,7 @@ def test_CHANGESOMETHING(dash_threaded, selenium):
 # this callback will be used in the simple test app, which consists of
 # the component, a single button, and two inputs
 
-def COMPONENTNAME_test_props_callback(
+def test_COMPONENTNAME_props_callback(
         nclicks,
         prop_name,
         prop_value,
