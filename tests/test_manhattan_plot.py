@@ -1,16 +1,10 @@
 import os
-from pytest_dash.utils import (
-    wait_for_text_to_equal,
-    wait_for_element_by_css_selector,
-)
-import dash
-from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 from dash_bio import ManhattanPlot
 from dash_bio.component_factory._manhattan import SUGGESTIVE_LINE_LABEL, GENOMEWIDE_LINE_LABEL
 from tests.dashbio_demos.app_manhattan_plot import DATASET
-from .test_common_features import init_demo_app
+from .test_common_features import init_demo_app, template_test_component_single_prop, PROP_TYPES
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
 
@@ -28,43 +22,6 @@ LAYOUT = html.Div(
     ]
 )
 
-PARAM_TYPES = {
-    'int': int,
-    'float': float,
-    'bool': bool,
-    'str': str
-}
-
-
-def manhattan_plot_test_param_callback(
-        nclicks,
-        param_name,
-        param_value,
-        param_type=None,
-        dataset=DATASET
-):
-    """Create a manhattan plot with a single user chosen prop.
-        :param nclicks: (string) html.Button 'n_clicks' Input
-        :param param_name: (string) dcc.Input 'value' State
-        :param param_value: (string) dcc.Input 'value' State
-        :param param_type: (string) one of PARAM_TYPES keys
-            default: None
-        :param dataset: (panda DataFrame): a DataFrame with manhattan plot data
-        :return: a dash_bio.ManhattanPlot instance (which is a plotly.graph_objs.Figure instance)
-    """
-    answer = {'data': [], 'layout': {}}
-    # avoid triggering at the creation of the button in the layout
-    if nclicks is not None:
-        # convert the parameter value to the right type
-        if param_type in PARAM_TYPES:
-            param_value = PARAM_TYPES[param_type](param_value)
-        arg_to_pass = {param_name: param_value}
-        answer = ManhattanPlot(
-            dataset,
-            **arg_to_pass
-        )
-    return answer
-
 
 # Demo app tests
 @init_demo_app(APP_NAME)
@@ -76,112 +33,97 @@ def test_click_app_link_from_gallery(dash_threaded, selenium):
 
 
 # Manhattan Plot component tests
-def template_test_parameters_manhattanplot(
+def manhattan_plot_test_param_callback(
+        nclicks,
+        p_name,
+        p_value,
+        prop_type=None,
+        dataset=DATASET
+):
+    """Create a manhattan plot with a single user chosen prop.
+        :param nclicks: (string) html.Button 'n_clicks' Input
+        :param p_name: (string) dcc.Input 'value' State
+        :param p_value: (string) dcc.Input 'value' State
+        :param prop_type: (string) one of PROP_TYPES keys
+            default: None
+        :param dataset: (panda DataFrame): a DataFrame with manhattan plot data
+        :return: a dash_bio.ManhattanPlot instance (which is a plotly.graph_objs.Figure instance)
+    """
+    answer = {'data': [], 'layout': {}}
+    # avoid triggering at the creation of the button in the layout
+    if nclicks is not None:
+        # convert the parameter value to the right type
+        if prop_type in PROP_TYPES:
+            p_value = PROP_TYPES[prop_type](p_value)
+        arg_to_pass = {p_name: p_value}
+        answer = ManhattanPlot(
+            dataset,
+            **arg_to_pass
+        )
+    return answer
+
+
+def test_xlabel(dash_threaded, selenium):
+    """Change xlabel."""
+
+    def assert_callback(p_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            if input_value == p_value['layout']['xaxis']['title']['text']:
+                answer = 'PASSED'
+        return answer
+
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
-        param_name,
-        param_value,
-        par_type=None
-):
-    """Share reusable test code for testing Manhattan Plot single parameter assignation."""
-    dummy_app = dash.Dash(__name__)
-    dummy_app.layout = LAYOUT
-
-    @dummy_app.callback(
-        Output('test-mhp-graph', 'figure'),
-        [Input('test-mhp-btn', 'n_clicks')],
-        [
-            State('test-mhp-param-name-input', 'value'),
-            State('test-mhp-param-value-input', 'value')
-        ]
+        manhattan_plot_test_param_callback,
+        'xlabel',
+        'x-label-test'
     )
-    def update_graph(nclicks, par_name, par_value):
-        """Update the figure of the dcc.Graph component when a button is clicked."""
-        return manhattan_plot_test_param_callback(nclicks, par_name, par_value, par_type)
 
-    @dummy_app.callback(
-        Output('test-mhp-assert-value-div', 'children'),
-        [Input('test-mhp-graph', 'figure')],
-        [
-            State('test-mhp-btn', 'n_clicks'),
-            State('test-mhp-param-value-input', 'value')
-        ]
+
+def test_ylabel(dash_threaded, selenium):
+    """Change ylabel."""
+
+    def assert_callback(p_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            if input_value == p_value['layout']['yaxis']['title']['text']:
+                answer = 'PASSED'
+        return answer
+
+    template_test_component_single_prop(
+        dash_threaded,
+        selenium,
+        APP_NAME,
+        assert_callback,
+        manhattan_plot_test_param_callback,
+        'ylabel',
+        'y-label-test'
     )
-    def assert_value(fig, nclicks, input_value):
-        """Callback provided by the test user is called here.
-        This callback should return the string 'PASSED' if the test defined in it is successful.
-        """
-        return assert_callback(fig, nclicks, input_value)
-
-    dash_threaded(dummy_app)
-
-    param_name_input = wait_for_element_by_css_selector(selenium, '#test-mhp-param-name-input')
-    param_value_input = wait_for_element_by_css_selector(selenium, '#test-mhp-param-value-input')
-
-    param_name_input.send_keys(param_name)
-    param_value_input.send_keys(param_value)
-
-    btn = wait_for_element_by_css_selector(selenium, '#test-mhp-btn')
-    btn.click()
-    wait_for_text_to_equal(selenium, '#test-mhp-assert-value-div', 'PASSED')
 
 
-# def test_xlabel(dash_threaded, selenium):
-#     """Change xlabel."""
-#
-#     def assert_callback(fig, nclicks, input_value):
-#         answer = ''
-#         if nclicks is not None:
-#             if input_value == fig['layout']['xaxis']['title']['text']:
-#                 answer = 'PASSED'
-#         return answer
-#
-#     template_test_parameters_manhattanplot(
-#         dash_threaded,
-#         selenium,
-#         assert_callback,
-#         'xlabel',
-#         'x-label-test'
-#     )
-#
-#
-# def test_ylabel(dash_threaded, selenium):
-#     """Change ylabel."""
-#
-#     def assert_callback(fig, nclicks, input_value):
-#         answer = ''
-#         if nclicks is not None:
-#             if input_value == fig['layout']['yaxis']['title']['text']:
-#                 answer = 'PASSED'
-#         return answer
-#
-#     template_test_parameters_manhattanplot(
-#         dash_threaded,
-#         selenium,
-#         assert_callback,
-#         'ylabel',
-#         'y-label-test'
-#     )
-#
-#
-# def test_title(dash_threaded, selenium):
-#     """Change title."""
-#
-#     def assert_callback(fig, nclicks, input_value):
-#         answer = ''
-#         if nclicks is not None:
-#             if input_value == fig['layout']['title']['text']:
-#                 answer = 'PASSED'
-#         return answer
-#
-#     template_test_parameters_manhattanplot(
-#         dash_threaded,
-#         selenium,
-#         assert_callback,
-#         'title',
-#         'title-test'
-#     )
+def test_title(dash_threaded, selenium):
+    """Change title."""
+
+    def assert_callback(p_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            if input_value == p_value['layout']['title']['text']:
+                answer = 'PASSED'
+        return answer
+
+    template_test_component_single_prop(
+        dash_threaded,
+        selenium,
+        APP_NAME,
+        assert_callback,
+        manhattan_plot_test_param_callback,
+        'title',
+        'title-test'
+    )
 
 
 def test_suggestive_line_input_value(dash_threaded, selenium):
@@ -196,10 +138,12 @@ def test_suggestive_line_input_value(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_parameters_manhattanplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        manhattan_plot_test_param_callback,
         'suggestiveline_value',
         '5.5',
         'float'
@@ -218,10 +162,12 @@ def test_genomewide_line_input_value(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_parameters_manhattanplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        manhattan_plot_test_param_callback,
         'genomewideline_value',
         '4.5',
         'float'
@@ -240,10 +186,12 @@ def test_suggestive_line_input_color(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_parameters_manhattanplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        manhattan_plot_test_param_callback,
         'suggestiveline_color',
         'red'
     )
@@ -261,10 +209,12 @@ def test_genomewide_line_input_color(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_parameters_manhattanplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        manhattan_plot_test_param_callback,
         'genomewideline_color',
         'green'
     )
@@ -282,10 +232,12 @@ def test_suggestive_line_input_width(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_parameters_manhattanplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        manhattan_plot_test_param_callback,
         'suggestiveline_width',
         '3',
         'float'
@@ -304,10 +256,12 @@ def test_genomewide_line_input_width(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_parameters_manhattanplot(
+    template_test_component_single_prop(
         dash_threaded,
         selenium,
+        APP_NAME,
         assert_callback,
+        manhattan_plot_test_param_callback,
         'genomewideline_width',
         '3',
         'float'
