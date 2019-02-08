@@ -10,6 +10,15 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 
+# running directly with Python
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+
+# running with gunicorn (on servers)
+elif 'DASH_PATH_ROUTING' in os.environ:
+    from tests.dashbio_demos.utils.app_standalone import run_standalone_app
+
+
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "sequence_viewer_")
 proteinFolder = 'proteins'
 sequence = '-'
@@ -413,7 +422,7 @@ def layout():
     ])
 
 
-def callbacks(app):
+def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # upload or preloaded
     @app.callback(
@@ -993,3 +1002,12 @@ def callbacks(app):
             test.append("Sequence: %s" % sel['sequence'])
             test.append(html.Br())
         return test
+
+
+# only declare app/server if the file is being run directly
+if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
+    app = run_standalone_app(layout, callbacks, header_colors, __file__)
+    server = app.server
+
+if __name__ == '__main__':
+    app.run_server(debug=True, port=8050)
