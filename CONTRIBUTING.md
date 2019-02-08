@@ -177,7 +177,7 @@ a new application. The name of the application should consist of the
 component name in lowercase, with words separated by dashes (`-`). The
 deployment server will provide a remote repository URL that will
 contain the app. Add it to the list of remotes by running `git
-remote add [component name]-test [deployment server git URL]`.
+remote add [app name]-test [deployment server git URL]`.
 
 #### Step 2: Edit and commit app-specific files
 
