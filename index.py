@@ -94,11 +94,6 @@ def demo_app_header_colors(name):
         return {}
 
 
-def demo_app_github_url(name):
-    """ Returns the link with the code for the demo app. """ 
-    return name
-
-
 def demo_app_link_id(name):
     """Returns the value of the id of the dcc.Link related to the demo app. """
     return 'app-link-id-{}'.format(name.replace("_", "-"))
@@ -145,7 +140,7 @@ def display_app(pathname):
                         children=app_page_layout(
                             apps[app_name].layout(),
                             app_title=demo_app_name(app_name),
-                            app_github_url=demo_app_github_url(app_name),
+                            app_name=app_name,
                             **demo_app_header_colors(app_name)
                         ))
     else:
