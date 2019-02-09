@@ -3,7 +3,7 @@
     margin-top: -1px; /* hide border between header and content */
     width: 100%;
     height: auto;
-    min-height: calc(100vh - 100px);
+    min-height: calc(100vh - 60px);
     position: absolute;
     top: 60px;
 }
