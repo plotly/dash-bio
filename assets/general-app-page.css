@@ -68,6 +68,6 @@
     transition-duration: 400ms; 
 }
 #gh-link:hover {
-    -webkit-filter:invert(100%);
-    background-color: rgba(0,0,0,0.3); 
+    color: #DFE8F3 !important; 
+    border-color: #DFE8F3 !important;
 }
