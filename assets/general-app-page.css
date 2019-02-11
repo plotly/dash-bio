@@ -32,7 +32,7 @@
     font-family: 'Times'; 
     font-weight: 200 !important;
     letter-spacing: 1px; 
-    position: relative;
+    position: absolute;
     top: -5px; 
     display: inline-block;
 }
@@ -42,9 +42,9 @@
 }
 
 #app-page-header > img {
-    height: 35px;
+    height: 36px;
     float:right;
-    margin-top: 10px;
+    margin-top: 12px;
     margin-right: 10px;
     transition-duration:500ms;
 }
