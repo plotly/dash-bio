@@ -1,6 +1,5 @@
 import os
 import json
-import numpy as np
 from tests.dashbio_demos.app_needle_plot import load_mutation_data, DATAPATH, DEMO_DATA
 from .test_common_features import init_demo_app, template_test_component_single_prop, \
     PROP_TYPES, COMPONENT_REACT_BASE
@@ -11,13 +10,6 @@ TEST_DATA = load_mutation_data('{}{}'.format(DATAPATH, DEMO_DATA[0]['mutData']))
 
 
 # Demo app tests
-@init_demo_app(APP_NAME)
-def test_click_app_link_from_gallery(dash_threaded, selenium):
-
-    assert selenium.current_url.replace('http://localhost:8050', '').strip('/') == \
-           'dash-bio/{}'.format(APP_NAME)
-
-
 @init_demo_app(APP_NAME)
 def test_click_app_link_from_gallery(dash_threaded, selenium):
 
