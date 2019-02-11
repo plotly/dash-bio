@@ -6,7 +6,7 @@
 
 Open-source bioinformatics components for Dash
 
-Demo: https://dash-gallery.plotly.host/dash-bio
+Demo: https://dash-bio.plotly.host/Portal/
 
 ## Progress
 

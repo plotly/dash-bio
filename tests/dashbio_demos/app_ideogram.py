@@ -5,6 +5,15 @@ import dash_html_components as html
 import dash_bio
 from dash_bio.utils import ideogramParser as ideoParser
 
+# running directly with Python
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+
+# running with gunicorn (on servers)
+elif 'DASH_PATH_ROUTING' in os.environ:
+    from tests.dashbio_demos.utils.app_standalone import run_standalone_app
+
+
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "ideogram_")
 
 rat_data = ideoParser.ncbi_gdp_to_list("{}10116_GCF_000000225.4_NA_V1".format(DATAPATH))
@@ -507,7 +516,7 @@ def layout():
     )
 
 
-def callbacks(app):
+def callbacks(app):  # pylint: disable=redefined-outer-name
     # Brush callbacks
     @app.callback(
         Output("brush-print-start", "children"),
@@ -854,3 +863,12 @@ def callbacks(app):
             data = data.split("<br>")
             data = data[0] + " " + data[1]
         return data
+
+
+# only declare app/server if the file is being run directly
+if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
+    app = run_standalone_app(layout, callbacks, header_colors, __file__)
+    server = app.server
+
+if __name__ == '__main__':
+    app.run_server(debug=True, port=8050)
