@@ -51,18 +51,21 @@ the coverage list supplied.
 by the mouse. Start and end refer to the initial and
 final indices, respectively, of the subsequence, and
 "selection" contains the string that is selected.. mouseSelection has the following type: dict containing keys 'start', 'end', 'selection'.
-Those keys have the following types:
+Those keys have the following types: 
   - start (number; optional)
   - end (number; optional)
   - selection (string; optional)
 - subpartSelected (list; optional): A list of the subparts selected using the
-"search" function or the "selection" property."""
+"search" function or the "selection" property.
+
+Available events: """
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, sequence=Component.UNDEFINED, showLineNumbers=Component.UNDEFINED, wrapAminoAcids=Component.UNDEFINED, charsPerLine=Component.UNDEFINED, toolbar=Component.UNDEFINED, search=Component.UNDEFINED, title=Component.UNDEFINED, sequenceMaxHeight=Component.UNDEFINED, badge=Component.UNDEFINED, selection=Component.UNDEFINED, coverage=Component.UNDEFINED, legend=Component.UNDEFINED, coverageClicked=Component.UNDEFINED, mouseSelection=Component.UNDEFINED, subpartSelected=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'sequence', 'showLineNumbers', 'wrapAminoAcids', 'charsPerLine', 'toolbar', 'search', 'title', 'sequenceMaxHeight', 'badge', 'selection', 'coverage', 'legend', 'coverageClicked', 'mouseSelection', 'subpartSelected']
         self._type = 'SequenceViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
+        self.available_events = []
         self.available_properties = ['id', 'sequence', 'showLineNumbers', 'wrapAminoAcids', 'charsPerLine', 'toolbar', 'search', 'title', 'sequenceMaxHeight', 'badge', 'selection', 'coverage', 'legend', 'coverageClicked', 'mouseSelection', 'subpartSelected']
         self.available_wildcard_properties =            []
 

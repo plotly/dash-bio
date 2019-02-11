@@ -37,13 +37,16 @@ as a list of dictionaries.
 graph. Set on initilization and unchangeable thereafter.
 - tracks (list; optional): Tracks that specify specific layouts.
 For a complete list of tracks and usage,
-please check the docs."""
+please check the docs.
+
+Available events: """
     @_explicitize_args
     def __init__(self, enableDownloadSVG=Component.UNDEFINED, enableZoomPan=Component.UNDEFINED, id=Component.UNDEFINED, style=Component.UNDEFINED, eventDatum=Component.UNDEFINED, selectEvent=Component.UNDEFINED, layout=Component.REQUIRED, config=Component.UNDEFINED, size=Component.UNDEFINED, tracks=Component.UNDEFINED, **kwargs):
         self._prop_names = ['enableDownloadSVG', 'enableZoomPan', 'id', 'style', 'eventDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks']
         self._type = 'Circos'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
+        self.available_events = []
         self.available_properties = ['enableDownloadSVG', 'enableZoomPan', 'id', 'style', 'eventDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks']
         self.available_wildcard_properties =            []
 
