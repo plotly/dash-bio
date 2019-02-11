@@ -17,7 +17,7 @@ def app_page_layout(page_layout,
             html.Div(
                 id='app-page-header',
                 children=[
-                    dcc.Link(
+                    html.A(
                         id='dashbio-logo', children=[
                             html.Img(
                                 src='data:image/png;base64,{}'.format(
