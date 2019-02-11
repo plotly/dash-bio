@@ -28,12 +28,12 @@
 }
 
 #app-page-header h2 {
-    font-size: 28pt;
-    margin-bottom: 10px;
-    font-family: 'Times';
-    font-weight: 100 !important; 
+    font-size: 22pt;
+    font-family: 'Times'; 
+    font-weight: 200 !important;
+    letter-spacing: 1px; 
     position: relative;
-    top: -10px; 
+    top: -5px; 
     display: inline-block;
 }
 
