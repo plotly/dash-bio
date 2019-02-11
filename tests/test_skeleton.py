@@ -34,7 +34,7 @@ def test_click_app_name_from_gallery(dash_threaded, selenium):
     assert selenium.current_url.replace('http://localhost:8050', '').strip('/') == \
         'dash-bio/{}'.format(APP_NAME)
 
-    
+
 # below, write tests for initial conditions; they will most likely
 # make use of wait_for_text_to_equal and other similar functions
 
@@ -43,28 +43,28 @@ def test_INITIALCONDITION(dash_threaded, selenium):
     """Test some initial condition here (e.g., that the correct dataset
     has been loaded).
     """
-
-
+    pass
 # below, write tests for interactions with the app (e.g., selecting a
 # value from a dropdown or filling in some sort of input); they will
 # most likely make use of send_keys
+
 
 @init_demo_app(APP_NAME)
 def test_CHANGESOMETHING(dash_threaded, selenium):
     """Test the results of changing something here (e.g., the value
     of a dropdown).
     """
+    pass
 
-
-# Component tests 
+# Component tests
 
 # for React components, we need to define a way to interact with the
 # props directly (instead of through a graph component); to that end,
 # we define a callback method that defines how exactly a prop is
 # updated
-
 # this callback will be used in the simple test app, which consists of
 # the component, a single button, and two inputs
+
 
 def test_COMPONENTNAME_props_callback(
         nclicks,
@@ -74,19 +74,19 @@ def test_COMPONENTNAME_props_callback(
 ):
     """This function is the code of a callback which is triggered by
     the button on the simple app used in the test.
-    :param nclicks (int): The n_clicks value of the button in the 
+    :param nclicks (int): The n_clicks value of the button in the
                           simple app
     :param prop_name (string): The name of the property that is to be
                                modified
     :param prop_value (string): The value that is to be assigned to the
                                 prop defined by prop_name.
-    :prop_type (string): One of the predefined types in PROP_TYPES. 
-    :return: The value that is to be assigned to the prop defined by 
-             prop_name, after casting it to the correct type. 
+    :prop_type (string): One of the predefined types in PROP_TYPES.
+    :return: The value that is to be assigned to the prop defined by
+             prop_name, after casting it to the correct type.
     """
 
     typed_prop_value = None
-    
+
     # avoid triggering this callback when the button is first created
     if nclicks is not None:
         # cast the string representation of the desired prop value
@@ -103,12 +103,12 @@ def test_COMPONENTNAME_props_callback(
 
 
 # below, write tests for changing the props of the React component
-# (following this basic structure) 
+# (following this basic structure)
 
 @init_demo_app(APP_NAME)
 def test_PROPNAME(dash_threaded, selenium):
     """Test that some prop updates correctly when changed."""
-    
+
     def assert_callback(
             component_PROPNAME,
             nclicks,
@@ -116,19 +116,18 @@ def test_PROPNAME(dash_threaded, selenium):
     ):
         """Determine the pass/fail status of this test.
 
-        :param (string) component_PROPNAME: The value of PROPNAME for the 
+        :param (string) component_PROPNAME: The value of PROPNAME for the
                                             component after it is set
         :param (int) nclicks: The number of clicks on the button in the
-                              simple test app (not used here) 
+                              simple test app (not used here)
         :param (string) input_PROPNAME: The value of PROPNAME that is sent
-                                        to the component. 
-        
+                                        to the component.
+
         :return (string): 'PASSED' for a test that passed, or 'FAILED'
                           for a test that failed
         """
         # avoid triggering this callback when the button is first created
         if nclicks is not None:
-            
             # check for the pass/fail condition here; this is a
             # shallow comparison, so write your own if necessary
             if component_PROPNAME == input_PROPNAME:
@@ -138,7 +137,7 @@ def test_PROPNAME(dash_threaded, selenium):
 
     # replace "None" with a string that defines the type of the prop
     # (e.g., 'int', 'float', 'list')
-    prop_type = None  
+    prop_type = None
 
     template_test_component_single_prop(
         dash_threaded,
@@ -155,4 +154,3 @@ def test_PROPNAME(dash_threaded, selenium):
         # sequence='GATTACA',
         # showLineNumbers=False
     )
-        
