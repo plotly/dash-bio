@@ -20,7 +20,7 @@ PROP_TYPES = {
     'float': float,
     'bool': bool,
     'str': str,
-    'list': lambda  x: [el for el in x.split(',')],
+    'list': lambda x: [el for el in x.split(',')],
     'array': lambda x: [float(el) for el in x.split(',')],
     'dict': json.loads
 }
