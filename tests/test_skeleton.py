@@ -1,3 +1,5 @@
+# pylint: disable=E,W,C,R
+# flake8: noqa
 import os
 from selenium.webdriver.common.keys import Keys
 from pytest_dash.utils import (
