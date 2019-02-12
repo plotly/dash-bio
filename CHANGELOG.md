@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.0.4] - 2019-11-02
+
+### Added
+* Added recent update to Speck library to fix jumpy behavior on click-and-drag.
+
 ## [0.0.3] - 2019-06-02
 
 ### Added 
