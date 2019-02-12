@@ -129,15 +129,15 @@ def layout():
                 )
             ]
         ),
-        
-        html.Br(), 
+
+        html.Br(),
 
         dcc.Checklist(
             id='speck-enable-presets',
             options=[{'label': 'Use presets', 'value': 'True'}],
             values=['True']
         ),
-        
+
         html.Br(),
 
         dcc.Dropdown(
@@ -154,7 +154,7 @@ def layout():
         ),
 
         html.Br(),
-        
+
         html.Div(
             id='speck-controls-preset',
             className='speck-controls',
@@ -167,7 +167,7 @@ def layout():
                         {'label': 'Default/reset',
                          'value': 'default'},
                         {'label': 'Toon',
-                         'value': 'toon'},       
+                         'value': 'toon'},
                     ],
                     value='default'
                 ),
@@ -182,7 +182,7 @@ def layout():
                     ],
                     value='default'
                 ),
-                
+
                 dcc.Store(
                     id='speck-store-preset-rendering',
                     data=None
@@ -195,7 +195,7 @@ def layout():
                     id='speck-view-updated',
                     data=None
                 ),
-                
+
                 html.Div(
                     id='speck-idk'
                 )
@@ -207,15 +207,15 @@ def layout():
             className='speck-controls',
             children=default_sliders
         )
-        
+
     ])
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
-    
+
     @app.callback(
         Output('speck-controls-detailed', 'style'),
-        [Input('speck-enable-presets', 'values')]        
+        [Input('speck-enable-presets', 'values')]
     )
     def show_hide_detailed_controls(presets_enable):
         if len(presets_enable) > 0:
@@ -225,22 +225,22 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('speck-controls-preset', 'style'),
-        [Input('speck-enable-presets', 'values')]        
+        [Input('speck-enable-presets', 'values')]
     )
     def show_hide_preset_controls(presets_enable):
-        
+
         if len(presets_enable) == 0:
             return {'display': 'none'}
         else:
             return {'display': 'inline-block'}
-    
+
     @app.callback(
         Output('speck-view-updated', 'data'),
         [Input('speck', 'view')]
     )
     def update_something(_):
         return 'update'
-    
+
     @app.callback(
         Output('speck', 'data'),
         [Input('speck-molecule-dropdown', 'value')]
@@ -265,7 +265,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if len(scroll_zoom) > 0:
             return {'display': 'none'}
         return {'display': 'block'}
-    
+
     @app.callback(
         Output('speck', 'view'),
         [Input('speck-enable-presets', 'values'),
@@ -296,21 +296,21 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             'brightness': brightness,
             'outline': outline
         }
-    
+
     @app.callback(
         Output('speck-store-preset-rendering', 'data'),
         [Input('speck-preset-rendering-dropdown', 'value')]
     )
     def update_rendering_option(render):
         return render
-    
+
     @app.callback(
         Output('speck-store-preset-atom-style', 'data'),
         [Input('speck-preset-atom-style-dropdown', 'value')]
     )
     def update_atomstyle_option(atomstyle):
         return atomstyle
-    
+
     @app.callback(
         Output('speck', 'presetView'),
         [Input('speck-store-preset-atom-style', 'modified_timestamp'),
@@ -335,7 +335,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             else:
                 preset = atomstyle
         return preset
-                
+
     @app.callback(
         Output('speck-preset-atom-style-dropdown', 'value'),
         [Input('speck-preset-rendering-dropdown', 'value')],
