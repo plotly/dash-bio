@@ -1,25 +1,57 @@
 #speck-body {
     min-height: calc(100vh - 100px);
+    overflow: auto;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
     background-color: #333;
-    color: #F3F6FA; 
+    color: #F3F6FA;
+    display:inline-block;
 }
 
-#speck-controls {
-    display:inline-block;
-    margin: 20px; 
-    width: 200px; ;
+.speck-controls {
+    display: inline-block;
+    margin: 20px;
+    padding: 20px;
+    width: 200px; 
     float: left;
     border: solid 1px #F3F6FA;
     border-radius: 5px;
-    padding: 10px;
     color: white; 
 }
-
-#speck-molecule-dropdown {
-    color: black; 
+.speck-slider-description {
+    margin-top: 10px;
+}
+#speck-body .rc-slider-track {
+    background-color: #ab63fa;
+}
+#speck-body .rc-slider-handle {
+    border-color: #ab63fa; 
+}
+#speck-molecule-dropdown, #speck-preset-rendering-dropdown, #speck-preset-atom-style-dropdown {
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 10px; 
+}
+#speck-enable-presets, #speck-molecule-dropdown {
+    display:inline-block;
+    width: 240px;
+    margin-left: 20px;
+    margin-bottom: 15px; 
 }
 #speck-container {
     display: inline-block;
     float: left;
     margin: 10px; 
+}
+
+#speck-body hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#speck-show-hide-bonds {
+    margin-top: 10px; 
+    margin-bottom: 10px;
 }
