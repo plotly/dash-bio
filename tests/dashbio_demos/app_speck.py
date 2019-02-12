@@ -288,7 +288,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return {
             'atomScale': atom_radius,
             'relativeAtomScale': relative_atom_radius,
-            'bonds': True if len(show_bonds) > 0 else False,
+            'bonds': bool(len(show_bonds) > 0),
             'bondScale': bond_scale,
             'ao': ambient_occlusion,
             'brightness': brightness,
@@ -342,8 +342,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def keep_atom_style(render, current):
         if render == 'default':
             return None
-        else:
-            return current
+        return current
 
 
 # only declare app/server if the file is being run directly
