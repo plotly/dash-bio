@@ -74,7 +74,7 @@ jobs:
                 command: |
                     . venv/bin/activate
                     pip install -r tests/requirements.txt
-                    pytest --driver chrome tests
+                    pytest --driver chrome tests --ignore tests/test_skeleton.py
 
 
 workflows:
