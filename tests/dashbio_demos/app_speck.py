@@ -227,7 +227,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('speck-enable-presets', 'values')]
     )
     def show_hide_preset_controls(presets_enable):
-
         if len(presets_enable) == 0:
             return {'display': 'none'}
         return {'display': 'inline-block'}
