@@ -188,16 +188,17 @@ the app you want to deploy in the `tests/dashbio_demos/` folder.
 
 ##### Step 2b: Edit `config.py`
 Edit the `config.py` file in the repository such that the variable
-`DASH_APP_NAME` is set to `dash-component-name`, where
-`component-name` is the component name in lowercase, with words
-separated by dashes (`-`).
+`DASH_APP_NAME` is set to the name of your app, but with `app`
+replaced by `dash` and underscores (`_`) replaced by dashes
+(`-`). (e.g., for `app_manhattan_plot`, the `DASH_APP_NAME` variable
+will be set to `dash-manhattan-plot`.)
 
 ##### Step 2c: Commit the changes
 Commit the `Procfile` and `config.py`, but *do not push to the
 `dash-bio` repo*!
 
 #### Step 3: Push to the playground server
-Run `git push [component name]-test master`. This will deploy the app
+Run `git push [app name]-test master`. This will deploy the app
 on the playground server. Test that it works by visiting the URL that
 is displayed in the console. Try out a few of the callbacks to make
 sure that they are working.
@@ -222,4 +223,4 @@ nothing.
 #### Step 7: Deploy updates to the `master` branch
 If the `master` branch has been updated, you can push all the changes
 to the dash-bio remote. However, make sure that the `Procfile` on the
-dash-bio remote stays the same.
+dash-bio repository stays the same.
