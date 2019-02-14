@@ -135,7 +135,7 @@ def layout():
         dcc.Checklist(
             id='speck-enable-presets',
             options=[{'label': 'Use presets', 'value': 'True'}],
-            values=['False']
+            values=[]
         ),
 
         html.Br(),
