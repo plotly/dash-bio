@@ -250,24 +250,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return read_xyz(molecule_fname)
 
     @app.callback(
-        Output('speck', 'scrollZoom'),
-        [Input('speck-scroll-zoom-enable', 'values')]
-    )
-    def toggle_scroll_zoom(scroll_zoom):
-        if len(scroll_zoom) > 0:
-            return True
-        return False
-
-    @app.callback(
-        Output('speck-zoom-slider-container', 'style'),
-        [Input('speck-scroll-zoom-enable', 'values')]
-    )
-    def toggle_zoom_slider_display(scroll_zoom):
-        if len(scroll_zoom) > 0:
-            return {'display': 'none'}
-        return {'display': 'block'}
-
-    @app.callback(
         Output('speck', 'view'),
         [Input('speck-enable-presets', 'values'),
          Input('speck-atom-radius', 'value'),
