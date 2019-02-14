@@ -32,8 +32,12 @@ the component itself, and a sample application that showcases the capabilities
 of your component and how it interacts with Dash.
 
 ##### Components
-Components can either be created using React, or they can be written in pure
-Python.
+Components can either be created using React, or they can be written
+in pure Python. React components are written in `src/lib/components`
+before being compiled into Python components that are in the
+`dash_bio` folder. Python components are written in
+`dash_bio/component_factory/` and must be imported in
+`dash_bio/__init__.py`.
 
 ##### Demo applications 
 Instead of creating standalone Dash apps for each component, there is a file
@@ -191,7 +195,7 @@ Edit the `config.py` file in the repository such that the variable
 `DASH_APP_NAME` is set to the name of your app, but with `app`
 replaced by `dash` and underscores (`_`) replaced by dashes
 (`-`). (e.g., for `app_manhattan_plot`, the `DASH_APP_NAME` variable
-will be set to `dash-manhattan-plot`.)
+should be set to `dash-manhattan-plot`.)
 
 ##### Step 2c: Commit the changes
 Commit the `Procfile` and `config.py`, but *do not push to the
