@@ -20,10 +20,10 @@ elif 'DASH_PATH_ROUTING' in os.environ:
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "manhattan_")
 
 # Load the data
-df = pd.read_csv("{}data.csv".format(DATAPATH))
+DATASET = pd.read_csv("{}data.csv".format(DATAPATH))
 
 # Feed the data to a function which creates a Manhattan Plot figure
-fig = dash_bio.ManhattanPlot(df)
+fig = dash_bio.ManhattanPlot(DATASET)
 
 text_style = {
     'color': "#506784",
@@ -141,7 +141,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def update_graph(slider_genome, slider_indic):
         """update the data sets upon change the genomewideline value"""
         return dash_bio.ManhattanPlot(
-            df,
+            DATASET,
             genomewideline_value=float(slider_genome),
             suggestiveline_value=float(slider_indic),
         )
