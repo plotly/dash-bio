@@ -10,7 +10,7 @@ def run_standalone_app(
         filename
 ):
     """Run demo app (tests/dashbio_demos/app_*.py) as standalone app."""
-    app = dash.Dash(__name__, assets_folder='../../../assets/')
+    app = dash.Dash(__name__, assets_folder=os.path.join('..', '..', '..', 'assets/'))
     app.scripts.config.serve_locally = True
     # Handle callback to component with id "fullband-switch"
     app.config['suppress_callback_exceptions'] = True
