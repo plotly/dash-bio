@@ -25,9 +25,9 @@ def needle_plot_test_props_callback(
         prop_type=None,
 ):
     """Callback on a single user chosen prop on NeedlePlot component.
-        :param nclicks: (string) html.Button 'n_clicks' Input
-        :param p_name: (string) dcc.Input 'value' State (not used here)
-        :param p_value: (string) dcc.Input 'value' State
+        :param nclicks: (int) html.Button 'n_clicks' Input
+        :param p_name: (string) stands for prop name, dcc.Input 'value' State (not used here)
+        :param p_value: (string) stands for prop value, dcc.Input 'value' State
         :param prop_type: (string) one of PARAM_TYPES keys
             default: None
         :return: the value of the prop to the dash.dependencies.Ouput()
