@@ -222,5 +222,5 @@ nothing.
 
 #### Step 7: Deploy updates to the `master` branch
 If the `master` branch has been updated, you can push all the changes
-to the dash-bio remote. However, make sure that the `Procfile` on the
+to your `origin` remote. However, make sure that the `Procfile` on the
 dash-bio repository stays the same.
