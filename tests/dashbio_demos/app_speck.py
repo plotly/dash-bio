@@ -142,6 +142,7 @@ def layout():
 
         dcc.Dropdown(
             id='speck-molecule-dropdown',
+            className='speck-dropdown',
             options=[
                 {'label': 'DNA',
                  'value': '{}dna.xyz'.format(DATAPATH)},
@@ -163,6 +164,7 @@ def layout():
                 "1: Select rendering style",
                 dcc.Dropdown(
                     id='speck-preset-rendering-dropdown',
+                    className='speck-dropdown',
                     options=[
                         {'label': 'Default/reset',
                          'value': 'default'},
@@ -171,9 +173,11 @@ def layout():
                     ],
                     value='default'
                 ),
+                html.Br(),
                 "2: Select atom style",
                 dcc.Dropdown(
                     id='speck-preset-atom-style-dropdown',
+                    className='speck-dropdown',
                     options=[
                         {'label': 'Ball-and-stick',
                          'value': 'stickball'},

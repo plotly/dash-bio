@@ -32,6 +32,8 @@
 }
 #speck-molecule-dropdown, #speck-preset-rendering-dropdown, #speck-preset-atom-style-dropdown {
     color: black;
+}
+.speck-dropdown {
     margin-top: 10px;
     margin-bottom: 10px; 
 }
