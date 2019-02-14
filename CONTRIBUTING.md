@@ -186,13 +186,13 @@ remote add [app name]-test [deployment server git URL]`.
 #### Step 2: Edit and commit app-specific files
 
 ##### Step 2a: Edit the `Procfile`
-Edit the `Procfile` in the repository to say `gunicorn
+Edit the `Procfile` at the root of the repository to say `gunicorn
 tests.dashbio_demos.app_name:server`, where `app_name` is the name of
 the app you want to deploy in the `tests/dashbio_demos/` folder. 
 
 ##### Step 2b: Edit `config.py`
-Edit the `config.py` file in the repository such that the variable
-`DASH_APP_NAME` is set to the name of your app, but with `app`
+Edit the `config.py` file at the root of the repository such that the variable
+`DASH_APP_NAME` be set to the name of your app, but with `app`
 replaced by `dash` and underscores (`_`) replaced by dashes
 (`-`). (e.g., for `app_manhattan_plot`, the `DASH_APP_NAME` variable
 should be set to `dash-manhattan-plot`.)
@@ -226,5 +226,5 @@ nothing.
 
 #### Step 7: Deploy updates to the `master` branch
 If the `master` branch has been updated, you can push all the changes
-to the dash-bio remote. However, make sure that the `Procfile` on the
+to your `origin` remote. However, make sure that the `Procfile` on the
 dash-bio repository stays the same.
