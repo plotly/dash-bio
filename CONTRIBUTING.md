@@ -188,7 +188,7 @@ the app you want to deploy in the `tests/dashbio_demos/` folder.
 
 ##### Step 2b: Edit `config.py`
 Edit the `config.py` file at the root of the repository such that the variable
-`DASH_APP_NAME` is set to the name of your app, but with `app`
+`DASH_APP_NAME` be set to the name of your app, but with `app`
 replaced by `dash` and underscores (`_`) replaced by dashes
 (`-`). (e.g., for `app_manhattan_plot`, the `DASH_APP_NAME` variable
 will be set to `dash-manhattan-plot`.)
