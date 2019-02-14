@@ -182,7 +182,7 @@ remote add [app name]-test [deployment server git URL]`.
 #### Step 2: Edit and commit app-specific files
 
 ##### Step 2a: Edit the `Procfile`
-Edit the `Procfile` in the repository to say `gunicorn
+Edit the `Procfile` at the root of the repository to say `gunicorn
 tests.dashbio_demos.app_name:server`, where `app_name` is the name of
 the app you want to deploy in the `tests/dashbio_demos/` folder. 
 
