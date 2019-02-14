@@ -1,10 +1,11 @@
 import functools
+import json
 from importlib import import_module
 from pytest_dash.utils import (
     import_app,
     wait_for_element_by_id,
     wait_for_text_to_equal,
-    wait_for_element_by_css_selector,git
+    wait_for_element_by_css_selector
 )
 import dash
 from dash.dependencies import Input, Output, State
