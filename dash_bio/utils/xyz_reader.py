@@ -39,7 +39,7 @@ def read_xyz(
     with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tf:
         tf.write('\n'.join(lines))
 
-    with open(tf.name, 'r') as f:
+    with open(tf.name, 'r'):
         for line in lines:
             # each line in an xyz file contains the symbol for the atom at
             # that position, as well as the x, y, and z coordinates of the
