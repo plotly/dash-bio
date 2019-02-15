@@ -370,8 +370,10 @@ class _Clustergram():
             print_grid=False
         )
 
-        fig['layout']['hovermode'] = 'closest'
-
+        fig['layout'].update(
+            hovermode='closest'
+        )
+        
         # get the tick values; these will be at the leaves of the
         # dendrogram
 
