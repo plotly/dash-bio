@@ -30,16 +30,16 @@ def create_data(pdb_path):
         lines = [l.strip() for l in infile if l.strip()]
 
     # Initialize all variables
-    varNchains = []
+    var_nchains = []
     serial = []
-    atmName = []
-    resName = []
+    atm_name = []
+    res_name = []
     chain = []
-    resId = []
+    res_id = []
     positions = []
     occupancy = []
-    tempFactor = []
-    atomType = []
+    temp_factor = []
+    atom_type = []
     ct = 0
 
     datb = {
@@ -50,53 +50,53 @@ def create_data(pdb_path):
     # Variables that store the character positions of different
     # parameters from the molecule PDB file
     serialpos = [6, 11]
-    atmNamepos = [12, 16]
-    rNamepos = [17, 20]
+    atm_namepos = [12, 16]
+    r_namepos = [17, 20]
     chainpos = [21, 22]
-    rIdpos = [22, 26]
+    r_idpos = [22, 26]
     xpos = [30, 38]
     ypos = [38, 46]
     zpos = [46, 54]
     occupos = [54, 60]
-    Bfacpos = [60, 66]
-    atmTypepos = [77, 79]
+    bfacpos = [60, 66]
+    atm_typepos = [77, 79]
 
     for l in lines:
         line = l.split()
         if "ATOM" in line[0] or "HETATM" in line[0]:
             serial.append(int(l[serialpos[0]:serialpos[1]]))
-            atmName.append(l[atmNamepos[0]:atmNamepos[1]].strip())
-            val_rName = l[rNamepos[0]:rNamepos[1]].strip()
-            resName.append(val_rName)
+            atm_name.append(l[atm_namepos[0]:atm_namepos[1]].strip())
+            val_r_name = l[r_namepos[0]:r_namepos[1]].strip()
+            res_name.append(val_r_name)
             chain_val = l[chainpos[0]:chainpos[1]].strip()
             chain.append(chain_val)
-            if chain_val not in varNchains:
-                varNchains.append(chain_val)
-            val_rId = int(l[rIdpos[0]:rIdpos[1]])
-            resId.append(val_rId)
+            if chain_val not in var_nchains:
+                var_nchains.append(chain_val)
+            val_r_id = int(l[r_idpos[0]:r_idpos[1]])
+            res_id.append(val_r_id)
             x = float(l[xpos[0]:xpos[1]])
             y = float(l[ypos[0]:ypos[1]])
             z = float(l[zpos[0]:zpos[1]])
             positions.append([x, y, z])
             occupancy.append(l[occupos[0]:occupos[1]].strip())
-            tempFactor.append(l[Bfacpos[0]:Bfacpos[1]].strip())
-            atomType.append(l[atmTypepos[0]:atmTypepos[1]].strip())
+            temp_factor.append(l[bfacpos[0]:bfacpos[1]].strip())
+            atom_type.append(l[atm_typepos[0]:atm_typepos[1]].strip())
             ct += 1
 
     # Create list of atoms
-    tmpRes = resId[0]
+    tmp_res = res_id[0]
     resct = 1
     for i in range(len(chain)):
-        if tmpRes != resId[i]:
-            tmpRes = resId[i]
+        if tmp_res != res_id[i]:
+            tmp_res = res_id[i]
             resct += 1
         datb['atoms'].append({
-            "name": atmName[i],
+            "name": atm_name[i],
             "chain": chain[i],
             "positions": positions[i],
             "residue_index": resct,
-            "element": atomType[i],
-            "residue_name": resName[i]+str(resId[i]),
+            "element": atom_type[i],
+            "residue_name": res_name[i]+str(res_id[i]),
             "serial": i,
         })
 
