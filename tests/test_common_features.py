@@ -1,5 +1,4 @@
 import functools
-import json
 from importlib import import_module
 import json
 from pytest_dash.utils import (

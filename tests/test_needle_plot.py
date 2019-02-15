@@ -1,5 +1,4 @@
 import os
-import json
 from tests.dashbio_demos.app_needle_plot import load_mutation_data, DATAPATH, DEMO_DATA
 from .test_common_features import init_demo_app, template_test_component_single_prop, \
     PROP_TYPES, COMPONENT_REACT_BASE, generate_subprop_test
