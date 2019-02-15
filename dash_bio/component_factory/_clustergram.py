@@ -373,7 +373,7 @@ class _Clustergram():
         fig['layout'].update(
             hovermode='closest'
         )
-        
+
         # get the tick values; these will be at the leaves of the
         # dendrogram
 
@@ -474,16 +474,19 @@ class _Clustergram():
             fig.append_trace(rdt, 2, 1)
 
         # display row dendrogram sideways
-        fig['layout']['xaxis4'].update(
+        xaxis4 = fig['layout']['xaxis4']
+        xaxis4.update(
             autorange='reversed'
         )
 
         # ensure that everything is aligned properly
         # with the heatmap
-        fig['layout']['yaxis4'].update(
+        yaxis4 = fig['layout']['yaxis4']
+        yaxis4.update(
             scaleanchor='y5'
         )
-        fig['layout']['xaxis2'].update(
+        xaxis2 = fig['layout']['xaxis2']
+        xaxis2.update(
             scaleanchor='x5'
         )
 
