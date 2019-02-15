@@ -96,7 +96,7 @@ def create_data(pdb_path):
             "positions": positions[i],
             "residue_index": resct,
             "element": atom_type[i],
-            "residue_name": res_name[i]+str(res_id[i]),
+            "residue_name": res_name[i] + str(res_id[i]),
             "serial": i,
         })
 
