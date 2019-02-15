@@ -68,7 +68,7 @@ export default class Ideogram extends Component {
         /**
          * An event handler used to compare two chromosomes,
          * where the user can specify the connection
-         * bewteen two points of two chromosomes. The user
+         * between two points of two chromosomes. The user
          * can supply the homology locations using the
          * 'homology' prop.
          */
@@ -352,6 +352,17 @@ Ideogram.propTypes = {
     annotationsLayout: PropTypes.string,
 
     /**
+     * One of "absolute" or "relative". The technique to use in scaling the height of histogram bars. The "absolute" value sets bar height relative to tallest bar in all chromosomes,
+     * while "relative" sets bar height relative to tallest bar in each chromosome.
+     */
+    histogramScaling: PropTypes.string,
+
+    /**
+     * The pixel width of bars drawn when annotationsLayout: 'histogram'.
+     **/
+    barWidth: PropTypes.number,
+
+    /**
      * The color of each annotation.
      */
     annotationsColor: PropTypes.string,
@@ -378,11 +389,6 @@ Ideogram.propTypes = {
     assembly: PropTypes.string,
 
     /**
-     * The pixel width of bars drawn when annotationsLayout: 'histogram'.
-     **/
-    barWidth: PropTypes.number,
-
-    /**
      * Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a
      * chromosome. Useful when ideogram consists of one chromosome and you want to be
      * able to focus on a region within that chromosome,
@@ -404,6 +410,11 @@ Ideogram.propTypes = {
     brushData: PropTypes.string,
 
     /**
+     * Callback function to invoke when brush moves.
+     */
+    onBrushMove: PropTypes.func,
+
+    /**
      * CSS styling and the id of the container holding the Ideogram in
      * react-ideogram.js, this is where all the d3 magic happens.
      */
@@ -415,7 +426,7 @@ Ideogram.propTypes = {
     chrHeight: PropTypes.number,
 
     /**
-     * The pixel space of margin bewteen each chromosome.
+     * The pixel space of margin between each chromosome.
      */
     chrMargin: PropTypes.number,
 
@@ -450,18 +461,6 @@ Ideogram.propTypes = {
      * for custom data.
      */
     dataDir: PropTypes.string,
-
-    /**
-     * Whether to include abbreviation species name in chromosome label. Used
-     * for homology.
-     */
-    fullChromosomeLabels: PropTypes.bool,
-
-    /**
-     * One of "absolute" or "relative". The technique to use in scaling the height of histogram bars. The "absolute" value sets bar height relative to tallest bar in all chromosomes,
-     * while "relative" sets bar height relative to tallest bar in each chromosome.
-     */
-    histogramScaling: PropTypes.string,
 
     /**
      * This is a work in progess and will hopefully be fixed in future releases.
@@ -501,6 +500,18 @@ Ideogram.propTypes = {
     }),
 
     /**
+     * Use perspective: 'comparative' to enable annotations between two chromosomes,
+     * either within the same organism or different organisms. Used for homology.
+     */
+    perspective: PropTypes.string,
+
+    /**
+     * Whether to include abbreviation species name in chromosome label. Used
+     * for homology.
+     */
+    fullChromosomeLabels: PropTypes.bool,
+
+    /**
      * Whether annotations should be filterable.
      */
     filterable: PropTypes.number,
@@ -528,11 +539,6 @@ Ideogram.propTypes = {
     orientation: PropTypes.string,
 
     /**
-     * Callback function to invoke when brush moves.
-     */
-    onBrushMove: PropTypes.func,
-
-    /**
      * Callback function to invoke after chromosome has rotated. (React)
      */
     onDidRotate: PropTypes.func,
@@ -547,12 +553,6 @@ Ideogram.propTypes = {
      * i.e. rendered on the page. (React)
      */
     onLoad: PropTypes.func,
-
-    /**
-     * Use perspective: 'comparative' to enable annotations between two chromosomes,
-     * either within the same organism or different organisms. Used for homology.
-     */
-    perspective: PropTypes.string,
 
     /**
      * The ploidy - number of chromosomes to depict for each chromosome
