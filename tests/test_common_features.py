@@ -20,7 +20,9 @@ PROP_TYPES = {
     'float': float,
     'bool': bool,
     'str': str,
-    'array': lambda x: [float(el) for el in x.split(',')]
+    'array': lambda x: [float(el) for el in x.split(',')],
+    'list': lambda x: [el for el in x.split(',')],
+    'dict': json.loads
 }
 
 
@@ -101,6 +103,38 @@ def template_test_component_single_prop(
         component_base=COMPONENT_PYTHON_BASE,
         **kwargs
 ):
+    template_test_component(
+        dash_threaded,
+        selenium,
+        app_name,
+        assert_callback,
+        update_component_callback,
+        prop_name,
+        prop_value,
+        prop_type=prop_type,
+        component_base=component_base,
+        **kwargs
+    )
+
+    btn = wait_for_element_by_css_selector(selenium, '#test-{}-btn'.format(app_name))
+    btn.click()
+
+    wait_for_text_to_equal(selenium, '#test-{}-assert-value-div'.format(app_name), 'PASSED')
+
+
+
+def template_test_component(
+        dash_threaded,
+        selenium,
+        app_name,
+        assert_callback,
+        update_component_callback,
+        prop_name,
+        prop_value,
+        prop_type=None,
+        component_base=COMPONENT_PYTHON_BASE,
+        **kwargs
+):
     """Share reusable test code for testing single props assignation to a component.
 
     :param dash_threaded: from pytest_dash
@@ -170,10 +204,6 @@ def template_test_component_single_prop(
 
     prop_name_input.send_keys(prop_name)
     prop_value_input.send_keys(prop_value)
-
-    btn = wait_for_element_by_css_selector(selenium, '#test-{}-btn'.format(app_name))
-    btn.click()
-    wait_for_text_to_equal(selenium, '#test-{}-assert-value-div'.format(app_name), 'PASSED')
 
 
 def generate_assert_callback_subprop(subprop, subprop_type):
