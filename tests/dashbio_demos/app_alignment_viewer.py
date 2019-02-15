@@ -372,8 +372,10 @@ def layout():
                                             dcc.Dropdown(
                                                 id='alignment-conservationmethod-dropdown',
                                                 options=[
-                                                    {'label': 'Entropy', 'value': 'entropy'},
-                                                    {'label': 'Conservation', 'value': 'conservation'},
+                                                    {'label': 'Entropy',
+                                                     'value': 'entropy'},
+                                                    {'label': 'Conservation',
+                                                     'value': 'conservation'},
                                                 ],
                                                 value='entropy',
                                             ),
@@ -501,31 +503,6 @@ def layout():
                                             ),
                                         ],
                                     ),
-                                    # html.Div(
-                                    #     className='alignment-settings',
-                                    #     children=[
-                                    #         html.H6("Tile width & height"),
-                                    #         html.P(
-                                    #             'Adjust the width (in px) of each individual cell.'
-                                    #         ),
-                                    #         dcc.Slider(
-                                    #             className='alignment-slider',
-                                    #             id='alignment-tilewidth-slider',
-                                    #             value=16,
-                                    #             min=10,
-                                    #             max=20,
-                                    #             step=1,
-                                    #             marks={
-                                    #                 '10': 10,
-                                    #                 '12': 12,
-                                    #                 '14': 14,
-                                    #                 '16': 16,
-                                    #                 '18': 18,
-                                    #                 '20': 20,
-                                    #             },
-                                    #         ),
-                                    #     ],
-                                    # ),
                                 ], className='alignment-subcard'),
                             ],
                         ),
