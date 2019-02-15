@@ -112,7 +112,7 @@ def layout():
                     value='alignment-tab-select',
                     children=[
                         dcc.Tab(
-                            label='Select',
+                            label='Choose/view Data',
                             value='alignment-tab-select',
                             children=[
                                 html.Div([
@@ -188,7 +188,7 @@ def layout():
                             ],
                         ),
                         dcc.Tab(
-                            label='Upload',
+                            label='Upload Your Own',
                             value='alignment-tab-upload',
                             children=[
                                 dcc.Upload(
@@ -200,14 +200,16 @@ def layout():
                                 ),
                                 html.Div([
                                     html.H4(
-                                        "Hover/Click/Event Data"
+                                        "Download sample data",
                                     ),
-                                    dcc.Textarea(
-                                        id="alignment-events-2",
-                                        placeholder="Hover or click on data to see it here.",
-                                        value="Hover or click on data to see it here.",
-                                        className="alignment-events",
-                                    ),
+                                    html.A(
+                                        html.Button(
+                                            "Download",
+                                            className='alignment-button',
+                                        ),
+                                        href="/assets/sample_data/alignment_viewer_p53_clustalo.fasta",
+                                        download="alignment_viewer_p53_clustalo.fasta",
+                                    )
                                 ], className='alignment-subcard'),
                                 html.Div([
                                     html.H4(
@@ -247,7 +249,7 @@ def layout():
                             ],
                         ),
                         dcc.Tab(
-                            label='Customize',
+                            label='Customize Chart',
                             value='alignment-tab-customize',
                             children=[
                                 html.Div([
@@ -277,7 +279,7 @@ def layout():
                                                     {'label': 'Slider', 'value': 'slider'},
                                                     {'label': 'None', 'value': 'none'},
                                                 ],
-                                                value='entropy',
+                                                value='heatmap',
                                             ),
                                         ],
                                     ),
@@ -541,13 +543,13 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def event_data_select(data):
         return str(data)
 
-    # Handle event data
-    @app.callback(
-        Output("alignment-events-2", "value"),
-        [Input("alignment-chart", "eventDatum")]
-    )
-    def event_data_select_2(data):
-        return str(data)
+    # # Handle event data
+    # @app.callback(
+    #     Output("alignment-events-2", "value"),
+    #     [Input("alignment-chart", "eventDatum")]
+    # )
+    # def event_data_select_2(data):
+    #     return str(data)
 
     # Render main chart
     @app.callback(

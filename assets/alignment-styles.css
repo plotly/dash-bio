@@ -81,6 +81,10 @@
     margin-bottom: 8px;
 }
 
+.alignment-button {
+    width: 100%;
+}
+
 .alignment-upload {
     margin-top: 16px;
     padding: 16px;
