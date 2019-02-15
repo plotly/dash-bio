@@ -1,3 +1,4 @@
+/* Generic components */
 .alignment-wrapper {
     margin: 16px;
     padding: 32px;
@@ -23,18 +24,61 @@
     background-color: #F5F5F5;
     border-radius: 8px;
     box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.05);
-    text-align: justify;
 }
 
+
+/* Subcomponents */
+.alignment-events {
+    width: 100%;
+    min-height: 100px;
+    height: 10vh;
+    border-radius: 4px;
+}
+
+.alignment-settings {
+    margin-top: 8px;
+    width: 100%;
+}
+
+.alignment-half-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.alignment-half-settings {
+    margin-top: 8px;
+    margin-right: 8px;
+    width: 50%;
+}
+
+.alignment-display-none {
+   display: none;
+}
+
+
+/* Selectors */
 .alignment-select {
     margin-top: 16px;
 }
 
-.alignment-events {
-   width: 100%;
-   min-height: 100px;
-   height: 10vh;
-   border-radius: 4px;
+.alignment-slider {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.alignment-radio {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.alignment-separator {
+    margin-top: 16px;
+    margin-bottom: 8px;
 }
 
 .alignment-upload {
@@ -47,8 +91,4 @@
     text-align: center;
     border-radius: 8px;
     box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.15);
-}
-
-.alignment-display-none {
-   display: none;
 }
