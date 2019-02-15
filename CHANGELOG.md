@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.0.5] - 2019-15-02
+
+### Changed 
+* Changed filenames in `dash_bio/utils/` folder to be snake case instead of camel case. 
+
 ## [0.0.4] - 2019-11-02
 
 ### Added
