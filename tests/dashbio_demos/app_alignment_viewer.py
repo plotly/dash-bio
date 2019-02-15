@@ -31,11 +31,59 @@ with open('{}p53.fasta'.format(DATAPATH), encoding='utf-8') as data_file:
 with open('{}p53_clustalo.fasta'.format(DATAPATH), encoding='utf-8') as data_file:
     dataset3 = data_file.read()
 
-datasets = {
+DATASETS = {
     'dataset1': dataset1,
     'dataset2': dataset2,
     'dataset3': dataset3,
 }
+
+COLORSCALES_DICT = [
+    {'value': 'buried', 'label': 'Buried'},
+    {'value': 'cinema', 'label': 'Cinema'},
+    {'value': 'clustal2', 'label': 'Clustal2'},
+    {'value': 'clustal', 'label': 'Clustal'},
+    {'value': 'helix', 'label': 'Helix'},
+    {'value': 'hydro', 'label': 'Hydrophobicity'},
+    {'value': 'lesk', 'label': 'Lesk'},
+    {'value': 'mae', 'label': 'Mae'},
+    {'value': 'nucleotide', 'label': 'Nucleotide'},
+    {'value': 'purine', 'label': 'Purine'},
+    {'value': 'strand', 'label': 'Strand'},
+    {'value': 'taylor', 'label': 'Taylor'},
+    {'value': 'turn', 'label': 'Turn'},
+    {'value': 'zappo', 'label': 'Zappo'},
+]
+
+GAP_COLORS_OPT = [
+    'black',
+    'grey',
+    'white',
+    'turquoise',
+    'blue',
+    'green',
+    'red',
+    'purple',
+]
+
+CONSERVATION_COLORS_OPT = [
+    'Blackbody',
+    'Bluered',
+    'Blues',
+    'Earth',
+    'Electric',
+    'Greens',
+    'Greys',
+    'Hot',
+    'Jet',
+    'Picnic',
+    'Portland',
+    'Rainbow',
+    'RdBu',
+    'Reds',
+    'Viridis',
+    'YlGnBu',
+    'YlOrRd'
+]
 
 
 def description():
@@ -53,7 +101,10 @@ def layout():
     return html.Div(id='alignment-body', children=[
         html.Div([
             html.Div([
-                dash_bio.AlignmentChart(id='alignment-chart', data=dataset3)
+                dash_bio.AlignmentChart(
+                    id='alignment-chart',
+                    data=dataset3,
+                ),
             ], className='alignment-card eight columns'),
             html.Div([
                 dcc.Tabs(
@@ -200,7 +251,281 @@ def layout():
                             value='alignment-tab-customize',
                             children=[
                                 html.Div([
-                                    html.H4('Work in progress')
+                                    html.H4('Viewer'),
+                                    html.Hr(className='alignment-separator'),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Colorscale"),
+                                            html.P("Choose color theme of the viewer."),
+                                            dcc.Dropdown(
+                                                id='alignment-colorscale-dropdown',
+                                                options=COLORSCALES_DICT,
+                                                value='clustal2',
+                                            ),
+                                        ],
+                                    ),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Overview method"),
+                                            html.P("Show slider, heatmap or no overview."),
+                                            dcc.Dropdown(
+                                                id='alignment-overview-dropdown',
+                                                options=[
+                                                    {'label': 'Heatmap', 'value': 'heatmap'},
+                                                    {'label': 'Slider', 'value': 'slider'},
+                                                    {'label': 'None', 'value': 'none'},
+                                                ],
+                                                value='entropy',
+                                            ),
+                                        ],
+                                    ),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Consensus sequence"),
+                                            html.P(
+                                                'Toggle the consensus (most frequent) sequence.'
+                                            ),
+                                            dcc.RadioItems(
+                                                id='alignment-showconsensus-radio',
+                                                className='alignment-radio',
+                                                options=[
+                                                    {'label': 'Show', 'value': True},
+                                                    {'label': 'Hide', 'value': False},
+                                                ],
+                                                value=True,
+                                                labelStyle={
+                                                    'display': 'inline-block',
+                                                    'margin-right': '8px',
+                                                },
+                                            ),
+                                        ],
+                                    ),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Text size"),
+                                            html.P(
+                                                'Adjust the font size (in px) of viewer text.'
+                                            ),
+                                            dcc.Slider(
+                                                className='alignment-slider',
+                                                id='alignment-textsize-slider',
+                                                value=10,
+                                                min=8,
+                                                max=12,
+                                                step=1,
+                                                marks={
+                                                    '8': 8,
+                                                    '9': 9,
+                                                    '10': 10,
+                                                    '11': 11,
+                                                    '12': 12,
+                                                },
+                                            ),
+                                        ],
+                                    ),
+                                ], className='alignment-subcard'),
+                                html.Div([
+                                    html.H4('Subplots'),
+                                    html.Hr(className='alignment-separator'),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Conservation barplot"),
+                                            dcc.RadioItems(
+                                                id='alignment-showconservation-radio',
+                                                className='alignment-radio',
+                                                options=[
+                                                    {'label': 'Show', 'value': True},
+                                                    {'label': 'Hide', 'value': False},
+                                                ],
+                                                value=True,
+                                                labelStyle={
+                                                    'display': 'inline-block',
+                                                    'margin-right': '8px',
+                                                },
+                                            ),
+                                        ],
+                                    ),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Conservation colorscale"),
+                                            dcc.Dropdown(
+                                                id='alignment-conservationcolorscale-dropdown',
+                                                options=[
+                                                    {'label': col_code, 'value': col_code}
+                                                    for col_code in CONSERVATION_COLORS_OPT
+                                                ],
+                                                value='Viridis',
+                                            ),
+                                        ],
+                                    ),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Conservation method"),
+                                            html.P("Conservation (MLE) or normalized entropy."),
+                                            dcc.Dropdown(
+                                                id='alignment-conservationmethod-dropdown',
+                                                options=[
+                                                    {'label': 'Entropy', 'value': 'entropy'},
+                                                    {'label': 'Conservation', 'value': 'conservation'},
+                                                ],
+                                                value='entropy',
+                                            ),
+                                        ],
+                                    ),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Conservation gap adjustment"),
+                                            html.P("Lowers conservation of high gap sequences."),
+                                            dcc.RadioItems(
+                                                id='alignment-correctgap-radio',
+                                                className='alignment-radio',
+                                                options=[
+                                                    {'label': 'Yes', 'value': True},
+                                                    {'label': 'No', 'value': False},
+                                                ],
+                                                value=True,
+                                                labelStyle={
+                                                    'display': 'inline-block',
+                                                    'margin-right': '8px',
+                                                },
+                                            ),
+                                        ],
+                                    ),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Gap barplot"),
+                                            dcc.RadioItems(
+                                                id='alignment-showgap-radio',
+                                                className='alignment-radio',
+                                                options=[
+                                                    {'label': 'Show', 'value': True},
+                                                    {'label': 'Hide', 'value': False},
+                                                ],
+                                                value=True,
+                                                labelStyle={
+                                                    'display': 'inline-block',
+                                                    'margin-right': '8px',
+                                                },
+                                            ),
+                                        ],
+                                    ),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Gap color"),
+                                            dcc.Dropdown(
+                                                id='alignment-gapcolor-dropdown',
+                                                options=[
+                                                    {'label': col_code, 'value': col_code}
+                                                    for col_code in GAP_COLORS_OPT
+                                                ],
+                                                value='grey',
+                                            ),
+                                        ],
+                                    ),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Group gap & conservation bars"),
+                                            dcc.RadioItems(
+                                                id='alignment-groupbars-radio',
+                                                className='alignment-radio',
+                                                options=[
+                                                    {'label': 'Yes', 'value': True},
+                                                    {'label': 'No', 'value': False},
+                                                ],
+                                                value=False,
+                                                labelStyle={
+                                                    'display': 'inline-block',
+                                                    'margin-right': '8px',
+                                                },
+                                            ),
+                                        ],
+                                    ),
+                                    # Conservation colorscale
+                                    # Gap color
+                                ], className='alignment-subcard'),
+                                html.Div([
+                                    html.H4('Layout'),
+                                    html.Hr(className='alignment-separator'),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("Labels"),
+                                            html.P(
+                                                'Show track labels on the left.'
+                                            ),
+                                            dcc.RadioItems(
+                                                id='alignment-showlabel-radio',
+                                                className='alignment-radio',
+                                                options=[
+                                                    {'label': 'Show ', 'value': True},
+                                                    {'label': 'Hide ', 'value': False},
+                                                ],
+                                                value=True,
+                                                labelStyle={
+                                                    'display': 'inline-block',
+                                                    'margin-right': '8px',
+                                                },
+                                            ),
+                                        ],
+                                    ),
+                                    html.Div(
+                                        className='alignment-settings',
+                                        children=[
+                                            html.H6("IDs"),
+                                            html.P(
+                                                'Show track IDs on the left.'
+                                            ),
+                                            dcc.RadioItems(
+                                                id='alignment-showid-radio',
+                                                className='alignment-radio',
+                                                options=[
+                                                    {'label': 'Show ', 'value': True},
+                                                    {'label': 'Hide ', 'value': False},
+                                                ],
+                                                value=True,
+                                                labelStyle={
+                                                    'display': 'inline-block',
+                                                    'margin-right': '8px',
+                                                },
+                                            ),
+                                        ],
+                                    ),
+                                    # html.Div(
+                                    #     className='alignment-settings',
+                                    #     children=[
+                                    #         html.H6("Tile width & height"),
+                                    #         html.P(
+                                    #             'Adjust the width (in px) of each individual cell.'
+                                    #         ),
+                                    #         dcc.Slider(
+                                    #             className='alignment-slider',
+                                    #             id='alignment-tilewidth-slider',
+                                    #             value=16,
+                                    #             min=10,
+                                    #             max=20,
+                                    #             step=1,
+                                    #             marks={
+                                    #                 '10': 10,
+                                    #                 '12': 12,
+                                    #                 '14': 14,
+                                    #                 '16': 16,
+                                    #                 '18': 18,
+                                    #                 '20': 20,
+                                    #             },
+                                    #         ),
+                                    #     ],
+                                    # ),
                                 ], className='alignment-subcard'),
                             ],
                         ),
@@ -227,7 +552,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             content_type, content_string = contents.split(',')
             content = base64.b64decode(content_string).decode('UTF-8')
         else:
-            content = datasets[dropdown]
+            content = DATASETS[dropdown]
 
         return content
 
@@ -254,6 +579,98 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def update_chart(input_data):
         return input_data
+
+    # Customization callbacks
+    @app.callback(
+        Output('alignment-chart', 'colorscale'),
+        [Input('alignment-colorscale-dropdown', 'value')],
+    )
+    def customize_colorscale(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'overview'),
+        [Input('alignment-overview-dropdown', 'value')],
+    )
+    def customize_overview(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'showconsensus'),
+        [Input('alignment-showconsensus-radio', 'value')],
+    )
+    def customize_showconsensus(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'textsize'),
+        [Input('alignment-textsize-slider', 'value')],
+    )
+    def customize_textsize(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'showconservation'),
+        [Input('alignment-showconservation-radio', 'value')],
+    )
+    def customize_showconservation(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'conservationcolorscale'),
+        [Input('alignment-conservationcolorscale-dropdown', 'value')],
+    )
+    def customize_conservationcolorscale(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'conservationmethod'),
+        [Input('alignment-conservationmethod-dropdown', 'value')],
+    )
+    def customize_conservationmethod(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'correctgap'),
+        [Input('alignment-correctgap-radio', 'value')],
+    )
+    def customize_correctgap(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'showgap'),
+        [Input('alignment-showgap-radio', 'value')],
+    )
+    def customize_showgap(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'gapcolor'),
+        [Input('alignment-gapcolor-dropdown', 'value')],
+    )
+    def customize_gapcolor(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'groupbars'),
+        [Input('alignment-groupbars-radio', 'value')],
+    )
+    def customize_groupbars(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'showlabel'),
+        [Input('alignment-showlabel-radio', 'value')],
+    )
+    def customize_showlabel(val):
+        return val
+
+    @app.callback(
+        Output('alignment-chart', 'showid'),
+        [Input('alignment-showid-radio', 'value')],
+    )
+    def customize_showid(val):
+        return val
 
 
 # only declare app/server if the file is being run directly
