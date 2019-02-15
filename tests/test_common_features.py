@@ -122,7 +122,6 @@ def template_test_component_single_prop(
     wait_for_text_to_equal(selenium, '#test-{}-assert-value-div'.format(app_name), 'PASSED')
 
 
-
 def template_test_component(
         dash_threaded,
         selenium,
