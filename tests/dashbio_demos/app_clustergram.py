@@ -4,7 +4,7 @@ from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bio
-from dash_bio.utils import geneExpressionReader
+from dash_bio.utils import gene_expression_reader
 
 # running directly with Python
 if __name__ == '__main__':
@@ -387,7 +387,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             dataset = datasets[dataset_name]
 
             _, desc, rowOptions, colOptions = \
-                geneExpressionReader.parse_tsv(
+                gene_expression_reader.parse_tsv(
                     filepath=dataset['file'],
                     header_rows=dataset['headerRows'],
                     header_cols=dataset['headerCols'],
@@ -400,7 +400,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 row_labels_source = 'Gene Name'
 
             _, desc, rowOptions, colOptions = \
-                geneExpressionReader.parse_tsv(
+                gene_expression_reader.parse_tsv(
                     contents=decoded,
                     row_labels_source=row_labels_source
                 )
@@ -610,7 +610,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             dataset = datasets[dataset_name]
 
             data, _, _, _ = \
-                geneExpressionReader.parse_tsv(
+                gene_expression_reader.parse_tsv(
                     filepath=dataset['file'],
                     row_labels_source=dataset['rowLabelsSource'],
                     header_rows=dataset['headerRows'],
@@ -627,7 +627,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 row_labels_source = 'Gene Name'
 
             data, _, _, _ = \
-                geneExpressionReader.parse_tsv(
+                gene_expression_reader.parse_tsv(
                     contents=decoded,
                     row_labels_source=row_labels_source,
                     rows=selRows,

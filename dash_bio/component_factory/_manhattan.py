@@ -6,7 +6,7 @@ import numpy as np
 
 import plotly.graph_objs as go
 
-from dash_bio.utils.hoverTools import _get_hover_text
+from dash_bio.utils.hover_tools import _get_hover_text
 
 SUGGESTIVE_LINE_LABEL = "suggestive line"
 GENOMEWIDE_LINE_LABEL = "genomewide line"
