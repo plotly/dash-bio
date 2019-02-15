@@ -203,7 +203,7 @@ Commit the `Procfile` and `config.py`, but *do not push to the
 
 #### Step 3: Push to the playground server
 Run `git push [app name]-test master`. This will deploy the app
-on the playground server. Test that it works by visiting the URL that
+on the playground server. Check that it works by visiting the URL that
 is displayed in the console. Try out a few of the callbacks to make
 sure that they are working.
 
