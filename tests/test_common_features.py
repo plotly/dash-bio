@@ -1,11 +1,12 @@
 import functools
+import json
 from importlib import import_module
 import json
 from pytest_dash.utils import (
     import_app,
     wait_for_element_by_id,
     wait_for_text_to_equal,
-    wait_for_element_by_css_selector,
+    wait_for_element_by_css_selector
 )
 import dash
 from dash.dependencies import Input, Output, State
@@ -176,3 +177,67 @@ def template_test_component_single_prop(
     btn = wait_for_element_by_css_selector(selenium, '#test-{}-btn'.format(app_name))
     btn.click()
     wait_for_text_to_equal(selenium, '#test-{}-assert-value-div'.format(app_name), 'PASSED')
+
+
+def generate_assert_callback_subprop(subprop, subprop_type):
+    """Callback generation to test props which are within a dict structure.
+     {
+        prop: {
+            subprop1: val1,
+            subprop2: val2,
+            ...
+            subpropN: valN
+        }
+    :param subprop: (string) name of the subprop
+    :param subprop_type: ()
+    :return: a callback function with will compare the value of the subprop passed to the
+
+    """
+
+    def assert_callback_subprop(p_value, nclicks, input_value):
+        """
+        Perform a comparison between the changed value of a component's subprop and
+        the value which has initiated the change of the subprop of the component via the
+        update_component callback of the simple_app
+        :param p_value: (string) changed value of the component's subprop
+        :param nclicks: (int) html.Button 'n_clicks' Input of the simple_app.layout
+        :param input_value: (string) value of the '...-prop-value-input' dcc.Input which served as
+        the new value of the component prop in the update_component callback of the simple_app
+        :return: a string which will modify the '...-assert-value-div' of the simple_app.layout
+        """
+
+        answer = 'FAILED'
+        if nclicks is not None:
+            input_value = json.loads(input_value)
+            if PROP_TYPES[subprop_type](input_value[subprop]) \
+                    == PROP_TYPES[subprop_type](p_value[subprop]):
+                answer = 'PASSED'
+        return answer
+
+    return assert_callback_subprop
+
+
+def generate_subprop_test(
+        dash_threaded,
+        selenium,
+        app_name,
+        app_test_prop_callback,
+        prop,
+        subprop,
+        subprop_type,
+        subprop_val,
+        **kwargs
+):
+    """Create a test for a prop within a dict."""
+    template_test_component_single_prop(
+        dash_threaded,
+        selenium,
+        app_name,
+        generate_assert_callback_subprop(subprop, subprop_type),
+        app_test_prop_callback,
+        prop,
+        '{"%s": %s}' % (subprop, subprop_val),
+        prop_type='dict',
+        component_base=COMPONENT_REACT_BASE,
+        **kwargs
+    )
