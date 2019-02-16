@@ -200,7 +200,7 @@ def layout():
                                 ),
                                 html.Div([
                                     html.H4(
-                                        "Download sample data",
+                                        "Download Sample Data",
                                     ),
                                     html.A(
                                         html.Button(
