@@ -207,8 +207,8 @@ def layout():
                                             "Download",
                                             className='alignment-button',
                                         ),
-                                        href="/assets/sample_data/alignment_viewer_p53_clustalo.fasta",
-                                        download="alignment_viewer_p53_clustalo.fasta",
+                                        href="/assets/sample_data/p53_clustalo.fasta",
+                                        download="p53_clustalo.fasta",
                                     )
                                 ], className='alignment-subcard'),
                                 html.Div([
