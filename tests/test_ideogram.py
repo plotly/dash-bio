@@ -1,6 +1,6 @@
 import os
 from pytest_dash.utils import (
-    wait_for_element_by_css_selector
+    wait_for_element_by_css_selector,
 )
 from .test_common_features import (
     init_demo_app,
@@ -78,6 +78,8 @@ def ideogram_test_props_callback(
             prop_value = PROP_TYPES[prop_type](prop_value)
         answer = prop_value
 
+    print("Update")
+    print(answer)
     return answer
 
 
@@ -309,3 +311,49 @@ def test_chromosomes_wrong_input(dash_threaded, selenium):
 
     num_chromosoms = len(selenium.find_elements_by_class_name('chromosome-set-container'))
     assert num_chromosoms == 2
+
+
+def test_brush(dash_threaded, selenium):
+    """Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a chromosome."""
+
+    prop_type = 'str'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        selenium,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        "brush",
+        "chr3:3500000-40000000",
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        chromosomes=['3'],
+        orientation="horizontal",
+        brush="chr3:200000-2000000",
+        **BASIC_PROPS
+    )
+
+    # verify the existence of the brush
+    brush = selenium.find_elements_by_class_name('brush')
+    assert len(brush) == 1
+    # selection = selenium.find_elements_by_class_name('selection')[0]
+    # selection_width_before = selection.get_attribute('width')
+
+    btn = wait_for_element_by_css_selector(selenium, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    brush = selenium.find_elements_by_class_name('brush')
+    assert len(brush) == 1
+    # verify that the selection of the brush was updated
+    # selection = selenium.find_elements_by_class_name('selection')[0]
+    # selection_width_after = selection.get_attribute('width')
+    # assert selection_width_before != selection_width_after
