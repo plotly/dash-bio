@@ -24,11 +24,12 @@ PROP_TYPES = {
 }
 
 
-def access_demo_app(dash_threaded, selenium, app_name):
+def access_demo_app(dash_threaded, app_name):
     """Mimic a user click on the app link from the gallery."""
+    driver = dash_threaded.driver
     dash_bio_index = import_app('index')
     dash_threaded(dash_bio_index)
-    link = wait_for_element_by_id(selenium, 'app-link-id-{}'.format(app_name))
+    link = wait_for_element_by_id(driver, 'app-link-id-{}'.format(app_name))
     link.click()
 
 
@@ -37,11 +38,11 @@ def init_demo_app(app_name):
     def decorator_init_demo_app(func):
         # preserves the __name__ and __doc__ values of the decorated func
         @functools.wraps(func)
-        def wrapper_init_demo_app(dash_threaded, selenium):
+        def wrapper_init_demo_app(dash_threaded):
             # start the index.py app in a thread and move to the component URL
-            access_demo_app(dash_threaded, selenium, app_name)
+            access_demo_app(dash_threaded, app_name)
             # execute the test function from there
-            func(dash_threaded, selenium)
+            func(dash_threaded)
         return wrapper_init_demo_app
     return decorator_init_demo_app
 
@@ -91,7 +92,6 @@ def create_test_layout(app_name, component_base, **kwargs):
 
 def template_test_component_single_prop(
         dash_threaded,
-        selenium,
         app_name,
         assert_callback,
         update_component_callback,
@@ -104,7 +104,6 @@ def template_test_component_single_prop(
     """Share reusable test code for testing single props assignation to a component.
 
     :param dash_threaded: from pytest_dash
-    :param selenium: used to mimic a user programmatically
     :param app_name: (string) name of the app
     :param assert_callback: (func) this function is where the test should be explicitly defined,
     this 'assert_callback' function should typically be defined within a test function which calls
@@ -120,6 +119,8 @@ def template_test_component_single_prop(
         default: COMPONENT_PYTHON_BASE
     :return:
     """
+
+    driver = dash_threaded.driver
 
     simple_app = dash.Dash(__name__)
     # generate a simple app to test the component's prop
@@ -160,20 +161,20 @@ def template_test_component_single_prop(
     dash_threaded(simple_app)
 
     prop_name_input = wait_for_element_by_css_selector(
-        selenium,
+        driver,
         '#test-{}-prop-name-input'.format(app_name)
     )
     prop_value_input = wait_for_element_by_css_selector(
-        selenium,
+        driver,
         '#test-{}-prop-value-input'.format(app_name)
     )
 
     prop_name_input.send_keys(prop_name)
     prop_value_input.send_keys(prop_value)
 
-    btn = wait_for_element_by_css_selector(selenium, '#test-{}-btn'.format(app_name))
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(app_name))
     btn.click()
-    wait_for_text_to_equal(selenium, '#test-{}-assert-value-div'.format(app_name), 'PASSED')
+    wait_for_text_to_equal(driver, '#test-{}-assert-value-div'.format(app_name), 'PASSED')
 
 
 def generate_assert_callback_subprop(subprop, subprop_type):
@@ -216,7 +217,6 @@ def generate_assert_callback_subprop(subprop, subprop_type):
 
 def generate_subprop_test(
         dash_threaded,
-        selenium,
         app_name,
         app_test_prop_callback,
         prop,
@@ -228,7 +228,6 @@ def generate_subprop_test(
     """Create a test for a prop within a dict."""
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         app_name,
         generate_assert_callback_subprop(subprop, subprop_type),
         app_test_prop_callback,
