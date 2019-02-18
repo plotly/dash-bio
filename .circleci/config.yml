@@ -26,7 +26,7 @@ jobs:
                 when: always
 
 
-    "python-3.6":
+    "python-3.6": &test-template
         docker:
             - image: circleci/python:3.6-stretch-browsers
 
@@ -78,10 +78,20 @@ jobs:
                     pip install -r tests/requirements.txt
                     pytest --driver chrome tests --ignore tests/test_skeleton.py
 
+    "python-3.7":
+        <<: *test-template
+        docker:
+            - image: circleci/python:3.7-stretch-browsers
+
+        environment:
+            PERCY_ENABLED: False
+
+
 
 workflows:
     version: 2
     build:
         jobs:
             - "python-3.6"
+            - "python-3.7"
             - "node"
