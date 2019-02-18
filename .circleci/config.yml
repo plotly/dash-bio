@@ -48,6 +48,7 @@ jobs:
                 name: Install requirements
                 command: |
                     . venv/bin/activate
+                    pip install --upgrade pip
                     pip install -r tests/requirements.txt --quiet
 
             - save_cache:
@@ -73,6 +74,7 @@ jobs:
                 name: Run Integration Tests
                 command: |
                     . venv/bin/activate
+                    pip install --upgrade pip
                     pip install -r tests/requirements.txt
                     pytest --driver chrome tests --ignore tests/test_skeleton.py
 
