@@ -11,12 +11,13 @@ TEST_DATA = load_mutation_data('{}{}'.format(DATAPATH, DEMO_DATA[0]['mutData']))
 # Demo app tests
 @init_demo_app(APP_NAME)
 def test_click_app_link_from_gallery(dash_threaded, selenium):
+    """Test that clicking on the given app goes to the expected URL."""
 
     assert selenium.current_url.replace('http://localhost:8050', '').strip('/') == \
-           'dash-bio/{}'.format(APP_NAME)
+        'dash-bio/{}'.format(APP_NAME)
 
 
-# Needle Plot component tests
+# Component tests
 def needle_plot_test_props_callback(
         nclicks,
         p_name,
@@ -51,7 +52,10 @@ def generate_subprop_test_needle(
         subprop_type,
         subprop_val
 ):
-    """Avoid repetition of arguments which will be the same for a series of tests."""
+    """Call the generic function to setup a test on a subprop with arguments specific to this
+    component. This is done to avoid repetition of arguments which will be the same for a
+    series of tests.
+    """
     generate_subprop_test(
         dash_threaded,
         selenium,
@@ -66,7 +70,7 @@ def generate_subprop_test_needle(
 
 
 def test_rangeslider(dash_threaded, selenium):
-    """Toggle the rangeSlider display."""
+    """Test the rangeSlider display."""
 
     def assert_callback(p_value, nclicks, input_value):
         answer = ''
@@ -90,7 +94,7 @@ def test_rangeslider(dash_threaded, selenium):
 
 
 def test_xlabel(dash_threaded, selenium):
-    """Change xlabel."""
+    """Test that xlabel displays as set via UI."""
 
     def assert_callback(p_value, nclicks, input_value):
         answer = ''
@@ -113,7 +117,7 @@ def test_xlabel(dash_threaded, selenium):
 
 
 def test_ylabel(dash_threaded, selenium):
-    """Change ylabel."""
+    """Test that ylabel displays as set via UI."""
 
     def assert_callback(p_value, nclicks, input_value):
         answer = ''
@@ -136,7 +140,7 @@ def test_ylabel(dash_threaded, selenium):
 
 
 def test_set_empty_needle_style(dash_threaded, selenium):
-    """Assign an empty dict to needle style."""
+    """Test assignment of an empty dict to needleStyle prop."""
 
     def assert_callback(p_value, nclicks, input_value):
         answer = ''
@@ -160,6 +164,7 @@ def test_set_empty_needle_style(dash_threaded, selenium):
     )
 
 
+# Tests subprops assignment of needleStyle props
 def test_needlestyle_stemcolor(dash_threaded, selenium):
     sp = 'stemColor'
     sp_type = 'str'
@@ -195,6 +200,7 @@ def test_needlestyle_headcolor(dash_threaded, selenium):
     generate_subprop_test_needle(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
 
 
+# Tests subprops assignment of domainStyle props
 def test_domainstyle_headsymbol(dash_threaded, selenium):
     sp = 'headSymbol'
     sp_type = 'str'
