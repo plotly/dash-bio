@@ -10,5 +10,4 @@ Please make sure you have done these things before asking for approval to finall
 - [ ] Run your application successfully in a [virtual environment](https://realpython.com/python-virtual-environments-a-primer/) and test that other apps still run
 - [ ] Commit and push the files that were generated in the `dash_bio/` subfolder by the above command(s)
 - [ ] Ask for a final review and look for a :dancer:!
-- [ ] Have your dancer? Merge to master!
-
+- [ ] Have your dancer? Merge to master! Merge the default way, without squashing or rebasing.
