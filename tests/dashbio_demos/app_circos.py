@@ -6,7 +6,7 @@ import json
 import os
 
 import dash_bio
-from dash_bio.utils import circosParser as cp
+from dash_bio.utils import circos_parser as cp
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html

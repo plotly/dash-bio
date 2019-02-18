@@ -5,7 +5,7 @@ from Bio.Alphabet import generic_dna, generic_rna
 from Bio.Seq import Seq
 from Bio.Data.CodonTable import TranslationError
 import dash_bio
-from dash_bio.utils import proteinReader as pr
+from dash_bio.utils import protein_reader as pr
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
