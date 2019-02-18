@@ -1,6 +1,6 @@
 import os
 from selenium.webdriver.common.keys import Keys
-from pytest_dash.utils import (
+from pytest_dash.wait_for import (
     wait_for_text_to_equal,
     wait_for_element_by_css_selector,
 )
