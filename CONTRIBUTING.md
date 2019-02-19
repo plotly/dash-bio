@@ -139,7 +139,7 @@ Each commit is small; a pull request typically consists of a few commits.
 To run integration tests locally on, say, Google Chrome:
 ```bash
 pip install -r tests/requirements.txt
-pytest tests --driver Chrome --ignore tests/test_skeleton.py
+pytest tests --webdriver Chrome --ignore tests/test_skeleton.py
 ```
 Do not worry if you get errors running this last command. You will have to
 download a Chrome driver, install it, and add its path. Follow what the error
