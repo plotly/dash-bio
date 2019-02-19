@@ -83,6 +83,7 @@ def ideogram_test_props_callback(
 
 # below, write tests for changing the props of the React component
 # (following this basic structure)
+HUMAN_TXID = 9606  # NCBI:Txid for human
 
 BASIC_PROPS = {
     'organism': 'human',
@@ -435,5 +436,98 @@ def test_show_chromosome_labels(dash_threaded):
     # labels should be displayed
     labels = driver.find_elements_by_class_name('chrLabel')
     assert len(labels) != 0
+
+
+def test_sex(dash_threaded):
+    """Test the hiding of chromosome Y if sex is set to female."""
+
+    prop_type = 'str'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'sex',
+        'female',
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # assert the presence of the chromosome Y
+    chromosomes = driver.find_elements_by_class_name('chromosome')
+    num_chromosoms = len(chromosomes)
+    assert num_chromosoms == 24
+
+    has_chr_y = False
+    for chromosome in chromosomes:
+        if 'chrY' in chromosome.get_attribute('id'):
+            has_chr_y = True
+    assert has_chr_y is True
+
+    # trigger a change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    # assert the absence of the chromosome Y
+    chromosomes = driver.find_elements_by_class_name('chromosome')
+    num_chromosoms = len(chromosomes)
+    assert num_chromosoms == 23
+
+    has_chr_y = False
+    for chromosome in chromosomes:
+        if 'chrY' in chromosome.get_attribute('id'):
+            has_chr_y = True
+    assert has_chr_y is False
+
+
+def test_annotations_path(dash_threaded):
+    """Test the loading of annotations form a provided URL."""
+
+    prop_type = 'str'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'annotationsPath',
+        'https://eweitz.github.io/ideogram/data/annotations/all_human_genes.json',
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # assert there is no annotation initially
+    annots = driver.find_elements_by_class_name('annot')
+    assert len(annots) == 0
+
+    # trigger a change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    # raise an error if no element with 'annot' class is found
+    wait_for_element_by_css_selector(driver, '.annot')
 
 
