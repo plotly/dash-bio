@@ -10,10 +10,10 @@ TEST_DATA = load_mutation_data('{}{}'.format(DATAPATH, DEMO_DATA[0]['mutData']))
 
 # Demo app tests
 @init_demo_app(APP_NAME)
-def test_click_app_link_from_gallery(dash_threaded, selenium):
+def test_click_app_link_from_gallery(dash_threaded):
     """Test that clicking on the given app goes to the expected URL."""
 
-    assert selenium.current_url.replace('http://localhost:8050', '').strip('/') == \
+    assert dash_threaded.driver.current_url.replace('http://localhost:8050', '').strip('/') == \
         'dash-bio/{}'.format(APP_NAME)
 
 
@@ -46,7 +46,6 @@ def needle_plot_test_props_callback(
 
 def generate_subprop_test_needle(
         dash_threaded,
-        selenium,
         prop,
         subprop,
         subprop_type,
@@ -58,7 +57,6 @@ def generate_subprop_test_needle(
     """
     generate_subprop_test(
         dash_threaded,
-        selenium,
         APP_NAME,
         needle_plot_test_props_callback,
         prop,
@@ -69,7 +67,7 @@ def generate_subprop_test_needle(
     )
 
 
-def test_rangeslider(dash_threaded, selenium):
+def test_rangeslider(dash_threaded):
     """Test the rangeSlider display."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -81,7 +79,6 @@ def test_rangeslider(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         needle_plot_test_props_callback,
@@ -93,7 +90,7 @@ def test_rangeslider(dash_threaded, selenium):
     )
 
 
-def test_xlabel(dash_threaded, selenium):
+def test_xlabel(dash_threaded):
     """Test that xlabel displays as set via UI."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -105,7 +102,6 @@ def test_xlabel(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         needle_plot_test_props_callback,
@@ -116,7 +112,7 @@ def test_xlabel(dash_threaded, selenium):
     )
 
 
-def test_ylabel(dash_threaded, selenium):
+def test_ylabel(dash_threaded):
     """Test that ylabel displays as set via UI."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -128,7 +124,6 @@ def test_ylabel(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         needle_plot_test_props_callback,
@@ -139,7 +134,7 @@ def test_ylabel(dash_threaded, selenium):
     )
 
 
-def test_set_empty_needle_style(dash_threaded, selenium):
+def test_set_empty_needle_style(dash_threaded):
     """Test assignment of an empty dict to needleStyle prop."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -152,7 +147,6 @@ def test_set_empty_needle_style(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         needle_plot_test_props_callback,
@@ -165,65 +159,65 @@ def test_set_empty_needle_style(dash_threaded, selenium):
 
 
 # Tests subprops assignment of needleStyle props
-def test_needlestyle_stemcolor(dash_threaded, selenium):
+def test_needlestyle_stemcolor(dash_threaded):
     sp = 'stemColor'
     sp_type = 'str'
     sp_val = '"blue"'
-    generate_subprop_test_needle(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
+    generate_subprop_test_needle(dash_threaded, "needleStyle", sp, sp_type, sp_val)
 
 
-def test_needlestyle_stemthickness(dash_threaded, selenium):
+def test_needlestyle_stemthickness(dash_threaded):
     sp = 'stemThickness'
     sp_type = 'int'
     sp_val = 5
-    generate_subprop_test_needle(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
+    generate_subprop_test_needle(dash_threaded, "needleStyle", sp, sp_type, sp_val)
 
 
-def test_needlestyle_stemconstheight(dash_threaded, selenium):
+def test_needlestyle_stemconstheight(dash_threaded):
     sp = 'stemConstHeight'
     sp_type = 'bool'
     sp_val = '"true"'
-    generate_subprop_test_needle(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
+    generate_subprop_test_needle(dash_threaded, "needleStyle", sp, sp_type, sp_val)
 
 
-def test_needlestyle_headsize(dash_threaded, selenium):
+def test_needlestyle_headsize(dash_threaded):
     sp = 'headSize'
     sp_type = 'int'
     sp_val = 10
-    generate_subprop_test_needle(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
+    generate_subprop_test_needle(dash_threaded, "needleStyle", sp, sp_type, sp_val)
 
 
-def test_needlestyle_headcolor(dash_threaded, selenium):
+def test_needlestyle_headcolor(dash_threaded):
     sp = 'headColor'
     sp_type = 'str'
     sp_val = '"grey"'
-    generate_subprop_test_needle(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
+    generate_subprop_test_needle(dash_threaded, "needleStyle", sp, sp_type, sp_val)
 
 
 # Tests subprops assignment of domainStyle props
-def test_domainstyle_headsymbol(dash_threaded, selenium):
+def test_domainstyle_headsymbol(dash_threaded):
     sp = 'headSymbol'
     sp_type = 'str'
     sp_val = '"triangle-left"'
-    generate_subprop_test_needle(dash_threaded, selenium, "needleStyle", sp, sp_type, sp_val)
+    generate_subprop_test_needle(dash_threaded, "needleStyle", sp, sp_type, sp_val)
 
 
-def test_domainstyle_domaincolor_single(dash_threaded, selenium):
+def test_domainstyle_domaincolor_single(dash_threaded):
     sp = 'domainColor'
     sp_type = 'str'
     sp_val = '"blue"'
-    generate_subprop_test_needle(dash_threaded, selenium, "domainStyle", sp, sp_type, sp_val)
+    generate_subprop_test_needle(dash_threaded, "domainStyle", sp, sp_type, sp_val)
 
 
-def test_domainstyle_domaincolor_list(dash_threaded, selenium):
+def test_domainstyle_domaincolor_list(dash_threaded):
     sp = 'domainColor'
     sp_type = 'list'
     sp_val = '"blue, red, purple"'
-    generate_subprop_test_needle(dash_threaded, selenium, "domainStyle", sp, sp_type, sp_val)
+    generate_subprop_test_needle(dash_threaded, "domainStyle", sp, sp_type, sp_val)
 
 
-def test_needlestyle_display_minor_domains(dash_threaded, selenium):
+def test_needlestyle_display_minor_domains(dash_threaded):
     sp = 'displayMinorDomains'
     sp_type = 'bool'
     sp_val = '"True"'
-    generate_subprop_test_needle(dash_threaded, selenium, "domainStyle", sp, sp_type, sp_val)
+    generate_subprop_test_needle(dash_threaded, "domainStyle", sp, sp_type, sp_val)
