@@ -267,7 +267,7 @@ export default class Ideogram extends Component {
 
 Ideogram.defaultProps = {
     organism: 'human',
-    dataDir: 'https://unpkg.com/ideogram@1.5.0/dist/data/bands/native/'
+    dataDir: 'https://unpkg.com/ideogram@1.5.0/dist/data/bands/native/',
     annotationsColor: '#F00',
     annotationsLayout: 'tracks',
     barWidth: 3,
@@ -285,6 +285,7 @@ Ideogram.defaultProps = {
 };
 
 Ideogram.propTypes = {
+
     /**
      * The ID used to identify this component in Dash callbacks
      * and used to identify Ideogram instances.
@@ -307,30 +308,22 @@ Ideogram.propTypes = {
     className: PropTypes.string,
 
     /**
-     * Use this prop in a dash callback to return annotationData when hovered.
-     * It is read-only, i.e. it cannot be used with dash.dependencies.Output but only with
-     * dash.dependencies.Input
-     */
-    annotationsData: PropTypes.string,
-
-    /**
      *  A map associating ancestor labels to colors. Used to color
      * chromosomes from different ancestors in polyploid genomes.
      */
-
     ancestors: PropTypes.object,
 
     /**
-     * The layout of this ideogram's annotations.
-     * It can be one of "tracks", "histogram", or "overlay".
+     * Layout of ideogram annotations.
+     * One of "tracks", "histogram", or "overlay".
      *
-     * Tracks: Lay out annotations in tracks beside each chromosome.
+     * "tracks": display annotations in tracks beside each chromosome.
      *
-     * Histogram: Layout annotations in a histogram. Clusters annotations
-     * by location. Each cluster/bin is shown as a height of a bar to represent
-     * number of annotations on genomic range.
+     * "histogram": display annotations in a histogram. Clusters annotations
+     * by location. Each cluster/bin is shown as a  bar which height represents
+     * the number of annotations on genomic range.
      *
-     * Overlay: Lay out annotations directly over chromsomes.
+     * "overlay": display annotations directly over chromosomes.
      */
     annotationsLayout: PropTypes.string,
 
@@ -339,7 +332,6 @@ Ideogram.propTypes = {
      *  name, color, shape, and track index. At the moment there is more
      *  keys specified and the docs need updating.
      */
-
     annotations: PropTypes.arrayOf(
         PropTypes.shape({
             name: PropTypes.string,
@@ -356,30 +348,42 @@ Ideogram.propTypes = {
     annotationsPath: PropTypes.string,
 
     /**
+     * Use this prop in a dash callback to return annotationData when hovered.
+     * It is read-only, i.e. it cannot be used with dash.dependencies.Output but only with
+     * dash.dependencies.Input
+     */
+    annotationsData: PropTypes.string,
+
+    /**
      * A list of objects with metadata for each track,
      * e.g. id, display name, color, shape.
      */
     annotationTracks: PropTypes.arrayOf(PropTypes.object),
 
-
     /**
-     *  The height of each annotation.
+     * Not used if annotationsLayout is set to "overlay".
+     * The height of histogram bars or the size of annotations tracks symbols
      */
     annotationHeight: PropTypes.number,
 
     /**
-     * One of "absolute" or "relative". The technique to use in scaling the height of histogram bars. The "absolute" value sets bar height relative to tallest bar in all chromosomes,
-     * while "relative" sets bar height relative to tallest bar in each chromosome.
+     * Scaling of histogram bars height
+     * Only used if annotationsLayout is set to "histogram".
+     * One of "absolute" or "relative".
+     *
+     * "absolute": sets bar height relative to tallest bar in all chromosomes.
+     * "relative": sets bar height relative to tallest bar in each chromosome.
      */
     histogramScaling: PropTypes.string,
 
     /**
-     * The pixel width of bars drawn when annotationsLayout: 'histogram'.
+     * Pixel width of histogram bars.
+     * Only used if annotationsLayout is set to "histogram".
      **/
     barWidth: PropTypes.number,
 
     /**
-     * The color of each annotation.
+     * Color of annotations.
      */
     annotationsColor: PropTypes.string,
 
