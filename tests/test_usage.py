@@ -1,9 +1,7 @@
-from pytest_dash.utils import (
-    import_app,
-)
+from pytest_dash.application_runners import import_app
 
 
-def test_start(dash_threaded, selenium):
+def test_start(dash_threaded):
     """Launch the app.
 
     `dash_threaded` is a fixture by `pytest-dash`.

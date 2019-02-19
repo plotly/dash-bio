@@ -26,7 +26,7 @@ jobs:
                 when: always
 
 
-    "python-3.6":
+    "python-3.6": &test-template
         docker:
             - image: circleci/python:3.6-stretch-browsers
 
@@ -76,7 +76,16 @@ jobs:
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install -r tests/requirements.txt
-                    pytest --driver chrome tests --ignore tests/test_skeleton.py
+                    pytest --webdriver Chrome tests --ignore tests/test_skeleton.py
+
+    "python-3.7":
+        <<: *test-template
+        docker:
+            - image: circleci/python:3.7-stretch-browsers
+
+        environment:
+            PERCY_ENABLED: False
+
 
 
 workflows:
@@ -84,4 +93,5 @@ workflows:
     build:
         jobs:
             - "python-3.6"
+            - "python-3.7"
             - "node"
