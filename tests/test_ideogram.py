@@ -357,3 +357,83 @@ def test_brush(dash_threaded):
     # selection = driver.find_elements_by_class_name('selection')[0]
     # selection_width_after = selection.get_attribute('width')
     # assert selection_width_before != selection_width_after
+
+
+def test_show_band_labels(dash_threaded):
+    """Test the display/hiding of cytogenetic band labels."""
+
+    prop_type = 'bool'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'showBandLabels',
+        'True',
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    labels = driver.find_elements_by_class_name('bandLabel')
+    assert len(labels) == 0
+
+    # trigger a change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    labels = driver.find_elements_by_class_name('bandLabel')
+    assert len(labels) != 0
+
+
+def test_show_chromosome_labels(dash_threaded):
+    """Test the display/hiding of chromosomes labels."""
+
+    prop_type = 'bool'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'showChromosomeLabels',
+        'True',
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # no labels initially
+    labels = driver.find_elements_by_class_name('chrLabel')
+    assert len(labels) == 0
+
+    # trigger a change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    # labels should be displayed
+    labels = driver.find_elements_by_class_name('chrLabel')
+    assert len(labels) != 0
+
+
