@@ -200,6 +200,7 @@ def test_orientation(dash_threaded):
     for chromosom in chromosoms:
         assert "rotate(90)" in str(chromosom.get_attribute("transform"))
 
+    # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
@@ -238,6 +239,7 @@ def test_ploidy(dash_threaded):
     num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 24
 
+    # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
@@ -272,6 +274,7 @@ def test_chromosomes(dash_threaded):
 
     driver = dash_threaded.driver
 
+    # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
@@ -306,6 +309,7 @@ def test_chromosomes_wrong_input(dash_threaded):
 
     driver = dash_threaded.driver
 
+    # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
@@ -349,6 +353,7 @@ def test_brush(dash_threaded):
     # selection = driver.find_elements_by_class_name('selection')[0]
     # selection_width_before = selection.get_attribute('width')
 
+    # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
