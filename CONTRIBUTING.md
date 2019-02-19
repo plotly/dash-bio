@@ -223,8 +223,3 @@ normally. You can do this by running `git reset --hard [commit ID]`.
 #### Step 6: Ensure that your branch is even with `master` 
 Since you've reverted the change, running `git diff` should return
 nothing.
-
-#### Step 7: Deploy updates to the `master` branch
-If the `master` branch has been updated, you can push all the changes
-to your `origin` remote. However, make sure that the `Procfile` on the
-dash-bio repository stays the same.
