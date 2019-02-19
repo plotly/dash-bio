@@ -15,10 +15,25 @@ import dash_core_components as dcc
 COMPONENT_PYTHON_BASE = 'python'
 COMPONENT_REACT_BASE = 'react'
 
+
+def bool_converter(s):
+    """Convert variable to boolean
+
+    :param s: a variable
+    :return: the return of the builtin bool() function except if the variable is equal to a str
+    representation of the boolean value
+    """
+    answer = bool(s)
+    if isinstance(s, str):
+        if s in ('False', 'false', '0'):
+            answer = False
+    return answer
+
+
 PROP_TYPES = {
     'int': int,
     'float': float,
-    'bool': bool,
+    'bool': bool_converter,
     'str': str,
     'array': lambda x: [float(el) for el in x.split(',')]
 }
