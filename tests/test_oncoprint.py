@@ -1,5 +1,3 @@
-# pylint: disable=E,W,C,R
-# flake8: noqa
 import os
 from selenium.webdriver.common.keys import Keys
 from pytest_dash.wait_for import (
@@ -23,10 +21,6 @@ APP_NAME = os.path.basename(__file__).replace(
 PASS = 'PASSED'
 FAIL = 'FAILED'
 
-# define any custom strings here (e.g., if you use
-# a particular CSS selector a lot, assign it to a
-# variable)
-
 
 # Demo app tests
 
@@ -36,27 +30,6 @@ def test_click_app_name_from_gallery(dash_threaded):
     assert dash_threaded.driver.current_url.replace('http://localhost:8050', '').strip('/') == \
         'dash-bio/{}'.format(APP_NAME)
 
-
-# below, write tests for initial conditions; they will most likely
-# make use of wait_for_text_to_equal and other similar functions
-
-@init_demo_app(APP_NAME)
-def test_INITIALCONDITION(dash_threaded):
-    """Test some initial condition here (e.g., that the correct dataset
-    has been loaded).
-    """
-    pass
-# below, write tests for interactions with the app (e.g., selecting a
-# value from a dropdown or filling in some sort of input); they will
-# most likely make use of send_keys
-
-
-@init_demo_app(APP_NAME)
-def test_CHANGESOMETHING(dash_threaded):
-    """Test the results of changing something here (e.g., the value
-    of a dropdown).
-    """
-    pass
 
 # Component tests
 
