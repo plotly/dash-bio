@@ -5,7 +5,7 @@ from .test_common_features import (
     PROP_TYPES,
     COMPONENT_REACT_BASE
 )
-from tests.dashbio_demos.app_oncoprint import DATASETS
+from tests.dashbio_demos.app_onco_print import DATASETS
 
 # define app name once
 APP_NAME = os.path.basename(__file__).replace(
