@@ -1,5 +1,5 @@
 import os
-from pytest_dash.utils import (
+from pytest_dash.wait_for import (
     wait_for_element_by_css_selector,
 )
 from .test_common_features import (
@@ -28,9 +28,9 @@ FAIL = 'FAILED'
 # Demo app tests
 
 @init_demo_app(APP_NAME)
-def test_click_app_name_from_gallery(dash_threaded, selenium):
+def test_click_app_name_from_gallery(dash_threaded):
     """Test that clicking on the given app goes to the expected URL."""
-    assert selenium.current_url.replace('http://localhost:8050', '').strip('/') == \
+    assert dash_threaded.driver.current_url.replace('http://localhost:8050', '').strip('/') == \
         'dash-bio/{}'.format(APP_NAME)
 
 
@@ -55,15 +55,13 @@ def ideogram_test_props_callback(
 ):
     """This function is the code of a callback which is triggered by
     the button on the simple app used in the test.
-    :param nclicks (int): The n_clicks value of the button in the
-                          simple app
-    :param prop_name (string): The name of the property that is to be
-                               modified
-    :param prop_value (string): The value that is to be assigned to the
-                                prop defined by prop_name.
-    :prop_type (string): One of the predefined types in PROP_TYPES.
-    :return: The value that is to be assigned to the prop defined by
-             prop_name, after casting it to the correct type.
+        :param nclicks: (int) The n_clicks value of the button in the simple app
+        :param prop_name: (string) The name of the property that is to be modified
+        :param prop_value: (string) The value that is to be assigned to the prop defined by
+        prop_name.
+        :param prop_type: (string) One of the predefined types in PROP_TYPES.
+        :return: The value that is to be assigned to the prop defined by prop_name,
+        after casting it to the correct type.
     """
     answer = None
 
@@ -92,7 +90,7 @@ BASIC_PROPS = {
 }
 
 
-def test_chr_height(dash_threaded, selenium):
+def test_chr_height(dash_threaded):
     """The pixel height of the tallest chromosome in the ideogram."""
 
     prop_type = 'float'
@@ -107,7 +105,6 @@ def test_chr_height(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
@@ -119,7 +116,7 @@ def test_chr_height(dash_threaded, selenium):
     )
 
 
-def test_chr_margin(dash_threaded, selenium):
+def test_chr_margin(dash_threaded):
     """The pixel space of margin between each chromosome."""
 
     prop_type = 'float'
@@ -134,7 +131,6 @@ def test_chr_margin(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
@@ -146,7 +142,7 @@ def test_chr_margin(dash_threaded, selenium):
     )
 
 
-def test_chr_width(dash_threaded, selenium):
+def test_chr_width(dash_threaded):
     """The pixel width of each chromosome."""
 
     prop_type = 'float'
@@ -161,7 +157,6 @@ def test_chr_width(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
@@ -173,7 +168,7 @@ def test_chr_width(dash_threaded, selenium):
     )
 
 
-def test_orientation(dash_threaded, selenium):
+def test_orientation(dash_threaded):
     """The orientation of chromosomes on the page."""
 
     prop_type = 'str'
@@ -188,7 +183,6 @@ def test_orientation(dash_threaded, selenium):
 
     template_test_component(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
@@ -199,19 +193,21 @@ def test_orientation(dash_threaded, selenium):
         **BASIC_PROPS
     )
 
-    chromosoms = selenium.find_elements_by_class_name('chromosome-set-container')
+    driver = dash_threaded.driver
+
+    chromosoms = driver.find_elements_by_class_name('chromosome-set-container')
     for chromosom in chromosoms:
         assert "rotate(90)" in str(chromosom.get_attribute("transform"))
 
-    btn = wait_for_element_by_css_selector(selenium, '#test-{}-btn'.format(APP_NAME))
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
-    chromosoms = selenium.find_elements_by_class_name('chromosome-set-container')
+    chromosoms = driver.find_elements_by_class_name('chromosome-set-container')
     for chromosom in chromosoms:
         assert "rotate(90)" not in str(chromosom.get_attribute("transform"))
 
 
-def test_ploidy(dash_threaded, selenium):
+def test_ploidy(dash_threaded):
     """The ploidy - number of chromosomes to depict for each chromosome set."""
 
     prop_type = 'int'
@@ -226,7 +222,6 @@ def test_ploidy(dash_threaded, selenium):
 
     template_test_component(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
@@ -237,17 +232,19 @@ def test_ploidy(dash_threaded, selenium):
         **BASIC_PROPS
     )
 
-    num_chromosoms = len(selenium.find_elements_by_class_name('chromosome'))
+    driver = dash_threaded.driver
+
+    num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 24
 
-    btn = wait_for_element_by_css_selector(selenium, '#test-{}-btn'.format(APP_NAME))
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
-    num_chromosoms = len(selenium.find_elements_by_class_name('chromosome'))
+    num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 46
 
 
-def test_chromosomes(dash_threaded, selenium):
+def test_chromosomes(dash_threaded):
     """A list of the numbers of the chromosomes to display."""
 
     prop_type = 'list'
@@ -262,7 +259,6 @@ def test_chromosomes(dash_threaded, selenium):
 
     template_test_component(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
@@ -273,14 +269,16 @@ def test_chromosomes(dash_threaded, selenium):
         **BASIC_PROPS
     )
 
-    btn = wait_for_element_by_css_selector(selenium, '#test-{}-btn'.format(APP_NAME))
+    driver = dash_threaded.driver
+
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
-    num_chromosoms = len(selenium.find_elements_by_class_name('chromosome-set-container'))
+    num_chromosoms = len(driver.find_elements_by_class_name('chromosome-set-container'))
     assert num_chromosoms == 3
 
 
-def test_chromosomes_wrong_input(dash_threaded, selenium):
+def test_chromosomes_wrong_input(dash_threaded):
     """A list of the numbers of the chromosomes to display."""
 
     prop_type = 'list'
@@ -295,7 +293,6 @@ def test_chromosomes_wrong_input(dash_threaded, selenium):
 
     template_test_component(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
@@ -306,14 +303,16 @@ def test_chromosomes_wrong_input(dash_threaded, selenium):
         **BASIC_PROPS
     )
 
-    btn = wait_for_element_by_css_selector(selenium, '#test-{}-btn'.format(APP_NAME))
+    driver = dash_threaded.driver
+
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
-    num_chromosoms = len(selenium.find_elements_by_class_name('chromosome-set-container'))
+    num_chromosoms = len(driver.find_elements_by_class_name('chromosome-set-container'))
     assert num_chromosoms == 2
 
 
-def test_brush(dash_threaded, selenium):
+def test_brush(dash_threaded):
     """Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a chromosome."""
 
     prop_type = 'str'
@@ -328,7 +327,6 @@ def test_brush(dash_threaded, selenium):
 
     template_test_component(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
@@ -342,18 +340,20 @@ def test_brush(dash_threaded, selenium):
         **BASIC_PROPS
     )
 
+    driver = dash_threaded.driver
+
     # verify the existence of the brush
-    brush = selenium.find_elements_by_class_name('brush')
+    brush = driver.find_elements_by_class_name('brush')
     assert len(brush) == 1
-    # selection = selenium.find_elements_by_class_name('selection')[0]
+    # selection = driver.find_elements_by_class_name('selection')[0]
     # selection_width_before = selection.get_attribute('width')
 
-    btn = wait_for_element_by_css_selector(selenium, '#test-{}-btn'.format(APP_NAME))
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
-    brush = selenium.find_elements_by_class_name('brush')
+    brush = driver.find_elements_by_class_name('brush')
     assert len(brush) == 1
     # verify that the selection of the brush was updated
-    # selection = selenium.find_elements_by_class_name('selection')[0]
+    # selection = driver.find_elements_by_class_name('selection')[0]
     # selection_width_after = selection.get_attribute('width')
     # assert selection_width_before != selection_width_after

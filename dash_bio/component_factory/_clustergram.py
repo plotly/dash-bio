@@ -12,7 +12,6 @@ from plotly import tools
 
 
 # pylint: disable=assignment-from-no-return, no-self-use
-
 def Clustergram(
         data=None,
         computed_traces=None,
@@ -370,7 +369,9 @@ class _Clustergram():
             print_grid=False
         )
 
-        fig['layout']['hovermode'] = 'closest'
+        fig['layout'].update(
+            hovermode='closest'
+        )
 
         # get the tick values; these will be at the leaves of the
         # dendrogram
@@ -472,22 +473,25 @@ class _Clustergram():
             fig.append_trace(rdt, 2, 1)
 
         # display row dendrogram sideways
-        fig['layout']['xaxis4'].update(
+        xaxis4 = fig['layout']['xaxis4']  # pylint: disable=invalid-sequence-index
+        xaxis4.update(
             autorange='reversed'
         )
 
         # ensure that everything is aligned properly
         # with the heatmap
-        fig['layout']['yaxis4'].update(
+        yaxis4 = fig['layout']['yaxis4']  # pylint: disable=invalid-sequence-index
+        yaxis4.update(
             scaleanchor='y5'
         )
-        fig['layout']['xaxis2'].update(
+        xaxis2 = fig['layout']['xaxis2']  # pylint: disable=invalid-sequence-index
+        xaxis2.update(
             scaleanchor='x5'
         )
 
         if len(tickvals_col) > 0:
             # add in all of the labels
-            fig['layout']['xaxis5'].update(
+            fig['layout']['xaxis5'].update(  # pylint: disable=invalid-sequence-index
                 tickmode='array',
                 tickvals=tickvals_col,
                 ticktext=self._columnLabels,
@@ -501,7 +505,7 @@ class _Clustergram():
             )
 
         if len(tickvals_row) > 0:
-            fig['layout']['yaxis5'].update(
+            fig['layout']['yaxis5'].update(  # pylint: disable=invalid-sequence-index
                 tickmode='array',
                 tickvals=tickvals_row,
                 ticktext=self._rowLabels,
@@ -563,18 +567,35 @@ class _Clustergram():
         # column: dendrogram, column labels, heatmap (top-to-bottom)
 
         # width adjustment for row dendrogram
-        fig['layout']['xaxis1'].update(domain=[0, 0.95])
-        fig['layout']['xaxis2'].update(domain=[rowRatio, 0.95], anchor='y4')
-        fig['layout']['xaxis4'].update(domain=[0, rowRatio])
-        fig['layout']['xaxis5'].update(domain=[rowRatio, 0.95])
+        fig['layout']['xaxis1'].update(  # pylint: disable=invalid-sequence-index
+            domain=[0, 0.95]
+        )
+        fig['layout']['xaxis2'].update(  # pylint: disable=invalid-sequence-index
+            domain=[rowRatio, 0.95],
+            anchor='y4'
+        )
+        fig['layout']['xaxis4'].update(  # pylint: disable=invalid-sequence-index
+            domain=[0, rowRatio]
+        )
+        fig['layout']['xaxis5'].update(  # pylint: disable=invalid-sequence-index
+            domain=[rowRatio, 0.95]
+        )
 
         # height adjustment for column dendrogram
-        fig['layout']['yaxis1'].update(domain=[1-colRatio, 1])
-        fig['layout']['yaxis2'].update(domain=[1-colRatio, 1])
-        fig['layout']['yaxis4'].update(domain=[0, 0.95-colRatio])
-        fig['layout']['yaxis5'].update(domain=[0, 0.95-colRatio])
+        fig['layout']['yaxis1'].update(  # pylint: disable=invalid-sequence-index
+            domain=[1-colRatio, 1]
+        )
+        fig['layout']['yaxis2'].update(  # pylint: disable=invalid-sequence-index
+            domain=[1-colRatio, 1]
+        )
+        fig['layout']['yaxis4'].update(  # pylint: disable=invalid-sequence-index
+            domain=[0, 0.95-colRatio]
+        )
+        fig['layout']['yaxis5'].update(  # pylint: disable=invalid-sequence-index
+            domain=[0, 0.95-colRatio]
+        )
 
-        fig['layout']['legend'] = dict(
+        fig['layout']['legend'] = dict(  # pylint: disable=unsupported-assignment-operation
             x=0.7,
             y=0.7
         )
@@ -597,32 +618,32 @@ class _Clustergram():
             )
 
         # group labels for row dendrogram
-        fig['layout']['yaxis6'].update(
+        fig['layout']['yaxis6'].update(  # pylint: disable=invalid-sequence-index
             domain=[0, 0.95-colRatio],
             scaleanchor='y5',
             scaleratio=1
         )
         if len(tickvals_row) > 0:
-            fig['layout']['yaxis6'].update(
+            fig['layout']['yaxis6'].update(  # pylint: disable=invalid-sequence-index
                 range=[min(tickvals_row), max(tickvals_row)]
             )
         # padding between group label line and dendrogram
-        fig['layout']['xaxis6'].update(
+        fig['layout']['xaxis6'].update(  # pylint: disable=invalid-sequence-index
             domain=[0.95, 1],
             range=[-5, 1]
         )
 
         # group labels for column dendrogram
-        fig['layout']['xaxis8'].update(
+        fig['layout']['xaxis8'].update(  # pylint: disable=invalid-sequence-index
             domain=[rowRatio, 0.95],
             scaleanchor='x5',
             scaleratio=1
         )
         if len(tickvals_col) > 0:
-            fig['layout']['xaxis8'].update(
+            fig['layout']['xaxis8'].update(  # pylint: disable=invalid-sequence-index
                 range=[min(tickvals_col), max(tickvals_col)]
             )
-        fig['layout']['yaxis8'].update(
+        fig['layout']['yaxis8'].update(  # pylint: disable=invalid-sequence-index
             domain=[0.95-colRatio, 1-colRatio],
             range=[-0.5, 0.5]
         )
