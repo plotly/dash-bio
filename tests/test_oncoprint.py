@@ -10,6 +10,7 @@ from .test_common_features import (
     PROP_TYPES,
     COMPONENT_REACT_BASE
 )
+from tests.dashbio_demos.app_oncoprint import DATASETS
 
 # define app name once
 APP_NAME = os.path.basename(__file__).replace(
@@ -21,6 +22,7 @@ APP_NAME = os.path.basename(__file__).replace(
 PASS = 'PASSED'
 FAIL = 'FAILED'
 
+TEST_DATA = DATASETS['dataset2']
 
 # Demo app tests
 
@@ -41,7 +43,7 @@ def test_click_app_name_from_gallery(dash_threaded):
 # the component, a single button, and two inputs
 
 
-def test_COMPONENTNAME_props_callback(
+def oncoprint_props_callback(
         nclicks,
         prop_name,
         prop_value,
@@ -61,6 +63,8 @@ def test_COMPONENTNAME_props_callback(
     """
 
     typed_prop_value = None
+    if prop_type == 'dict':
+        typed_prop_value = {}
 
     # avoid triggering this callback when the button is first created
     if nclicks is not None:
@@ -70,59 +74,28 @@ def test_COMPONENTNAME_props_callback(
         if prop_type in PROP_TYPES:
             typed_prop_value = PROP_TYPES[prop_type](prop_value)
 
-        # define any other "translations" from a string to a datatype
-        # below; e.g.,
-        # elif prop_type == 'list': typed_prop_value = ...
-
     return typed_prop_value
 
 
-# below, write tests for changing the props of the React component
-# (following this basic structure)
-def test_PROPNAME(dash_threaded):
-    """Test that some prop updates correctly when changed."""
-
-    def assert_callback(
-            component_PROPNAME,
-            nclicks,
-            input_PROPNAME
-    ):
-        """Determine the pass/fail status of this test.
-
-        :param (string) component_PROPNAME: The value of PROPNAME for the
-                                            component after it is set
-        :param (int) nclicks: The number of clicks on the button in the
-                              simple test app (not used here)
-        :param (string) input_PROPNAME: The value of PROPNAME that is sent
-                                        to the component.
-
-        :return (string): 'PASSED' for a test that passed, or 'FAILED'
-                          for a test that failed
-        """
-        # avoid triggering this callback when the button is first created
+# below are tests for changing the props of the React component
+def test_showlegend(dash_threaded):
+    """Test the legend display."""
+    #import ipdb; ipdb.set_trace()
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
         if nclicks is not None:
-            # check for the pass/fail condition here; this is a
-            # shallow comparison, so write your own if necessary
-            if component_PROPNAME == input_PROPNAME:
-                return PASS
-
-        return FAIL
-
-    # replace "None" with a string that defines the type of the prop
-    # (e.g., 'int', 'float', 'list')
-    prop_type = None
+            if bool(input_value) == prop_value:
+                answer = 'PASSED'
+        return answer
 
     template_test_component_single_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
-        COMPONENTNAME_test_props_callback,
-        PROPNAME,
-        input_PROPNAME,
-        prop_type=prop_type,
+        oncoprint_props_callback,
+        'showlegend',
+        'False',
+        prop_type='bool',
         component_base=COMPONENT_REACT_BASE,
-        # add any arguments you want to send to your component,
-        # e.g.,
-        # sequence='GATTACA',
-        # showLineNumbers=False
+        data=TEST_DATA
     )
