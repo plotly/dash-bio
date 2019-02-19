@@ -68,7 +68,7 @@ def test_CHANGESOMETHING(dash_threaded):
 # the component, a single button, and two inputs
 
 
-def test_COMPONENTNAME_props_callback(
+def COMPONENTNAME_props_callback(
         nclicks,
         prop_name,
         prop_value,
