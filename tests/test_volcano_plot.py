@@ -212,11 +212,12 @@ def test_effect_size_line_input_value(dash_threaded):
     """Modifies the effect_size line value."""
 
     def assert_callback(p_value, nclicks, input_value):
-        min_val, max_val = PROP_TYPES['array'](input_value)
+
         answer = ''
         min_ok = False
         max_ok = False
         if nclicks is not None:
+            min_val, max_val = PROP_TYPES['array'](input_value)
             for shape in p_value['layout']['shapes']:
                 if shape['name'] == EFFECT_SIZE_LINE_MIN_LABEL:
                     min_ok = shape['x0'] == min_val
