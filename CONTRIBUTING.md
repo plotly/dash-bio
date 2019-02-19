@@ -32,8 +32,12 @@ the component itself, and a sample application that showcases the capabilities
 of your component and how it interacts with Dash.
 
 ##### Components
-Components can either be created using React, or they can be written in pure
-Python.
+Components can either be created using React, or they can be written
+in pure Python. React components are written in `src/lib/components`
+before being compiled into Python components that are in the
+`dash_bio` folder. Python components are written in
+`dash_bio/component_factory/` and must be imported in
+`dash_bio/__init__.py`.
 
 ##### Demo applications 
 Instead of creating standalone Dash apps for each component, there is a file
@@ -177,18 +181,31 @@ a new application. The name of the application should consist of the
 component name in lowercase, with words separated by dashes (`-`). The
 deployment server will provide a remote repository URL that will
 contain the app. Add it to the list of remotes by running `git
-remote add gallery-test [deployment server git URL]`.
+remote add [app name]-test [deployment server git URL]`.
 
-#### Step 2: Edit and commit the `Procfile`
-Edit the `Procfile` in the repository to say `gunicorn
-app_name:server`, where `app_name` is the name of the app you want to
-deploy in the `tests/dashbio_demos/` folder. Then, commit the change
-you made to the `Procfile`.
+#### Step 2: Edit and commit app-specific files
+
+##### Step 2a: Edit the `Procfile`
+Edit the `Procfile` at the root of the repository to say `gunicorn
+tests.dashbio_demos.app_name:server`, where `app_name` is the name of
+the app you want to deploy in the `tests/dashbio_demos/` folder. 
+
+##### Step 2b: Edit `config.py`
+Edit the `config.py` file at the root of the repository such that the variable
+`DASH_APP_NAME` be set to the name of your app, but with `app`
+replaced by `dash` and underscores (`_`) replaced by dashes
+(`-`). (e.g., for `app_manhattan_plot`, the `DASH_APP_NAME` variable
+should be set to `dash-manhattan-plot`.)
+
+##### Step 2c: Commit the changes
+Commit the `Procfile` and `config.py`, but *do not push to the
+`dash-bio` repo*!
 
 #### Step 3: Push to the playground server
-Run `git push gallery-test master`. This will deploy the app on the
-playground server. Test that it works by visiting the URL that is
-displayed in the console.
+Run `git push [app name]-test master`. This will deploy the app
+on the playground server. Check that it works by visiting the URL that
+is displayed in the console. Try out a few of the callbacks to make
+sure that they are working.
 
 #### Step 4: Initialize the app on the dash-bio server and push to it 
 Log into the `admin` account on
@@ -197,7 +214,7 @@ instructions as in Step 1, but give this remote a different name
 (e.g., by running `git remote add gallery [deployment server git
 URL]`). Then, run `git push gallery master`.
 
-#### Step 5: Undo the `Procfile` commit 
+#### Step 5: Undo the app-specific commit 
 Run `git log` to find the ID of the commit prior to the one that you
 just made to change the `Procfile`. Then, reset your local branch to
 this commit so that the `index.py` app still deploys and runs
@@ -209,5 +226,5 @@ nothing.
 
 #### Step 7: Deploy updates to the `master` branch
 If the `master` branch has been updated, you can push all the changes
-to the dash-bio remote. However, make sure that the `Procfile` on the
-dash-bio remote stays the same.
+to your `origin` remote. However, make sure that the `Procfile` on the
+dash-bio repository stays the same.
