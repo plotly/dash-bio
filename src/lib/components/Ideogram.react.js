@@ -267,6 +267,7 @@ export default class Ideogram extends Component {
 
 Ideogram.defaultProps = {
     organism: 'human',
+    dataDir: 'https://unpkg.com/ideogram@1.5.0/dist/data/bands/native/'
     annotationsColor: '#F00',
     annotationsLayout: 'tracks',
     barWidth: 3,
@@ -306,7 +307,9 @@ Ideogram.propTypes = {
     className: PropTypes.string,
 
     /**
-     * Use this prop in callback to return annotationData when hovered.
+     * Use this prop in a dash callback to return annotationData when hovered.
+     * It is read-only, i.e. it cannot be used with dash.dependencies.Output but only with
+     * dash.dependencies.Input
      */
     annotationsData: PropTypes.string,
 
@@ -316,6 +319,20 @@ Ideogram.propTypes = {
      */
 
     ancestors: PropTypes.object,
+
+    /**
+     * The layout of this ideogram's annotations.
+     * It can be one of "tracks", "histogram", or "overlay".
+     *
+     * Tracks: Lay out annotations in tracks beside each chromosome.
+     *
+     * Histogram: Layout annotations in a histogram. Clusters annotations
+     * by location. Each cluster/bin is shown as a height of a bar to represent
+     * number of annotations on genomic range.
+     *
+     * Overlay: Lay out annotations directly over chromsomes.
+     */
+    annotationsLayout: PropTypes.string,
 
     /**
      *  A list of annotation objects. Annotation objects can also have a
@@ -333,23 +350,22 @@ Ideogram.propTypes = {
     ),
 
     /**
+     * An absolute or relative URL directing to a JSON file containing
+     * annotation objects (JSON).
+     */
+    annotationsPath: PropTypes.string,
+
+    /**
+     * A list of objects with metadata for each track,
+     * e.g. id, display name, color, shape.
+     */
+    annotationTracks: PropTypes.arrayOf(PropTypes.object),
+
+
+    /**
      *  The height of each annotation.
      */
     annotationHeight: PropTypes.number,
-
-    /**
-     * The layout of this ideogram's annotations.
-     * It can be one of "tracks", "histogram", or "overlay".
-     *
-     * Tracks: Lay out annotations in tracks beside each chromosome.
-     *
-     * Histogram: Layout annotations in a histogram. Clusters annotations
-     * by location. Each cluster/bin is shown as a height of a bar to represent
-     * number of annotations on genomic range.
-     *
-     * Overlay: Lay out annotations directly over chromsomes.
-     */
-    annotationsLayout: PropTypes.string,
 
     /**
      * One of "absolute" or "relative". The technique to use in scaling the height of histogram bars. The "absolute" value sets bar height relative to tallest bar in all chromosomes,
@@ -368,16 +384,9 @@ Ideogram.propTypes = {
     annotationsColor: PropTypes.string,
 
     /**
-     * An absolute or relative URL directing to a JSON file containing
-     * annotation objects (JSON).
+     * Whether to show a tooltip upon mousing over an annotation.
      */
-    annotationsPath: PropTypes.string,
-
-    /**
-     * A list of objects with metadata for each track,
-     * e.g. id, display name, color, shape.
-     */
-    annotationTracks: PropTypes.arrayOf(PropTypes.object),
+    showAnnotTooltip: PropTypes.bool,
 
     /**
      * Default: latest RefSeq assembly for specified organism.
@@ -518,7 +527,7 @@ Ideogram.propTypes = {
 
     /**
      * Provide local JSON organism into this prop from a local user JSON file.
-     * DataDir must not be initiliazed.
+     * DataDir must not be initialized.
      */
     localOrganism: PropTypes.object,
 
@@ -532,7 +541,7 @@ Ideogram.propTypes = {
      * organism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism,
      * or an array of organisms' names or taxids to display chromosomes from multiple species.
      */
-    organism: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    organism: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /**
      * The orientation of chromosomes on the page.
      */
@@ -600,6 +609,7 @@ Ideogram.propTypes = {
     /**
      * Useful for omitting chromosome Y in female mammals.
      * Currently only supported for organisms that use XY sex-determination.
+     * All string values will show chromosome Y, only the value 'female' will hide it
      */
     sex: PropTypes.string,
 
@@ -612,11 +622,6 @@ Ideogram.propTypes = {
      * Whether to show cytogenetic band labels, e.g. 1q21
      **/
     showBandLabels: PropTypes.bool,
-
-    /**
-     * Whether to show a tooltip upon mousing over an annotation.
-     */
-    showAnnotTooltip: PropTypes.bool,
 
     /**
      * Whether to show fully banded chromosomes for genomes
