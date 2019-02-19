@@ -1,9 +1,4 @@
 import os
-from selenium.webdriver.common.keys import Keys
-from pytest_dash.wait_for import (
-    wait_for_text_to_equal,
-    wait_for_element_by_css_selector
-)
 from .test_common_features import (
     init_demo_app,
     template_test_component_single_prop,
@@ -23,6 +18,7 @@ PASS = 'PASSED'
 FAIL = 'FAILED'
 
 TEST_DATA = DATASETS['dataset2']
+
 
 # Demo app tests
 
@@ -80,7 +76,6 @@ def oncoprint_props_callback(
 # below are tests for changing the props of the React component
 def test_showlegend(dash_threaded):
     """Test the legend display."""
-    #import ipdb; ipdb.set_trace()
     def assert_callback(prop_value, nclicks, input_value):
         answer = ''
         if nclicks is not None:
