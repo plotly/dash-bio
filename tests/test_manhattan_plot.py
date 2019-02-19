@@ -25,11 +25,10 @@ LAYOUT = html.Div(
 
 # Demo app tests
 @init_demo_app(APP_NAME)
-def test_click_app_link_from_gallery(dash_threaded, selenium):
+def test_click_app_link_from_gallery(dash_threaded):
 
-    assert selenium.current_url.replace('http://localhost:8050', '') == '/dash-bio/{}'.format(
-        APP_NAME
-    )
+    assert dash_threaded.driver.current_url.replace('http://localhost:8050', '') == \
+        '/dash-bio/{}'.format(APP_NAME)
 
 
 # Manhattan Plot component tests
@@ -63,7 +62,7 @@ def manhattan_plot_test_param_callback(
     return answer
 
 
-def test_xlabel(dash_threaded, selenium):
+def test_xlabel(dash_threaded):
     """Change xlabel."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -75,7 +74,6 @@ def test_xlabel(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         manhattan_plot_test_param_callback,
@@ -84,7 +82,7 @@ def test_xlabel(dash_threaded, selenium):
     )
 
 
-def test_ylabel(dash_threaded, selenium):
+def test_ylabel(dash_threaded):
     """Change ylabel."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -96,7 +94,6 @@ def test_ylabel(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         manhattan_plot_test_param_callback,
@@ -105,7 +102,7 @@ def test_ylabel(dash_threaded, selenium):
     )
 
 
-def test_title(dash_threaded, selenium):
+def test_title(dash_threaded):
     """Change title."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -117,7 +114,6 @@ def test_title(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         manhattan_plot_test_param_callback,
@@ -126,7 +122,7 @@ def test_title(dash_threaded, selenium):
     )
 
 
-def test_suggestive_line_input_value(dash_threaded, selenium):
+def test_suggestive_line_input_value(dash_threaded):
     """Modifies the suggestive line value."""
 
     def assert_callback(fig, nclicks, input_value):
@@ -140,7 +136,6 @@ def test_suggestive_line_input_value(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         manhattan_plot_test_param_callback,
@@ -150,7 +145,7 @@ def test_suggestive_line_input_value(dash_threaded, selenium):
     )
 
 
-def test_genomewide_line_input_value(dash_threaded, selenium):
+def test_genomewide_line_input_value(dash_threaded):
     """Modifies the genomic line value."""
 
     def assert_callback(fig, nclicks, input_value):
@@ -164,7 +159,6 @@ def test_genomewide_line_input_value(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         manhattan_plot_test_param_callback,
@@ -174,7 +168,7 @@ def test_genomewide_line_input_value(dash_threaded, selenium):
     )
 
 
-def test_suggestive_line_input_color(dash_threaded, selenium):
+def test_suggestive_line_input_color(dash_threaded):
     """Modifies the suggestive line color."""
 
     def assert_callback(fig, nclicks, input_value):
@@ -188,7 +182,6 @@ def test_suggestive_line_input_color(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         manhattan_plot_test_param_callback,
@@ -197,7 +190,7 @@ def test_suggestive_line_input_color(dash_threaded, selenium):
     )
 
 
-def test_genomewide_line_input_color(dash_threaded, selenium):
+def test_genomewide_line_input_color(dash_threaded):
     """Modifies the genomic line color."""
 
     def assert_callback(fig, nclicks, input_value):
@@ -211,7 +204,6 @@ def test_genomewide_line_input_color(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         manhattan_plot_test_param_callback,
@@ -220,7 +212,7 @@ def test_genomewide_line_input_color(dash_threaded, selenium):
     )
 
 
-def test_suggestive_line_input_width(dash_threaded, selenium):
+def test_suggestive_line_input_width(dash_threaded):
     """Modifies the suggestive line width."""
 
     def assert_callback(fig, nclicks, input_value):
@@ -234,7 +226,6 @@ def test_suggestive_line_input_width(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         manhattan_plot_test_param_callback,
@@ -244,7 +235,7 @@ def test_suggestive_line_input_width(dash_threaded, selenium):
     )
 
 
-def test_genomewide_line_input_width(dash_threaded, selenium):
+def test_genomewide_line_input_width(dash_threaded):
     """Modifies the genomic line width."""
 
     def assert_callback(fig, nclicks, input_value):
@@ -258,7 +249,6 @@ def test_genomewide_line_input_width(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         manhattan_plot_test_param_callback,
