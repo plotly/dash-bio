@@ -22,12 +22,20 @@ def bool_converter(s):
 
     :param s: a variable
     :return: True or False
-    representation of the boolean value
     """
     answer = bool(s)
     if isinstance(s, str):
         if s in ('False', 'false', '0'):
             answer = False
+        elif s in ('True', 'true', '1'):
+            answer = True
+        else:
+            raise ValueError(
+                'Expected one of {}, recieved : {}'.format(
+                    ('False', 'false', '0', 'True', 'true', '1'),
+                    s
+                )
+            )
     return answer
 
 
