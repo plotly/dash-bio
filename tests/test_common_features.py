@@ -31,7 +31,7 @@ def bool_converter(s):
             answer = True
         else:
             raise ValueError(
-                'Expected one of {}, recieved : {}'.format(
+                'Expected one of {}, received : {}'.format(
                     ('False', 'false', '0', 'True', 'true', '1'),
                     s
                 )
