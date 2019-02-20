@@ -17,15 +17,16 @@ APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').re
 PASS = 'PASSED'
 FAIL = 'FAILED'
 
-# Demo app tests
 
+# Demo app tests
 @init_demo_app(APP_NAME)
 def test_click_app_name_from_gallery(dash_threaded):
     """Test that clicking on the given app goes to the expected URL."""
     assert dash_threaded.driver.current_url.replace('http://localhost:8050', '').strip('/') == \
-           'dash-bio/{}'.format(APP_NAME)
+        'dash-bio/{}'.format(APP_NAME)
 
 
+# Component props tests
 def ideogram_test_props_callback(
         nclicks,
         prop_name,
@@ -55,8 +56,6 @@ def ideogram_test_props_callback(
             prop_value = PROP_TYPES[prop_type](prop_value)
         answer = prop_value
 
-    print("Update")
-    print(answer)
     return answer
 
 
@@ -68,7 +67,7 @@ BASIC_PROPS = {
 
 
 def test_chr_height(dash_threaded):
-    """The pixel height of the tallest chromosome in the ideogram."""
+    """Test change maximal height of the chromosome."""
 
     prop_type = 'float'
 
@@ -94,7 +93,7 @@ def test_chr_height(dash_threaded):
 
 
 def test_chr_margin(dash_threaded):
-    """The pixel space of margin between each chromosome."""
+    """Test change of margin between chromosomes."""
 
     prop_type = 'float'
 
@@ -120,7 +119,7 @@ def test_chr_margin(dash_threaded):
 
 
 def test_chr_width(dash_threaded):
-    """The pixel width of each chromosome."""
+    """Test change of chromosome width."""
 
     prop_type = 'float'
 
@@ -146,7 +145,7 @@ def test_chr_width(dash_threaded):
 
 
 def test_orientation(dash_threaded):
-    """The orientation of chromosomes on the page."""
+    """Test orientation prop."""
 
     prop_type = 'str'
 
@@ -172,6 +171,7 @@ def test_orientation(dash_threaded):
 
     driver = dash_threaded.driver
 
+    # assert presence of chromosomes' rotation
     chromosoms = driver.find_elements_by_class_name('chromosome-set-container')
     for chromosom in chromosoms:
         assert 'rotate(90)' in str(chromosom.get_attribute('transform'))
@@ -180,13 +180,14 @@ def test_orientation(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    # assert absence of chromosomes' rotation
     chromosoms = driver.find_elements_by_class_name('chromosome-set-container')
     for chromosom in chromosoms:
         assert 'rotate(90)' not in str(chromosom.get_attribute('transform'))
 
 
 def test_ploidy(dash_threaded):
-    """The ploidy - number of chromosomes to depict for each chromosome set."""
+    """Test duplication of each chromosome."""
 
     prop_type = 'int'
 
@@ -212,6 +213,7 @@ def test_ploidy(dash_threaded):
 
     driver = dash_threaded.driver
 
+    # assert 22 chromosomes + X and Y chromosomes
     num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 24
 
@@ -219,12 +221,13 @@ def test_ploidy(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    # assert doubling of the 22 chromosomes + X and Y chromosomes
     num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 46
 
 
 def test_chromosomes(dash_threaded):
-    """A list of the numbers of the chromosomes to display."""
+    """Test display of a subset of chromosomes."""
 
     prop_type = 'list'
 
@@ -254,12 +257,13 @@ def test_chromosomes(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    # assert the set of chromosomes contains 3 chromosomes
     num_chromosoms = len(driver.find_elements_by_class_name('chromosome-set-container'))
     assert num_chromosoms == 3
 
 
 def test_chromosomes_wrong_input(dash_threaded):
-    """A list of the numbers of the chromosomes to display."""
+    """Test input of a wrong chromosome name."""
 
     prop_type = 'list'
 
@@ -289,12 +293,13 @@ def test_chromosomes_wrong_input(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    # assert the set of chromosomes contains 2 chromosomes
     num_chromosoms = len(driver.find_elements_by_class_name('chromosome-set-container'))
     assert num_chromosoms == 2
 
 
 def test_brush(dash_threaded):
-    """Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a chromosome."""
+    """Test enabling the brush prop."""
 
     prop_type = 'str'
 
@@ -368,6 +373,7 @@ def test_show_band_labels(dash_threaded):
 
     driver = dash_threaded.driver
 
+    # assert the absence of bands' labels
     labels = driver.find_elements_by_class_name('bandLabel')
     assert len(labels) == 0
 
@@ -375,6 +381,7 @@ def test_show_band_labels(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    # assert the presence of bands' labels
     labels = driver.find_elements_by_class_name('bandLabel')
     assert len(labels) != 0
 
@@ -406,7 +413,7 @@ def test_show_chromosome_labels(dash_threaded):
 
     driver = dash_threaded.driver
 
-    # no labels initially
+    # assert the absence of chromosomes' labels
     labels = driver.find_elements_by_class_name('chrLabel')
     assert len(labels) == 0
 
@@ -414,7 +421,7 @@ def test_show_chromosome_labels(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
-    # labels should be displayed
+    # assert the presence of chromosomes' labels
     labels = driver.find_elements_by_class_name('chrLabel')
     assert len(labels) != 0
 
@@ -500,7 +507,7 @@ def test_annotations_path(dash_threaded):
 
     driver = dash_threaded.driver
 
-    # assert there is no annotation initially
+    # assert the absence of annotations
     annots = driver.find_elements_by_class_name('annot')
     assert len(annots) == 0
 
@@ -510,7 +517,6 @@ def test_annotations_path(dash_threaded):
 
     # raise an error if no element with 'annot' class is found
     wait_for_element_by_css_selector(driver, '.annot')
-
 
 
 def test_annotation_height_tracks(dash_threaded):
@@ -540,7 +546,7 @@ def test_annotation_height_tracks(dash_threaded):
 
     driver = dash_threaded.driver
 
-    # assert there is no annotation initially
+    # assert the absence of annotations initially
     annots = driver.find_elements_by_class_name('annot')
     assert len(annots) == 0
 
