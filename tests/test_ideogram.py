@@ -85,8 +85,8 @@ def test_chr_height(dash_threaded):
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
-        "chrHeight",
-        "40",
+        'chrHeight',
+        '40',
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
         **BASIC_PROPS
@@ -111,8 +111,8 @@ def test_chr_margin(dash_threaded):
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
-        "chrMargin",
-        "5",
+        'chrMargin',
+        '5',
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
         **BASIC_PROPS
@@ -137,8 +137,8 @@ def test_chr_width(dash_threaded):
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
-        "chrWidth",
-        "1",
+        'chrWidth',
+        '1',
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
         **BASIC_PROPS
@@ -163,8 +163,8 @@ def test_orientation(dash_threaded):
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
-        "orientation",
-        "horizontal",
+        'orientation',
+        'horizontal',
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
         **BASIC_PROPS
@@ -174,7 +174,7 @@ def test_orientation(dash_threaded):
 
     chromosoms = driver.find_elements_by_class_name('chromosome-set-container')
     for chromosom in chromosoms:
-        assert "rotate(90)" in str(chromosom.get_attribute("transform"))
+        assert 'rotate(90)' in str(chromosom.get_attribute('transform'))
 
     # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
@@ -182,7 +182,7 @@ def test_orientation(dash_threaded):
 
     chromosoms = driver.find_elements_by_class_name('chromosome-set-container')
     for chromosom in chromosoms:
-        assert "rotate(90)" not in str(chromosom.get_attribute("transform"))
+        assert 'rotate(90)' not in str(chromosom.get_attribute('transform'))
 
 
 def test_ploidy(dash_threaded):
@@ -203,8 +203,8 @@ def test_ploidy(dash_threaded):
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
-        "ploidy",
-        "2",
+        'ploidy',
+        '2',
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
         **BASIC_PROPS
@@ -241,8 +241,8 @@ def test_chromosomes(dash_threaded):
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
-        "chromosomes",
-        "1,3,17",
+        'chromosomes',
+        '1,3,17',
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
         **BASIC_PROPS
@@ -276,8 +276,8 @@ def test_chromosomes_wrong_input(dash_threaded):
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
-        "chromosomes",
-        "1,D,3",
+        'chromosomes',
+        '1,D,3',
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
         **BASIC_PROPS
@@ -311,8 +311,8 @@ def test_brush(dash_threaded):
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
-        "brush",
-        "chr3:3500000-40000000",
+        'brush',
+        'chr3:3500000-40000000',
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
         chromosomes=['3'],
@@ -512,3 +512,41 @@ def test_annotations_path(dash_threaded):
     wait_for_element_by_css_selector(driver, '.annot')
 
 
+
+def test_annotation_height_tracks(dash_threaded):
+    """Test the loading of annotations form a provided URL."""
+
+    prop_type = 'float'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'annotationHeight',
+        'https://eweitz.github.io/ideogram/data/annotations/all_human_genes.json',
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # assert there is no annotation initially
+    annots = driver.find_elements_by_class_name('annot')
+    assert len(annots) == 0
+
+    # trigger a change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    # raise an error if no element with 'annot' class is found
+    wait_for_element_by_css_selector(driver, '.annot')
