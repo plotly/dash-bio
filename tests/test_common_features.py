@@ -127,6 +127,36 @@ def template_test_component_single_prop(
         component_base=COMPONENT_PYTHON_BASE,
         **kwargs
 ):
+    template_test_component(
+        dash_threaded,
+        app_name,
+        assert_callback,
+        update_component_callback,
+        prop_name,
+        prop_value,
+        prop_type=prop_type,
+        component_base=component_base,
+        **kwargs
+    )
+
+    driver = dash_threaded.driver
+
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(app_name))
+    btn.click()
+    wait_for_text_to_equal(driver, '#test-{}-assert-value-div'.format(app_name), 'PASSED')
+
+
+def template_test_component(
+        dash_threaded,
+        app_name,
+        assert_callback,
+        update_component_callback,
+        prop_name,
+        prop_value,
+        prop_type=None,
+        component_base=COMPONENT_PYTHON_BASE,
+        **kwargs
+):
     """Share reusable test code for testing single props assignation to a component.
 
     :param dash_threaded: from pytest_dash
@@ -197,10 +227,6 @@ def template_test_component_single_prop(
 
     prop_name_input.send_keys(prop_name)
     prop_value_input.send_keys(prop_value)
-
-    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(app_name))
-    btn.click()
-    wait_for_text_to_equal(driver, '#test-{}-assert-value-div'.format(app_name), 'PASSED')
 
 
 def generate_assert_callback_subprop(subprop, subprop_type):

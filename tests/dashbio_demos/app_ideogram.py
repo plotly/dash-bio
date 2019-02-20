@@ -16,7 +16,7 @@ elif 'DASH_PATH_ROUTING' in os.environ:
 
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "ideogram_")
 
-rat_data = ideoParser.ncbi_gdp_to_list("{}10116_GCF_000000225.4_NA_V1".format(DATAPATH))
+RAT_DATA = ideoParser.ncbi_gdp_to_list("{}10116_GCF_000000225.4_NA_V1".format(DATAPATH))
 
 
 def description():
@@ -312,7 +312,7 @@ def layout():
                                         [
                                             dash_bio.Ideogram(
                                                 id="ideo-homology",
-                                                localOrganism=rat_data,
+                                                localOrganism=RAT_DATA,
                                                 orientation="vertical",
                                                 showBandLabels=True,
                                                 showChromosomeLabels=True,
