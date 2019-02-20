@@ -139,7 +139,7 @@ Each commit is small; a pull request typically consists of a few commits.
 To run integration tests locally on, say, Google Chrome:
 ```bash
 pip install -r tests/requirements.txt
-pytest tests --driver Chrome --ignore tests/test_skeleton.py
+pytest tests --webdriver Chrome --ignore tests/test_skeleton.py
 ```
 Do not worry if you get errors running this last command. You will have to
 download a Chrome driver, install it, and add its path. Follow what the error
@@ -223,8 +223,3 @@ normally. You can do this by running `git reset --hard [commit ID]`.
 #### Step 6: Ensure that your branch is even with `master` 
 Since you've reverted the change, running `git diff` should return
 nothing.
-
-#### Step 7: Deploy updates to the `master` branch
-If the `master` branch has been updated, you can push all the changes
-to your `origin` remote. However, make sure that the `Procfile` on the
-dash-bio repository stays the same.
