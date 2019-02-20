@@ -82,8 +82,8 @@ def test_rangeslider(dash_threaded):
         APP_NAME,
         assert_callback,
         needle_plot_test_props_callback,
-        "rangeSlider",
-        "False",
+        'rangeSlider',
+        'False',
         prop_type='bool',
         component_base=COMPONENT_REACT_BASE,
         mutationData=TEST_DATA
@@ -105,8 +105,8 @@ def test_xlabel(dash_threaded):
         APP_NAME,
         assert_callback,
         needle_plot_test_props_callback,
-        "xlabel",
-        "test-x-label",
+        'xlabel',
+        'test-x-label',
         component_base=COMPONENT_REACT_BASE,
         mutationData=TEST_DATA
     )
@@ -127,8 +127,8 @@ def test_ylabel(dash_threaded):
         APP_NAME,
         assert_callback,
         needle_plot_test_props_callback,
-        "ylabel",
-        "test-y-label",
+        'ylabel',
+        'test-y-label',
         component_base=COMPONENT_REACT_BASE,
         mutationData=TEST_DATA
     )
@@ -150,8 +150,8 @@ def test_set_empty_needle_style(dash_threaded):
         APP_NAME,
         assert_callback,
         needle_plot_test_props_callback,
-        "needleStyle",
-        "{}",
+        'needleStyle',
+        '{}',
         prop_type='dict',
         component_base=COMPONENT_REACT_BASE,
         mutationData=TEST_DATA
