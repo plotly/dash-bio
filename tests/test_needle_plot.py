@@ -194,7 +194,7 @@ def test_needlestyle_headcolor(dash_threaded):
     generate_subprop_test_needle(dash_threaded, "needleStyle", sp, sp_type, sp_val)
 
 
-# Tests subprops assignment of domainStyle props
+# Test subprop assignment of domainStyle props
 def test_domainstyle_headsymbol(dash_threaded):
     sp = 'headSymbol'
     sp_type = 'str'
