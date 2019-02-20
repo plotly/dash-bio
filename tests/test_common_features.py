@@ -15,10 +15,34 @@ import dash_core_components as dcc
 COMPONENT_PYTHON_BASE = 'python'
 COMPONENT_REACT_BASE = 'react'
 
+
+def bool_converter(s):
+    """Return the same as built-in function bool() except for arguments which are
+    string representations of a boolean value.
+
+    :param s: a variable
+    :return: True or False
+    """
+    answer = bool(s)
+    if isinstance(s, str):
+        if s in ('False', 'false', '0'):
+            answer = False
+        elif s in ('True', 'true', '1'):
+            answer = True
+        else:
+            raise ValueError(
+                'Expected one of {}, received : {}'.format(
+                    ('False', 'false', '0', 'True', 'true', '1'),
+                    s
+                )
+            )
+    return answer
+
+
 PROP_TYPES = {
     'int': int,
     'float': float,
-    'bool': bool,
+    'bool': bool_converter,
     'str': str,
     'list': lambda x: [el for el in x.split(',')],
     'array': lambda x: [float(el) for el in x.split(',')],

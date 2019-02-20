@@ -79,7 +79,7 @@ def test_showlegend(dash_threaded):
     def assert_callback(prop_value, nclicks, input_value):
         answer = ''
         if nclicks is not None:
-            if bool(input_value) == prop_value:
+            if PROP_TYPES['bool'](input_value) == prop_value:
                 answer = 'PASSED'
         return answer
 
