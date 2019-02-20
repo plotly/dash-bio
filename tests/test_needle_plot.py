@@ -73,7 +73,7 @@ def test_rangeslider(dash_threaded):
     def assert_callback(p_value, nclicks, input_value):
         answer = ''
         if nclicks is not None:
-            if bool(input_value) == p_value:
+            if PROP_TYPES['bool'](input_value) == p_value:
                 answer = 'PASSED'
         return answer
 
@@ -83,7 +83,7 @@ def test_rangeslider(dash_threaded):
         assert_callback,
         needle_plot_test_props_callback,
         'rangeSlider',
-        'False',
+        'True',
         prop_type='bool',
         component_base=COMPONENT_REACT_BASE,
         mutationData=TEST_DATA
