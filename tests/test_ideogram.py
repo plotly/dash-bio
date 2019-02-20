@@ -11,19 +11,11 @@ from .test_common_features import (
 )
 
 # define app name once
-APP_NAME = os.path.basename(__file__).replace(
-    'test_', '').replace(
-        '.py', '').replace(
-            '_', '-')
+APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
 
 # pass/fail strings
 PASS = 'PASSED'
 FAIL = 'FAILED'
-
-# define any custom strings here (e.g., if you use
-# a particular CSS selector a lot, assign it to a
-# variable)
-
 
 # Demo app tests
 
@@ -31,20 +23,7 @@ FAIL = 'FAILED'
 def test_click_app_name_from_gallery(dash_threaded):
     """Test that clicking on the given app goes to the expected URL."""
     assert dash_threaded.driver.current_url.replace('http://localhost:8050', '').strip('/') == \
-        'dash-bio/{}'.format(APP_NAME)
-
-
-# below, write tests for initial conditions; they will most likely
-# make use of wait_for_text_to_equal and other similar functions
-
-# Component tests
-
-# for React components, we need to define a way to interact with the
-# props directly (instead of through a graph component); to that end,
-# we define a callback method that defines how exactly a prop is
-# updated
-# this callback will be used in the simple test app, which consists of
-# the component, a single button, and two inputs
+           'dash-bio/{}'.format(APP_NAME)
 
 
 def ideogram_test_props_callback(
@@ -81,10 +60,7 @@ def ideogram_test_props_callback(
     return answer
 
 
-# below, write tests for changing the props of the React component
-# (following this basic structure)
 HUMAN_TXID = 9606  # NCBI:Txid for human
-
 BASIC_PROPS = {
     'organism': 'human',
     'dataDir': 'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/'
