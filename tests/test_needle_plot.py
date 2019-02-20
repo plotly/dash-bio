@@ -158,7 +158,7 @@ def test_set_empty_needle_style(dash_threaded):
     )
 
 
-# Tests subprops assignment of needleStyle props
+# Test subprop assignment of needleStyle props
 def test_needlestyle_stemcolor(dash_threaded):
     sp = 'stemColor'
     sp_type = 'str'
