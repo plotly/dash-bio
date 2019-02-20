@@ -44,6 +44,7 @@ def ideogram_test_props_callback(
         after casting it to the correct type.
     """
     answer = None
+    print("IN :", locals())
 
     if prop_type == 'dict':
         answer = {}
@@ -508,45 +509,6 @@ def test_annotations_path(dash_threaded):
     driver = dash_threaded.driver
 
     # assert the absence of annotations
-    annots = driver.find_elements_by_class_name('annot')
-    assert len(annots) == 0
-
-    # trigger a change of the component prop
-    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
-    btn.click()
-
-    # raise an error if no element with 'annot' class is found
-    wait_for_element_by_css_selector(driver, '.annot')
-
-
-def test_annotation_height_tracks(dash_threaded):
-    """Test the loading of annotations form a provided URL."""
-
-    prop_type = 'float'
-
-    def assert_callback(prop_value, nclicks, input_value):
-        answer = ''
-        if nclicks is not None:
-            answer = FAIL
-            if PROP_TYPES[prop_type](input_value) == prop_value:
-                answer = PASS
-        return answer
-
-    template_test_component(
-        dash_threaded,
-        APP_NAME,
-        assert_callback,
-        ideogram_test_props_callback,
-        'annotationHeight',
-        'https://eweitz.github.io/ideogram/data/annotations/all_human_genes.json',
-        prop_type=prop_type,
-        component_base=COMPONENT_REACT_BASE,
-        **BASIC_PROPS
-    )
-
-    driver = dash_threaded.driver
-
-    # assert the absence of annotations initially
     annots = driver.find_elements_by_class_name('annot')
     assert len(annots) == 0
 
