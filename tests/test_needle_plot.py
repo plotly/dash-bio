@@ -51,7 +51,7 @@ def generate_subprop_test_needle(
         subprop_type,
         subprop_val
 ):
-    """Call the generic function to setup a test on a subprop with arguments specific to this
+    """Call generic function to set up a test on a subprop with arguments specific to this
     component. This is done to avoid repetition of arguments which will be the same for a
     series of tests.
     """
