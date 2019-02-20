@@ -17,7 +17,8 @@ COMPONENT_REACT_BASE = 'react'
 
 
 def bool_converter(s):
-    """Convert variable to boolean
+    """Return the same as built-in function bool() except for arguments which are
+    string representations of a boolean value.
 
     :param s: a variable
     :return: the return of the builtin bool() function except if the variable is equal to a str
