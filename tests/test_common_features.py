@@ -21,7 +21,7 @@ def bool_converter(s):
     string representations of a boolean value.
 
     :param s: a variable
-    :return: the return of the builtin bool() function except if the variable is equal to a str
+    :return: True or False
     representation of the boolean value
     """
     answer = bool(s)
