@@ -1,6 +1,6 @@
 import functools
-import json
 from importlib import import_module
+import json
 from pytest_dash.application_runners import import_app
 from pytest_dash.wait_for import (
     wait_for_element_by_id,
@@ -20,8 +20,8 @@ PROP_TYPES = {
     'float': float,
     'bool': bool,
     'str': str,
-    'array': lambda x: [float(el) for el in x.split(',')],
     'list': lambda x: [el for el in x.split(',')],
+    'array': lambda x: [float(el) for el in x.split(',')],
     'dict': json.loads
 }
 
