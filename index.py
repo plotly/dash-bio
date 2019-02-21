@@ -54,20 +54,12 @@ app.layout = html.Div(
 )
 
 
-def demo_app_img_src(name):
-    """ Returns the base-64 encoded image corresponding
-        to the specified app."""
+def get_demo_app_img(name):
+    """Get path to image corresponding to given app."""
     pic_fname = './tests/dashbio_demos/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
-    try:
-        return 'data:image/png;base64,{}'.format(
-            base64.b64encode(
-                open(pic_fname, 'rb').read()).decode())
-    except Exception:
-        return 'data:image/png;base64,{}'.format(
-            base64.b64encode(
-                open('./assets/dashbio_logo.png', 'rb').read()).decode())
+    return pic_fname
 
 
 def demo_app_name(name):
@@ -111,7 +103,10 @@ def display_app(pathname):
                     dcc.Link(
                         children=[
                             html.Img(className='gallery-app-img',
-                                     src=demo_app_img_src(name)),
+                                     src='data:image/png;base64,{}'.format(
+                                         base64.b64encode(open(get_demo_app_img(name),
+                                                               'rb').read()).decode()
+                                     )),  # base-64 encoded image
                             html.Div(className='gallery-app-info', children=[
                                 html.Div(className='gallery-app-name', children=[
                                     demo_app_name(name)
