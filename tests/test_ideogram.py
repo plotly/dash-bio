@@ -565,3 +565,34 @@ def test_annotations_path(dash_threaded):
 
     # raise an error if no element with 'annot' class is found
     wait_for_element_by_css_selector(driver, '.annot')
+
+
+# homology syntenicRegion then gets its ID to check the values of the chromosomes start and stop
+# if homology and no organism choosen, then it doesn't work...
+
+# annotationsLayout='tracks' then annotationHeight change d of path element (with a factor 2
+# annotationsLayout='histogram' one could check that the height of one bar changes (
+# get_attribute of the id of this element)
+
+# barWidth
+# annotationsLayout='histogram' one could check that the thickness of one bar changes (
+# get point attribute of the element of class 'annot' then x,y x2,y x2,y2 x,y2 and do x2-x
+
+# annotationsColor
+# get fill attribute of the element of class 'annot'
+
+# annotationTracks annotations and annotationsData are tricky and not working well
+
+# wait_for_text_to_equal(driver, '#test-{}-assert-value-div'.format(APP_NAME), 'PASSED')
+# wait_for_text_to_equal(driver, '#test-{}-assert-value-div'.format(APP_NAME), 'PASSE')
+
+
+# wait_for_text_to_equal(driver, '#test-{}-assert-value-div'.format(APP_NAME), 'PASSE')
+
+
+ANNOTATION_PROPS = {
+    'organism': 'human',
+    'dataDir': 'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/',
+    # 'annotationsLayout': 'overlay'
+}
+
