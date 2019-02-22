@@ -1,6 +1,7 @@
 import functools
 from importlib import import_module
 import json
+from selenium.webdriver.common.keys import Keys
 from pytest_dash.application_runners import import_app
 from pytest_dash.wait_for import (
     wait_for_element_by_id,
@@ -114,6 +115,12 @@ def create_test_layout(app_name, component_base, **kwargs):
             html.Div(id='test-{}-assert-value-div'.format(app_name), children='')
         ]
     )
+
+
+def clear_field(web_elem):
+    """Analog to web_elem.clear() which does not work with Chrome currently."""
+    web_elem.send_keys(Keys.CONTROL + "a")
+    web_elem.send_keys(Keys.DELETE)
 
 
 def template_test_component_single_prop(

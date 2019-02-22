@@ -1,9 +1,11 @@
 import os
 from pytest_dash.wait_for import (
     wait_for_element_by_css_selector,
+    wait_for_element_by_id
 )
 from .test_common_features import (
     init_demo_app,
+    clear_field,
     template_test_component,
     template_test_component_single_prop,
     PROP_TYPES,
@@ -479,6 +481,51 @@ def test_sex(dash_threaded):
         if 'chrY' in chromosome.get_attribute('id'):
             has_chr_y = True
     assert has_chr_y is False
+
+
+def test_resolution(dash_threaded):
+    """Test setting the resolution."""
+
+    prop_type = 'int'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'resolution',
+        '10',
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # handle of the dcc.Input to change the prop value
+    prop_value_input = wait_for_element_by_css_selector(
+        driver,
+        '#test-{}-prop-value-input'.format(APP_NAME)
+    )
+
+    # loop through allowed values for resolution
+    for res in ['450', '550', '850']:
+        clear_field(prop_value_input)
+        prop_value_input.send_keys(res)
+
+        # trigger a change of the component prop
+        btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+        btn.click()
+        # assert the presence of an ideogram component
+        wait_for_element_by_id(driver, '_ideogram')
 
 
 def test_annotations_path(dash_threaded):
