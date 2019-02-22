@@ -651,7 +651,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             )
 
         except IndexError:
-            return "Loading..."
+            return "Loading data..."
         except ValueError:
             return "Loading..."
         except Exception as e:
