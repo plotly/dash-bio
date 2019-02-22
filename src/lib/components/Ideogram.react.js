@@ -285,7 +285,6 @@ Ideogram.defaultProps = {
 };
 
 Ideogram.propTypes = {
-
     /**
      * The ID used to identify this component in Dash callbacks
      * and used to identify Ideogram instances.
@@ -361,6 +360,11 @@ Ideogram.propTypes = {
     annotationHeight: PropTypes.number,
 
     /**
+     * Color of annotations.
+     */
+    annotationsColor: PropTypes.string,
+
+    /**
      * Scaling of histogram bars height
      * Only used if annotationsLayout is set to "histogram".
      * One of "absolute" or "relative".
@@ -375,11 +379,6 @@ Ideogram.propTypes = {
      * Only used if annotationsLayout is set to "histogram".
      **/
     barWidth: PropTypes.number,
-
-    /**
-     * Color of annotations.
-     */
-    annotationsColor: PropTypes.string,
 
     /**
      * Whether to show a tooltip upon mousing over an annotation.
@@ -416,16 +415,10 @@ Ideogram.propTypes = {
      * dash.dependencies.Input
      */
     brushData: PropTypes.shape({
-    start: PropTypes.string,
-    end: PropTypes.string,
-    extent: PropTypes.string
-    }
-    ),
-
-    /**
-     * Callback function to invoke when brush moves.
-     */
-    onBrushMove: PropTypes.func,
+        start: PropTypes.string,
+        end: PropTypes.string,
+        extent: PropTypes.string,
+    }),
 
     /**
      * CSS styling and the id of the container holding the Ideogram in
@@ -539,25 +532,9 @@ Ideogram.propTypes = {
     filterable: PropTypes.number,
 
     /**
-     * Dash event callback for mousing over data.
-     */
-    onMouseOver: PropTypes.func,
-
-    /**
      * The orientation of chromosomes on the page.
      */
     orientation: PropTypes.oneOf(['vertical', 'horizontal']),
-
-    /**
-     * Callback function to invoke when annotations are drawn. (React)
-     */
-    onDrawAnnots: PropTypes.func,
-
-    /**
-     * Callback function to invoke when chromosomes are loaded,
-     * i.e. rendered on the page. (React)
-     */
-    onLoad: PropTypes.func,
 
     /**
      * The ploidy - number of chromosomes to depict for each chromosome
@@ -577,7 +554,6 @@ Ideogram.propTypes = {
      */
     ancestors: PropTypes.object,
 
-
     /**
      * List of objects describing segments of recombination
      * among chromosomes in a chromosome set.
@@ -595,11 +571,6 @@ Ideogram.propTypes = {
      *
      */
     rotated: PropTypes.bool,
-
-    /**
-     * Callback function to invoke after chromosome has rotated. (React)
-     */
-    onDidRotate: PropTypes.func,
 
     /**
      * Useful for omitting chromosome Y in female mammals.
@@ -632,6 +603,32 @@ Ideogram.propTypes = {
     showNonNuclearChromosomes: PropTypes.bool,
 
     /**
+     * Callback function to invoke after chromosome has rotated. (React)
+     * onDidRotate: PropTypes.func,
+     */
+
+    /**
+     * Dash event callback for mousing over data.
+     * onMouseOver: PropTypes.func,
+     */
+
+    /**
+     * Callback function to invoke when brush moves.
+     * onBrushMove: PropTypes.func,
+     */
+
+    /**
+     * Callback function to invoke when annotations are drawn. (React)
+     *  onDrawAnnots: PropTypes.func,
+     */
+
+    /**
+     * Callback function to invoke when chromosomes are loaded,
+     * i.e. rendered on the page. (React)
+     * onLoad: PropTypes.func,
+     */
+
+    /**
      * Useful for putting ideogram into a small container,
      * or when dealing with genomes that have many chromosomes.
      * Note: Not fully working needs to be fixed by developer.
@@ -643,5 +640,4 @@ Ideogram.propTypes = {
      * https://eweitz.github.io/ideogram/annotations-heatmap
      * heatmaps: PropTypes.arrayOf(PropTypes.object),
      */
-
 };

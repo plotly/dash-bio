@@ -16,11 +16,11 @@ along with the atom's symbol.
 the zoom.
 - view (optional): An object that determines and controls various parameters
 related to how the molecule is displayed.. view has the following type: dict containing keys 'aspect', 'zoom', 'translation', 'atomScale', 'relativeAtomScale', 'bondScale', 'rotation', 'ao', 'aoRes', 'brightness', 'outline', 'spf', 'bonds', 'bondThreshold', 'bondShade', 'atomShade', 'resolution', 'dofStrength', 'dofPosition', 'fxaa'.
-Those keys have the following types:
+Those keys have the following types: 
   - aspect (number; optional)
   - zoom (number; optional)
   - translation (optional): . translation has the following type: dict containing keys 'x', 'y'.
-Those keys have the following types:
+Those keys have the following types: 
   - x (number; optional)
   - y (number; optional)
   - atomScale (number; optional)
@@ -41,13 +41,16 @@ Those keys have the following types:
   - dofPosition (number; optional)
   - fxaa (number; optional)
 - presetView (a value equal to: 'default', 'stickball', 'toon', 'licorice'; optional): One of several pre-loaded views: default, stick-ball, toon,
-and licorice"""
+and licorice
+
+Available events: """
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, scrollZoom=Component.UNDEFINED, view=Component.UNDEFINED, presetView=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'data', 'scrollZoom', 'view', 'presetView']
         self._type = 'Speck'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
+        self.available_events = []
         self.available_properties = ['id', 'data', 'scrollZoom', 'view', 'presetView']
         self.available_wildcard_properties =            []
 

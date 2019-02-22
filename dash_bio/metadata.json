@@ -1272,19 +1272,30 @@
         "required": false,
         "description": "The CSS class of the component wrapper"
       },
-      "annotationsData": {
+      "annotationsLayout": {
         "type": {
-          "name": "string"
+          "name": "enum",
+          "value": [
+            {
+              "value": "'tracks'",
+              "computed": false
+            },
+            {
+              "value": "'histogram'",
+              "computed": false
+            },
+            {
+              "value": "'overlay'",
+              "computed": false
+            }
+          ]
         },
         "required": false,
-        "description": "Use this prop in callback to return annotationData when hovered."
-      },
-      "ancestors": {
-        "type": {
-          "name": "object"
-        },
-        "required": false,
-        "description": "A map associating ancestor labels to colors. Used to color\nchromosomes from different ancestors in polyploid genomes."
+        "description": "Layout of ideogram annotations.\nOne of \"tracks\", \"histogram\", or \"overlay\".\n\n\"tracks\": display annotations in tracks beside each chromosome.\n\n\"histogram\": display annotations in a histogram. Clusters annotations\nby location. Each cluster/bin is shown as a  bar which height represents\nthe number of annotations on genomic range.\n\n\"overlay\": display annotations directly over chromosomes.",
+        "defaultValue": {
+          "value": "'tracks'",
+          "computed": false
+        }
       },
       "annotations": {
         "type": {
@@ -1314,41 +1325,19 @@
         "required": false,
         "description": "A list of annotation objects. Annotation objects can also have a\n name, color, shape, and track index. At the moment there is more\n keys specified and the docs need updating."
       },
-      "annotationHeight": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "The height of each annotation."
-      },
-      "annotationsLayout": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The layout of this ideogram's annotations.\nIt can be one of \"tracks\", \"histogram\", or \"overlay\".\n\nTracks: Lay out annotations in tracks beside each chromosome.\n\nHistogram: Layout annotations in a histogram. Clusters annotations\nby location. Each cluster/bin is shown as a height of a bar to represent\nnumber of annotations on genomic range.\n\nOverlay: Lay out annotations directly over chromsomes.",
-        "defaultValue": {
-          "value": "'tracks'",
-          "computed": false
-        }
-      },
-      "annotationsColor": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The color of each annotation.",
-        "defaultValue": {
-          "value": "'#F00'",
-          "computed": false
-        }
-      },
       "annotationsPath": {
         "type": {
           "name": "string"
         },
         "required": false,
         "description": "An absolute or relative URL directing to a JSON file containing\nannotation objects (JSON)."
+      },
+      "annotationsData": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Use this prop in a dash callback to return annotationData when hovered.\nIt is read-only, i.e. it cannot be used with dash.dependencies.Output but only with\ndash.dependencies.Input"
       },
       "annotationTracks": {
         "type": {
@@ -1360,23 +1349,69 @@
         "required": false,
         "description": "A list of objects with metadata for each track,\ne.g. id, display name, color, shape."
       },
-      "assembly": {
+      "annotationHeight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Not used if annotationsLayout is set to \"overlay\".\nThe height of histogram bars or the size of annotations tracks symbols"
+      },
+      "annotationsColor": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "Default: latest RefSeq assembly for specified organism.\nThe genome assembly to display.\nTakes assembly name (e.g. \"GRCh37\"),\nRefSeq accession (e.g. \"GCF_000306695.2\"),\nor GenBank accession (e.g. \"GCA_000005005.5\")"
+        "description": "Color of annotations.",
+        "defaultValue": {
+          "value": "'#F00'",
+          "computed": false
+        }
+      },
+      "histogramScaling": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'absolute'",
+              "computed": false
+            },
+            {
+              "value": "'relative'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "Scaling of histogram bars height\nOnly used if annotationsLayout is set to \"histogram\".\nOne of \"absolute\" or \"relative\".\n\n\"absolute\": sets bar height relative to tallest bar in all chromosomes.\n\"relative\": sets bar height relative to tallest bar in each chromosome."
       },
       "barWidth": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": "The pixel width of bars drawn when annotationsLayout: 'histogram'.",
+        "description": "Pixel width of histogram bars.\nOnly used if annotationsLayout is set to \"histogram\".",
         "defaultValue": {
           "value": "3",
           "computed": false
         }
+      },
+      "showAnnotTooltip": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to show a tooltip upon mousing over an annotation.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "assembly": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default: latest RefSeq assembly for specified organism.\nThe genome assembly to display.\nTakes assembly name (e.g. \"GRCh37\"),\nRefSeq accession (e.g. \"GCF_000306695.2\"),\nor GenBank accession (e.g. \"GCA_000005005.5\")"
       },
       "brush": {
         "type": {
@@ -1387,10 +1422,24 @@
       },
       "brushData": {
         "type": {
-          "name": "string"
+          "name": "shape",
+          "value": {
+            "start": {
+              "name": "string",
+              "required": false
+            },
+            "end": {
+              "name": "string",
+              "required": false
+            },
+            "extent": {
+              "name": "string",
+              "required": false
+            }
+          }
         },
         "required": false,
-        "description": "A dash callback that is activated when the 'brush' prop is used in component.\nIt will return an dictionary like so:\n\n{'start': <value>, 'end': <value>, 'extent': <value>}\n\nwhere start is the left most edge, end is right most edge, and extent is\nthe total width of the brush."
+        "description": "A dash callback that is activated when the 'brush' prop is used in component.\nIt will return an dictionary like so:\n\n{'start': <value>, 'end': <value>, 'extent': <value>}\n\nwhere start is the left most edge, end is right most edge, and extent is\nthe total width of the brush.\nIt is read-only, i.e. it cannot be used with dash.dependencies.Output but only with\ndash.dependencies.Input"
       },
       "container": {
         "type": {
@@ -1415,7 +1464,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "The pixel space of margin bewteen each chromosome.",
+        "description": "The pixel space of margin between each chromosome.",
         "defaultValue": {
           "value": "10",
           "computed": false
@@ -1448,38 +1497,44 @@
           ]
         },
         "required": false,
-        "description": "A list of the names of chromosomes to \ndisplay. Useful for depicting a subset of the chromosomes in the genome, \ne.g. a single chromosome.\n\nIf Homology (between two different species):\nEx: chromosomes={\n            'human': ['1'],\n            'mouse': ['4']\n        }\n\n        General case to specify specific chromosomes:\n        Ex: chromosomes=['1', '2']"
+        "description": "A list of the names of chromosomes to\ndisplay. Useful for depicting a subset of the chromosomes in the genome,\ne.g. a single chromosome.\n\nIf Homology (between two different species):\nEx: chromosomes={\n            'human': ['1'],\n            'mouse': ['4']\n        }\n\n        General case to specify specific chromosomes:\n        Ex: chromosomes=['1', '2']"
       },
       "dataDir": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "Absolute or relative URL of the directory\ncontaining data needed to draw banded chromosomes.\nYou will need to set up you're own database to grab data from\nfor custom data."
+        "description": "Absolute or relative URL of the directory\ncontaining data needed to draw banded chromosomes.\nYou will need to set up you're own database to grab data from\nfor custom data.",
+        "defaultValue": {
+          "value": "'https://unpkg.com/ideogram@1.5.0/dist/data/bands/native/'",
+          "computed": false
+        }
       },
-      "fullChromosomeLabels": {
+      "organism": {
         "type": {
-          "name": "bool"
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "number"
+            }
+          ]
         },
         "required": false,
-        "description": "Whether to include abbreviation species name in chromosome label. Used\nfor homology."
+        "description": "Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. \"human\") or\norganism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism,\nor an array of organisms' names or taxids to display chromosomes from multiple species.",
+        "defaultValue": {
+          "value": "'human'",
+          "computed": false
+        }
       },
-      "histogramScaling": {
+      "localOrganism": {
         "type": {
-          "name": "string"
+          "name": "object"
         },
         "required": false,
-        "description": "One of \"absolute\" or \"relative\". The technique to use in scaling the height of histogram bars. The \"absolute\" value sets bar height relative to tallest bar in all chromosomes,\nwhile \"relative\" sets bar height relative to tallest bar in each chromosome."
-      },
-      "heatmaps": {
-        "type": {
-          "name": "arrayOf",
-          "value": {
-            "name": "object"
-          }
-        },
-        "required": false,
-        "description": "This is a work in progess and will hopefully be fixed in future releases."
+        "description": "Provide local JSON organism into this prop from a local user JSON file.\nDataDir must not be initialized."
       },
       "homology": {
         "type": {
@@ -1536,7 +1591,21 @@
           }
         },
         "required": false,
-        "description": "Used to compare two chromosomes with each other.\nThe keys \"chrOne\" and \"chrTwo\" represent one chromosome each. Organism is the \ntaxID or name. Start is an array, containing start one and \nstart two in this order. Stop is array, containing stop one, and stop two, \nin this order.\nEx: homology={\n                    \"chrOne\": {\n                        \"organism\": \"9606\",\n                        \"start\": [50000, 155701383],\n                        \"stop\": [900000, 156030895]\n                    },\n                    \"chrTwo\": {\n                        \"organism\": \"10090\",\n                        \"start\": [10001, 50000000],\n                        \"stop\": [2781479, 57217415]\n                    }\n                }"
+        "description": "Used to compare two chromosomes with each other.\nThe keys \"chrOne\" and \"chrTwo\" represent one chromosome each. Organism is the\ntaxID or name. Start is an array, containing start one and\nstart two in this order. Stop is array, containing stop one, and stop two,\nin this order.\nEx: homology={\n                    \"chrOne\": {\n                        \"organism\": \"9606\",\n                        \"start\": [50000, 155701383],\n                        \"stop\": [900000, 156030895]\n                    },\n                    \"chrTwo\": {\n                        \"organism\": \"10090\",\n                        \"start\": [10001, 50000000],\n                        \"stop\": [2781479, 57217415]\n                    }\n                }"
+      },
+      "fullChromosomeLabels": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to include abbreviation species name in chromosome label. Used\nfor homology."
+      },
+      "resolution": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The resolution of cytogenetic bands to show for each chromosome.\nThe quantity refers to approximate value in bands per haploid set (bphs).\nOne of 450, 550, or 850."
       },
       "filterable": {
         "type": {
@@ -1545,80 +1614,22 @@
         "required": false,
         "description": "Whether annotations should be filterable."
       },
-      "localOrganism": {
+      "orientation": {
         "type": {
-          "name": "object"
-        },
-        "required": false,
-        "description": "Provide local JSON organism into this prop from a local user JSON file.\nDataDir must not be initiliazed."
-      },
-      "onMouseOver": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Dash event callback for mousing over data."
-      },
-      "organism": {
-        "type": {
-          "name": "union",
+          "name": "enum",
           "value": [
             {
-              "name": "string"
+              "value": "'vertical'",
+              "computed": false
             },
             {
-              "name": "array"
+              "value": "'horizontal'",
+              "computed": false
             }
           ]
         },
         "required": false,
-        "description": "Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. \"human\") or\norganism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism,\nor an array of organisms' names or taxids to display chromosomes from multiple species.",
-        "defaultValue": {
-          "value": "'human'",
-          "computed": false
-        }
-      },
-      "orientation": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
         "description": "The orientation of chromosomes on the page."
-      },
-      "onBrushMove": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Callback function to invoke when brush moves."
-      },
-      "onDidRotate": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Callback function to invoke after chromosome has rotated. (React)"
-      },
-      "onDrawAnnots": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Callback function to invoke when annotations are drawn. (React)"
-      },
-      "onLoad": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Callback function to invoke when chromosomes are loaded,\ni.e. rendered on the page. (React)"
-      },
-      "perspective": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Use perspective: 'comparative' to enable annotations between two chromosomes,\neither within the same organism or different organisms. Used for homology."
       },
       "ploidy": {
         "type": {
@@ -1640,6 +1651,13 @@
         },
         "required": false,
         "description": "Description of ploidy in each chromosome set in terms of\nancestry composition."
+      },
+      "ancestors": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "A map associating ancestor labels to colors. Used to color\nchromosomes from different ancestors in polyploid genomes."
       },
       "rangeSet": {
         "type": {
@@ -1669,27 +1687,19 @@
         "required": false,
         "description": "Dash callback that returns True if rotated, and false if not."
       },
-      "resolution": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "The resolution of cytogenetic bands to show for each chromosome.\nThe quantity refers to approximate value in bands per haploid set (bphs).\nOne of 450, 550, or 850."
-      },
-      "rows": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "Useful for putting ideogram into a small container,\nor when dealing with genomes that have many chromosomes.\nNote: Not fully working needs to be fixed by developer.",
-        "defaultValue": {
-          "value": "1",
-          "computed": false
-        }
-      },
       "sex": {
         "type": {
-          "name": "string"
+          "name": "enum",
+          "value": [
+            {
+              "value": "'male'",
+              "computed": false
+            },
+            {
+              "value": "'female'",
+              "computed": false
+            }
+          ]
         },
         "required": false,
         "description": "Useful for omitting chromosome Y in female mammals.\nCurrently only supported for organisms that use XY sex-determination."
@@ -1716,17 +1726,6 @@
           "computed": false
         }
       },
-      "showAnnotTooltip": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Whether to show a tooltip upon mousing over an annotation.",
-        "defaultValue": {
-          "value": "true",
-          "computed": false
-        }
-      },
       "showFullyBanded": {
         "type": {
           "name": "bool"
@@ -1748,6 +1747,13 @@
           "value": "false",
           "computed": false
         }
+      },
+      "rows": {
+        "defaultValue": {
+          "value": "1",
+          "computed": false
+        },
+        "required": false
       }
     }
   },

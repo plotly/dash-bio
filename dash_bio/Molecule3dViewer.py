@@ -17,18 +17,21 @@ the molecule. Options include sticks, cartoon and sphere
 - modelData (optional): The data that will be used to display the molecule in 3D
 The data will be in JSON format
 and should have two main dictionaries - atoms, bonds. modelData has the following type: dict containing keys 'atoms', 'bonds'.
-Those keys have the following types:
+Those keys have the following types: 
   - atoms (list; optional)
   - bonds (list; optional)
 - atomLabelsShown (boolean; optional): Property to either show or hide labels
 - selectedAtomIds (list; optional): Property that stores a list of all selected atoms
-- labels (list; optional): labels corresponding to the atoms of the molecule"""
+- labels (list; optional): labels corresponding to the atoms of the molecule
+
+Available events: """
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, selectionType=Component.UNDEFINED, backgroundColor=Component.UNDEFINED, backgroundOpacity=Component.UNDEFINED, styles=Component.UNDEFINED, modelData=Component.UNDEFINED, atomLabelsShown=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, labels=Component.UNDEFINED, onRenderNewData=Component.UNDEFINED, onChangeSelection=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'selectionType', 'backgroundColor', 'backgroundOpacity', 'styles', 'modelData', 'atomLabelsShown', 'selectedAtomIds', 'labels']
         self._type = 'Molecule3dViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
+        self.available_events = []
         self.available_properties = ['id', 'selectionType', 'backgroundColor', 'backgroundOpacity', 'styles', 'modelData', 'atomLabelsShown', 'selectedAtomIds', 'labels']
         self.available_wildcard_properties =            []
 
