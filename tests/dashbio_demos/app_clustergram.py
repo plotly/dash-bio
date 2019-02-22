@@ -653,7 +653,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         except IndexError:
             return "Loading data..."
         except ValueError:
-            return "Loading..."
+            return "Loading data..."
         except Exception as e:
             return "There was an error: {}".format(e)
 
