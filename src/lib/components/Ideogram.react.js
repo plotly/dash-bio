@@ -308,12 +308,6 @@ Ideogram.propTypes = {
     className: PropTypes.string,
 
     /**
-     *  A map associating ancestor labels to colors. Used to color
-     * chromosomes from different ancestors in polyploid genomes.
-     */
-    ancestors: PropTypes.object,
-
-    /**
      * Layout of ideogram annotations.
      * One of "tracks", "histogram", or "overlay".
      *
@@ -325,7 +319,7 @@ Ideogram.propTypes = {
      *
      * "overlay": display annotations directly over chromosomes.
      */
-    annotationsLayout: PropTypes.string,
+    annotationsLayout: PropTypes.oneOf(['tracks', 'histogram', 'overlay']),
 
     /**
      *  A list of annotation objects. Annotation objects can also have a
@@ -374,7 +368,7 @@ Ideogram.propTypes = {
      * "absolute": sets bar height relative to tallest bar in all chromosomes.
      * "relative": sets bar height relative to tallest bar in each chromosome.
      */
-    histogramScaling: PropTypes.string,
+    histogramScaling: PropTypes.oneOf(['absolute', 'relative']),
 
     /**
      * Pixel width of histogram bars.
@@ -418,9 +412,15 @@ Ideogram.propTypes = {
      *
      * where start is the left most edge, end is right most edge, and extent is
      * the total width of the brush.
-     *
+     * It is read-only, i.e. it cannot be used with dash.dependencies.Output but only with
+     * dash.dependencies.Input
      */
-    brushData: PropTypes.string,
+    brushData: PropTypes.shape({
+    start: PropTypes.string,
+    end: PropTypes.string,
+    extent: PropTypes.string
+    }
+    ),
 
     /**
      * Callback function to invoke when brush moves.
@@ -449,10 +449,10 @@ Ideogram.propTypes = {
     chrWidth: PropTypes.number,
 
     /**
-     * A list of the names of chromosomes to 
-     * display. Useful for depicting a subset of the chromosomes in the genome, 
+     * A list of the names of chromosomes to
+     * display. Useful for depicting a subset of the chromosomes in the genome,
      * e.g. a single chromosome.
-     * 
+     *
      * If Homology (between two different species):
      * Ex: chromosomes={
             'human': ['1'],
@@ -476,15 +476,23 @@ Ideogram.propTypes = {
     dataDir: PropTypes.string,
 
     /**
-     * This is a work in progess and will hopefully be fixed in future releases.
+     * Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or
+     * organism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism,
+     * or an array of organisms' names or taxids to display chromosomes from multiple species.
      */
-    heatmaps: PropTypes.arrayOf(PropTypes.object),
+    organism: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    /**
+     * Provide local JSON organism into this prop from a local user JSON file.
+     * DataDir must not be initialized.
+     */
+    localOrganism: PropTypes.object,
 
     /**
      * Used to compare two chromosomes with each other.
-     * The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the 
-     * taxID or name. Start is an array, containing start one and 
-     * start two in this order. Stop is array, containing stop one, and stop two, 
+     * The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the
+     * taxID or name. Start is an array, containing start one and
+     * start two in this order. Stop is array, containing stop one, and stop two,
      * in this order.
      * Ex: homology={
                     "chrOne": {
@@ -513,16 +521,17 @@ Ideogram.propTypes = {
     }),
 
     /**
-     * Use perspective: 'comparative' to enable annotations between two chromosomes,
-     * either within the same organism or different organisms. Used for homology.
-     */
-    perspective: PropTypes.string,
-
-    /**
      * Whether to include abbreviation species name in chromosome label. Used
      * for homology.
      */
     fullChromosomeLabels: PropTypes.bool,
+
+    /**
+     * The resolution of cytogenetic bands to show for each chromosome.
+     * The quantity refers to approximate value in bands per haploid set (bphs).
+     * One of 450, 550, or 850.
+     */
+    resolution: PropTypes.number,
 
     /**
      * Whether annotations should be filterable.
@@ -530,31 +539,14 @@ Ideogram.propTypes = {
     filterable: PropTypes.number,
 
     /**
-     * Provide local JSON organism into this prop from a local user JSON file.
-     * DataDir must not be initialized.
-     */
-    localOrganism: PropTypes.object,
-
-    /**
      * Dash event callback for mousing over data.
      */
     onMouseOver: PropTypes.func,
 
     /**
-     * Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or
-     * organism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism,
-     * or an array of organisms' names or taxids to display chromosomes from multiple species.
-     */
-    organism: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    /**
      * The orientation of chromosomes on the page.
      */
-    orientation: PropTypes.string,
-
-    /**
-     * Callback function to invoke after chromosome has rotated. (React)
-     */
-    onDidRotate: PropTypes.func,
+    orientation: PropTypes.oneOf(['vertical', 'horizontal']),
 
     /**
      * Callback function to invoke when annotations are drawn. (React)
@@ -580,6 +572,13 @@ Ideogram.propTypes = {
     ploidyDesc: PropTypes.arrayOf(PropTypes.object),
 
     /**
+     *  A map associating ancestor labels to colors. Used to color
+     * chromosomes from different ancestors in polyploid genomes.
+     */
+    ancestors: PropTypes.object,
+
+
+    /**
      * List of objects describing segments of recombination
      * among chromosomes in a chromosome set.
      */
@@ -593,29 +592,20 @@ Ideogram.propTypes = {
 
     /**
      * Dash callback that returns True if rotated, and false if not.
+     *
      */
     rotated: PropTypes.bool,
 
     /**
-     * The resolution of cytogenetic bands to show for each chromosome.
-     * The quantity refers to approximate value in bands per haploid set (bphs).
-     * One of 450, 550, or 850.
+     * Callback function to invoke after chromosome has rotated. (React)
      */
-    resolution: PropTypes.number,
-
-    /**
-     * Useful for putting ideogram into a small container,
-     * or when dealing with genomes that have many chromosomes.
-     * Note: Not fully working needs to be fixed by developer.
-     */
-    rows: PropTypes.number,
+    onDidRotate: PropTypes.func,
 
     /**
      * Useful for omitting chromosome Y in female mammals.
      * Currently only supported for organisms that use XY sex-determination.
-     * All string values will show chromosome Y, only the value 'female' will hide it
      */
-    sex: PropTypes.string,
+    sex: PropTypes.oneOf(['male', 'female']),
 
     /**
      * Whether to show chromosome labels, e.g. 1, 2, 3, X, Y.
