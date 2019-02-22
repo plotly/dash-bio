@@ -13,6 +13,9 @@ import {omit} from 'ramda';
  * by side tracks to show important genomic data.
  *
  * Go here to see it in action: https://eweitz.github.io/ideogram/
+ * Reference of the component's props :
+ * https://github.com/eweitz/ideogram/blob/
+ * 770ce1fe5ae4f27dd435f9f99948118af88f8349/api.md
  */
 
 export default class Ideogram extends Component {
@@ -33,7 +36,6 @@ export default class Ideogram extends Component {
             'chrWidth',
             'chrMargin',
             'resolution',
-            'rows',
             'ploidy',
             'sex',
             'annotationsColor',
@@ -276,7 +278,6 @@ Ideogram.defaultProps = {
     chrWidth: 10,
     ploidy: 1,
     rotatable: true,
-    rows: 1,
     showBandLabels: false,
     showChromosomeLabels: true,
     showAnnotTooltip: true,
@@ -313,7 +314,7 @@ Ideogram.propTypes = {
      * "tracks": display annotations in tracks beside each chromosome.
      *
      * "histogram": display annotations in a histogram. Clusters annotations
-     * by location. Each cluster/bin is shown as a bar, the height of which represents
+     * by location. Each cluster/bin is shown as a  bar which height represents
      * the number of annotations on genomic range.
      *
      * "overlay": display annotations directly over chromosomes.
@@ -529,7 +530,7 @@ Ideogram.propTypes = {
     /**
      * Whether annotations should be filterable.
      */
-    filterable: PropTypes.number,
+    filterable: PropTypes.bool,
 
     /**
      * The orientation of chromosomes on the page.
@@ -563,7 +564,6 @@ Ideogram.propTypes = {
     /**
      * Whether chromosomes are rotatable on click.
      */
-
     rotatable: PropTypes.bool,
 
     /**
