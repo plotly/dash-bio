@@ -2,7 +2,7 @@
 # flake8: noqa
 import os
 from selenium.webdriver.common.keys import Keys
-from pytest_dash.utils import (
+from pytest_dash.wait_for import (
     wait_for_text_to_equal,
     wait_for_element_by_css_selector
 )
@@ -31,9 +31,9 @@ FAIL = 'FAILED'
 # Demo app tests
 
 @init_demo_app(APP_NAME)
-def test_click_app_name_from_gallery(dash_threaded, selenium):
+def test_click_app_name_from_gallery(dash_threaded):
     """Test that clicking on the given app goes to the expected URL."""
-    assert selenium.current_url.replace('http://localhost:8050', '').strip('/') == \
+    assert dash_threaded.driver.current_url.replace('http://localhost:8050', '').strip('/') == \
         'dash-bio/{}'.format(APP_NAME)
 
 
@@ -41,7 +41,7 @@ def test_click_app_name_from_gallery(dash_threaded, selenium):
 # make use of wait_for_text_to_equal and other similar functions
 
 @init_demo_app(APP_NAME)
-def test_INITIALCONDITION(dash_threaded, selenium):
+def test_INITIALCONDITION(dash_threaded):
     """Test some initial condition here (e.g., that the correct dataset
     has been loaded).
     """
@@ -52,7 +52,7 @@ def test_INITIALCONDITION(dash_threaded, selenium):
 
 
 @init_demo_app(APP_NAME)
-def test_CHANGESOMETHING(dash_threaded, selenium):
+def test_CHANGESOMETHING(dash_threaded):
     """Test the results of changing something here (e.g., the value
     of a dropdown).
     """
@@ -68,7 +68,7 @@ def test_CHANGESOMETHING(dash_threaded, selenium):
 # the component, a single button, and two inputs
 
 
-def test_COMPONENTNAME_props_callback(
+def COMPONENTNAME_props_callback(
         nclicks,
         prop_name,
         prop_value,
@@ -106,9 +106,7 @@ def test_COMPONENTNAME_props_callback(
 
 # below, write tests for changing the props of the React component
 # (following this basic structure)
-
-@init_demo_app(APP_NAME)
-def test_PROPNAME(dash_threaded, selenium):
+def test_PROPNAME(dash_threaded):
     """Test that some prop updates correctly when changed."""
 
     def assert_callback(
@@ -143,7 +141,6 @@ def test_PROPNAME(dash_threaded, selenium):
 
     template_test_component_single_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         COMPONENTNAME_test_props_callback,
