@@ -81,7 +81,7 @@ def test_showoverview(dash_threaded):
         answer = ''
         if nclicks is not None:
             if PROP_TYPES['bool'](input_value) == prop_value:
-                answer = 'PASSED'
+                answer = PASS
         return answer
 
     template_test_component_single_prop(
@@ -103,7 +103,7 @@ def test_showlegend(dash_threaded):
         answer = ''
         if nclicks is not None:
             if PROP_TYPES['bool'](input_value) == prop_value:
-                answer = 'PASSED'
+                answer = PASS
         return answer
 
     template_test_component_single_prop(
@@ -125,7 +125,7 @@ def test_padding(dash_threaded):
         answer = ''
         if nclicks is not None:
             if float(input_value) == prop_value:
-                answer = 'PASSED'
+                answer = PASS
         return answer
 
     template_test_component_single_prop(
