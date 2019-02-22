@@ -124,7 +124,7 @@ def test_padding(dash_threaded):
     def assert_callback(prop_value, nclicks, input_value):
         answer = ''
         if nclicks is not None:
-            if float(input_value) == prop_value:
+            if PROP_TYPES['float'](input_value) == prop_value:
                 answer = PASS
         return answer
 
