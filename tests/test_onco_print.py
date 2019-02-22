@@ -38,6 +38,8 @@ def test_click_app_name_from_gallery(dash_threaded):
 # this callback will be used in the simple test app, which consists of
 # the component, a single button, and two inputs
 
+# Tests for layout props (under "Customize" tab)
+
 
 def oncoprint_props_callback(
         nclicks,
@@ -113,6 +115,28 @@ def test_showoverview(dash_threaded):
         'showoverview',
         'False',
         prop_type='bool',
+        component_base=COMPONENT_REACT_BASE,
+        data=TEST_DATA
+    )
+
+
+def test_padding(dash_threaded):
+    """Test the updating of the padding value."""
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            if float(input_value) == prop_value:
+                answer = 'PASSED'
+        return answer
+
+    template_test_component_single_prop(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        oncoprint_props_callback,
+        'padding',
+        '0.08',
+        prop_type='float',
         component_base=COMPONENT_REACT_BASE,
         data=TEST_DATA
     )
