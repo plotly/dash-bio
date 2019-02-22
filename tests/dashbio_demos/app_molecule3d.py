@@ -305,7 +305,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             mdata = json.load(fm)
 
         # Create the cartoon style from the decoded contents
-        datstyle = sparser.create_styles(fname, molStyle, molcolor, customDict)
+        datstyle = sparser.create_style(fname, molStyle, molcolor, customDict)
         fstyle = files_data_style(datstyle)
         with open(fstyle) as sf:
             data_style = json.load(sf)
