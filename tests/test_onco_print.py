@@ -94,3 +94,25 @@ def test_showlegend(dash_threaded):
         component_base=COMPONENT_REACT_BASE,
         data=TEST_DATA
     )
+
+
+def test_showoverview(dash_threaded):
+    """Test the overview display."""
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            if PROP_TYPES['bool'](input_value) == prop_value:
+                answer = 'PASSED'
+        return answer
+
+    template_test_component_single_prop(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        oncoprint_props_callback,
+        'showoverview',
+        'False',
+        prop_type='bool',
+        component_base=COMPONENT_REACT_BASE,
+        data=TEST_DATA
+    )
