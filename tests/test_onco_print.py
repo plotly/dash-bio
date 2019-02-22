@@ -38,9 +38,8 @@ def test_click_app_name_from_gallery(dash_threaded):
 # this callback will be used in the simple test app, which consists of
 # the component, a single button, and two inputs
 
-# Tests for layout props (under "Customize" tab)
 
-
+# below are tests for changing the props of the React component
 def oncoprint_props_callback(
         nclicks,
         prop_name,
@@ -75,29 +74,7 @@ def oncoprint_props_callback(
     return typed_prop_value
 
 
-# below are tests for changing the props of the React component
-def test_showlegend(dash_threaded):
-    """Test the legend display."""
-    def assert_callback(prop_value, nclicks, input_value):
-        answer = ''
-        if nclicks is not None:
-            if PROP_TYPES['bool'](input_value) == prop_value:
-                answer = 'PASSED'
-        return answer
-
-    template_test_component_single_prop(
-        dash_threaded,
-        APP_NAME,
-        assert_callback,
-        oncoprint_props_callback,
-        'showlegend',
-        'False',
-        prop_type='bool',
-        component_base=COMPONENT_REACT_BASE,
-        data=TEST_DATA
-    )
-
-
+# Tests for layout props (under "Customize" tab)
 def test_showoverview(dash_threaded):
     """Test the overview display."""
     def assert_callback(prop_value, nclicks, input_value):
@@ -113,6 +90,28 @@ def test_showoverview(dash_threaded):
         assert_callback,
         oncoprint_props_callback,
         'showoverview',
+        'False',
+        prop_type='bool',
+        component_base=COMPONENT_REACT_BASE,
+        data=TEST_DATA
+    )
+
+
+def test_showlegend(dash_threaded):
+    """Test the legend display."""
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            if PROP_TYPES['bool'](input_value) == prop_value:
+                answer = 'PASSED'
+        return answer
+
+    template_test_component_single_prop(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        oncoprint_props_callback,
+        'showlegend',
         'False',
         prop_type='bool',
         component_base=COMPONENT_REACT_BASE,
