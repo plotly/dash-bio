@@ -630,4 +630,18 @@ Ideogram.propTypes = {
      * e.g. for mitochondrial (MT) and chloroplast (CP) DNA.
      */
     showNonNuclearChromosomes: PropTypes.bool,
+
+    /**
+     * Useful for putting ideogram into a small container,
+     * or when dealing with genomes that have many chromosomes.
+     * Note: Not fully working needs to be fixed by developer.
+     * rows: PropTypes.number,
+     */
+
+    /**
+     * This is a work in progess and will hopefully be fixed in future releases.
+     * https://eweitz.github.io/ideogram/annotations-heatmap
+     * heatmaps: PropTypes.arrayOf(PropTypes.object),
+     */
+
 };
