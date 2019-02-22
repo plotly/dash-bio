@@ -637,6 +637,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if group_markers is not None:
             fig_opts['rowGroupMarker'] = group_markers['rowGroupMarker']
             fig_opts['colGroupMarker'] = group_markers['colGroupMarker']
+
         try:
             fig, _ = dash_bio.Clustergram(
                 computed_traces=None,
@@ -649,8 +650,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 figure=fig
             )
 
+        except IndexError:
+            return "Loading data..."
+        except ValueError:
+            return "Loading data..."
         except Exception as e:
-            return "There was an error: {}.".format(e)
+            return "There was an error: {}".format(e)
 
     # update row and column options
 
