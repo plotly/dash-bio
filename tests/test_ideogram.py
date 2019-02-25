@@ -1,4 +1,5 @@
 import os
+import json
 from pytest_dash.wait_for import (
     wait_for_element_by_css_selector,
 )
@@ -518,3 +519,128 @@ def test_annotations_path(dash_threaded):
 
     # raise an error if no element with 'annot' class is found
     wait_for_element_by_css_selector(driver, '.annot')
+
+
+def test_homology(dash_threaded):
+    """Test the display of a basic homology"""
+
+    prop_type = 'dict'
+
+    prop_val = {
+        "chrOne": {
+            "organism": "9606",
+            "start": [10001, 105101383],
+            "stop": [27814790, 156030895],
+        },
+        "chrTwo": {
+            "organism": "9606",
+            "start": [3000000, 125101383],
+            "stop": [9000000, 196130895],
+        },
+    }
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'homology',
+        json.dumps(prop_val),
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        perspective="comparative",
+        chromosomes=["1", "2"],
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # assert the absence of homology region
+    regions = driver.find_elements_by_class_name('syntenicRegion')
+    assert len(regions) == 0
+
+    # trigger a change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    # assert the presence of homology region
+    regions = driver.find_elements_by_class_name('syntenicRegion')
+    assert len(regions) != 0
+
+
+def test_full_chromosome_labels_init_without(dash_threaded):
+    """Test the initialization of the component without full chromosome label"""
+
+    prop_type = 'bool'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'fullChromosomeLabels',
+        'False',
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        chromosomes=['1'],
+        fullChromosomeLabels=False,
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # assert the absence of a full label
+    regions = driver.find_elements_by_css_selector('tspan')
+    print(len(regions))
+    assert len(regions) == 1
+
+
+def test_full_chromosome_labels_init_with(dash_threaded):
+    """Test the initialization of the component with full chromosome label"""
+
+    prop_type = 'bool'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'fullChromosomeLabels',
+        'True',
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        chromosomes=['1'],
+        fullChromosomeLabels=True,
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # assert the presence of a full label
+    regions = driver.find_elements_by_css_selector('tspan')
+    print(len(regions))
+    assert len(regions) == 2
