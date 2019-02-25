@@ -1,7 +1,7 @@
 import os
 from .test_common_features import (
     init_demo_app,
-    template_test_component_single_prop,
+    template_test_component,
     PROP_TYPES,
     COMPONENT_REACT_BASE
 )
@@ -84,7 +84,7 @@ def test_showoverview(dash_threaded):
                 answer = PASS
         return answer
 
-    template_test_component_single_prop(
+    template_test_component(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -106,7 +106,7 @@ def test_showlegend(dash_threaded):
                 answer = PASS
         return answer
 
-    template_test_component_single_prop(
+    template_test_component(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -128,7 +128,7 @@ def test_padding(dash_threaded):
                 answer = PASS
         return answer
 
-    template_test_component_single_prop(
+    template_test_component(
         dash_threaded,
         APP_NAME,
         assert_callback,
