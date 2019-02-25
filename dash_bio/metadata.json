@@ -1593,6 +1593,19 @@
         "required": false,
         "description": "Used to compare two chromosomes with each other.\nThe keys \"chrOne\" and \"chrTwo\" represent one chromosome each. Organism is the\ntaxID or name. Start is an array, containing start one and\nstart two in this order. Stop is array, containing stop one, and stop two,\nin this order.\nEx: homology={\n                    \"chrOne\": {\n                        \"organism\": \"9606\",\n                        \"start\": [50000, 155701383],\n                        \"stop\": [900000, 156030895]\n                    },\n                    \"chrTwo\": {\n                        \"organism\": \"10090\",\n                        \"start\": [10001, 50000000],\n                        \"stop\": [2781479, 57217415]\n                    }\n                }"
       },
+      "perspective": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'comparative'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "Use perspective: 'comparative' to enable annotations between two chromosomes,\neither within the same organism or different organisms. Used for homology."
+      },
       "fullChromosomeLabels": {
         "type": {
           "name": "bool"
@@ -1747,6 +1760,13 @@
           "value": "false",
           "computed": false
         }
+      },
+      "onMouseOver": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash event callback for mousing over data."
       }
     }
   },

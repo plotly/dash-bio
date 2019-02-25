@@ -54,6 +54,7 @@ export default class Ideogram extends Component {
             'barWidth',
             'filterable',
             'homology',
+            'perspective',
         ];
 
         this.onBrushHandler = this.onBrushHandler.bind(this);
@@ -513,6 +514,12 @@ Ideogram.propTypes = {
             stop: PropTypes.arrayOf(PropTypes.number.isRequired),
         }),
     }),
+
+    /**
+     * Use perspective: 'comparative' to enable annotations between two chromosomes,
+     * either within the same organism or different organisms. Used for homology.
+     */
+    perspective: PropTypes.oneOf(['comparative']),
 
     /**
      * Whether to include abbreviation species name in chromosome label. Used
