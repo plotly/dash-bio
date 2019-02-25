@@ -14,11 +14,6 @@ elif 'DASH_PATH_ROUTING' in os.environ:
     from tests.dashbio_demos.utils.app_standalone import run_standalone_app
 
 
-DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "ideogram_")
-
-RAT_DATA = ideoParser.ncbi_gdp_to_list("{}10116_GCF_000000225.4_NA_V1".format(DATAPATH))
-
-
 def description():
     return "Compare, and analyze chromosome bands with the Dash Ideogram."
 
@@ -312,8 +307,6 @@ def layout():
                                         [
                                             dash_bio.Ideogram(
                                                 id="ideo-homology",
-                                                localOrganism=RAT_DATA,
-                                                orientation="vertical",
                                                 showBandLabels=True,
                                                 showChromosomeLabels=True,
                                                 showFullyBanded=True,
@@ -322,19 +315,6 @@ def layout():
                                                 chrMargin=200,
                                                 rotatable=False,
                                                 perspective="comparative",
-                                                chromosomes=["1", "2"],
-                                                homology={
-                                                    "chrOne": {
-                                                        "organism": "9606",
-                                                        "start": [10001, 155101383],
-                                                        "stop": [2781479, 156030895],
-                                                    },
-                                                    "chrTwo": {
-                                                        "organism": "9606",
-                                                        "start": [50000, 155101383],
-                                                        "stop": [900000, 156130895],
-                                                    },
-                                                },
                                             )
                                         ],
                                         className="ten columns",
