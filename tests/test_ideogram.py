@@ -644,3 +644,47 @@ def test_full_chromosome_labels_init_with(dash_threaded):
     regions = driver.find_elements_by_css_selector('tspan')
     print(len(regions))
     assert len(regions) == 2
+
+
+def test_full_chromosome_labels(dash_threaded):
+    """Test the full chromosome label display/hiding"""
+
+    prop_type = 'bool'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'fullChromosomeLabels',
+        'True',
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        chromosomes=['1'],
+        fullChromosomeLabels=False,
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # assert the absence of a full label
+    regions = driver.find_elements_by_css_selector('tspan')
+    print(len(regions))
+    assert len(regions) == 1
+
+    # trigger a change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    # assert the presence of a full label
+    regions = driver.find_elements_by_css_selector('tspan')
+    print(len(regions))
+    assert len(regions) == 2
