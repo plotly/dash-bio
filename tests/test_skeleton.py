@@ -77,9 +77,9 @@ def COMPONENTNAME_props_callback(
     """This function is the code of a callback which is triggered by
     the button on the simple app used in the test.
     :param nclicks (int): The n_clicks value of the button in the
-                          simple app
+                          simple app.
     :param prop_name (string): The name of the property that is to be
-                               modified
+                               modified.
     :param prop_value (string): The value that is to be assigned to the
                                 prop defined by prop_name.
     :prop_type (string): One of the predefined types in PROP_TYPES.
@@ -117,9 +117,9 @@ def test_PROPNAME(dash_threaded):
         """Determine the pass/fail status of this test.
 
         :param (int) nclicks: The number of clicks on the button in the
-                              simple test app (not used here)
+                              simple test app (not used here).
         :param (string) component_PROPNAME: The value of PROPNAME for the
-                                            component after it is set
+                                            component after it is set.
         :param (string) input_PROPNAME: The value of PROPNAME that is sent
                                         to the component.
 
