@@ -16,8 +16,15 @@ setup(
     include_package_data=True,
     description=package['description'] if 'description' in package else package_name,
     install_requires=[
+        'biopython',
+        'colour',
         'dash',
-        'dash-html-components'
+        'dash-html-components',
+        'pandas',
+        'parmed',
+        'plotly',
+        'scipy',
+        'sklearn'
     ],
     python_requires='~=3.3',
     classifiers=[
