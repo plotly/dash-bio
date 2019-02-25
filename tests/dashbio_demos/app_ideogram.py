@@ -802,12 +802,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             stop_two_a
     ):
         return {
-            "chr_one": {
+            "chrOne": {
                 "organism": "9606",
                 "start": [start_one, start_two],
                 "stop": [stop_one, stop_two],
             },
-            "chr_two": {
+            "chrTwo": {
                 "organism": "9606",
                 "start": [start_one_a, start_two_a],
                 "stop": [stop_one_a, stop_two_a],
