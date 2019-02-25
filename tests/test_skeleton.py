@@ -116,11 +116,11 @@ def test_PROPNAME(dash_threaded):
     ):
         """Determine the pass/fail status of this test.
 
-        :param (int) nclicks: The number of clicks on the button in the
+        :param nclicks (int): The n_clicks value of the button in the
                               simple test app (not used here).
-        :param (string) component_PROPNAME: The value of PROPNAME for the
+        :param component_PROPNAME (string): The value of PROPNAME for the
                                             component after it is set.
-        :param (string) input_PROPNAME: The value of PROPNAME that is sent
+        :param input_PROPNAME (string): The value of PROPNAME that is sent
                                         to the component.
 
         :return (string): 'PASSED' for a test that passed, or 'FAILED'
