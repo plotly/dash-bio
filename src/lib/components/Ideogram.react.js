@@ -52,6 +52,8 @@ export default class Ideogram extends Component {
             'barWidth',
             'filterable',
             'homology',
+            'perspective',
+            'fullChromosomeLabels',
         ];
 
         this.onBrushHandler = this.onBrushHandler.bind(this);
@@ -285,7 +287,6 @@ Ideogram.defaultProps = {
 };
 
 Ideogram.propTypes = {
-
     /**
      * The ID used to identify this component in Dash callbacks
      * and used to identify Ideogram instances.

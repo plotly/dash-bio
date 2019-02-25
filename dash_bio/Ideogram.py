@@ -20,34 +20,45 @@ Keyword arguments:
 and used to identify Ideogram instances.
 - style (dict; optional): The component's inline styles
 - className (string; optional): The CSS class of the component wrapper
-- annotationsData (string; optional): Use this prop in callback to return annotationData when hovered.
 - ancestors (dict; optional): A map associating ancestor labels to colors. Used to color
 chromosomes from different ancestors in polyploid genomes.
+- annotationsLayout (string; optional): Layout of ideogram annotations.
+One of "tracks", "histogram", or "overlay".
+
+"tracks": display annotations in tracks beside each chromosome.
+
+"histogram": display annotations in a histogram. Clusters annotations
+by location. Each cluster/bin is shown as a bar, the height of which represents
+the number of annotations on genomic range.
+
+"overlay": display annotations directly over chromosomes.
 - annotations (list; optional): A list of annotation objects. Annotation objects can also have a
  name, color, shape, and track index. At the moment there is more
  keys specified and the docs need updating.
-- annotationHeight (number; optional): The height of each annotation.
-- annotationsLayout (string; optional): The layout of this ideogram's annotations.
-It can be one of "tracks", "histogram", or "overlay".
-
-Tracks: Lay out annotations in tracks beside each chromosome.
-
-Histogram: Layout annotations in a histogram. Clusters annotations
-by location. Each cluster/bin is shown as a height of a bar to represent
-number of annotations on genomic range.
-
-Overlay: Lay out annotations directly over chromsomes.
-- annotationsColor (string; optional): The color of each annotation.
 - annotationsPath (string; optional): An absolute or relative URL directing to a JSON file containing
 annotation objects (JSON).
+- annotationsData (string; optional): Use this prop in a dash callback to return annotationData when hovered.
+It is read-only, i.e. it cannot be used with dash.dependencies.Output but only with
+dash.dependencies.Input
 - annotationTracks (list; optional): A list of objects with metadata for each track,
 e.g. id, display name, color, shape.
+- annotationHeight (number; optional): Not used if annotationsLayout is set to "overlay".
+The height of histogram bars or the size of annotations tracks symbols
+- histogramScaling (string; optional): Scaling of histogram bars height
+Only used if annotationsLayout is set to "histogram".
+One of "absolute" or "relative".
+
+"absolute": sets bar height relative to tallest bar in all chromosomes.
+"relative": sets bar height relative to tallest bar in each chromosome.
+- barWidth (number; optional): Pixel width of histogram bars.
+Only used if annotationsLayout is set to "histogram".
+- annotationsColor (string; optional): Color of annotations.
+- showAnnotTooltip (boolean; optional): Whether to show a tooltip upon mousing over an annotation.
 - assembly (string; optional): Default: latest RefSeq assembly for specified organism.
 The genome assembly to display.
 Takes assembly name (e.g. "GRCh37"),
 RefSeq accession (e.g. "GCF_000306695.2"),
 or GenBank accession (e.g. "GCA_000005005.5")
-- barWidth (number; optional): The pixel width of bars drawn when annotationsLayout: 'histogram'.
 - brush (string; optional): Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a
 chromosome. Useful when ideogram consists of one chromosome and you want to be
 able to focus on a region within that chromosome,
@@ -62,7 +73,7 @@ the total width of the brush.
 - container (string; optional): CSS styling and the id of the container holding the Ideogram in
 react-ideogram.js, this is where all the d3 magic happens.
 - chrHeight (number; optional): The pixel height of the tallest chromosome in the ideogram
-- chrMargin (number; optional): The pixel space of margin bewteen each chromosome.
+- chrMargin (number; optional): The pixel space of margin between each chromosome.
 - chrWidth (number; optional): The pixel width of each chromosome.
 - chromosomes (list | dict; optional): A list of the names of chromosomes to 
 display. Useful for depicting a subset of the chromosomes in the genome, 
@@ -80,10 +91,6 @@ Ex: chromosomes={
 containing data needed to draw banded chromosomes.
 You will need to set up you're own database to grab data from
 for custom data.
-- fullChromosomeLabels (boolean; optional): Whether to include abbreviation species name in chromosome label. Used
-for homology.
-- histogramScaling (string; optional): One of "absolute" or "relative". The technique to use in scaling the height of histogram bars. The "absolute" value sets bar height relative to tallest bar in all chromosomes,
-while "relative" sets bar height relative to tallest bar in each chromosome.
 - heatmaps (list; optional): This is a work in progess and will hopefully be fixed in future releases.
 - homology (optional): Used to compare two chromosomes with each other.
 The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the 
@@ -102,26 +109,28 @@ Ex: homology={
                         "stop": [2781479, 57217415]
                     }
                 }. homology has the following type: dict containing keys 'chrOne', 'chrTwo'.
-Those keys have the following types:
+Those keys have the following types: 
   - chrOne (optional): . chrOne has the following type: dict containing keys 'organism', 'start', 'stop'.
-Those keys have the following types:
+Those keys have the following types: 
   - organism (string; required)
   - start (list; optional)
   - stop (list; optional)
   - chrTwo (optional): . chrTwo has the following type: dict containing keys 'organism', 'start', 'stop'.
-Those keys have the following types:
+Those keys have the following types: 
   - organism (string; required)
   - start (list; optional)
   - stop (list; optional)
+- perspective (string; optional): Use perspective: 'comparative' to enable annotations between two chromosomes,
+either within the same organism or different organisms. Used for homology.
+- fullChromosomeLabels (boolean; optional): Whether to include abbreviation species name in chromosome label. Used
+for homology.
 - filterable (number; optional): Whether annotations should be filterable.
 - localOrganism (dict; optional): Provide local JSON organism into this prop from a local user JSON file.
-DataDir must not be initiliazed.
-- organism (string | list; optional): Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or
+DataDir must not be initialized.
+- organism (string | number; optional): Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or
 organism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism,
 or an array of organisms' names or taxids to display chromosomes from multiple species.
 - orientation (string; optional): The orientation of chromosomes on the page.
-- perspective (string; optional): Use perspective: 'comparative' to enable annotations between two chromosomes,
-either within the same organism or different organisms. Used for homology.
 - ploidy (number; optional): The ploidy - number of chromosomes to depict for each chromosome
 set.
 - ploidyDesc (list; optional): Description of ploidy in each chromosome set in terms of
@@ -138,22 +147,25 @@ or when dealing with genomes that have many chromosomes.
 Note: Not fully working needs to be fixed by developer.
 - sex (string; optional): Useful for omitting chromosome Y in female mammals.
 Currently only supported for organisms that use XY sex-determination.
+All string values will show chromosome Y, only the value 'female' will hide it
 - showChromosomeLabels (boolean; optional): Whether to show chromosome labels, e.g. 1, 2, 3, X, Y.
 - showBandLabels (boolean; optional): Whether to show cytogenetic band labels, e.g. 1q21
-- showAnnotTooltip (boolean; optional): Whether to show a tooltip upon mousing over an annotation.
 - showFullyBanded (boolean; optional): Whether to show fully banded chromosomes for genomes
 that have sufficient data. Useful for showing simpler chromosomes of
 cytogenetically well-characterized organisms, e.g. human, beside chromosomes of
 less studied organisms, e.g. chimpanzee.
 - showNonNuclearChromosomes (boolean; optional): Whether to show non-nuclear chromosomes,
-e.g. for mitochondrial (MT) and chloroplast (CP) DNA."""
+e.g. for mitochondrial (MT) and chloroplast (CP) DNA.
+
+Available events: """
     @_explicitize_args
-    def __init__(self, id=Component.REQUIRED, style=Component.UNDEFINED, className=Component.UNDEFINED, annotationsData=Component.UNDEFINED, ancestors=Component.UNDEFINED, annotations=Component.UNDEFINED, annotationHeight=Component.UNDEFINED, annotationsLayout=Component.UNDEFINED, annotationsColor=Component.UNDEFINED, annotationsPath=Component.UNDEFINED, annotationTracks=Component.UNDEFINED, assembly=Component.UNDEFINED, barWidth=Component.UNDEFINED, brush=Component.UNDEFINED, brushData=Component.UNDEFINED, container=Component.UNDEFINED, chrHeight=Component.UNDEFINED, chrMargin=Component.UNDEFINED, chrWidth=Component.UNDEFINED, chromosomes=Component.UNDEFINED, dataDir=Component.UNDEFINED, fullChromosomeLabels=Component.UNDEFINED, histogramScaling=Component.UNDEFINED, heatmaps=Component.UNDEFINED, homology=Component.UNDEFINED, filterable=Component.UNDEFINED, localOrganism=Component.UNDEFINED, onMouseOver=Component.UNDEFINED, organism=Component.UNDEFINED, orientation=Component.UNDEFINED, onBrushMove=Component.UNDEFINED, onDidRotate=Component.UNDEFINED, onDrawAnnots=Component.UNDEFINED, onLoad=Component.UNDEFINED, perspective=Component.UNDEFINED, ploidy=Component.UNDEFINED, ploidyDesc=Component.UNDEFINED, rangeSet=Component.UNDEFINED, rotatable=Component.UNDEFINED, rotated=Component.UNDEFINED, resolution=Component.UNDEFINED, rows=Component.UNDEFINED, sex=Component.UNDEFINED, showChromosomeLabels=Component.UNDEFINED, showBandLabels=Component.UNDEFINED, showAnnotTooltip=Component.UNDEFINED, showFullyBanded=Component.UNDEFINED, showNonNuclearChromosomes=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'style', 'className', 'annotationsData', 'ancestors', 'annotations', 'annotationHeight', 'annotationsLayout', 'annotationsColor', 'annotationsPath', 'annotationTracks', 'assembly', 'barWidth', 'brush', 'brushData', 'container', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'dataDir', 'fullChromosomeLabels', 'histogramScaling', 'heatmaps', 'homology', 'filterable', 'localOrganism', 'organism', 'orientation', 'perspective', 'ploidy', 'ploidyDesc', 'rangeSet', 'rotatable', 'rotated', 'resolution', 'rows', 'sex', 'showChromosomeLabels', 'showBandLabels', 'showAnnotTooltip', 'showFullyBanded', 'showNonNuclearChromosomes']
+    def __init__(self, id=Component.REQUIRED, style=Component.UNDEFINED, className=Component.UNDEFINED, ancestors=Component.UNDEFINED, annotationsLayout=Component.UNDEFINED, annotations=Component.UNDEFINED, annotationsPath=Component.UNDEFINED, annotationsData=Component.UNDEFINED, annotationTracks=Component.UNDEFINED, annotationHeight=Component.UNDEFINED, histogramScaling=Component.UNDEFINED, barWidth=Component.UNDEFINED, annotationsColor=Component.UNDEFINED, showAnnotTooltip=Component.UNDEFINED, assembly=Component.UNDEFINED, brush=Component.UNDEFINED, brushData=Component.UNDEFINED, onBrushMove=Component.UNDEFINED, container=Component.UNDEFINED, chrHeight=Component.UNDEFINED, chrMargin=Component.UNDEFINED, chrWidth=Component.UNDEFINED, chromosomes=Component.UNDEFINED, dataDir=Component.UNDEFINED, heatmaps=Component.UNDEFINED, homology=Component.UNDEFINED, perspective=Component.UNDEFINED, fullChromosomeLabels=Component.UNDEFINED, filterable=Component.UNDEFINED, localOrganism=Component.UNDEFINED, onMouseOver=Component.UNDEFINED, organism=Component.UNDEFINED, orientation=Component.UNDEFINED, onDidRotate=Component.UNDEFINED, onDrawAnnots=Component.UNDEFINED, onLoad=Component.UNDEFINED, ploidy=Component.UNDEFINED, ploidyDesc=Component.UNDEFINED, rangeSet=Component.UNDEFINED, rotatable=Component.UNDEFINED, rotated=Component.UNDEFINED, resolution=Component.UNDEFINED, rows=Component.UNDEFINED, sex=Component.UNDEFINED, showChromosomeLabels=Component.UNDEFINED, showBandLabels=Component.UNDEFINED, showFullyBanded=Component.UNDEFINED, showNonNuclearChromosomes=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'style', 'className', 'ancestors', 'annotationsLayout', 'annotations', 'annotationsPath', 'annotationsData', 'annotationTracks', 'annotationHeight', 'histogramScaling', 'barWidth', 'annotationsColor', 'showAnnotTooltip', 'assembly', 'brush', 'brushData', 'container', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'dataDir', 'heatmaps', 'homology', 'perspective', 'fullChromosomeLabels', 'filterable', 'localOrganism', 'organism', 'orientation', 'ploidy', 'ploidyDesc', 'rangeSet', 'rotatable', 'rotated', 'resolution', 'rows', 'sex', 'showChromosomeLabels', 'showBandLabels', 'showFullyBanded', 'showNonNuclearChromosomes']
         self._type = 'Ideogram'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'style', 'className', 'annotationsData', 'ancestors', 'annotations', 'annotationHeight', 'annotationsLayout', 'annotationsColor', 'annotationsPath', 'annotationTracks', 'assembly', 'barWidth', 'brush', 'brushData', 'container', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'dataDir', 'fullChromosomeLabels', 'histogramScaling', 'heatmaps', 'homology', 'filterable', 'localOrganism', 'organism', 'orientation', 'perspective', 'ploidy', 'ploidyDesc', 'rangeSet', 'rotatable', 'rotated', 'resolution', 'rows', 'sex', 'showChromosomeLabels', 'showBandLabels', 'showAnnotTooltip', 'showFullyBanded', 'showNonNuclearChromosomes']
+        self.available_events = []
+        self.available_properties = ['id', 'style', 'className', 'ancestors', 'annotationsLayout', 'annotations', 'annotationsPath', 'annotationsData', 'annotationTracks', 'annotationHeight', 'histogramScaling', 'barWidth', 'annotationsColor', 'showAnnotTooltip', 'assembly', 'brush', 'brushData', 'container', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'dataDir', 'heatmaps', 'homology', 'perspective', 'fullChromosomeLabels', 'filterable', 'localOrganism', 'organism', 'orientation', 'ploidy', 'ploidyDesc', 'rangeSet', 'rotatable', 'rotated', 'resolution', 'rows', 'sex', 'showChromosomeLabels', 'showBandLabels', 'showFullyBanded', 'showNonNuclearChromosomes']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')
