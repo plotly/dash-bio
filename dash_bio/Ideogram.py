@@ -164,7 +164,6 @@ Available events: """
         self._type = 'Ideogram'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_events = []
         self.available_properties = ['id', 'style', 'className', 'ancestors', 'annotationsLayout', 'annotations', 'annotationsPath', 'annotationsData', 'annotationTracks', 'annotationHeight', 'histogramScaling', 'barWidth', 'annotationsColor', 'showAnnotTooltip', 'assembly', 'brush', 'brushData', 'container', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'dataDir', 'heatmaps', 'homology', 'perspective', 'fullChromosomeLabels', 'filterable', 'localOrganism', 'organism', 'orientation', 'ploidy', 'ploidyDesc', 'rangeSet', 'rotatable', 'rotated', 'resolution', 'rows', 'sex', 'showChromosomeLabels', 'showBandLabels', 'showFullyBanded', 'showNonNuclearChromosomes']
         self.available_wildcard_properties =            []
 

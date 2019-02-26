@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.6] - 2019-22-02
+
+### Added 
+* Added requirements from files in `utils`, as well as from pure-Python components, to setup install requirements.
+* Added more descriptive prop descriptions for Dash Ideogram.
+
 ## [0.0.5] - 2019-15-02
 
 ### Changed 
