@@ -1,4 +1,7 @@
 import os
+
+from pytest_dash.wait_for import wait_for_element_by_css_selector
+
 from .test_common_features import (
     init_demo_app,
     template_test_component,
@@ -117,6 +120,19 @@ def test_showlegend(dash_threaded):
         component_base=COMPONENT_REACT_BASE,
         data=TEST_DATA
     )
+
+    driver = dash_threaded.driver
+    # assert there is a legend (bar)
+    legend = driver.find_elements_by_class_name('legendbar')
+    assert len(legend) != 0
+
+    # trigger change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    # assert there is no more legend (bar)
+    legend = driver.find_elements_by_class_name('legendbar')
+    assert len(legend) == 0
 
 
 def test_padding(dash_threaded):
