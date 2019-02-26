@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.0.7] - 2019-26-02
+
+### Changed 
+* Changed unicode right arrow to greater-than sign in Circos for compatibility with Python 2.7.
+
 ## [0.0.6] - 2019-22-02
 
 ### Added 
