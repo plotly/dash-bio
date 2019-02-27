@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.0.8]
+
+### Changed
+* Changed property `fullChromosomeLabels` so that it can be updated using dash callbacks 
+
 ## [0.0.7] - 2019-26-02
 
 ### Changed 
