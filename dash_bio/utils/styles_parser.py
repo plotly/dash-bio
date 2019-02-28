@@ -93,11 +93,11 @@ RESIDUE_TYPE_COLOR_DICT = {
     'purine': '#A00042',
     'pyrimidine': '#4F4600'
 }
+
 def create_style(
         pdb_path,
         style,
         mol_color,
-        custom_dict,
         residue_type_colors=RESIDUE_TYPE_COLOR_DICT,
         atom_colors=ATOM_COLOR_DICT,
         chain_colors=CHAIN_COLOR_DICT,
@@ -124,13 +124,12 @@ def create_style(
     with open(pdb_path, 'r') as infile:
         # store only non-empty lines
         lines = [l.strip() for l in infile if l.strip()]
-
-
+        
     # Initialize variables
     chains = []
     atm_types = []
     res_names = []
-
+    
     data = {}
 
     # Variables that store the character positions of different
@@ -140,7 +139,7 @@ def create_style(
         'atm_type': [77, 78],
         'res_name': [17, 20]
     }
-
+    
     for l in lines:
         line = l.split()
 
@@ -162,7 +161,7 @@ def create_style(
         atm_types.append(atm_type)
         res_names.append(res_name)
 
-        index = len(chains)
+        index = len(chains) - 1
 
         if line[0] == "ATOM":
             if mol_color == 'chainColor':
