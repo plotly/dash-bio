@@ -99,7 +99,7 @@ def layout():
                                         'value': '{}6dls.pdb'.format(DATAPATH)
                                     },
                                 ],
-                                value='{}6dls.pdb'.format(DATAPATH)
+                                value='{}1bna.pdb'.format(DATAPATH)
                             ),
                         ],
                     ),
@@ -331,11 +331,10 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             nc, mt,
             custom_colors
     ):
-        print(demostr)
+
         if demostr is not None:
-#            copy2(demostr, './str.pdb')
-#            fname = './str.pdb'
-            fname = demostr
+            copy2(demostr, './str.pdb')
+            fname = './str.pdb'
         elif contents is not None and demostr is None:
             try:
                 content_type, content_string = str(contents).split(',')
