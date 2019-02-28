@@ -94,6 +94,12 @@ RESIDUE_TYPE_COLOR_DICT = {
     'pyrimidine': '#4F4600'
 }
 
+def fill_in_defaults(input_dict, default_dict):
+    for key in default_dict.keys():
+        if key not in input_dict.keys():
+            input_dict[key] = default_dict[key]
+    return input_dict
+            
 def create_style(
         pdb_path,
         style,
@@ -111,7 +117,7 @@ def create_style(
     @param style
     Type of representation of the biomolecule (options: stick, cartoon, sphere)
     @param mol_color
-    Coloring scheme for depicting biomolecules
+    Coloring scheme for depicting biomolecules (options: residue_type, atom, residue, chain)
     @param custom_dict
     optional parameter to specify the color scheme for different chains
     in JSON format
@@ -124,12 +130,18 @@ def create_style(
     with open(pdb_path, 'r') as infile:
         # store only non-empty lines
         lines = [l.strip() for l in infile if l.strip()]
-        
+
+    # Merge dictionaries if necessary
+    residue_type_colors = fill_in_defaults(residue_type_colors, RESIDUE_TYPE_COLOR_DICT)
+    atom_colors = fill_in_defaults(atom_colors, ATOM_COLOR_DICT)
+    chain_colors = fill_in_defaults(chain_colors, CHAIN_COLOR_DICT)
+    residue_colors = fill_in_defaults(residue_colors, RESIDUE_COLOR_DICT)
+
     # Initialize variables
     chains = []
     atm_types = []
     res_names = []
-    
+
     data = {}
 
     # Variables that store the character positions of different
@@ -139,7 +151,7 @@ def create_style(
         'atm_type': [77, 78],
         'res_name': [17, 20]
     }
-    
+
     for l in lines:
         line = l.split()
 
@@ -164,25 +176,25 @@ def create_style(
         index = len(chains) - 1
 
         if line[0] == "ATOM":
-            if mol_color == 'chainColor':
+            if mol_color == 'chain':
                 data[index] = {
                     'color': chain_colors[chain]
                     if chain in chain_colors else '#BEA06E',
                     'visualization_type': style
                 }
-            elif mol_color == 'residueID':
+            elif mol_color == 'residue':
                 data[index] = {
                     'color': residue_colors[res_name.upper()]
                     if res_name.upper() in residue_colors else '#BEA06E',
                     'visualization_type': style
                 }
-            elif mol_color == 'residueProperty':
+            elif mol_color == 'residue_type':
                 data[index] = {
                     'color': residue_type_colors[RESIDUE_TYPES[res_name.upper()]]
                     if res_name.upper() in RESIDUE_TYPES else '#BEA06E',
                     'visualization_type': style
                 }
-            elif mol_color == 'atomColor':
+            elif mol_color == 'atom':
                 data[index] = {
                     'color': atom_colors[atm_type]
                     if atm_type in atom_colors else '#330000',
