@@ -284,7 +284,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return options
 
-
     @app.callback(
         Output('mol3d-color-storage', 'data'),
         [Input('mol3d-submit-button', 'n_clicks'),
@@ -352,7 +351,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         # Create the model data from the decoded contents
         modata = parser.create_data(fname)
-        
+
         fmodel = files_data_style(modata)
         with open(fmodel) as fm:
             mdata = json.load(fm)

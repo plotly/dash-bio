@@ -1,5 +1,4 @@
 import json
-import ast
 
 ATOM_COLOR_DICT = {
     "C": "#c8c8c8",
@@ -80,7 +79,7 @@ tmp = {
 }
 
 RESIDUE_TYPES = {}
-for key in tmp.keys():
+for key in tmp:
     for aa in tmp[key]:
         RESIDUE_TYPES[aa] = key
 
@@ -94,12 +93,14 @@ RESIDUE_TYPE_COLOR_DICT = {
     'pyrimidine': '#4F4600'
 }
 
+
 def fill_in_defaults(input_dict, default_dict):
-    for key in default_dict.keys():
+    for key in default_dict:
         if key not in input_dict.keys():
             input_dict[key] = default_dict[key]
     return input_dict
-            
+
+
 def create_style(
         pdb_path,
         style,
