@@ -25,7 +25,9 @@
     right: 5px;
     height: auto;
 }
-
+#mol3d-body .chrome-picker {
+    border: none !important;
+}
 #mol3d-upload-container {
     height: 30px;
     line-height: 40px;
@@ -53,7 +55,7 @@
     border-width: 2px;
 }
 
-#mol3d-control-bgcolor {    
+#mol3d-control-bgcolor {
     border-color: grey;
     border-width: 2px;
 }
