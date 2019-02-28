@@ -259,7 +259,7 @@ def test_chromosomes(dash_threaded):
     btn.click()
 
     # assert the set of chromosomes contains 3 chromosomes
-    num_chromosoms = len(driver.find_elements_by_class_name('chromosome-set-container'))
+    num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 3
 
 
@@ -295,7 +295,7 @@ def test_chromosomes_wrong_input(dash_threaded):
     btn.click()
 
     # assert the set of chromosomes contains 2 chromosomes
-    num_chromosoms = len(driver.find_elements_by_class_name('chromosome-set-container'))
+    num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 2
 
 
