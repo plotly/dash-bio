@@ -144,14 +144,16 @@ def layout():
                             dcc.Dropdown(
                                 id='dropdown-style-color',
                                 options=[
-                                    {'label': 'atom', 'value': 'atomColor'},
-                                    {'label': 'residue identity',
-                                     'value': 'residueID'},
-                                    {'label': 'residue property',
-                                     'value': 'residueProperty'},
-                                    {'label': 'chain', 'value': 'chainColor'},
+                                    {'label': 'Atom',
+                                     'value': 'atom'},
+                                    {'label': 'Residue identity',
+                                     'value': 'residue'},
+                                    {'label': 'Residue type',
+                                     'value': 'residue_type'},
+                                    {'label': 'Chain',
+                                     'value': 'chain'},
                                 ],
-                                value='atomColor'
+                                value='atom'
                             ),
                         ],
                     ),
@@ -198,22 +200,24 @@ def layout():
                         ],
                     ),
                     html.Div(
-                        title='Customize molecule coloring:{\'A\':\'#abcdef\'}'
-                              ' for chain, {\'ALA\':\'#bcdefa\'} for residue',
+                        title='Customize molecule coloring.',
                         className="mol3d-controls",
                         children=[
                             html.P(
-                                'Customize molecule color',
+                                id='mol3d-customize-coloring',
                                 style={
                                     'font-weight': 'bold',
                                     'margin-bottom': '10px'
                                 }
                             ),
+                            dcc.Dropdown(
+                                id='mol3d-coloring-key',
+                                options=[]
+                            ),
                             dcc.Input(
-                                id='mol3d-custom-molcolor',
+                                id='mol3d-coloring-value',
                                 type='text',
-                                placeholder='{\'A\': \'#ff003d\','
-                                            ' \'B\': \'#abcdef\'}',
+                                placeholder='#ff0000',
                                 value=''
                             ),
                             html.Button(
@@ -269,17 +273,46 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return None
         return dem
 
+    # Callback for updating dropdown options
+    @app.callback(
+        Output('mol3d-coloring-key', 'options'),
+        [Input('dropdown-style-color', 'value')]
+    )
+    def update_color_options(mol_style):
+        color_dict_keys = {
+            'atom': list(sparser.ATOM_COLOR_DICT.keys()),
+            'residue': list(sparser.RESIDUE_COLOR_DICT.keys()),
+            'residue_type': list(sparser.RESIDUE_TYPE_COLOR_DICT.keys()),
+            'chain': list(sparser.CHAIN_COLOR_DICT.keys())
+        }
+        
+        options = [{'label': k.upper(), 'value': k}
+                   for k in color_dict_keys[mol_style]]
+
+        return options
+    
     # Callback for molecule visualization based on uploaded PDB file
     @app.callback(
-        Output("mol3d-biomolecule-viewer", "children"),
-        [Input("mol3d-upload-data", "contents"),
-         Input("dropdown-demostr", "value"),
-         Input("dropdown-styles", "value"),
-         Input("dropdown-style-color", "value"),
-         Input('mol3d-submit-button', 'n_clicks')],
-        [State("mol3d-custom-molcolor", "value")]
+        Output('mol3d-biomolecule-viewer', 'children'),
+        [Input('mol3d-upload-data', 'contents'),
+         Input('dropdown-demostr', 'value'),
+         Input('dropdown-styles', 'value'),
+         Input('mol3d-submit-button', 'n_clicks'),
+         Input('dropdown-style-color', 'value')],
+        [State('mol3d-coloring-key', 'value'),
+         State('mol3d-coloring-value', 'value')],
+         
     )
-    def use_upload(contents, demostr, molStyle, molcolor, _, customDict):
+    def use_upload(
+            contents,
+            demostr,
+            mol_style,
+            _,
+            color_style,
+            color_key,
+            color_value
+    ):
+        
         if demostr is not None:
             copy2(demostr, './str.pdb')
             fname = './str.pdb'
@@ -304,8 +337,17 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         with open(fmodel) as fm:
             mdata = json.load(fm)
 
+
+        # Get the specified style, if any
+        custom_colors = {'{}_colors'.format(color_style): {
+            color_key: color_value
+        }}
+        print(custom_colors)
+        
+        
         # Create the cartoon style from the decoded contents
-        datstyle = sparser.create_style(fname, molStyle, molcolor, customDict)
+        datstyle = sparser.create_style(fname, mol_style, color_style, **custom_colors)
+        
         fstyle = files_data_style(datstyle)
         with open(fstyle) as sf:
             data_style = json.load(sf)
