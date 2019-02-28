@@ -337,12 +337,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         with open(fmodel) as fm:
             mdata = json.load(fm)
 
-
+        custom_colors = {}
         # Get the specified style, if any
-        custom_colors = {'{}_colors'.format(color_style): {
-            color_key: color_value
-        }}
-        print(custom_colors)
+        if color_key is not None and color_value != '':
+            custom_colors = {'{}_colors'.format(color_style): {
+                color_key: color_value
+            }}
         
         
         # Create the cartoon style from the decoded contents
