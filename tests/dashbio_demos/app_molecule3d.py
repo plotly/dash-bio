@@ -7,6 +7,7 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bio
+import dash_daq as daq
 from dash_bio.utils import pdb_parser as parser, styles_parser as sparser
 
 # running directly with Python
@@ -163,19 +164,10 @@ def layout():
                         className="mol3d-controls",
                         id="mol3d-control-bgcolor",
                         children=[
-                            html.P(
-                                'Background color',
-                                style={
-                                    'font-weight': 'bold',
-                                    'margin-bottom': '10px'
-                                }
-                            ),
-                            dcc.Input(
+                            daq.ColorPicker(
                                 id='mol3d-input-bgcolor',
-                                type='text',
-                                placeholder='#000000 (black), #ffffff (white)',
-                                value='#ffffff'
-                            ),
+                                label='Background Color'
+                            )
                         ],
                     ),
                     # Slider to choose the background opacity
@@ -214,11 +206,8 @@ def layout():
                                 id='mol3d-coloring-key',
                                 options=[]
                             ),
-                            dcc.Input(
-                                id='mol3d-coloring-value',
-                                type='text',
-                                placeholder='#ff0000',
-                                value=''
+                            daq.ColorPicker(
+                                id='mol3d-coloring-value'
                             ),
                             html.Button(
                                 id='mol3d-submit-button',
@@ -309,7 +298,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if color_style is None:
             return {}
 
-        if color_key is None:
+        if color_key is None or color_value is None:
             return current
 
         # clear the dict if the color style has changed
@@ -317,7 +306,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             current = {'{}_colors'.format(color_style): {}}
 
         # finally update the dict
-        current['{}_colors'.format(color_style)][color_key] = color_value
+
+        current['{}_colors'.format(color_style)][color_key] = color_value['hex']
 
         return current
 
@@ -341,10 +331,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             nc, mt,
             custom_colors
     ):
-
+        print(demostr)
         if demostr is not None:
-            copy2(demostr, './str.pdb')
-            fname = './str.pdb'
+#            copy2(demostr, './str.pdb')
+#            fname = './str.pdb'
+            fname = demostr
         elif contents is not None and demostr is None:
             try:
                 content_type, content_string = str(contents).split(',')
@@ -362,6 +353,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         # Create the model data from the decoded contents
         modata = parser.create_data(fname)
+        
         fmodel = files_data_style(modata)
         with open(fmodel) as fm:
             mdata = json.load(fm)
@@ -419,7 +411,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('mol3d-input-bgcolor', 'value')]
     )
     def change_bgcolor(color):
-        return color
+        if color is None:
+            color = {'hex': '#ffffff'}
+        return color['hex']
 
     # Callback to change background opacity of molecule visualization container
     @app.callback(
