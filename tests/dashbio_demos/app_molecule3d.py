@@ -250,6 +250,10 @@ def layout():
                 children=[]
             ),
 
+            dcc.Store(
+                id='mol3d-color-storage',
+                data={}
+            )
         ])
 
 
@@ -285,34 +289,59 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             'residue_type': list(sparser.RESIDUE_TYPE_COLOR_DICT.keys()),
             'chain': list(sparser.CHAIN_COLOR_DICT.keys())
         }
-        
+
         options = [{'label': k.upper(), 'value': k}
                    for k in color_dict_keys[mol_style]]
 
         return options
-    
+
+
+    @app.callback(
+        Output('mol3d-color-storage', 'data'),
+        [Input('mol3d-submit-button', 'n_clicks'),
+         Input('dropdown-style-color', 'value')],
+        state=[State('mol3d-coloring-key', 'value'),
+               State('mol3d-coloring-value', 'value'),
+               State('mol3d-color-storage', 'data')]
+    )
+    def update_color_dict(_, color_style, color_key, color_value, current):
+
+        if color_style is None:
+            return {}
+
+        if color_key is None:
+            return current
+
+        # clear the dict if the color style has changed
+        if '{}_colors'.format(color_style) not in current.keys():
+            current = {'{}_colors'.format(color_style): {}}
+
+        # finally update the dict
+        current['{}_colors'.format(color_style)][color_key] = color_value
+
+        return current
+
     # Callback for molecule visualization based on uploaded PDB file
     @app.callback(
         Output('mol3d-biomolecule-viewer', 'children'),
         [Input('mol3d-upload-data', 'contents'),
          Input('dropdown-demostr', 'value'),
          Input('dropdown-styles', 'value'),
+         Input('dropdown-style-color', 'value'),
          Input('mol3d-submit-button', 'n_clicks'),
-         Input('dropdown-style-color', 'value')],
-        [State('mol3d-coloring-key', 'value'),
-         State('mol3d-coloring-value', 'value')],
-         
+         Input('mol3d-color-storage', 'modified_timestamp')],
+        [State('mol3d-color-storage', 'data')],
+
     )
     def use_upload(
             contents,
             demostr,
             mol_style,
-            _,
             color_style,
-            color_key,
-            color_value
+            nc, mt,
+            custom_colors
     ):
-        
+
         if demostr is not None:
             copy2(demostr, './str.pdb')
             fname = './str.pdb'
@@ -337,17 +366,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         with open(fmodel) as fm:
             mdata = json.load(fm)
 
-        custom_colors = {}
-        # Get the specified style, if any
-        if color_key is not None and color_value != '':
-            custom_colors = {'{}_colors'.format(color_style): {
-                color_key: color_value
-            }}
-        
-        
         # Create the cartoon style from the decoded contents
         datstyle = sparser.create_style(fname, mol_style, color_style, **custom_colors)
-        
+
         fstyle = files_data_style(datstyle)
         with open(fstyle) as sf:
             data_style = json.load(sf)
