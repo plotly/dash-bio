@@ -8,6 +8,7 @@ cython>=0.19
 dash==0.37.0
 dash-bio==0.0.8rc1
 dash-core-components==0.43.1
+dash-daq==0.0.4
 dash-html-components==0.13.5
 dash-renderer==0.18.0
 dash-table==3.4.0
