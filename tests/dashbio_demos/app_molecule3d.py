@@ -401,7 +401,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             }
             residue_summary += [html.P('{}: {}'.format(
                 key, str(residues[key]))) for key in residues]
-        print(html.Div(residue_summary))
+
         return html.Div(residue_summary)
 
     # Callback to change background color of molecule visualization container
