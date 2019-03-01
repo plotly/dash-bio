@@ -229,7 +229,7 @@ def layout():
                                     'margin-bottom': '10px'
                                 }
                             ),
-                            dcc.Textarea(id='mol3d-selection_output'),
+                            html.Div(id='mol3d-selection-output'),
                         ]),
 
                 ]),
@@ -384,24 +384,24 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     # Callback to print details of each selected atom of the biomolecule
 
     @app.callback(
-        Output("mol3d-selection_output", "value"),
+        Output("mol3d-selection-output", "children"),
         [Input("mol-3d", "selectedAtomIds"),
          Input("mol-3d", "modelData")]
     )
-    def selout(param, model):
-        res_summary = []
-        res_info = ""
-        residues = {}
-        for i in param:
-            res_info = model['atoms'][i]
+    def selout(selected_atom_ids, model_data):
+        residue_summary = []
+        for atom_id in selected_atom_ids:
+            res_info = model_data['atoms'][atom_id]
             residues = {
                 "residue": res_info['residue_name'],
                 "atom": res_info['name'],
                 "chain": res_info['chain'],
                 "xyz": res_info['positions']
             }
-            res_summary.append(residues)
-        return str(res_summary)
+            residue_summary += [html.P('{}: {}'.format(
+                key, str(residues[key]))) for key in residues]
+        print(html.Div(residue_summary))
+        return html.Div(residue_summary)
 
     # Callback to change background color of molecule visualization container
     @app.callback(
