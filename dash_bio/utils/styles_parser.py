@@ -95,6 +95,8 @@ RESIDUE_TYPE_COLOR_DICT = {
 
 
 def fill_in_defaults(input_dict, default_dict):
+    if input_dict is None:
+        input_dict = {}
     for key in default_dict:
         if key not in input_dict.keys():
             input_dict[key] = default_dict[key]
