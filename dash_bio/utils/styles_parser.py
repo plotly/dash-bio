@@ -179,26 +179,30 @@ def create_style(
         if line[0] == "ATOM":
             if mol_color == 'chain':
                 data[index] = {
-                    'color': chain_colors[chain]
-                    if chain in chain_colors else '#BEA06E',
+                    'color': chain_colors[
+                        chain
+                    ] if chain in chain_colors else '#BEA06E',
                     'visualization_type': style
                 }
             elif mol_color == 'residue':
                 data[index] = {
-                    'color': residue_colors[res_name.upper()]
-                    if res_name.upper() in residue_colors else '#BEA06E',
+                    'color': residue_colors[
+                        res_name.upper()
+                    ] if res_name.upper() in residue_colors else '#BEA06E',
                     'visualization_type': style
                 }
             elif mol_color == 'residue_type':
                 data[index] = {
-                    'color': residue_type_colors[RESIDUE_TYPES[res_name.upper()]]
-                    if res_name.upper() in RESIDUE_TYPES else '#BEA06E',
+                    'color': residue_type_colors[
+                        RESIDUE_TYPES[res_name.upper()]
+                    ] if res_name.upper() in RESIDUE_TYPES else '#BEA06E',
                     'visualization_type': style
                 }
             elif mol_color == 'atom':
                 data[index] = {
-                    'color': atom_colors[atm_type]
-                    if atm_type in atom_colors else '#330000',
+                    'color': atom_colors[
+                        atm_type
+                    ] if atm_type in atom_colors else '#330000',
                     'visualization_type': style
                 }
 
