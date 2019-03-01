@@ -79,9 +79,9 @@ tmp = {
 }
 
 RESIDUE_TYPES = {}
-for key in tmp:
-    for aa in tmp[key]:
-        RESIDUE_TYPES[aa] = key
+for aa_type in tmp:
+    for aa in tmp[aa_type]:
+        RESIDUE_TYPES[aa] = aa_type
 
 RESIDUE_TYPE_COLOR_DICT = {
     'hydrophobic': '#00ff80',
@@ -105,10 +105,10 @@ def create_style(
         pdb_path,
         style,
         mol_color,
-        residue_type_colors=RESIDUE_TYPE_COLOR_DICT,
-        atom_colors=ATOM_COLOR_DICT,
-        chain_colors=CHAIN_COLOR_DICT,
-        residue_colors=RESIDUE_COLOR_DICT
+        residue_type_colors=None,
+        atom_colors=None,
+        chain_colors=None,
+        residue_colors=None
 ):
     """Function to create the different styles (stick, cartoon, sphere)
     using the protein data bank (PDB) file as input. This function outputs
@@ -133,10 +133,14 @@ def create_style(
         lines = [l.strip() for l in infile if l.strip()]
 
     # Merge dictionaries if necessary
-    residue_type_colors = fill_in_defaults(residue_type_colors, RESIDUE_TYPE_COLOR_DICT)
-    atom_colors = fill_in_defaults(atom_colors, ATOM_COLOR_DICT)
-    chain_colors = fill_in_defaults(chain_colors, CHAIN_COLOR_DICT)
-    residue_colors = fill_in_defaults(residue_colors, RESIDUE_COLOR_DICT)
+    residue_type_colors = fill_in_defaults(residue_type_colors,
+                                           RESIDUE_TYPE_COLOR_DICT)
+    atom_colors = fill_in_defaults(atom_colors,
+                                   ATOM_COLOR_DICT)
+    chain_colors = fill_in_defaults(chain_colors,
+                                    CHAIN_COLOR_DICT)
+    residue_colors = fill_in_defaults(residue_colors,
+                                      RESIDUE_COLOR_DICT)
 
     # Initialize variables
     chains = []
