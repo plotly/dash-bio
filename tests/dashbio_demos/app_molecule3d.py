@@ -287,13 +287,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('mol3d-color-storage', 'data'),
-        [Input('mol3d-submit-button', 'n_clicks'),
+        [Input('mol3d-coloring-value', 'value'),
          Input('dropdown-style-color', 'value')],
         state=[State('mol3d-coloring-key', 'value'),
-               State('mol3d-coloring-value', 'value'),
                State('mol3d-color-storage', 'data')]
     )
-    def update_color_dict(_, color_style, color_key, color_value, current):
+    def update_color_dict(color_value, color_style, color_key, current):
 
         if color_style is None:
             return {}
@@ -401,6 +400,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             }
             residue_summary += [html.P('{}: {}'.format(
                 key, str(residues[key]))) for key in residues]
+            residue_summary.append(html.Hr())
 
         return html.Div(residue_summary)
 
