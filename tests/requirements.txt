@@ -20,7 +20,7 @@ pandas
 parmed
 percy==2.0.1
 plotly==3.5
-pylint==2.2.2
+pylint==2.3.0
 pytest-dash==2.0.0
 scipy>=1.1.0
 selenium==3.141.0
