@@ -11,7 +11,6 @@ import dash_bio
 from dash_bio.utils import pdb_parser as parser, styles_parser as sparser
 
 
-
 # running directly with Python
 if __name__ == '__main__':
     from utils.app_standalone import run_standalone_app
