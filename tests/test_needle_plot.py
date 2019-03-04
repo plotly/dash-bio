@@ -9,6 +9,7 @@ TEST_DATA = load_mutation_data('{}{}'.format(DATAPATH, DEMO_DATA[0]['mutData']))
 
 # FIXME by merging https://github.com/plotly/dash-bio/pull/201
 
+
 # Demo app tests
 @init_demo_app(APP_NAME)
 def test_click_app_link_from_gallery(dash_threaded):
