@@ -6,7 +6,7 @@ from dash_bio.component_factory._manhattan import SUGGESTIVE_LINE_LABEL, GENOMEW
 from tests.dashbio_demos.app_manhattan_plot import DATASET
 from .test_common_features import (
     init_demo_app,
-    template_test_python_component_prop
+    template_test_python_component_prop,
     PROP_TYPES
 )
 
