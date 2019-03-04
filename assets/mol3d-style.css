@@ -9,12 +9,14 @@
     height: 50px;
 }
 
-#mol3d-controls-container {
+#mol3d-control-tabs {
     overflow-y: auto;
     height:500px;
     width:32%;
 }
-
+#mol3d-controls-container {
+    display: none;
+}
 .mol3d-controls {
     border-width: 2px;
     border-left-style: solid;
