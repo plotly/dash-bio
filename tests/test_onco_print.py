@@ -1,11 +1,13 @@
 import os
 from .test_common_features import (
     init_demo_app,
-    template_test_component_single_prop,
+    template_test_python_component_prop,
     PROP_TYPES,
     COMPONENT_REACT_BASE
 )
 from tests.dashbio_demos.app_onco_print import DATASETS
+
+# FIXME by merging https://github.com/plotly/dash-bio/pull/194
 
 # define app name once
 APP_NAME = os.path.basename(__file__).replace(
@@ -83,7 +85,7 @@ def test_showlegend(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,

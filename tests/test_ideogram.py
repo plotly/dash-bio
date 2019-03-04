@@ -5,10 +5,12 @@ from pytest_dash.wait_for import (
 from .test_common_features import (
     init_demo_app,
     template_test_component,
-    template_test_component_single_prop,
+    template_test_python_component_prop,
     PROP_TYPES,
     COMPONENT_REACT_BASE
 )
+
+# FIXME by merging https://github.com/plotly/dash-bio/pull/201
 
 # define app name once
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
@@ -80,7 +82,7 @@ def test_chr_height(dash_threaded):
                 answer = PASS
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -106,7 +108,7 @@ def test_chr_margin(dash_threaded):
                 answer = PASS
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -132,7 +134,7 @@ def test_chr_width(dash_threaded):
                 answer = PASS
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,

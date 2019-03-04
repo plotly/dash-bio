@@ -1,12 +1,13 @@
 import os
 from tests.dashbio_demos.app_needle_plot import load_mutation_data, DATAPATH, DEMO_DATA
-from .test_common_features import init_demo_app, template_test_component_single_prop, \
+from .test_common_features import init_demo_app, template_test_python_component_prop, \
     PROP_TYPES, COMPONENT_REACT_BASE, generate_subprop_test
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
 
 TEST_DATA = load_mutation_data('{}{}'.format(DATAPATH, DEMO_DATA[0]['mutData']))
 
+# FIXME by merging https://github.com/plotly/dash-bio/pull/201
 
 # Demo app tests
 @init_demo_app(APP_NAME)
@@ -77,7 +78,7 @@ def test_rangeslider(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -100,7 +101,7 @@ def test_xlabel(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -122,7 +123,7 @@ def test_ylabel(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -145,7 +146,7 @@ def test_set_empty_needle_style(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
