@@ -25,7 +25,7 @@ DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "molecule3
 
 def header_colors():
     return {
-        'bg_color': '#000080',
+        'bg_color': '#841101',
         'font_color': 'white'
     }
 
@@ -48,12 +48,31 @@ def layout():
                         dcc.Tab(
                             label='What is Molecule 3D?',
                             value='what-is',
-                            children=html.H1('A molecule visualizer.')
+                            children=html.Div(className='mol3d-tab', children=[
+                                html.H1('A molecule visualizer.')
+                            ])
                         ),
                         dcc.Tab(
                             label='View options',
                             value='view-options',
-                            children=html.Div([
+                            children=html.Div(className='mol3d-tab', children=[
+                                # Textarea container to display the selected atoms
+                                html.Div(
+                                    title='view information about selected atoms '
+                                    'of biomolecule',
+                                    className="mol3d-controls",
+                                    id="mol3d-selection-display",
+                                    children=[
+                                        html.P(
+                                            "Selection",
+                                            style={
+                                                'font-weight': 'bold',
+                                                'margin-bottom': '10px'
+                                            }
+                                        ),
+                                        html.Div(id='mol3d-selection-output'),
+                                    ]
+                                ),
                                 # Dropdown to select chain representation
                                 # (sticks, cartoon, sphere)
                                 html.Div(
@@ -107,39 +126,11 @@ def layout():
                                             ],
                                             value='atom'
                                         ),
-                                    ],
-                                ),
-                                # Dropdown menu for selecting the background color
-                                html.Div(
-                                    title='select background color for molecule viewer',
-                                    className="mol3d-controls",
-                                    id="mol3d-control-bgcolor",
-                                    children=[
-                                        daq.ColorPicker(
-                                            id='mol3d-input-bgcolor',
-                                            label='Background Color'
-                                        )
-                                    ],
-                                ),
-                                # Slider to choose the background opacity
-                                html.Div(
-                                    title='change background opacity of molecule viewer',
-                                    className="mol3d-controls",
-                                    children=[
-                                        html.P(
-                                            'Background opacity',
-                                            style={
-                                                'font-weight': 'bold',
-                                                'margin-bottom': '10px'
-                                            }
+                                        dcc.Dropdown(
+                                            id='mol3d-coloring-key',
+                                            options=[]
                                         ),
-                                        dcc.Slider(
-                                            id='mol3d-slider-opacity',
-                                            min=0,
-                                            max=1.0,
-                                            step=0.1,
-                                            value=1,
-                                        ),
+
                                     ],
                                 ),
                                 html.Div(
@@ -153,43 +144,19 @@ def layout():
                                                 'margin-bottom': '10px'
                                             }
                                         ),
-                                        dcc.Dropdown(
-                                            id='mol3d-coloring-key',
-                                            options=[]
-                                        ),
                                         daq.ColorPicker(
-                                            id='mol3d-coloring-value'
-                                        ),
-                                        html.Button(
-                                            id='mol3d-submit-button',
-                                            children='Submit'
+                                            id='mol3d-coloring-value',
+                                            size=340
                                         ),
                                     ]
                                 ),
-                                # Textarea container to display the selected atoms
-                                html.Div(
-                                    title='view information about selected atoms '
-                                    'of biomolecule',
-                                    className="mol3d-controls",
-                                    id="mol3d-selection-display",
-                                    children=[
-                                        html.P(
-                                            "Selection",
-                                            style={
-                                                'font-weight': 'bold',
-                                                'margin-bottom': '10px'
-                                            }
-                                        ),
-                                        html.Div(id='mol3d-selection-output'),
-                                    ]),
-
                             ]),
                         ),
 
                         dcc.Tab(
-                            label='Upload/download data',
+                            label='Datasets',
                             value='upload-download',
-                            children=html.Div([
+                            children=html.Div(className='mol3d-tab', children=[
                                 html.Div(
                                     title='download a sample data file to view',
                                     children=[
@@ -339,7 +306,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
          Input('dropdown-demostr', 'value'),
          Input('dropdown-styles', 'value'),
          Input('dropdown-style-color', 'value'),
-         Input('mol3d-submit-button', 'n_clicks'),
          Input('mol3d-color-storage', 'modified_timestamp')],
         [State('mol3d-color-storage', 'data')],
 
@@ -349,7 +315,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             demostr,
             mol_style,
             color_style,
-            nc, mt,
+            mt,
             custom_colors
     ):
 
@@ -399,8 +365,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             modelData=mdata,
             styles=data_style,
             selectedAtomIds=[],
-            backgroundColor='#ffffff',
-            backgroundOpacity='1',
+            backgroundOpacity='0',
             atomLabelsShown=False,
         )
     # Callback to print details of each selected atom of the biomolecule
@@ -422,27 +387,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             }
             residue_summary += [html.P('{}: {}'.format(
                 key, str(residues[key]))) for key in residues]
-            residue_summary.append(html.Hr())
+            residue_summary.append(html.Br())
+        if len(residue_summary) == 0:
+            residue_summary.append("No atoms have been selected. Click \
+            on an atom to select it.")
 
         return html.Div(residue_summary)
-
-    # Callback to change background color of molecule visualization container
-    @app.callback(
-        Output('mol-3d', 'backgroundColor'),
-        [Input('mol3d-input-bgcolor', 'value')]
-    )
-    def change_bgcolor(color):
-        if color is None:
-            color = {'hex': '#ffffff'}
-        return color['hex']
-
-    # Callback to change background opacity of molecule visualization container
-    @app.callback(
-        Output('mol-3d', 'backgroundOpacity'),
-        [Input('mol3d-slider-opacity', 'value')]
-    )
-    def change_bgopacity(opacity):
-        return opacity
 
 
 # only declare app/server if the file is being run directly
@@ -451,5 +401,4 @@ if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
     server = app.server
 
 if __name__ == '__main__':
-    app.config['suppress_callback_exceptions']=True
     app.run_server(debug=True, port=8050)
