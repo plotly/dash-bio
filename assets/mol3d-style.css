@@ -87,12 +87,12 @@
 #mol3d-upload-container {
     height: 30px;
     line-height: 40px;
-    border-width: 1px;
-    border-style: dashed;
+    border: dashed 1px #746A69;
     border-radius: 5px;
     text-align: center;
     left: 5%;
     width: 95%;
+    margin-top: 10px;
 }
 
 #mol3d-download-sample-data {
@@ -106,9 +106,7 @@
 }
 
 #mol3d-demo-dropdown {
-    border-top-style: solid;
-    border-color: grey;
-    border-width: 2px;
+    margin-top: 20px;
 }
 
 #mol3d-input-bgcolor {
