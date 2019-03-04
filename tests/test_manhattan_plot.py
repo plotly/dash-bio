@@ -4,7 +4,11 @@ import dash_core_components as dcc
 from dash_bio import ManhattanPlot
 from dash_bio.component_factory._manhattan import SUGGESTIVE_LINE_LABEL, GENOMEWIDE_LINE_LABEL
 from tests.dashbio_demos.app_manhattan_plot import DATASET
-from .test_common_features import init_demo_app, template_test_component_single_prop, PROP_TYPES
+from .test_common_features import (
+    init_demo_app,
+    template_test_python_component_prop
+    PROP_TYPES
+)
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
 
@@ -72,7 +76,7 @@ def test_xlabel(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -92,7 +96,7 @@ def test_ylabel(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -112,7 +116,7 @@ def test_title(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -134,7 +138,7 @@ def test_suggestive_line_input_value(dash_threaded):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -157,7 +161,7 @@ def test_genomewide_line_input_value(dash_threaded):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -180,7 +184,7 @@ def test_suggestive_line_input_color(dash_threaded):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -202,7 +206,7 @@ def test_genomewide_line_input_color(dash_threaded):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -224,7 +228,7 @@ def test_suggestive_line_input_width(dash_threaded):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -247,7 +251,7 @@ def test_genomewide_line_input_width(dash_threaded):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
