@@ -7,7 +7,7 @@ APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').re
 
 TEST_DATA = load_mutation_data('{}{}'.format(DATAPATH, DEMO_DATA[0]['mutData']))
 
-# FIXME by merging https://github.com/plotly/dash-bio/pull/201
+# TODO by merging https://github.com/plotly/dash-bio/pull/201
 
 
 # Demo app tests

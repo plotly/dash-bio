@@ -10,7 +10,7 @@ from .test_common_features import (
     COMPONENT_REACT_BASE
 )
 
-# FIXME by merging https://github.com/plotly/dash-bio/pull/201
+# TODO by merging https://github.com/plotly/dash-bio/pull/201
 
 # define app name once
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')

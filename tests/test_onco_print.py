@@ -7,7 +7,7 @@ from .test_common_features import (
 )
 from tests.dashbio_demos.app_onco_print import DATASETS
 
-# FIXME by merging https://github.com/plotly/dash-bio/pull/194
+# TODO by merging https://github.com/plotly/dash-bio/pull/194
 
 # define app name once
 APP_NAME = os.path.basename(__file__).replace(
