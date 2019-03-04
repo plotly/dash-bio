@@ -214,6 +214,7 @@ def test_ploidy(dash_threaded):
 
     driver = dash_threaded.driver
 
+    driver.implicitly_wait(1)
     # assert 22 chromosomes + X and Y chromosomes
     num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 24
@@ -222,6 +223,7 @@ def test_ploidy(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    driver.implicitly_wait(1)
     # assert doubling of the 22 chromosomes + X and Y chromosomes
     num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 46
@@ -258,6 +260,7 @@ def test_chromosomes(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    driver.implicitly_wait(1)
     # assert the set of chromosomes contains 3 chromosomes
     num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 3
@@ -294,6 +297,7 @@ def test_chromosomes_wrong_input(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    driver.implicitly_wait(1)
     # assert the set of chromosomes contains 2 chromosomes
     num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
     assert num_chromosoms == 2
@@ -422,6 +426,7 @@ def test_show_chromosome_labels(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    driver.implicitly_wait(1)
     # assert the presence of chromosomes' labels
     labels = driver.find_elements_by_class_name('chrLabel')
     assert len(labels) != 0
