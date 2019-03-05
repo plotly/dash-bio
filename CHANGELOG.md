@@ -5,6 +5,10 @@
 ### Removed
 * Removed mentions of Dash events in OncoPrint component.
 
+### Added
+* Added ability to define custom colours in styles parser for Molecule3D. 
+
+
 ## [0.0.7] - 2019-26-02
 
 ### Changed 
