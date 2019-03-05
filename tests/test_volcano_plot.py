@@ -8,7 +8,11 @@ from dash_bio import VolcanoPlot
 from dash_bio.component_factory._volcano import GENOMEWIDE_LINE_LABEL, \
     EFFECT_SIZE_LINE_MIN_LABEL, EFFECT_SIZE_LINE_MAX_LABEL
 from tests.dashbio_demos.app_volcano_plot import DATASETS
-from .test_common_features import init_demo_app, template_test_component_single_prop, PROP_TYPES
+from .test_common_features import (
+    init_demo_app,
+    template_test_python_component_prop,
+    PROP_TYPES
+)
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
 
@@ -158,7 +162,7 @@ def test_xlabel(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -178,7 +182,7 @@ def test_ylabel(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -198,7 +202,7 @@ def test_title(dash_threaded):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -227,7 +231,7 @@ def test_effect_size_line_input_value(dash_threaded):
             answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -250,7 +254,7 @@ def test_genomewide_line_input_value(dash_threaded):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -279,7 +283,7 @@ def test_effect_size_line_input_color(dash_threaded):
             answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -301,7 +305,7 @@ def test_genomewide_line_input_color(dash_threaded):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -328,7 +332,7 @@ def test_effect_size_line_input_width(dash_threaded):
             answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -351,7 +355,7 @@ def test_genomewide_line_input_width(dash_threaded):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
