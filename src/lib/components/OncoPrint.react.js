@@ -35,7 +35,7 @@ export default class OncoPrint extends Component {
                 <PreOncoPrint
                     onChange={this.handleChange}
                     {...omit(
-                        ['fireEvent', 'dashEvent', 'setProps'],
+                        ['setProps'],
                         this.props
                     )}
                 />
