@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.0.8]
+
+### Removed
+* Removed mentions of Dash events in OncoPrint component.
+
 ## [0.0.7] - 2019-26-02
 
 ### Changed 
