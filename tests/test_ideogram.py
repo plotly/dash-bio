@@ -48,7 +48,6 @@ def ideogram_test_props_callback(
         after casting it to the correct type.
     """
     answer = None
-    print("IN :", locals())
 
     if prop_type == 'dict':
         answer = {}
@@ -263,10 +262,7 @@ def test_chromosomes(dash_threaded):
     btn.click()
 
     # assert the set of chromosomes contains 3 chromosomes
-    num_chromosoms = len(wait_for_elements_by_css_selector(
-        driver,
-        '.chromosome'
-    ))
+    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
     assert num_chromosoms == 3
 
 
@@ -462,7 +458,7 @@ def test_sex(dash_threaded):
     driver = dash_threaded.driver
 
     # assert the presence of the chromosome Y
-    chromosomes = driver.find_elements_by_class_name('chromosome')
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
     num_chromosoms = len(chromosomes)
     assert num_chromosoms == 24
 
@@ -477,7 +473,7 @@ def test_sex(dash_threaded):
     btn.click()
 
     # assert the absence of the chromosome Y
-    chromosomes = driver.find_elements_by_class_name('chromosome')
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
     num_chromosoms = len(chromosomes)
     assert num_chromosoms == 23
 
@@ -578,78 +574,8 @@ def test_homology(dash_threaded):
     btn.click()
 
     # assert the presence of homology region
-    regions = driver.find_elements_by_class_name('syntenicRegion')
+    regions = wait_for_elements_by_css_selector(driver, '.syntenicRegion')
     assert len(regions) != 0
-
-
-def test_full_chromosome_labels_init_without(dash_threaded):
-    """Test the initialization of the component without full chromosome label"""
-
-    prop_type = 'bool'
-
-    def assert_callback(prop_value, nclicks, input_value):
-        answer = ''
-        if nclicks is not None:
-            answer = FAIL
-            if PROP_TYPES[prop_type](input_value) == prop_value:
-                answer = PASS
-        return answer
-
-    template_test_component(
-        dash_threaded,
-        APP_NAME,
-        assert_callback,
-        ideogram_test_props_callback,
-        'fullChromosomeLabels',
-        'False',
-        prop_type=prop_type,
-        component_base=COMPONENT_REACT_BASE,
-        chromosomes=['1'],
-        fullChromosomeLabels=False,
-        **BASIC_PROPS
-    )
-
-    driver = dash_threaded.driver
-
-    # assert the absence of a full label
-    regions = driver.find_elements_by_css_selector('tspan')
-    print(len(regions))
-    assert len(regions) == 1
-
-
-def test_full_chromosome_labels_init_with(dash_threaded):
-    """Test the initialization of the component with full chromosome label"""
-
-    prop_type = 'bool'
-
-    def assert_callback(prop_value, nclicks, input_value):
-        answer = ''
-        if nclicks is not None:
-            answer = FAIL
-            if PROP_TYPES[prop_type](input_value) == prop_value:
-                answer = PASS
-        return answer
-
-    template_test_component(
-        dash_threaded,
-        APP_NAME,
-        assert_callback,
-        ideogram_test_props_callback,
-        'fullChromosomeLabels',
-        'True',
-        prop_type=prop_type,
-        component_base=COMPONENT_REACT_BASE,
-        chromosomes=['1'],
-        fullChromosomeLabels=True,
-        **BASIC_PROPS
-    )
-
-    driver = dash_threaded.driver
-
-    # assert the presence of a full label
-    regions = driver.find_elements_by_css_selector('tspan')
-    print(len(regions))
-    assert len(regions) == 2
 
 
 def test_full_chromosome_labels(dash_threaded):
@@ -682,8 +608,7 @@ def test_full_chromosome_labels(dash_threaded):
     driver = dash_threaded.driver
 
     # assert the absence of a full label
-    regions = driver.find_elements_by_css_selector('tspan')
-    print(len(regions))
+    regions = wait_for_elements_by_css_selector(driver, 'tspan')
     assert len(regions) == 1
 
     # trigger a change of the component prop
@@ -691,6 +616,5 @@ def test_full_chromosome_labels(dash_threaded):
     btn.click()
 
     # assert the presence of a full label
-    regions = driver.find_elements_by_css_selector('tspan')
-    print(len(regions))
+    regions = wait_for_elements_by_css_selector(driver, 'tspan')
     assert len(regions) == 2
