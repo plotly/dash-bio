@@ -1,76 +1,108 @@
 #clustergram-body {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    margin: 0px;
-    min-height: 100vh;
-    width: 100%;
-    font-family: Helvetica, sans-serif;
-    background:#000000;
-    padding: 0px;
-    font-size:10pt;
+    font-family: 'Open Sans Light', sans-serif;
+    padding: 5px;
+    background-color: #191A1C;
     color: #dddddd;
+    height: calc(100vh - 65px);
+    overflow: auto;
 }
 
-#clustergram-body > ::-webkit-scrollbar { 
+#clustergram-body ::-webkit-scrollbar {
+    width: 4px;
+    height: 0px;
+    margin-right: 500px;
+    background-color: #191A1C;
+}
+#clustergram-body ::-webkit-scrollbar-thumb {
     width: 2px;
-    background-color: #3e0f2e;
-    margin-right:5px;
-}
-
-#clustergram-body > ::-webkit-scrollbar-thumb {
-    background: #99003d;
-    margin-right:5px;
+    background-color: #E4E4E4;
+    border-radius:15px;
+    padding-right:5px;
 }
 
 #clustergram-wrapper::-webkit-scrollbar {
     display: none;
 }
 
-#clustergram-options {
-    width: 200px;
-    min-width:75px;
-    float:left;
-    display: inline-block !important;
-    left: 20px; 
-    border: solid 1px #3e0f2e;
-    padding: 20px;
-    margin-top:50px;
-    margin-left:20px;
-    margin-bottom:50px;
-    height: 500px;
-    overflow-y:scroll;
-    font-size: 10pt !important;
-    border-radius: 5px;
+#clustergram-control-tabs {
+    width: 400px;
+    height: 550px;
+    margin: 50px;
+    margin-right: 0px;
+    background-color: #232323;
+    font-size: 10pt;
+    float: left;
 }
+
+#clustergram-control-tabs .tab-content {
+    padding: 20px;
+}
+
+.clustergram-tab {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+#clustergram-control-tabs .Select-control {
+    border: solid 1px #E4E4E4;
+    background-color: #232323 !important;
+}
+#clustergram-control-tabs .Select, #clustergram-control-tabs .Select-control, #clustergram-control-tabs input, #clustergram-control-tabs .Select-menu-outer, #clustergram-control-tabs .Select-value-label {
+    background-color: #232323 !important;
+    color: #E4E4E4;
+}
+#clustergram-control-tabs .Select-value-icon {
+    background-color: #232323;
+}
+#clustergram-control-tabs .Select-value {
+    border-color: #727272;
+}
+#clustergram-control-tabs .tab {
+    background-color: #232323;
+    color: #E4E4E4;
+    font-weight: 200;
+    font-size: 9pt;
+    border: solid 1px #444444;
+    border-top: none;
+    height: 50px;
+    padding: 15px;
+}
+#clustergram-control-tabs .tab--selected {
+    border-top: solid 2px #FFBF00;
+    color: #FFBF00;
+}
+
+#clustergram-body .Select-value-icon {
+    color: #FFBF00;
+    border-right: 1px solid #AAAAAA;
+}
+
+#clustergram-body .rc-slider-track {
+    background-color: #FFBF00
+}
+
+#clustergram-body .rc-slider-handle {
+    background-color: #232323;
+    border: solid 2px #FFBF00
+}
+
 
 #clustergram-wrapper {
     height: 600px;
     width: 900px;
-    display: inline-block !important; 
+    display: inline-block !important;
     float:right;
     padding: 0px;
     overflow-x: scroll;
     margin: 0px;
 }
-#clustergram-body .Select, #clustergram-body .Select-control, #clustergram-body input, #clustergram-body .Select-menu-outer, #clustergram-body .Select-value-label {
-    background-color: black !important;
-    color: white !important;
-    border-color: #3e0f2e;
-}
+
 #clustergram-file-upload-container {
-    width: 80% !important;
-    margin-left: 5%; 
-    margin-top: 20px; 
-}
-#clustergram-body .Select-control {
-    width: 100%;
+    width: 95% !important;
+    margin-top: 20px;
 }
 
-#clustergram-body .Select, #clustergram-body input {
-    width: 100%;
-    margin:auto;
-}
 #clustergram-body #submit-group-marker, #clustergram-body #remove-all-group-markers {
     float: left;
     font-size:8pt !important;
@@ -78,8 +110,8 @@
     margin-top: 10px;
     color: white;
     font-weight: 100;
-    border-color: #99003d; 
-    text-align: center; 
+    border-color: #FFBF00;
+    text-align: center;
     width:48% !important;
     transition-duration: 500ms;
 }
@@ -107,55 +139,41 @@
 }
 #clustergram-body input {
     float:left;
-    width: 100%; 
-    margin: 0px; 
-    margin-top:5px !important; 
+    width: 100%;
+    margin: 0px;
+    margin-top:5px !important;
 }
 #clustergram-info {
-    margin-top: 50px;
-    margin-left: 20px;
-    margin-bottom:50px;
-    display: inline-block;
-    float: left;
-    width: calc(100% - 500px);
-    border-radius: 5px;
-    padding: 20px; 
-    border: 1px solid #3e0f2e;
+    font-weight: 100;
+    font-size: 9pt;
+    margin-top: 20px;
+}
+
+#clustergram-datasets {
+    padding: 0px;
+    margin: 10px;
+    width: calc(100% - 20px) !important;
 }
 
 #clustergram-file-upload-container{
-    border: dotted 1px #99003d; 
-    width: 80%;
-    border-radius: 5px;
+    border: dotted 1px #FFBF00;
+    width: calc(100% - 40px) !important;
     padding: 10px;
+    margin: 10px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    font-size: 9pt;
+    font-weight: 100;
+    text-align: center;
+    border-radius: 5px;
 }
 
 #clustergram-body #file-upload-name {
     display: block;
-    width: 80%;
-    margin-left: 10%; 
-    margin-top: 10px;
-    font-size: 10px; 
+    margin-left: 10px;
 }
 .clustergram-option-name {
-    text-align: center;
-    font-size: 14pt;
+    font-size: 12pt;
+    margin-bottom: 20px;
+    font-weight: 100 !important;
 }
-#clustergram-body .Select-value {
-    border-color: #320f2e;
-}
-
-#clustergram-body .Select-value-icon {
-    color: #99003d;
-    border-right: 1px solid #320f2e; 
-}
-
-#clustergram-body .rc-slider-track {
-    background-color: #99003d;
-}
-
-#clustergram-body .rc-slider-handle {
-    border: solid 2px #320f2e;
-    background-color: #99003d;
-}
-

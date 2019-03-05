@@ -1,0 +1,89 @@
+#mol3d-body {
+    font-family: sans-serif;
+    padding: 5px
+}
+
+.mol3d-tab {
+    
+}
+
+#mol3d-controls-container {
+    display: none;
+}
+.mol3d-controls {
+    border-width: 2px;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-color: grey;
+    padding: 8px;
+    top: 2px;
+    right: 5px;
+    height: auto;
+}
+#mol3d-body .chrome-picker {
+    border: none !important;
+}
+#mol3d-upload-container {
+    height: 30px;
+    line-height: 40px;
+    border-width: 1px;
+    border-style: dashed;
+    border-radius: 5px;
+    text-align: center;
+    left: 5%;
+    width: 95%;
+}
+
+#mol3d-download-sample-data {
+    border-width: 1px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    bottom: 10px;
+    width: 99%;
+}
+
+#mol3d-demo-dropdown {
+    border-top-style: solid;
+    border-color: grey;
+    border-width: 2px;
+}
+
+#mol3d-control-bgcolor {
+    border-color: grey;
+    border-width: 2px;
+}
+#mol3d-selection-display {
+    border-bottom-style: solid;
+    border-color: grey;
+    border-width: 2px;
+}
+
+#mol3d-input-bgcolor {
+    width:100%;
+}
+
+#mol3d-slider-opacity {
+    width: 90%;
+}
+
+#mol3d-biomolecule-viewer {
+    position: absolute;
+    width: 70%;
+    top:1%;
+    bottom:10%;
+    left: 30%;
+    right:2px;
+}
+
+#mol3d-custom-molcolor {
+    width: 69%;
+}
+
+#mol3d-selection_output {
+    width: 100%;
+    height: 30%;
+    left: 50%;
+    top: 30%;
+}

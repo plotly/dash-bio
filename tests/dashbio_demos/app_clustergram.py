@@ -106,7 +106,7 @@ datasets = {
 
 def header_colors():
     return {
-        'bg_color': '#3e0f2e',
+        'bg_color': '#232323',
         'font_color': 'white'
     }
 
@@ -124,249 +124,274 @@ def layout():
             id='clustergram-wrapper'
         ),
 
-        html.Div(
-            id='clustergram-options', children=[
-
-                html.Div(
-                    'View preloaded dataset:',
-                    title='Choose from some pre-loaded datasets ' +
-                    'to view them on the heatmap.',
-                    className='clustergram-option-name'
+        html.Div(id='clustergram-control-tabs', children=[
+            dcc.Tabs(id='clustergram-tabs', children=[
+                dcc.Tab(
+                    label='About',
+                    value='what-is',
+                    children=html.Div(className='clustergram-tab', children=[
+                        html.P('Gene expression data and heatmap with dendrogram.')
+                    ])
                 ),
+                dcc.Tab(
+                    label='Data',
+                    value='datasets',
+                    children=html.Div(className='clustergram-tab', children=[
+                        html.Div(
+                            id='clustergram-info'
+                        ),
 
-                html.Br(),
+                        html.Hr(),
 
-                dcc.Dropdown(
-                    id='clustergram-datasets',
-                    options=[
-                        {'label': 'Anderson\'s Iris Data',
-                         'value': 'iris'},
-                        {'label': 'mtcars',
-                         'value': 'mtcars'},
-                        {'label': 'Arabidopsis roots, leaves, \
-                        flowers and siliques',
-                         'value': 'transcription'},
-                    ],
-                    value='iris'
-                ),
+                        html.Div(
+                            'Preloaded dataset',
+                            title='Choose from some pre-loaded datasets ' +
+                            'to view them on the heatmap.',
+                            className='clustergram-option-name'
+                        ),
 
-                html.Div(
-                    id='clustergram-file-upload-container',
-                    title='Upload your own dataset here.',
-                    children=[
-                        dcc.Upload(
-                            id='file-upload',
-                            children=html.Div([
-                                "Drag and drop .tsv files, or click \
-                                to select files."
-                            ])
-                        )
-                    ],
-                ),
-                html.Div(
-                    id='file-upload-name'
-                ),
 
-                html.Hr(),
+                        dcc.Dropdown(
+                            id='clustergram-datasets',
+                            options=[
+                                {'label': 'Anderson\'s Iris Data',
+                                 'value': 'iris'},
+                                {'label': 'mtcars',
+                                 'value': 'mtcars'},
+                                {'label': 'Arabidopsis roots, leaves, \
+                                flowers and siliques',
+                                 'value': 'transcription'},
+                            ],
+                            value='iris'
+                        ),
 
-                html.Div(
-                    'Name of index column in uploaded dataset',
-                    title='If a dataset was uploaded, enter the name of' +
-                    'the column to use as index.',
-                    className='clustergram-option-name'
-                ),
-                html.Br(),
-                dcc.Input(
-                    id='row-labels-source',
-                    type='text',
-                    value='Gene Name'
-                ),
-                html.Hr(),
-                html.Div(
-                    'Cluster by:',
-                    title='Calculate dendrogram for row data, column '
-                    'data, or both.',
-                    className='clustergram-option-name'
-                ),
-                html.Br(),
-                dcc.Dropdown(
-                    id='cluster-checklist',
-                    options=[
-                        {'label': 'Row', 'value': 'row'},
-                        {'label': 'Column', 'value': 'col'}
-                    ],
-                    value=['row', 'col'],
-                    multi=True
-                ),
+                        html.Br(),
 
-                html.Br(),
-                html.Div(
-                    'Hide labels:',
-                    title='Hide labels for the row and/or column ' +
-                    'dendrograms.',
-                    className='clustergram-option-name'
-                ),
-                dcc.Dropdown(
-                    id='hide-labels',
-                    options=[
-                        {'label': 'Row', 'value': 'row'},
-                        {'label': 'Column', 'value': 'col'}
-                    ],
-                    multi=True,
-                    value=['row']
-                ),
+                        html.Div(
+                            'Upload dataset',
+                            title='Upload your own dataset below.',
+                            className='clustergram-option-name'
+                        ),
 
-                html.Hr(),
+                        html.Div(
+                            id='file-upload-name'
+                        ),
 
-                html.Div(
-                    'Change color threshold',
-                    title='Change the threshold level that is used to ' +
-                    'determine separate clusters.',
-                    className='clustergram-option-name'
-                ),
+                        html.Div(
+                            id='clustergram-file-upload-container',
+                            title='Upload your own dataset here.',
+                            children=[
+                                dcc.Upload(
+                                    id='file-upload',
+                                    children=html.Div([
+                                        "Drag and drop .tsv files, or click \
+                                        to select files."
+                                    ])
+                                )
+                            ],
+                        ),
 
-                html.Br(),
-
-                html.Div(
-                    id='threshold-wrapper',
-                    title='Annotate your heatmap by labelling clusters; ' +
-                    'hover over the clusters on the dendrogram to get their ' +
-                    'index.',
-                    children=[
-                        'Column: ',
-                        dcc.Slider(
-                            id='column-threshold',
-                            min=0,
-                            max=20,
-                            step=0.5,
-                            value=10
+                        html.Div(
+                            'Name of index column in uploaded dataset',
+                            title='If a dataset was uploaded, enter the name of' +
+                            'the column to use as index.',
+                            className='clustergram-option-name'
                         ),
                         html.Br(),
-                        'Row: ',
-                        dcc.Slider(
-                            id='row-threshold',
-                            min=0,
-                            max=20,
-                            step=0.5,
-                            value=10
-                        )
-                    ]
+                        dcc.Input(
+                            id='row-labels-source',
+                            type='text',
+                            value='Gene Name'
+                        ),
+
+                    ])
                 ),
-
-                html.Hr(),
-
-                html.Div(
-                    'Add or remove all group markers:',
-                    className='clustergram-option-name'
-                ),
-
-                html.Br(),
-
-                html.Div(
-                    id='add-group-markers',
-                    title='Annotate your heatmap by labelling clusters; ' +
-                    'hover over the clusters on the dendrogram to get their ' +
-                    'index.',
-                    children=[
+                dcc.Tab(
+                    label='Graph',
+                    value='display-options',
+                    children=[html.Div(className='clustergram-tab', children=[
+                        html.Div(
+                            'Cluster by:',
+                            title='Calculate dendrogram for row data, column '
+                            'data, or both.',
+                            className='clustergram-option-name'
+                        ),
+                        html.Br(),
                         dcc.Dropdown(
-                            id='row-or-col-group',
+                            id='cluster-checklist',
                             options=[
-                                {'label': 'Row group', 'value': 'row'},
-                                {'label': 'Column group', 'value': 'col'}
+                                {'label': 'Row', 'value': 'row'},
+                                {'label': 'Column', 'value': 'col'}
+                            ],
+                            value=['row', 'col'],
+                            multi=True
+                        ),
+
+                        html.Br(),
+                        html.Div(
+                            'Hide labels:',
+                            title='Hide labels for the row and/or column ' +
+                            'dendrograms.',
+                            className='clustergram-option-name'
+                        ),
+                        dcc.Dropdown(
+                            id='hide-labels',
+                            options=[
+                                {'label': 'Row', 'value': 'row'},
+                                {'label': 'Column', 'value': 'col'}
+                            ],
+                            multi=True,
+                            value=['row']
+                        ),
+
+                        html.Hr(),
+
+                        html.Div(
+                            'Change color threshold',
+                            title='Change the threshold level that is used to ' +
+                            'determine separate clusters.',
+                            className='clustergram-option-name'
+                        ),
+
+                        html.Br(),
+
+                        html.Div(
+                            id='threshold-wrapper',
+                            title='Annotate your heatmap by labelling clusters; ' +
+                            'hover over the clusters on the dendrogram to get their ' +
+                            'index.',
+                            children=[
+                                'Column: ',
+                                dcc.Slider(
+                                    id='column-threshold',
+                                    min=0,
+                                    max=20,
+                                    step=0.5,
+                                    value=10
+                                ),
+                                html.Br(),
+                                'Row: ',
+                                dcc.Slider(
+                                    id='row-threshold',
+                                    min=0,
+                                    max=20,
+                                    step=0.5,
+                                    value=10
+                                )
                             ]
                         ),
-                        dcc.Input(
-                            id='group-number',
-                            placeholder='group number',
-                            type='number',
-                            value=''
+
+                        html.Hr(),
+
+                        html.Div(
+                            'Add or remove all group markers:',
+                            className='clustergram-option-name'
                         ),
-                        dcc.Input(
-                            id='color',
-                            placeholder='color',
-                            type='text',
-                            value=''
+
+                        html.Br(),
+
+                        html.Div(
+                            id='add-group-markers',
+                            title='Annotate your heatmap by labelling clusters; ' +
+                            'hover over the clusters on the dendrogram to get their ' +
+                            'index.',
+                            children=[
+                                dcc.Dropdown(
+                                    id='row-or-col-group',
+                                    options=[
+                                        {'label': 'Row group', 'value': 'row'},
+                                        {'label': 'Column group', 'value': 'col'}
+                                    ]
+                                ),
+                                dcc.Input(
+                                    id='group-number',
+                                    placeholder='group number',
+                                    type='number',
+                                    value=''
+                                ),
+                                dcc.Input(
+                                    id='color',
+                                    placeholder='color',
+                                    type='text',
+                                    value=''
+                                ),
+                                dcc.Input(
+                                    id='annotation',
+                                    placeholder='annotation',
+                                    type='text',
+                                    value=''
+                                ),
+                                html.Button(
+                                    id='submit-group-marker',
+                                    children='submit',
+                                    n_clicks=0,
+                                    n_clicks_timestamp=0
+                                )
+                            ]
                         ),
-                        dcc.Input(
-                            id='annotation',
-                            placeholder='annotation',
-                            type='text',
-                            value=''
-                        ),
+
                         html.Button(
-                            id='submit-group-marker',
-                            children='submit',
+                            id='remove-all-group-markers',
+                            children=[
+                                "Remove"
+                            ],
                             n_clicks=0,
                             n_clicks_timestamp=0
-                        )
-                    ]
-                ),
+                        ),
 
-                html.Button(
-                    id='remove-all-group-markers',
-                    children=[
-                        "Remove"
-                    ],
-                    n_clicks=0,
-                    n_clicks_timestamp=0
-                ),
+                        html.Hr(),
 
-                html.Hr(),
+                        html.Div(
+                            'Rows to display',
+                            title='Select a subset of rows from the uploaded ' +
+                            'or preloaded dataset to compute clustering on.',
+                            className='clustergram-option-name'
+                        ),
 
-                html.Div(
-                    'Rows to display',
-                    title='Select a subset of rows from the uploaded ' +
-                    'or preloaded dataset to compute clustering on.',
-                    className='clustergram-option-name'
-                ),
+                        html.Br(),
 
-                html.Br(),
+                        dcc.Dropdown(
+                            id='selected-rows',
+                            multi=True,
+                            value=[]
+                        ),
 
-                dcc.Dropdown(
-                    id='selected-rows',
-                    multi=True,
-                    value=[]
-                ),
+                        html.Br(),
 
-                html.Br(),
+                        html.Div(
+                            'Columns to display',
+                            title='Select a subset of columns from the uploaded ' +
+                            'or preloaded dataset to compute clustering on.',
+                            className='clustergram-option-name'
+                        ),
+                        html.Br(),
+                        dcc.Dropdown(
+                            id='selected-columns',
+                            multi=True,
+                            value=[]
+                        ),
 
-                html.Div(
-                    'Columns to display',
-                    title='Select a subset of columns from the uploaded ' +
-                    'or preloaded dataset to compute clustering on.',
-                    className='clustergram-option-name'
-                ),
-                html.Br(),
-                dcc.Dropdown(
-                    id='selected-columns',
-                    multi=True,
-                    value=[]
-                ),
+                    ])]
+                )
+            ]),
 
 
-            ]
-        ),
+            dcc.Store(
+                id='data-meta-storage'
+            ),
 
-        html.Div(
-            id='clustergram-info'
-        ),
+            dcc.Store(
+                id='fig-options-storage'
+            ),
 
-        dcc.Store(
-            id='data-meta-storage'
-        ),
+            dcc.Store(
+                id='computed-traces'
+            ),
 
-        dcc.Store(
-            id='fig-options-storage'
-        ),
-
-        dcc.Store(
-            id='computed-traces'
-        ),
-
-        dcc.Store(
-            id='group-markers'
-        ),
-
+            dcc.Store(
+                id='group-markers'
+            ),
+        ])
     ])
 
 
@@ -563,7 +588,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def update_description_info(_, data):
         if data is None:
             return []
-        infoContent = [html.H3('Information')]
+        infoContent = [html.H4('Dataset information')]
         try:
             for key in data['desc']:
                 infoContent.append(html.P("{}: {}".format(
@@ -724,9 +749,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     filename]
 
         if filename is not None:
-            return ['Successfully uploaded file: ',
-                    html.Br(),
-                    filename]
+            return 'Successfully uploaded file: {}'.format(filename)
         return ''
 
     # clear preloaded dataset if there is a file upload(
