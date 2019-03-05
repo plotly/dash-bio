@@ -109,14 +109,14 @@ Ex: homology={
                         "stop": [2781479, 57217415]
                     }
                 }. homology has the following type: dict containing keys 'chrOne', 'chrTwo'.
-Those keys have the following types: 
+Those keys have the following types:
   - chrOne (optional): . chrOne has the following type: dict containing keys 'organism', 'start', 'stop'.
-Those keys have the following types: 
+Those keys have the following types:
   - organism (string; required)
   - start (list; optional)
   - stop (list; optional)
   - chrTwo (optional): . chrTwo has the following type: dict containing keys 'organism', 'start', 'stop'.
-Those keys have the following types: 
+Those keys have the following types:
   - organism (string; required)
   - start (list; optional)
   - stop (list; optional)
@@ -155,9 +155,7 @@ that have sufficient data. Useful for showing simpler chromosomes of
 cytogenetically well-characterized organisms, e.g. human, beside chromosomes of
 less studied organisms, e.g. chimpanzee.
 - showNonNuclearChromosomes (boolean; optional): Whether to show non-nuclear chromosomes,
-e.g. for mitochondrial (MT) and chloroplast (CP) DNA.
-
-Available events: """
+e.g. for mitochondrial (MT) and chloroplast (CP) DNA."""
     @_explicitize_args
     def __init__(self, id=Component.REQUIRED, style=Component.UNDEFINED, className=Component.UNDEFINED, ancestors=Component.UNDEFINED, annotationsLayout=Component.UNDEFINED, annotations=Component.UNDEFINED, annotationsPath=Component.UNDEFINED, annotationsData=Component.UNDEFINED, annotationTracks=Component.UNDEFINED, annotationHeight=Component.UNDEFINED, histogramScaling=Component.UNDEFINED, barWidth=Component.UNDEFINED, annotationsColor=Component.UNDEFINED, showAnnotTooltip=Component.UNDEFINED, assembly=Component.UNDEFINED, brush=Component.UNDEFINED, brushData=Component.UNDEFINED, onBrushMove=Component.UNDEFINED, container=Component.UNDEFINED, chrHeight=Component.UNDEFINED, chrMargin=Component.UNDEFINED, chrWidth=Component.UNDEFINED, chromosomes=Component.UNDEFINED, dataDir=Component.UNDEFINED, heatmaps=Component.UNDEFINED, homology=Component.UNDEFINED, perspective=Component.UNDEFINED, fullChromosomeLabels=Component.UNDEFINED, filterable=Component.UNDEFINED, localOrganism=Component.UNDEFINED, onMouseOver=Component.UNDEFINED, organism=Component.UNDEFINED, orientation=Component.UNDEFINED, onDidRotate=Component.UNDEFINED, onDrawAnnots=Component.UNDEFINED, onLoad=Component.UNDEFINED, ploidy=Component.UNDEFINED, ploidyDesc=Component.UNDEFINED, rangeSet=Component.UNDEFINED, rotatable=Component.UNDEFINED, rotated=Component.UNDEFINED, resolution=Component.UNDEFINED, rows=Component.UNDEFINED, sex=Component.UNDEFINED, showChromosomeLabels=Component.UNDEFINED, showBandLabels=Component.UNDEFINED, showFullyBanded=Component.UNDEFINED, showNonNuclearChromosomes=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'style', 'className', 'ancestors', 'annotationsLayout', 'annotations', 'annotationsPath', 'annotationsData', 'annotationTracks', 'annotationHeight', 'histogramScaling', 'barWidth', 'annotationsColor', 'showAnnotTooltip', 'assembly', 'brush', 'brushData', 'container', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'dataDir', 'heatmaps', 'homology', 'perspective', 'fullChromosomeLabels', 'filterable', 'localOrganism', 'organism', 'orientation', 'ploidy', 'ploidyDesc', 'rangeSet', 'rotatable', 'rotated', 'resolution', 'rows', 'sex', 'showChromosomeLabels', 'showBandLabels', 'showFullyBanded', 'showNonNuclearChromosomes']
