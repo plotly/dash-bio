@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.0.8-rc4",
+  "version": "0.0.8-rc5",
   "description": "Dash components for bioinformatics",
   "main": "build/index.js",
   "scripts": {
