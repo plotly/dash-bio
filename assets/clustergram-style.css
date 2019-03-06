@@ -39,7 +39,7 @@
 }
 
 .clustergram-tab {
-    max-height: 400px;
+    max-height: 460px;
     overflow-y: auto;
     padding-right: 15px;
 }
@@ -163,7 +163,7 @@ input#selected-rows {
     margin-top: 5px;
 }
 
-#row-or-col-group, input#annotation{
+#row-or-col-group, input#annotation {
     margin-top: 5px !important;
     margin-bottom: 5px !important;
 }
@@ -185,7 +185,7 @@ input#selected-rows {
     width: calc(100% - 20px) !important;
 }
 
-#clustergram-file-upload-container{
+#clustergram-file-upload-container {
     border: dotted 1px #FFBF00;
     width: calc(100% - 40px) !important;
     padding: 10px;
@@ -198,13 +198,18 @@ input#selected-rows {
     border-radius: 5px;
 }
 
+#clustergram-body hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 #clustergram-body #file-upload-name {
     display: block;
     margin-left: 10px;
 }
 .clustergram-option-name {
-    font-size: 12pt;
-    margin-bottom: 20px;
+    font-size: 13pt;
+    margin-bottom: 10px;
     margin-top: 10px;
     font-weight: 100 !important;
     display: inline-block;
