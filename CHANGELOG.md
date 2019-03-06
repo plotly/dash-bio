@@ -4,9 +4,13 @@
 
 ### Removed
 * Removed mentions of Dash events in OncoPrint component.
+* Removed properties which weren't used in Ideogram component.
 
 ### Changed
-* Changed property `fullChromosomeLabels` so that it can be updated using dash callbacks
+* Changed property `fullChromosomeLabels` in Ideogram component so that it can be updated using 
+dash callbacks
+* Restricted possible values for certain properties in Ideogram 
+component to a finite set of values.
 
 ### Added
 * Added ability to define custom colours in styles parser for Molecule3D.
