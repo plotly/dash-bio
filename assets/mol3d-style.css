@@ -1,8 +1,8 @@
 #mol3d-body {
-    font-family: sans-serif;
+    font-family: 'Open Sans', sans-serif;
     padding: 5px;
-    background-color: #f9f5f4;
-    color: black;
+    background-color: #fff;
+    color: #636363;
     height: calc(100vh - 65px);
     overflow: auto;
 }
@@ -12,7 +12,7 @@
     height: 550px;
     margin: 50px;
     margin-right: 0px;
-    background-color: #e8dfde;
+    background-color: #fffafa;
     font-size: 10pt;
     float: left;
 }
@@ -30,11 +30,11 @@
     width: 4px;
     height: 0px;
     margin-right: 500px;
-    background-color: #f9f5f4;
+    background-color: #fff;
 }
 #mol3d-body ::-webkit-scrollbar-thumb {
     width: 2px;
-    background-color: #841101;
+    background-color: #e7625f;
     border-radius:15px;
     padding-right:5px;
 }
@@ -53,12 +53,18 @@
 }
 
 #mol3d-control-tabs .tab {
-    background-color: #e8dfde;
+    background-color: #fffafa;
     color: black;
+    padding: 15px;
+}
+
+#mol3d-control-tabs .tab > span {
+    top: 50%;
+    transform: translateY(-50%);
 }
 #mol3d-control-tabs .tab--selected {
-    border-top: solid 2px #841101;
-    color: #841101;
+    border-top: solid 2px #e7625f;
+    color: #e7625f;
 }
 #mol3d-control-tabs .tab-content {
     padding: 20px;
@@ -87,7 +93,7 @@
 #mol3d-upload-container {
     height: 30px;
     line-height: 40px;
-    border: dashed 1px #746A69;
+    border: dashed 1px #dbdbdb;
     border-radius: 5px;
     text-align: center;
     left: 5%;
