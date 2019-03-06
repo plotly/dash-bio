@@ -4,7 +4,6 @@
   "description": "Dash components for bioinformatics",
   "main": "build/index.js",
   "scripts": {
-    "start": "webpack-serve ./webpack.serve.config.js --open",
     "format:test": "prettier --config .prettierrc --list-different \"{src/**/, src/lib/components/}*.js\"",
     "format": "prettier --config .prettierrc --write \"{src/**/, src/lib/components/}*.js\"",
     "lint:test": "eslint src",
