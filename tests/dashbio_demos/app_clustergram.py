@@ -281,6 +281,8 @@ def layout():
                             ]
                         ),
 
+                        html.Br(),
+
                         html.Hr(),
 
                         html.Div(
@@ -339,6 +341,7 @@ def layout():
                             n_clicks_timestamp=0
                         ),
 
+                        html.Br(),
                         html.Hr(),
 
                         html.Div(

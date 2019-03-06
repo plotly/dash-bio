@@ -79,6 +79,12 @@
     border-right: 1px solid #AAAAAA;
 }
 
+#clustergram-body .rc-slider {
+    width: 250px;
+    float: right;
+    margin-top: 5px;
+}
+
 #clustergram-body .rc-slider-track {
     background-color: #FFBF00
 }
@@ -90,10 +96,7 @@
 
 
 #clustergram-wrapper {
-    height: 600px;
-    width: 900px;
     display: inline-block !important;
-    float:right;
     padding: 0px;
     overflow-x: scroll;
     margin: 0px;
@@ -109,6 +112,7 @@
     font-size:8pt !important;
     padding: 0px;
     margin-top: 10px;
+    margin-bottom: 40px;
     color: white;
     font-weight: 100;
     border-color: #FFBF00;
@@ -199,6 +203,7 @@ input#selected-rows {
 }
 
 #clustergram-body hr {
+    width: 100%;
     margin-top: 20px;
     margin-bottom: 20px;
 }
