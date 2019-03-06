@@ -1291,7 +1291,7 @@
           ]
         },
         "required": false,
-        "description": "Layout of ideogram annotations.\nOne of \"tracks\", \"histogram\", or \"overlay\".\n\n\"tracks\": display annotations in tracks beside each chromosome.\n\n\"histogram\": display annotations in a histogram. Clusters annotations\nby location. Each cluster/bin is shown as a  bar which height represents\nthe number of annotations on genomic range.\n\n\"overlay\": display annotations directly over chromosomes.",
+        "description": "Layout of ideogram annotations.\nOne of \"tracks\", \"histogram\", or \"overlay\".\n\n\"tracks\": display annotations in tracks beside each chromosome.\n\n\"histogram\": display annotations in a histogram. Clusters annotations\nby location. Each cluster/bin is shown as a bar, the height of which represents\nthe number of annotations on genomic range.\n\n\"overlay\": display annotations directly over chromosomes.",
         "defaultValue": {
           "value": "'tracks'",
           "computed": false

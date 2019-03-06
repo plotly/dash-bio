@@ -29,7 +29,7 @@ One of "tracks", "histogram", or "overlay".
 "tracks": display annotations in tracks beside each chromosome.
 
 "histogram": display annotations in a histogram. Clusters annotations
-by location. Each cluster/bin is shown as a  bar which height represents
+by location. Each cluster/bin is shown as a bar, the height of which represents
 the number of annotations on genomic range.
 
 "overlay": display annotations directly over chromosomes.
