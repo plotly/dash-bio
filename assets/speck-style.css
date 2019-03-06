@@ -1,59 +1,60 @@
 #speck-body {
-    min-height: calc(100vh - 100px);
+    font-family: 'Open Sans', sans-serif;
+    padding: 5px;
+    background-color: #fff;
+    color: #232323;
+    font-weight:100;
+    height: calc(100vh - 65px);
     overflow: auto;
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    background-color: #333;
-    color: #F3F6FA;
-    display: inline-block;
 }
 
-.speck-controls {
-    display: inline-block;
-    margin: 20px;
+#speck-body ::-webkit-scrollbar {
+    width: 4px;
+    height: 0px;
+    margin-right: 500px;
+    background-color: #fff;
+}
+#speck-body ::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: #000;
+    border-radius: 15px;
+    padding-right: 5px;
+}
+
+#speck-control-tabs {
+    width: 400px;
+    height: 550px;
+    margin: 50px;
+    margin-right: 0px;
+    background-color: #eee;
+    font-size: 10pt;
+    float: left;
+}
+
+#speck-tab {
+    max-height: 460px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+#speck-control-tabs .tab {
+    background-color: #eee;
+    color: #232323;
+    padding: 15px;
+    border-color: #ccc;
+}
+
+#speck-control-tabs .tab--selected {
+    border-top: solid 2px #5673FA;
+    color: #5673FA;
+}
+
+#speck-control-tabs .tab-content {
     padding: 20px;
-    width: 200px; 
-    float: left;
-    border: solid 1px #F3F6FA;
-    border-radius: 5px;
-    color: white; 
-}
-.speck-slider-description {
-    margin-top: 10px;
-}
-#speck-body .rc-slider-track {
-    background-color: #ab63fa;
-}
-#speck-body .rc-slider-handle {
-    border-color: #ab63fa; 
-}
-#speck-molecule-dropdown, #speck-preset-rendering-dropdown, #speck-preset-atom-style-dropdown {
-    color: black;
-}
-.speck-dropdown {
-    margin-top: 10px;
-    margin-bottom: 10px; 
-}
-#speck-enable-presets, #speck-molecule-dropdown {
-    display: inline-block;
-    width: 240px;
-    margin-left: 20px;
-    margin-bottom: 15px; 
-}
-#speck-container {
-    display: inline-block;
-    float: left;
-    margin: 10px; 
 }
 
-#speck-body hr {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-#speck-show-hide-bonds {
-    margin-top: 10px; 
-    margin-bottom: 10px;
+#speck-container {
+    display: inline-block !important;
+    padding: 0px;
+    margin: 50px;
 }
