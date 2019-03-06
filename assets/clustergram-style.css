@@ -65,12 +65,12 @@
     font-weight: 200;
     font-size: 9pt;
     border: solid 1px #444444;
-    border-top: none;
     height: 50px;
     padding: 15px;
 }
 #clustergram-control-tabs .tab--selected {
     border-top: solid 2px #FFBF00;
+    border-bottom: none;
     color: #FFBF00;
 }
 
