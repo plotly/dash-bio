@@ -4,6 +4,7 @@
   "description": "Dash components for bioinformatics",
   "main": "build/index.js",
   "scripts": {
+    "start": "webpack-serve ./webpack.serve.config.js --open",
     "format:test": "prettier --config .prettierrc --list-different \"{src/**/, src/lib/components/}*.js\"",
     "format": "prettier --config .prettierrc --write \"{src/**/, src/lib/components/}*.js\"",
     "lint:test": "eslint src",
@@ -18,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "circos": "^2.1.0",
-    "ideogram": "git+https://github.com/eweitz/ideogram.git#a2994d8fd281bc7af2b0112be45da50e21d1b0d5",
+    "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
     "molecule-3d-for-react": "^0.4.5",
     "plotly.js": "^1.41.3",
     "ramda": "^0.25.0",

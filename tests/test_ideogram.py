@@ -14,6 +14,13 @@ from .test_common_features import (
 
 # TODO by merging https://github.com/plotly/dash-bio/pull/201
 
+# these tests are written for the locked version v1.4.1
+# git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f
+# if the version in package-lock.json is different and some of the test fails it might be due
+# to changes from the author of https://github.com/eweitz/ideogram. For example, currently in the
+# version v1.5.1 test_orientation fails because "chromosome-set-container" was renamed to
+# "chromosome-set" which result in a timeout of the _wait_for function
+
 # define app name once
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
 
@@ -176,7 +183,7 @@ def test_orientation(dash_threaded):
     driver = dash_threaded.driver
 
     # assert presence of chromosomes' rotation
-    chromosoms = wait_for_elements_by_css_selector(driver, '.chromosome-set')
+    chromosoms = wait_for_elements_by_css_selector(driver, '.chromosome-set-container')
     for chromosom in chromosoms:
         assert 'rotate(90)' in str(chromosom.get_attribute('transform'))
 
@@ -185,7 +192,7 @@ def test_orientation(dash_threaded):
     btn.click()
 
     # assert absence of chromosomes' rotation
-    chromosoms = wait_for_elements_by_css_selector(driver, '.chromosome-set')
+    chromosoms = wait_for_elements_by_css_selector(driver, '.chromosome-set-container')
     for chromosom in chromosoms:
         assert 'rotate(90)' not in str(chromosom.get_attribute('transform'))
 
