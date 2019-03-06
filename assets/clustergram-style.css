@@ -156,8 +156,8 @@
     margin-right:10px;
 }
 
-input#selected-rows {
-    margin: 0px !important;
+input#selected-rows, input#selected-columns {
+    padding: 0px !important;
 }
 
 #cluster-checklist, #hide-labels {
