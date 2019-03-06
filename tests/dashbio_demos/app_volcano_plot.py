@@ -7,6 +7,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_bio
+import dash_daq as daq
 
 # running directly with Python
 if __name__ == '__main__':
@@ -113,12 +114,15 @@ def layout():
                                         "Lower effect size",
                                         className='vp-text',
                                     ),
-                                    dcc.Input(
+                                    daq.Slider(
                                         className='vp-input',
                                         id='vp-lower-bound',
-                                        type='number',
                                         value=-1,
                                         max=0,
+                                        min=-3,
+                                        handleLabel={'showCurrentValue': True, 'label': ' '},
+                                        step=0.01,
+                                        marks={str(num): str(num) for num in range(0, -4, -1)}
                                     ),
                                 ],
                             ),
@@ -131,12 +135,15 @@ def layout():
                                         "Upper effect size",
                                         className='vp-text',
                                     ),
-                                    dcc.Input(
+                                    daq.Slider(
                                         className='vp-input',
                                         id='vp-upper-bound',
-                                        type='number',
                                         value=1,
                                         min=0,
+                                        max=3,
+                                        handleLabel={'showCurrentValue': True, 'label': ' '},
+                                        step=0.01,
+                                        marks={str(num): str(num) for num in range(4) }
                                     ),
                                 ],
                             ),
@@ -149,13 +156,16 @@ def layout():
                                         "Threshold",
                                         className='vp-text',
                                     ),
-                                    dcc.Input(
+                                    daq.Slider(
                                         className='vp-input',
                                         id='vp-genomic-line',
-                                        type='number',
                                         value=4,
                                         max=10,
-                                        min=0
+                                        min=0,
+                                        handleLabel={'showCurrentValue': True, 'label': ' '},
+                                        step=0.01,
+                                        marks={str(num): str(num) for num in range(0, 11, 2)}
+
                                     ),
                                 ],
                             ),
