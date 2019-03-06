@@ -23,7 +23,7 @@
 }
 
 #vp-indicators-div {
-    margin-top: 20px;
+    margin-top: 30px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -37,6 +37,7 @@
 
 #vp-graph {
     height: 600px;
+    margin-top: 2px;
 }
 
 #vp-dataset-dropdown{
@@ -65,13 +66,9 @@
 }
 
 .vp-input-like{
-    font-size: 1.5em;
-    height: 30px;
-    width: 80px;
-    border: solid 1px #C8D4E3;
-    border-radius: 5px;
     text-align: center;
     align-items: center;
+    margin-left: 5px;
 }
 
 .vp-text {

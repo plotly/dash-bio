@@ -182,9 +182,10 @@ def layout():
                                         "Upper left points",
                                         className='vp-text',
                                     ),
-                                    html.Div(
+                                    daq.LEDDisplay(
                                         className='vp-input-like',
                                         id='vp-upper-left',
+                                        size=20,
                                     ),
                                 ],
                             ),
@@ -196,9 +197,10 @@ def layout():
                                         "Upper right points",
                                         className='vp-text',
                                     ),
-                                    html.Div(
+                                    daq.LEDDisplay(
                                         className='vp-input-like',
                                         id='vp-upper-right',
+                                        size=20,
                                     ),
                                 ],
                             ),
@@ -250,7 +252,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return DATASETS[dataset_id]['datasource']
 
     @app.callback(
-        Output('vp-upper-left', 'children'),
+        Output('vp-upper-left', 'value'),
         [Input('vp-graph', 'figure')],
         [State('vp-lower-bound', 'value')]
     )
@@ -264,10 +266,10 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             x = np.array(fig['data'][0]['x'])
             idx = x < float(l_lim)
             number = len(x[idx])
-        return str(number)
+        return number
 
     @app.callback(
-        Output('vp-upper-right', 'children'),
+        Output('vp-upper-right', 'value'),
         [Input('vp-graph', 'figure')],
         [State('vp-upper-bound', 'value')]
     )
@@ -281,7 +283,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             x = np.array(fig['data'][0]['x'])
             idx = x > float(u_lim)
             number = len(x[idx])
-        return str(number)
+        return number
 
 
 # only declare app/server if the file is being run directly
