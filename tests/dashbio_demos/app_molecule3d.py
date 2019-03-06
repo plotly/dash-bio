@@ -25,7 +25,7 @@ DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "molecule3
 
 def header_colors():
     return {
-        'bg_color': '#841101',
+        'bg_color': '#e7625f',
         'font_color': 'white'
     }
 
@@ -49,7 +49,10 @@ def layout():
                             label='What is Molecule 3D?',
                             value='what-is',
                             children=html.Div(className='mol3d-tab', children=[
-                                html.H1('A molecule visualizer.')
+                                html.P('Molecule3D allows you to view ' +
+                                       'biomolecules in different ' +
+                                       'representations -- sticks, ' +
+                                       'spheres, and cartoons.')
                             ])
                         ),
                         dcc.Tab(
@@ -94,7 +97,7 @@ def layout():
                                                 {'label': 'Cartoon', 'value': 'cartoon'},
                                                 {'label': 'Spheres', 'value': 'sphere'},
                                             ],
-                                            value='stick'
+                                            value='cartoon'
                                         ),
                                     ],
                                 ),
