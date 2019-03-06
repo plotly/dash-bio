@@ -2,6 +2,9 @@
 
 ## [0.0.8]
 
+### Removed
+* Removed mentions of Dash events in OncoPrint component.
+
 ### Changed
 * Changed property `fullChromosomeLabels` so that it can be updated using dash callbacks
 
