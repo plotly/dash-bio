@@ -216,7 +216,6 @@ def layout():
                             'data, or both.',
                             className='clustergram-option-name'
                         ),
-                        html.Br(),
                         dcc.Dropdown(
                             id='cluster-checklist',
                             options=[
@@ -228,6 +227,7 @@ def layout():
                         ),
 
                         html.Br(),
+
                         html.Div(
                             'Hide labels:',
                             title='Hide labels for the row and/or column ' +

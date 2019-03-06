@@ -45,11 +45,12 @@
 }
 
 #clustergram-control-tabs .Select-control {
-    border: solid 1px #E4E4E4;
+    border: solid 1px #545454;
     background-color: #232323 !important;
 }
 #clustergram-control-tabs .Select, #clustergram-control-tabs .Select-control, #clustergram-control-tabs input, #clustergram-control-tabs .Select-menu-outer, #clustergram-control-tabs .Select-value-label {
     background-color: #232323 !important;
+    border-color: #545454 !important;
     color: #E4E4E4;
 }
 #clustergram-control-tabs .Select-value-icon {
@@ -137,11 +138,40 @@
 #clustergram-body #color {
     margin-left: 2% !important;
 }
+
+#selected-rows .Select-control, #selected-columns .Select-control {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#selected-rows .Select-multi-value-wrapper, #selected-columns .Select-multi-value-wrapper {
+    max-height: 100px;
+    width: calc(100% - 10px);
+    overflow: auto;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-right:10px;
+}
+
+input#selected-rows {
+    margin: 0px !important;
+}
+
+#cluster-checklist, #hide-labels {
+    width: 70%;
+    float: right;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+#row-or-col-group, input#annotation{
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+
 #clustergram-body input {
     float:left;
     width: 100%;
     margin: 0px;
-    margin-top:5px !important;
 }
 #clustergram-info {
     font-weight: 100;
@@ -175,5 +205,7 @@
 .clustergram-option-name {
     font-size: 12pt;
     margin-bottom: 20px;
+    margin-top: 10px;
     font-weight: 100 !important;
+    display: inline-block;
 }
