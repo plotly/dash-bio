@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "circos": "^2.1.0",
-    "ideogram": "git+https://github.com/eweitz/ideogram.git",
+    "ideogram": "git+https://github.com/eweitz/ideogram.git#a2994d8fd281bc7af2b0112be45da50e21d1b0d5",
     "molecule-3d-for-react": "^0.4.5",
     "plotly.js": "^1.41.3",
     "ramda": "^0.25.0",
