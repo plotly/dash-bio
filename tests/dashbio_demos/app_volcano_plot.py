@@ -143,7 +143,7 @@ def layout():
                                         max=3,
                                         handleLabel={'showCurrentValue': True, 'label': ' '},
                                         step=0.01,
-                                        marks={str(num): str(num) for num in range(4) }
+                                        marks={str(num): str(num) for num in range(4)}
                                     ),
                                 ],
                             ),
@@ -206,6 +206,23 @@ def layout():
                             ),
                         ],
                     ),
+
+                    html.Div(
+                        id='vp-color-div',
+                        className='vp-horizontal-style',
+                        children=[
+                            daq.ColorPicker(
+                                id='vp-color-picker',
+                                value=dict(hex="#0000FF"),
+                                size=200,
+                            ),
+                            html.Div(
+                                id='vp-color-label',
+                                className='vp-text',
+                                children="Change the color of the highlighted points"
+                            ),
+                        ]
+                    )
                 ],
             ),
             html.Div(
@@ -225,17 +242,21 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             Input('vp-upper-bound', 'value'),
             Input('vp-lower-bound', 'value'),
             Input('vp-genomic-line', 'value'),
-            Input('vp-dataset-dropdown', 'value')
+            Input('vp-dataset-dropdown', 'value'),
+            Input('vp-color-picker', 'value')
         ]
     )
-    def update_graph(u_lim, l_lim, genomic_line, datadset_id):
+    def update_graph(u_lim, l_lim, genomic_line, datadset_id, color):
         """Update the data set of interest upon change the dashed lines
         value.
         """
+        if 'hex' in color:
+            color = color.get('hex', 'red')
         return dash_bio.VolcanoPlot(
             DATASETS[datadset_id]['dataframe'],
             genomewideline_value=float(genomic_line),
             effect_size_line=[float(l_lim), float(u_lim)],
+            highlight_color=color,
             **DATASETS[datadset_id]['dataprops']
         )
 

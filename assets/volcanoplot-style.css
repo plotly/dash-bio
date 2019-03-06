@@ -71,6 +71,22 @@
     margin-left: 5px;
 }
 
+#vp-color-div {
+    padding: 8px;
+    top: 2px;
+}
+
+#vp-color-picker .chrome-picker{
+    border: none !important;
+    border-radius: 0px !important;
+
+}
+
+#vp-color-label {
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
 .vp-text {
     font-size: 1.3em;
     color: #506784;
