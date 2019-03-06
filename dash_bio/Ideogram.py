@@ -73,7 +73,7 @@ where start is the left most edge, end is right most edge, and extent is
 the total width of the brush.
 It is read-only, i.e. it cannot be used with dash.dependencies.Output but only with
 dash.dependencies.Input. brushData has the following type: dict containing keys 'start', 'end', 'extent'.
-Those keys have the following types: 
+Those keys have the following types:
   - start (string; optional)
   - end (string; optional)
   - extent (string; optional)
@@ -120,14 +120,14 @@ Ex: homology={
                         "stop": [2781479, 57217415]
                     }
                 }. homology has the following type: dict containing keys 'chrOne', 'chrTwo'.
-Those keys have the following types: 
+Those keys have the following types:
   - chrOne (optional): . chrOne has the following type: dict containing keys 'organism', 'start', 'stop'.
-Those keys have the following types: 
+Those keys have the following types:
   - organism (string; required)
   - start (list; optional)
   - stop (list; optional)
   - chrTwo (optional): . chrTwo has the following type: dict containing keys 'organism', 'start', 'stop'.
-Those keys have the following types: 
+Those keys have the following types:
   - organism (string; required)
   - start (list; optional)
   - stop (list; optional)
@@ -159,16 +159,13 @@ that have sufficient data. Useful for showing simpler chromosomes of
 cytogenetically well-characterized organisms, e.g. human, beside chromosomes of
 less studied organisms, e.g. chimpanzee.
 - showNonNuclearChromosomes (boolean; optional): Whether to show non-nuclear chromosomes,
-e.g. for mitochondrial (MT) and chloroplast (CP) DNA.
-
-Available events: """
+e.g. for mitochondrial (MT) and chloroplast (CP) DNA."""
     @_explicitize_args
-    def __init__(self, id=Component.REQUIRED, style=Component.UNDEFINED, className=Component.UNDEFINED, annotationsLayout=Component.UNDEFINED, annotations=Component.UNDEFINED, annotationsPath=Component.UNDEFINED, annotationsData=Component.UNDEFINED, annotationTracks=Component.UNDEFINED, annotationHeight=Component.UNDEFINED, annotationsColor=Component.UNDEFINED, histogramScaling=Component.UNDEFINED, barWidth=Component.UNDEFINED, showAnnotTooltip=Component.UNDEFINED, assembly=Component.UNDEFINED, brush=Component.UNDEFINED, brushData=Component.UNDEFINED, container=Component.UNDEFINED, chrHeight=Component.UNDEFINED, chrMargin=Component.UNDEFINED, chrWidth=Component.UNDEFINED, chromosomes=Component.UNDEFINED, dataDir=Component.UNDEFINED, organism=Component.UNDEFINED, localOrganism=Component.UNDEFINED, homology=Component.UNDEFINED, perspective=Component.UNDEFINED, fullChromosomeLabels=Component.UNDEFINED, resolution=Component.UNDEFINED, filterable=Component.UNDEFINED, orientation=Component.UNDEFINED, ploidy=Component.UNDEFINED, ploidyDesc=Component.UNDEFINED, ancestors=Component.UNDEFINED, rangeSet=Component.UNDEFINED, rotatable=Component.UNDEFINED, rotated=Component.UNDEFINED, sex=Component.UNDEFINED, showChromosomeLabels=Component.UNDEFINED, showBandLabels=Component.UNDEFINED, showFullyBanded=Component.UNDEFINED, showNonNuclearChromosomes=Component.UNDEFINED, onMouseOver=Component.UNDEFINED, **kwargs):
+    def __init__(self, id=Component.REQUIRED, style=Component.UNDEFINED, className=Component.UNDEFINED, annotationsLayout=Component.UNDEFINED, annotations=Component.UNDEFINED, annotationsPath=Component.UNDEFINED, annotationsData=Component.UNDEFINED, annotationTracks=Component.UNDEFINED, annotationHeight=Component.UNDEFINED, annotationsColor=Component.UNDEFINED, histogramScaling=Component.UNDEFINED, barWidth=Component.UNDEFINED, showAnnotTooltip=Component.UNDEFINED, assembly=Component.UNDEFINED, brush=Component.UNDEFINED, brushData=Component.UNDEFINED, container=Component.UNDEFINED, chrHeight=Component.UNDEFINED, chrMargin=Component.UNDEFINED, chrWidth=Component.UNDEFINED, chromosomes=Component.UNDEFINED, dataDir=Component.UNDEFINED, organism=Component.UNDEFINED, localOrganism=Component.UNDEFINED, homology=Component.UNDEFINED, perspective=Component.UNDEFINED, fullChromosomeLabels=Component.UNDEFINED, resolution=Component.UNDEFINED, filterable=Component.UNDEFINED, orientation=Component.UNDEFINED, ploidy=Component.UNDEFINED, ploidyDesc=Component.UNDEFINED, ancestors=Component.UNDEFINED, rangeSet=Component.UNDEFINED, rotatable=Component.UNDEFINED, rotated=Component.UNDEFINED, sex=Component.UNDEFINED, showChromosomeLabels=Component.UNDEFINED, showBandLabels=Component.UNDEFINED, showFullyBanded=Component.UNDEFINED, showNonNuclearChromosomes=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'style', 'className', 'annotationsLayout', 'annotations', 'annotationsPath', 'annotationsData', 'annotationTracks', 'annotationHeight', 'annotationsColor', 'histogramScaling', 'barWidth', 'showAnnotTooltip', 'assembly', 'brush', 'brushData', 'container', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'dataDir', 'organism', 'localOrganism', 'homology', 'perspective', 'fullChromosomeLabels', 'resolution', 'filterable', 'orientation', 'ploidy', 'ploidyDesc', 'ancestors', 'rangeSet', 'rotatable', 'rotated', 'sex', 'showChromosomeLabels', 'showBandLabels', 'showFullyBanded', 'showNonNuclearChromosomes']
         self._type = 'Ideogram'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_events = []
         self.available_properties = ['id', 'style', 'className', 'annotationsLayout', 'annotations', 'annotationsPath', 'annotationsData', 'annotationTracks', 'annotationHeight', 'annotationsColor', 'histogramScaling', 'barWidth', 'showAnnotTooltip', 'assembly', 'brush', 'brushData', 'container', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'dataDir', 'organism', 'localOrganism', 'homology', 'perspective', 'fullChromosomeLabels', 'resolution', 'filterable', 'orientation', 'ploidy', 'ploidyDesc', 'ancestors', 'rangeSet', 'rotatable', 'rotated', 'sex', 'showChromosomeLabels', 'showBandLabels', 'showFullyBanded', 'showNonNuclearChromosomes']
         self.available_wildcard_properties =            []
 

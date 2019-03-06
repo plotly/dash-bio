@@ -55,6 +55,7 @@ export default class Ideogram extends Component {
             'filterable',
             'homology',
             'perspective',
+            'fullChromosomeLabels',
         ];
 
         this.onBrushHandler = this.onBrushHandler.bind(this);

@@ -123,7 +123,7 @@ def clear_field(web_elem):
     web_elem.send_keys(Keys.DELETE)
 
 
-def template_test_component_single_prop(
+def template_test_python_component_prop(
         dash_threaded,
         app_name,
         assert_callback,
@@ -170,7 +170,7 @@ def template_test_component(
     :param app_name: (string) name of the app
     :param assert_callback: (func) this function is where the test should be explicitly defined,
     this 'assert_callback' function should typically be defined within a test function which calls
-    'template_test_component_single_prop'.
+    'template_test_python_component_prop'.
     :param update_component_callback: (func) this function will be assigned as a callback
     which output is the component prop and which is triggered programmatically by a click on a
     button which is inside the simple_app created to test the component
@@ -285,7 +285,7 @@ def generate_subprop_test(
         **kwargs
 ):
     """Create a test for a prop within a dict."""
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         app_name,
         generate_assert_callback_subprop(subprop, subprop_type),

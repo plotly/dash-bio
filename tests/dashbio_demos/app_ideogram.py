@@ -3,7 +3,6 @@ import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_bio
-from dash_bio.utils import ideogram_parser as ideoParser
 
 # running directly with Python
 if __name__ == '__main__':
@@ -12,11 +11,6 @@ if __name__ == '__main__':
 # running with gunicorn (on servers)
 elif 'DASH_PATH_ROUTING' in os.environ:
     from tests.dashbio_demos.utils.app_standalone import run_standalone_app
-
-
-DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "ideogram_")
-
-RAT_DATA = ideoParser.ncbi_gdp_to_list("{}10116_GCF_000000225.4_NA_V1".format(DATAPATH))
 
 
 def description():
@@ -312,8 +306,6 @@ def layout():
                                         [
                                             dash_bio.Ideogram(
                                                 id="ideo-homology",
-                                                localOrganism=RAT_DATA,
-                                                orientation="vertical",
                                                 showBandLabels=True,
                                                 showChromosomeLabels=True,
                                                 showFullyBanded=True,
@@ -322,19 +314,6 @@ def layout():
                                                 chrMargin=200,
                                                 rotatable=False,
                                                 perspective="comparative",
-                                                chromosomes=["1", "2"],
-                                                homology={
-                                                    "chrOne": {
-                                                        "organism": "9606",
-                                                        "start": [10001, 155101383],
-                                                        "stop": [2781479, 156030895],
-                                                    },
-                                                    "chrTwo": {
-                                                        "organism": "9606",
-                                                        "start": [50000, 155101383],
-                                                        "stop": [900000, 156130895],
-                                                    },
-                                                },
                                             )
                                         ],
                                         className="ten columns",
@@ -802,12 +781,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             stop_two_a
     ):
         return {
-            "chr_one": {
+            "chrOne": {
                 "organism": "9606",
                 "start": [start_one, start_two],
                 "stop": [stop_one, stop_two],
             },
-            "chr_two": {
+            "chrTwo": {
                 "organism": "9606",
                 "start": [start_one_a, start_two_a],
                 "stop": [stop_one_a, stop_two_a],
