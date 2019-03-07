@@ -494,14 +494,16 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                State('file-upload', 'contents')]
     )
     def store_fig_options(
-            clusterBy,
+            cluster_by,
             row_thresh, col_thresh,
             sel_rows, sel_cols,
             hide_labels,
             dataset_name, contents
     ):
+        if len(cluster_by) == 0:
+            cluster_by = [None]
         return {
-            'cluster': 'all' if len(clusterBy) > 1 else clusterBy[0],
+            'cluster': 'all' if len(cluster_by) > 1 else cluster_by[0],
             'color_threshold': {'row': row_thresh,
                                 'col': col_thresh},
             'row_labels': sel_rows,
@@ -624,7 +626,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             contents, filename,
             row_labels_source
     ):
-        if (len(sel_rows) < 2 or len(sel_cols) < 2 or fig_opts is None):
+        if len(sel_rows) < 2 or len(sel_cols) < 2 or fig_opts is None:
             return html.Div(
                 'No data have been selected to display. Please upload a file \
                 or select a preloaded file from the dropdown, then select at \
@@ -634,6 +636,16 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     'font-size': '20pt'
                 }
             )
+        if fig_opts['cluster'] is None:
+            return html.Div(
+                'No clustering dimension has been selected to display. Please \
+                select at least one option from the dropdown.',
+                style={
+                    'padding': '30px',
+                    'font-size': '20pt'
+                }
+            )
+
         if dataset_name is not None:
             dataset = datasets[dataset_name]
 
