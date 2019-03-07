@@ -5,7 +5,6 @@ import scipy as scp
 import scipy.cluster.hierarchy as sch
 import scipy.spatial as scs
 from sklearn.impute import SimpleImputer
-import sklearn
 from random import shuffle
 
 import plotly.graph_objs as go
@@ -16,31 +15,31 @@ from plotly import tools
 def Clustergram(
         data=None,
         computed_traces=None,
-        rowLabels=None,
-        columnLabels=None,
-        hideLabels=None,
+        row_labels=None,
+        column_labels=None,
+        hide_labels=None,
         standardize='none',
         cluster='all',
-        rowDist='euclidean',
-        colDist='euclidean',
-        distFun=scs.distance.pdist,
-        linkFun=lambda x, **kwargs: sch.linkage(x, 'complete', **kwargs),
-        colorThreshold=None,
-        optimalLeafOrder=False,
-        colorMap=None,
-        colorList=None,
-        displayRange=3,
-        symmetricValue=True,
-        logTransform=False,
-        displayRatio=0.2,
-        imputeFunction=None,
-        rowGroupMarker=None,    # group number, annotation, color
-        colGroupMarker=None,    # same as above
-        tickFont=None,
-        annotationFont=None,
-        lineWidth=0.5,
-        paperBgColor='rgba(0,0,0,0)',
-        plotBgColor='rgba(0,0,0,0)',
+        row_dist='euclidean',
+        col_dist='euclidean',
+        dist_fun=scs.distance.pdist,
+        link_fun=lambda x, **kwargs: sch.linkage(x, 'complete', **kwargs),
+        color_threshold=None,
+        optimal_leaf_order=False,
+        color_map=None,
+        color_list=None,
+        display_range=3,
+        symmetric_value=True,
+        log_transform=False,
+        display_ratio=0.2,
+        impute_function=None,
+        row_group_marker=None,    # group number, annotation, color
+        col_group_marker=None,    # same as above
+        tick_font=None,
+        annotation_font=None,
+        line_width=0.5,
+        paper_bg_color='rgba(0,0,0,0)',
+        plot_bg_color='rgba(0,0,0,0)',
         height=500,
         width=500
 ):
@@ -50,10 +49,10 @@ def Clustergram(
     :param (ndarray) data: Matrix of observations as array of arrays
     :param (object) computed_traces: the dendrogram traces from another
                                      Clustergram component
-    :param (list) rowLabels: List of row category labels (observation labels)
-    :param (list) columnLabels: List of column category labels (observation
+    :param (list) row_labels: List of row category labels (observation labels)
+    :param (list) column_labels: List of column category labels (observation
                                 labels)
-    :param (list) hideLabels: List of labels not to display on the final plot.
+    :param (list) hide_labels: List of labels not to display on the final plot.
     :param (str) standardize: The dimension for standardizing values, so that
                               the mean is 0 and the standard deviation is 1
                               along the specified dimension: 'row', 'column',
@@ -62,77 +61,77 @@ def Clustergram(
                           'row', 'column', or 'all' (default); 'all' means data
                           to be clustered along columns, then clustered along
                           rows of row-clustered data
-    :param (function) rowDist: Function specifying the distance metric for rows
+    :param (function) row_dist: Function specifying the distance metric for rows
                                that will be passed to the function specified in
-                               distFun
+                               dist_fun
                                (see scipy.spatial.distance.pdist)
-    :param (function) colDist: Function specifying the distance metric for
+    :param (function) col_dist: Function specifying the distance metric for
                                columns that will be passed to the function
-                               specified in distFun
+                               specified in dist_fun
                                (see scipy.spatial.distance.pdist)
-    :param (function) distFun: Function to compute the pairwise distance from
+    :param (function) dist_fun: Function to compute the pairwise distance from
                                the observations
                                (see scipy.spatial.distance.pdist)
-    :param (function) linkFun: Function to compute the linkage matrix from the
+    :param (function) link_fun: Function to compute the linkage matrix from the
                                pairwise distances
                                (see scipy.cluster.hierarchy.linkage)
-    :param (dict) colorThreshold: Maximum linkage value for which unique
+    :param (dict) color_threshold: Maximum linkage value for which unique
                                   colors are assigned to clusters; 'row' for
                                   rows, and 'col' for columns (default 0)
-    :param (bool) optimalLeafOrder: Enable or disable calculation to determine
+    :param (bool) optimal_leaf_order: Enable or disable calculation to determine
                                     leaf order that maximizes the similarity
                                     between neighbouring leaves
-    :param (list) colorMap: Optional colorscale for dendrogram tree
-    :param (dict) colorList: Optional list of colors to use for row and col
+    :param (list) color_map: Optional colorscale for dendrogram tree
+    :param (dict) color_list: Optional list of colors to use for row and col
                              dendrograms
-    :param (double) displayRange: Standardized values from the dataset that
+    :param (double) display_range: Standardized values from the dataset that
                                   are below the negative of this value will
                                   be colored with one shade, and the values
                                   that are above this value will be colored
                                   with another in the heatmap (3 by default)
-    :param (bool) symmetricValue: Forces the colorscale of the heatmap to be
+    :param (bool) symmetric_value: Forces the colorscale of the heatmap to be
                                   centered around zero (True by default)
-    :param (bool) logTransform: Transforms the data to a logarithmic axis
+    :param (bool) log_transform: Transforms the data to a logarithmic axis
                                 with a basis of two (False by default)
-    :param (list/float) displayRatio: The dendrograms' heights with respect to
+    :param (list/float) display_ratio: The dendrograms' heights with respect to
                                      the size of the heatmap; with one element,
                                      both the row and column dendrograms have
                                      the same ratio; with two, the row
                                      dendrogram ratio corresponds to the first
                                      element of the list (default: 0.2)
-    :param (function) imputeFunction: The function used to impute missing data.
+    :param (function) impute_function: The function used to impute missing data.
                                       It should take as input the dataset and
                                       output a dataset with imputed values.
-    :param (list[dict]) rowGroupMarker: Specifies which rows to annotate; each
+    :param (list[dict]) row_group_marker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
                                         (which group to annotate), 'annotation'
                                         (the text annotation), and 'color'
                                         (color in rgb format used to label the
                                         group).
-    :param (list[dict]) colGroupMarker: Specifies which rows to annotate; each
+    :param (list[dict]) col_group_marker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
                                         (which group to annotate), 'annotation'
                                         (the text annotation), and 'color'
                                         (color in rgb format used to label the
                                         group).
-    :param (dict) tickFont: The font options for ticks.
-    :param (dict) annotationFont: The font options for annotations.
-    :param (list/float) lineWidth: The line width for the dendrograms. If in
+    :param (dict) tick_font: The font options for ticks.
+    :param (dict) annotation_font: The font options for annotations.
+    :param (list/float) line_width: The line width for the dendrograms. If in
                                    list format, the first element corresponds
                                    to the width of the row traces, and the
                                    second corresponds to the width of the
                                    column traces.
-    :param (string) paperBgColor: The background color of the paper on the
+    :param (string) paper_bg_color: The background color of the paper on the
                                   graph (default transparent).
-    :param (string) plotBgColor: The background color of the subplots on the
+    :param (string) plot_bg_color: The background color of the subplots on the
                                  graph (default transparent).
     :param (int) height: The height of the graph, in px (default 500).
     :param (int) width: The width of the graph, in px (default 500).
 """
-    if hideLabels is None:
-        hideLabels = []
-    if colorThreshold is None:
-        colorThreshold = dict(row=0, col=0)
+    if hide_labels is None:
+        hide_labels = []
+    if color_threshold is None:
+        color_threshold = dict(row=0, col=0)
     kwargs = locals()
     kwargs.pop('computed_traces')
     (fig, ct) = _Clustergram(
@@ -148,10 +147,10 @@ class _Clustergram():
     Function that returns a Dash Bio clustergram.
 
     :param (ndarray) data: Matrix of observations as array of arrays
-    :param (list) rowLabels: List of row category labels (observation labels)
-    :param (list) columnLabels: List of column category labels (observation
+    :param (list) row_labels: List of row category labels (observation labels)
+    :param (list) column_labels: List of column category labels (observation
                                 labels)
-    :param (list) hideLabels: List of labels not to display on the final plot.
+    :param (list) hide_labels: List of labels not to display on the final plot.
     :param (str) standardize: The dimension for standardizing values, so that
                               the mean is 0 and the standard deviation is 1
                               along the specified dimension: 'row', 'column',
@@ -160,69 +159,69 @@ class _Clustergram():
                           'row', 'column', or 'all' (default); 'all' means data
                           to be clustered along columns, then clustered along
                           rows of row-clustered data
-    :param (function) rowDist: Function specifying the distance metric for rows
+    :param (function) row_dist: Function specifying the distance metric for rows
                                that will be passed to the function specified in
-                               distFun
+                               dist_fun
                                (see scipy.spatial.distance.pdist)
-    :param (function) colDist: Function specifying the distance metric for
+    :param (function) col_dist: Function specifying the distance metric for
                                columns that will be passed to the function
-                               specified in distFun
+                               specified in dist_fun
                                (see scipy.spatial.distance.pdist)
-    :param (function) distFun: Function to compute the pairwise distance from
+    :param (function) dist_fun: Function to compute the pairwise distance from
                                the observations
                                (see scipy.spatial.distance.pdist)
-    :param (function) linkFun: Function to compute the linkage matrix from the
+    :param (function) link_fun: Function to compute the linkage matrix from the
                                pairwise distances
                                (see scipy.cluster.hierarchy.linkage)
-    :param (dict) colorThreshold: Maximum linkage value for which unique
+    :param (dict) color_threshold: Maximum linkage value for which unique
                                   colors are assigned to clusters; 'row' for
                                   rows, and 'col' for columns (default 0)
-    :param (bool) optimalLeafOrder: Enable or disable calculation to determine
+    :param (bool) optimal_leaf_order: Enable or disable calculation to determine
                                     leaf order that maximizes the similarity
                                     between neighbouring leaves
-    :param (list) colorMap: Optional colorscale for dendrogram tree
-    :param (dict) colorList: Optional list of colors to use for row and col
+    :param (list) color_map: Optional colorscale for dendrogram tree
+    :param (dict) color_list: Optional list of colors to use for row and col
                              dendrograms
-    :param (double) displayRange: Standardized values from the dataset that
+    :param (double) display_range: Standardized values from the dataset that
                                   are below the negative of this value will
                                   be colored with one shade, and the values
                                   that are above this value will be colored
                                   with another in the heatmap (3 by default)
-    :param (bool) symmetricValue: Forces the colorscale of the heatmap to be
+    :param (bool) symmetric_value: Forces the colorscale of the heatmap to be
                                   centered around zero (True by default)
-    :param (bool) logTransform: Transforms the data to a logarithmic axis
+    :param (bool) log_transform: Transforms the data to a logarithmic axis
                                 with a basis of two (False by default)
-    :param (list/float) displayRatio: The dendrograms' heights with respect to
+    :param (list/float) display_ratio: The dendrograms' heights with respect to
                                      the size of the heatmap; with one element,
                                      both the row and column dendrograms have
                                      the same ratio; with two, the row
                                      dendrogram ratio corresponds to the first
                                      element of the list (default: 0.2)
-    :param (function) imputeFunction: The function used to impute missing data.
+    :param (function) impute_function: The function used to impute missing data.
                                       It should take as input the dataset and
                                       output a dataset with imputed values.
-    :param (list[dict]) rowGroupMarker: Specifies which rows to annotate; each
+    :param (list[dict]) row_group_marker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
                                         (which group to annotate), 'annotation'
                                         (the text annotation), and 'color'
                                         (color in rgb format used to label the
                                         group).
-    :param (list[dict]) colGroupMarker: Specifies which rows to annotate; each
+    :param (list[dict]) col_group_marker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
                                         (which group to annotate), 'annotation'
                                         (the text annotation), and 'color'
                                         (color in rgb format used to label the
                                         group).
-    :param (dict) tickFont: The font options for ticks.
-    :param (dict) annotationFont: The font options for annotations.
-    :param (list/float) lineWidth: The line width for the dendrograms. If in
+    :param (dict) tick_font: The font options for ticks.
+    :param (dict) annotation_font: The font options for annotations.
+    :param (list/float) line_width: The line width for the dendrograms. If in
                                    list format, the first element corresponds
                                    to the width of the row traces, and the
                                    second corresponds to the width of the
                                    column traces.
-    :param (string) paperBgColor: The background color of the paper on the
+    :param (string) paper_bg_color: The background color of the paper on the
                                   graph (default transparent).
-    :param (string) plotBgColor: The background color of the subplots on the
+    :param (string) plot_bg_color: The background color of the subplots on the
                                  graph (default transparent).
     :param (int) height: The height of the graph, in px (default 500).
     :param (int) width: The width of the graph, in px (default 500).
@@ -231,125 +230,125 @@ class _Clustergram():
     def __init__(
             self,
             data=None,
-            rowLabels=None,
-            columnLabels=None,
-            hideLabels=None,
+            row_labels=None,
+            column_labels=None,
+            hide_labels=None,
             standardize='none',
             cluster='all',
-            rowDist='euclidean',
-            colDist='euclidean',
-            distFun=scs.distance.pdist,
-            linkFun=lambda x, **kwargs: sch.linkage(x, 'complete', **kwargs),
-            colorThreshold=None,
-            optimalLeafOrder=False,
-            colorMap=None,
-            colorList=None,
-            displayRange=3,
-            symmetricValue=True,
-            logTransform=False,
-            displayRatio=0.2,
-            imputeFunction=None,
-            rowGroupMarker=None,    # group number, annotation, color
-            colGroupMarker=None,    # same as above
-            tickFont=None,
-            annotationFont=None,
-            lineWidth=0.5,
-            paperBgColor='rgba(0,0,0,0)',
-            plotBgColor='rgba(0,0,0,0)',
+            row_dist='euclidean',
+            col_dist='euclidean',
+            dist_fun=scs.distance.pdist,
+            link_fun=lambda x, **kwargs: sch.linkage(x, 'complete', **kwargs),
+            color_threshold=None,
+            optimal_leaf_order=False,
+            color_map=None,
+            color_list=None,
+            display_range=3,
+            symmetric_value=True,
+            log_transform=False,
+            display_ratio=0.2,
+            impute_function=None,
+            row_group_marker=None,    # group number, annotation, color
+            col_group_marker=None,    # same as above
+            tick_font=None,
+            annotation_font=None,
+            line_width=0.5,
+            paper_bg_color='rgba(0,0,0,0)',
+            plot_bg_color='rgba(0,0,0,0)',
             height=500,
             width=500
     ):
-        if hideLabels is None:
-            hideLabels = []
-        if colorThreshold is None:
-            colorThreshold = dict(row=0, col=0)
+        if hide_labels is None:
+            hide_labels = []
+        if color_threshold is None:
+            color_threshold = dict(row=0, col=0)
         self._data = data
-        self._rowLabels = rowLabels
-        self._columnLabels = columnLabels
+        self._row_labels = row_labels
+        self._column_labels = column_labels
         self._cluster = cluster
-        self._rowDist = rowDist
-        self._colDist = colDist
-        self._distFun = distFun
-        self._linkFun = linkFun
-        self._colorThreshold = colorThreshold
-        self._optimalLeafOrder = optimalLeafOrder
-        if colorMap is None:
-            self._colorMap = [[0.0, 'rgb(255,0,0)'],
+        self._row_dist = row_dist
+        self._col_dist = col_dist
+        self._dist_fun = dist_fun
+        self._link_fun = link_fun
+        self._color_threshold = color_threshold
+        self._optimal_leaf_order = optimal_leaf_order
+        if color_map is None:
+            self._color_map = [[0.0, 'rgb(255,0,0)'],
                               [0.5, 'rgb(0,0,0)'],
                               [1.0, 'rgb(0,255,0)']]
         else:
-            self._colorMap = colorMap
-        self._colorList = colorList
-        self._displayRange = displayRange
-        self._symmetricValue = symmetricValue
-        self._displayRatio = displayRatio
-        self._imputeFunction = imputeFunction
-        if rowGroupMarker is None:
-            self._rowGroupMarker = []
+            self._color_map = color_map
+        self._color_list = color_list
+        self._display_range = display_range
+        self._symmetric_value = symmetric_value
+        self._display_ratio = display_ratio
+        self._impute_function = impute_function
+        if row_group_marker is None:
+            self._row_group_marker = []
         else:
-            self._rowGroupMarker = rowGroupMarker
-        if colGroupMarker is None:
-            self._colGroupMarker = []
+            self._row_group_marker = row_group_marker
+        if col_group_marker is None:
+            self._col_group_marker = []
         else:
-            self._colGroupMarker = colGroupMarker
-        if tickFont is None:
-            self._tickFont = dict()
+            self._col_group_marker = col_group_marker
+        if tick_font is None:
+            self._tick_font = dict()
         else:
-            self._tickFont = tickFont
-        if annotationFont is None:
-            self._annotationFont = dict()
+            self._tick_font = tick_font
+        if annotation_font is None:
+            self._annotation_font = dict()
         else:
-            self._annotationFont = annotationFont
-        self._paperBgColor = paperBgColor
-        self._plotBgColor = plotBgColor
+            self._annotation_font = annotation_font
+        self._paper_bg_color = paper_bg_color
+        self._plot_bg_color = plot_bg_color
         self._height = height
         self._width = width
 
         # convert line width to list if necessary
-        self._lineWidth = [0, 0]
-        if isinstance(lineWidth, list):
-            self._lineWidth = lineWidth
+        self._line_width = [0, 0]
+        if isinstance(line_width, list):
+            self._line_width = line_width
         else:
-            self._lineWidth = [lineWidth, lineWidth]
+            self._line_width = [line_width, line_width]
 
         # convert display ratio to list if necessary
-        if not isinstance(displayRatio, list):
-            self._displayRatio = [displayRatio, displayRatio]
+        if not isinstance(display_ratio, list):
+            self._display_ratio = [display_ratio, display_ratio]
         if self._cluster == 'row':
-            self._displayRatio = [displayRatio[0], 0]
+            self._display_ratio = [display_ratio[0], 0]
         elif self._cluster == 'col':
-            self._displayRatio = [0, displayRatio[1]]
+            self._display_ratio = [0, display_ratio[1]]
 
-        self._hideLabels = []
+        self._hide_labels = []
 
-        if 'row' in hideLabels:
-            self._hideLabels.append('yaxis5')
-        if 'col' in hideLabels:
-            self._hideLabels.append('xaxis5')
+        if 'row' in hide_labels:
+            self._hide_labels.append('yaxis5')
+        if 'col' in hide_labels:
+            self._hide_labels.append('xaxis5')
 
         # preprocessing data
-        if self._imputeFunction is not None:
+        if self._impute_function is not None:
 
             # numpy NaN values are not serializable and turn into
             # 'None' by the time they get here; passing a string
             # means that it can be converted in the clustergram
             # component itself
-            if self._imputeFunction['missingValues'].lower() == 'nan':
-                self._imputeFunction.update(
-                    missingValues=np.nan
+            if self._impute_function['missing_values'].lower() == 'nan':
+                self._impute_function.update(
+                    missing_values=np.nan
                 )
 
             imp = SimpleImputer(
-                missing_values=self._imputeFunction['missingValues'],
-                strategy=self._imputeFunction['strategy']
+                missing_values=self._impute_function['missing_values'],
+                strategy=self._impute_function['strategy']
             )
 
-            if self._imputeFunction['axis'] == 0:
+            if self._impute_function['axis'] == 0:
                 self._data = imp.fit_transform(self._data.T).T
             else:
                 self._data = imp.fit_transform(self._data)
 
-        if logTransform:
+        if log_transform:
             self._data = np.log2(self._data)
         if standardize in ['row', 'column']:
             self._data = self._scale(self._data, standardize)
@@ -471,7 +470,7 @@ class _Clustergram():
             cdt = col_dendro_traces[i]
             cdt['name'] = ("Col Cluster %d" % i)
             cdt['line'] = dict(
-                width=self._lineWidth[1]
+                width=self._line_width[1]
             )
             cdt['hoverinfo'] = 'y+name'
             fig.append_trace(cdt, 1, 2)
@@ -481,7 +480,7 @@ class _Clustergram():
             rdt = row_dendro_traces[i]
             rdt['name'] = ("Row Cluster %d" % i)
             rdt['line'] = dict(
-                width=self._lineWidth[0]
+                width=self._line_width[0]
             )
             rdt['hoverinfo'] = 'x+name'
             fig.append_trace(rdt, 2, 1)
@@ -508,8 +507,8 @@ class _Clustergram():
             fig['layout']['xaxis5'].update(  # pylint: disable=invalid-sequence-index
                 tickmode='array',
                 tickvals=tickvals_col,
-                ticktext=self._columnLabels,
-                tickfont=self._tickFont,
+                ticktext=self._column_labels,
+                tickfont=self._tick_font,
                 showticklabels=True,
                 side='bottom',
                 showline=False,
@@ -522,8 +521,8 @@ class _Clustergram():
             fig['layout']['yaxis5'].update(  # pylint: disable=invalid-sequence-index
                 tickmode='array',
                 tickvals=tickvals_row,
-                ticktext=self._rowLabels,
-                tickfont=self._tickFont,
+                ticktext=self._row_labels,
+                tickfont=self._tick_font,
                 showticklabels=True,
                 side='right',
                 showline=False,
@@ -531,7 +530,7 @@ class _Clustergram():
             )
 
         # hide labels, if necessary
-        for l in self._hideLabels:
+        for l in self._hide_labels:
             fig['layout'][l].update(
                 ticks='',
                 showticklabels=False
@@ -541,7 +540,7 @@ class _Clustergram():
         heat_data = self._data
 
         # symmetrize the heatmap about zero, if necessary
-        if self._symmetricValue:
+        if self._symmetric_value:
             heat_data = np.subtract(heat_data, np.mean(heat_data))
 
         # row heatmap
@@ -549,7 +548,7 @@ class _Clustergram():
             x=tickvals_col,
             y=tickvals_row,
             z=heat_data,
-            colorscale=self._colorMap,
+            colorscale=self._color_map,
             colorbar={
                 'xpad': 50  # move the colorbar legend away
             }
@@ -567,12 +566,12 @@ class _Clustergram():
 
         # the argument can be either in list form or float form
         # first is ratio for row; second is ratio for column
-        if self._displayRatio[0] != 0:
+        if self._display_ratio[0] != 0:
             rowRatio = \
-                0.95/float(1 + int(1/self._displayRatio[0]))
-        if self._displayRatio[1] != 0:
+                0.95/float(1 + int(1/self._display_ratio[0]))
+        if self._display_ratio[1] != 0:
             colRatio = \
-                0.95/float(1 + int(1/self._displayRatio[1]))
+                0.95/float(1 + int(1/self._display_ratio[1]))
 
         # the row/column labels take up 0.05 of the graph, and the rest
         # is taken up by the heatmap and dendrogram for each dimension
@@ -663,7 +662,7 @@ class _Clustergram():
         )
 
         # get group label annotations and label traces
-        rowGroupLabels, colGroupLabels, rowAnnotations, colAnnotations = \
+        rowGroup_labels, colGroup_labels, rowAnnotations, colAnnotations = \
             self._groupLabelTraces(
                 row_dendro_traces,
                 col_dendro_traces
@@ -673,15 +672,15 @@ class _Clustergram():
             annotations=rowAnnotations + colAnnotations
         )
         # add label traces to graph
-        for rgl in rowGroupLabels:
+        for rgl in rowGroup_labels:
             fig.append_trace(rgl, 2, 4)
-        for cgl in colGroupLabels:
+        for cgl in colGroup_labels:
             fig.append_trace(cgl, 4, 2)
 
         # set background colors
         fig['layout'].update(
-            paper_bgcolor=self._paperBgColor,
-            plot_bgcolor=self._plotBgColor
+            paper_bgcolor=self._paper_bg_color,
+            plot_bgcolor=self._plot_bg_color
         )
 
         # finally add height and width
@@ -728,12 +727,12 @@ class _Clustergram():
         # cluster along columns
         if self._cluster in ['col', 'all']:
             tmp = np.transpose(self._data)
-            dcol = self._distFun(tmp, metric=self._colDist)
-            Zcol = self._linkFun(dcol, optimal_ordering=self._optimalLeafOrder)
+            dcol = self._dist_fun(tmp, metric=self._col_dist)
+            Zcol = self._link_fun(dcol, optimal_ordering=self._optimal_leaf_order)
         # cluster along rows only if 'all' is selected
         if self._cluster in ['row', 'all']:
-            drow = self._distFun(self._data, metric=self._rowDist)
-            Zrow = self._linkFun(drow, optimal_ordering=self._optimalLeafOrder)
+            drow = self._dist_fun(self._data, metric=self._row_dist)
+            Zrow = self._link_fun(drow, optimal_ordering=self._optimal_leaf_order)
 
         return (Zcol, Zrow)
 
@@ -760,22 +759,22 @@ class _Clustergram():
         # of four coordinates that make up the 'u' shapes in the dendrogram
         if Zcol is not None:
             Pcol = sch.dendrogram(Zcol, orientation='top',
-                                  color_threshold=self._colorThreshold['col'],
-                                  labels=self._columnLabels, no_plot=True)
-            self._columnLabels = scp.array(Pcol['ivl'])
+                                  color_threshold=self._color_threshold['col'],
+                                  labels=self._column_labels, no_plot=True)
+            self._column_labels = scp.array(Pcol['ivl'])
             trace_list['col'] = self._colorDendroClusters(Pcol, 'col')
 
         if Zrow is not None:
             Prow = sch.dendrogram(Zrow, orientation='left',
-                                  color_threshold=self._colorThreshold['row'],
-                                  labels=self._rowLabels, no_plot=True)
+                                  color_threshold=self._color_threshold['row'],
+                                  labels=self._row_labels, no_plot=True)
             # need to flip the coordinates for the row dendrogram
             Prow_tmp = {
                 'icoord': Prow['dcoord'],
                 'dcoord': Prow['icoord'],
                 'color_list': Prow['color_list']
             }
-            self._rowLabels = scp.array(Prow['ivl'])
+            self._row_labels = scp.array(Prow['ivl'])
             trace_list['row'] = self._colorDendroClusters(Prow_tmp, 'row')
 
         return trace_list
@@ -801,21 +800,21 @@ class _Clustergram():
         icoord = scp.array(P['icoord'])
         dcoord = scp.array(P['dcoord'])
 
-        colorList = self._clusterColors(P['color_list'], dim)
+        color_list = self._clusterColors(P['color_list'], dim)
 
         # dict w/ keys being the color code and values being another dict
         # specifying icoords and dcoords for that cluster
         clusters = {}
 
-        for i in range(len(colorList)):
+        for i in range(len(color_list)):
             # the current trace
-            c = colorList[i]
+            c = color_list[i]
             clusters[str(c['cluster'])] = {
                 'color': c['color'],
                 'icoords': [icoord[j] for j in range(len(icoord))
-                            if colorList[j]['cluster'] == c['cluster']],
+                            if color_list[j]['cluster'] == c['cluster']],
                 'dcoords': [dcoord[j] for j in range(len(dcoord))
-                            if colorList[j]['cluster'] == c['cluster']]
+                            if color_list[j]['cluster'] == c['cluster']]
             }
 
         for c in clusters:
@@ -886,7 +885,7 @@ class _Clustergram():
             # finally, increment the counter
             i += 1
 
-        colorList = []
+        color_list = []
         bgColor = 'rgb(0,0,0)'
 
         # each element in 'cycles' contains a full cycle of 6 colors
@@ -895,11 +894,11 @@ class _Clustergram():
         n = 6*len(cycles)
 
         # fill in the user-provided color list if possible
-        if self._colorList is not None and dim in self._colorList:
-            colorList = self._colorList[dim]
+        if self._color_list is not None and dim in self._color_list:
+            color_list = self._color_list[dim]
             # if there aren't enough colors, repeat the list
-            if len(colorList) < n and len(colorList) > 0:
-                colorList = colorList * (int(n/len(colorList)) + 1)
+            if len(color_list) < n and len(color_list) > 0:
+                color_list = color_list * (int(n/len(color_list)) + 1)
 
         else:
             # first, get the number of divisions
@@ -941,14 +940,14 @@ class _Clustergram():
             # avoid similarity of colors
             shuffle(other)
 
-            colorList = pure + mixed + other
+            color_list = pure + mixed + other
 
         # this will be returned
         colors = []
 
         # get the color for the background trace, if one is supplied
-        if self._colorList is not None and 'bg' in self._colorList:
-            bgColor = self._colorList['bg']
+        if self._color_list is not None and 'bg' in self._color_list:
+            bgColor = self._color_list['bg']
 
         # the sequence
         seq = ['g', 'r', 'c', 'm', 'y', 'k']
@@ -957,7 +956,7 @@ class _Clustergram():
             tmp = []
             for s in seq:
                 for j in range(cycles[i].count(s)):
-                    tmp.append({'color': colorList[i*6 + seq.index(s)],
+                    tmp.append({'color': color_list[i*6 + seq.index(s)],
                                 'cluster': i*6 + seq.index(s)})
             # get all indices of 'b', the links above threshold
             bs = [j for j in range(len(cycles[i])) if cycles[i][j] == 'b']
@@ -1030,13 +1029,13 @@ class _Clustergram():
                         row group annotations, and column group annotations.
         """
 
-        rowGroupLabels = []
-        colGroupLabels = []
+        rowGroup_labels = []
+        colGroup_labels = []
 
         rowAnnotations = []
         colAnnotations = []
 
-        for rgm in self._rowGroupMarker:
+        for rgm in self._row_group_marker:
             if len(rowClusters) == 0:
                 break
             if rgm['group'] >= len(rowClusters):
@@ -1057,17 +1056,17 @@ class _Clustergram():
                 ),
                 hoverinfo='none'
             )
-            rowGroupLabels.append(trace)
+            rowGroup_labels.append(trace)
             rowAnnotations.append(dict(
                 x=0.5, y=1/2*(ymin + ymax),
                 xref='x6', yref='y6',
                 text=rgm['annotation'],
-                font=self._annotationFont,
+                font=self._annotation_font,
                 showarrow=False,
                 xanchor='left'
             ))
 
-        for cgm in self._colGroupMarker:
+        for cgm in self._col_group_marker:
             if len(colClusters) == 0:
                 break
             if cgm['group'] >= len(colClusters):
@@ -1088,13 +1087,13 @@ class _Clustergram():
                 ),
                 hoverinfo='none'
             )
-            colGroupLabels.append(trace)
+            colGroup_labels.append(trace)
             colAnnotations.append(dict(
                 x=1/2*(xmin + xmax), y=-0.5,
                 xref='x8', yref='y8',
                 text=cgm['annotation'],
-                font=self._annotationFont,
+                font=self._annotation_font,
                 showarrow=False
             ))
 
-        return (rowGroupLabels, colGroupLabels, rowAnnotations, colAnnotations)
+        return (rowGroup_labels, colGroup_labels, rowAnnotations, colAnnotations)
