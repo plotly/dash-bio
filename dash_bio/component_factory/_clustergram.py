@@ -274,8 +274,8 @@ class _Clustergram():
         self._optimal_leaf_order = optimal_leaf_order
         if color_map is None:
             self._color_map = [[0.0, 'rgb(255,0,0)'],
-                              [0.5, 'rgb(0,0,0)'],
-                              [1.0, 'rgb(0,255,0)']]
+                               [0.5, 'rgb(0,0,0)'],
+                               [1.0, 'rgb(0,255,0)']]
         else:
             self._color_map = color_map
         self._color_list = color_list
@@ -502,32 +502,36 @@ class _Clustergram():
             scaleanchor='x5'
         )
 
-        if len(tickvals_col) > 0:
-            # add in all of the labels
-            fig['layout']['xaxis5'].update(  # pylint: disable=invalid-sequence-index
-                tickmode='array',
-                tickvals=tickvals_col,
-                ticktext=self._column_labels,
-                tickfont=self._tick_font,
-                showticklabels=True,
-                side='bottom',
-                showline=False,
-                range=[min(tickvals_col)-5, max(tickvals_col)+5]
-                # workaround for autoscale issues above; otherwise
-                # the graph cuts off and must be scaled manually
-            )
+        if len(tickvals_col) == 0:
+            tickvals_col = [10*i+5 for i in range(len(self._column_labels))]
 
-        if len(tickvals_row) > 0:
-            fig['layout']['yaxis5'].update(  # pylint: disable=invalid-sequence-index
-                tickmode='array',
-                tickvals=tickvals_row,
-                ticktext=self._row_labels,
-                tickfont=self._tick_font,
-                showticklabels=True,
-                side='right',
-                showline=False,
-                range=[min(tickvals_row), max(tickvals_row)]
-            )
+        # add in all of the labels
+        fig['layout']['xaxis5'].update(  # pylint: disable=invalid-sequence-index
+            tickmode='array',
+            tickvals=tickvals_col,
+            ticktext=self._column_labels,
+            tickfont=self._tick_font,
+            showticklabels=True,
+            side='bottom',
+            showline=False,
+            range=[min(tickvals_col)-5, max(tickvals_col)+5]
+            # workaround for autoscale issues above; otherwise
+            # the graph cuts off and must be scaled manually
+        )
+
+        if len(tickvals_row) == 0:
+            tickvals_row = [10*i+5 for i in range(len(self._row_labels))]
+
+        fig['layout']['yaxis5'].update(  # pylint: disable=invalid-sequence-index
+            tickmode='array',
+            tickvals=tickvals_row,
+            ticktext=self._row_labels,
+            tickfont=self._tick_font,
+            showticklabels=True,
+            side='right',
+            showline=False,
+            range=[min(tickvals_row), max(tickvals_row)]
+        )
 
         # hide labels, if necessary
         for l in self._hide_labels:
@@ -547,7 +551,7 @@ class _Clustergram():
         heatmap = go.Heatmap(
             x=tickvals_col,
             y=tickvals_row,
-            z=heat_data,
+            z=heat_data,  # TODO z is not heat_data (check for rearrangement)
             colorscale=self._color_map,
             colorbar={
                 'xpad': 50  # move the colorbar legend away
@@ -755,13 +759,17 @@ class _Clustergram():
         # first, compute the clusters
         (Zcol, Zrow) = self._get_clusters()
 
+        clustered_column_labels = self._column_labels
+        clustered_row_labels = self._row_labels
+
         # calculate dendrogram from clusters; sch.dendrogram returns sets
         # of four coordinates that make up the 'u' shapes in the dendrogram
         if Zcol is not None:
             Pcol = sch.dendrogram(Zcol, orientation='top',
                                   color_threshold=self._color_threshold['col'],
                                   labels=self._column_labels, no_plot=True)
-            self._column_labels = scp.array(Pcol['ivl'])
+            clustered_column_labels = scp.array(Pcol['ivl'])
+
             trace_list['col'] = self._color_dendro_clusters(Pcol, 'col')
 
         if Zrow is not None:
@@ -774,8 +782,25 @@ class _Clustergram():
                 'dcoord': Prow['icoord'],
                 'color_list': Prow['color_list']
             }
-            self._row_labels = scp.array(Prow['ivl'])
+            clustered_row_labels = scp.array(Prow['ivl'])
             trace_list['row'] = self._color_dendro_clusters(Prow_tmp, 'row')
+
+        # now, we need to rearrange the data array to fit the labels
+
+        # first find the order in which to shuffle the data
+        rl_indices = [list(clustered_row_labels).index(r)
+                      for r in list(self._row_labels)]
+        cl_indices = [list(clustered_column_labels).index(c)
+                      for c in list(self._column_labels)]
+
+        # then modify the data here; first shuffle rows,
+        # then transpose and shuffle columns,
+        # then transpose again
+        self._data = self._data[rl_indices].T[cl_indices].T
+
+        # update the labels
+        self._column_labels = clustered_column_labels
+        self._row_labels = clustered_row_labels
 
         return trace_list
 
