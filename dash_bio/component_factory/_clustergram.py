@@ -359,7 +359,7 @@ class _Clustergram():
     ):
         t = None
         if computed_traces is None:
-            t = self._dendrogramTraces()
+            t = self._dendrogram_traces()
         else:
             t = computed_traces
 
@@ -463,7 +463,7 @@ class _Clustergram():
                 showticklabels=False
             )
 
-        (row_dendro_traces, col_dendro_traces) = self._sortTraces(
+        (row_dendro_traces, col_dendro_traces) = self._sort_traces(
             t['row'], t['col'])
 
         for i in range(len(col_dendro_traces)):
@@ -561,16 +561,16 @@ class _Clustergram():
         )
 
         # apply the display ratio
-        rowRatio = 0
-        colRatio = 0
+        row_ratio = 0
+        col_ratio = 0
 
         # the argument can be either in list form or float form
         # first is ratio for row; second is ratio for column
         if self._display_ratio[0] != 0:
-            rowRatio = \
+            row_ratio = \
                 0.95/float(1 + int(1/self._display_ratio[0]))
         if self._display_ratio[1] != 0:
-            colRatio = \
+            col_ratio = \
                 0.95/float(1 + int(1/self._display_ratio[1]))
 
         # the row/column labels take up 0.05 of the graph, and the rest
@@ -584,28 +584,28 @@ class _Clustergram():
             domain=[0, 0.95]
         )
         fig['layout']['xaxis2'].update(  # pylint: disable=invalid-sequence-index
-            domain=[rowRatio, 0.95],
+            domain=[row_ratio, 0.95],
             anchor='y4'
         )
         fig['layout']['xaxis4'].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, rowRatio]
+            domain=[0, row_ratio]
         )
         fig['layout']['xaxis5'].update(  # pylint: disable=invalid-sequence-index
-            domain=[rowRatio, 0.95]
+            domain=[row_ratio, 0.95]
         )
 
         # height adjustment for column dendrogram
         fig['layout']['yaxis1'].update(  # pylint: disable=invalid-sequence-index
-            domain=[1-colRatio, 1]
+            domain=[1-col_ratio, 1]
         )
         fig['layout']['yaxis2'].update(  # pylint: disable=invalid-sequence-index
-            domain=[1-colRatio, 1]
+            domain=[1-col_ratio, 1]
         )
         fig['layout']['yaxis4'].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, 0.95-colRatio]
+            domain=[0, 0.95-col_ratio]
         )
         fig['layout']['yaxis5'].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, 0.95-colRatio]
+            domain=[0, 0.95-col_ratio]
         )
 
         fig['layout']['legend'] = dict(  # pylint: disable=unsupported-assignment-operation
@@ -632,7 +632,7 @@ class _Clustergram():
 
         # group labels for row dendrogram
         fig['layout']['yaxis6'].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, 0.95-colRatio],
+            domain=[0, 0.95-col_ratio],
             scaleanchor='y5',
             scaleratio=1
         )
@@ -648,7 +648,7 @@ class _Clustergram():
 
         # group labels for column dendrogram
         fig['layout']['xaxis8'].update(  # pylint: disable=invalid-sequence-index
-            domain=[rowRatio, 0.95],
+            domain=[row_ratio, 0.95],
             scaleanchor='x5',
             scaleratio=1
         )
@@ -657,24 +657,24 @@ class _Clustergram():
                 range=[min(tickvals_col), max(tickvals_col)]
             )
         fig['layout']['yaxis8'].update(  # pylint: disable=invalid-sequence-index
-            domain=[0.95-colRatio, 1-colRatio],
+            domain=[0.95-col_ratio, 1-col_ratio],
             range=[-0.5, 0.5]
         )
 
         # get group label annotations and label traces
-        rowGroup_labels, colGroup_labels, rowAnnotations, colAnnotations = \
-            self._groupLabelTraces(
+        row_group_labels, col_group_labels, row_annotations, col_annotations = \
+            self._group_label_traces(
                 row_dendro_traces,
                 col_dendro_traces
             )
         # add annotations to graph
         fig['layout'].update(
-            annotations=rowAnnotations + colAnnotations
+            annotations=row_annotations + col_annotations
         )
         # add label traces to graph
-        for rgl in rowGroup_labels:
+        for rgl in row_group_labels:
             fig.append_trace(rgl, 2, 4)
-        for cgl in colGroup_labels:
+        for cgl in col_group_labels:
             fig.append_trace(cgl, 4, 2)
 
         # set background colors
@@ -712,7 +712,7 @@ class _Clustergram():
 
         return std
 
-    def _getClusters(
+    def _get_clusters(
             self
     ):
         """
@@ -736,7 +736,7 @@ class _Clustergram():
 
         return (Zcol, Zrow)
 
-    def _dendrogramTraces(
+    def _dendrogram_traces(
             self
     ):
         """
@@ -753,7 +753,7 @@ class _Clustergram():
         }
 
         # first, compute the clusters
-        (Zcol, Zrow) = self._getClusters()
+        (Zcol, Zrow) = self._get_clusters()
 
         # calculate dendrogram from clusters; sch.dendrogram returns sets
         # of four coordinates that make up the 'u' shapes in the dendrogram
@@ -762,7 +762,7 @@ class _Clustergram():
                                   color_threshold=self._color_threshold['col'],
                                   labels=self._column_labels, no_plot=True)
             self._column_labels = scp.array(Pcol['ivl'])
-            trace_list['col'] = self._colorDendroClusters(Pcol, 'col')
+            trace_list['col'] = self._color_dendro_clusters(Pcol, 'col')
 
         if Zrow is not None:
             Prow = sch.dendrogram(Zrow, orientation='left',
@@ -775,11 +775,11 @@ class _Clustergram():
                 'color_list': Prow['color_list']
             }
             self._row_labels = scp.array(Prow['ivl'])
-            trace_list['row'] = self._colorDendroClusters(Prow_tmp, 'row')
+            trace_list['row'] = self._color_dendro_clusters(Prow_tmp, 'row')
 
         return trace_list
 
-    def _colorDendroClusters(
+    def _color_dendro_clusters(
             self,
             P,
             dim
@@ -800,7 +800,7 @@ class _Clustergram():
         icoord = scp.array(P['icoord'])
         dcoord = scp.array(P['dcoord'])
 
-        color_list = self._clusterColors(P['color_list'], dim)
+        color_list = self._cluster_colors(P['color_list'], dim)
 
         # dict w/ keys being the color code and values being another dict
         # specifying icoords and dcoords for that cluster
@@ -845,7 +845,7 @@ class _Clustergram():
 
         return traces
 
-    def _clusterColors(
+    def _cluster_colors(
             self,
             clist,
             dim
@@ -858,35 +858,34 @@ class _Clustergram():
 
         :rtype (list): A list of RGB strings.
         '''
-
         # the colors repeat; get how many repetitions there are
 
         # the colors go through cycles of g, r, c, m, y, k
         cycles = []
         # store a string representing the current cycle
-        currCycle = ''
+        curr_cycle = ''
 
         # iterate through the list of colors
         i = 0
         while i < len(clist):
             # add the color to the current cycle
-            currCycle += clist[i]
+            curr_cycle += clist[i]
             # treat the end of the list as the end of a cycle
             if i == len(clist)-1:
-                cycles.append(currCycle)
+                cycles.append(curr_cycle)
                 break
             # otherwise, the end of a cycle is signified by
             # a sequence k, g - however, we also have b for
             # the links above the color threshold; so we
             # include this as well
             if clist[i] in ['k', 'b'] and clist[i+1] == 'g':
-                cycles.append(currCycle)
-                currCycle = ''
+                cycles.append(curr_cycle)
+                curr_cycle = ''
             # finally, increment the counter
             i += 1
 
         color_list = []
-        bgColor = 'rgb(0,0,0)'
+        bg_color = 'rgb(0,0,0)'
 
         # each element in 'cycles' contains a full cycle of 6 colors
         # (at most)
@@ -947,7 +946,7 @@ class _Clustergram():
 
         # get the color for the background trace, if one is supplied
         if self._color_list is not None and 'bg' in self._color_list:
-            bgColor = self._color_list['bg']
+            bg_color = self._color_list['bg']
 
         # the sequence
         seq = ['g', 'r', 'c', 'm', 'y', 'k']
@@ -964,14 +963,14 @@ class _Clustergram():
                 # may need to change this color
                 # depending on which are generated
                 tmp.insert(index,
-                           {'color': bgColor,
+                           {'color': bg_color,
                             'cluster': -1})
 
             colors = colors + tmp
 
         return colors
 
-    def _sortTraces(
+    def _sort_traces(
             self,
             rdt,
             cdt
@@ -1011,38 +1010,38 @@ class _Clustergram():
 
         return(tmp_rdt, tmp_cdt)
 
-    def _groupLabelTraces(
+    def _group_label_traces(
             self,
-            rowClusters,
-            colClusters
+            row_clusters,
+            col_clusters
     ):
         """
         Calculates the traces and annotations that correspond to group
         labels.
 
-        :param (list[dict]) rowClusters: List of all row traces (each trace
+        :param (list[dict]) row_clusters: List of all row traces (each trace
                                          corresponds to a cluster)
-        :param (list[dict]) colClusters: List of all column traces (each trace
+        :param (list[dict]) col_clusters: List of all column traces (each trace
                                          corresponds to a cluster)
 
         :rtype (tuple): The row label traces, column label traces,
                         row group annotations, and column group annotations.
         """
 
-        rowGroup_labels = []
-        colGroup_labels = []
+        row_group_labels = []
+        col_group_labels = []
 
-        rowAnnotations = []
-        colAnnotations = []
+        row_annotations = []
+        col_annotations = []
 
         for rgm in self._row_group_marker:
-            if len(rowClusters) == 0:
+            if len(row_clusters) == 0:
                 break
-            if rgm['group'] >= len(rowClusters):
+            if rgm['group'] >= len(row_clusters):
                 continue
             # get upper and lower bounds of group
-            ymin = min(rowClusters[rgm['group']]['y'])
-            ymax = max(rowClusters[rgm['group']]['y'])
+            ymin = min(row_clusters[rgm['group']]['y'])
+            ymax = max(row_clusters[rgm['group']]['y'])
             trace = go.Scatter(
                 x=[0, 0],
                 y=[ymin, ymax],
@@ -1056,8 +1055,8 @@ class _Clustergram():
                 ),
                 hoverinfo='none'
             )
-            rowGroup_labels.append(trace)
-            rowAnnotations.append(dict(
+            row_group_labels.append(trace)
+            row_annotations.append(dict(
                 x=0.5, y=1/2*(ymin + ymax),
                 xref='x6', yref='y6',
                 text=rgm['annotation'],
@@ -1067,13 +1066,13 @@ class _Clustergram():
             ))
 
         for cgm in self._col_group_marker:
-            if len(colClusters) == 0:
+            if len(col_clusters) == 0:
                 break
-            if cgm['group'] >= len(colClusters):
+            if cgm['group'] >= len(col_clusters):
                 continue
             # get leftmost and rightmost bounds of group
-            xmin = min(colClusters[cgm['group']]['x'])
-            xmax = max(colClusters[cgm['group']]['x'])
+            xmin = min(col_clusters[cgm['group']]['x'])
+            xmax = max(col_clusters[cgm['group']]['x'])
             trace = go.Scatter(
                 x=[xmin, xmax],
                 y=[0, 0],
@@ -1087,8 +1086,8 @@ class _Clustergram():
                 ),
                 hoverinfo='none'
             )
-            colGroup_labels.append(trace)
-            colAnnotations.append(dict(
+            col_group_labels.append(trace)
+            col_annotations.append(dict(
                 x=1/2*(xmin + xmax), y=-0.5,
                 xref='x8', yref='y8',
                 text=cgm['annotation'],
@@ -1096,4 +1095,4 @@ class _Clustergram():
                 showarrow=False
             ))
 
-        return (rowGroup_labels, colGroup_labels, rowAnnotations, colAnnotations)
+        return (row_group_labels, col_group_labels, row_annotations, col_annotations)
