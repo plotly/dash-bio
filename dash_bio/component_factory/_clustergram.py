@@ -4,7 +4,8 @@ import numpy as np
 import scipy as scp
 import scipy.cluster.hierarchy as sch
 import scipy.spatial as scs
-from sklearn.preprocessing import Imputer
+from sklearn.impute import SimpleImputer
+import sklearn
 from random import shuffle
 
 import plotly.graph_objs as go
@@ -328,12 +329,25 @@ class _Clustergram():
 
         # preprocessing data
         if self._imputeFunction is not None:
-            imp = Imputer(
+
+            # numpy NaN values are not serializable and turn into
+            # 'None' by the time they get here; passing a string
+            # means that it can be converted in the clustergram
+            # component itself
+            if self._imputeFunction['missingValues'].lower() == 'nan':
+                self._imputeFunction.update(
+                    missingValues=np.nan
+                )
+
+            imp = SimpleImputer(
                 missing_values=self._imputeFunction['missingValues'],
-                strategy=self._imputeFunction['strategy'],
-                axis=self._imputeFunction['axis']
+                strategy=self._imputeFunction['strategy']
             )
-            self._data = imp.fit_transform(self._data)
+
+            if self._imputeFunction['axis'] == 0:
+                self._data = imp.fit_transform(self._data.T).T
+            else:
+                self._data = imp.fit_transform(self._data)
 
         if logTransform:
             self._data = np.log2(self._data)
