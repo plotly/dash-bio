@@ -124,6 +124,12 @@ def layout():
                                         step=0.01,
                                         marks={str(num): str(num) for num in range(0, -4, -1)}
                                     ),
+                                    dcc.Input(
+                                        className='vp-test-util-div',
+                                        id='vp-lower-bound-val',
+                                        value=-1,
+                                        type='number',
+                                    )
                                 ],
                             ),
                             html.Div(
@@ -145,6 +151,12 @@ def layout():
                                         step=0.01,
                                         marks={str(num): str(num) for num in range(4)}
                                     ),
+                                    dcc.Input(
+                                        className='vp-test-util-div',
+                                        id='vp-upper-bound-val',
+                                        value=1,
+                                        type='number',
+                                    )
                                 ],
                             ),
                             html.Div(
@@ -167,6 +179,12 @@ def layout():
                                         marks={str(num): str(num) for num in range(0, 11, 2)}
 
                                     ),
+                                    dcc.Input(
+                                        className='vp-test-util-div',
+                                        id='vp-genomic-line-val',
+                                        value=4,
+                                        type='number',
+                                    )
                                 ],
                             ),
                         ],
@@ -187,6 +205,10 @@ def layout():
                                         id='vp-upper-left',
                                         size=20,
                                     ),
+                                    html.Div(
+                                        className='vp-test-util-div',
+                                        id='vp-upper-left-val'
+                                    )
                                 ],
                             ),
                             html.Div(
@@ -202,6 +224,10 @@ def layout():
                                         id='vp-upper-right',
                                         size=20,
                                     ),
+                                    html.Div(
+                                        className='vp-test-util-div',
+                                        id='vp-upper-right-val'
+                                    )
                                 ],
                             ),
                         ],
@@ -239,9 +265,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         Output('vp-graph', 'figure'),
         [
-            Input('vp-upper-bound', 'value'),
-            Input('vp-lower-bound', 'value'),
-            Input('vp-genomic-line', 'value'),
+            Input('vp-upper-bound-val', 'value'),
+            Input('vp-lower-bound-val', 'value'),
+            Input('vp-genomic-line-val', 'value'),
             Input('vp-dataset-dropdown', 'value'),
             Input('vp-color-picker', 'value')
         ]
@@ -250,6 +276,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         """Update the data set of interest upon change the dashed lines
         value.
         """
+        print(locals())
         if 'hex' in color:
             color = color.get('hex', 'red')
         return dash_bio.VolcanoPlot(
@@ -290,6 +317,31 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return number
 
     @app.callback(
+        Output('vp-upper-left-val', 'children'),
+        [Input('vp-graph', 'figure')],
+        [State('vp-lower-bound', 'value')]
+    )
+    def update_upper_left_number_val(fig, l_lim):
+        """Update the number of points in the upper left zone delimited by
+        the thresholds for test purpose.
+        """
+
+        number = 0
+        if len(fig['data']) > 1:
+            x = np.array(fig['data'][0]['x'])
+            idx = x < float(l_lim)
+            number = len(x[idx])
+        return str(number)
+
+    @app.callback(
+        Output('vp-upper-bound-val', 'value'),
+        [Input('vp-upper-bound', 'value')],
+    )
+    def update_upper_bound_val(u_lim):
+        """For selenium tests purposes."""
+        return u_lim
+
+    @app.callback(
         Output('vp-upper-right', 'value'),
         [Input('vp-graph', 'figure')],
         [State('vp-upper-bound', 'value')]
@@ -305,6 +357,40 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             idx = x > float(u_lim)
             number = len(x[idx])
         return number
+
+    @app.callback(
+        Output('vp-upper-right-val', 'children'),
+        [Input('vp-graph', 'figure')],
+        [State('vp-upper-bound', 'value')]
+    )
+    def update_upper_right_number_val(fig, u_lim,):
+        """Update the number of points in the upper right zone delimited by
+        the thresholds for test purpose.
+        """
+
+        number = 0
+        if len(fig['data']) > 1:
+            x = np.array(fig['data'][0]['x'])
+            idx = x > float(u_lim)
+            number = len(x[idx])
+        return str(number)
+
+    @app.callback(
+        Output('vp-lower-bound-val', 'value'),
+        [Input('vp-lower-bound', 'value')],
+    )
+    def update_lower_bound_val(l_lim):
+        """For selenium tests purposes."""
+        return l_lim
+
+
+    @app.callback(
+        Output('vp-genomic-line-val', 'value'),
+        [Input('vp-genomic-line', 'value')],
+    )
+    def update_lower_bound_val(val):
+        """For selenium tests purposes."""
+        return val
 
 
 # only declare app/server if the file is being run directly

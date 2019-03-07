@@ -100,3 +100,7 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.vp-test-util-div {
+    display: none;
+}
