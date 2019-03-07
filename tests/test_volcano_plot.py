@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from pytest_dash.wait_for import (
     wait_for_text_to_equal,
     wait_for_element_by_css_selector,
+    wait_for_elements_by_css_selector
 )
 from dash_bio import VolcanoPlot
 from dash_bio.component_factory._volcano import GENOMEWIDE_LINE_LABEL, \
@@ -63,14 +64,18 @@ def test_lower_genomic_line(dash_threaded):
 
     driver = dash_threaded.driver
 
+    # display the test elements
+    test_divs = wait_for_elements_by_css_selector(driver, '.vp-test-util-div')
+    for div in test_divs:
+        driver.execute_script("arguments[0].setAttribute('style','display:block;');", div)
     # initial check
     wait_for_text_to_equal(driver, '#vp-dataset-dropdown .Select-value-label', 'Set2')
-    wait_for_text_to_equal(driver, '#vp-upper-left', '14')
-    wait_for_text_to_equal(driver, '#vp-upper-right', '92')
+    wait_for_text_to_equal(driver, '#vp-upper-left-val', '14')
+    wait_for_text_to_equal(driver, '#vp-upper-right-val', '92')
 
-    threshold = wait_for_element_by_css_selector(driver, '#vp-genomic-line')
-    lower_bound = wait_for_element_by_css_selector(driver, '#vp-lower-bound')
-    upper_bound = wait_for_element_by_css_selector(driver, '#vp-upper-bound')
+    threshold = wait_for_element_by_css_selector(driver, '#vp-genomic-line-val')
+    lower_bound = wait_for_element_by_css_selector(driver, '#vp-lower-bound-val')
+    upper_bound = wait_for_element_by_css_selector(driver, '#vp-upper-bound-val')
 
     assert int(threshold.get_attribute('value')) == 4
     assert int(lower_bound.get_attribute('value')) == -1
@@ -79,48 +84,11 @@ def test_lower_genomic_line(dash_threaded):
     # lower the threshold
     threshold.send_keys(Keys.ARROW_DOWN)
 
-    # number of points in the upper left and upper right quadrants
-    wait_for_text_to_equal(driver, '#vp-upper-left', '154')
-    wait_for_text_to_equal(driver, '#vp-upper-right', '271')
-
-    threshold.send_keys(Keys.ARROW_DOWN)
-    threshold.send_keys(Keys.ARROW_DOWN)
-    threshold.send_keys(Keys.ARROW_DOWN)
-    threshold.send_keys(Keys.ARROW_DOWN)
-
-    assert int(threshold.get_attribute('value')) == 0
-
-
-@init_demo_app(APP_NAME)
-def test_effect_size_min_and_max(dash_threaded):
-    """Move the lower and upper effect size lines to their max and min, respectively."""
-
-    driver = dash_threaded.driver
-
-    lower_bound = wait_for_element_by_css_selector(driver, '#vp-lower-bound')
-    upper_bound = wait_for_element_by_css_selector(driver, '#vp-upper-bound')
-
-    lower_bound.send_keys(Keys.ARROW_UP)
-    assert int(lower_bound.get_attribute('value')) == 0
-
-    # maximum should be set to 0
-    lower_bound.send_keys(Keys.ARROW_UP)
-    assert int(lower_bound.get_attribute('value')) == 0
+    # driver.execute_script("arguments[0].setAttribute('value', '3');", threshold)
 
     # number of points in the upper left and upper right quadrants
-    wait_for_text_to_equal(driver, '#vp-upper-left', '24')
-    wait_for_text_to_equal(driver, '#vp-upper-right', '92')
-
-    upper_bound.send_keys(Keys.ARROW_DOWN)
-    assert int(upper_bound.get_attribute('value')) == 0
-
-    # minimum should be set to 0
-    upper_bound.send_keys(Keys.ARROW_DOWN)
-    assert int(upper_bound.get_attribute('value')) == 0
-
-    # number of points in the upper left and upper right quadrants
-    wait_for_text_to_equal(driver, '#vp-upper-left', '24')
-    wait_for_text_to_equal(driver, '#vp-upper-right', '99')
+    wait_for_text_to_equal(driver, '#vp-upper-left-val', '154')
+    wait_for_text_to_equal(driver, '#vp-upper-right-val', '271')
 
 
 # Volcano Plot component tests

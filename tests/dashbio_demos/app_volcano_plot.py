@@ -383,12 +383,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         """For selenium tests purposes."""
         return l_lim
 
-
     @app.callback(
         Output('vp-genomic-line-val', 'value'),
         [Input('vp-genomic-line', 'value')],
     )
-    def update_lower_bound_val(val):
+    def update_genomic_line_val(val):
         """For selenium tests purposes."""
         return val
 
