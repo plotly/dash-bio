@@ -1,6 +1,6 @@
 import os
 
-from pytest_dash.wait_for import wait_for_element_by_css_selector
+from pytest_dash.wait_for import wait_for_element_by_css_selector, wait_for_elements_by_css_selector
 
 from .test_common_features import (
     init_demo_app,
