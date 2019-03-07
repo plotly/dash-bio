@@ -39,6 +39,12 @@ before being compiled into Python components that are in the
 `dash_bio/component_factory/` and must be imported in
 `dash_bio/__init__.py`.
 
+###### Naming components
+Components, regardless of whether they are written using React or
+Python, need to be named in upper camel case. This is incredibly
+important due to the amount of parsing we perform in our testing suite
+and app deployments.
+
 ##### Demo applications 
 Instead of creating standalone Dash apps for each component, there is a file
 structure in place to create a main "gallery" page that contains links to each

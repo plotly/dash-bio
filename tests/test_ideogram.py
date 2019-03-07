@@ -1,14 +1,25 @@
 import os
+import json
 from pytest_dash.wait_for import (
     wait_for_element_by_css_selector,
+    wait_for_elements_by_css_selector,
 )
 from .test_common_features import (
     init_demo_app,
     template_test_component,
-    template_test_component_single_prop,
+    template_test_python_component_prop,
     PROP_TYPES,
     COMPONENT_REACT_BASE
 )
+
+# TODO by merging https://github.com/plotly/dash-bio/pull/201
+
+# these tests are written for the locked version v1.4.1
+# git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f
+# if the version in package-lock.json is different and some of the test fails it might be due
+# to changes from the author of https://github.com/eweitz/ideogram. For example, currently in the
+# version v1.5.1 test_orientation fails because "chromosome-set-container" was renamed to
+# "chromosome-set" which result in a timeout of the _wait_for function
 
 # define app name once
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
@@ -44,7 +55,6 @@ def ideogram_test_props_callback(
         after casting it to the correct type.
     """
     answer = None
-    print("IN :", locals())
 
     if prop_type == 'dict':
         answer = {}
@@ -80,7 +90,7 @@ def test_chr_height(dash_threaded):
                 answer = PASS
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -106,7 +116,7 @@ def test_chr_margin(dash_threaded):
                 answer = PASS
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -132,7 +142,7 @@ def test_chr_width(dash_threaded):
                 answer = PASS
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -173,7 +183,7 @@ def test_orientation(dash_threaded):
     driver = dash_threaded.driver
 
     # assert presence of chromosomes' rotation
-    chromosoms = driver.find_elements_by_class_name('chromosome-set-container')
+    chromosoms = wait_for_elements_by_css_selector(driver, '.chromosome-set-container')
     for chromosom in chromosoms:
         assert 'rotate(90)' in str(chromosom.get_attribute('transform'))
 
@@ -182,7 +192,7 @@ def test_orientation(dash_threaded):
     btn.click()
 
     # assert absence of chromosomes' rotation
-    chromosoms = driver.find_elements_by_class_name('chromosome-set-container')
+    chromosoms = wait_for_elements_by_css_selector(driver, '.chromosome-set-container')
     for chromosom in chromosoms:
         assert 'rotate(90)' not in str(chromosom.get_attribute('transform'))
 
@@ -215,7 +225,7 @@ def test_ploidy(dash_threaded):
     driver = dash_threaded.driver
 
     # assert 22 chromosomes + X and Y chromosomes
-    num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
+    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
     assert num_chromosoms == 24
 
     # trigger a change of the component prop
@@ -223,7 +233,7 @@ def test_ploidy(dash_threaded):
     btn.click()
 
     # assert doubling of the 22 chromosomes + X and Y chromosomes
-    num_chromosoms = len(driver.find_elements_by_class_name('chromosome'))
+    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
     assert num_chromosoms == 46
 
 
@@ -259,7 +269,7 @@ def test_chromosomes(dash_threaded):
     btn.click()
 
     # assert the set of chromosomes contains 3 chromosomes
-    num_chromosoms = len(driver.find_elements_by_class_name('chromosome-set-container'))
+    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
     assert num_chromosoms == 3
 
 
@@ -295,7 +305,7 @@ def test_chromosomes_wrong_input(dash_threaded):
     btn.click()
 
     # assert the set of chromosomes contains 2 chromosomes
-    num_chromosoms = len(driver.find_elements_by_class_name('chromosome-set-container'))
+    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
     assert num_chromosoms == 2
 
 
@@ -423,8 +433,8 @@ def test_show_chromosome_labels(dash_threaded):
     btn.click()
 
     # assert the presence of chromosomes' labels
-    labels = driver.find_elements_by_class_name('chrLabel')
-    assert len(labels) != 0
+    num_labels = len(wait_for_elements_by_css_selector(driver, '.chrLabel'))
+    assert num_labels != 0
 
 
 def test_sex(dash_threaded):
@@ -455,7 +465,7 @@ def test_sex(dash_threaded):
     driver = dash_threaded.driver
 
     # assert the presence of the chromosome Y
-    chromosomes = driver.find_elements_by_class_name('chromosome')
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
     num_chromosoms = len(chromosomes)
     assert num_chromosoms == 24
 
@@ -470,7 +480,7 @@ def test_sex(dash_threaded):
     btn.click()
 
     # assert the absence of the chromosome Y
-    chromosomes = driver.find_elements_by_class_name('chromosome')
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
     num_chromosoms = len(chromosomes)
     assert num_chromosoms == 23
 
@@ -518,3 +528,100 @@ def test_annotations_path(dash_threaded):
 
     # raise an error if no element with 'annot' class is found
     wait_for_element_by_css_selector(driver, '.annot')
+
+
+def test_homology(dash_threaded):
+    """Test the display of a basic homology"""
+
+    prop_type = 'dict'
+
+    prop_val = {
+        "chrOne": {
+            "organism": "9606",
+            "start": [10001, 105101383],
+            "stop": [27814790, 156030895],
+        },
+        "chrTwo": {
+            "organism": "9606",
+            "start": [3000000, 125101383],
+            "stop": [9000000, 196130895],
+        },
+    }
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'homology',
+        json.dumps(prop_val),
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        perspective="comparative",
+        chromosomes=["1", "2"],
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # assert the absence of homology region
+    regions = driver.find_elements_by_class_name('syntenicRegion')
+    assert len(regions) == 0
+
+    # trigger a change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    # assert the presence of homology region
+    regions = wait_for_elements_by_css_selector(driver, '.syntenicRegion')
+    assert len(regions) != 0
+
+
+def test_full_chromosome_labels(dash_threaded):
+    """Test the full chromosome label display/hiding"""
+
+    prop_type = 'bool'
+
+    def assert_callback(prop_value, nclicks, input_value):
+        answer = ''
+        if nclicks is not None:
+            answer = FAIL
+            if PROP_TYPES[prop_type](input_value) == prop_value:
+                answer = PASS
+        return answer
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        ideogram_test_props_callback,
+        'fullChromosomeLabels',
+        'True',
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE,
+        chromosomes=['1'],
+        fullChromosomeLabels=False,
+        **BASIC_PROPS
+    )
+
+    driver = dash_threaded.driver
+
+    # assert the absence of a full label
+    regions = wait_for_elements_by_css_selector(driver, 'tspan')
+    assert len(regions) == 1
+
+    # trigger a change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    # assert the presence of a full label
+    regions = wait_for_elements_by_css_selector(driver, 'tspan')
+    assert len(regions) == 2

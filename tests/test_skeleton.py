@@ -8,7 +8,8 @@ from pytest_dash.wait_for import (
 )
 from .test_common_features import (
     init_demo_app,
-    template_test_component_single_prop,
+    template_test_component,
+    template_test_python_component_prop,
     PROP_TYPES,
     COMPONENT_REACT_BASE
 )
@@ -77,9 +78,9 @@ def COMPONENTNAME_props_callback(
     """This function is the code of a callback which is triggered by
     the button on the simple app used in the test.
     :param nclicks (int): The n_clicks value of the button in the
-                          simple app
+                          simple app.
     :param prop_name (string): The name of the property that is to be
-                               modified
+                               modified.
     :param prop_value (string): The value that is to be assigned to the
                                 prop defined by prop_name.
     :prop_type (string): One of the predefined types in PROP_TYPES.
@@ -104,23 +105,23 @@ def COMPONENTNAME_props_callback(
     return typed_prop_value
 
 
-# below, write tests for changing the props of the React component
+# below, write tests for changing the props of a Python component
 # (following this basic structure)
-def test_PROPNAME(dash_threaded):
-    """Test that some prop updates correctly when changed."""
+def test_PROPNAME_0(dash_threaded):
+    """Test that some prop updates correctly when changed, for a pure Python component."""
 
     def assert_callback(
-            component_PROPNAME,
             nclicks,
+            component_PROPNAME,
             input_PROPNAME
     ):
         """Determine the pass/fail status of this test.
 
-        :param (string) component_PROPNAME: The value of PROPNAME for the
-                                            component after it is set
-        :param (int) nclicks: The number of clicks on the button in the
-                              simple test app (not used here)
-        :param (string) input_PROPNAME: The value of PROPNAME that is sent
+        :param nclicks (int): The n_clicks value of the button in the
+                              simple test app (not used here).
+        :param component_PROPNAME (string): The value of PROPNAME for the
+                                            component after it is set.
+        :param input_PROPNAME (string): The value of PROPNAME that is sent
                                         to the component.
 
         :return (string): 'PASSED' for a test that passed, or 'FAILED'
@@ -139,7 +140,7 @@ def test_PROPNAME(dash_threaded):
     # (e.g., 'int', 'float', 'list')
     prop_type = None
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
         APP_NAME,
         assert_callback,
@@ -147,9 +148,70 @@ def test_PROPNAME(dash_threaded):
         PROPNAME,
         input_PROPNAME,
         prop_type=prop_type,
-        component_base=COMPONENT_REACT_BASE,
         # add any arguments you want to send to your component,
         # e.g.,
         # sequence='GATTACA',
         # showLineNumbers=False
     )
+
+
+# alternatively, write tests for changing the props of a React component
+# (following this basic structure)
+def test_PROPNAME_1(dash_threaded):
+    """Test that some prop updates correctly when changed, for a React component."""
+
+    def assert_callback(
+            nclicks,
+            component_PROPNAME,
+            input_PROPNAME
+    ):
+        """Determine the pass/fail status of this test.
+
+        :param nclicks (int): The n_clicks value of the button in the
+                              simple test app (not used here).
+        :param component_PROPNAME (string): The value of PROPNAME for the
+                                            component after it is set.
+        :param input_PROPNAME (string): The value of PROPNAME that is sent
+                                        to the component.
+
+        :return (string): 'PASSED' for a test that passed, or 'FAILED'
+                          for a test that failed
+        """
+        # avoid triggering this callback when the button is first created
+        if nclicks is not None:
+            # check for the pass/fail condition here; this is a
+            # shallow comparison, so write your own if necessary
+            if component_PROPNAME == input_PROPNAME:
+                return PASS
+
+        return FAIL
+
+    # replace "None" with a string that defines the type of the prop
+    # (e.g., 'int', 'float', 'list')
+    prop_type = None
+
+    template_test_component(
+        dash_threaded,
+        APP_NAME,
+        assert_callback,
+        COMPONENTNAME_test_props_callback,
+        PROPNAME,
+        input_PROPNAME,
+        prop_type=prop_type,
+        component_base=COMPONENT_REACT_BASE
+        # add any arguments you want to send to your component,
+        # e.g.,
+        # sequence='GATTACA',
+        # showLineNumbers=False
+    )
+
+    driver = dash_threaded.driver
+
+    # driver.find_elements_by_class_name('...')
+    # assert something about this element (before changing it)
+
+    # trigger change of the component prop
+    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
+    btn.click()
+
+    # assert something different about the element

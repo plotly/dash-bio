@@ -1152,7 +1152,7 @@
                     "computed": true
                   }
                 ],
-                "description": "Specify what data for tooltipContent is\ndisplayed.\n\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks. \nEx: \"tooltipContent\": {\"name\": \"block_id\"},\n\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\n\nEx: This will return (source) + ' ➤ ' + (target) + ': ' + (targetEnd)'. \n\"tooltipContent\": {\n            \"source\": \"block_id\",\n            \"target\": \"position\",\n            \"targetEnd\": \"value\"\n                                },\nEx: This will return (source)(sourceID) + ' ➤ ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  \n\"tooltipContent\": {\n            \"source\": \"source\",\n            \"sourceID\": \"id\",\n            \"target\": \"target\",\n            \"targetID\": \"id\",\n            \"targetEnd\": \"end\"\n        }",
+                "description": "Specify what data for tooltipContent is\ndisplayed.\n\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks. \nEx: \"tooltipContent\": {\"name\": \"block_id\"},\n\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\n\nEx: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'. \n\"tooltipContent\": {\n            \"source\": \"block_id\",\n            \"target\": \"position\",\n            \"targetEnd\": \"value\"\n                                },\nEx: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  \n\"tooltipContent\": {\n            \"source\": \"source\",\n            \"sourceID\": \"id\",\n            \"target\": \"target\",\n            \"targetID\": \"id\",\n            \"targetEnd\": \"end\"\n        }",
                 "required": false
               },
               "color": {
@@ -1272,19 +1272,23 @@
         "required": false,
         "description": "The CSS class of the component wrapper"
       },
-      "annotationsData": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Use this prop in callback to return annotationData when hovered."
-      },
       "ancestors": {
         "type": {
           "name": "object"
         },
         "required": false,
         "description": "A map associating ancestor labels to colors. Used to color\nchromosomes from different ancestors in polyploid genomes."
+      },
+      "annotationsLayout": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Layout of ideogram annotations.\nOne of \"tracks\", \"histogram\", or \"overlay\".\n\n\"tracks\": display annotations in tracks beside each chromosome.\n\n\"histogram\": display annotations in a histogram. Clusters annotations\nby location. Each cluster/bin is shown as a bar, the height of which represents\nthe number of annotations on genomic range.\n\n\"overlay\": display annotations directly over chromosomes.",
+        "defaultValue": {
+          "value": "'tracks'",
+          "computed": false
+        }
       },
       "annotations": {
         "type": {
@@ -1314,41 +1318,19 @@
         "required": false,
         "description": "A list of annotation objects. Annotation objects can also have a\n name, color, shape, and track index. At the moment there is more\n keys specified and the docs need updating."
       },
-      "annotationHeight": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "The height of each annotation."
-      },
-      "annotationsLayout": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The layout of this ideogram's annotations.\nIt can be one of \"tracks\", \"histogram\", or \"overlay\".\n\nTracks: Lay out annotations in tracks beside each chromosome.\n\nHistogram: Layout annotations in a histogram. Clusters annotations\nby location. Each cluster/bin is shown as a height of a bar to represent\nnumber of annotations on genomic range.\n\nOverlay: Lay out annotations directly over chromsomes.",
-        "defaultValue": {
-          "value": "'tracks'",
-          "computed": false
-        }
-      },
-      "annotationsColor": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The color of each annotation.",
-        "defaultValue": {
-          "value": "'#F00'",
-          "computed": false
-        }
-      },
       "annotationsPath": {
         "type": {
           "name": "string"
         },
         "required": false,
         "description": "An absolute or relative URL directing to a JSON file containing\nannotation objects (JSON)."
+      },
+      "annotationsData": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Use this prop in a dash callback to return annotationData when hovered.\nIt is read-only, i.e. it cannot be used with dash.dependencies.Output but only with\ndash.dependencies.Input"
       },
       "annotationTracks": {
         "type": {
@@ -1360,23 +1342,59 @@
         "required": false,
         "description": "A list of objects with metadata for each track,\ne.g. id, display name, color, shape."
       },
-      "assembly": {
+      "annotationHeight": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Not used if annotationsLayout is set to \"overlay\".\nThe height of histogram bars or the size of annotations tracks symbols"
+      },
+      "histogramScaling": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "Default: latest RefSeq assembly for specified organism.\nThe genome assembly to display.\nTakes assembly name (e.g. \"GRCh37\"),\nRefSeq accession (e.g. \"GCF_000306695.2\"),\nor GenBank accession (e.g. \"GCA_000005005.5\")"
+        "description": "Scaling of histogram bars height\nOnly used if annotationsLayout is set to \"histogram\".\nOne of \"absolute\" or \"relative\".\n\n\"absolute\": sets bar height relative to tallest bar in all chromosomes.\n\"relative\": sets bar height relative to tallest bar in each chromosome."
       },
       "barWidth": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": "The pixel width of bars drawn when annotationsLayout: 'histogram'.",
+        "description": "Pixel width of histogram bars.\nOnly used if annotationsLayout is set to \"histogram\".",
         "defaultValue": {
           "value": "3",
           "computed": false
         }
+      },
+      "annotationsColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Color of annotations.",
+        "defaultValue": {
+          "value": "'#F00'",
+          "computed": false
+        }
+      },
+      "showAnnotTooltip": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to show a tooltip upon mousing over an annotation.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "assembly": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Default: latest RefSeq assembly for specified organism.\nThe genome assembly to display.\nTakes assembly name (e.g. \"GRCh37\"),\nRefSeq accession (e.g. \"GCF_000306695.2\"),\nor GenBank accession (e.g. \"GCA_000005005.5\")"
       },
       "brush": {
         "type": {
@@ -1391,6 +1409,13 @@
         },
         "required": false,
         "description": "A dash callback that is activated when the 'brush' prop is used in component.\nIt will return an dictionary like so:\n\n{'start': <value>, 'end': <value>, 'extent': <value>}\n\nwhere start is the left most edge, end is right most edge, and extent is\nthe total width of the brush."
+      },
+      "onBrushMove": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Callback function to invoke when brush moves."
       },
       "container": {
         "type": {
@@ -1415,7 +1440,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "The pixel space of margin bewteen each chromosome.",
+        "description": "The pixel space of margin between each chromosome.",
         "defaultValue": {
           "value": "10",
           "computed": false
@@ -1455,21 +1480,11 @@
           "name": "string"
         },
         "required": false,
-        "description": "Absolute or relative URL of the directory\ncontaining data needed to draw banded chromosomes.\nYou will need to set up you're own database to grab data from\nfor custom data."
-      },
-      "fullChromosomeLabels": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Whether to include abbreviation species name in chromosome label. Used\nfor homology."
-      },
-      "histogramScaling": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "One of \"absolute\" or \"relative\". The technique to use in scaling the height of histogram bars. The \"absolute\" value sets bar height relative to tallest bar in all chromosomes,\nwhile \"relative\" sets bar height relative to tallest bar in each chromosome."
+        "description": "Absolute or relative URL of the directory\ncontaining data needed to draw banded chromosomes.\nYou will need to set up you're own database to grab data from\nfor custom data.",
+        "defaultValue": {
+          "value": "'https://unpkg.com/ideogram@1.5.0/dist/data/bands/native/'",
+          "computed": false
+        }
       },
       "heatmaps": {
         "type": {
@@ -1538,6 +1553,20 @@
         "required": false,
         "description": "Used to compare two chromosomes with each other.\nThe keys \"chrOne\" and \"chrTwo\" represent one chromosome each. Organism is the \ntaxID or name. Start is an array, containing start one and \nstart two in this order. Stop is array, containing stop one, and stop two, \nin this order.\nEx: homology={\n                    \"chrOne\": {\n                        \"organism\": \"9606\",\n                        \"start\": [50000, 155701383],\n                        \"stop\": [900000, 156030895]\n                    },\n                    \"chrTwo\": {\n                        \"organism\": \"10090\",\n                        \"start\": [10001, 50000000],\n                        \"stop\": [2781479, 57217415]\n                    }\n                }"
       },
+      "perspective": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Use perspective: 'comparative' to enable annotations between two chromosomes,\neither within the same organism or different organisms. Used for homology."
+      },
+      "fullChromosomeLabels": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Whether to include abbreviation species name in chromosome label. Used\nfor homology."
+      },
       "filterable": {
         "type": {
           "name": "number"
@@ -1550,7 +1579,7 @@
           "name": "object"
         },
         "required": false,
-        "description": "Provide local JSON organism into this prop from a local user JSON file.\nDataDir must not be initiliazed."
+        "description": "Provide local JSON organism into this prop from a local user JSON file.\nDataDir must not be initialized."
       },
       "onMouseOver": {
         "type": {
@@ -1567,7 +1596,7 @@
               "name": "string"
             },
             {
-              "name": "array"
+              "name": "number"
             }
           ]
         },
@@ -1584,13 +1613,6 @@
         },
         "required": false,
         "description": "The orientation of chromosomes on the page."
-      },
-      "onBrushMove": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Callback function to invoke when brush moves."
       },
       "onDidRotate": {
         "type": {
@@ -1612,13 +1634,6 @@
         },
         "required": false,
         "description": "Callback function to invoke when chromosomes are loaded,\ni.e. rendered on the page. (React)"
-      },
-      "perspective": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Use perspective: 'comparative' to enable annotations between two chromosomes,\neither within the same organism or different organisms. Used for homology."
       },
       "ploidy": {
         "type": {
@@ -1692,7 +1707,7 @@
           "name": "string"
         },
         "required": false,
-        "description": "Useful for omitting chromosome Y in female mammals.\nCurrently only supported for organisms that use XY sex-determination."
+        "description": "Useful for omitting chromosome Y in female mammals.\nCurrently only supported for organisms that use XY sex-determination.\nAll string values will show chromosome Y, only the value 'female' will hide it"
       },
       "showChromosomeLabels": {
         "type": {
@@ -1713,17 +1728,6 @@
         "description": "Whether to show cytogenetic band labels, e.g. 1q21",
         "defaultValue": {
           "value": "false",
-          "computed": false
-        }
-      },
-      "showAnnotTooltip": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Whether to show a tooltip upon mousing over an annotation.",
-        "defaultValue": {
-          "value": "true",
           "computed": false
         }
       },

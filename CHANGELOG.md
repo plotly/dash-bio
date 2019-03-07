@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.0.8]
+
+### Removed
+* Removed mentions of Dash events in OncoPrint component.
+
+### Changed
+* Changed property `fullChromosomeLabels` so that it can be updated using dash callbacks
+
+### Added
+* Added ability to define custom colours in styles parser for Molecule3D.
+
+## [0.0.7] - 2019-26-02
+
+### Changed 
+* Changed unicode right arrow to greater-than sign in Circos for compatibility with Python 2.7.
+
+## [0.0.6] - 2019-22-02
+
+### Added 
+* Added requirements from files in `utils`, as well as from pure-Python components, to setup install requirements.
+* Added more descriptive prop descriptions for Dash Ideogram.
+
 ## [0.0.5] - 2019-15-02
 
 ### Changed 
