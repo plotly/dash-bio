@@ -123,7 +123,7 @@ def test_showlegend(dash_threaded):
 
     driver = dash_threaded.driver
     # assert there is a legend (bar)
-    legend = driver.find_elements_by_class_name('legendbar')
+    legend = wait_for_elements_by_css_selector(driver, '.legendbar')
     assert len(legend) != 0
 
     # trigger change of the component prop
