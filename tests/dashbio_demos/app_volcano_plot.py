@@ -273,9 +273,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         ]
     )
     def update_graph(u_lim, l_lim, genomic_line, datadset_id, color):
-        """Update the data set of interest upon change the dashed lines
-        value.
-        """
+        """Update the data set of interest upon change the dashed lines value."""
         print(locals())
         if 'hex' in color:
             color = color.get('hex', 'red')
@@ -294,10 +292,23 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         ]
     )
     def update_vp_dataset_div_hover(dataset_id):
-        """Update the data set of interest upon change the dashed lines
-        value.
-        """
+        """Update the data set of interest upon change the dashed lines value."""
         return DATASETS[dataset_id]['datasource']
+
+    @app.callback(
+        Output('vp-upper-right', 'value'),
+        [Input('vp-graph', 'figure')],
+        [State('vp-upper-bound', 'value')]
+    )
+    def update_upper_right_number(fig, u_lim,):
+        """Update the number of points in the upper right zone delimited by the thresholds."""
+
+        number = 0
+        if len(fig['data']) > 1:
+            x = np.array(fig['data'][0]['x'])
+            idx = x > float(u_lim)
+            number = len(x[idx])
+        return number
 
     @app.callback(
         Output('vp-upper-left', 'value'),
@@ -305,9 +316,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [State('vp-lower-bound', 'value')]
     )
     def update_upper_left_number(fig, l_lim):
-        """Update the number of points in the upper left zone delimited by
-        the thresholds.
-        """
+        """Update the number of points in the upper left zone delimited by the thresholds."""
 
         number = 0
         if len(fig['data']) > 1:
@@ -316,6 +325,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             number = len(x[idx])
         return number
 
+    # Callbacks for integration tests purpose
     @app.callback(
         Output('vp-upper-left-val', 'children'),
         [Input('vp-graph', 'figure')],
@@ -323,7 +333,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def update_upper_left_number_val(fig, l_lim):
         """Update the number of points in the upper left zone delimited by
-        the thresholds for test purpose.
+        the thresholds for tests purpose.
         """
 
         number = 0
@@ -338,25 +348,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('vp-upper-bound', 'value')],
     )
     def update_upper_bound_val(u_lim):
-        """For selenium tests purposes."""
+        """For selenium tests purpose."""
         return u_lim
-
-    @app.callback(
-        Output('vp-upper-right', 'value'),
-        [Input('vp-graph', 'figure')],
-        [State('vp-upper-bound', 'value')]
-    )
-    def update_upper_right_number(fig, u_lim,):
-        """Update the number of points in the upper right zone delimited by
-        the thresholds.
-        """
-
-        number = 0
-        if len(fig['data']) > 1:
-            x = np.array(fig['data'][0]['x'])
-            idx = x > float(u_lim)
-            number = len(x[idx])
-        return number
 
     @app.callback(
         Output('vp-upper-right-val', 'children'),
@@ -365,7 +358,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def update_upper_right_number_val(fig, u_lim,):
         """Update the number of points in the upper right zone delimited by
-        the thresholds for test purpose.
+        the thresholds for tests purpose.
         """
 
         number = 0
@@ -380,7 +373,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('vp-lower-bound', 'value')],
     )
     def update_lower_bound_val(l_lim):
-        """For selenium tests purposes."""
+        """For selenium tests purpose."""
         return l_lim
 
     @app.callback(
@@ -388,7 +381,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('vp-genomic-line', 'value')],
     )
     def update_genomic_line_val(val):
-        """For selenium tests purposes."""
+        """For selenium tests purpose."""
         return val
 
 
