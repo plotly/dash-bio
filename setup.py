@@ -24,7 +24,7 @@ setup(
         'parmed',
         'plotly',
         'scipy',
-        'sklearn'
+        'scikit-learn'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
