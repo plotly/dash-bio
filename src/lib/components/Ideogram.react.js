@@ -13,7 +13,7 @@ import {omit} from 'ramda';
  * by side tracks to show important genomic data.
  *
  * Go here to see it in action: https://eweitz.github.io/ideogram/
- * Reference of the component's props :
+ * Reference for the component's props:
  * https://github.com/eweitz/ideogram/blob/770ce1fe5ae4f27dd435f9f99948118af88f8349/api.md
  */
 
