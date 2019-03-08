@@ -627,7 +627,7 @@ Ideogram.propTypes = {
     /**
      * Useful for putting ideogram into a small container,
      * or when dealing with genomes that have many chromosomes.
-     * Note: Not fully working needs to be fixed by developer.
+     * Note: Not fully working, needs to be fixed by developer.
      * rows: PropTypes.number,
      */
 
