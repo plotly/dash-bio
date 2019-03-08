@@ -8,7 +8,7 @@
 
 ### Changed
 * Changed property `fullChromosomeLabels` in Ideogram component so that it can be updated using 
-dash callbacks
+dash callbacks.
 * Restricted possible values for certain properties in Ideogram 
 component to a finite set of values.
 
