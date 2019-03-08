@@ -274,7 +274,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def update_graph(u_lim, l_lim, genomic_line, datadset_id, color):
         """Update the data set of interest upon change the dashed lines value."""
-        print(locals())
         if 'hex' in color:
             color = color.get('hex', 'red')
         return dash_bio.VolcanoPlot(
