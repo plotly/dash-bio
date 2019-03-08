@@ -342,7 +342,7 @@ Ideogram.propTypes = {
 
     /**
      * Use this prop in a dash callback to return annotationData when hovered.
-     * It is read-only, i.e. it cannot be used with dash.dependencies.Output but only with
+     * It is read-only, i.e., it cannot be used with dash.dependencies.Output but only with
      * dash.dependencies.Input
      */
     annotationsData: PropTypes.string,
@@ -410,7 +410,7 @@ Ideogram.propTypes = {
      *
      * where start is the left most edge, end is right most edge, and extent is the total width of
      * the brush.
-     * It is read-only, i.e. it cannot be used with dash.dependencies.Output but only with
+     * It is read-only, i.e., it cannot be used with dash.dependencies.Output but only with
      * dash.dependencies.Input
      */
     brushData: PropTypes.shape({
@@ -620,7 +620,7 @@ Ideogram.propTypes = {
 
     /**
      * Callback function to invoke when chromosomes are loaded,
-     * i.e. rendered on the page. (React)
+     * i.e., rendered on the page. (React)
      * onLoad: PropTypes.func,
      */
 
