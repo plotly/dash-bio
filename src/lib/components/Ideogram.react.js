@@ -5,7 +5,7 @@ import {omit} from 'ramda';
 
 /**
  * The Dash Ideogram is used to draw and animate genome-wide
- * datasets for organisms such as an human, mouse, and any
+ * datasets for organisms such as human, mouse, and any
  * other eukaryotes. The Ideogram can be used to compare
  * homologous features between chromosomes, and depict,
  * haploid, diploid, aneuploidy genomes. It can also display
