@@ -14,8 +14,7 @@ import {omit} from 'ramda';
  *
  * Go here to see it in action: https://eweitz.github.io/ideogram/
  * Reference of the component's props :
- * https://github.com/eweitz/ideogram/blob/
- * 770ce1fe5ae4f27dd435f9f99948118af88f8349/api.md
+ * https://github.com/eweitz/ideogram/blob/770ce1fe5ae4f27dd435f9f99948118af88f8349/api.md
  */
 
 export default class Ideogram extends Component {
@@ -289,8 +288,8 @@ Ideogram.defaultProps = {
 
 Ideogram.propTypes = {
     /**
-     * The ID used to identify this component in Dash callbacks
-     * and used to identify Ideogram instances.
+     * The ID used to identify this component in Dash callbacks and used to identify Ideogram
+     *instances.
      */
     id: PropTypes.string.isRequired,
 
@@ -315,18 +314,17 @@ Ideogram.propTypes = {
      *
      * "tracks": display annotations in tracks beside each chromosome.
      *
-     * "histogram": display annotations in a histogram. Clusters annotations
-     * by location. Each cluster/bin is shown as a bar, the height of which represents
-     * the number of annotations on genomic range.
+     * "histogram": display annotations in a histogram. Clusters annotations by location. Each
+     * cluster/bin is shown as a bar, the height of which represents the number of annotations on
+     * genomic range.
      *
      * "overlay": display annotations directly over chromosomes.
      */
     annotationsLayout: PropTypes.oneOf(['tracks', 'histogram', 'overlay']),
 
     /**
-     *  A list of annotation objects. Annotation objects can also have a
-     *  name, color, shape, and track index. At the moment there is more
-     *  keys specified and the docs need updating.
+     * A list of annotation objects. Annotation objects can also have a name, color, shape, and
+     * track index. At the moment there is more keys specified and the docs need updating.
      */
     annotations: PropTypes.arrayOf(
         PropTypes.shape({
@@ -338,8 +336,7 @@ Ideogram.propTypes = {
     ),
 
     /**
-     * An absolute or relative URL directing to a JSON file containing
-     * annotation objects (JSON).
+     * An absolute or relative URL directing to a JSON file containing annotation objects (JSON).
      */
     annotationsPath: PropTypes.string,
 
@@ -351,8 +348,7 @@ Ideogram.propTypes = {
     annotationsData: PropTypes.string,
 
     /**
-     * A list of objects with metadata for each track,
-     * e.g., id, display name, color, shape.
+     * A list of objects with metadata for each track, e.g., id, display name, color, shape.
      */
     annotationTracks: PropTypes.arrayOf(PropTypes.object),
 
@@ -412,8 +408,8 @@ Ideogram.propTypes = {
      *
      * {'start': <value>, 'end': <value>, 'extent': <value>}
      *
-     * where start is the left most edge, end is right most edge, and extent is
-     * the total width of the brush.
+     * where start is the left most edge, end is right most edge, and extent is the total width of
+     * the brush.
      * It is read-only, i.e. it cannot be used with dash.dependencies.Output but only with
      * dash.dependencies.Input
      */
@@ -445,18 +441,17 @@ Ideogram.propTypes = {
     chrWidth: PropTypes.number,
 
     /**
-     * A list of the names of chromosomes to
-     * display. Useful for depicting a subset of the chromosomes in the genome,
-     * e.g., a single chromosome.
+     * A list of the names of chromosomes to display. Useful for depicting a subset of the
+     * chromosomes in the genome, e.g., a single chromosome.
      *
      * If Homology (between two different species):
      * Ex: chromosomes={
-            'human': ['1'],
-            'mouse': ['4']
-        }
-
-        General case to specify specific chromosomes:
-        Ex: chromosomes=['1', '2']
+     *       'human': ['1'],
+     *       'mouse': ['4']
+     * }
+     *
+     * General case to specify specific chromosomes:
+     * Ex: chromosomes=['1', '2']
      */
     chromosomes: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.string),
@@ -464,17 +459,16 @@ Ideogram.propTypes = {
     ]),
 
     /**
-     * Absolute or relative URL of the directory
-     * containing data needed to draw banded chromosomes.
-     * You will need to set up you're own database to grab data from
-     * for custom data.
+     * Absolute or relative URL of the directory containing data needed to draw banded chromosomes.
+     * You will need to set up you're own database to grab data from for custom data.
      */
     dataDir: PropTypes.string,
 
     /**
      * Organism(s) to show chromosomes for. Supply organism's name as a string (e.g., "human") or
-     * organism's NCBI Taxonomy ID (taxid, e.g., 9606) to display chromosomes from a single organism,
-     * or an array of organisms' names or taxids to display chromosomes from multiple species.
+     * organism's NCBI Taxonomy ID (taxid, e.g., 9606) to display chromosomes from a single
+     * organism, or an array of organisms' names or taxids to display chromosomes from multiple
+     * species.
      */
     organism: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
@@ -486,22 +480,21 @@ Ideogram.propTypes = {
 
     /**
      * Used to compare two chromosomes with each other.
-     * The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the
-     * taxID or name. Start is an array, containing start one and
-     * start two in this order. Stop is array, containing stop one, and stop two,
-     * in this order.
+     * The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the taxID or name.
+     * Start is an array, containing start one and start two, in this order. Stop is an array,
+     * containing stop one, and stop two, in this order.
      * Ex: homology={
-                    "chrOne": {
-                        "organism": "9606",
-                        "start": [50000, 155701383],
-                        "stop": [900000, 156030895]
-                    },
-                    "chrTwo": {
-                        "organism": "10090",
-                        "start": [10001, 50000000],
-                        "stop": [2781479, 57217415]
-                    }
-                }
+     *     "chrOne": {
+     *         organism": "9606",
+     *         "start": [50000, 155701383],
+     *         "stop": [900000, 156030895]
+     *     },
+     *     "chrTwo": {
+     *         organism": "10090",
+     *         "start": [10001, 50000000],
+     *         "stop": [2781479, 57217415]
+     *     }
+     * }
      */
     homology: PropTypes.shape({
         chrOne: PropTypes.shape({
@@ -523,8 +516,7 @@ Ideogram.propTypes = {
     perspective: PropTypes.oneOf(['comparative']),
 
     /**
-     * Whether to include abbreviation species name in chromosome label. Used
-     * for homology.
+     * Whether to include abbreviation species name in chromosome label. Used for homology.
      */
     fullChromosomeLabels: PropTypes.bool,
 
@@ -546,26 +538,23 @@ Ideogram.propTypes = {
     orientation: PropTypes.oneOf(['vertical', 'horizontal']),
 
     /**
-     * The ploidy - number of chromosomes to depict for each chromosome
-     * set.
+     * The ploidy - number of chromosomes to depict for each chromosome set.
      */
     ploidy: PropTypes.number,
 
     /**
-     * Description of ploidy in each chromosome set in terms of
-     * ancestry composition.
+     * Description of ploidy in each chromosome set in terms of ancestry composition.
      */
     ploidyDesc: PropTypes.arrayOf(PropTypes.object),
 
     /**
-     *  A map associating ancestor labels to colors. Used to color
+     * A map associating ancestor labels to colors. Used to color
      * chromosomes from different ancestors in polyploid genomes.
      */
     ancestors: PropTypes.object,
 
     /**
-     * List of objects describing segments of recombination
-     * among chromosomes in a chromosome set.
+     * List of objects describing segments of recombination among chromosomes in a chromosome set.
      */
     rangeSet: PropTypes.arrayOf(PropTypes.object),
 
@@ -597,10 +586,9 @@ Ideogram.propTypes = {
     showBandLabels: PropTypes.bool,
 
     /**
-     * Whether to show fully banded chromosomes for genomes
-     * that have sufficient data. Useful for showing simpler chromosomes of
-     * cytogenetically well-characterized organisms, e.g., human, beside chromosomes of
-     * less studied organisms, e.g., chimpanzee.
+     * Whether to show fully banded chromosomes for genomes that have sufficient data. Useful for
+     * showing simpler chromosomes of cytogenetically well-characterized organisms, e.g., human,
+     * beside chromosomes of ess studied organisms, e.g., chimpanzee.
      */
     showFullyBanded: PropTypes.bool,
 
