@@ -522,13 +522,13 @@ Ideogram.propTypes = {
 
     /**
      * The resolution of cytogenetic bands to show for each chromosome.
-     * The quantity refers to approximate value in bands per haploid set (bphs).
+     * The quantity refers to an approximate value in bands per haploid set (bphs).
      * One of 450, 550, or 850.
      */
     resolution: PropTypes.number,
 
     /**
-     * Whether annotations should be filterable.
+     * Whether annotations should be filterable or not.
      */
     filterable: PropTypes.bool,
 
@@ -564,7 +564,7 @@ Ideogram.propTypes = {
     rotatable: PropTypes.bool,
 
     /**
-     * Dash callback that returns True if rotated, and false if not.
+     * Dash callback that returns true if rotated, and false if not.
      *
      */
     rotated: PropTypes.bool,
@@ -615,7 +615,7 @@ Ideogram.propTypes = {
 
     /**
      * Callback function to invoke when annotations are drawn. (React)
-     *  onDrawAnnots: PropTypes.func,
+     * onDrawAnnots: PropTypes.func,
      */
 
     /**
