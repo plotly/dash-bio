@@ -604,7 +604,7 @@ Ideogram.propTypes = {
      */
 
     /**
-     * Dash event callback for mousing over data.
+     * Dash event callback for hovering over data.
      * onMouseOver: PropTypes.func,
      */
 
