@@ -588,7 +588,7 @@ Ideogram.propTypes = {
     /**
      * Whether to show fully banded chromosomes for genomes that have sufficient data. Useful for
      * showing simpler chromosomes of cytogenetically well-characterized organisms, e.g., human,
-     * beside chromosomes of ess studied organisms, e.g., chimpanzee.
+     * beside chromosomes of less studied organisms, e.g., chimpanzee.
      */
     showFullyBanded: PropTypes.bool,
 
