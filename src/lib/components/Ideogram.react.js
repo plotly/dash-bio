@@ -352,7 +352,7 @@ Ideogram.propTypes = {
 
     /**
      * A list of objects with metadata for each track,
-     * e.g. id, display name, color, shape.
+     * e.g., id, display name, color, shape.
      */
     annotationTracks: PropTypes.arrayOf(PropTypes.object),
 
@@ -391,14 +391,14 @@ Ideogram.propTypes = {
     /**
      * Default: latest RefSeq assembly for specified organism.
      * The genome assembly to display.
-     * Takes assembly name (e.g. "GRCh37"),
-     * RefSeq accession (e.g. "GCF_000306695.2"),
-     * or GenBank accession (e.g. "GCA_000005005.5")
+     * Takes assembly name (e.g., "GRCh37"),
+     * RefSeq accession (e.g., "GCF_000306695.2"),
+     * or GenBank accession (e.g., "GCA_000005005.5")
      */
     assembly: PropTypes.string,
 
     /**
-     * Genomic coordinate range (e.g. "chr1:104325484-119977655") for a brush on a
+     * Genomic coordinate range (e.g., "chr1:104325484-119977655") for a brush on a
      * chromosome. Useful when ideogram consists of one chromosome and you want to be
      * able to focus on a region within that chromosome,
      * and create an interactive sliding window to other regions
@@ -447,7 +447,7 @@ Ideogram.propTypes = {
     /**
      * A list of the names of chromosomes to
      * display. Useful for depicting a subset of the chromosomes in the genome,
-     * e.g. a single chromosome.
+     * e.g., a single chromosome.
      *
      * If Homology (between two different species):
      * Ex: chromosomes={
@@ -472,8 +472,8 @@ Ideogram.propTypes = {
     dataDir: PropTypes.string,
 
     /**
-     * Organism(s) to show chromosomes for. Supply organism's name as a string (e.g. "human") or
-     * organism's NCBI Taxonomy ID (taxid, e.g. 9606) to display chromosomes from a single organism,
+     * Organism(s) to show chromosomes for. Supply organism's name as a string (e.g., "human") or
+     * organism's NCBI Taxonomy ID (taxid, e.g., 9606) to display chromosomes from a single organism,
      * or an array of organisms' names or taxids to display chromosomes from multiple species.
      */
     organism: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -587,26 +587,26 @@ Ideogram.propTypes = {
     sex: PropTypes.oneOf(['male', 'female']),
 
     /**
-     * Whether to show chromosome labels, e.g. 1, 2, 3, X, Y.
+     * Whether to show chromosome labels, e.g., 1, 2, 3, X, Y.
      */
     showChromosomeLabels: PropTypes.bool,
 
     /**
-     * Whether to show cytogenetic band labels, e.g. 1q21
+     * Whether to show cytogenetic band labels, e.g., 1q21
      **/
     showBandLabels: PropTypes.bool,
 
     /**
      * Whether to show fully banded chromosomes for genomes
      * that have sufficient data. Useful for showing simpler chromosomes of
-     * cytogenetically well-characterized organisms, e.g. human, beside chromosomes of
-     * less studied organisms, e.g. chimpanzee.
+     * cytogenetically well-characterized organisms, e.g., human, beside chromosomes of
+     * less studied organisms, e.g., chimpanzee.
      */
     showFullyBanded: PropTypes.bool,
 
     /**
      * Whether to show non-nuclear chromosomes,
-     * e.g. for mitochondrial (MT) and chloroplast (CP) DNA.
+     * e.g., for mitochondrial (MT) and chloroplast (CP) DNA.
      */
     showNonNuclearChromosomes: PropTypes.bool,
 
