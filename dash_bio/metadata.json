@@ -1183,7 +1183,7 @@
     }
   },
   "src/lib/components/Ideogram.react.js": {
-    "description": "The Dash Ideogram is used to draw and animate genome-wide\ndatasets for organisms such as an human, mouse, and any\nother eukaryotes. The Ideogram can be used to compare\nhomologous features between chromosomes, and depict,\nhaploid, diploid, aneuploidy genomes. It can also display\nannotations using histograms, overlays, and simple side\nby side tracks to show important genomic data.\n\nGo here to see it in action: https://eweitz.github.io/ideogram/\nReference of the component's props :\nhttps://github.com/eweitz/ideogram/blob/\n770ce1fe5ae4f27dd435f9f99948118af88f8349/api.md",
+    "description": "The Dash Ideogram is used to draw and animate genome-wide\ndatasets for species such as human, mouse, and any\nother eukaryotes. The Ideogram can be used to compare\nhomologous features between chromosomes, and depict,\nhaploid, diploid, aneuploidy genomes. It can also display\nannotations using histograms, overlays, and simple side\nby side tracks to show important genomic data.\n\nTo see it in action, visit: https://eweitz.github.io/ideogram/\nReference of the component's props :\nhttps://github.com/eweitz/ideogram/blob/\n770ce1fe5ae4f27dd435f9f99948118af88f8349/api.md",
     "displayName": "Ideogram",
     "methods": [
       {
