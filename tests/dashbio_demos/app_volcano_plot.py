@@ -382,6 +382,10 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def update_genomic_line_val(val):
         """For selenium tests purpose."""
+
+        # A value of 0 is forbidden by the component
+        if val == 0:
+            val = 1e-9
         return val
 
 
