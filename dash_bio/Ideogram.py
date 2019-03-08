@@ -128,9 +128,9 @@ Those keys have the following types:
 either within the same organism or different organisms. Used for homology.
 - fullChromosomeLabels (boolean; optional): Whether to include abbreviation species name in chromosome label. Used for homology.
 - resolution (number; optional): The resolution of cytogenetic bands to show for each chromosome.
-The quantity refers to approximate value in bands per haploid set (bphs).
+The quantity refers to an approximate value in bands per haploid set (bphs).
 One of 450, 550, or 850.
-- filterable (boolean; optional): Whether annotations should be filterable.
+- filterable (boolean; optional): Whether annotations should be filterable or not.
 - orientation (a value equal to: 'vertical', 'horizontal'; optional): The orientation of chromosomes on the page.
 - ploidy (number; optional): The ploidy - number of chromosomes to depict for each chromosome set.
 - ploidyDesc (list; optional): Description of ploidy in each chromosome set in terms of ancestry composition.
@@ -138,7 +138,7 @@ One of 450, 550, or 850.
 chromosomes from different ancestors in polyploid genomes.
 - rangeSet (list; optional): List of objects describing segments of recombination among chromosomes in a chromosome set.
 - rotatable (boolean; optional): Whether chromosomes are rotatable on click.
-- rotated (boolean; optional): Dash callback that returns True if rotated, and false if not.
+- rotated (boolean; optional): Dash callback that returns true if rotated, and false if not.
 - sex (a value equal to: 'male', 'female'; optional): Useful for omitting chromosome Y in female mammals.
 Currently only supported for organisms that use XY sex-determination.
 - showChromosomeLabels (boolean; optional): Whether to show chromosome labels, e.g., 1, 2, 3, X, Y.

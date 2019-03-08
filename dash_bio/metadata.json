@@ -1618,14 +1618,14 @@
           "name": "number"
         },
         "required": false,
-        "description": "The resolution of cytogenetic bands to show for each chromosome.\nThe quantity refers to approximate value in bands per haploid set (bphs).\nOne of 450, 550, or 850."
+        "description": "The resolution of cytogenetic bands to show for each chromosome.\nThe quantity refers to an approximate value in bands per haploid set (bphs).\nOne of 450, 550, or 850."
       },
       "filterable": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": "Whether annotations should be filterable."
+        "description": "Whether annotations should be filterable or not."
       },
       "orientation": {
         "type": {
@@ -1698,7 +1698,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "Dash callback that returns True if rotated, and false if not."
+        "description": "Dash callback that returns true if rotated, and false if not."
       },
       "sex": {
         "type": {
