@@ -289,7 +289,7 @@ Ideogram.defaultProps = {
 Ideogram.propTypes = {
     /**
      * The ID used to identify this component in Dash callbacks and used to identify Ideogram
-     *instances.
+     * instances.
      */
     id: PropTypes.string.isRequired,
 
