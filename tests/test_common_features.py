@@ -119,7 +119,7 @@ def create_test_layout(app_name, component_base, **kwargs):
 
 def clear_field(web_elem):
     """Do the same as web_elem.clear() but work with Chrome."""
-    web_elem.send_keys(Keys.CONTROL + "a")
+    web_elem.send_keys(Keys.CONTROL + 'a')
     web_elem.send_keys(Keys.DELETE)
 
 
