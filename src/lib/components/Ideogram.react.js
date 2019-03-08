@@ -460,7 +460,7 @@ Ideogram.propTypes = {
 
     /**
      * Absolute or relative URL of the directory containing data needed to draw banded chromosomes.
-     * You will need to set up you're own database to grab data from for custom data.
+     * You will need to set up your own database to grab data from a custom database.
      */
     dataDir: PropTypes.string,
 
