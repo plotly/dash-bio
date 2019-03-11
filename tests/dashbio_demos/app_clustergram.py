@@ -51,7 +51,7 @@ fig_options = dict(
     optimal_leaf_order=True,
     symmetric_value=False,
     log_transform=True,
-    impute_function={
+    imputer_parameters={
         'strategy': 'mean',
         'missingValues': 'NaN',
         'axis': 1
@@ -532,7 +532,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             },
             'symmetric_value': dataset_name is None,
             'log_transform': dataset_name is None,
-            'impute_function': {
+            'imputer_parameters': {
                 'strategy': 'median',
                 'missing_values': 'NaN',
                 'axis': 1
