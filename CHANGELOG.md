@@ -11,6 +11,7 @@
 ### Changed
 * Changed property `fullChromosomeLabels` so that it can be updated using dash callbacks
 * Changed Imputer (deprecated) to SimpleImputer in Clustergram component.
+* Changed property name `impute_function` to `imputer_parameters` in Clustergram component.
 
 ### Added
 * Added ability to define custom colours in styles parser for Molecule3D.
