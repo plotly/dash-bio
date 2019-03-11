@@ -3,7 +3,7 @@
 ## [0.0.8]
 
 ### Fixed
-* Fixed issue with clustergram not reordering rows and columns after clustering.
+* Fixed issue with Clustergram not reordering rows and columns after clustering.
 
 ### Removed
 * Removed mentions of Dash events in OncoPrint component.
