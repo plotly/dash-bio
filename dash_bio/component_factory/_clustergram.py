@@ -108,8 +108,8 @@ def Clustergram(
                                       'axis=0' indicates that imputing should happen along columns,
                                       while 'axis=1' indicates that it should happen
                                       along rows (see:
-                                      http://lijiancheng0614.github.io/scikit-learn/modules/
-                                      generated/sklearn.preprocessing.Imputer.html).
+                                    https://scikit-learn.org/stable/modules/generated/
+                                    sklearn.preprocessing.Imputer.html)
     :param (list[dict]) row_group_marker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
                                         (which group to annotate), 'annotation'
