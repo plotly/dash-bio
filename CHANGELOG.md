@@ -7,6 +7,7 @@
 
 ### Removed
 * Removed mentions of Dash events in OncoPrint component.
+* Removed properties which weren't used in Ideogram component.
 
 ### Changed
 * Changed property `fullChromosomeLabels` so that it can be updated using dash callbacks
