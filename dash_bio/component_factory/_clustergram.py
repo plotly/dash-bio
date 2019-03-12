@@ -107,7 +107,9 @@ def Clustergram(
                                       Imputer, which was deprecated in scikit-learn 0.20.0).
                                       'axis=0' indicates that imputing should happen along columns,
                                       while 'axis=1' indicates that it should happen
-                                      along rows (see http://lijiancheng0614.github.io/scikit-learn/modules/generated/sklearn.preprocessing.Imputer.html).
+                                      along rows (see:
+                                      http://lijiancheng0614.github.io/scikit-learn/modules/
+                                      generated/sklearn.preprocessing.Imputer.html).
     :param (list[dict]) row_group_marker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
                                         (which group to annotate), 'annotation'
@@ -213,7 +215,9 @@ class _Clustergram():
                                       Imputer, which was deprecated in scikit-learn 0.20.0).
                                       'axis=0' indicates that imputing should happen along columns,
                                       while 'axis=1' indicates that it should happen
-                                      along rows (see http://lijiancheng0614.github.io/scikit-learn/modules/generated/sklearn.preprocessing.Imputer.html).
+                                      along rows (see:
+                                      http://lijiancheng0614.github.io/scikit-learn/modules/
+                                      generated/sklearn.preprocessing.Imputer.html).
     :param (list[dict]) row_group_marker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
                                         (which group to annotate), 'annotation'
