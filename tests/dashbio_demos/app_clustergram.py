@@ -17,7 +17,7 @@ elif 'DASH_PATH_ROUTING' in os.environ:
 
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "clustergram_")
 
-colorPalette = [
+color_palette = [
     'rgb(128, 0, 96)',
     'rgb(230, 115, 0)',
     'rgb(255, 191, 0)'
@@ -25,33 +25,33 @@ colorPalette = [
 
 fig_options = dict(
     data=None, cluster='all',
-    displayRatio=[0.3, 0.1],
-    columnLabels=None, rowLabels=None,
-    hideLabels=['row'],
-    colorThreshold=dict(row=9, col=35),
+    display_ratio=[0.3, 0.1],
+    column_labels=None, row_labels=None,
+    hide_labels=['row'],
+    color_threshold=dict(row=9, col=35),
     height=650, width=900,
-    colorMap=[
-        [0.0, colorPalette[0]],
-        [0.5, colorPalette[1]],
-        [1.0, colorPalette[2]]
+    color_map=[
+        [0.0, color_palette[0]],
+        [0.5, color_palette[1]],
+        [1.0, color_palette[2]]
     ],
-    colorList={
-        'row': [colorPalette[0], colorPalette[1], colorPalette[2]],
-        'col': [colorPalette[1], colorPalette[2], colorPalette[0]],
+    color_list={
+        'row': [color_palette[0], color_palette[1], color_palette[2]],
+        'col': [color_palette[1], color_palette[2], color_palette[0]],
         'bg': 'rgb(255,255,255)'
     },
-    annotationFont=dict(
+    annotation_font=dict(
         color='white',
         size=10
     ),
-    tickFont=dict(
+    tick_font=dict(
         size=7,
         color='rgb(200,200,200)'
     ),
-    optimalLeafOrder=True,
-    symmetricValue=False,
-    logTransform=True,
-    imputeFunction={
+    optimal_leaf_order=True,
+    symmetric_value=False,
+    log_transform=True,
+    imputer_parameters={
         'strategy': 'mean',
         'missingValues': 'NaN',
         'axis': 1
@@ -62,41 +62,41 @@ fig_options = dict(
 datasets = {
     'transcription': {
         'file': '{}E-GEOD-38612-query-results.tpms.tsv'.format(DATAPATH),
-        'rowLabelsSource': 'Gene Name',
-        'headerRows': 5,
-        'headerCols': 2,
-        'defaultRows': 10,
-        'defaultCols': 4,
-        'colorThreshold': {
-            'maxRow': 330,
-            'maxCol': 135,
+        'row_labels_source': 'Gene Name',
+        'header_rows': 5,
+        'header_cols': 2,
+        'default_rows': 10,
+        'default_cols': 4,
+        'color_threshold': {
+            'max_row': 330,
+            'max_col': 135,
             'row': 145,
             'col': 100
         }
     },
     'iris': {
         'file': '{}iris.tsv'.format(DATAPATH),
-        'rowLabelsSource': 'Num',
-        'headerRows': 4,
-        'headerCols': 2,
-        'defaultRows': 150,
-        'defaultCols': 4,
-        'colorThreshold': {
-            'maxRow': 7.5,
-            'maxCol': 60,
+        'row_labels_source': 'Num',
+        'header_rows': 4,
+        'header_cols': 2,
+        'default_rows': 150,
+        'default_cols': 4,
+        'color_threshold': {
+            'max_row': 7.5,
+            'max_col': 60,
             'row': 3.5,
             'col': 34}
     },
     'mtcars': {
         'file': '{}mtcars.tsv'.format(DATAPATH),
-        'rowLabelsSource': 'model',
-        'headerRows': 4,
-        'headerCols': 1,
-        'defaultRows': 32,
-        'defaultCols': 11,
-        'colorThreshold': {
-            'maxRow': 430,
-            'maxCol': 1460,
+        'row_labels_source': 'model',
+        'header_rows': 4,
+        'header_cols': 1,
+        'default_rows': 32,
+        'default_cols': 11,
+        'color_threshold': {
+            'max_row': 430,
+            'max_col': 1460,
             'row': 215,
             'col': 660
         }
@@ -414,12 +414,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if dataset_name is not None:
             dataset = datasets[dataset_name]
 
-            _, desc, rowOptions, colOptions = \
+            _, desc, row_options, col_options = \
                 gene_expression_reader.parse_tsv(
                     filepath=dataset['file'],
-                    header_rows=dataset['headerRows'],
-                    header_cols=dataset['headerCols'],
-                    row_labels_source=dataset['rowLabelsSource']
+                    header_rows=dataset['header_rows'],
+                    header_cols=dataset['header_cols'],
+                    row_labels_source=dataset['row_labels_source']
                 )
         elif contents is not None:
             content_type, content_string = contents.split(',')
@@ -427,17 +427,17 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             if row_labels_source is None:
                 row_labels_source = 'Gene Name'
 
-            _, desc, rowOptions, colOptions = \
+            _, desc, row_options, col_options = \
                 gene_expression_reader.parse_tsv(
                     contents=decoded,
                     row_labels_source=row_labels_source
                 )
         else:
-            desc, rowOptions, colOptions = '', [], []
+            desc, row_options, col_options = '', [], []
         return {
             'desc': desc,
-            'rowOptions': rowOptions,
-            'colOptions': colOptions
+            'row_options': row_options,
+            'col_options': col_options
         }
 
     @app.callback(
@@ -448,7 +448,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def update_row_threshold_value(dataset_name, contents):
         if dataset_name is None:
             return 0
-        return datasets[dataset_name]['colorThreshold']['row']
+        return datasets[dataset_name]['color_threshold']['row']
 
     @app.callback(
         Output('column-threshold', 'value'),
@@ -458,7 +458,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def update_col_threshold_value(dataset_name, contents):
         if dataset_name is None:
             return 0
-        return datasets[dataset_name]['colorThreshold']['col']
+        return datasets[dataset_name]['color_threshold']['col']
 
     @app.callback(
         Output('row-threshold', 'max'),
@@ -468,7 +468,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def update_row_threshold_max(dataset_name, contents):
         if dataset_name is None:
             return 20
-        return datasets[dataset_name]['colorThreshold']['maxRow']
+        return datasets[dataset_name]['color_threshold']['max_row']
 
     @app.callback(
         Output('column-threshold', 'max'),
@@ -478,7 +478,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def update_col_threshold_max(dataset_name, contents):
         if dataset_name is None:
             return 20
-        return datasets[dataset_name]['colorThreshold']['maxCol']
+        return datasets[dataset_name]['color_threshold']['max_col']
 
     # store figure options
 
@@ -494,45 +494,47 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                State('file-upload', 'contents')]
     )
     def store_fig_options(
-            clusterBy,
-            rowThresh, colThresh,
-            selRows, selCols,
-            hideLabels,
+            cluster_by,
+            row_thresh, col_thresh,
+            sel_rows, sel_cols,
+            hide_labels,
             dataset_name, contents
     ):
+        if len(cluster_by) == 0:
+            cluster_by = [None]
         return {
-            'cluster': 'all' if len(clusterBy) > 1 else clusterBy[0],
-            'colorThreshold': {'row': rowThresh,
-                               'col': colThresh},
-            'rowLabels': selRows,
-            'columnLabels': selCols,
-            'optimalLeafOrder': True,
-            'hideLabels': hideLabels,
-            'displayRatio': [0.3, 0.1],
+            'cluster': 'all' if len(cluster_by) > 1 else cluster_by[0],
+            'color_threshold': {'row': row_thresh,
+                                'col': col_thresh},
+            'row_labels': sel_rows,
+            'column_labels': sel_cols,
+            'optimal_leaf_order': True,
+            'hide_labels': hide_labels,
+            'display_ratio': [0.3, 0.1],
             'height': 650, 'width': 900,
-            'colorMap': [
-                [0.0, colorPalette[0]],
-                [0.5, colorPalette[1]],
-                [1.0, colorPalette[2]]
+            'color_map': [
+                [0.0, color_palette[0]],
+                [0.5, color_palette[1]],
+                [1.0, color_palette[2]]
             ],
-            'colorList': {
-                'row': [colorPalette[0], colorPalette[1], colorPalette[2]],
-                'col': [colorPalette[1], colorPalette[2], colorPalette[0]],
+            'color_list': {
+                'row': [color_palette[0], color_palette[1], color_palette[2]],
+                'col': [color_palette[1], color_palette[2], color_palette[0]],
                 'bg': 'rgb(255,255,255)'
             },
-            'annotationFont': {
+            'annotation_font': {
                 'color': 'white',
                 'size': 10
             },
-            'tickFont': {
+            'tick_font': {
                 'color': 'rgb(200,200,200)',
                 'size': 10
             },
-            'symmetricValue': dataset_name is None,
-            'logTransform': dataset_name is None,
-            'imputeFunction': {
+            'symmetric_value': dataset_name is None,
+            'log_transform': dataset_name is None,
+            'imputer_parameters': {
                 'strategy': 'median',
-                'missingValues': 'NaN',
+                'missing_values': 'NaN',
                 'axis': 1
             }
         }
@@ -552,16 +554,16 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                State('group-markers', 'data')]
     )
     def add_marker(
-            submit_nclicks, removeAll_nclicks,
-            rowOrCol, groupNum, annotation, color,
+            submit_nclicks, remove_all_nclicks,
+            row_or_col, group_num, annotation, color,
             submit_time, remove_time,
             current_group_markers
     ):
         # remove all group markers, if necessary, or
         # initialize the group markers data
         if current_group_markers is None or remove_time > submit_time:
-            current_group_markers = {'rowGroupMarker': [],
-                                     'colGroupMarker': []}
+            current_group_markers = {'row_group_marker': [],
+                                     'col_group_marker': []}
 
         if remove_time > submit_time:
             return current_group_markers
@@ -569,15 +571,15 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         # otherwise, add the appropriate marker
         marker = dict()
         try:
-            marker['group'] = int(groupNum)
+            marker['group'] = int(group_num)
             marker['annotation'] = annotation
             marker['color'] = color
         except ValueError:
             pass
-        if rowOrCol == 'row':
-            current_group_markers['rowGroupMarker'].append(marker)
-        elif rowOrCol == 'col':
-            current_group_markers['colGroupMarker'].append(marker)
+        if row_or_col == 'row':
+            current_group_markers['row_group_marker'].append(marker)
+        elif row_or_col == 'col':
+            current_group_markers['col_group_marker'].append(marker)
 
         return current_group_markers
 
@@ -618,13 +620,13 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def display_clustergram(
             _, group_markers,
-            selRows, selCols,
+            sel_rows, sel_cols,
             fig_opts,
             dataset_name,
             contents, filename,
             row_labels_source
     ):
-        if (len(selRows) < 2 or len(selCols) < 2 or fig_opts is None):
+        if len(sel_rows) < 2 or len(sel_cols) < 2 or fig_opts is None:
             return html.Div(
                 'No data have been selected to display. Please upload a file \
                 or select a preloaded file from the dropdown, then select at \
@@ -634,17 +636,27 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     'font-size': '20pt'
                 }
             )
+        if fig_opts['cluster'] is None:
+            return html.Div(
+                'No clustering dimension has been selected to display. Please \
+                select at least one option from the dropdown.',
+                style={
+                    'padding': '30px',
+                    'font-size': '20pt'
+                }
+            )
+
         if dataset_name is not None:
             dataset = datasets[dataset_name]
 
             data, _, _, _ = \
                 gene_expression_reader.parse_tsv(
                     filepath=dataset['file'],
-                    row_labels_source=dataset['rowLabelsSource'],
-                    header_rows=dataset['headerRows'],
-                    header_cols=dataset['headerCols'],
-                    rows=selRows,
-                    columns=selCols
+                    row_labels_source=dataset['row_labels_source'],
+                    header_rows=dataset['header_rows'],
+                    header_cols=dataset['header_cols'],
+                    rows=sel_rows,
+                    columns=sel_cols
                 )
 
         elif contents is not None and dataset_name is None:
@@ -658,13 +670,13 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 gene_expression_reader.parse_tsv(
                     contents=decoded,
                     row_labels_source=row_labels_source,
-                    rows=selRows,
-                    columns=selCols
+                    rows=sel_rows,
+                    columns=sel_cols
                 )
 
         if group_markers is not None:
-            fig_opts['rowGroupMarker'] = group_markers['rowGroupMarker']
-            fig_opts['colGroupMarker'] = group_markers['colGroupMarker']
+            fig_opts['row_group_marker'] = group_markers['row_group_marker']
+            fig_opts['col_group_marker'] = group_markers['col_group_marker']
 
         try:
             fig, _ = dash_bio.Clustergram(
@@ -694,7 +706,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def update_row_options(_, data):
         if data is not None:
-            return [{'label': r, 'value': r} for r in data['rowOptions']]
+            return [{'label': r, 'value': r} for r in data['row_options']]
         return []
 
     @app.callback(
@@ -704,7 +716,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def update_col_options(_, data):
         if data is not None:
-            return [{'label': c, 'value': c} for c in data['colOptions']]
+            return [{'label': c, 'value': c} for c in data['col_options']]
         return []
 
     # update row and column selections
@@ -721,7 +733,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if dataset_name is None or row_options is None:
             return []
         row_options = [r['value'] for r in row_options]
-        return row_options[:datasets[dataset_name]['defaultRows']]
+        return row_options[:datasets[dataset_name]['default_rows']]
 
     @app.callback(
         Output('selected-columns', 'value'),
@@ -734,7 +746,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if dataset_name is None or col_options is None:
             return []
         col_options = [c['value'] for c in col_options]
-        return col_options[:datasets[dataset_name]['defaultCols']]
+        return col_options[:datasets[dataset_name]['default_cols']]
 
     # show filename that was uploaded
 
