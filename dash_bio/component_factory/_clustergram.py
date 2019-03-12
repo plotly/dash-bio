@@ -102,9 +102,10 @@ def Clustergram(
     :param (dict) imputer_parameters: Specifies the parameters 'missing_values'
                                       and 'strategy' defined in the SimpleImputer
                                       from scikit-learn 0.20.3. An additional
-                                      argument, 'axis', is used to specify the
-                                      direction along which to impute (supported
-                                      until scikit-learn 0.20). 'axis=0' indicates
+                                      parameter, 'axis', is used to specify the
+                                      direction along which to impute (a parameter of
+                                      Imputer, which was deprecated in scikit-learn 0.20.0).
+                                      'axis=0' indicates
                                       that imputing should happen along columns,
                                       while 'axis=1' indicates that it should happen
                                       along rows.
