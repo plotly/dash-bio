@@ -100,15 +100,14 @@ def Clustergram(
                                      dendrogram ratio corresponds to the first
                                      element of the list (default: 0.2)
     :param (dict) imputer_parameters: Specifies the parameters 'missing_values'
-                                      and 'strategy' defined in the SimpleImputer
+                                      and 'strategy' of the SimpleImputer class
                                       from scikit-learn 0.20.3. An additional
                                       parameter, 'axis', is used to specify the
                                       direction along which to impute (a parameter of
                                       Imputer, which was deprecated in scikit-learn 0.20.0).
-                                      'axis=0' indicates
-                                      that imputing should happen along columns,
+                                      'axis=0' indicates that imputing should happen along columns,
                                       while 'axis=1' indicates that it should happen
-                                      along rows.
+                                      along rows (see http://lijiancheng0614.github.io/scikit-learn/modules/generated/sklearn.preprocessing.Imputer.html).
     :param (list[dict]) row_group_marker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
                                         (which group to annotate), 'annotation'
@@ -151,87 +150,6 @@ def Clustergram(
 
 class _Clustergram():
     """
-    Function that returns a Dash Bio clustergram.
-
-    :param (ndarray) data: Matrix of observations as array of arrays
-    :param (list) row_labels: List of row category labels (observation labels)
-    :param (list) column_labels: List of column category labels (observation
-                                labels)
-    :param (list) hide_labels: List of labels not to display on the final plot.
-    :param (str) standardize: The dimension for standardizing values, so that
-                              the mean is 0 and the standard deviation is 1
-                              along the specified dimension: 'row', 'column',
-                              or 'none' (default)
-    :param (str) cluster: The dimension along which the data will be clustered:
-                          'row', 'column', or 'all' (default); 'all' means data
-                          to be clustered along columns, then clustered along
-                          rows of row-clustered data
-    :param (function) row_dist: Function specifying the distance metric for rows
-                               that will be passed to the function specified in
-                               dist_fun
-                               (see scipy.spatial.distance.pdist)
-    :param (function) col_dist: Function specifying the distance metric for
-                               columns that will be passed to the function
-                               specified in dist_fun
-                               (see scipy.spatial.distance.pdist)
-    :param (function) dist_fun: Function to compute the pairwise distance from
-                               the observations
-                               (see scipy.spatial.distance.pdist)
-    :param (function) link_fun: Function to compute the linkage matrix from the
-                               pairwise distances
-                               (see scipy.cluster.hierarchy.linkage)
-    :param (dict) color_threshold: Maximum linkage value for which unique
-                                  colors are assigned to clusters; 'row' for
-                                  rows, and 'col' for columns (default 0)
-    :param (bool) optimal_leaf_order: Enable or disable calculation to determine
-                                    leaf order that maximizes the similarity
-                                    between neighbouring leaves
-    :param (list) color_map: Optional colorscale for dendrogram tree
-    :param (dict) color_list: Optional list of colors to use for row and col
-                             dendrograms
-    :param (double) display_range: Standardized values from the dataset that
-                                  are below the negative of this value will
-                                  be colored with one shade, and the values
-                                  that are above this value will be colored
-                                  with another in the heatmap (3 by default)
-    :param (bool) symmetric_value: Forces the colorscale of the heatmap to be
-                                  centered around zero (True by default)
-    :param (bool) log_transform: Transforms the data to a logarithmic axis
-                                with a basis of two (False by default)
-    :param (list/float) display_ratio: The dendrograms' heights with respect to
-                                     the size of the heatmap; with one element,
-                                     both the row and column dendrograms have
-                                     the same ratio; with two, the row
-                                     dendrogram ratio corresponds to the first
-                                     element of the list (default: 0.2)
-    :param (function) imputer_parameters: The function used to impute missing data.
-                                      It should take as input the dataset and
-                                      output a dataset with imputed values.
-    :param (list[dict]) row_group_marker: Specifies which rows to annotate; each
-                                        dict requires the keys 'groupNumber'
-                                        (which group to annotate), 'annotation'
-                                        (the text annotation), and 'color'
-                                        (color in rgb format used to label the
-                                        group).
-    :param (list[dict]) col_group_marker: Specifies which rows to annotate; each
-                                        dict requires the keys 'groupNumber'
-                                        (which group to annotate), 'annotation'
-                                        (the text annotation), and 'color'
-                                        (color in rgb format used to label the
-                                        group).
-    :param (dict) tick_font: The font options for ticks.
-    :param (dict) annotation_font: The font options for annotations.
-    :param (list/float) line_width: The line width for the dendrograms. If in
-                                   list format, the first element corresponds
-                                   to the width of the row traces, and the
-                                   second corresponds to the width of the
-                                   column traces.
-    :param (string) paper_bg_color: The background color of the paper on the
-                                  graph (default transparent).
-    :param (string) plot_bg_color: The background color of the subplots on the
-                                 graph (default transparent).
-    :param (int) height: The height of the graph, in px (default 500).
-    :param (int) width: The width of the graph, in px (default 500).
     Function that returns a Dash Bio clustergram component.
 
     :param (ndarray) data: Matrix of observations as array of arrays
@@ -288,14 +206,14 @@ class _Clustergram():
                                      dendrogram ratio corresponds to the first
                                      element of the list (default: 0.2)
     :param (dict) imputer_parameters: Specifies the parameters 'missing_values'
-                                      and 'strategy' defined in the SimpleImputer
+                                      and 'strategy' of the SimpleImputer class
                                       from scikit-learn 0.20.3. An additional
-                                      argument, 'axis', is used to specify the
-                                      direction along which to impute (supported
-                                      until scikit-learn 0.20). 'axis=0' indicates
-                                      that imputing should happen along columns,
+                                      parameter, 'axis', is used to specify the
+                                      direction along which to impute (a parameter of
+                                      Imputer, which was deprecated in scikit-learn 0.20.0).
+                                      'axis=0' indicates that imputing should happen along columns,
                                       while 'axis=1' indicates that it should happen
-                                      along rows.
+                                      along rows (see http://lijiancheng0614.github.io/scikit-learn/modules/generated/sklearn.preprocessing.Imputer.html).
     :param (list[dict]) row_group_marker: Specifies which rows to annotate; each
                                         dict requires the keys 'groupNumber'
                                         (which group to annotate), 'annotation'
