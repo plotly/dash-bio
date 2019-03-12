@@ -759,13 +759,13 @@ Keyword arguments:
             self,
             dim
     ):
-        """
-        Returns standardized data based on user parameters.
+        """Returns standardized data based on user parameters.
 
-        :param (str) dim: The dimension, row or column, to standardize across.
+        Keyword arguments:
+        - dim (string): The dimension, row or column, to standardize across.
 
-        :rtype (ndarray): An array containing the standardized data.
-        """
+        Returns:
+        - ndarray: An array containing the standardized data."""
 
         std = np.zeros(self._data.shape)
 
@@ -779,11 +779,10 @@ Keyword arguments:
     def _get_clusters(
             self
     ):
-        """
-        Clusters the data according to the specified dimensions.
+        """Clusters the data according to the specified dimensions.
 
-        :rtype (tuple): The linkage matrices for the columns and/or rows.
-        """
+        Returns:
+        - tuple: The linkage matrices for the columns and/or rows."""
 
         Zcol = None
         Zrow = None
@@ -803,13 +802,12 @@ Keyword arguments:
     def _dendrogram_traces(
             self
     ):
-        """
-        Gets the traces that need to be plotted for the row and column
+        """Gets the traces that need to be plotted for the row and column
         dendrograms.
 
-        :rtype (dict): A dictionary containing entries for the row and column
-                       dendrogram traces.
-        """
+        Returns: - dict: A dictionary containing entries for the row
+        and column dendrogram traces."""
+
         # initialize return dict
         trace_list = {
             'col': [],
@@ -869,16 +867,15 @@ Keyword arguments:
             P,
             dim
     ):
-        """
-        Colors each cluster below the color threshold separately.
+        """Colors each cluster below the color threshold separately.
 
-        :param (dict) P: The x and y values of the dendrogram traces,
-                         along with the list of trace colors returned
-                         by sch.dendrogram
-        :param (string) dim: The dimension of the clusters.
+        Keyword arguments:
+        - P (dict): The x and y values of the dendrogram traces, along
+            with the list of trace colors returned by sch.dendrogram
+        - dim (string): The dimension of the clusters.
 
-        :rtype (list): The list of colored traces for the dendrogram.
-        """
+        Returns:
+        - list: The list of colored traces for the dendrogram."""
 
         traces = []
 
@@ -935,14 +932,14 @@ Keyword arguments:
             clist,
             dim
     ):
-        '''
-        Returns a set of n unique colours for each cluster in the dendrogram.
+        """Returns a set of n unique colours for each cluster in the dendrogram.
 
-        :param (list) clist: The color list returned by dendrogram.
-        :param (string) dim: The dimension of the clusters to color.
+        Keyword arguments:
+        - clist (list): The color list returned by dendrogram.
+        - dim (string): The dimension of the clusters to color.
 
-        :rtype (list): A list of RGB strings.
-        '''
+        Returns:
+        list: A list of RGB strings."""
         # the colors repeat; get how many repetitions there are
 
         # the colors go through cycles of g, r, c, m, y, k
@@ -1060,18 +1057,18 @@ Keyword arguments:
             rdt,
             cdt
     ):
-        """
-        Sorts row dendrogram clusters and column dendrogram clusters
+        """Sorts row dendrogram clusters and column dendrogram clusters
         so that the background trace (above threshold) is trace 0
         and all other traces are ordered top-to-bottom (row dendrogram)
         or left-to-right (column dendrogram).
 
-        :param (list[dict]) rdt: The row dendrogram cluster traces.
-        :param (list[dict]) cdt: The column dendrogram cluster traces.
+        Keyword arguments:
+        - rdt (list[dict]): The row dendrogram cluster traces.
+        - cdt (list[dict]): The column dendrogram cluster traces.
 
-        :rtype (tuple): The sorted row dendrogram clusters and
-                        column dendrogram clusters.
-        """
+        Returns:
+        - tuple: The sorted row dendrogram clusters and column
+                        dendrogram clusters."""
 
         tmp_rdt = []
         tmp_cdt = []
@@ -1100,18 +1097,18 @@ Keyword arguments:
             row_clusters,
             col_clusters
     ):
-        """
-        Calculates the traces and annotations that correspond to group
+        """Calculates the traces and annotations that correspond to group
         labels.
 
-        :param (list[dict]) row_clusters: List of all row traces (each trace
-                                         corresponds to a cluster)
-        :param (list[dict]) col_clusters: List of all column traces (each trace
-                                         corresponds to a cluster)
+        Keyword arguments:
+        - row_clusters (list[dict]): List of all row traces (each
+            trace corresponds to a cluster)
+        - col_clusters (list[dict]): List of all column traces (each
+            trace corresponds to a cluster)
 
-        :rtype (tuple): The row label traces, column label traces,
-                        row group annotations, and column group annotations.
-        """
+        Returns:
+        - tuple: The row label traces, column label traces, row group
+            annotations, and column group annotations."""
 
         row_group_labels = []
         col_group_labels = []
