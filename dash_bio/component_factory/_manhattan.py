@@ -215,8 +215,7 @@ class _ManhattanPlot():
         "scores", etc.) (Default: True)
 
         Returns:
-        - A ManhattanPlot object.
-        """
+        - A ManhattanPlot object."""
 
         # checking the validity of the arguments
 
@@ -374,7 +373,7 @@ class _ManhattanPlot():
             highlight=True,
             highlight_color="red",
     ):
-            """
+        """
 
     Keyword arguments:
 
@@ -417,11 +416,8 @@ class _ManhattanPlot():
         format accepted by plotly_js graph_objs. (Default: "red")
 
     Returns:
-    - A figure formatted for plotly.graph_objs.
+    - A figure formatted for plotly.graph_objs."""
 
-            """
-
-        # Initialize plot
         xmin = min(self.data[self.pos].values)
         xmax = max(self.data[self.pos].values)
 
