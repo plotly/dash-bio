@@ -74,7 +74,7 @@ def ideogram_test_props_callback(
 
 HUMAN_TXID = 9606  # NCBI:Txid for human
 BASIC_PROPS = {
-    'organism': 'human',
+    'species': 'human',
     'dataDir': 'https://unpkg.com/ideogram@1.3.0/dist/data/bands/native/'
 }
 
@@ -584,12 +584,12 @@ def test_homology(dash_threaded):
 
     prop_val = {
         "chrOne": {
-            "organism": "9606",
+            "species": "9606",
             "start": [10001, 105101383],
             "stop": [27814790, 156030895],
         },
         "chrTwo": {
-            "organism": "9606",
+            "species": "9606",
             "start": [3000000, 125101383],
             "stop": [9000000, 196130895],
         },
