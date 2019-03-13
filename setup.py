@@ -18,13 +18,13 @@ setup(
     install_requires=[
         'biopython',
         'colour',
-        'dash',
+        'dash>=0.37.0',
         'dash-html-components',
         'pandas',
         'parmed',
         'plotly',
         'scipy',
-        'sklearn'
+        'scikit-learn>=0.20.1'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
