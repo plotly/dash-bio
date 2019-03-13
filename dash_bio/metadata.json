@@ -1591,7 +1591,7 @@
           }
         },
         "required": false,
-        "description": "Used to compare two chromosomes with each other.\nThe keys \"chrOne\" and \"chrTwo\" represent one chromosome each. Species is the taxID or name.\nStart is an array, containing start one and start two, in this order. Stop is an array,\ncontaining stop one, and stop two, in this order.\nEx: homology={\n    \"chrOne\": {\n        species\": \"9606\",\n        \"start\": [50000, 155701383],\n        \"stop\": [900000, 156030895]\n    },\n    \"chrTwo\": {\n        species\": \"10090\",\n        \"start\": [10001, 50000000],\n        \"stop\": [2781479, 57217415]\n    }\n}"
+        "description": "Used to compare two chromosomes with each other.\nThe keys \"chrOne\" and \"chrTwo\" represent one chromosome each. Species is the taxID or name.\nStart is an array, containing start one and start two, in this order. Stop is an array,\ncontaining stop one, and stop two, in this order.\nEx: homology={\n    \"chrOne\": {\n        \"species\": \"9606\",\n        \"start\": [50000, 155701383],\n        \"stop\": [900000, 156030895]\n    },\n    \"chrTwo\": {\n        \"species\": \"10090\",\n        \"start\": [10001, 50000000],\n        \"stop\": [2781479, 57217415]\n    }\n}"
       },
       "perspective": {
         "type": {
@@ -1715,7 +1715,7 @@
           ]
         },
         "required": false,
-        "description": "Useful for omitting chromosome Y in female animals.\nCurrently only supported for speciess that use XY sex-determination."
+        "description": "Useful for omitting chromosome Y in female animals.\nCurrently only supported for species that use XY sex-determination."
       },
       "showChromosomeLabels": {
         "type": {

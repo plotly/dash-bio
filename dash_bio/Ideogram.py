@@ -103,12 +103,12 @@ Start is an array, containing start one and start two, in this order. Stop is an
 containing stop one, and stop two, in this order.
 Ex: homology={
     "chrOne": {
-        species": "9606",
+        "species": "9606",
         "start": [50000, 155701383],
         "stop": [900000, 156030895]
     },
     "chrTwo": {
-        species": "10090",
+        "species": "10090",
         "start": [10001, 50000000],
         "stop": [2781479, 57217415]
     }
@@ -140,7 +140,7 @@ chromosomes from different ancestors in polyploid genomes.
 - rotatable (boolean; optional): Whether chromosomes are rotatable on click.
 - rotated (boolean; optional): Dash callback that returns true if rotated, and false if not.
 - sex (a value equal to: 'male', 'female'; optional): Useful for omitting chromosome Y in female animals.
-Currently only supported for speciess that use XY sex-determination.
+Currently only supported for species that use XY sex-determination.
 - showChromosomeLabels (boolean; optional): Whether to show chromosome labels, e.g., 1, 2, 3, X, Y.
 - showBandLabels (boolean; optional): Whether to show cytogenetic band labels, e.g., 1q21
 - showFullyBanded (boolean; optional): Whether to show fully banded chromosomes for genomes that have sufficient data. Useful for

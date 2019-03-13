@@ -485,12 +485,12 @@ Ideogram.propTypes = {
      * containing stop one, and stop two, in this order.
      * Ex: homology={
      *     "chrOne": {
-     *         species": "9606",
+     *         "species": "9606",
      *         "start": [50000, 155701383],
      *         "stop": [900000, 156030895]
      *     },
      *     "chrTwo": {
-     *         species": "10090",
+     *         "species": "10090",
      *         "start": [10001, 50000000],
      *         "stop": [2781479, 57217415]
      *     }
@@ -571,7 +571,7 @@ Ideogram.propTypes = {
 
     /**
      * Useful for omitting chromosome Y in female animals.
-     * Currently only supported for speciess that use XY sex-determination.
+     * Currently only supported for species that use XY sex-determination.
      */
     sex: PropTypes.oneOf(['male', 'female']),
 
