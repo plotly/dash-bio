@@ -16,7 +16,7 @@
 }
 #speck-body ::-webkit-scrollbar-thumb {
     width: 2px;
-    background-color: #000;
+    background-color: #5673fa;
     border-radius: 15px;
     padding-right: 5px;
 }
@@ -31,12 +31,15 @@
     float: left;
 }
 
-#speck-tab {
-    max-height: 460px;
+.speck-tab {
+    height: 460px;
     overflow-y: auto;
     padding-right: 15px;
 }
-
+.speck-controls {
+    width: 100%;
+    overflow: auto;
+}
 #speck-control-tabs .tab {
     background-color: #eee;
     color: #232323;
@@ -57,4 +60,55 @@
     display: inline-block !important;
     padding: 0px;
     margin: 50px;
+}
+#speck-body .rc-slider-rail {
+    background-color: rgba(255,255,255,0.7);
+}
+#speck-body .rc-slider-track {
+    background-color: #5673FA;
+}
+#speck-body .rc-slider-handle {
+    border-color: #5673FA;
+}
+#speck-body .rc-slider {
+    margin: 5px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(100% - 130px);
+}
+span.speck-slider-description {
+    display: inline-block;
+    width: 100px;
+    line-height: 13pt;
+    vertical-align: middle;
+    font-size: 11pt;
+    margin-top: 20px;
+}
+#speck-show-hide-bonds label, #speck-enable-presets label {
+    font-size: 14pt;
+}
+#speck-show-hide-bonds label input[type=checkbox], #speck-enable-presets label input[type=checkbox] {
+    height: 12pt;
+    margin-right: 10px;
+}
+#speck-controls-preset > span {
+    width: 125px;
+    font-size: 11pt;
+    display: inline-block;
+    position: relative;
+    top: -10px;
+}
+#speck-preset-atom-style-dropdown, #speck-preset-rendering-dropdown {
+    display: inline-block;
+    width: calc(100% - 150px);
+    vertical-align: middle;
+    margin-bottom: 20px;
+}
+#speck-controls-preset.speck-controls {
+    height: 360px;
+}
+.speck-controls {
+    margin-bottom: 20px;
 }

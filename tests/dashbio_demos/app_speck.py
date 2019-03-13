@@ -30,6 +30,7 @@ default_sliders = [
         value=0.6,
         updatemode='drag'
     ),
+    html.Br(),
     html.Span(
         "Relative atom radius",
         className='speck-slider-description'
@@ -42,6 +43,7 @@ default_sliders = [
         value=1.0,
         updatemode='drag'
     ),
+    html.Br(),
     html.Span(
         "Ambient occlusion",
         className='speck-slider-description'
@@ -53,6 +55,7 @@ default_sliders = [
         step=0.01,
         value=0.75
     ),
+    html.Br(),
     html.Span(
         "Brightness",
         className='speck-slider-description'
@@ -65,6 +68,7 @@ default_sliders = [
         value=0.5,
         updatemode='drag'
     ),
+    html.Br(),
     html.Span(
         "Outline",
         className='speck-slider-description'
@@ -88,7 +92,7 @@ default_sliders = [
         values=[]
     ),
     html.Span(
-        'Bond Scale',
+        'Bond scale',
         className='speck-slider-description'
     ),
     dcc.Slider(
@@ -142,6 +146,7 @@ def layout():
                     label='Data',
                     value='datasets',
                     children=html.Div(className='speck-tab', children=[
+                        html.H4("Choose preloaded XYZ data"),
                         dcc.Dropdown(
                             id='speck-molecule-dropdown',
                             className='speck-dropdown',
@@ -166,7 +171,7 @@ def layout():
                             options=[{'label': 'Use presets', 'value': 'True'}],
                             values=[]
                         ),
-
+                        html.Hr(),
                         html.Div(
                             id='speck-controls-detailed',
                             className='speck-controls',
@@ -178,7 +183,7 @@ def layout():
                             className='speck-controls',
                             children=[
 
-                                "1: Select rendering style",
+                                html.Span("Rendering style"),
                                 dcc.Dropdown(
                                     id='speck-preset-rendering-dropdown',
                                     className='speck-dropdown',
@@ -191,7 +196,7 @@ def layout():
                                     value='default'
                                 ),
                                 html.Br(),
-                                "2: Select atom style",
+                                html.Span("Atom style"),
                                 dcc.Dropdown(
                                     id='speck-preset-atom-style-dropdown',
                                     className='speck-dropdown',
