@@ -87,9 +87,9 @@ def layout():
                                             ),
                                             html.Div(
                                                 [
-                                                    html.P("Organism"),
+                                                    html.P("Species"),
                                                     dcc.Dropdown(
-                                                        id="organism-change",
+                                                        id="species-change",
                                                         options=[
                                                             {
                                                                 "label": "Human",
@@ -253,7 +253,7 @@ def layout():
                                                 dataDir="https://unpkg.com/ideogram@1.3.0/"
                                                         "dist/data/bands/native/",
                                                 orientation="horizontal",
-                                                organism="human",
+                                                species="human",
                                                 chrHeight=300,
                                                 chrMargin=10,
                                                 chrWidth=8,
@@ -371,7 +371,7 @@ def layout():
                                         id="brush-ideo",
                                         dataDir="https://unpkg.com/ideogram@1.3.0/"
                                                 "dist/data/bands/native/",
-                                        organism="human",
+                                        species="human",
                                         chromosomes=["1"],
                                         brush="chr1:1-10000000",
                                         chrHeight=900,
@@ -474,7 +474,7 @@ def layout():
                                         id="ideo-annotations",
                                         dataDir="https://unpkg.com/ideogram@1.3.0/"
                                                 "dist/data/bands/native/",
-                                        organism="human",
+                                        species="human",
                                         assembly="GRCh37",
                                         orientation="horizontal",
                                         showBandLabels=True,
@@ -528,13 +528,13 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return answer
 
     # Custom callbacks
-    # Organism
+    # Species
 
     @app.callback(
-        Output("ideo-custom", "organism"),
-        [Input("organism-change", "value")]
+        Output("ideo-custom", "species"),
+        [Input("species-change", "value")]
     )
-    def organism_change_dropdown(dropdown):
+    def species_change_dropdown(dropdown):
         return dropdown
 
     # ShowBandLabels
@@ -782,12 +782,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     ):
         return {
             "chrOne": {
-                "organism": "9606",
+                "species": "9606",
                 "start": [start_one, start_two],
                 "stop": [stop_one, stop_two],
             },
             "chrTwo": {
-                "organism": "9606",
+                "species": "9606",
                 "start": [start_one_a, start_two_a],
                 "stop": [stop_one_a, stop_two_a],
             },
