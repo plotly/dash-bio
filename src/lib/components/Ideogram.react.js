@@ -26,8 +26,8 @@ export default class Ideogram extends Component {
         this.tooltipDataTwo = null;
 
         this.propKeys = [
-            'localOrganism',
-            'organism',
+            'localSpecies',
+            'species',
             'showBandLabels',
             'orientation',
             'dataDir',
@@ -79,16 +79,16 @@ export default class Ideogram extends Component {
         const chrs = this.ideogram.chromosomes;
         let chrOne = null;
         let chrTwo = null;
-        const organism = this.props.organism;
+        const species = this.props.species;
         const chromosomes = this.props.chromosomes;
         const homology = this.props.homology;
 
-        if (typeof this.props.organism !== 'string') {
-            chrOne = chrs[homology.chrOne.organism][chromosomes[organism[0]]];
-            chrTwo = chrs[homology.chrTwo.organism][chromosomes[organism[1]]];
+        if (typeof this.props.species !== 'string') {
+            chrOne = chrs[homology.chrOne.species][chromosomes[species[0]]];
+            chrTwo = chrs[homology.chrTwo.species][chromosomes[species[1]]];
         } else {
-            chrOne = chrs[homology.chrOne.organism][chromosomes[0]];
-            chrTwo = chrs[homology.chrTwo.organism][chromosomes[1]];
+            chrOne = chrs[homology.chrOne.species][chromosomes[0]];
+            chrTwo = chrs[homology.chrTwo.species][chromosomes[1]];
         }
 
         const par1X = {
@@ -224,9 +224,9 @@ export default class Ideogram extends Component {
 
     initIdeogram() {
         // Used to pass in a local dataset
-        if (this.props.localOrganism) {
+        if (this.props.localSpecies) {
             this.props.dataDir = null;
-            window.chrBands = this.props.localOrganism;
+            window.chrBands = this.props.localSpecies;
         }
         this.ideogram = new IdeogramJS(this.setConfig());
     }
@@ -269,7 +269,7 @@ export default class Ideogram extends Component {
 }
 
 Ideogram.defaultProps = {
-    organism: 'human',
+    species: 'human',
     dataDir: 'https://unpkg.com/ideogram@1.5.0/dist/data/bands/native/',
     annotationsColor: '#F00',
     annotationsLayout: 'tracks',
@@ -385,7 +385,7 @@ Ideogram.propTypes = {
     showAnnotTooltip: PropTypes.bool,
 
     /**
-     * Default: latest RefSeq assembly for specified organism.
+     * Default: latest RefSeq assembly for specified species.
      * The genome assembly to display.
      * Takes assembly name (e.g., "GRCh37"),
      * RefSeq accession (e.g., "GCF_000306695.2"),
@@ -397,7 +397,7 @@ Ideogram.propTypes = {
      * Genomic coordinate range (e.g., "chr1:104325484-119977655") for a brush on a
      * chromosome. Useful when ideogram consists of one chromosome and you want to be
      * able to focus on a region within that chromosome,
-     * and create an interactive sliding window to other regions
+     * and create an interactive sliding window to other regions.
      */
 
     brush: PropTypes.string,
@@ -465,32 +465,32 @@ Ideogram.propTypes = {
     dataDir: PropTypes.string,
 
     /**
-     * Organism(s) to show chromosomes for. Supply organism's name as a string (e.g., "human") or
-     * organism's NCBI Taxonomy ID (taxid, e.g., 9606) to display chromosomes from a single
-     * organism, or an array of organisms' names or taxids to display chromosomes from multiple
+     * Species to show chromosomes for. Supply species's name as a string (e.g., "human") or
+     * species's NCBI Taxonomy ID (taxID, e.g., 9606) to display chromosomes from a single
+     * species, or an array of species' names or taxIDs to display chromosomes from multiple
      * species.
      */
-    organism: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    species: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     /**
-     * Provide local JSON organism into this prop from a local user JSON file.
+     * Provide local JSON species into this prop from a local user JSON file.
      * DataDir must not be initialized.
      */
-    localOrganism: PropTypes.object,
+    localSpecies: PropTypes.object,
 
     /**
      * Used to compare two chromosomes with each other.
-     * The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the taxID or name.
+     * The keys "chrOne" and "chrTwo" represent one chromosome each. Species is the taxID or name.
      * Start is an array, containing start one and start two, in this order. Stop is an array,
      * containing stop one, and stop two, in this order.
      * Ex: homology={
      *     "chrOne": {
-     *         organism": "9606",
+     *         species": "9606",
      *         "start": [50000, 155701383],
      *         "stop": [900000, 156030895]
      *     },
      *     "chrTwo": {
-     *         organism": "10090",
+     *         species": "10090",
      *         "start": [10001, 50000000],
      *         "stop": [2781479, 57217415]
      *     }
@@ -498,12 +498,12 @@ Ideogram.propTypes = {
      */
     homology: PropTypes.shape({
         chrOne: PropTypes.shape({
-            organism: PropTypes.string.isRequired,
+            species: PropTypes.string.isRequired,
             start: PropTypes.arrayOf(PropTypes.number.isRequired),
             stop: PropTypes.arrayOf(PropTypes.number.isRequired),
         }),
         chrTwo: PropTypes.shape({
-            organism: PropTypes.string.isRequired,
+            species: PropTypes.string.isRequired,
             start: PropTypes.arrayOf(PropTypes.number.isRequired),
             stop: PropTypes.arrayOf(PropTypes.number.isRequired),
         }),
@@ -511,7 +511,7 @@ Ideogram.propTypes = {
 
     /**
      * Use perspective: 'comparative' to enable annotations between two chromosomes,
-     * either within the same organism or different organisms. Used for homology.
+     * either within the same species or across different species. Used for homology.
      */
     perspective: PropTypes.oneOf(['comparative']),
 
@@ -571,7 +571,7 @@ Ideogram.propTypes = {
 
     /**
      * Useful for omitting chromosome Y in female animals.
-     * Currently only supported for organisms that use XY sex-determination.
+     * Currently only supported for speciess that use XY sex-determination.
      */
     sex: PropTypes.oneOf(['male', 'female']),
 
@@ -587,8 +587,8 @@ Ideogram.propTypes = {
 
     /**
      * Whether to show fully banded chromosomes for genomes that have sufficient data. Useful for
-     * showing simpler chromosomes of cytogenetically well-characterized organisms, e.g., human,
-     * beside chromosomes of less studied organisms, e.g., chimpanzee.
+     * showing simpler chromosomes of cytogenetically well-characterized species, e.g., human,
+     * beside chromosomes of less studied species, e.g., chimpanzee.
      */
     showFullyBanded: PropTypes.bool,
 
