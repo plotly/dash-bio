@@ -22,7 +22,7 @@ export default class Speck extends Component {
         speckSystem.calculateBonds(system);
 
         const renderer = this.state.renderer;
-        const view = this.props.view;
+        const view = Object.assign(speckView.new(), this.props.view);
 
         renderer.setSystem(system, view);
 
@@ -42,6 +42,9 @@ export default class Speck extends Component {
                     refreshView: false,
                 });
             }
+
+            // fill in any missing view properties
+            this.props.view = Object.assign(speckView.new(), this.props.view);
             this.state.renderer.render(this.props.view);
         }
         requestAnimationFrame(this.loop);
@@ -90,10 +93,14 @@ export default class Speck extends Component {
                     data[propertyName] !== nextProps.data[propertyName]
             )
         ) {
-            this.props.setProps({
-                data: nextProps.data,
-            });
-
+            if(this.props.setProps) {
+                this.props.setProps({
+                    data: nextProps.data,
+                });
+            }
+            else {
+                this.props.data = nextProps.data;
+            }
             needsUpdate = true;
         }
 
@@ -103,9 +110,14 @@ export default class Speck extends Component {
                 view,
                 speckPresetViews[nextProps.presetView]
             );
-            this.props.setProps({
-                view: v,
-            });
+            if(this.props.setProps) {
+                this.props.setProps({
+                    view: v,
+                });
+            }
+            else {
+                this.props.view = v;
+            }
 
             needsUpdate = true;
         }
@@ -119,9 +131,14 @@ export default class Speck extends Component {
             )
         ) {
             const v = Object.assign(view, nextProps.view);
-            this.props.setProps({
-                view: v,
-            });
+            if(this.props.setProps) {
+                this.props.setProps({
+                    view: v,
+                });
+            }
+            else {
+                this.props.view = v;
+            }
 
             needsUpdate = true;
         }
