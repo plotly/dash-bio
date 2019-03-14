@@ -21,4 +21,4 @@ parmed
 plotly==3.5.0
 requests
 scipy>=1.1.0
-sklearn
+scikit-learn
