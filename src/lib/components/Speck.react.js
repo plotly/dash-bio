@@ -93,12 +93,11 @@ export default class Speck extends Component {
                     data[propertyName] !== nextProps.data[propertyName]
             )
         ) {
-            if(this.props.setProps) {
+            if (this.props.setProps) {
                 this.props.setProps({
                     data: nextProps.data,
                 });
-            }
-            else {
+            } else {
                 this.props.data = nextProps.data;
             }
             needsUpdate = true;
@@ -110,12 +109,11 @@ export default class Speck extends Component {
                 view,
                 speckPresetViews[nextProps.presetView]
             );
-            if(this.props.setProps) {
+            if (this.props.setProps) {
                 this.props.setProps({
                     view: v,
                 });
-            }
-            else {
+            } else {
                 this.props.view = v;
             }
 
@@ -131,12 +129,11 @@ export default class Speck extends Component {
             )
         ) {
             const v = Object.assign(view, nextProps.view);
-            if(this.props.setProps) {
+            if (this.props.setProps) {
                 this.props.setProps({
                     view: v,
                 });
-            }
-            else {
+            } else {
                 this.props.view = v;
             }
 
