@@ -219,7 +219,8 @@ def layout():
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children="Colorscale"),
+                                            html.Div(className='alignment-setting-name',
+                                                     children="Colorscale"),
                                             dcc.Dropdown(
                                                 id='alignment-colorscale-dropdown',
                                                 className='alignment-settings-dropdown',
@@ -232,7 +233,8 @@ def layout():
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Overview'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Overview'),
                                             dcc.Dropdown(
                                                 id='alignment-overview-dropdown',
                                                 className='alignment-settings-dropdown',
@@ -250,7 +252,8 @@ def layout():
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Consensus'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Consensus'),
                                             dcc.RadioItems(
                                                 id='alignment-showconsensus-radio',
                                                 className='alignment-radio',
@@ -273,7 +276,8 @@ def layout():
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Text size'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Text size'),
                                             dcc.Slider(
                                                 className='alignment-slider',
                                                 id='alignment-textsize-slider',
@@ -302,7 +306,8 @@ def layout():
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Barplot'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Barplot'),
                                             dcc.RadioItems(
                                                 id='alignment-showconservation-radio',
                                                 className='alignment-radio',
@@ -322,7 +327,8 @@ def layout():
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Colorscale'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Colorscale'),
                                             dcc.Dropdown(
                                                 id='alignment-conservationcolorscale-dropdown',
                                                 className='alignment-settings-dropdown',
@@ -332,13 +338,15 @@ def layout():
                                                 ],
                                                 value='Viridis',
                                             ),
-                                            html.P('Change the colorscale for the conservation barplot.'),
+                                            html.P('Change the colorscale for the '
+                                                   'conservation barplot.'),
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Method'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Method'),
                                             dcc.Dropdown(
                                                 id='alignment-conservationmethod-dropdown',
                                                 className='alignment-settings-dropdown',
@@ -357,11 +365,13 @@ def layout():
                                 ]),
                                 html.Hr(),
                                 html.Div([
-                                    html.H3('Conservation gap', className='alignment-settings-section'),
+                                    html.H3('Conservation gap',
+                                            className='alignment-settings-section'),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Colorscale'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Colorscale'),
                                             dcc.RadioItems(
                                                 id='alignment-correctgap-radio',
                                                 className='alignment-radio',
@@ -381,7 +391,8 @@ def layout():
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Gap'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Gap'),
                                             dcc.RadioItems(
                                                 id='alignment-showgap-radio',
                                                 className='alignment-radio',
@@ -401,7 +412,8 @@ def layout():
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Color'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Color'),
                                             dcc.Dropdown(
                                                 id='alignment-gapcolor-dropdown',
                                                 className='alignment-settings-dropdown',
@@ -411,13 +423,15 @@ def layout():
                                                 ],
                                                 value='grey',
                                             ),
-                                            html.P('Set the color of the traces that represent the gap.')
+                                            html.P('Set the color of the traces '
+                                                   'that represent the gap.')
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Group'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Group'),
                                             dcc.RadioItems(
                                                 id='alignment-groupbars-radio',
                                                 className='alignment-radio',
@@ -443,7 +457,8 @@ def layout():
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='Labels'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='Labels'),
                                             dcc.RadioItems(
                                                 id='alignment-showlabel-radio',
                                                 className='alignment-radio',
@@ -465,7 +480,8 @@ def layout():
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name', children='IDs'),
+                                            html.Div(className='alignment-setting-name',
+                                                     children='IDs'),
                                             dcc.RadioItems(
                                                 id='alignment-showid-radio',
                                                 className='alignment-radio',
