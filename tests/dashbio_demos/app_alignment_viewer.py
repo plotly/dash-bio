@@ -4,6 +4,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
 import dash_bio
+import json
 
 # running directly with Python
 if __name__ == '__main__':
@@ -92,7 +93,7 @@ def description():
 
 def header_colors():
     return {
-        'bg_color': '#10785e',
+        'bg_color': '#0C4142',
         'font_color': 'white',
     }
 
@@ -100,180 +101,141 @@ def header_colors():
 def layout():
     return html.Div(id='alignment-body', children=[
         html.Div([
-            html.Div([
-                dash_bio.AlignmentChart(
-                    id='alignment-chart',
-                    data=dataset3,
-                ),
-            ], className='alignment-card eight columns'),
-            html.Div([
+            html.Div(id='alignment-control-tabs', children=[
                 dcc.Tabs(
                     id='alignment-tabs',
-                    value='alignment-tab-select',
                     children=[
                         dcc.Tab(
-                            label='Choose/view Data',
-                            value='alignment-tab-select',
-                            children=[
-                                html.Div([
-                                    html.H4(
-                                        "Select Dataset"
-                                    ),
-                                    dcc.Dropdown(
-                                        id='alignment-dropdown',
-                                        className='alignment-select',
-                                        options=[
-                                            {
-                                                'label': 'Sample.fasta',
-                                                'value': 'dataset1'
-                                            },
-                                            {
-                                                'label': 'P53.fasta naive',
-                                                'value': 'dataset2'
-                                            },
-                                            {
-                                                'label': 'P53.fasta aligned (ClustalW)',
-                                                'value': 'dataset3'
-                                            },
-                                        ],
-                                        value='dataset3',
-                                    ),
-                                ], className='alignment-subcard'),
-                                html.Div([
-                                    html.H4(
-                                        "Hover/Click/Event Data"
-                                    ),
-                                    dcc.Textarea(
-                                        id="alignment-events",
-                                        placeholder="Hover or click on data to see it here.",
-                                        value="Hover or click on data to see it here.",
-                                        className="alignment-events",
-                                    ),
-                                ], className='alignment-subcard'),
-                                html.Div([
-                                    html.H4(
-                                        "What is Alignment Viewer?"
-                                    ),
-                                    html.P(
-                                        """
-                                        The Alignment Viewer (MSA) component is used to align
-                                        multiple genomic or proteomic sequences from a FASTA or
-                                        Clustal file. Among its extensive set of features,
-                                        the multiple sequence alignment viewer can display
-                                        multiple subplots showing gap and conservation info,
-                                        alongside industry standard colorscale support and
-                                        consensus sequence. No matter what size your alignment
-                                        is, Alignment Viewer is able to display your genes or
-                                        proteins snappily thanks to the underlying WebGL
-                                        architecture powering the component. You can quickly
-                                        scroll through your long sequence with a slider or a
-                                        heatmap overview.
-                                        """
-                                    ),
-                                    html.P(
-                                        """
-                                        Note that the AlignmentChart only returns a chart of
-                                        the sequence, while AlignmentViewer has integrated
-                                        controls for colorscale, heatmaps, and subplots allowing
-                                        the user to interactively control their sequences.
-                                        """
-                                    ),
-                                    html.P(
-                                        """
-                                        Read more about the component here:
-                                        https://github.com/plotly/react-alignment-viewer
-                                        """
-                                    ),
-                                ], className='alignment-subcard')
-                            ],
+                            label='About',
+                            value='alignment-tab-about',
+                            children=html.Div(className='alignment-tab', children=[
+                                html.H4(
+                                    "What is Alignment Viewer?"
+                                ),
+                                html.P(
+                                    """
+                                    The Alignment Viewer (MSA) component is used to align
+                                    multiple genomic or proteomic sequences from a FASTA or
+                                    Clustal file. Among its extensive set of features,
+                                    the multiple sequence alignment viewer can display
+                                    multiple subplots showing gap and conservation info,
+                                    alongside industry standard colorscale support and
+                                    consensus sequence. No matter what size your alignment
+                                    is, Alignment Viewer is able to display your genes or
+                                    proteins snappily thanks to the underlying WebGL
+                                    architecture powering the component. You can quickly
+                                    scroll through your long sequence with a slider or a
+                                    heatmap overview.
+                                    """
+                                ),
+                                html.P(
+                                    """
+                                    Note that the AlignmentChart only returns a chart of
+                                    the sequence, while AlignmentViewer has integrated
+                                    controls for colorscale, heatmaps, and subplots allowing
+                                    the user to interactively control their sequences.
+                                    """
+                                ),
+                                html.P(
+                                    """
+                                    Read more about the component here:
+                                    https://github.com/plotly/react-alignment-viewer
+                                    """
+                                ),
+                            ])
                         ),
                         dcc.Tab(
-                            label='Upload Your Own',
-                            value='alignment-tab-upload',
-                            children=[
-                                dcc.Upload(
-                                    id='alignment-file-upload',
-                                    className='alignment-upload',
-                                    children=html.Div([
-                                        "Drag and drop FASTA files or select files."
-                                    ]),
+                            label='Data',
+                            value='alignment-tab-select',
+                            children=html.Div(className='alignment-tab', children=[
+                                html.H5(
+                                    "Select preloaded dataset"
+                                ),
+                                dcc.Dropdown(
+                                    id='alignment-dropdown',
+                                    options=[
+                                        {
+                                            'label': 'Sample.fasta',
+                                            'value': 'dataset1'
+                                        },
+                                        {
+                                            'label': 'P53.fasta naive',
+                                            'value': 'dataset2'
+                                        },
+                                        {
+                                            'label': 'P53.fasta aligned (ClustalW)',
+                                            'value': 'dataset3'
+                                        },
+                                    ],
+                                    value='dataset3',
+                                ),
+                                html.Br(),
+                                html.H5(
+                                    "Upload your own dataset"
                                 ),
                                 html.Div([
-                                    html.H4(
-                                        "Download Sample Data",
-                                    ),
                                     html.A(
                                         html.Button(
-                                            "Download",
+                                            "Download sample data",
                                             className='alignment-button',
                                         ),
                                         href="/assets/sample_data/p53_clustalo.fasta",
                                         download="p53_clustalo.fasta",
                                     )
-                                ], className='alignment-subcard'),
-                                html.Div([
-                                    html.H4(
-                                        "What is Alignment Viewer?"
-                                    ),
-                                    html.P(
-                                        """
-                                        The Alignment Viewer (MSA) component is used to align
-                                        multiple genomic or proteomic sequences from a FASTA or
-                                        Clustal file. Among its extensive set of features,
-                                        the multiple sequence alignment viewer can display
-                                        multiple subplots showing gap and conservation info,
-                                        alongside industry standard colorscale support and
-                                        consensus sequence. No matter what size your alignment
-                                        is, Alignment Viewer is able to display your genes or
-                                        proteins snappily thanks to the underlying WebGL
-                                        architecture powering the component. You can quickly
-                                        scroll through your long sequence with a slider or a
-                                        heatmap overview.
-                                        """
-                                    ),
-                                    html.P(
-                                        """
-                                        Note that the AlignmentChart only returns a chart of
-                                        the sequence, while AlignmentViewer has integrated
-                                        controls for colorscale, heatmaps, and subplots
-                                        allowing the user to interactivelycontrol their sequences.
-                                        """
-                                    ),
-                                    html.P(
-                                        """
-                                        Read more about the component here:
-                                        https://github.com/plotly/react-alignment-viewer
-                                        """
-                                    ),
-                                ], className='alignment-subcard')
-                            ],
+                                ]),
+
+                                html.Div(id='alignment-file-upload-container', children=[dcc.Upload(
+                                    id='alignment-file-upload',
+                                    className='alignment-upload',
+                                    children=html.Div([
+                                        "Drag and drop FASTA files or select files."
+                                    ]),
+                                )]),
+
+
+
+                            ])
                         ),
                         dcc.Tab(
-                            label='Customize Chart',
+                            label='Interactions',
+                            value='alignment-tab-select2',
+                            children=html.Div(className='alignment-tab', children=[
+
+                                html.H5(
+                                    "Hover/Click/Event Data"
+                                ),
+                                html.P('Hover or click on data to see it here.'),
+                                html.Div(
+                                    id='alignment-events'
+                                )
+                            ]),
+                        ),
+                        dcc.Tab(
+                            label='Graph',
                             value='alignment-tab-customize',
-                            children=[
+                            children=html.Div(className='alignment-tab', children=[
                                 html.Div([
-                                    html.H4('Viewer'),
-                                    html.Hr(className='alignment-separator'),
+                                    html.H3('General', className='alignment-settings-section'),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Colorscale"),
-                                            html.P("Choose color theme of the viewer."),
+                                            html.Div(className='alignment-setting-name', children="Colorscale"),
                                             dcc.Dropdown(
                                                 id='alignment-colorscale-dropdown',
+                                                className='alignment-settings-dropdown',
                                                 options=COLORSCALES_DICT,
                                                 value='clustal2',
                                             ),
+                                            html.P("Choose color theme of the viewer."),
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Overview method"),
-                                            html.P("Show slider, heatmap or no overview."),
+                                            html.Div(className='alignment-setting-name', children='Overview'),
                                             dcc.Dropdown(
                                                 id='alignment-overview-dropdown',
+                                                className='alignment-settings-dropdown',
                                                 options=[
                                                     {'label': 'Heatmap', 'value': 'heatmap'},
                                                     {'label': 'Slider', 'value': 'slider'},
@@ -281,15 +243,14 @@ def layout():
                                                 ],
                                                 value='heatmap',
                                             ),
+
+                                            html.P("Show slider, heatmap or no overview."),
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Consensus sequence"),
-                                            html.P(
-                                                'Toggle the consensus (most frequent) sequence.'
-                                            ),
+                                            html.Div(className='alignment-setting-name', children='Consensus'),
                                             dcc.RadioItems(
                                                 id='alignment-showconsensus-radio',
                                                 className='alignment-radio',
@@ -303,15 +264,16 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
+
+                                            html.P(
+                                                'Toggle the consensus (most frequent) sequence.'
+                                            ),
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Text size"),
-                                            html.P(
-                                                'Adjust the font size (in px) of viewer text.'
-                                            ),
+                                            html.Div(className='alignment-setting-name', children='Text size'),
                                             dcc.Slider(
                                                 className='alignment-slider',
                                                 id='alignment-textsize-slider',
@@ -327,16 +289,20 @@ def layout():
                                                     '12': 12,
                                                 },
                                             ),
+
+                                            html.P(
+                                                'Adjust the font size (in px) of viewer text.'
+                                            ),
                                         ],
                                     ),
-                                ], className='alignment-subcard'),
+                                ]),
+                                html.Hr(),
                                 html.Div([
-                                    html.H4('Subplots'),
-                                    html.Hr(className='alignment-separator'),
+                                    html.H3('Conservation', className='alignment-settings-section'),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Conservation barplot"),
+                                            html.Div(className='alignment-setting-name', children='Barplot'),
                                             dcc.RadioItems(
                                                 id='alignment-showconservation-radio',
                                                 className='alignment-radio',
@@ -350,29 +316,32 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
+                                            html.P('Show or hide the conservation barplot.')
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Conservation colorscale"),
+                                            html.Div(className='alignment-setting-name', children='Colorscale'),
                                             dcc.Dropdown(
                                                 id='alignment-conservationcolorscale-dropdown',
+                                                className='alignment-settings-dropdown',
                                                 options=[
                                                     {'label': col_code, 'value': col_code}
                                                     for col_code in CONSERVATION_COLORS_OPT
                                                 ],
                                                 value='Viridis',
                                             ),
+                                            html.P('Change the colorscale for the conservation barplot.'),
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Conservation method"),
-                                            html.P("Conservation (MLE) or normalized entropy."),
+                                            html.Div(className='alignment-setting-name', children='Method'),
                                             dcc.Dropdown(
                                                 id='alignment-conservationmethod-dropdown',
+                                                className='alignment-settings-dropdown',
                                                 options=[
                                                     {'label': 'Entropy',
                                                      'value': 'entropy'},
@@ -381,13 +350,18 @@ def layout():
                                                 ],
                                                 value='entropy',
                                             ),
+
+                                            html.P("Conservation (MLE) or normalized entropy."),
                                         ],
                                     ),
+                                ]),
+                                html.Hr(),
+                                html.Div([
+                                    html.H3('Conservation gap', className='alignment-settings-section'),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Conservation gap adjustment"),
-                                            html.P("Lowers conservation of high gap sequences."),
+                                            html.Div(className='alignment-setting-name', children='Colorscale'),
                                             dcc.RadioItems(
                                                 id='alignment-correctgap-radio',
                                                 className='alignment-radio',
@@ -401,12 +375,13 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
+                                            html.P("Lowers conservation of high gap sequences.")
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Gap barplot"),
+                                            html.Div(className='alignment-setting-name', children='Gap'),
                                             dcc.RadioItems(
                                                 id='alignment-showgap-radio',
                                                 className='alignment-radio',
@@ -420,26 +395,29 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
+                                            html.P("Show/hide the gap barplot.")
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Gap color"),
+                                            html.Div(className='alignment-setting-name', children='Color'),
                                             dcc.Dropdown(
                                                 id='alignment-gapcolor-dropdown',
+                                                className='alignment-settings-dropdown',
                                                 options=[
                                                     {'label': col_code, 'value': col_code}
                                                     for col_code in GAP_COLORS_OPT
                                                 ],
                                                 value='grey',
                                             ),
+                                            html.P('Set the color of the traces that represent the gap.')
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Group gap & conservation bars"),
+                                            html.Div(className='alignment-setting-name', children='Group'),
                                             dcc.RadioItems(
                                                 id='alignment-groupbars-radio',
                                                 className='alignment-radio',
@@ -453,21 +431,19 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
+                                            html.P('Group gap and conservation bars.')
                                         ],
                                     ),
                                     # Conservation colorscale
                                     # Gap color
-                                ], className='alignment-subcard'),
+                                ]),
+                                html.Hr(),
                                 html.Div([
-                                    html.H4('Layout'),
-                                    html.Hr(className='alignment-separator'),
+                                    html.H3('Layout', className='alignment-settings-section'),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("Labels"),
-                                            html.P(
-                                                'Show track labels on the left.'
-                                            ),
+                                            html.Div(className='alignment-setting-name', children='Labels'),
                                             dcc.RadioItems(
                                                 id='alignment-showlabel-radio',
                                                 className='alignment-radio',
@@ -481,15 +457,15 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
+                                            html.P(
+                                                'Show track labels on the left.'
+                                            ),
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.H6("IDs"),
-                                            html.P(
-                                                'Show track IDs on the left.'
-                                            ),
+                                            html.Div(className='alignment-setting-name', children='IDs'),
                                             dcc.RadioItems(
                                                 id='alignment-showid-radio',
                                                 className='alignment-radio',
@@ -503,15 +479,27 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
+                                            html.P(
+                                                'Show track IDs on the left.'
+                                            )
+
                                         ],
                                     ),
-                                ], className='alignment-subcard'),
-                            ],
+                                ]),
+                            ]),
                         ),
                     ],
                 ),
-            ], className='alignment-card four columns'),
-        ], className='alignment-wrapper row'),
+            ]),
+        ]),
+        html.Div([
+            dash_bio.AlignmentChart(
+                id='alignment-chart',
+                height=725,
+                data=dataset3,
+            ),
+        ]),
+
         dcc.Store(id='alignment-data-store'),
     ])
 
@@ -537,19 +525,18 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # Handle event data
     @app.callback(
-        Output("alignment-events", "value"),
+        Output("alignment-events", "children"),
         [Input("alignment-chart", "eventDatum")]
     )
     def event_data_select(data):
-        return str(data)
+        data = json.loads(data)
 
-    # # Handle event data
-    # @app.callback(
-    #     Output("alignment-events-2", "value"),
-    #     [Input("alignment-chart", "eventDatum")]
-    # )
-    # def event_data_select_2(data):
-    #     return str(data)
+        if data is None or len(data.keys()) == 0:
+            return 'No event data to display.'
+        return [
+            html.Div('- {}: {}'.format(key, data[key]))
+            for key in data.keys()
+        ]
 
     # Render main chart
     @app.callback(
