@@ -40,7 +40,10 @@
     margin: 20px;
     overflow-y: auto;
 }
-
+#seq-view-control-tabs .tab--selected {
+    border-top: solid 2px #636efa;
+    color: #636efa;
+}
 .seq-view-tab {
     max-height: 460px;
     overflow-y: auto;
