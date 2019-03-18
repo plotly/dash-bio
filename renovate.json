@@ -1,5 +1,9 @@
 {
   "extends": [
-    "config:base"
+    ":onlyNpm",
+    "schedule:daily"
+  ],
+  "enabledManagers": [
+    "npm"
   ]
 }
