@@ -53,13 +53,16 @@
     display: inline-block;
 }
 #seq-view-component-container {
-    border-radius: 5px;
     padding: 20px;
     margin:20px;
+    height: 225px;
     background-color: #fff;
 }
 #seq-view-component-container .sequenceBody.scroller {
     overflow-x: hidden;
+}
+#sequence-viewer {
+    margin-top: -10px;
 }
 #sequence-viewer input {
     width: 100% !important;
@@ -71,6 +74,9 @@
     display: inline-block;
     margin-bottom: 5px;
     text-align: center;
+}
+#sequence-viewer .sequenceHeader.row h4 {
+    height: 44px;
 }
 #seq-view-controls-container input[type=text]{
     width: 350px;
@@ -187,15 +193,14 @@
 #seq-view-info {
     overflow-y: auto;
     margin: 20px;
-    padding: 10px;
+    padding: 5px;
     padding-right: 10px;
-    height: 210px;
+    height: 215px;
 }
 
 #seq-view-info-container {
     overflow-y: auto;
-    border-radius: 5px;
-
+    background-color: #fff;
     word-wrap: break-word;
     padding-right: 10px;
     margin: 20px;
