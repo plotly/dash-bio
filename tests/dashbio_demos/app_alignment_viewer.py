@@ -1,10 +1,11 @@
+import json
+
 import base64
 import os
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
 import dash_bio
-import json
 
 # running directly with Python
 if __name__ == '__main__':
@@ -133,7 +134,7 @@ def layout():
                                     Note that the AlignmentChart only returns a chart of
                                     the sequence, while AlignmentViewer has integrated
                                     controls for colorscale, heatmaps, and subplots allowing
-                                    the user to interactively control their sequences.
+                                    you to interactively control their sequences.
                                     """
                                 ),
                                 html.P(
