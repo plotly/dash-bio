@@ -55,7 +55,7 @@ initialCov = [
 
 def header_colors():
     return {
-        'bg_color': '#2b69fb',
+        'bg_color': '#C50063',
         'font_color': 'white'
     }
 
@@ -86,7 +86,7 @@ def layout():
                         html.Div(id='seq-view-info-desc',
                                  children=[
                                      html.Span(
-                                         "Description: ",
+                                         "Description",
                                          className='seq-view-info-element-title'
                                      ),
                                      html.Div(
@@ -100,7 +100,7 @@ def layout():
                         html.Div(id='seq-view-info-aa-comp',
                                  children=[
                                      html.Span(
-                                         "Amino acid composition: ",
+                                         "Amino acid composition",
                                          className='seq-view-info-element-title'
                                      ),
                                      html.Div(
@@ -113,7 +113,7 @@ def layout():
                         html.Div(id='seq-view-info-coverage-clicked',
                                  children=[
                                      html.Span(
-                                         "Coverage entry clicked: ",
+                                         "Coverage entry clicked",
                                          className='seq-view-info-element-title'
                                      ),
                                      html.Div(
@@ -126,7 +126,7 @@ def layout():
                         html.Div(id='seq-view-info-mouse-selection',
                                  children=[
                                      html.Span(
-                                         "Mouse selection: ",
+                                         "Mouse selection",
                                          className='seq-view-info-element-title'
                                      ),
                                      html.Div(
@@ -138,7 +138,7 @@ def layout():
 
                         html.Div(id='seq-view-info-subpart-sel', children=[
                             html.Span(
-                                "Subpart selected: ",
+                                "Subpart selected",
                                 className='seq-view-info-element-title'
                             ),
                             html.Div(
@@ -412,7 +412,7 @@ def layout():
                                         {'label': 'orange', 'value': 'orange'},
                                         {'label': 'red', 'value': 'red'}
                                     ],
-                                    value='blue'
+                                    value='indigo'
                                 ),
                             ]
                         )
