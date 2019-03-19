@@ -143,7 +143,7 @@ def layout():
                         html.P('Speck is a WebGL-based molecule renderer. By '
                                'using ambient occlusion, the resolution of '
                                'the rendering does not suffer as you zoom in.'),
-                        html.P('You can change the molecule to be viewed in the '
+                        html.P('You can toggle between molecules using the menu under the '
                                '"Data" tab, and control parameters related to '
                                'the appearance of the molecule in the "View" tab. '
                                'These parameters can be controlled at a low level '
