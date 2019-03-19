@@ -276,7 +276,7 @@ def layout():
                                             'value': 'cov'
                                         }
                                     ],
-                                    value='sel'
+                                    value='cov'
                                 )
                             ]
                         ),
@@ -286,43 +286,61 @@ def layout():
 
                         html.Div(id='cov-options', children=[
                             html.Div(
-                                "Add coverage",
-                                style={'font-weight': 'bold'}
+                                "Add coverage from selection by:",
+                                className='seq-view-controls-name'
                             ),
                             dcc.RadioItems(
                                 id='mouse-sel-or-subpart-sel',
                                 options=[
-                                    {'label': 'Use mouse selection',
+                                    {'label': 'mouse',
                                      'value': 'mouse'},
-                                    {'label': 'Use subpart selection',
+                                    {'label': 'search',
                                      'value': 'subpart'}
                                 ],
                                 value='mouse'
                             ),
+
                             html.Br(),
-                            'Text color: ',
+
+                            html.Div(
+                                "Text color:",
+                                className='seq-view-controls-name'
+                            ),
                             dcc.Input(
                                 id='coverage-color',
                                 type='text',
                                 value='rgb(255, 0, 0)'
                             ),
-                            'Background color: ',
+                            html.Br(),
+                            html.Div(
+                                "Background color:",
+                                className='seq-view-controls-name'
+                            ),
                             dcc.Input(
                                 id='coverage-bg-color',
                                 type='text',
                                 value='rgb(0, 0, 255)'
                             ),
-                            'Tooltip: ',
+                            html.Br(),
+                            html.Div(
+                                "Tooltip:",
+                                className='seq-view-controls-name'
+                            ),
                             dcc.Input(
                                 id='coverage-tooltip',
                                 type='text',
                                 value='',
                                 placeholder='hover text'
                             ),
+                            html.Br(),
+                            html.Div(
+                                "Underscore text: ",
+                                className='seq-view-controls-name'
+                            ),
                             dcc.Checklist(
                                 id='coverage-underscore',
                                 options=[
-                                    {'label': 'underscore text',
+                                    {'label': '',
                                      'value': 'underscore'}
                                 ],
                                 values=[]
@@ -338,8 +356,7 @@ def layout():
                             ),
                         ]),
 
-                        html.Div(id='seq-view-sel-slider-container',
-                            children=[
+                        html.Div(id='seq-view-sel-slider-container', children=[
                                 html.Div(className='seq-view-controls-name',
                                          children="Selection region:"),
                                 dcc.RadioItems(
