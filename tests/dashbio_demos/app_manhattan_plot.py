@@ -53,13 +53,13 @@ def layout():
                     value='what-is',
                     children=html.Div(className='manhattan-tab', children=[
                         html.H4('What is Manhattan Plot?'),
-                        html.P(
-                            "Visualize genome wide association studies "
-                            "(GWAS) with efficient manhattan plots. "
-                            "Using WebGL under the hood, interactively "
-                            "explore hundred of thousands of points at "
-                            "once or individually hover over them."
-                        )
+                        html.P("ManhattanPlot allows you to visualize genome "
+                               "wide association studies (GWAS) efficiently. "
+                               "Using WebGL under the hood, you can interactively "
+                               "explore hundred of thousands of points at once, or"
+                               "individually hover over them."),
+                        html.P("You can adjust the threshold level and the "
+                               "suggestive line in the \"Graph\" tab.")
                     ])
                 ),
                 dcc.Tab(
