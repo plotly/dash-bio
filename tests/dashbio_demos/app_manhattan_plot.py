@@ -23,11 +23,6 @@ DATASET = pd.read_csv("{}data.csv".format(DATAPATH))
 # Feed the data to a function which creates a Manhattan Plot figure
 fig = dash_bio.ManhattanPlot(DATASET)
 
-text_style = {
-    'color': "#0D1A51",
-    'font-family': 'Open Sans'
-}
-
 
 def description():
     return 'Display genomic studies results sorted out by chromosome with ' \
