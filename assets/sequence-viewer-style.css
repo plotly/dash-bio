@@ -36,6 +36,7 @@
 
 #seq-view-control-tabs .tab-content {
     padding: 20px;
+
     height: 400px;
     margin: 20px;
     overflow-y: auto;
@@ -81,6 +82,9 @@
     display: inline-block;
     margin-bottom: 5px;
     text-align: center;
+}
+#seq-view-body h4 {
+    font-size: 20pt;
 }
 #sequence-viewer .sequenceHeader.row h4 {
     height: 44px;
@@ -175,6 +179,7 @@ input#coverage-color, input#coverage-bg-color, input#coverage-tooltip {
     font-size: 10pt;
 }
 #sel-region-inputs {
+    margin-top: 30px;
     padding-left: 10px;
 }
 #seq-view-body button {

@@ -157,7 +157,23 @@ def layout():
                     value='what-is',
                     children=html.Div(className='seq-view-tab', children=[
                         html.H4('What is Sequence Viewer?'),
-                        html.P(description())
+                        html.P('Sequence Viewer is a component that allows you '
+                               'to display genomic and proteomic sequences. In '
+                               'this app, you can choose to view one of the preloaded '
+                               'data sets or upload your own FASTA file in the "Data" '
+                               'tab. For FASTA files with multiple entries, the entry '
+                               'to display in the component can be selected in the '
+                               '"Sequence" tab.'),
+                        html.P('In the "Sequence" tab, you can also select a region '
+                               'of the sequence to highlight and view its amino '
+                               'acid composition in the box under the component. '),
+                        html.P('You can additionally create a sequence coverage '
+                               '(i.e., a collection of subsequences to highlight '
+                               'and annotate). These subsequences can be extracted '
+                               'from your mouse selection, or from the results of the '
+                               'search that is shown in the component. Upon clicking on '
+                               'a coverage entry, you will be able to see the '
+                               'annotation that you have provided.'),
                     ])
                 ),
                 dcc.Tab(
@@ -276,7 +292,7 @@ def layout():
                                             'value': 'cov'
                                         }
                                     ],
-                                    value='cov'
+                                    value='sel'
                                 )
                             ]
                         ),
