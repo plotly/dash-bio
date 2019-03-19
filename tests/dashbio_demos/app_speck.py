@@ -139,8 +139,18 @@ def layout():
                     label='About',
                     value='what-is',
                     children=html.Div(className='speck-tab', children=[
-                        html.P(description())
-                    ])
+                        html.H4('What is Speck?'),
+                        html.P('Speck is a WebGL-based molecule renderer. By '
+                               'using ambient occlusion, the resolution of '
+                               'the rendering does not suffer as you zoom in.'),
+                        html.P('You can change the molecule to be viewed in the '
+                               '"Data" tab, and control parameters related to '
+                               'the appearance of the molecule in the "View" tab. '
+                               'These parameters can be controlled at a low level '
+                               'with the sliders provided, or preset views can be '
+                               'applied for a higher-level demonstration of changing '
+                               'atom styles and rendering.')
+                        ])
                 ),
                 dcc.Tab(
                     label='Data',
