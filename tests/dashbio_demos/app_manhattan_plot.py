@@ -45,7 +45,7 @@ def header_colors():
 
 def layout():
     return html.Div(id='mhp-page-content', children=[
-        
+
         html.Div(id='manhattan-control-tabs', children=[
             dcc.Tabs(id='manhattan-tabs', children=[
                 dcc.Tab(
@@ -133,7 +133,7 @@ def layout():
         )
     ])
 
-        
+
 def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         Output('mhp-graph', 'figure'),
