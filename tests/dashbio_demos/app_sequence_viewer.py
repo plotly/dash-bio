@@ -357,90 +357,91 @@ def layout():
                         ]),
 
                         html.Div(id='seq-view-sel-slider-container', children=[
-                                html.Div(className='seq-view-controls-name',
-                                         children="Selection region:"),
-                                dcc.RadioItems(
-                                    id='sel-slider-or-input',
-                                    options=[
-                                        {'label': 'slider', 'value': 'slider'},
-                                        {'label': 'input', 'value': 'input'}
-                                    ],
-                                    value='slider'
-                                ),
-                                dcc.RangeSlider(
-                                    id='sel-slider',
-                                    min=0,
-                                    max=0,
-                                    step=1,
-                                    value=[0, 0]
-                                ),
-                                # optional numeric input for longer sequences
-                                html.Div(
-                                    id='sel-region-inputs',
-                                    children=[
-                                        "From: ",
-                                        dcc.Input(
-                                            id='sel-region-low',
-                                            type='number',
-                                            min=0,
-                                            max=0,
-                                            placeholder="low"
-                                        ),
-                                        "To: ",
-                                        dcc.Input(
-                                            id='sel-region-high',
-                                            type='number',
-                                            min=0,
-                                            max=0,
-                                            placeholder="high"
-                                        ),
-                                    ],
-                                    style={'display': 'none'}
-                                ),
+                            html.Div(
+                                className='seq-view-controls-name',
+                                children="Selection region:"
+                            ),
+                            dcc.RadioItems(
+                                id='sel-slider-or-input',
+                                options=[
+                                    {'label': 'slider', 'value': 'slider'},
+                                    {'label': 'input', 'value': 'input'}
+                                ],
+                                value='slider'
+                            ),
+                            dcc.RangeSlider(
+                                id='sel-slider',
+                                min=0,
+                                max=0,
+                                step=1,
+                                value=[0, 0]
+                            ),
+                            # optional numeric input for longer sequences
+                            html.Div(
+                                id='sel-region-inputs',
+                                children=[
+                                    "From: ",
+                                    dcc.Input(
+                                        id='sel-region-low',
+                                        type='number',
+                                        min=0,
+                                        max=0,
+                                        placeholder="low"
+                                    ),
+                                    "To: ",
+                                    dcc.Input(
+                                        id='sel-region-high',
+                                        type='number',
+                                        min=0,
+                                        max=0,
+                                        placeholder="high"
+                                    ),
+                                ],
+                                style={'display': 'none'}
+                            ),
 
-                                html.Br(),
+                            html.Br(),
 
-                                html.Div(
-                                    id='seq-view-dna-or-protein-container',
-                                    children=[
-                                        html.Div(
-                                            className='seq-view-controls-name',
-                                            children="Translate selection from:"
-                                        ),
-                                        dcc.Dropdown(
-                                            id='translation-alphabet',
-                                            options=[
-                                                {'label': 'DNA',
-                                                 'value': 'dna'},
-                                                {'label': 'RNA',
-                                                 'value': 'rna'}
-                                            ],
-                                            value=None
-                                        )
-                                    ]
-                                ),
+                            html.Div(
+                                id='seq-view-dna-or-protein-container',
+                                children=[
+                                    html.Div(
+                                        className='seq-view-controls-name',
+                                        children="Translate selection from:"
+                                    ),
+                                    dcc.Dropdown(
+                                        id='translation-alphabet',
+                                        options=[
+                                            {'label': 'DNA',
+                                             'value': 'dna'},
+                                            {'label': 'RNA',
+                                             'value': 'rna'}
+                                        ],
+                                        value=None
+                                    )
+                                ]
+                            ),
 
-                                html.Br(),
+                            html.Br(),
 
-                                html.Div(
-                                    className='seq-view-controls-name',
-                                    children="Selection highlight color:"
-                                ),
-                                dcc.Dropdown(
-                                    id='sel-color',
-                                    options=[
-                                        {'label': 'violet', 'value': 'violet'},
-                                        {'label': 'indigo', 'value': 'indigo'},
-                                        {'label': 'blue', 'value': 'blue'},
-                                        {'label': 'green', 'value': 'green'},
-                                        {'label': 'yellow', 'value': 'yellow'},
-                                        {'label': 'orange', 'value': 'orange'},
-                                        {'label': 'red', 'value': 'red'}
-                                    ],
-                                    value='indigo'
-                                )
-                            ]
-                        )
+                            html.Div(
+                                className='seq-view-controls-name',
+                                children="Selection highlight color:"
+                            ),
+                            dcc.Dropdown(
+                                id='sel-color',
+                                options=[
+                                    {'label': 'violet', 'value': 'violet'},
+                                    {'label': 'indigo', 'value': 'indigo'},
+                                    {'label': 'blue', 'value': 'blue'},
+                                    {'label': 'green', 'value': 'green'},
+                                    {'label': 'yellow', 'value': 'yellow'},
+                                    {'label': 'orange', 'value': 'orange'},
+                                    {'label': 'red', 'value': 'red'}
+                                ],
+                                value='indigo'
+                            )
+                        ])
                     ]
                 ),
 
