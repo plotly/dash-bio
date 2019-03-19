@@ -243,16 +243,17 @@ def layout():
                                     "View entry:",
                                     className='seq-view-controls-name'
                                 ),
-                                html.Div(
-                                    id='seq-view-number-entries'
-                                ),
                                 dcc.Dropdown(
                                     id='fasta-entry-dropdown',
                                     options=[
                                         {'label': 1, 'value': 0}
                                     ],
                                     value=0
+                                ),
+                                html.Div(
+                                    id='seq-view-number-entries'
                                 )
+
                             ]
                         ),
                         html.Br(),
@@ -260,18 +261,18 @@ def layout():
                             id='seq-view-sel-or-cov-container',
                             children=[
                                 html.Div(
-                                    "Selection or coverage",
+                                    "Selection or coverage:",
                                     className='seq-view-controls-name'
                                 ),
                                 dcc.RadioItems(
                                     id='selection-or-coverage',
                                     options=[
                                         {
-                                            'label': 'Enable selection',
+                                            'label': 'selection',
                                             'value': 'sel'
                                         },
                                         {
-                                            'label': 'Enable coverage',
+                                            'label': 'coverage',
                                             'value': 'cov'
                                         }
                                     ],
@@ -337,10 +338,10 @@ def layout():
                             ),
                         ]),
 
-                        html.Div(
-                            id='seq-view-sel-slider-container',
+                        html.Div(id='seq-view-sel-slider-container',
                             children=[
-                                "Selection region",
+                                html.Div(className='seq-view-controls-name',
+                                         children="Selection region:"),
                                 dcc.RadioItems(
                                     id='sel-slider-or-input',
                                     options=[
@@ -360,6 +361,7 @@ def layout():
                                 html.Div(
                                     id='sel-region-inputs',
                                     children=[
+                                        "From: ",
                                         dcc.Input(
                                             id='sel-region-low',
                                             type='number',
@@ -367,6 +369,7 @@ def layout():
                                             max=0,
                                             placeholder="low"
                                         ),
+                                        "To: ",
                                         dcc.Input(
                                             id='sel-region-high',
                                             type='number',
@@ -374,8 +377,6 @@ def layout():
                                             max=0,
                                             placeholder="high"
                                         ),
-                                        html.Button(id='submit-sel-region',
-                                                    children="Submit")
                                     ],
                                     style={'display': 'none'}
                                 ),
@@ -385,7 +386,10 @@ def layout():
                                 html.Div(
                                     id='seq-view-dna-or-protein-container',
                                     children=[
-                                        "Translate from",
+                                        html.Div(
+                                            className='seq-view-controls-name',
+                                            children="Translate selection from:"
+                                        ),
                                         dcc.Dropdown(
                                             id='translation-alphabet',
                                             options=[
@@ -400,7 +404,11 @@ def layout():
                                 ),
 
                                 html.Br(),
-                                "Color",
+
+                                html.Div(
+                                    className='seq-view-controls-name',
+                                    children="Selection highlight color:"
+                                ),
                                 dcc.Dropdown(
                                     id='sel-color',
                                     options=[
@@ -413,24 +421,26 @@ def layout():
                                         {'label': 'red', 'value': 'red'}
                                     ],
                                     value='indigo'
-                                ),
+                                )
                             ]
                         )
-                    ]),
+                    ]
+                ),
+
             ]),
-            dcc.Store(
-                id='coverage-storage',
-                data=initialCov
-            ),
-            dcc.Store(
-                id='clear-coverage',
-                data=0
-            ),
-            dcc.Store(
-                id='current-sequence',
-                data=0
-            )
-        ])
+        ]),
+        dcc.Store(
+            id='coverage-storage',
+            data=initialCov
+        ),
+        dcc.Store(
+            id='clear-coverage',
+            data=0
+        ),
+        dcc.Store(
+            id='current-sequence',
+            data=0
+        )
     ])
 
 
@@ -651,13 +661,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return 0
 
     @app.callback(
-        Output('sel-region-high', 'min'),
-        [Input('sel-region-low', 'value')]
-    )
-    def lower_bound(low_val):
-        return low_val
-
-    @app.callback(
         Output('sel-region-high', 'value'),
         [Input('sequence-viewer', 'sequence')]
     )
@@ -667,23 +670,24 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         Output('sequence-viewer', 'selection'),
         [Input('sel-slider', 'value'),
-         Input('submit-sel-region', 'n_clicks'),
+         Input('sel-region-low', 'value'),
+         Input('sel-region-high', 'value'),
          Input('selection-or-coverage', 'value'),
          Input('sel-color', 'value')],
-        state=[State('sel-slider-or-input', 'value'),
-               State('sel-region-low', 'value'),
-               State('sel-region-high', 'value')]
+        state=[State('sel-slider-or-input', 'value')]
     )
     def update_sel(
             slider_value,
-            _,
+            sel_low,
+            sel_high,
             sel_or_cov,
             color,
             slider_input,
-            sel_low,
-            sel_high
     ):
         answer = []
+        if sel_low > sel_high:
+            sel_low = 0
+            sel_high = 0
         if sel_or_cov != 'sel':
             answer = []
         else:

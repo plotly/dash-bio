@@ -101,12 +101,8 @@
 }
 
 #seq-view-number-entries {
-    text-align: center;
-}
-
-#sel-color, #translation-alphabet {
-    width: 80%;
-    margin-left: 10%;
+    margin-top: -5px;
+    font-size: 10pt;
 }
 
 .inputSearchSeq {
@@ -117,21 +113,65 @@
     border: solid 1px grey;
     margin-left: 10px;
 }
-.seq-view-controls-name{
-    font-weight: bold;
-    text-align: center;
-    font-size: 16px;
+.seq-view-controls-name {
+    display: inline-block;
+    margin-top: 5px;
+    font-weight: 400;
+    vertical-align: middle;
+    width: 160px;
+    font-size: 12pt;
 }
+#preloaded-sequences, #fasta-entry-dropdown, #selection-or-coverage, #sel-slider-or-input, #translation-alphabet, #sel-color {
+    display: inline-block;
+    padding-top: 10px;
+    float: right;
+}
+#seq-view-body input[type=radio] {
+    margin-right: 5px;
+}
+.Select, #selection-or-coverage, #sel-slider-or-input {
+    width: 140px !important;
+}
+#selection-or-coverage, #sel-slider-or-input {
+    margin-top: -5px;
+}
+#sel-slider-or-input {
+    margin-left: 15px;
+}
+#sel-region-low, #sel-region-high {
+    width: 100px;
+    padding: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 10pt;
+}
+#sel-region-inputs {
+    padding-left: 10px;
+}
+button#submit-sel-region  {
+    float: right;
+}
+#seq-view-body .rc-slider {
+    margin-top: 30px;
+    display: block;
+    width: calc(100% - 20px);
+    margin-left: 10px;
+}
+#seq-view-body label {
+    margin-left: 35px;
+    display: block;
+}
+
+#fasta-entry-dropdown .Select, #translation-alphabet .Select, #sel-color .Select {
+    width: 110px !important;
+}
+
 .seq-view-info-element-title {
     font-size: 18px;
     margin-left: -5px;
     margin-bottom: 5px;
     display: inline-block;
     font-weight: 300;
-}
-#preloaded-sequences, #fasta-entry-dropdown {
-    width: 120px;
-    padding-left: 25px;
 }
 
 #seq-view-upload-display {
@@ -140,16 +180,15 @@
     width: auto;
 
 }
-#seq-view-fasta-upload{
-    height: 50px;
-    line-height: 60px;
-    border-width: 1px;
-    border-style: dashed;
+#seq-view-fasta-upload {
+    border: dashed 1px #C50063;
     border-radius: 5px;
     text-align: center;
-    margin: 20px;
-    top: 10px;
-    padding: 10px;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    padding: 20px;
+    font-size: 9pt;
+    width: calc(100% - 42px);
 }
 
 
@@ -160,27 +199,11 @@
     word-wrap: break-word;
 }
 
-
-#seq-view-body .rc-slider {
-    width: 80%;
-    margin: 10px;
-    margin-left: 10%;
-}
 #seq-view-body .rc-slider-track {
     background-color: #C50063;
 }
 #seq-view-body .rc-slider-handle {
     border: solid 2px #C50063;
-}
-#sel-region-low, #sel-region-high {
-    width: 40%;
-    padding: 2px;
-    margin: 2px;
-    font-size: 10pt;
-}
-
-#sel-slider-or-input label {
-    display: inline;
 }
 
 #seq-view-info {
@@ -248,13 +271,11 @@
     margin: calc(10% - 10px);
     text-align:center;
 }
-#selection-or-coverage {
-    margin-left: 10px;
-}
 
 #seq-view-download-sample-data {
     height: 42px;
-    margin-left: 20px;
+    font-size: 8pt;
+    width: 100%;
     padding-left: 10px;
     padding-right: 10px;
     transition-duration: 500ms;
