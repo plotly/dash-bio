@@ -21,7 +21,7 @@
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
     "molecule-3d-for-react": "^0.4.5",
     "plotly.js": "^1.41.3",
-    "ramda": "^0.25.0",
+    "ramda": "^0.26.0",
     "react": "15.4.2",
     "react-alignment-viewer": "^0.5.2",
     "react-dom": "15.4.2",
