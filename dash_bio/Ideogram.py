@@ -5,17 +5,15 @@ from dash.development.base_component import Component, _explicitize_args
 
 class Ideogram(Component):
     """A Ideogram component.
-The Dash Ideogram is used to draw and animate genome-wide
-datasets for organisms such as human, mouse, and any
-other eukaryotes. The Ideogram can be used to compare
-homologous features between chromosomes, and depict,
+The Ideogram component is used to draw and animate genome-wide
+datasets for organisms such as human, mouse, and any other
+eukaryote. The Ideogram component can be used to compare
+homologous features between chromosomes, and depict
 haploid, diploid, aneuploidy genomes. It can also display
-annotations using histograms, overlays, and simple side
-by side tracks to show important genomic data.
+annotations on genomic data using histograms and overlays.
 
-Go here to see it in action: https://eweitz.github.io/ideogram/
-Reference for the component's props:
-https://github.com/eweitz/ideogram/blob/770ce1fe5ae4f27dd435f9f99948118af88f8349/api.md
+Reference: https://eweitz.github.io/ideogram/
+Component's props: https://github.com/eweitz/ideogram/blob/master/api.md
 
 Keyword arguments:
 - id (string; required): The ID used to identify this component in Dash callbacks and used to identify Ideogram
@@ -139,7 +137,7 @@ chromosomes from different ancestors in polyploid genomes.
 - rangeSet (list; optional): List of objects describing segments of recombination among chromosomes in a chromosome set.
 - rotatable (boolean; optional): Whether chromosomes are rotatable on click.
 - rotated (boolean; optional): Dash callback that returns true if rotated, and false if not.
-- sex (a value equal to: 'male', 'female'; optional): Useful for omitting chromosome Y in female mammals.
+- sex (a value equal to: 'male', 'female'; optional): Useful for omitting chromosome Y in female animals.
 Currently only supported for organisms that use XY sex-determination.
 - showChromosomeLabels (boolean; optional): Whether to show chromosome labels, e.g., 1, 2, 3, X, Y.
 - showBandLabels (boolean; optional): Whether to show cytogenetic band labels, e.g., 1q21
