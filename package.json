@@ -45,7 +45,7 @@
     "eslint-plugin-react": "^7.12.4",
     "prettier": "^1.16.1",
     "react-docgen": "^2.20.1",
-    "style-loader": "^0.21.0",
+    "style-loader": "^0.23.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
     "webpack-serve": "^1.0.2"
