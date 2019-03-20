@@ -6,29 +6,20 @@
     min-height: calc(100vh - 60px);
 }
 
-#manhattan-body {
-    font-family: 'Open Sans Light', sans-serif;
-    padding: 5px;
-    background-color: #191A1C;
-    color: #dddddd;
-    height: calc(100vh - 65px);
-    overflow: auto;
-}
-
-#manhattan-body ::-webkit-scrollbar {
+#mhp-page-content ::-webkit-scrollbar {
     width: 4px;
     height: 0px;
     margin-right: 500px;
     background-color: #191A1C;
 }
-#manhattan-body ::-webkit-scrollbar-thumb {
+#mhp-page-content ::-webkit-scrollbar-thumb {
     width: 2px;
     background-color: #E4E4E4;
     border-radius:15px;
     padding-right:5px;
 }
 
-#manhattan-wrapper::-webkit-scrollbar {
+#mhp-page-content::-webkit-scrollbar {
     display: none;
 }
 
@@ -74,6 +65,8 @@
 #mhp-graph-div {
     display: inline-block !important;
     margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .manhattan-option-name {

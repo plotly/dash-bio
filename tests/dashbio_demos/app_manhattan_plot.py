@@ -40,6 +40,17 @@ def header_colors():
 
 def layout():
     return html.Div(id='mhp-page-content', children=[
+        html.Div(
+            id='mhp-graph-div',
+            children=dcc.Graph(
+                figure=fig,
+                style={
+                    'bgcolor': 'rgba(0,0,0,0)'
+                },
+                id='mhp-graph',
+                config={'scrollZoom': True},
+            )
+        ),
 
         html.Div(id='manhattan-control-tabs', children=[
             dcc.Tabs(id='manhattan-tabs', children=[
@@ -104,18 +115,6 @@ def layout():
                 )
             ])
         ]),
-        html.Div(
-            id='mhp-graph-div',
-            className='seven columns',
-            children=dcc.Graph(
-                figure=fig,
-                style={
-                    'bgcolor': 'rgba(0,0,0,0)'
-                },
-                id='mhp-graph',
-                config={'scrollZoom': True},
-            )
-        )
     ])
 
 
