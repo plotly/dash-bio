@@ -59,13 +59,14 @@ def layout():
                     value='what-is',
                     children=html.Div(className='manhattan-tab', children=[
                         html.H4('What is Manhattan Plot?'),
-                        html.P("ManhattanPlot allows you to visualize genome "
-                               "wide association studies (GWAS) efficiently. "
-                               "Using WebGL under the hood, you can interactively "
-                               "explore hundred of thousands of points at once, or"
-                               "individually hover over them."),
-                        html.P("You can adjust the threshold level and the "
-                               "suggestive line in the \"Graph\" tab.")
+                        html.P('ManhattanPlot allows you to visualize genome '
+                               'wide association studies (GWAS) efficiently. '
+                               'Using WebGL under the hood, you can interactively '
+                               'explore overviews of massive datasets comprising '
+                               'hundreds of thousands of points at once, or '
+                               'take a closer look at a small subset of your data.'),
+                        html.P('You can adjust the threshold level and the '
+                               'suggestive line in the "Graph" tab.')
                     ])
                 ),
                 dcc.Tab(
@@ -75,7 +76,7 @@ def layout():
                         html.Div(
                             className='manhattan-option-name',
                             children=[
-                                "Threshold value (red)"
+                                'Threshold value (red)'
                             ]
                         ),
                         dcc.Slider(
@@ -95,7 +96,7 @@ def layout():
                         html.Div(
                             className='manhattan-option-name',
                             children=[
-                                "Suggestive line (purple)",
+                                'Suggestive line (purple)',
                             ]
                         ),
                         dcc.Slider(
