@@ -75,3 +75,25 @@
     display: inline-block !important;
     margin-top: 50px;
 }
+
+.manhattan-option-name {
+    font-size: 12pt;
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 150px;
+}
+
+#mhp-page-content .rc-slider-track {
+    background-color: #56B5FF;
+}
+#mhp-page-content .rc-slider-handle, #mhp-page-content .rc-slider-dot-active {
+    border-color: #56B5FF;
+}
+#mhp-page-content .rc-slider {
+    width: 150px !important;
+    float: right;
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}

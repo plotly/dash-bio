@@ -62,53 +62,43 @@ def layout():
                     value='graph',
                     children=html.Div(className='manhattan-tab', children=[
                         html.Div(
-                            id='mhp-slider-genome-div',
+                            className='manhattan-option-name',
                             children=[
-                                html.H5(
-                                    "Threshold value (red line)",
-                                )
+                                "Threshold value (red)"
                             ]
                         ),
-                        html.Div(
-                            children=dcc.Slider(
-                                id='mhp-slider-genome',
-                                vertical=False,
-                                updatemode='mouseup',
-                                max=9,
-                                min=1,
-                                value=7,
-                                marks={
-                                    i + 1: '{}'.format(i + 1)
-                                    for i in range(9)
-                                },
-                                step=0.05
-                            ),
+                        dcc.Slider(
+                            id='mhp-slider-genome',
+                            vertical=False,
+                            updatemode='mouseup',
+                            max=9,
+                            min=1,
+                            value=7,
+                            marks={
+                                i + 1: '{}'.format(i + 1)
+                                for i in range(9)
+                            },
+                            step=0.05
                         ),
-
+                        html.Br(),
                         html.Div(
-                            id='mhp-slider-indic-div',
+                            className='manhattan-option-name',
                             children=[
-                                html.H5(
-                                    "Suggestive line (purple)",
-                                    className='mhp-text',
-                                ),
-                                html.Div(
-                                    className='mhp-slider-div',
-                                    children=dcc.Slider(
-                                        id='mhp-slider-indic',
-                                        vertical=False,
-                                        updatemode='mouseup',
-                                        max=9,
-                                        min=1,
-                                        value=6,
-                                        marks={
-                                            i + 1: '{}'.format(i + 1)
-                                            for i in range(9)
-                                        },
-                                        step=0.05
-                                    ),
-                                )
+                                "Suggestive line (purple)",
                             ]
+                        ),
+                        dcc.Slider(
+                            id='mhp-slider-indic',
+                            vertical=False,
+                            updatemode='mouseup',
+                            max=9,
+                            min=1,
+                            value=6,
+                            marks={
+                                i + 1: '{}'.format(i + 1)
+                                for i in range(9)
+                            },
+                            step=0.05
                         )
                     ])
                 )
