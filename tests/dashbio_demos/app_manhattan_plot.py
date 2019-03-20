@@ -27,7 +27,7 @@ fig = dash_bio.ManhattanPlot(DATASET)
 def description():
     return 'Display genomic studies results sorted out by chromosome with ' \
            'this Manhattan plot.\
-    Perfect to visualize genome wide association studies (GWAS).'
+    Perfect to visualize genome-wide association studies (GWAS).'
 
 
 def header_colors():
@@ -59,7 +59,7 @@ def layout():
                     value='what-is',
                     children=html.Div(className='manhattan-tab', children=[
                         html.H4('What is Manhattan Plot?'),
-                        html.P('ManhattanPlot allows you to visualize genome '
+                        html.P('ManhattanPlot allows you to visualize genome-'
                                'wide association studies (GWAS) efficiently. '
                                'Using WebGL under the hood, you can interactively '
                                'explore overviews of massive datasets comprising '
