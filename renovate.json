@@ -22,6 +22,6 @@
     "enabled": false
   },
   "packageRules": [{
-    "excludePackageNames": ["ideogram"]
+    "excludePackageNames": ["ideogram", "react"]
   }]
 }
