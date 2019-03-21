@@ -44,7 +44,7 @@
 }
 
 .needleplot-tab {
-    max-height: 460px;
+    height: 460px;
     overflow-y: auto;
     padding-right: 15px;
 }
@@ -104,7 +104,7 @@
     padding-top: 15px;
     padding-bottom: 20px;
 }
-#needle-stem-color-dropdown, #needle-head-color-dropdown, #needle-head-symbol-dropdown {
+#needle-stem-color-dropdown, #needle-head-color-dropdown, #needle-head-symbol-dropdown, #needle-dataset-select-dropdown, #needle-dataset-dropdown, #needle-download-data-dropdown {
     display: table-cell;
     vertical-align: middle;
     width: 150px;
@@ -112,8 +112,9 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
-.needle-config-item-style {
-    display: table-row;
+
+.needle-config-item-style, .needle-config-data {
+    display: table-row !important;
     vertical-align: middle;
 }
 .Select .Select-menu-outer {
@@ -135,4 +136,42 @@
 }
 .needle-radio {
     padding-top: 25px;
+}
+.needle-checklist {
+    display: table-cell;
+    padding-top: 25px;
+}
+#needle-download-data-div {
+    display: inline-block !important;
+    table-layout: fixed;
+}
+#needle-download-data-button {
+    width: 100%;
+    margin-bottom: 20px;
+    transition-duration: 500ms;
+}
+#needle-download-data-button:hover {
+    color: #76D5FF;
+    border-color: #76D5FF;
+}
+.needle-upload {
+    border: dotted 1px #76D5FF;
+    width: calc(100% - 40px) !important;
+    padding: 10px;
+    margin: 10px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-size: 9pt;
+    font-weight: 100;
+    text-align: center;
+    border-radius: 5px;
+}
+.needle-upload a {
+    text-decoration: none;
+}
+h5 {
+    text-align: center;
+}
+input#needle-sequence-input {
+    margin-right: 30px;
 }

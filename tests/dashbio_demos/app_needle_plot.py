@@ -120,7 +120,7 @@ def layout():
         ),
 
         html.Div(id='needleplot-control-tabs', children=[
-            dcc.Tabs(id='needleplot-tabs', value='graph', children=[
+            dcc.Tabs(id='needleplot-tabs', value='datasets',  children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -139,106 +139,47 @@ def layout():
                     value='datasets',
                     children=html.Div(className='needleplot-tab', children=[
                         html.Div(
-                            id='needle-dataset-header-div',
+                            className='needle-config-data',
+                            title='"Demo dataset" choice will allow you to play '
+                            'with the options.\n'
+                            '"UniProt dataset" choice will retrieve protein '
+                            'domain as well as mutation data from UniProt '
+                            'database.\n"Upload dataset" choice will let '
+                            'you choose your own mutation data with the '
+                            'option to load the protein domains from pfam '
+                            'database.',
                             children=[
                                 html.Div(
-                                    id='needle-dataset-select-div',
-                                    title='"Demo dataset" choice will allow you to play '
-                                          'with the options.\n'
-                                          '"UniProt dataset" choice will retrieve protein '
-                                          'domain as well as mutation data from UniProt '
-                                          'database.\n"Upload dataset" choice will let '
-                                          'you choose your own mutation data with the '
-                                          'option to load the protein domains from pfam '
-                                          'database.',
-                                    className='needle-dataset-header-div',
-                                    children=dcc.RadioItems(
-                                        id='needle-dataset-select-radio',
-                                        options=[
-                                            {
-                                                'label': 'Demo dataset',
-                                                'value': DEMO_KEY
-                                            },
-                                            {
-                                                'label': 'Upload dataset',
-                                                'value': FILE_KEY
-                                            },
-                                            {
-                                                'label': 'UniProt dataset',
-                                                'value': DATABASE_KEY
-                                            },
-                                        ],
-                                        value=DEMO_KEY
-                                    )
-                                ),
-                                html.Div(
-                                    id='needle-protein-domains-select-div',
-                                    title='If checked, it will allow the user to load '
-                                          'mutation data such as the protein coordinate '
-                                          '(x), mutation number (y) and mutation type '
-                                          '(mutationGroups), individually from the protein'
-                                          ' domains',
-                                    className='needle-dataset-header-div',
-                                    children=dcc.Checklist(
-                                        id='needle-protein-domains-select-checklist',
-                                        options=[
-                                            {
-                                                'label': 'Load protein domains '
-                                                         'individually',
-                                                'value': INDIV_DOMS_KEY
-                                            },
-                                            {
-                                                'label': 'Load protein domains from '
-                                                         'UniProt only',
-                                                'value': UNIPROT_DOMS_KEY
-                                            }
-                                        ],
-                                        values=[]
-                                    )
-                                ),
-                            ]
-                        ),
-                        html.Div(
-                            id='needle-download-data-div',
-                            className='needle-horizontal-style',
-                            children=[
-                                html.A(
-                                    id='needle-download-data-button-link',
-                                    children=html.Button(
-                                        id='needle-download-data-button',
-                                        children='Download graph data',
-                                        n_clicks=0,
-                                        n_clicks_timestamp=0,
-                                    ),
-                                    href="",
-                                    download=""
+                                    className='needleplot-option-name',
+                                    children='Dataset source:'
                                 ),
                                 dcc.Dropdown(
-                                    id='needle-download-data-dropdown',
+                                    id='needle-dataset-select-dropdown',
                                     options=[
                                         {
-                                            'label': 'Whole',
-                                            'value': FULL_KEY
+                                            'label': 'Demo dataset',
+                                            'value': DEMO_KEY
                                         },
                                         {
-                                            'label': 'Mutations',
-                                            'value': MUT_KEY
+                                            'label': 'Upload dataset',
+                                            'value': FILE_KEY
                                         },
                                         {
-                                            'label': 'Domains',
-                                            'value': DOM_KEY
+                                            'label': 'UniProt dataset',
+                                            'value': DATABASE_KEY
                                         },
                                     ],
-                                    value=FULL_KEY
+                                    value=DEMO_KEY
                                 )
                             ]
                         ),
                         html.Div(
                             id='needle-%s-div' % DEMO_KEY,
-                            className='needle-load-option-div',
+                            className='needle-config-data',
                             children=[
-                                html.H5(
-                                    'Select demo dataset'
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Dataset:'
                                 ),
                                 dcc.Dropdown(
                                     id='needle-dataset-dropdown',
@@ -253,6 +194,39 @@ def layout():
                                 ),
                             ]
                         ),
+
+                        html.Hr(),
+                        html.Div(
+                            id='needle-protein-domains-select-div',
+                            className='needle-config-data',
+                            title='If checked, it will allow the user to load '
+                            'mutation data such as the protein coordinate '
+                            '(x), mutation number (y) and mutation type '
+                            '(mutationGroups), individually from the protein'
+                            ' domains',
+                            children=[
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Load protein domains:'
+                                ),
+                                dcc.Checklist(
+                                    id='needle-protein-domains-select-checklist',
+                                    className='needle-checklist',
+                                    options=[
+                                        {
+                                            'label': 'Individually',
+                                            'value': INDIV_DOMS_KEY
+                                        },
+                                        {
+                                            'label': 'From UniProt only',
+                                            'value': UNIPROT_DOMS_KEY
+                                        }
+                                    ],
+                                    values=[]
+                                )
+                            ]
+                        ),
+
                         html.Div(
                             id='needle-%s-div' % DATABASE_KEY,
                             className='needle-load-option-div',
@@ -313,8 +287,8 @@ def layout():
                                             id='needle-mutdata-file-upload',
                                             className='needle-upload',
                                             children=html.Div([
-                                                'Drag and Drop or ',
-                                                html.A('Select Files')
+                                                'Drag and drop or ',
+                                                html.A('select files')
                                             ]),
                                         ),
                                         html.Div(
@@ -335,15 +309,13 @@ def layout():
                                           'one in the PFAM database : '
                                           'http://pfam.xfam.org/protein/P04637/graphic.',
                                     children=[
-                                        html.H5(
-                                            'Upload protein domains json file'
-                                        ),
+                                        html.H5('Upload protein data json file'),
                                         dcc.Upload(
                                             id='needle-domains-file-upload',
                                             className='needle-upload',
                                             children=html.Div([
-                                                'Drag and Drop or ',
-                                                html.A('Select Files')
+                                                'Drag and drop or ',
+                                                html.A('select files')
                                             ]),
                                         ),
                                         html.Div(
@@ -354,7 +326,57 @@ def layout():
                                 html.Div(
                                     id='needle-domain-query-info-div'),
                             ]
-                        )
+                        ),
+
+                        html.Hr(),
+
+                        html.Br(),
+                        html.Div(
+                            id='needle-download-data-div',
+                            children=[
+                                html.Div(
+                                    className='needle-config-data',
+                                    children=[
+                                        html.Div(
+                                            className='needleplot-option-name',
+                                            children='Download data:'
+                                        ),
+                                        dcc.Dropdown(
+                                            id='needle-download-data-dropdown',
+                                            options=[
+                                                {
+                                                    'label': 'All',
+                                                    'value': FULL_KEY
+                                                },
+                                                {
+                                                    'label': 'Mutations',
+                                                    'value': MUT_KEY
+                                                },
+                                                {
+                                                    'label': 'Domains',
+                                                    'value': DOM_KEY
+                                                },
+                                            ],
+                                            value=FULL_KEY
+                                        )
+                                    ]
+                                ),
+                                html.Br(),
+                                html.A(
+                                    id='needle-download-data-button-link',
+                                    children=html.Button(
+                                        id='needle-download-data-button',
+                                        children='Download graph data',
+                                        n_clicks=0,
+                                        n_clicks_timestamp=0,
+                                    ),
+                                    href="",
+                                    download=""
+                                ),
+                            ]
+                        ),
+
+
                     ])
                 ),
 
@@ -531,7 +553,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('needle-%s-div' % DATABASE_KEY, 'style'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % DATABASE_KEY, 'style')]
     )
     def toggle_db(load_choice, div_style):
@@ -548,7 +570,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('needle-%s-div' % DEMO_KEY, 'style'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % DEMO_KEY, 'style')]
     )
     def toggle_demo(load_choice, div_style):
@@ -565,7 +587,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('needle-%s-div' % FILE_KEY, 'style'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % FILE_KEY, 'style')]
     )
     def toggle_file(load_choice, div_style):
@@ -582,7 +604,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('needle-uniprot-div', 'style'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-uniprot-div', 'style')]
     )
     def toggle_domain_doma(load_choice, div_style):
@@ -600,7 +622,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         Output('needle-uniprot-div', 'children'),
         [Input('needle-store', 'data')],
-        [State('needle-dataset-select-radio', 'value')]
+        [State('needle-dataset-select-dropdown', 'value')]
     )
     def display_query_information(stored_data, load_choice):
         """diplays information about the query to the UniProt database"""
@@ -624,7 +646,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         Output('needle-sequence-input', 'value'),
         [Input('needle-store', 'data')],
-        [State('needle-dataset-select-radio', 'value')]
+        [State('needle-dataset-select-dropdown', 'value')]
     )
     def reset_database_query(stored_data, load_choice):
         """resets the last query if the user changed dataset loading option"""
@@ -657,7 +679,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('needle-protein-domains-select-checklist', 'values')],
         [
             State('needle-domain-query-info-div', 'style'),
-            State('needle-dataset-select-radio', 'value')
+            State('needle-dataset-select-dropdown', 'value')
         ]
     )
     def toggle_domain_domain_query_information(
@@ -679,7 +701,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('needle-protein-domains-select-div', 'style'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-protein-domains-select-div', 'style')]
     )
     def toggle_protein_domain_select_div(load_choice, div_style):
@@ -700,7 +722,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     # UPLOAD RELATED CALLBACKS========
     @app.callback(
         Output('needle-mutdata-file-upload', 'contents'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-mutdata-file-upload', 'contents')]
     )
     def reset_mutdata_upload_content(load_choice, mut_contents):
@@ -713,7 +735,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('needle-domains-file-upload', 'contents'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-domains-file-upload', 'contents')]
     )
     def reset_domains_upload_content(load_choice, dom_contents):
@@ -843,7 +865,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         Output('needle-store', 'data'),
         [
             Input('needle-search-sequence-button', 'n_clicks'),
-            Input('needle-dataset-select-radio', 'value'),
+            Input('needle-dataset-select-dropdown', 'value'),
             Input('needle-dataset-dropdown', 'value'),
             Input('needle-protein-domains-select-checklist', 'values'),
             Input('needle-mutdata-file-upload', 'contents'),
