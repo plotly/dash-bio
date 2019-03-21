@@ -32,7 +32,7 @@ def header_colors():
 
 def description():
     return 'Molecule visualization in 3D - perfect for viewing ' \
-           'biomolecules like proteins, DNA and RNA. Includes ' \
+           'biomolecules such as proteins, DNA and RNA. Includes ' \
            'stick, cartoon, and sphere representations.'
 
 
@@ -54,11 +54,11 @@ def layout():
                                 html.P('Molecule3D is a visualizer that allows you '
                                        'to view biomolecules in multiple representations: '
                                        'sticks, spheres, and cartoons.'),
-                                html.P('You can choose a preloaded structure, or upload your own, '
+                                html.P('You can select a preloaded structure, or upload your own, '
                                        'in the "Data" tab. A sample structure is also '
                                        'available to download.'),
                                 html.P('In the "View" tab, you can change the style and '
-                                       'coloring of the various components of each molecule.')
+                                       'coloring of the various components of your molecule.')
                             ])
                         ),
 
