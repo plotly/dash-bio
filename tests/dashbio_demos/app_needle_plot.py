@@ -375,7 +375,7 @@ def layout():
                                 )
                             ]
                         ),
-                            html.Div(
+                        html.Div(
                             className='needle-config-item-style',
                             children=[
                                 html.H6('Needle head size'),
