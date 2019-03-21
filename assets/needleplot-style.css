@@ -1,5 +1,5 @@
 #needleplot-body {
-    font-family: 'Open Sans Light', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     padding: 5px;
     background-color: #E8F0F9;
     color: #5b5b5b;
@@ -52,12 +52,14 @@
 #needleplot-control-tabs .Select-control {
     border: solid 1px #E8F0F9;
     background-color: #E8F0F9 !important;
-    color: #5B5B5B
+    color: #5B5B5B;
+    width: 150px;
 }
 #needleplot-control-tabs .Select, #needleplot-control-tabs .Select-control, #needleplot-control-tabs input, #needleplot-control-tabs .Select-menu-outer, #needleplot-control-tabs .Select-value-label {
     background-color: #F3F3F3 !important;
     border-color: #F3F3F3 !important;
     color: #5B5B5B;
+    border-radius: 4px;
 }
 #needleplot-control-tabs .tab {
     background-color: #F3F3F3
@@ -80,9 +82,10 @@
 }
 
 #needleplot-body .rc-slider {
-    width: 250px;
+    width: 150px;
+    padding-top: 25px;
+    padding-bottom: 25px;
     float: right;
-    margin-top: 5px;
 }
 
 #needleplot-body .rc-slider-track {
@@ -90,6 +93,46 @@
 }
 
 #needleplot-body .rc-slider-handle {
-    background-color: #232323;
     border: solid 2px #76D5FF
+}
+
+.needleplot-option-name {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 14pt;
+    width: 160px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+#needle-stem-color-dropdown, #needle-head-color-dropdown, #needle-head-symbol-dropdown {
+    display: table-cell;
+    vertical-align: middle;
+    width: 150px;
+    float: right;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.needle-config-item-style {
+    display: table-row;
+    vertical-align: middle;
+}
+.Select .Select-menu-outer {
+    width: 150px !important;
+}
+
+.Select .Select-control {
+    max-height: 50px;
+}
+.Select .Select-multi-value-wrapper {
+    max-height: 120px;
+    overflow-y: auto;
+    margin-top: 3px;
+    margin-right: 5px;
+}
+.needle-radio, .needle-radio label {
+    width: 100px;
+    float:left;
+}
+.needle-radio {
+    padding-top: 25px;
 }

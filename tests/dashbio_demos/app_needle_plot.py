@@ -120,7 +120,7 @@ def layout():
         ),
 
         html.Div(id='needleplot-control-tabs', children=[
-            dcc.Tabs(id='needleplot-tabs', children=[
+            dcc.Tabs(id='needleplot-tabs', value='graph', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -365,33 +365,42 @@ def layout():
                         html.Div(
                             className='needle-config-item-style',
                             children=[
-                                html.H6('Stem thickness'),
-                                dcc.Input(
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Stem thickness'
+                                ),
+                                dcc.Slider(
                                     id='needle-stem-thick-input',
-                                    type='number',
                                     value=2,
                                     min=1,
-                                    max=40
+                                    max=10,
+                                    step=1
                                 )
                             ]
                         ),
                         html.Div(
                             className='needle-config-item-style',
                             children=[
-                                html.H6('Needle head size'),
-                                dcc.Input(
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Needle head size'
+                                ),
+                                dcc.Slider(
                                     id='needle-head-size-input',
-                                    type='number',
                                     value=7,
                                     min=1,
-                                    max=40,
+                                    max=10,
+                                    step=1
                                 )
                             ]
                         ),
                         html.Div(
                             className='needle-config-item-style',
                             children=[
-                                html.H6('Stem color'),
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Stem color'
+                                ),
                                 dcc.Dropdown(
                                     id='needle-stem-color-dropdown',
                                     options=[
@@ -408,7 +417,10 @@ def layout():
                         html.Div(
                             className='needle-config-item-style',
                             children=[
-                                html.H6('Head color(s)'),
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Head color(s)'
+                                ),
                                 dcc.Dropdown(
                                     id='needle-head-color-dropdown',
                                     options=[
@@ -426,7 +438,10 @@ def layout():
                         html.Div(
                             className='needle-config-item-style',
                             children=[
-                                html.H6('Head symbol(s)'),
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Head symbol(s)'
+                                ),
                                 dcc.Dropdown(
                                     id='needle-head-symbol-dropdown',
                                     options=[
@@ -444,8 +459,10 @@ def layout():
                         html.Div(
                             className='needle-config-item-style',
                             children=[
-                                html.H6(
-                                    'Constant height needles'),
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Constant height needles'
+                                ),
                                 dcc.RadioItems(
                                     id='needle-stem-height-radioitems',
                                     className='needle-radio',
@@ -462,7 +479,10 @@ def layout():
                         html.Div(
                             className='needle-config-item-style',
                             children=[
-                                html.H6('Rangeslider Display'),
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Rangeslider display'
+                                ),
                                 dcc.RadioItems(
                                     id='needle-rangeslider-radioitems',
                                     className='needle-radio',
@@ -479,8 +499,10 @@ def layout():
                         html.Div(
                             className='needle-config-item-style',
                             children=[
-                                html.H6(
-                                    'Small domains color(s)'),
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Small domains color(s)'
+                                ),
                                 dcc.Dropdown(
                                     id='needle-domains-color-dropdown',
                                     options=[
