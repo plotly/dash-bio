@@ -20,5 +20,8 @@
   ],
   "lockFileMaintenance": {
     "enabled": false
-  }
+  },
+  "packageRules": [{
+    "excludePackageNames": ["ideogram"]
+  }]
 }
