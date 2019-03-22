@@ -126,6 +126,7 @@
 }
 .Select .Select-multi-value-wrapper {
     max-height: 120px;
+    height: calc(100% + 3px);
     overflow-y: auto;
     margin-top: 3px;
     margin-right: 5px;
