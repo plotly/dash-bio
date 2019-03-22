@@ -120,7 +120,7 @@ def layout():
         ),
 
         html.Div(id='needleplot-control-tabs', children=[
-            dcc.Tabs(id='needleplot-tabs', value='datasets',  children=[
+            dcc.Tabs(id='needleplot-tabs', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -129,8 +129,17 @@ def layout():
                         html.P('Needle Plot allows you to display mutations in '
                                'a genome. Due to its similarity to both a barplot '
                                'and a scatter plot, it can be used to plot '
-                               'both continuous and discrete data on the same '
-                               'axes.')
+                               'datasets that have too many categories for a '
+                               'meaningful barplot.'),
+                        html.P('In the "Data" tab, you can choose from preloaded '
+                               'datasets, as well as upload your own. You can '
+                               'additionally search the UniProt database for '
+                               'data to plot. If you wish to save the data that are '
+                               'plotted, you can choose to download all of it, or '
+                               'just the data corresponding to mutations or domains.'),
+                        html.P('In the "Graph" tab, you can change the aesthetics of '
+                               'the data points by customizing colors, marker shapes, '
+                               'and more.')
                     ])
                 ),
 
