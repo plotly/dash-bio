@@ -22,7 +22,7 @@
     "molecule-3d-for-react": "^0.4.5",
     "plotly.js": "^1.41.3",
     "ramda": "^0.26.0",
-    "react": "15.4.2",
+    "react": "15.6.2",
     "react-alignment-viewer": "^0.5.2",
     "react-dom": "15.4.2",
     "react-oncoprint": "^1.2.2",
