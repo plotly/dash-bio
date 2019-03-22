@@ -436,13 +436,6 @@ def layout():
                     ])
                 ),
                 dcc.Tab(
-                    label='Data',
-                    value='data',
-                    children=html.Div(className='ideogram-tab', children=[
-
-                    ])
-                ),
-                dcc.Tab(
                     label='View',
                     value='view',
                     children=html.Div(className='ideogram-tab', children=[
