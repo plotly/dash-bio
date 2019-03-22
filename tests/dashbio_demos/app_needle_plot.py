@@ -208,7 +208,7 @@ def layout():
                         html.Div(
                             id='needle-protein-domains-select-div',
                             className='needle-config-data',
-                            title='If checked, it will allow the user to load '
+                            title='Check this box to enable loading of '
                             'mutation data such as the protein coordinate '
                             '(x), mutation number (y) and mutation type '
                             '(mutationGroups), individually from the protein'
@@ -307,9 +307,9 @@ def layout():
                                 ),
                                 html.Div(
                                     id='needle-domain-file-div',
-                                    title='Protein data files accepted here can be two'
-                                          ' fold : \n'
-                                          '- an array of json objects with the required '
+                                    title='Protein data files accepted here can be of'
+                                          ' two types: \n'
+                                          '- an array of JSON objects with the required '
                                           'fields "name" and "coord", which are a string '
                                           'and a string  detailing the start and end of '
                                           'the domains in protein coordinate (eg. "23-34")'
