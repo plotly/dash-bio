@@ -274,23 +274,23 @@ def layout():
                             children=[
                                 html.Div(
                                     id='needle-mutdata-file-div',
-                                    title='Mutation data files are json files containing '
-                                          'the fields :\n'
+                                    title='Mutation data files are JSON files containing '
+                                          'the following fields :\n'
                                           '- "x" (protein coordinate of the mutation) \n'
                                           '- "y" (number of recorded mutations) \n'
                                           '- "mutationGroups" (type of mutations) \n'
                                           '- "domains" (protein domains.\n '
                                           '"x", "y", "mutationGroups" are arrays, they '
-                                          'must have the same length or be empty, '
+                                          'must have the same length, '
                                           '"x" is required. The "domains" is an array of '
-                                          'json objects with the required fields "name" '
+                                          'JSON objects with required fields "name" '
                                           'and "coord", which are a string and a string '
                                           'detailing the start and end of the domains in '
-                                          'protein coordinate (eg. "23-34"), '
+                                          'protein coordinate (e.g., "23-34"), '
                                           'respectively.',
                                     children=[
                                         html.H5(
-                                            'Upload mutation data json file'
+                                            'Upload mutation data JSON file'
                                         ),
                                         dcc.Upload(
                                             id='needle-mutdata-file-upload',
@@ -314,11 +314,11 @@ def layout():
                                           'and a string  detailing the start and end of '
                                           'the domains in protein coordinate (eg. "23-34")'
                                           ', respectively.\n'
-                                          '- an json file with the same structure as the '
+                                          '- a JSON file with the same structure as '
                                           'one in the PFAM database : '
                                           'http://pfam.xfam.org/protein/P04637/graphic.',
                                     children=[
-                                        html.H5('Upload protein data json file'),
+                                        html.H5('Upload protein data JSON file'),
                                         dcc.Upload(
                                             id='needle-domains-file-upload',
                                             className='needle-upload',
