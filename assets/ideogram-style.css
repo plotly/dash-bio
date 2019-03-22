@@ -67,6 +67,10 @@
 #ideogram-container {
     display: inline-block;
     width: 800px;
+    height: 550px;
+    overflow: auto;
     margin-left: 50px;
-    margin-top: 50px; 
+    margin-top: 50px;
+    padding-right: 20px; 
 }
+

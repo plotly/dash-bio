@@ -222,15 +222,141 @@ options = {
         )],
 
     'homology': [
-
+        html.P("Select Two Chromosomes"),
+        dcc.Input(
+            id="chr-select",
+            placeholder="Ex: 1,2",
+            type="text",
+            value="",
+            className="ideogram-homology-inputs",
+        ),
+        chromosome_div(
+            id_tag="chrone",
+            name_tag="Chr 1",
+            startone=50000,
+            stopone=900000,
+            starttwo=155701383,
+            stoptwo=156030895,
+        ),
+        chromosome_div(
+            id_tag="chrtwo",
+            name_tag="Chr 2",
+            startone=10001,
+            stopone=2781479,
+            starttwo=56887903,
+            stoptwo=57217415,
+        ),
     ],
 
     'brush': [
-
+        html.P("Enter Chromosome Value"),
+        dcc.Input(
+            id="chr-brush",
+            placeholder="Ex: (1 - 22 , X, Y)",
+            type="text",
+            value="",
+            className="ideogram-column-content",
+        ),
+        html.Div(
+            children=[
+                "Start: ",
+                html.Span(
+                    "",
+                    id="brush-print-start",
+                    style={"color": "#0D76BF"},
+                ),
+                html.Br(),
+                "Extent: ",
+                html.Span(
+                    "",
+                    id="brush-print-extent",
+                    style={"color": "#0D76BF"},
+                ),
+                html.Br(),
+                "End: ",
+                html.Span(
+                    "",
+                    id="brush-print-end",
+                    style={"color": "#0D76BF"},
+                ),
+            ],
+            className="ideogram-databox-parameters",
+        )
     ],
 
     'annotations': [
-
+        html.P("Select Annotation"),
+        dcc.Dropdown(
+            id="annotation-select",
+            options=[
+                {
+                    "label": "Histogram",
+                    "value": "histogram",
+                },
+                {
+                    "label": "Overlay-1",
+                    "value": "overlay-1",
+                },
+                {
+                    "label": "Overlay-2",
+                    "value": "overlay-2",
+                },
+            ],
+            value="histogram",
+        ),
+        html.P(
+            "Annotation Color (Histogram)"),
+        dcc.Input(
+            id="color-input",
+            placeholder="Annotation Color",
+            type="text",
+            value="#FF0000",
+            className="ideogram-column-content",
+        ),
+        html.P("Bar Width (Histogram)"),
+        dcc.Input(
+            id="bar-input",
+            placeholder="Annotation Height",
+            type="number",
+            value=3,
+            min=1,
+            className="ideogram-column-content",
+        ),
+        html.P("Annotation Height"),
+        dcc.Input(
+            id="height-input",
+            placeholder="Annotation Height",
+            type="text",
+            value="3",
+            className="ideogram-column-content",
+        ),
+        html.P("Orientation"),
+        dcc.Dropdown(
+            id="orientation-anote",
+            options=[
+                {
+                    "label": "Vertical",
+                    "value": "vertical",
+                },
+                {
+                    "label": "Horizontal",
+                    "value": "horizontal",
+                },
+            ],
+            value="horizontal",
+        ),
+        html.P("Hover Data (Overlay-1/2)"),
+        html.Div(
+            children=[
+                html.Span(
+                    "None",
+                    id="annote-data",
+                    style={
+                        "color": "#0D76BF"},
+                )
+            ],
+            className="ideogram-databox-parameters",
+        )
     ]
 
 }
@@ -247,7 +373,7 @@ ideograms = {
         chrWidth=8,
         rotatable=True,
     ),
-    
+
     'homology': dash_bio.Ideogram(
         id="ideo-homology",
         showBandLabels=True,
@@ -334,199 +460,7 @@ def layout():
                     ])
                 )
             ])
-        ]),
-
-        dcc.Tabs(
-            id="tabs",
-            children=[
-                dcc.Tab(
-                    label="Homology",
-                    children=[
-                        html.Div(
-                            [
-                                html.Div(
-                                    [
-                                        html.H5("Options"),
-                                        html.P("Select Two Chromosomes"),
-                                        dcc.Input(
-                                            id="chr-select",
-                                            placeholder="Ex: 1,2",
-                                            type="text",
-                                            value="",
-                                            className="ideogram-homology-inputs",
-                                        ),
-                                        chromosome_div(
-                                            id_tag="chrone",
-                                            name_tag="Chr 1",
-                                            startone=50000,
-                                            stopone=900000,
-                                            starttwo=155701383,
-                                            stoptwo=156030895,
-                                        ),
-                                        chromosome_div(
-                                            id_tag="chrtwo",
-                                            name_tag="Chr 2",
-                                            startone=10001,
-                                            stopone=2781479,
-                                            starttwo=56887903,
-                                            stoptwo=57217415,
-                                        ),
-                                    ],
-                                    className="two columns ideogram-column",
-                                ),
-                                html.Div(
-                                    [
-                                    ],
-                                    className="ten columns",
-                                ),
-                            ],
-                            className="row",
-                        )
-                    ],
-                ),
-                dcc.Tab(
-                    label="Brush",
-                    children=[
-                        html.Div(
-                            [
-                                html.H5("Options"),
-                                html.P("Enter Chromosome Value"),
-                                dcc.Input(
-                                    id="chr-brush",
-                                    placeholder="Ex: (1 - 22 , X, Y)",
-                                    type="text",
-                                    value="",
-                                    className="ideogram-column-content",
-                                ),
-                                html.Div(
-                                    children=[
-                                        "Start: ",
-                                        html.Span(
-                                            "",
-                                            id="brush-print-start",
-                                            style={"color": "#0D76BF"},
-                                        ),
-                                        html.Br(),
-                                        "Extent: ",
-                                        html.Span(
-                                            "",
-                                            id="brush-print-extent",
-                                            style={"color": "#0D76BF"},
-                                        ),
-                                        html.Br(),
-                                        "End: ",
-                                        html.Span(
-                                            "",
-                                            id="brush-print-end",
-                                            style={"color": "#0D76BF"},
-                                        ),
-                                    ],
-                                    className="ideogram-databox-parameters",
-                                ),
-                            ],
-                            className="two columns ideogram-column",
-                        ),
-                        html.Div(
-                            [
-                            ],
-                            className="ten columns",
-                        ),
-                    ],
-                ),
-                dcc.Tab(
-                    label="Annotations",
-                    children=[
-                        html.Div(
-                            [
-                                html.H6("Annotations"),
-                                html.Div(
-                                    [
-                                        html.P("Select Annotation"),
-                                        dcc.Dropdown(
-                                            id="annotation-select",
-                                            options=[
-                                                {
-                                                    "label": "Histogram",
-                                                    "value": "histogram",
-                                                },
-                                                {
-                                                    "label": "Overlay-1",
-                                                    "value": "overlay-1",
-                                                },
-                                                {
-                                                    "label": "Overlay-2",
-                                                    "value": "overlay-2",
-                                                },
-                                            ],
-                                            value="histogram",
-                                        ),
-                                        html.P(
-                                            "Annotation Color (Histogram)"),
-                                        dcc.Input(
-                                            id="color-input",
-                                            placeholder="Annotation Color",
-                                            type="text",
-                                            value="#FF0000",
-                                            className="ideogram-column-content",
-                                        ),
-                                        html.P("Bar Width (Histogram)"),
-                                        dcc.Input(
-                                            id="bar-input",
-                                            placeholder="Annotation Height",
-                                            type="number",
-                                            value=3,
-                                            min=1,
-                                            className="ideogram-column-content",
-                                        ),
-                                        html.P("Annotation Height"),
-                                        dcc.Input(
-                                            id="height-input",
-                                            placeholder="Annotation Height",
-                                            type="text",
-                                            value="3",
-                                            className="ideogram-column-content",
-                                        ),
-                                        html.P("Orientation"),
-                                        dcc.Dropdown(
-                                            id="orientation-anote",
-                                            options=[
-                                                {
-                                                    "label": "Vertical",
-                                                    "value": "vertical",
-                                                },
-                                                {
-                                                    "label": "Horizontal",
-                                                    "value": "horizontal",
-                                                },
-                                            ],
-                                            value="horizontal",
-                                        ),
-                                        html.P("Hover Data (Overlay-1/2)"),
-                                        html.Div(
-                                            children=[
-                                                html.Span(
-                                                    "None",
-                                                    id="annote-data",
-                                                    style={
-                                                        "color": "#0D76BF"},
-                                                )
-                                            ],
-                                            className="ideogram-databox-parameters",
-                                        ),
-                                    ]
-                                ),
-                            ],
-                            className="two columns ideogram-column",
-                        ),
-                        html.Div(
-                            [
-                            ],
-                            className="ten columns",
-                        ),
-                    ],
-                ),
-            ],
-        )
+        ])
     ])
 
 
@@ -538,14 +472,14 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def show_ideogram(feature):
         return ideograms[feature]
-    
+
     @app.callback(
         Output('ideogram-feature-view-options', 'children'),
         [Input('ideogram-feature-dropdown', 'value')]
     )
     def show_options(feature):
         return options[feature]
-    
+
     # Brush callbacks
     @app.callback(
         Output("brush-print-start", "children"),
