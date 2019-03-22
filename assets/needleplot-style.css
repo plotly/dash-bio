@@ -23,7 +23,7 @@
     display: inline-block !important;
     padding: 0px;
     margin-top: 101px;
-    margin-left: 151px;
+    margin-left: 130px !important;
 }
 #needle-plot {
     transform: scale(1.2222);
