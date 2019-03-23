@@ -21,6 +21,9 @@
   "lockFileMaintenance": {
     "enabled": false
   },
+    "packageRules": [{
+      "excludePackagePatterns": ["react-*"]
+  }],
   "ignoreDeps": [
     "ideogram",
     "react"
