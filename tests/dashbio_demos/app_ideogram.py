@@ -246,16 +246,22 @@ options = {
     ],
 
     'brush': [
-        html.Div(className='ideogram-controls-name', children='Enter Chromosome Value'),
-        dcc.Input(
+        html.Div(className='ideogram-controls-name', id='brush-control-name', children='Selected chromosome'),
+        dcc.Dropdown(
+            className='ideogram-dropdown',
             id='chr-brush',
-            placeholder='Ex: (1 - 22 , X, Y)',
-            type='text',
-            value='X',
-            className='ideogram-column-content',
+            options=[
+                {'label': str(i), 'value': str(i)}
+                for i in range(1, 22)] +
+            [{'label': 'X', 'value': 'X'},
+             {'lahbel': 'Y', 'value': 'Y'}],
+            value='X'
         ),
+        html.Hr(), 
         html.Div(
+            id='brush-data', 
             children=[
+                html.H4('Brush data'),
                 'Start: ',
                 html.Span(
                     '',
@@ -452,7 +458,7 @@ def layout():
                                 {'label': 'Annotations', 'value': 'annotations'}
                             ],
                             clearable=False,
-                            value='custom'
+                            value='brush'
                         ),
                         html.Hr(),
                         html.Div(
