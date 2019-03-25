@@ -99,7 +99,7 @@ options = {
             value="human",
         ),
         html.P(
-                 "Orientation"),
+            "Orientation"),
         dcc.Dropdown(
             id="orientation-switch",
             options=[
