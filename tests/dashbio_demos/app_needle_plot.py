@@ -207,7 +207,7 @@ def layout():
                             ]
                         ),
 
-                        
+
                         html.Div(
                             id='needle-protein-domains-select-div',
                             className='needle-config-data',
@@ -317,8 +317,7 @@ def layout():
                                           'and a string  detailing the start and end of '
                                           'the domains in protein coordinate (eg. "23-34")'
                                           ', respectively.\n'
-                                          '- a JSON file with the same structure as '
-                                          'one in the PFAM database : '
+                                          '- a JSON file with the same structure as: '
                                           'http://pfam.xfam.org/protein/P04637/graphic.',
                                     children=[
                                         html.H5('Upload protein data JSON file'),
@@ -556,20 +555,20 @@ def layout():
                 )
             ])
         ]),
-        
+
         dcc.Store(id='needle-store'),
     ])
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
-    
+
     @app.callback(
         Output('needle-%s-div' % DATABASE_KEY, 'style'),
         [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % DATABASE_KEY, 'style')]
     )
     def toggle_db(load_choice, div_style):
-        
+
         """updates what the user can use to load data to the graph"""
         if div_style is None:
             div_style = {'display': 'none'}
