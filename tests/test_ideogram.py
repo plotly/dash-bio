@@ -265,6 +265,10 @@ def test_chromosomes(dash_threaded):
 
     driver = dash_threaded.driver
 
+    # assert 22 chromosomes + X and Y chromosomes
+    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
+    assert num_chromosoms == 24
+
     # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
@@ -300,6 +304,10 @@ def test_chromosomes_wrong_input(dash_threaded):
     )
 
     driver = dash_threaded.driver
+
+    # assert 22 chromosomes + X and Y chromosomes
+    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
+    assert num_chromosoms == 24
 
     # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
