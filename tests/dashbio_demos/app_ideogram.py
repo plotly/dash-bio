@@ -502,7 +502,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             selected_ideo
     ):
         ideograms = {
-            'custom': ideo_custom,
+            'Custom6': ideo_custom,
             'homology': ideo_homology,
             'brush': brush_ideo,
             'annotations': ideo_annotations
@@ -646,14 +646,17 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if annotation_select == 'overlay-1':
             annotations_layout = 'overlay'
             annotations_path = 'https://eweitz.github.io/' + \
-            'ideogram/data/annotations/10_virtual_cnvs.json'
+                'ideogram/data/annotations/10_virtual_cnvs.json'
 
         elif annotation_select == 'histogram':
-            annotations_path = 'https://eweitz.github.io/ideogram/data/annotations/SRR562646.json'
+            annotations_path = 'https://eweitz.github.io/' + \
+                'ideogram/data/annotations/SRR562646.json'
             annotations_assembly = 'GRCh37'
 
         elif annotation_select == 'overlay-2':
-            annotations_path = 'https://eweitz.github.io/ideogram/data/annotations/1000_virtual_snvs.json'
+            annotations_path = 'https://eweitz.github.io/' + \
+                'ideogram/data/annotations/1000_virtual_snvs.json'
+
             annotation_tracks = [
                 {
                     'id': 'pathogenicTrack',
