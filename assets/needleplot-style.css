@@ -115,7 +115,7 @@
 }
 
 .needle-config-item-style, .needle-config-data {
-    display: table-row !important;
+    display: table-row;
     vertical-align: middle;
 }
 .Select .Select-menu-outer {
