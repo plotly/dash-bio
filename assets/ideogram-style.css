@@ -149,3 +149,6 @@ input.ideogram-homology-inputs {
 #ideogram-body h4 {
     margin-bottom: 25px;
 }
+#ideogram-body #chr-select-1, #ideogram-body #chr-select-2 {
+    display: inline-block;
+}
