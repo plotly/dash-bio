@@ -257,9 +257,9 @@ options = {
              {'lahbel': 'Y', 'value': 'Y'}],
             value='X'
         ),
-        html.Hr(), 
+        html.Hr(),
         html.Div(
-            id='brush-data', 
+            id='brush-data',
             children=[
                 html.H4('Brush data'),
                 'Start: ',
@@ -288,7 +288,21 @@ options = {
     ],
 
     'annotations': [
-        html.Div(className='ideogram-controls-name', children='Select Annotation'),
+        html.H4('Hover data'),
+        html.Div(
+            children=[
+                html.Span(
+                    'None',
+                    id='annote-data',
+                    style={
+                        'color': '#0D76BF'},
+                )
+            ],
+            className='ideogram-databox-parameters',
+        ),
+        html.Hr(),
+        html.H4('Appearance'),
+        html.Div(className='ideogram-controls-name', children='Type:'),
         dcc.Dropdown(
             className='ideogram-dropdown',
             id='annotation-select',
@@ -308,31 +322,32 @@ options = {
             ],
             value='histogram',
         ),
-        html.P(
-            'Annotation Color (Histogram)'),
-        dcc.Input(
-            id='color-input',
-            placeholder='Annotation Color',
-            type='text',
-            value='#FF0000',
-            className='ideogram-column-content',
-        ),
-        html.Div(className='ideogram-controls-name', children='Bar Width (Histogram)'),
-        dcc.Input(
-            id='bar-input',
-            placeholder='Annotation Height',
-            type='number',
-            value=3,
-            min=1,
-            className='ideogram-column-content',
-        ),
-        html.Div(className='ideogram-controls-name', children='Annotation Height'),
-        dcc.Input(
+        html.Div(id='ideogram-histo-options', children=[
+            html.Div(className='ideogram-controls-name', children='Color:'),
+            dcc.Input(
+                id='color-input',
+                className='ideogram-annot-inputs',
+                placeholder='Annotation Color',
+                type='text',
+                value='#FF0000'
+            ),
+            html.Div(className='ideogram-controls-name', children='Bar width:'),
+            dcc.Slider(
+                id='bar-input',
+                className='ideogram-slider',
+                value=3,
+                min=1,
+                max=10
+            ),
+        ]),
+
+        html.Div(className='ideogram-controls-name', children='Height:'),
+        dcc.Slider(
             id='height-input',
-            placeholder='Annotation Height',
-            type='text',
-            value='3',
-            className='ideogram-column-content',
+            min=1,
+            max=10,
+            value=3,
+            className='ideogram-slider'
         ),
         html.Div(className='ideogram-controls-name', children='Orientation'),
         dcc.Dropdown(
@@ -350,18 +365,6 @@ options = {
             ],
             value='horizontal',
         ),
-        html.Div(className='ideogram-controls-name', children='Hover Data (Overlay-1/2)'),
-        html.Div(
-            children=[
-                html.Span(
-                    'None',
-                    id='annote-data',
-                    style={
-                        'color': '#0D76BF'},
-                )
-            ],
-            className='ideogram-databox-parameters',
-        )
     ]
 
 }
@@ -458,7 +461,7 @@ def layout():
                                 {'label': 'Annotations', 'value': 'annotations'}
                             ],
                             clearable=False,
-                            value='brush'
+                            value='annotations'
                         ),
                         html.Hr(),
                         html.Div(
@@ -514,6 +517,13 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def show_hide_resolution(organism):
         return {'display': 'none' if organism != 'human' else 'block'}
+
+    @app.callback(
+        Output('ideogram-histo-options', 'style'),
+        [Input('annotation-select', 'value')]
+    )
+    def show_hide_histo_options(annot_type):
+        return {'display': 'none' if annot_type != 'histogram' else 'block'}
 
     # Custom callbacks
     @app.callback(

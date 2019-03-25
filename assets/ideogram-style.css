@@ -101,7 +101,7 @@
     display: inline-block;
 }
 
-input.ideogram-homology-inputs {
+input.ideogram-homology-inputs, input.ideogram-annot-inputs {
     display: inline-block;
     width: 140px;
 }
@@ -109,7 +109,7 @@ input.ideogram-homology-inputs {
 #ideogram-body hr {
     width: 100%;
 }
-#organism-change, #orientation-switch, #bandlabel-switch, #chromlabel-switch, #rotatable-switch, #sex-switch, #fullband-switch, #resolution-select, #chr-brush {
+#organism-change, #orientation-switch, #bandlabel-switch, #chromlabel-switch, #rotatable-switch, #sex-switch, #fullband-switch, #resolution-select, #chr-brush, #annotation-select, #orientation-anote {
     display: inline-block;
     width: 140px;
 }
@@ -135,7 +135,7 @@ input.ideogram-homology-inputs {
     margin: 3px;
 }
 
-#chr-margin-input, #chr-height-input, #chr-width-input {
+#ideogram-body #chr-margin-input, #ideogram-body #chr-height-input, #ideogram-body #chr-width-input, #ideogram-body #bar-input, #ideogram-body #height-input {
     width: 140px;
     display: inline-block;
 }
@@ -153,10 +153,10 @@ input.ideogram-homology-inputs {
 }
 #chr-brush {
     width: 65px;
-    float: right; 
+    float: right;
 }
 #brush-control-name {
-    width: 200px; 
+    width: 200px;
 }
 #brush-data {
     font-size: 12pt;
