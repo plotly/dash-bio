@@ -425,7 +425,7 @@ def layout():
     return html.Div(id='ideogram-body', children=[
         html.Div(id='ideogram-container'),
         html.Div(id='ideogram-control-tabs', children=[
-            dcc.Tabs(id='ideogram-tabs', value='view', children=[
+            dcc.Tabs(id='ideogram-tabs', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -461,7 +461,7 @@ def layout():
                                 {'label': 'Annotations', 'value': 'annotations'}
                             ],
                             clearable=False,
-                            value='annotations'
+                            value='custom'
                         ),
                         html.Hr(),
                         html.Div(
