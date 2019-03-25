@@ -1,5 +1,6 @@
-import os
 import json
+import os
+
 from pytest_dash.wait_for import (
     wait_for_element_by_css_selector,
     wait_for_element_by_id,
@@ -14,14 +15,12 @@ from .test_common_features import (
     COMPONENT_REACT_BASE
 )
 
-# TODO by merging https://github.com/plotly/dash-bio/pull/201
-
-# these tests are written for the locked version v1.4.1
+# NOTE These tests were written to work with dependency `ideogram` v1.4.1:
 # git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f
-# if the version in package-lock.json is different and some of the test fails it might be due
-# to changes from the author of https://github.com/eweitz/ideogram. For example, currently in the
-# version v1.5.1 test_orientation fails because "chromosome-set-container" was renamed to
-# "chromosome-set" which result in a timeout of the _wait_for function
+# This version is locked in `package-lock.json`. If that changed and some of the tests failed,
+# it might be due to changes in https://github.com/eweitz/ideogram. For example, test_orientation
+# fails with version v1.5.1 because "chromosome-set-container" was renamed to "chromosome-set"
+# (which results in a timeout of the _wait_for function).
 
 # define app name once
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
@@ -80,7 +79,7 @@ BASIC_PROPS = {
 
 
 def test_chr_height(dash_threaded):
-    """Test change maximal height of the chromosome."""
+    """Test change of chromosome maximal height."""
 
     prop_type = 'float'
 
