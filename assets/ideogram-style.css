@@ -53,11 +53,12 @@
 
 .ideogram-controls-name {
     display: inline-block;
-    margin-top: 5px;
+    margin-top: 15px;
     font-weight: 400;
     vertical-align: middle;
     width: 160px;
-    font-size: 12pt;
+    font-size: 14pt;
+    margin-bottom: 20px;
 }
 
 #ideogram-feature-dropdown {
@@ -71,9 +72,41 @@
     overflow: auto;
     margin-left: 50px;
     margin-top: 50px;
-    padding-right: 20px; 
+    padding-right: 20px;
 }
 
 #_ideogramMiddleWrap {
     height: 550px;
+}
+
+#ideogram-body .Select {
+    display: inline-block;
+    width: 140px;
+    position: relative;
+    top: 10px;
+}
+
+#ideogram-body #chr-select-1 .Select, #ideogram-body #chr-select-2 .Select {
+    width: 65px !important;
+}
+#ideogram-body #chr-select-1 .Select {
+    margin-right: 5px;
+    margin-left: 0px;
+}
+
+#ideogram-body #chr-select-2 .Select {
+    margin-left: 5px;
+    margin-right: 0px;
+}
+#ideogram-body #chr-select-1, #ideogram-body #chr-select-2, #ideogram-body #organism-change {
+    display: inline-block;
+}
+
+input.ideogram-homology-inputs {
+    display: inline-block;
+    width: 140px;
+}
+
+#ideogram-body hr {
+    width: 100%;
 }

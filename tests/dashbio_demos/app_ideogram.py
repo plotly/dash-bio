@@ -33,7 +33,7 @@ def chromosome_div(
 ):
     return html.Div(
         [
-            html.P('%s Start-one' % name_tag),
+            html.Div(className='ideogram-controls-name', children='%s Start-one' % name_tag),
             dcc.Input(
                 id='%s-startone' % id_tag,
                 placeholder='%s StartOne',
@@ -41,7 +41,7 @@ def chromosome_div(
                 value=startone,
                 className='ideogram-homology-inputs',
             ),
-            html.P('%s Stop-one' % name_tag),
+            html.Div(className='ideogram-controls-name', children='%s Stop-one' % name_tag),
             dcc.Input(
                 id='%s-stopone' % id_tag,
                 placeholder='Enter chromoomes',
@@ -49,7 +49,7 @@ def chromosome_div(
                 value=stopone,
                 className='ideogram-homology-inputs',
             ),
-            html.P('%s Start-two' % name_tag),
+            html.Div(className='ideogram-controls-name', children='%s Start-two' % name_tag),
             dcc.Input(
                 id='%s-starttwo' % id_tag,
                 placeholder='%s Starttwo' % name_tag,
@@ -57,7 +57,7 @@ def chromosome_div(
                 value=starttwo,
                 className='ideogram-homology-inputs',
             ),
-            html.P('%s Stop-two' % name_tag),
+            html.Div(className='ideogram-controls-name', children='%s Stop-two' % name_tag),
             dcc.Input(
                 id='%s-stoptwo' % id_tag,
                 placeholder='Enter chromsomes',
@@ -71,7 +71,7 @@ def chromosome_div(
 
 options = {
     'custom': [
-        html.P('Organism'),
+        html.Div(className='ideogram-controls-name', children='Organism'),
         dcc.Dropdown(
             id='organism-change',
             options=[
@@ -162,7 +162,7 @@ options = {
             ],
             value=True,
         ),
-        html.P('Sex'),
+        html.Div(className='ideogram-controls-name', children='Sex'),
         dcc.Dropdown(
             id='sex-switch',
             options=[
@@ -178,7 +178,7 @@ options = {
             value='male',
         ),
 
-        html.P('Resolution (Human only)'),
+        html.Div(className='ideogram-controls-name', children='Resolution (Human only)'),
         dcc.Dropdown(
             id='resolution-select',
             options=[
@@ -197,7 +197,7 @@ options = {
             ],
             value=1,
         ),
-        html.P('Chr Margin'),
+        html.Div(className='ideogram-controls-name', children='Chr Margin'),
         dcc.Input(
             id='chr-margin-input',
             placeholder='Enter a value...',
@@ -205,7 +205,7 @@ options = {
             value=10,
             className='ideogram-column-content',
         ),
-        html.P('Chr Height'),
+        html.Div(className='ideogram-controls-name', children='Chr Height'),
         dcc.Input(
             id='chr-height-input',
             placeholder='Enter a value...',
@@ -213,7 +213,7 @@ options = {
             value=300,
             className='ideogram-column-content',
         ),
-        html.P('Chr Width'),
+        html.Div(className='ideogram-controls-name', children='Chr Width'),
         dcc.Input(
             id='chr-width-input',
             placeholder='Enter a value...',
@@ -222,7 +222,7 @@ options = {
             className='ideogram-column-content',
         ),
 
-        html.P('Full band switch'),
+        html.Div(className='ideogram-controls-name', children='Full band switch'),
         daq.BooleanSwitch(
             id='fullband-switch',
             on=True
@@ -230,13 +230,20 @@ options = {
     ],
 
     'homology': [
-        html.P('Select Two Chromosomes'),
-        dcc.Input(
-            id='chr-select',
-            placeholder='Ex: 1,2',
-            type='text',
-            value='',
+        html.Div(className='ideogram-controls-name', children='Chromosomes:'),
+        dcc.Dropdown(
+            id='chr-select-1',
+            options=[
+                {'label': str(i), 'value': str(i)}
+                for i in range(1, 22)] +
+            [{'label': 'X', 'value': 'X'},
+             {'label': 'Y', 'value': 'Y'}],
+            value='1',
             className='ideogram-homology-inputs',
+        ),
+        dcc.Dropdown(
+            id='chr-select-2',
+            value='2'
         ),
         chromosome_div(
             id_tag='chrone',
@@ -257,7 +264,7 @@ options = {
     ],
 
     'brush': [
-        html.P('Enter Chromosome Value'),
+        html.Div(className='ideogram-controls-name', children='Enter Chromosome Value'),
         dcc.Input(
             id='chr-brush',
             placeholder='Ex: (1 - 22 , X, Y)',
@@ -293,7 +300,7 @@ options = {
     ],
 
     'annotations': [
-        html.P('Select Annotation'),
+        html.Div(className='ideogram-controls-name', children='Select Annotation'),
         dcc.Dropdown(
             id='annotation-select',
             options=[
@@ -321,7 +328,7 @@ options = {
             value='#FF0000',
             className='ideogram-column-content',
         ),
-        html.P('Bar Width (Histogram)'),
+        html.Div(className='ideogram-controls-name', children='Bar Width (Histogram)'),
         dcc.Input(
             id='bar-input',
             placeholder='Annotation Height',
@@ -330,7 +337,7 @@ options = {
             min=1,
             className='ideogram-column-content',
         ),
-        html.P('Annotation Height'),
+        html.Div(className='ideogram-controls-name', children='Annotation Height'),
         dcc.Input(
             id='height-input',
             placeholder='Annotation Height',
@@ -338,7 +345,7 @@ options = {
             value='3',
             className='ideogram-column-content',
         ),
-        html.P('Orientation'),
+        html.Div(className='ideogram-controls-name', children='Orientation'),
         dcc.Dropdown(
             id='orientation-anote',
             options=[
@@ -353,7 +360,7 @@ options = {
             ],
             value='horizontal',
         ),
-        html.P('Hover Data (Overlay-1/2)'),
+        html.Div(className='ideogram-controls-name', children='Hover Data (Overlay-1/2)'),
         html.Div(
             children=[
                 html.Span(
@@ -425,7 +432,7 @@ def layout():
     return html.Div(id='ideogram-body', children=[
         html.Div(id='ideogram-container'),
         html.Div(id='ideogram-control-tabs', children=[
-            dcc.Tabs(id='ideogram-tabs', children=[
+            dcc.Tabs(id='ideogram-tabs', value='view', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -454,7 +461,7 @@ def layout():
                         dcc.Dropdown(
                             id='ideogram-feature-dropdown',
                             options=[
-                                {'label': 'Custom', 'value': 'custom'},
+                                {'label': 'Customizability', 'value': 'custom'},
                                 {'label': 'Homology', 'value': 'homology'},
                                 {'label': 'Brush', 'value': 'brush'},
                                 {'label': 'Annotations', 'value': 'annotations'}
@@ -557,8 +564,18 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return current
 
     @app.callback(
+        Output('chr-select-2', 'options'),
+        [Input('chr-select-1', 'value')],
+        state=[State('chr-select-1', 'options')]
+    )
+    def update_homology_options(chr_1, options):
+        return [option for option in options
+                if option['label'] != chr_1]
+
+    @app.callback(
         Output('ideo-homology-data', 'data'),
-        [Input('chr-select', 'value'),
+        [Input('chr-select-1', 'value'),
+         Input('chr-select-2', 'value'),
          Input('chrone-startone', 'value'),
          Input('chrone-stopone', 'value'),
          Input('chrone-starttwo', 'value'),
@@ -570,7 +587,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         state=[State('ideo-homology-data', 'data')]
     )
     def change_homology_ideogram(
-            chr_selected,
+            chr_selected_1,
+            chr_selected_2,
             start_one,
             stop_one,
             start_two,
@@ -584,7 +602,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if current is None:
             current = ideograms_initial['homology']
         current.update(
-            chromosomes=chr_selected.split(',') if ',' in chr_selected else ['X', 'Y'],
+            chromosomes=[chr_selected_1, chr_selected_2],
             homology={
                 'chrOne': {
                     'organism': '9606',
