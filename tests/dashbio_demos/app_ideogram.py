@@ -568,8 +568,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('chr-select-1', 'value')],
         state=[State('chr-select-1', 'options')]
     )
-    def update_homology_options(chr_1, options):
-        return [option for option in options
+    def update_homology_options(chr_1, all_chromosomes):
+        return [option for option in all_chromosomes
                 if option['label'] != chr_1]
 
     @app.callback(
