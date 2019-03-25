@@ -502,7 +502,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             selected_ideo
     ):
         ideograms = {
-            'Custom6': ideo_custom,
+            'custom': ideo_custom,
             'homology': ideo_homology,
             'brush': brush_ideo,
             'annotations': ideo_annotations
