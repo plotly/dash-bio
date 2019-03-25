@@ -129,8 +129,8 @@ def layout():
                         html.P('Needle Plot allows you to display mutations in '
                                'a genome. Due to its similarity to both a barplot '
                                'and a scatter plot, it can be used to plot '
-                               'datasets that have too many categories for a '
-                               'meaningful barplot.'),
+                               'datasets that have too many mutations for a '
+                               'barplot to be meaningful.'),
                         html.P('In the "Data" tab, you can choose from preloaded '
                                'datasets, as well as upload your own. You can '
                                'additionally search the UniProt database for '
@@ -182,6 +182,9 @@ def layout():
                                 )
                             ]
                         ),
+
+                        html.Hr(),
+
                         html.Div(
                             id='needle-%s-div' % DEMO_KEY,
                             className='needle-config-data',
@@ -204,7 +207,7 @@ def layout():
                             ]
                         ),
 
-                        html.Hr(),
+                        
                         html.Div(
                             id='needle-protein-domains-select-div',
                             className='needle-config-data',
@@ -553,19 +556,20 @@ def layout():
                 )
             ])
         ]),
-
+        
         dcc.Store(id='needle-store'),
     ])
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
-
+    
     @app.callback(
         Output('needle-%s-div' % DATABASE_KEY, 'style'),
         [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % DATABASE_KEY, 'style')]
     )
     def toggle_db(load_choice, div_style):
+        
         """updates what the user can use to load data to the graph"""
         if div_style is None:
             div_style = {'display': 'none'}
@@ -586,12 +590,10 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         """updates what the user can use to load data to the graph"""
         if div_style is None:
             div_style = {'display': 'none'}
-
         if load_choice == DEMO_KEY:
-            div_style['display'] = 'inherit'
+            div_style['display'] = 'table-row'
         else:
             div_style['display'] = 'none'
-
         return div_style
 
     @app.callback(
