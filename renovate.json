@@ -14,6 +14,9 @@
       "packagePatterns": [
         "*"
       ],
+      "excludePackagePatterns": [
+        "react-*"
+      ],
       "groupName": "all dependencies",
       "groupSlug": "all"
     }
@@ -21,9 +24,6 @@
   "lockFileMaintenance": {
     "enabled": false
   },
-    "packageRules": [{
-      "excludePackagePatterns": ["react-*"]
-  }],
   "ignoreDeps": [
     "ideogram",
     "react"
