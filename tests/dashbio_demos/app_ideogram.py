@@ -71,8 +71,10 @@ def chromosome_div(
 
 options = {
     'custom': [
-        html.Div(className='ideogram-controls-name', children='Organism'),
+        html.H4('Organism'),
+        html.Div(className='ideogram-controls-name', children='Species'),
         dcc.Dropdown(
+            className='ideogram-dropdown',
             id='organism-change',
             options=[
                 {
@@ -98,9 +100,63 @@ options = {
             ],
             value='human',
         ),
-        html.P(
-            'Orientation'),
+        html.Div(className='ideogram-controls-name', children='Sex'),
+        daq.ToggleSwitch(
+            id='sex-switch',
+            color='#230047',
+            label=['m', 'f'],
+            size=35,
+            labelPosition='bottom',
+            value=True
+        ),
+        html.Div(id='ideogram-resolution-option', children=[
+            html.Div(className='ideogram-controls-name', children='Resolution'),
+            dcc.Dropdown(
+                className='ideogram-dropdown',
+                id='resolution-select',
+                options=[
+                    {
+                        'label': '550 bphs',
+                        'value': 550,
+                    },
+                    {
+                        'label': '650 bphs',
+                        'value': 850,
+                    },
+                    {
+                        'label': 'Off',
+                        'value': 1,
+                    },
+                ],
+                value=1,
+            )
+        ]),
+
+        html.Hr(),
+        html.H4('Labels'),
+        html.Div(className='ideogram-controls-name', children='Band'),
+        daq.ToggleSwitch(
+            id='bandlabel-switch',
+            color='#230047',
+            label=['off', 'on'],
+            size=35,
+            labelPosition='bottom',
+            value=True
+        ),
+        html.Div(className='ideogram-controls-name', children='Chromosome'),
+        daq.ToggleSwitch(
+            id='chromlabel-switch',
+            color='#230047',
+            label=['off', 'on'],
+            size=35,
+            labelPosition='bottom',
+            value=True
+        ),
+        html.Hr(),
+        html.H4('Chromosome display'),
+        html.Div(className='ideogram-controls-name', children='Orientation'),
         dcc.Dropdown(
+            className='ideogram-dropdown',
             id='orientation-switch',
             options=[
                 {
@@ -114,134 +170,60 @@ options = {
             ],
             value='horizontal',
         ),
-        html.P(
-            'Bandlabel'),
-        dcc.Dropdown(
-            id='bandlabel-switch',
-            options=[
-                {
-                    'label': 'Label On',
-                    'value': True,
-                },
-                {
-                    'label': 'Label Off',
-                    'value': False,
-                },
-            ],
-            value=True,
-        ),
-        html.P(
-            'Chromosome label'),
-        dcc.Dropdown(
-            id='chromlabel-switch',
-            options=[
-                {
-                    'label': 'Label On',
-                    'value': True,
-                },
-                {
-                    'label': 'Label Off',
-                    'value': False,
-                },
-            ],
-            value=True,
-        ),
-        html.P(
-            'Rotatable'),
-        dcc.Dropdown(
+        html.Div(className='ideogram-controls-name', children='Rotatable'),
+        daq.ToggleSwitch(
             id='rotatable-switch',
-            options=[
-                {
-                    'label': 'Rotate Enable',
-                    'value': True,
-                },
-                {
-                    'label': 'Rotate Disable',
-                    'value': False,
-                },
-            ],
-            value=True,
+            color='#230047',
+            label=['off', 'on'],
+            size=35,
+            labelPosition='bottom',
+            value=True
         ),
-        html.Div(className='ideogram-controls-name', children='Sex'),
-        dcc.Dropdown(
-            id='sex-switch',
-            options=[
-                {
-                    'label': 'Male',
-                    'value': 'male',
-                },
-                {
-                    'label': 'Female',
-                    'value': 'female',
-                },
-            ],
-            value='male',
-        ),
-
-        html.Div(className='ideogram-controls-name', children='Resolution (Human only)'),
-        dcc.Dropdown(
-            id='resolution-select',
-            options=[
-                {
-                    'label': '550 bphs',
-                    'value': 550,
-                },
-                {
-                    'label': '650 bphs',
-                    'value': 850,
-                },
-                {
-                    'label': 'Off',
-                    'value': 1,
-                },
-            ],
-            value=1,
-        ),
-        html.Div(className='ideogram-controls-name', children='Chr Margin'),
-        dcc.Input(
+        html.Div(className='ideogram-controls-name', children='Margin'),
+        dcc.Slider(
             id='chr-margin-input',
-            placeholder='Enter a value...',
-            type='number',
-            value=10,
-            className='ideogram-column-content',
+            className='ideogram-slider',
+            value=10
         ),
-        html.Div(className='ideogram-controls-name', children='Chr Height'),
-        dcc.Input(
+        html.Div(className='ideogram-controls-name', children='Height'),
+        dcc.Slider(
             id='chr-height-input',
-            placeholder='Enter a value...',
-            type='number',
-            value=300,
-            className='ideogram-column-content',
+            className='ideogram-slider',
+            min=100, max=700,
+            value=300
         ),
-        html.Div(className='ideogram-controls-name', children='Chr Width'),
-        dcc.Input(
+        html.Div(className='ideogram-controls-name', children='Width'),
+        dcc.Slider(
             id='chr-width-input',
-            placeholder='Enter a value...',
-            type='number',
-            value=8,
-            className='ideogram-column-content',
+            className='ideogram-slider',
+            min=5, max=30,
+            value=8
         ),
-
-        html.Div(className='ideogram-controls-name', children='Full band switch'),
-        daq.BooleanSwitch(
+        html.Div(className='ideogram-controls-name', children='Fully banded'),
+        daq.ToggleSwitch(
             id='fullband-switch',
-            on=True
+            color='#230047',
+            label=['off', 'on'],
+            size=35,
+            labelPosition='bottom',
+            value=True
         )
     ],
 
     'homology': [
         html.Div(className='ideogram-controls-name', children='Chromosomes:'),
         dcc.Dropdown(
+            className='ideogram-dropdown',
             id='chr-select-1',
             options=[
                 {'label': str(i), 'value': str(i)}
                 for i in range(1, 22)] +
             [{'label': 'X', 'value': 'X'},
              {'label': 'Y', 'value': 'Y'}],
-            value='1',
-            className='ideogram-homology-inputs',
+            value='1'
         ),
         dcc.Dropdown(
+            className='ideogram-dropdown',
             id='chr-select-2',
             value='2'
         ),
@@ -302,6 +284,7 @@ options = {
     'annotations': [
         html.Div(className='ideogram-controls-name', children='Select Annotation'),
         dcc.Dropdown(
+            className='ideogram-dropdown',
             id='annotation-select',
             options=[
                 {
@@ -347,6 +330,7 @@ options = {
         ),
         html.Div(className='ideogram-controls-name', children='Orientation'),
         dcc.Dropdown(
+            className='ideogram-dropdown',
             id='orientation-anote',
             options=[
                 {
@@ -459,6 +443,7 @@ def layout():
                             children='View feature:'
                         ),
                         dcc.Dropdown(
+                            className='ideogram-dropdown',
                             id='ideogram-feature-dropdown',
                             options=[
                                 {'label': 'Customizability', 'value': 'custom'},
@@ -517,6 +502,13 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return dash_bio.Ideogram(**ideograms[selected_ideo])
 
+    @app.callback(
+        Output('ideogram-resolution-option', 'style'),
+        [Input('organism-change', 'value')]
+    )
+    def show_hide_resolution(organism):
+        return {'display': 'none' if organism != 'human' else 'block'}
+
     # Custom callbacks
     @app.callback(
         Output('ideo-custom-data', 'data'),
@@ -530,7 +522,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
          Input('rotatable-switch', 'value'),
          Input('resolution-select', 'value'),
          Input('sex-switch', 'value'),
-         Input('fullband-switch', 'on')],
+         Input('fullband-switch', 'value')],
         state=[State('ideo-custom-data', 'data')]
     )
     def change_custom_ideogram(
@@ -558,7 +550,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             chrMargin=chr_margin,
             rotatable=rotatable_value,
             resolution=resolution_value if resolution_value != 1 else None,
-            sex=sex_value,
+            sex='female' if sex_value else 'male',
             showFullyBanded=show_banded
         )
         return current
