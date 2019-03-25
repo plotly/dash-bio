@@ -470,10 +470,10 @@ def layout():
                 )
             ])
         ]),
-        dcc.Store(id='ideo-custom-data'),
-        dcc.Store(id='ideo-homology-data'),
-        dcc.Store(id='brush-ideo-data'),
-        dcc.Store(id='ideo-annotations-data')
+        dcc.Store(id='ideo-custom-data', data=ideograms_initial['custom']),
+        dcc.Store(id='ideo-homology-data', data=ideograms_initial['homology']),
+        dcc.Store(id='brush-ideo-data', data=ideograms_initial['brush']),
+        dcc.Store(id='ideo-annotations-data', data=ideograms_initial['annotations'])
     ])
 
 
