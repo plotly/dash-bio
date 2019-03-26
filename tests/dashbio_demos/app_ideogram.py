@@ -246,7 +246,8 @@ options = {
     ],
 
     'brush': [
-        html.Div(className='ideogram-controls-name', id='brush-control-name', children='Selected chromosome'),
+        html.Div(className='ideogram-controls-name', id='brush-control-name',
+                 children='Selected chromosome'),
         dcc.Dropdown(
             className='ideogram-dropdown',
             id='chr-brush',
