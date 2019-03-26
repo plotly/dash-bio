@@ -52,6 +52,782 @@ parsed_track_two = cp.txt_to_track(
 )
 
 
+def get_circos_graph(
+        key,
+        size,
+        data=[None, None, None]
+):
+    circos_graphs = {
+        'upload-custom-dataset': dash_bio.Circos(
+                    id="main-circos",
+                    selectEvent={"0": "both", "1": "both"},
+                    layout=data[0],
+                    config={
+                        "innerRadius": size / 2 - 80,
+                        "outerRadius": size / 2 - 40,
+                        "ticks": {"display": False, "labelDenominator": 1000000},
+                        "labels": {
+                            "position": "center",
+                            "display": False,
+                            "size": 12,
+                            "color": "#fff",
+                            "radialOffset": 70,
+                        },
+                    },
+                    tracks=[
+                        {
+                            "type": "HIGHLIGHT",
+                            "data": data[1],
+                            "config": {
+                                "innerRadius": size / 2 - 80,
+                                "outerRadius": size / 2 - 40,
+                                "opacity": 0.3,
+                                "tooltipContent": {"name": "all"},
+                                "color": {"name": "color"},
+                            },
+                        },
+                        {
+                            "type": "HIGHLIGHT",
+                            "data": data[2],
+                            "config": {
+                                "innerRadius": size / 2 - 80,
+                                "outerRadius": size / 2 - 40,
+                                "opacity": 0.3,
+                                "tooltipContent": {"name": "all"},
+                                "color": {"name": "color"},
+                            },
+                        },
+                    ],
+                    size=800,
+                ),
+
+        'select-dataset-parser': dash_bio.Circos(
+                id="main-circos",
+                selectEvent={"0": "hover", "1": "click"},
+                layout=parsed_layout,
+                config={
+                    "innerRadius": size / 2 - 80,
+                    "outerRadius": size / 2 - 40,
+                    "ticks": {"display": False, "labelDenominator": 1000000},
+                    "labels": {
+                        "position": "center",
+                        "display": False,
+                        "size": 8,
+                        "color": "#fff",
+                        "radialOffset": 90,
+                    },
+                },
+                tracks=[
+                    {
+                        "type": "HIGHLIGHT",
+                        "data": parsed_track_one,
+                        "config": {
+                            "innerRadius": size / 2 - 80,
+                            "outerRadius": size / 2 - 40,
+                            "opacity": 0.3,
+                            "tooltipContent": {"name": "block_id"},
+                            "color": {"name": "color"},
+                        },
+                    },
+                    {
+                        "type": "HIGHLIGHT",
+                        "data": parsed_track_two,
+                        "config": {
+                            "innerRadius": size / 2 - 80,
+                            "outerRadius": size / 2 - 40,
+                            "opacity": 0.3,
+                            "tooltipContent": {"name": "block_id"},
+                            "color": {"name": "color"},
+                        },
+                    },
+                ],
+                size=800,
+            ),
+
+        'select-dataset-heatmap': dash_bio.Circos(
+                id="main-circos",
+                selectEvent={"0": "hover", "1": "hover"},
+                layout=circos_graph_data["month_layout"],
+                config={
+                    "innerRadius": (size / 2 - 80),
+                    "outerRadius": (size / 2 - 30),
+                    "ticks": {"display": False},
+                    "labels": {
+                        "position": "center",
+                        "display": True,
+                        "size": 14,
+                        "color": "#fff",
+                        "radialOffset": 15,
+                    },
+                },
+                tracks=[
+                    {
+                        "type": "HEATMAP",
+                        "data": circos_graph_data["heatmap"],
+                        "config": {
+                            "innerRadius": 0.8,
+                            "outerRadius": 0.98,
+                            "logScale": False,
+                            "color": "YlOrRd",
+                            "tooltipContent": {"name": "value"},
+                        },
+                    },
+                    {
+                        "type": "HEATMAP",
+                        "data": circos_graph_data["heatmap"],
+                        "config": {
+                            "innerRadius": 0.7,
+                            "outerRadius": 0.79,
+                            "logScale": False,
+                            "color": "Blues",
+                            "tooltipContent": {"name": "value"},
+                        },
+                    },
+                ],
+                size=800
+            ),
+
+        'select-dataset-chords': dash_bio.Circos(
+                id="main-circos",
+                selectEvent={"0": "both", "1": "both"},
+                layout=circos_graph_data["GRCh37"],
+                config={
+                    "innerRadius": size / 2 - 80,
+                    "outerRadius": size / 2 - 40,
+                    "ticks": {"display": False, "labelDenominator": 1000000},
+                    "labels": {
+                        "position": "center",
+                        "display": True,
+                        "size": 11,
+                        "color": "#fff",
+                        "radialOffset": 75,
+                    },
+                },
+                tracks=[
+                    {
+                        "type": "HIGHLIGHT",
+                        "data": circos_graph_data["cytobands"],
+                        "config": {
+                            "innerRadius": size / 2 - 80,
+                            "outerRadius": size / 2 - 40,
+                            "opacity": 0.3,
+                            "tooltipContent": {"name": "all"},
+                            "color": {"name": "color"},
+                        },
+                    },
+                    {
+                        "type": "CHORDS",
+                        "data": circos_graph_data["chords"],
+                        "config": {
+                            "logScale": False,
+                            "opacity": 0.7,
+                            "color": {"name": "color"},
+                            "tooltipContent": {
+                                "source": "source",
+                                "sourceID": "id",
+                                "target": "target",
+                                "targetID": "id",
+                                "targetEnd": "end",
+                            },
+                        },
+                    },
+                ],
+                size=800,
+            ),
+
+        'select-dataset-highlight': dash_bio.Circos(
+                id="main-circos",
+                selectEvent={"0": "hover"},
+                layout=circos_graph_data["GRCh37"],
+                config={
+                    "innerRadius": size / 2 - 100,
+                    "outerRadius": size / 2 - 50,
+                    "ticks": {"display": False},
+                    "labels": {"display": False},
+                },
+                tracks=[
+                    {
+                        "type": "HIGHLIGHT",
+                        "data": circos_graph_data["cytobands"],
+                        "config": {
+                            "innerRadius": size / 2 - 100,
+                            "outerRadius": size / 2 - 50,
+                            "opacity": 0.5,
+                            "tooltipContent": {"name": "name"},
+                            "color": {"name": "color"},
+                        },
+                    }
+                ],
+                size=800,
+            ),
+
+        'select-dataset-histogram': dash_bio.Circos(
+                id="main-circos",
+                layout=circos_graph_data["GRCh37"],
+                selectEvent={"0": "hover", "1": "hover"},
+                config={
+                    "innerRadius": size / 2 - 150,
+                    "outerRadius": size / 2 - 120,
+                    "ticks": {"display": False, "labelDenominator": 1000000},
+                    "labels": {"display": False},
+                },
+                tracks=[
+                    {
+                        "type": "HIGHLIGHT",
+                        "data": circos_graph_data["cytobands"],
+                        "config": {
+                            "innerRadius": size / 2 - 150,
+                            "outerRadius": size / 2 - 120,
+                            "opacity": 0.6,
+                            "tooltipContent": {"name": "name"},
+                            "color": {"name": "color"},
+                        },
+                    },
+                    {
+                        "type": "HISTOGRAM",
+                        "data": circos_graph_data["histogram"],
+                        "config": {
+                            "innerRadius": 1.01,
+                            "outerRadius": 1.4,
+                            "color": "OrRd",
+                            "tooltipContent": {"name": "value"},
+                        },
+                    },
+                ],
+                size=800,
+            ),
+
+        'select-dataset-line': dash_bio.Circos(
+                id="main-circos",
+                selectEvent={
+                    "0": "both",
+                    "1": "both",
+                    "2": "both",
+                    "3": "both",
+                    "4": "both",
+                    "5": "both",
+                    "6": "both",
+                    "7": "both",
+                },
+                layout=list(
+                    filter(
+                        lambda d: d["id"] in ["chr1", "chr2", "chr3"],
+                        circos_graph_data["GRCh37"],
+                    )
+                ),
+                config={
+                    "innerRadius": size / 2 - 150,
+                    "outerRadius": size / 2 - 130,
+                    "ticks": {"display": False, "spacing": 1000000, "labelSuffix": ""},
+                    "labels": {
+                        "position": "center",
+                        "display": False,
+                        "size": 14,
+                        "color": "#fff",
+                        "radialOffset": 30,
+                    },
+                },
+                tracks=[
+                    {
+                        "type": "HIGHLIGHT",
+                        "data": list(
+                            filter(
+                                lambda d: d["block_id"] in [
+                                    "chr1", "chr2", "chr3"],
+                                circos_graph_data["cytobands"],
+                            )
+                        ),
+                        "config": {
+                            "innerRadius": size / 2 - 150,
+                            "outerRadius": size / 2 - 130,
+                            "opacity": 0.3,
+                            "tooltipContent": {"name": "name"},
+                            "color": {"name": "color"},
+                        },
+                    },
+                    {
+                        "type": "LINE",
+                        "data": circos_graph_data["snp250"],
+                        "config": {
+                            "innerRadius": 0.5,
+                            "outerRadius": 0.8,
+                            "color": "#222222",
+                            "tooltipContent": {
+                                "source": "block_id",
+                                "target": "position",
+                                "targetEnd": "value",
+                            },
+                            "axes": [
+                                {
+                                    "spacing": 0.001,
+                                    "thickness": 1,
+                                    "color": "#666666"
+                                }
+                            ],
+                            "backgrounds": [
+                                {
+                                    "start": 0,
+                                    "end": 0.002,
+                                    "color": "#f44336",
+                                    "opacity": 0.5,
+                                },
+                                {
+                                    "start": 0.006,
+                                    "end": 0.015,
+                                    "color": "#4caf50",
+                                    "opacity": 0.5,
+                                },
+                            ],
+                            "maxGap": 1000000,
+                            "min": 0,
+                            "max": 0.015,
+                        },
+                    },
+                    {
+                        "type": "SCATTER",
+                        "data": circos_graph_data["snp250"],
+                        "config": {
+                            "innerRadius": 0.5,
+                            "outerRadius": 0.8,
+                            "min": 0,
+                            "max": 0.015,
+                            "fill": False,
+                            "strokeWidth": 0,
+                            "tooltipContent": {
+                                "source": "block_id",
+                                "target": "position",
+                                "targetEnd": "value",
+                            },
+                        },
+                    },
+                    {
+                        "type": "LINE",
+                        "data": circos_graph_data["snp"],
+                        "config": {
+                            "innerRadius": 1.01,
+                            "outerRadius": 1.15,
+                            "maxGap": 1000000,
+                            "min": 0,
+                            "max": 0.015,
+                            "color": "#222222",
+                            "tooltipContent": {"name": "value"},
+                            "axes": [
+                                {"position": 0.002, "color": "#f44336"},
+                                {"position": 0.006, "color": "#4caf50"},
+                            ],
+                        },
+                    },
+                    {
+                        "type": "LINE",
+                        "data": circos_graph_data["snp1m"],
+                        "config": {
+                            "innerRadius": 1.01,
+                            "outerRadius": 1.15,
+                            "maxGap": 1000000,
+                            "min": 0,
+                            "max": 0.015,
+                            "color": "#f44336",
+                            "tooltipContent": {"name": "value"},
+                        },
+                    },
+                    {
+                        "type": "LINE",
+                        "data": circos_graph_data["snp"],
+                        "config": {
+                            "innerRadius": 0.85,
+                            "outerRadius": 0.95,
+                            "maxGap": 1000000,
+                            "direction": "in",
+                            "min": 0,
+                            "max": 0.015,
+                            "color": "#222222",
+                            "axes": [
+                                {"position": 0.01, "color": "#4caf50"},
+                                {"position": 0.008, "color": "#4caf50"},
+                                {"position": 0.006, "color": "#4caf50"},
+                                {"position": 0.002, "color": "#f44336"},
+                            ],
+                        },
+                    },
+                    {
+                        "type": "LINE",
+                        "data": circos_graph_data["snp1m"],
+                        "config": {
+                            "innerRadius": 0.85,
+                            "outerRadius": 0.95,
+                            "maxGap": 1000000,
+                            "direction": "in",
+                            "min": 0,
+                            "max": 0.015,
+                            "color": "#f44336",
+                            "tooltipContent": {"name": "value"},
+                        },
+                    },
+                ],
+                size=800,
+            ),
+
+        'select-dataset-scatter': dash_bio.Circos(
+                id="main-circos",
+                selectEvent={
+                    "0": "hover",
+                    "1": "both",
+                    "3": "both",
+                    "4": "both",
+                    "5": "both",
+                },
+                layout=list(
+                    filter(
+                        lambda d: d["id"] in ["chr1", "chr2", "chr3"],
+                        circos_graph_data["GRCh37"],
+                    )
+                ),
+                config={
+                    "innerRadius": size / 2 - 150,
+                    "outerRadius": size / 2 - 130,
+                    "ticks": {"display": False, "spacing": 1000000, "labelSuffix": ""},
+                    "labels": {"display": False},
+                },
+                tracks=[
+                    {
+                        "type": "HIGHLIGHT",
+                        "data": list(
+                            filter(
+                                lambda d: d["block_id"] in [
+                                    "chr1", "chr2", "chr3"],
+                                circos_graph_data["cytobands"],
+                            )
+                        ),
+                        "config": {
+                            "innerRadius": size / 2 - 150,
+                            "outerRadius": size / 2 - 130,
+                            "opacity": 0.8,
+                            "tooltipContent": {"name": "name"},
+                            "color": {"name": "color"},
+                        },
+                    },
+                    {
+                        "type": "SCATTER",
+                        "data": list(
+                            filter(
+                                lambda d: float(d["value"]) > 0.007,
+                                circos_graph_data["snp250"],
+                            )
+                        ),
+                        "config": {
+                            "innerRadius": 0.65,
+                            "outerRadius": 0.95,
+                            "color": {"colorData": "name"},
+                            "tooltipContent": {
+                                "source": "block_id",
+                                "target": "position",
+                                "targetEnd": "value",
+                            },
+                            "strokeColor": "grey",
+                            "strokeWidth": 1,
+                            "shape": "circle",
+                            "size": 14,
+                            "min": 0,
+                            "max": 0.013,
+                            "axes": [
+                                {
+                                    "spacing": 0.001,
+                                    "start": 0.006,
+                                    "thickness": 1,
+                                    "color": "#4caf50",
+                                    "opacity": 0.3,
+                                },
+                                {
+                                    "spacing": 0.002,
+                                    "start": 0.006,
+                                    "thickness": 1,
+                                    "color": "#4caf50",
+                                    "opacity": 0.5,
+                                },
+                                {
+                                    "spacing": 0.002,
+                                    "start": 0.002,
+                                    "end": 0.006,
+                                    "thickness": 1,
+                                    "color": "#666",
+                                    "opacity": 0.5,
+                                },
+                                {
+                                    "spacing": 0.001,
+                                    "end": 0.002,
+                                    "thickness": 1,
+                                    "color": "#f44336",
+                                    "opacity": 0.5,
+                                },
+                            ],
+                            "backgrounds": [
+                                {"start": 0.006, "color": "#4caf50", "opacity": 0.1},
+                                {
+                                    "start": 0.002,
+                                    "end": 0.006,
+                                    "color": "#d3d3d3",
+                                    "opacity": 0.1,
+                                },
+                                {"end": 0.002, "color": "#f44336", "opacity": 0.1},
+                            ],
+                        },
+                    },
+                    {
+                        "type": "SCATTER",
+                        "data": circos_graph_data["snp250"],
+                        "config": {
+                            "tooltipContent": {
+                                "source": "block_id",
+                                "target": "position",
+                                "targetEnd": "value",
+                            },
+                            "color": "#4caf50",
+                            "strokeColor": "green",
+                            "strokeWidth": 1,
+                            "shape": "rectangle",
+                            "size": 10,
+                            "min": 0.007,
+                            "max": 0.013,
+                            "innerRadius": 1.075,
+                            "outerRadius": 1.175,
+                            "axes": [
+                                {
+                                    "spacing": 0.001,
+                                    "thickness": 1,
+                                    "color": "#4caf50",
+                                    "opacity": 0.3,
+                                },
+                                {
+                                    "spacing": 0.002,
+                                    "thickness": 1,
+                                    "color": "#4caf50",
+                                    "opacity": 0.5,
+                                },
+                            ],
+                            "backgrounds": [
+                                {"start": 0.007, "color": "#4caf50", "opacity": 0.1},
+                                {"start": 0.009, "color": "#4caf50", "opacity": 0.1},
+                                {"start": 0.011, "color": "#4caf50", "opacity": 0.1},
+                                {"start": 0.013, "color": "#4caf50", "opacity": 0.1},
+                            ],
+                        },
+                    },
+                    {
+                        "type": "SCATTER",
+                        "data": list(
+                            filter(
+                                lambda d: float(d["value"]) < 0.002,
+                                circos_graph_data["snp250"],
+                            )
+                        ),
+                        "config": {
+                            "tooltipContent": {
+                                "source": "block_id",
+                                "target": "position",
+                                "targetEnd": "value",
+                            },
+                            "color": "#f44336",
+                            "strokeColor": "red",
+                            "strokeWidth": 1,
+                            "shape": "triangle",
+                            "size": 10,
+                            "min": 0,
+                            "max": 0.002,
+                            "innerRadius": 0.35,
+                            "outerRadius": 0.60,
+                            "axes": [
+                                {
+                                    "spacing": 0.0001,
+                                    "thickness": 1,
+                                    "color": "#f44336",
+                                    "opacity": 0.3,
+                                },
+                                {
+                                    "spacing": 0.0005,
+                                    "thickness": 1,
+                                    "color": "#f44336",
+                                    "opacity": 0.5,
+                                },
+                            ],
+                            "backgrounds": [
+                                {"end": 0.0004, "color": "#f44336", "opacity": 0.1},
+                                {"end": 0.0008, "color": "#f44336", "opacity": 0.1},
+                                {"end": 0.0012, "color": "#f44336", "opacity": 0.1},
+                                {"end": 0.0016, "color": "#f44336", "opacity": 0.1},
+                                {"end": 0.002, "color": "#f44336", "opacity": 0.1},
+                            ],
+                        },
+                    },
+                    {
+                        "type": "SCATTER",
+                        "data": circos_graph_data["snp250"],
+                        "config": {
+                            "tooltipContent": {
+                                "source": "block_id",
+                                "target": "position",
+                                "targetEnd": "value",
+                            },
+                            "innerRadius": 0.65,
+                            "outerRadius": 0.95,
+                            "strokeColor": "grey",
+                            "strokeWidth": 1,
+                            "shape": "circle",
+                            "size": 14,
+                            "min": 0,
+                            "max": 0.013,
+                            "axes": [
+                                {
+                                    "spacing": 0.001,
+                                    "start": 0.006,
+                                    "thickness": 1,
+                                    "color": "#4caf50",
+                                    "opacity": 0.3,
+                                },
+                                {
+                                    "spacing": 0.002,
+                                    "start": 0.006,
+                                    "thickness": 1,
+                                    "color": "#4caf50",
+                                    "opacity": 0.5,
+                                },
+                                {
+                                    "spacing": 0.002,
+                                    "start": 0.002,
+                                    "end": 0.006,
+                                    "thickness": 1,
+                                    "color": "#666",
+                                    "opacity": 0.5,
+                                },
+                                {
+                                    "spacing": 0.001,
+                                    "end": "0.002",
+                                    "thickness": 1,
+                                    "color": "#f44336",
+                                    "opacity": 0.5,
+                                },
+                            ],
+                            "backgrounds": [
+                                {"start": 0.006, "color": "#4caf50", "opacity": 0.1},
+                                {
+                                    "start": 0.002,
+                                    "end": 0.006,
+                                    "color": "#d3d3d3",
+                                    "opacity": 0.1,
+                                },
+                                {"end": 0.002, "color": "#f44336", "opacity": 0.1},
+                            ],
+                        },
+                    },
+                ],
+                size=800,
+            ),
+
+        'select-dataset-stack': dash_bio.Circos(
+                id="main-circos",
+                selectEvent={"0": "hover"},
+                layout=[
+                    {
+                        "id": "chr9",
+                        "len": 8000000,
+                        "label": "chr9",
+                        "color": "#FFCC00"
+                    }
+                ],
+                config={
+                    "innerRadius": size / 2 - 50,
+                    "outerRadius": size / 2 - 30,
+                    "ticks": {"display": False, "labels": False, "spacing": 10000},
+                    "labels": {"display": False, "labels": False, "spacing": 10000},
+                },
+                tracks=[
+                    {
+                        "type": "STACK",
+                        "data": circos_graph_data["stack"],
+                        "config": {
+                            "innerRadius": 0.7,
+                            "outerRadius": 1,
+                            "thickness": 4,
+                            "margin": 0.01 * 8000000,
+                            "direction": "out",
+                            "strokeWidth": 0,
+                            "opacity": 0.5,
+                            "tooltipContent": {"name": "chr"},
+                            "color": {
+                                "conditional": {
+                                    "end": "end",
+                                    "start": "start",
+                                    "value": [150000, 120000, 90000, 60000, 30000],
+                                    "color": [
+                                        "red",
+                                        "black",
+                                        "#fff",
+                                        "#999",
+                                        "#BBB",
+                                    ],
+                                }
+                            },
+                        },
+                    }
+                ],
+                size=800,
+            ),
+
+        'select-dataset-text': dash_bio.Circos(
+                id="main-circos",
+                selectEvent={"0": "hover", "1": "both"},
+                layout=[circos_graph_data["GRCh37"][0]],
+                config={
+                    "innerRadius": size / 2 - 100,
+                    "outerRadius": size / 2 - 80,
+                    "labels": {"display": False},
+                    "ticks": {"display": False},
+                },
+                tracks=[
+                    {
+                        "type": "HIGHLIGHT",
+                        "data": list(
+                            filter(
+                                lambda d: d["block_id"] == circos_graph_data["GRCh37"][0]["id"],
+                                circos_graph_data["cytobands"],
+                            )
+                        ),
+                        "config": {
+                            "innerRadius": size / 2 - 100,
+                            "outerRadius": size / 2 - 80,
+                            "opacity": 0.7,
+                            "tooltipContent": {"name": "name"},
+                            "color": {"name": "color"},
+                        },
+                    },
+                    {
+                        "type": "TEXT",
+                        "data": list(
+                            map(
+                                lambda d: {
+                                    "position": (d["start"] + d["end"]) / 2,
+                                    "value": d["name"],
+                                    "block_id": d["block_id"],
+                                },
+                                filter(
+                                    lambda d: d["block_id"] ==
+                                    circos_graph_data["GRCh37"][0]["id"],
+                                    circos_graph_data["cytobands"],
+                                ),
+                            )
+                        ),
+                        "config": {
+                            "innerRadius": 1.02,
+                            "outerRadius": 1.3,
+                            "style": {"font-size": 12},
+                        },
+                    },
+                ],
+                size=800,
+            )
+    }
+
+    return circos_graphs[key]
+
 # Description for gallery
 def description():
     return "Vizualize and analyze similarities and differences between " \
@@ -524,12 +1300,6 @@ def layout():
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
-    # Init all callbacks on start of application
-    @app.callback(Output("init", "interval"), [Input("init", "n_intervals")])
-    def init_callbacks_on_start(init_interval):
-        if init_interval >= 1:
-            return 10000000000000
-        return 1000
 
     # Store Previous Tab
     @app.callback(
@@ -653,135 +1423,22 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if tabs in ("circos-tab-custom", "circos-tab-dataset")\
                 and upload_data is not None:
             array = json.loads(upload_data)
-            answer = dash_bio.Circos(
-                id="main-circos",
-                selectEvent={"0": "both", "1": "both"},
-                layout=array[0],
-                config={
-                    "innerRadius": size_custom / 2 - 80,
-                    "outerRadius": size_custom / 2 - 40,
-                    "ticks": {"display": False, "labelDenominator": 1000000},
-                    "labels": {
-                        "position": "center",
-                        "display": False,
-                        "size": 12,
-                        "color": "#fff",
-                        "radialOffset": 70,
-                    },
-                },
-                tracks=[
-                    {
-                        "type": "HIGHLIGHT",
-                        "data": array[1],
-                        "config": {
-                            "innerRadius": size_custom / 2 - 80,
-                            "outerRadius": size_custom / 2 - 40,
-                            "opacity": 0.3,
-                            "tooltipContent": {"name": "all"},
-                            "color": {"name": "color"},
-                        },
-                    },
-                    {
-                        "type": "HIGHLIGHT",
-                        "data": array[2],
-                        "config": {
-                            "innerRadius": size_custom / 2 - 80,
-                            "outerRadius": size_custom / 2 - 40,
-                            "opacity": 0.3,
-                            "tooltipContent": {"name": "all"},
-                            "color": {"name": "color"},
-                        },
-                    },
-                ],
-                size=800,
+            answer = get_circos_graph(
+                'upload-custom-dataset',
+                size_custom,
+                array
             )
         elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "parser_data":
-            answer = dash_bio.Circos(
-                id="main-circos",
-                selectEvent={"0": "hover", "1": "click"},
-                layout=parsed_layout,
-                config={
-                    "innerRadius": size / 2 - 80,
-                    "outerRadius": size / 2 - 40,
-                    "ticks": {"display": False, "labelDenominator": 1000000},
-                    "labels": {
-                        "position": "center",
-                        "display": False,
-                        "size": 8,
-                        "color": "#fff",
-                        "radialOffset": 90,
-                    },
-                },
-                tracks=[
-                    {
-                        "type": "HIGHLIGHT",
-                        "data": parsed_track_one,
-                        "config": {
-                            "innerRadius": size / 2 - 80,
-                            "outerRadius": size / 2 - 40,
-                            "opacity": 0.3,
-                            "tooltipContent": {"name": "block_id"},
-                            "color": {"name": "color"},
-                        },
-                    },
-                    {
-                        "type": "HIGHLIGHT",
-                        "data": parsed_track_two,
-                        "config": {
-                            "innerRadius": size / 2 - 80,
-                            "outerRadius": size / 2 - 40,
-                            "opacity": 0.3,
-                            "tooltipContent": {"name": "block_id"},
-                            "color": {"name": "color"},
-                        },
-                    },
-                ],
-                size=800,
+            answer = get_circos_graph(
+                'select-dataset-parser',
+                size
             )
         elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "heatmap":
-            answer = dash_bio.Circos(
-                id="main-circos",
-                selectEvent={"0": "hover", "1": "hover"},
-                layout=circos_graph_data["month_layout"],
-                config={
-                    "innerRadius": (size / 2 - 80),
-                    "outerRadius": (size / 2 - 30),
-                    "ticks": {"display": False},
-                    "labels": {
-                        "position": "center",
-                        "display": True,
-                        "size": 14,
-                        "color": "#fff",
-                        "radialOffset": 15,
-                    },
-                },
-                tracks=[
-                    {
-                        "type": "HEATMAP",
-                        "data": circos_graph_data["heatmap"],
-                        "config": {
-                            "innerRadius": 0.8,
-                            "outerRadius": 0.98,
-                            "logScale": False,
-                            "color": "YlOrRd",
-                            "tooltipContent": {"name": "value"},
-                        },
-                    },
-                    {
-                        "type": "HEATMAP",
-                        "data": circos_graph_data["heatmap"],
-                        "config": {
-                            "innerRadius": 0.7,
-                            "outerRadius": 0.79,
-                            "logScale": False,
-                            "color": "Blues",
-                            "tooltipContent": {"name": "value"},
-                        },
-                    },
-                ],
-                size=800,
+            answer = get_circos_graph(
+                'select-dataset-heatmap',
+                size
             )
         elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "chords":
@@ -791,649 +1448,46 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 for i in selected_row:
                     circos_graph_data["chords"][i]["color"] = "#00cc96"
 
-            answer = dash_bio.Circos(
-                id="main-circos",
-                selectEvent={"0": "both", "1": "both"},
-                layout=circos_graph_data["GRCh37"],
-                config={
-                    "innerRadius": size / 2 - 80,
-                    "outerRadius": size / 2 - 40,
-                    "ticks": {"display": False, "labelDenominator": 1000000},
-                    "labels": {
-                        "position": "center",
-                        "display": True,
-                        "size": 11,
-                        "color": "#fff",
-                        "radialOffset": 75,
-                    },
-                },
-                tracks=[
-                    {
-                        "type": "HIGHLIGHT",
-                        "data": circos_graph_data["cytobands"],
-                        "config": {
-                            "innerRadius": size / 2 - 80,
-                            "outerRadius": size / 2 - 40,
-                            "opacity": 0.3,
-                            "tooltipContent": {"name": "all"},
-                            "color": {"name": "color"},
-                        },
-                    },
-                    {
-                        "type": "CHORDS",
-                        "data": circos_graph_data["chords"],
-                        "config": {
-                            "logScale": False,
-                            "opacity": 0.7,
-                            "color": {"name": "color"},
-                            "tooltipContent": {
-                                "source": "source",
-                                "sourceID": "id",
-                                "target": "target",
-                                "targetID": "id",
-                                "targetEnd": "end",
-                            },
-                        },
-                    },
-                ],
-                size=800,
+            answer = get_circos_graph(
+                'select-dataset-chords',
+                size
             )
         elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "highlight":
-            answer = dash_bio.Circos(
-                id="main-circos",
-                selectEvent={"0": "hover"},
-                layout=circos_graph_data["GRCh37"],
-                config={
-                    "innerRadius": size / 2 - 100,
-                    "outerRadius": size / 2 - 50,
-                    "ticks": {"display": False},
-                    "labels": {"display": False},
-                },
-                tracks=[
-                    {
-                        "type": "HIGHLIGHT",
-                        "data": circos_graph_data["cytobands"],
-                        "config": {
-                            "innerRadius": size / 2 - 100,
-                            "outerRadius": size / 2 - 50,
-                            "opacity": 0.5,
-                            "tooltipContent": {"name": "name"},
-                            "color": {"name": "color"},
-                        },
-                    }
-                ],
-                size=800,
+            answer = get_circos_graph(
+                'select-dataset-highlight',
+                size
             )
 
         elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "histogram":
-            answer = dash_bio.Circos(
-                id="main-circos",
-                layout=circos_graph_data["GRCh37"],
-                selectEvent={"0": "hover", "1": "hover"},
-                config={
-                    "innerRadius": size / 2 - 150,
-                    "outerRadius": size / 2 - 120,
-                    "ticks": {"display": False, "labelDenominator": 1000000},
-                    "labels": {"display": False},
-                },
-                tracks=[
-                    {
-                        "type": "HIGHLIGHT",
-                        "data": circos_graph_data["cytobands"],
-                        "config": {
-                            "innerRadius": size / 2 - 150,
-                            "outerRadius": size / 2 - 120,
-                            "opacity": 0.6,
-                            "tooltipContent": {"name": "name"},
-                            "color": {"name": "color"},
-                        },
-                    },
-                    {
-                        "type": "HISTOGRAM",
-                        "data": circos_graph_data["histogram"],
-                        "config": {
-                            "innerRadius": 1.01,
-                            "outerRadius": 1.4,
-                            "color": "OrRd",
-                            "tooltipContent": {"name": "value"},
-                        },
-                    },
-                ],
-                size=800,
+            answer = get_circos_graph(
+                'select-dataset-histogram',
+                size
             )
         elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "line":
-            answer = dash_bio.Circos(
-                id="main-circos",
-                selectEvent={
-                    "0": "both",
-                    "1": "both",
-                    "2": "both",
-                    "3": "both",
-                    "4": "both",
-                    "5": "both",
-                    "6": "both",
-                    "7": "both",
-                },
-                layout=list(
-                    filter(
-                        lambda d: d["id"] in ["chr1", "chr2", "chr3"],
-                        circos_graph_data["GRCh37"],
-                    )
-                ),
-                config={
-                    "innerRadius": size / 2 - 150,
-                    "outerRadius": size / 2 - 130,
-                    "ticks": {"display": False, "spacing": 1000000, "labelSuffix": ""},
-                    "labels": {
-                        "position": "center",
-                        "display": False,
-                        "size": 14,
-                        "color": "#fff",
-                        "radialOffset": 30,
-                    },
-                },
-                tracks=[
-                    {
-                        "type": "HIGHLIGHT",
-                        "data": list(
-                            filter(
-                                lambda d: d["block_id"] in [
-                                    "chr1", "chr2", "chr3"],
-                                circos_graph_data["cytobands"],
-                            )
-                        ),
-                        "config": {
-                            "innerRadius": size / 2 - 150,
-                            "outerRadius": size / 2 - 130,
-                            "opacity": 0.3,
-                            "tooltipContent": {"name": "name"},
-                            "color": {"name": "color"},
-                        },
-                    },
-                    {
-                        "type": "LINE",
-                        "data": circos_graph_data["snp250"],
-                        "config": {
-                            "innerRadius": 0.5,
-                            "outerRadius": 0.8,
-                            "color": "#222222",
-                            "tooltipContent": {
-                                "source": "block_id",
-                                "target": "position",
-                                "targetEnd": "value",
-                            },
-                            "axes": [
-                                {
-                                    "spacing": 0.001,
-                                    "thickness": 1,
-                                    "color": "#666666"
-                                }
-                            ],
-                            "backgrounds": [
-                                {
-                                    "start": 0,
-                                    "end": 0.002,
-                                    "color": "#f44336",
-                                    "opacity": 0.5,
-                                },
-                                {
-                                    "start": 0.006,
-                                    "end": 0.015,
-                                    "color": "#4caf50",
-                                    "opacity": 0.5,
-                                },
-                            ],
-                            "maxGap": 1000000,
-                            "min": 0,
-                            "max": 0.015,
-                        },
-                    },
-                    {
-                        "type": "SCATTER",
-                        "data": circos_graph_data["snp250"],
-                        "config": {
-                            "innerRadius": 0.5,
-                            "outerRadius": 0.8,
-                            "min": 0,
-                            "max": 0.015,
-                            "fill": False,
-                            "strokeWidth": 0,
-                            "tooltipContent": {
-                                "source": "block_id",
-                                "target": "position",
-                                "targetEnd": "value",
-                            },
-                        },
-                    },
-                    {
-                        "type": "LINE",
-                        "data": circos_graph_data["snp"],
-                        "config": {
-                            "innerRadius": 1.01,
-                            "outerRadius": 1.15,
-                            "maxGap": 1000000,
-                            "min": 0,
-                            "max": 0.015,
-                            "color": "#222222",
-                            "tooltipContent": {"name": "value"},
-                            "axes": [
-                                {"position": 0.002, "color": "#f44336"},
-                                {"position": 0.006, "color": "#4caf50"},
-                            ],
-                        },
-                    },
-                    {
-                        "type": "LINE",
-                        "data": circos_graph_data["snp1m"],
-                        "config": {
-                            "innerRadius": 1.01,
-                            "outerRadius": 1.15,
-                            "maxGap": 1000000,
-                            "min": 0,
-                            "max": 0.015,
-                            "color": "#f44336",
-                            "tooltipContent": {"name": "value"},
-                        },
-                    },
-                    {
-                        "type": "LINE",
-                        "data": circos_graph_data["snp"],
-                        "config": {
-                            "innerRadius": 0.85,
-                            "outerRadius": 0.95,
-                            "maxGap": 1000000,
-                            "direction": "in",
-                            "min": 0,
-                            "max": 0.015,
-                            "color": "#222222",
-                            "axes": [
-                                {"position": 0.01, "color": "#4caf50"},
-                                {"position": 0.008, "color": "#4caf50"},
-                                {"position": 0.006, "color": "#4caf50"},
-                                {"position": 0.002, "color": "#f44336"},
-                            ],
-                        },
-                    },
-                    {
-                        "type": "LINE",
-                        "data": circos_graph_data["snp1m"],
-                        "config": {
-                            "innerRadius": 0.85,
-                            "outerRadius": 0.95,
-                            "maxGap": 1000000,
-                            "direction": "in",
-                            "min": 0,
-                            "max": 0.015,
-                            "color": "#f44336",
-                            "tooltipContent": {"name": "value"},
-                        },
-                    },
-                ],
-                size=800,
+            answer = get_circos_graph(
+                'select-dataset-line',
+                size
             )
         elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "scatter":
-            answer = dash_bio.Circos(
-                id="main-circos",
-                selectEvent={
-                    "0": "hover",
-                    "1": "both",
-                    "3": "both",
-                    "4": "both",
-                    "5": "both",
-                },
-                layout=list(
-                    filter(
-                        lambda d: d["id"] in ["chr1", "chr2", "chr3"],
-                        circos_graph_data["GRCh37"],
-                    )
-                ),
-                config={
-                    "innerRadius": size / 2 - 150,
-                    "outerRadius": size / 2 - 130,
-                    "ticks": {"display": False, "spacing": 1000000, "labelSuffix": ""},
-                    "labels": {"display": False},
-                },
-                tracks=[
-                    {
-                        "type": "HIGHLIGHT",
-                        "data": list(
-                            filter(
-                                lambda d: d["block_id"] in [
-                                    "chr1", "chr2", "chr3"],
-                                circos_graph_data["cytobands"],
-                            )
-                        ),
-                        "config": {
-                            "innerRadius": size / 2 - 150,
-                            "outerRadius": size / 2 - 130,
-                            "opacity": 0.8,
-                            "tooltipContent": {"name": "name"},
-                            "color": {"name": "color"},
-                        },
-                    },
-                    {
-                        "type": "SCATTER",
-                        "data": list(
-                            filter(
-                                lambda d: float(d["value"]) > 0.007,
-                                circos_graph_data["snp250"],
-                            )
-                        ),
-                        "config": {
-                            "innerRadius": 0.65,
-                            "outerRadius": 0.95,
-                            "color": {"colorData": "name"},
-                            "tooltipContent": {
-                                "source": "block_id",
-                                "target": "position",
-                                "targetEnd": "value",
-                            },
-                            "strokeColor": "grey",
-                            "strokeWidth": 1,
-                            "shape": "circle",
-                            "size": 14,
-                            "min": 0,
-                            "max": 0.013,
-                            "axes": [
-                                {
-                                    "spacing": 0.001,
-                                    "start": 0.006,
-                                    "thickness": 1,
-                                    "color": "#4caf50",
-                                    "opacity": 0.3,
-                                },
-                                {
-                                    "spacing": 0.002,
-                                    "start": 0.006,
-                                    "thickness": 1,
-                                    "color": "#4caf50",
-                                    "opacity": 0.5,
-                                },
-                                {
-                                    "spacing": 0.002,
-                                    "start": 0.002,
-                                    "end": 0.006,
-                                    "thickness": 1,
-                                    "color": "#666",
-                                    "opacity": 0.5,
-                                },
-                                {
-                                    "spacing": 0.001,
-                                    "end": 0.002,
-                                    "thickness": 1,
-                                    "color": "#f44336",
-                                    "opacity": 0.5,
-                                },
-                            ],
-                            "backgrounds": [
-                                {"start": 0.006, "color": "#4caf50", "opacity": 0.1},
-                                {
-                                    "start": 0.002,
-                                    "end": 0.006,
-                                    "color": "#d3d3d3",
-                                    "opacity": 0.1,
-                                },
-                                {"end": 0.002, "color": "#f44336", "opacity": 0.1},
-                            ],
-                        },
-                    },
-                    {
-                        "type": "SCATTER",
-                        "data": circos_graph_data["snp250"],
-                        "config": {
-                            "tooltipContent": {
-                                "source": "block_id",
-                                "target": "position",
-                                "targetEnd": "value",
-                            },
-                            "color": "#4caf50",
-                            "strokeColor": "green",
-                            "strokeWidth": 1,
-                            "shape": "rectangle",
-                            "size": 10,
-                            "min": 0.007,
-                            "max": 0.013,
-                            "innerRadius": 1.075,
-                            "outerRadius": 1.175,
-                            "axes": [
-                                {
-                                    "spacing": 0.001,
-                                    "thickness": 1,
-                                    "color": "#4caf50",
-                                    "opacity": 0.3,
-                                },
-                                {
-                                    "spacing": 0.002,
-                                    "thickness": 1,
-                                    "color": "#4caf50",
-                                    "opacity": 0.5,
-                                },
-                            ],
-                            "backgrounds": [
-                                {"start": 0.007, "color": "#4caf50", "opacity": 0.1},
-                                {"start": 0.009, "color": "#4caf50", "opacity": 0.1},
-                                {"start": 0.011, "color": "#4caf50", "opacity": 0.1},
-                                {"start": 0.013, "color": "#4caf50", "opacity": 0.1},
-                            ],
-                        },
-                    },
-                    {
-                        "type": "SCATTER",
-                        "data": list(
-                            filter(
-                                lambda d: float(d["value"]) < 0.002,
-                                circos_graph_data["snp250"],
-                            )
-                        ),
-                        "config": {
-                            "tooltipContent": {
-                                "source": "block_id",
-                                "target": "position",
-                                "targetEnd": "value",
-                            },
-                            "color": "#f44336",
-                            "strokeColor": "red",
-                            "strokeWidth": 1,
-                            "shape": "triangle",
-                            "size": 10,
-                            "min": 0,
-                            "max": 0.002,
-                            "innerRadius": 0.35,
-                            "outerRadius": 0.60,
-                            "axes": [
-                                {
-                                    "spacing": 0.0001,
-                                    "thickness": 1,
-                                    "color": "#f44336",
-                                    "opacity": 0.3,
-                                },
-                                {
-                                    "spacing": 0.0005,
-                                    "thickness": 1,
-                                    "color": "#f44336",
-                                    "opacity": 0.5,
-                                },
-                            ],
-                            "backgrounds": [
-                                {"end": 0.0004, "color": "#f44336", "opacity": 0.1},
-                                {"end": 0.0008, "color": "#f44336", "opacity": 0.1},
-                                {"end": 0.0012, "color": "#f44336", "opacity": 0.1},
-                                {"end": 0.0016, "color": "#f44336", "opacity": 0.1},
-                                {"end": 0.002, "color": "#f44336", "opacity": 0.1},
-                            ],
-                        },
-                    },
-                    {
-                        "type": "SCATTER",
-                        "data": circos_graph_data["snp250"],
-                        "config": {
-                            "tooltipContent": {
-                                "source": "block_id",
-                                "target": "position",
-                                "targetEnd": "value",
-                            },
-                            "innerRadius": 0.65,
-                            "outerRadius": 0.95,
-                            "strokeColor": "grey",
-                            "strokeWidth": 1,
-                            "shape": "circle",
-                            "size": 14,
-                            "min": 0,
-                            "max": 0.013,
-                            "axes": [
-                                {
-                                    "spacing": 0.001,
-                                    "start": 0.006,
-                                    "thickness": 1,
-                                    "color": "#4caf50",
-                                    "opacity": 0.3,
-                                },
-                                {
-                                    "spacing": 0.002,
-                                    "start": 0.006,
-                                    "thickness": 1,
-                                    "color": "#4caf50",
-                                    "opacity": 0.5,
-                                },
-                                {
-                                    "spacing": 0.002,
-                                    "start": 0.002,
-                                    "end": 0.006,
-                                    "thickness": 1,
-                                    "color": "#666",
-                                    "opacity": 0.5,
-                                },
-                                {
-                                    "spacing": 0.001,
-                                    "end": "0.002",
-                                    "thickness": 1,
-                                    "color": "#f44336",
-                                    "opacity": 0.5,
-                                },
-                            ],
-                            "backgrounds": [
-                                {"start": 0.006, "color": "#4caf50", "opacity": 0.1},
-                                {
-                                    "start": 0.002,
-                                    "end": 0.006,
-                                    "color": "#d3d3d3",
-                                    "opacity": 0.1,
-                                },
-                                {"end": 0.002, "color": "#f44336", "opacity": 0.1},
-                            ],
-                        },
-                    },
-                ],
-                size=800,
+            answer = get_circos_graph(
+                'select-dataset-scatter',
+                size
             )
         elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "stack":
-            answer = dash_bio.Circos(
-                id="main-circos",
-                selectEvent={"0": "hover"},
-                layout=[
-                    {
-                        "id": "chr9",
-                        "len": 8000000,
-                        "label": "chr9",
-                        "color": "#FFCC00"
-                    }
-                ],
-                config={
-                    "innerRadius": size / 2 - 50,
-                    "outerRadius": size / 2 - 30,
-                    "ticks": {"display": False, "labels": False, "spacing": 10000},
-                    "labels": {"display": False, "labels": False, "spacing": 10000},
-                },
-                tracks=[
-                    {
-                        "type": "STACK",
-                        "data": circos_graph_data["stack"],
-                        "config": {
-                            "innerRadius": 0.7,
-                            "outerRadius": 1,
-                            "thickness": 4,
-                            "margin": 0.01 * 8000000,
-                            "direction": "out",
-                            "strokeWidth": 0,
-                            "opacity": 0.5,
-                            "tooltipContent": {"name": "chr"},
-                            "color": {
-                                "conditional": {
-                                    "end": "end",
-                                    "start": "start",
-                                    "value": [150000, 120000, 90000, 60000, 30000],
-                                    "color": [
-                                        "red",
-                                        "black",
-                                        "#fff",
-                                        "#999",
-                                        "#BBB",
-                                    ],
-                                }
-                            },
-                        },
-                    }
-                ],
-                size=800,
+            answer = get_circos_graph(
+                'select-dataset-stack',
+                size
             )
         elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
                 and circos_select == "text":
-            answer = dash_bio.Circos(
-                id="main-circos",
-                selectEvent={"0": "hover", "1": "both"},
-                layout=[circos_graph_data["GRCh37"][0]],
-                config={
-                    "innerRadius": size / 2 - 100,
-                    "outerRadius": size / 2 - 80,
-                    "labels": {"display": False},
-                    "ticks": {"display": False},
-                },
-                tracks=[
-                    {
-                        "type": "HIGHLIGHT",
-                        "data": list(
-                            filter(
-                                lambda d: d["block_id"] == circos_graph_data["GRCh37"][0]["id"],
-                                circos_graph_data["cytobands"],
-                            )
-                        ),
-                        "config": {
-                            "innerRadius": size / 2 - 100,
-                            "outerRadius": size / 2 - 80,
-                            "opacity": 0.7,
-                            "tooltipContent": {"name": "name"},
-                            "color": {"name": "color"},
-                        },
-                    },
-                    {
-                        "type": "TEXT",
-                        "data": list(
-                            map(
-                                lambda d: {
-                                    "position": (d["start"] + d["end"]) / 2,
-                                    "value": d["name"],
-                                    "block_id": d["block_id"],
-                                },
-                                filter(
-                                    lambda d: d["block_id"] ==
-                                    circos_graph_data["GRCh37"][0]["id"],
-                                    circos_graph_data["cytobands"],
-                                ),
-                            )
-                        ),
-                        "config": {
-                            "innerRadius": 1.02,
-                            "outerRadius": 1.3,
-                            "style": {"font-size": 12},
-                        },
-                    },
-                ],
-                size=800,
+            answer = get_circos_graph(
+                'select-dataset-text',
+                size
             )
         else:
             answer = empty
