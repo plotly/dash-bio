@@ -12,7 +12,7 @@
     width: 4px;
     height: 0px;
     margin-right: 500px;
-    background-color: #fff;
+    background-color: #1F2132;
 }
 #circos-body ::-webkit-scrollbar-thumb {
     width: 2px;
@@ -62,22 +62,26 @@
     padding: 0px;
     margin: 50px;
 }
+
+
 #circos-body .rc-slider-rail {
-    background-color: rgba(255,255,255,0.7);
+    background-color: #1F2132;
 }
 #circos-body .rc-slider-track {
     background-color: #7CD3F7;
 }
 #circos-body .rc-slider-handle {
     border-color: #7CD3F7;
+    background-color: #1F2132;
 }
 #circos-body .rc-slider {
-    margin: 5px;
-    margin-top: 25px;
+    margin-right: 2px;
+    margin-top: 15px;
     margin-bottom: 10px;
+    float: right;
     display: inline-block;
     vertical-align: middle;
-    width: calc(100% - 130px);
+    width: calc(100% - 5px);
 }
 #circos-tabs-orig {
     display: none;
@@ -85,4 +89,72 @@
 
 #circos-tabs-orig-parent {
     display: none;
+}
+#circos-control-tabs .Select-control, #circos-control-tabs .Select-menu-outer {
+    border: solid 1px #545454;
+    background-color: #262b3d !important;
+    width: 140px !important;
+}
+#circos-control-tabs span.Select-value-label {
+    color: #E2EFFA !important;
+}
+#circos-control-tabs .Select-input {
+    padding: 0px;
+}
+
+#circos-size, #circos-graph-type, #circos-view-dataset, #circos-preloaded-uploaded {
+    width: 140px;
+    position: relative;
+    display: inline-block;
+    float: right;
+    color: #E2EFFA;
+
+}
+#circos-control-tabs .Select-value-icon {
+    background-color: #232323;
+}
+#circos-graph-type .Select-multi-value-wrapper {
+    max-height: 100px;
+    width: calc(100% - 10px);
+    overflow: auto;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-right:10px;
+}
+
+.circos-option-name {
+    font-size: 13pt;
+    width: 160px;
+    margin-bottom: 25px;
+    margin-top: 5px;
+    font-weight: 100 !important;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#circos-control-tabs .tab-content {
+    padding: 30px;
+}
+
+
+#circos-body #data-table .dash-spreadsheet * {
+    box-shadow: none !important;
+}
+#circos-body tr, #circos-body th , #circos-body td{
+    background-color: #1F2132 !important;
+    border-color: #222830 !important;
+    padding: 5px;
+    height: 40px;
+    box-shadow: none !important;
+}
+#circos-body th.dash-filter input {
+    color: #E2EFFA;
+}
+#upload-data {
+    border-radius: 5px;
+    border: dotted 1px #7CD3F7;
+    text-align: center;
+    width: 320px;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }

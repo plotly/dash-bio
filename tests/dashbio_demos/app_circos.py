@@ -57,6 +57,7 @@ def get_circos_graph(
         size,
         data=[None, None, None]
 ):
+
     circos_graphs = {
         'upload-custom-dataset': dash_bio.Circos(
                     id="main-circos",
@@ -828,6 +829,7 @@ def get_circos_graph(
 
     return circos_graphs[key]
 
+
 # Description for gallery
 def description():
     return "Vizualize and analyze similarities and differences between " \
@@ -936,7 +938,7 @@ def layout():
         ),
 
         html.Div(id='circos-control-tabs', children=[
-            dcc.Tabs(id='circos-tabs', children=[
+            dcc.Tabs(id='circos-tabs', value='data', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -949,15 +951,138 @@ def layout():
                     label='Data',
                     value='data',
                     children=html.Div(className='circos-tab', children=[
+                        html.Div(className='circos-option-name', children='Data source'),
+                        dcc.Dropdown(
+                            id='circos-preloaded-uploaded',
+                            options=[
+                                {'label': 'Preloaded', 'value': 'preloaded'},
+                                {'label': 'Upload', 'value': 'upload'}
+                            ],
+                            value='preloaded'
+                        ),
+                        html.Hr(),
+                        html.Div(className='circos-option-name', children='View dataset'),
+                        dcc.Dropdown(
+                            id='circos-view-dataset',
+                            options=[
+                                {'label': 'Layout',
+                                 'value': 'layout'}
+                            ],
+                            value='layout'
+                        ),
+                        html.A(
+                            html.Button(
+                                "Download",
+                                className="circos-button-data "
+                                "five columns",
+                            ),
+                            href="/assets/sample_data/"
+                            "circos_sample_data.rar",
+                            download="circos_sample_data.rar",
+                        ),
+                        html.Button(
+                            "Render",
+                            id="render-button",
+                            className="circos-button-render "
+                            "five columns",
+                        ),
 
+                        html.Div(id='circos-uploaded-data', children=[
+                            dcc.Upload(
+                                id="upload-data",
+                                children=html.Div(
+                                    [
+                                        "Drag and Drop or "
+                                        "click to import "
+                                        ".CSV file here!"
+                                    ]
+                                ),
+                                className="circos-upload-data",
+                                multiple=True,
+                            )
+
+                        ])
+                    ])
+                ),
+                dcc.Tab(
+                    label='Table',
+                    value='table',
+                    children=html.Div(className='circos-tab', children=[
+                        html.Div(id='circos-table-container', children=[dt.DataTable(
+                            id="data-table",
+                            row_selectable='multi',
+                            sorting=True,
+                            filtering=True,
+                            css=[
+                                {
+                                    "selector":  ".dash-cell "
+                                    "div.dash-cell-value",
+                                    "rule":  "display: inline; "
+                                    "white-space: inherit; "
+                                    "overflow: auto; "
+                                    "text-overflow: inherit;",
+                                }
+                            ],
+                            style_cell={
+                                "whiteSpace": "no-wrap",
+                                "overflow": "hidden",
+                                "textOverflow": "ellipsis",
+                                "maxWidth": 100,
+                                'fontWeight': 100,
+                                'fontSize': '11pt',
+                                'fontFamily': 'Courier New',
+                                'backgroundColor': '#1F2132'
+                            },
+                            style_header={
+                                'backgroundColor': '#1F2132',
+                                'textAlign': 'center'
+                            },
+                            style_table={
+                                "maxHeight": "400px",
+                                'width': '340px',
+                                'marginTop': '10px'
+                            },
+                            n_fixed_rows=1,
+                            n_fixed_columns=1
+                        )]),
+                        html.Div(
+                            id="expected-index"),
                     ])
                 ),
                 dcc.Tab(
                     label='View',
                     value='view',
                     children=html.Div(className='circos-tab', children=[
+                        html.Div(className='circos-option-name', children='Graph type'),
+                        dcc.Dropdown(
+                            id='circos-graph-type',
+                            options=[
+                                {'label': graph_type.title(), 'value': graph_type}
+                                for graph_type in [
+                                        'heatmap',
+                                        'chords',
+                                        'highlight',
+                                        'histogram',
+                                        'line',
+                                        'scatter',
+                                        'stack',
+                                        'text',
+                                        'parser_data'
+                                ]
+                            ],
+                            value='chords'
+                        ),
+                        html.Div(id='chords-text'),
+                        html.Div(className='circos-option-name', children='Graph size'),
+                        dcc.Slider(
+                            id='circos-size',
+                            min=500,
+                            max=800,
+                            step=10,
+                            value=600
+                        )
 
-                    ])
+                    ]),
                 )
 
             ])
@@ -969,91 +1094,12 @@ def layout():
                     [
                         dcc.Tabs(
                             id="circos-tabs-orig",
-                            value="circos-tab-select",
+                            value="circos-tab-dataset",
                             children=[
                                 dcc.Tab(
                                     label="Select",
                                     value="circos-tab-select",
                                     children=[
-                                        html.Div(
-                                            [
-                                                html.Div(
-                                                    [
-                                                        html.H5(
-                                                            "Select Circos Graph"
-                                                        ),
-                                                        dcc.Dropdown(
-                                                            id="circos-selector",
-                                                            options=[
-                                                                {
-                                                                    "label": "Heatmap",
-                                                                    "value": "heatmap",
-                                                                },
-                                                                {
-                                                                    "label": "Chords",
-                                                                    "value": "chords",
-                                                                },
-                                                                {
-                                                                    "label": "Highlight",
-                                                                    "value": "highlight",
-                                                                },
-                                                                {
-                                                                    "label": "Histogram",
-                                                                    "value": "histogram",
-                                                                },
-                                                                {
-                                                                    "label": "Line",
-                                                                    "value": "line",
-                                                                },
-                                                                {
-                                                                    "label": "Scatter",
-                                                                    "value": "scatter",
-                                                                },
-                                                                {
-                                                                    "label": "Stack",
-                                                                    "value": "stack",
-                                                                },
-                                                                {
-                                                                    "label": "Text",
-                                                                    "value": "text",
-                                                                },
-                                                                {
-                                                                    "label": "Sample Parser "
-                                                                    "Dataset",
-                                                                    "value": "parser_data",
-                                                                },
-                                                            ],
-                                                            value="chords",
-                                                        ),
-                                                    ],
-                                                    className="six columns",
-                                                ),
-                                                html.Div(
-                                                    [
-                                                        html.H5(
-                                                            "Size Slider"),
-                                                        html.Div(
-                                                            [
-                                                                dcc.Slider(
-                                                                    id="size-slider",
-                                                                    marks={
-                                                                        500: "Min",
-                                                                        800: "Max",
-                                                                    },
-                                                                    min=500,
-                                                                    max=800,
-                                                                    step=10,
-                                                                    value=600,
-                                                                )
-                                                            ],
-                                                            className="circos-size-slider",
-                                                        ),
-                                                    ],
-                                                    className="six columns",
-                                                ),
-                                            ],
-                                            className="circos-row-one row",
-                                        ),
                                         html.Div(
                                             [
                                                 html.Div(
@@ -1090,67 +1136,7 @@ def layout():
                                     label="View Dataset",
                                     value="circos-tab-dataset",
                                     children=[
-                                        html.Div(
-                                            [
-                                                dt.DataTable(
-                                                    id="data-table",
-                                                    row_selectable=True,
-                                                    sorting=True,
-                                                    filtering=True,
-                                                    css=[
-                                                        {
-                                                            "selector":  ".dash-cell "
-                                                            "div.dash-cell-value",
-                                                            "rule":  "display: inline; "
-                                                            "white-space: inherit; "
-                                                            "overflow: inherit; "
-                                                            "text-overflow: inherit;",
-                                                        }
-                                                    ],
-                                                    style_cell={
-                                                        "whiteSpace": "no-wrap",
-                                                        "overflow": "hidden",
-                                                        "textOverflow": "ellipsis",
-                                                        "maxWidth": 0,
-                                                    },
-                                                    style_table={
-                                                        "maxHeight": "50vh"
-                                                    },
-                                                    n_fixed_rows=1,
-                                                ),
-                                                html.Div(
-                                                    id="expected-index"),
-                                            ],
-                                            className="circos-datatable",
-                                        ),
-                                        html.Div(
-                                            [
-                                                html.Div(
-                                                    [
-                                                        html.H5(
-                                                            "Select Data Set to View"
-                                                        ),
-                                                        dcc.Dropdown(
-                                                            id="data-selector",
-                                                            options=[
-                                                                {
-                                                                    "label": "Layout",
-                                                                    "value": "layout",
-                                                                }
-                                                            ],
-                                                            value="layout",
-                                                        ),
-                                                    ],
-                                                    className="six columns",
-                                                ),
-                                                html.Div(
-                                                    id="chords-text",
-                                                    className="circos-chords-text six columns",
-                                                    children=[""],
-                                                ),
-                                            ],
-                                            className="circos-row-two row",
-                                        ),
+
                                     ],
                                 ),
                                 dcc.Tab(
@@ -1166,22 +1152,6 @@ def layout():
                                                 ),
                                                 html.Div([
                                                     html.Div([
-                                                        html.A(
-                                                            html.Button(
-                                                                "Download",
-                                                                className="circos-button-data "
-                                                                "five columns",
-                                                            ),
-                                                            href="/assets/sample_data/"
-                                                            "circos_sample_data.rar",
-                                                            download="circos_sample_data.rar",
-                                                        ),
-                                                        html.Button(
-                                                            "Render",
-                                                            id="render-button",
-                                                            className="circos-button-render "
-                                                            "five columns",
-                                                        ),
                                                     ],
                                                              className="row")
                                                 ],
@@ -1197,18 +1167,6 @@ def layout():
                                                 ],
                                                          className="six columns"),
                                                 html.Div([
-                                                    dcc.Upload(
-                                                        id="upload-data",
-                                                        children=html.Div(
-                                                            [
-                                                                "Drag and Drop or "
-                                                                "click to import "
-                                                                ".CSV file here!"
-                                                            ]
-                                                        ),
-                                                        className="circos-upload-data",
-                                                        multiple=True,
-                                                    )
                                                 ],
                                                          className="six columns")
                                             ],
@@ -1219,7 +1177,7 @@ def layout():
                                                         "Select Upload Data"
                                                     ),
                                                     dcc.Dropdown(
-                                                        id="data-selector-custom",
+                                                        id="circos-view-dataset-custom",
                                                         options=[
                                                             {
                                                                 "label": "Layout",
@@ -1289,46 +1247,35 @@ def layout():
         html.Div(
             [
                 html.Div(id="output-data-upload"),
-                html.Div(id="previous-tab"),
                 html.Div(id="event-data-store"),
-                dcc.Interval(id="init", n_intervals=0, interval=100000000),
             ],
             className="circos-display-none",
         ),
     ])
 
 
-
 def callbacks(app):  # pylint: disable=redefined-outer-name
 
-    # Store Previous Tab
     @app.callback(
-        Output("previous-tab", "children"),
-        [Input("circos-tabs-orig", "value")],
-        [State("previous-tab", "children")],
+        Output('circos-uploaded-data', 'style'),
+        [Input('circos-preloaded-uploaded', 'value')]
     )
-    def store_previous_tab(tabs, prev_tab):
-        if prev_tab is None:
-            prev_tab = [None, None]
-        prev_tab.append(tabs)
-        prev_tab.pop(0)
-        return prev_tab
+    def show_hide_uploaded(pre_up):
+        return {'display': 'none' if pre_up == 'preloaded' else 'inline-block'}
 
-    # Dynamically update data-selector drop down on graph change
+    # Dynamically update circos-view-dataset drop down on graph change
     @app.callback(
-        Output("data-selector", "options"),
-        [
-            Input("circos-hold", "children"),
-            Input("circos-selector", "value"),
-            Input("circos-tabs-orig", "value"),
-        ],
-        [State("main-circos", "tracks"), State("previous-tab", "children")],
+        Output("circos-view-dataset", "options"),
+        [Input("circos-hold", "children"),
+         Input("circos-graph-type", "value"),
+         Input('circos-preloaded-uploaded', 'value')],
+        [State("main-circos", "tracks")]
     )
-    def event_dropdown(dropdown, circos_select, tabs, tracks, prev_tab):
+    def event_dropdown(dropdown, circos_select, pre_up, tracks):
 
         answer = ["blank"]
 
-        if tracks is not None and prev_tab[0] == "circos-tab-select":
+        if tracks is not None and pre_up == 'preloaded':
             array = []
             dropdown = []
 
@@ -1342,7 +1289,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             dropdown.append({"label": "LAYOUT", "value": "layout"}.copy())
             answer = dropdown
 
-        elif prev_tab[0] == "circos-tab-custom":
+        elif pre_up == 'upload':
             dropdown = [
                 {"label": "LAYOUT", "value": "layout"},
                 {"label": "HIGHLIGHT", "value": 0},
@@ -1360,7 +1307,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             State("upload-data", "filename"),
             State("upload-data", "last_modified"),
             State("output-data-upload", "children"),
-            State("data-selector-custom", "value"),
+            State("circos-view-dataset-custom", "value"),
         ],
     )
     def update_output(
@@ -1393,55 +1340,47 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     # Return Circos Graph with specified layout & dataset
     @app.callback(
         Output("circos-hold", "children"),
-        [
-            Input("circos-tabs-orig", "value"),
-            Input("circos-selector", "value"),
-            Input("size-slider", "value"),
-            Input("size-slider-custom", "value"),
-            Input("init", "n_intervals"),
-            Input("render-button", "n_clicks"),
-            Input("data-table", "selected_rows"),
-        ],
+        [Input('circos-preloaded-uploaded', 'value'),
+         Input('circos-graph-type', 'value'),
+         Input("circos-size", "value"),
+         Input("size-slider-custom", "value"),
+         Input("render-button", "n_clicks"),
+         Input("data-table", "selected_rows")],
         [
             State("output-data-upload", "children"),
             State("data-table", "data"),
-            State("data-selector", "value"),
+            State("circos-view-dataset", "value"),
         ],
     )
-    def init(
-            tabs,
+    def show_circos_graph(
+            pre_up,
             circos_select,
             size,
             size_custom,
-            init_onstart,
             render_button,
             selected_row,
             upload_data,
             table_data,
             data_selector,
     ):
-        if tabs in ("circos-tab-custom", "circos-tab-dataset")\
-                and upload_data is not None:
+        if pre_up == 'upload' and upload_data is not None:
             array = json.loads(upload_data)
             answer = get_circos_graph(
                 'upload-custom-dataset',
                 size_custom,
                 array
             )
-        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
-                and circos_select == "parser_data":
+        elif pre_up == 'preloaded' and circos_select == 'parser_data':
             answer = get_circos_graph(
                 'select-dataset-parser',
                 size
             )
-        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
-                and circos_select == "heatmap":
+        elif pre_up == 'preloaded' and circos_select == 'heatmap':
             answer = get_circos_graph(
                 'select-dataset-heatmap',
                 size
             )
-        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
-                and circos_select == "chords":
+        elif pre_up == 'preloaded' and circos_select == 'chords':
             if selected_row is not None and data_selector == 1:
                 for i in list(range(len(circos_graph_data["chords"]))):
                     circos_graph_data["chords"][i]["color"] = "#ff5722"
@@ -1452,39 +1391,33 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 'select-dataset-chords',
                 size
             )
-        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
-                and circos_select == "highlight":
+        elif pre_up == 'preloaded' and circos_select == 'highlight':
             answer = get_circos_graph(
                 'select-dataset-highlight',
                 size
             )
 
-        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
-                and circos_select == "histogram":
+        elif pre_up == 'preloaded' and circos_select == 'histogram':
             answer = get_circos_graph(
                 'select-dataset-histogram',
                 size
             )
-        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
-                and circos_select == "line":
+        elif pre_up == 'preloaded' and circos_select == 'line':
             answer = get_circos_graph(
                 'select-dataset-line',
                 size
             )
-        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
-                and circos_select == "scatter":
+        elif pre_up == 'preloaded' and circos_select == 'scatter':
             answer = get_circos_graph(
                 'select-dataset-scatter',
                 size
             )
-        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
-                and circos_select == "stack":
+        elif pre_up == 'preloaded' and circos_select == 'stack':
             answer = get_circos_graph(
                 'select-dataset-stack',
                 size
             )
-        elif tabs in ('circos-tab-select', 'circos-tab-dataset') \
-                and circos_select == "text":
+        elif pre_up == 'preloaded' and circos_select == 'text':
             answer = get_circos_graph(
                 'select-dataset-text',
                 size
@@ -1497,7 +1430,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     # If chords graph selected, output text blurb to let user know of highlight feature
     @app.callback(
         Output("chords-text", "children"),
-        [Input("circos-selector", "value")]
+        [Input("circos-graph-type", "value")]
     )
     def update_chords_text(circos_select):
         if circos_select == "chords":
@@ -1508,9 +1441,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         Output("data-table", "data"),
         [
-            Input("data-selector", "value"),
+            Input("circos-view-dataset", "value"),
             Input("render-button", "n_clicks"),
-            Input("data-selector", "options"),
+            Input("circos-view-dataset", "options"),
             Input("data-table", "selected_cells"),
         ],
         [
@@ -1532,9 +1465,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         Output("data-table", "columns"),
         [
-            Input("data-selector", "value"),
+            Input("circos-view-dataset", "value"),
             Input("render-button", "n_clicks"),
-            Input("data-selector", "options"),
+            Input("circos-view-dataset", "options"),
             Input("data-table", "selected_cells"),
         ],
         [
