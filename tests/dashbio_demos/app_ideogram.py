@@ -255,7 +255,7 @@ options = {
                 {'label': str(i), 'value': str(i)}
                 for i in range(1, 22)] +
             [{'label': 'X', 'value': 'X'},
-             {'lahbel': 'Y', 'value': 'Y'}],
+             {'lahel': 'Y', 'value': 'Y'}],
             value='X'
         ),
         html.Hr(),
