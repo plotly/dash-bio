@@ -967,6 +967,7 @@ def layout():
                         html.Br()
                     ])
                 ),
+
                 dcc.Tab(
                     label='Data',
                     value='data',
@@ -1033,6 +1034,51 @@ def layout():
                         ]),
                     ])
                 ),
+
+                dcc.Tab(
+                    label='Graph',
+                    value='graph',
+                    children=html.Div(className='circos-tab', children=[
+                        html.Div(className='circos-option-name', children='Graph type'),
+                        dcc.Dropdown(
+                            id='circos-graph-type',
+                            options=[
+                                {'label': graph_type.title(), 'value': graph_type}
+                                for graph_type in [
+                                        'heatmap',
+                                        'chords',
+                                        'highlight',
+                                        'histogram',
+                                        'line',
+                                        'scatter',
+                                        'stack',
+                                        'text',
+                                        'parser_data'
+                                ]
+                            ],
+                            value='chords'
+                        ),
+                        html.Div(id='chords-text'),
+
+                        html.Div(className='circos-option-name', children='Graph size'),
+                        dcc.Slider(
+                            id='circos-size',
+                            min=500,
+                            max=800,
+                            step=10,
+                            value=650
+                        ),
+
+                        html.Hr(),
+                        html.H5('Hover data'),
+                        html.Div(
+                            id='event-data-select'
+                        ),
+
+
+                    ]),
+                ),
+
                 dcc.Tab(
                     label='Table',
                     value='table',
@@ -1089,49 +1135,7 @@ def layout():
                             id="expected-index"),
                     ])
                 ),
-                dcc.Tab(
-                    label='Graph',
-                    value='graph',
-                    children=html.Div(className='circos-tab', children=[
-                        html.Div(className='circos-option-name', children='Graph type'),
-                        dcc.Dropdown(
-                            id='circos-graph-type',
-                            options=[
-                                {'label': graph_type.title(), 'value': graph_type}
-                                for graph_type in [
-                                        'heatmap',
-                                        'chords',
-                                        'highlight',
-                                        'histogram',
-                                        'line',
-                                        'scatter',
-                                        'stack',
-                                        'text',
-                                        'parser_data'
-                                ]
-                            ],
-                            value='chords'
-                        ),
-                        html.Div(id='chords-text'),
 
-                        html.Div(className='circos-option-name', children='Graph size'),
-                        dcc.Slider(
-                            id='circos-size',
-                            min=500,
-                            max=800,
-                            step=10,
-                            value=650
-                        ),
-
-                        html.Hr(),
-                        html.H5('Hover data'),
-                        html.Div(
-                            id='event-data-select'
-                        ),
-
-
-                    ]),
-                )
 
             ])
         ]),
