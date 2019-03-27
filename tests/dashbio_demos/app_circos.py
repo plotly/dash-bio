@@ -99,7 +99,7 @@ def get_circos_graph(
                             },
                         },
                     ],
-                    size=800,
+                    size=600,
                 ),
 
         'select-dataset-parser': dash_bio.Circos(
@@ -938,7 +938,7 @@ def layout():
         ),
 
         html.Div(id='circos-control-tabs', children=[
-            dcc.Tabs(id='circos-tabs', value='table', children=[
+            dcc.Tabs(id='circos-tabs', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -963,19 +963,12 @@ def layout():
                         html.Hr(),
                         html.A(
                             html.Button(
-                                "Download",
-                                className="circos-button-data "
-                                "five columns",
+                                id='circos-download-button',
+                                children="Download sample data"
                             ),
                             href="/assets/sample_data/"
                             "circos_sample_data.rar",
                             download="circos_sample_data.rar",
-                        ),
-                        html.Button(
-                            "Render",
-                            id="render-button",
-                            className="circos-button-render "
-                            "five columns",
                         ),
 
                         html.Div(id='circos-uploaded-data', children=[
@@ -990,9 +983,34 @@ def layout():
                                 ),
                                 className="circos-upload-data",
                                 multiple=True,
+                            ),
+                            html.Div(className='circos-option-name', children='Select upload data'),
+                            dcc.Dropdown(
+                                id="circos-view-dataset-custom",
+                                options=[
+                                    {
+                                        "label": "Layout",
+                                        "value": 0,
+                                    },
+                                    {
+                                        "label": "Track 1",
+                                        "value": 1,
+                                    },
+                                    {
+                                        "label": "Track 2",
+                                        "value": 2,
+                                    },
+                                ],
+                                value=0,
+                            ),
+                            html.Button(
+                                "Render uploaded dataset",
+                                id="render-button",
+                                className="circos-button-render "
+                                "five columns",
                             )
 
-                        ])
+                        ]),
                     ])
                 ),
                 dcc.Tab(
@@ -1041,7 +1059,7 @@ def layout():
                             style_table={
                                 "maxHeight": "340px",
                                 'width': '320px',
-                                'marginTop': '10px',
+                                'marginTop': '5px',
                                 'marginBottom': '10px',
                             },
                             n_fixed_rows=1,
@@ -1052,8 +1070,8 @@ def layout():
                     ])
                 ),
                 dcc.Tab(
-                    label='View',
-                    value='view',
+                    label='Graph',
+                    value='graph',
                     children=html.Div(className='circos-tab', children=[
                         html.Div(className='circos-option-name', children='Graph type'),
                         dcc.Dropdown(
@@ -1075,6 +1093,7 @@ def layout():
                             value='chords'
                         ),
                         html.Div(id='chords-text'),
+
                         html.Div(className='circos-option-name', children='Graph size'),
                         dcc.Slider(
                             id='circos-size',
@@ -1082,7 +1101,14 @@ def layout():
                             max=800,
                             step=10,
                             value=600
-                        )
+                        ),
+
+                        html.Hr(),
+                        html.H5('Hover data'),
+                        html.Div(
+                            id='event-data-select'
+                        ),
+
 
                     ]),
                 )
@@ -1090,162 +1116,6 @@ def layout():
             ])
         ]),
 
-        html.Div(
-            [
-                html.Div(
-                    [
-                        dcc.Tabs(
-                            id="circos-tabs-orig",
-                            value="circos-tab-dataset",
-                            children=[
-                                dcc.Tab(
-                                    label="Select",
-                                    value="circos-tab-select",
-                                    children=[
-                                        html.Div(
-                                            [
-                                                html.Div(
-                                                    [
-                                                        html.H5(
-                                                            "Hover/Click Data"),
-                                                        dcc.Textarea(
-                                                            id="event-data-select",
-                                                            placeholder="Hover or click on "
-                                                            "data to see it here.",
-                                                            value="Hover or click on "
-                                                            "data to see it here.",
-                                                            className="circos-event-data",
-                                                        ),
-                                                    ],
-                                                    className="twelve columns",
-                                                )
-                                            ],
-                                            className="circos-row-two row",
-                                        ),
-                                        html.Div(
-                                            [
-                                                html.Div(
-                                                    [
-                                                    ],
-                                                    className="twelve columns",
-                                                )
-                                            ],
-                                            className="circos-row-two row",
-                                        ),
-                                    ],
-                                ),
-                                dcc.Tab(
-                                    label="View Dataset",
-                                    value="circos-tab-dataset",
-                                    children=[
-
-                                    ],
-                                ),
-                                dcc.Tab(
-                                    label="Custom Graph",
-                                    value="circos-tab-custom",
-                                    children=[
-                                        html.Div([
-                                            html.Div([
-                                                html.H5(
-                                                    "Upload Data",
-                                                    className="circos-select-data-set "
-                                                    "five columns",
-                                                ),
-                                                html.Div([
-                                                    html.Div([
-                                                    ],
-                                                             className="row")
-                                                ],
-                                                         className="six columns")
-                                            ],
-                                                     className="circos-row-three row"),
-                                            html.Div([
-                                                html.Div([
-                                                    dcc.Textarea(
-                                                        value=upload_instructions,
-                                                        className="circos-text-area",
-                                                    )
-                                                ],
-                                                         className="six columns"),
-                                                html.Div([
-                                                ],
-                                                         className="six columns")
-                                            ],
-                                                     className="circos-row-four row"),
-                                            html.Div([
-                                                html.Div([
-                                                    html.H5(
-                                                        "Select Upload Data"
-                                                    ),
-                                                    dcc.Dropdown(
-                                                        id="circos-view-dataset-custom",
-                                                        options=[
-                                                            {
-                                                                "label": "Layout",
-                                                                "value": 0,
-                                                            },
-                                                            {
-                                                                "label": "Track 1",
-                                                                "value": 1,
-                                                            },
-                                                            {
-                                                                "label": "Track 2",
-                                                                "value": 2,
-                                                            },
-                                                        ],
-                                                        value=0,
-                                                    ),
-                                                ],
-                                                         className="six columns"),
-                                                html.Div([
-                                                    html.H5(
-                                                        "Size Slider"
-                                                    ),
-                                                    html.Div([
-                                                        dcc.Slider(
-                                                            id="size-slider-custom",
-                                                            marks={
-                                                                500: "Min",
-                                                                800: "Max",
-                                                            },
-                                                            min=500,
-                                                            max=800,
-                                                            step=10,
-                                                            value=600,
-                                                        )
-                                                    ],
-                                                             className="circos-size-slider")
-                                                ],
-                                                         className="six columns")
-                                            ],
-                                                     className="circos-row-two row"),
-                                            html.Div(
-                                                [
-                                                    html.H5(
-                                                        "Hover/Click Data"),
-                                                    dcc.Textarea(
-                                                        id="event-data-custom",
-                                                        placeholder="Hover or click on "
-                                                        "data to see it here.",
-                                                        value="",
-                                                        className="circos-event-data",
-                                                    ),
-                                                ],
-                                                className="circos-row-two twelve columns",
-                                            ),
-                                        ],
-                                                 className="row")
-                                    ],
-                                ),
-                            ],
-                        )
-                    ],
-                    className="circos-column-one five columns",
-                ),
-            ],
-            className="row",
-        ),
         html.Div(
             [
                 html.Div(id="output-data-upload"),
@@ -1346,9 +1216,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('circos-preloaded-uploaded', 'value'),
          Input('circos-graph-type', 'value'),
          Input("circos-size", "value"),
-         Input("size-slider-custom", "value"),
          Input("render-button", "n_clicks"),
-         Input("data-table", "selected_rows")],
+         Input("data-table", "selected_rows"),
+         Input('circos-tabs', 'value')],
         [
             State("output-data-upload", "children"),
             State("data-table", "data"),
@@ -1359,9 +1229,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             pre_up,
             circos_select,
             size,
-            size_custom,
             render_button,
-            selected_row,
+            selected_row, _,
             upload_data,
             table_data,
             data_selector,
@@ -1370,7 +1239,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             array = json.loads(upload_data)
             answer = get_circos_graph(
                 'upload-custom-dataset',
-                size_custom,
+                size,
                 array
             )
         elif pre_up == 'preloaded' and circos_select == 'parser_data':
@@ -1437,7 +1306,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def update_chords_text(circos_select):
         if circos_select == "chords":
-            return "Select chords and select row in dash-table to highlight chords."
+            return 'Highlight chords in the "Table" tab by selecting rows in the "Chords" dataset.'
         return ""
 
     # Return dataset to data table
@@ -1490,21 +1359,19 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # Hover/click event handler data for preset graph
     @app.callback(
-        Output("event-data-select", "value"),
-        [Input("main-circos", "eventDatum")]
+        Output("event-data-select", "children"),
+        [Input("main-circos", "eventDatum"),
+         Input('render-button', 'n_clicks')]
     )
-    def event_data_select(event_datum):
-        return str(event_datum)
-
-    # Hover click event handler data for custom graph
-    @app.callback(
-        Output("event-data-custom", "value"),
-        [Input("render-button", "n_clicks"),
-         Input("main-circos", "eventDatum")],
-    )
-    def event_data_custom(_, event_datum):
-        return str(event_datum)
-
+    def event_data_select(event_datum, _):
+        contents = ['There are no event data. Hover over the circos graph to access event data.']
+        if event_datum is not None:
+            contents.pop()
+            for key in event_datum.keys():
+                contents.append(html.Span(key.title(), style={'font-weight': 'bold'}))
+                contents.append(' - {}'.format(event_datum[key]))
+                contents.append(html.Br())
+        return contents
 
 # only declare app/server if the file is being run directly
 if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':

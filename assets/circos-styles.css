@@ -41,7 +41,7 @@
     overflow: auto;
 }
 #circos-control-tabs .tab {
-    background-color: #222830;
+    background-color: #202530;
     color: #E2EFFA;
     padding: 15px;
     border-color: #557;
@@ -60,9 +60,8 @@
 #circos-hold {
     display: inline-block !important;
     padding: 0px;
-    margin: 50px;
+    margin-left: 50px;
 }
-
 
 #circos-body .rc-slider-rail {
     background-color: #1F2132;
@@ -102,7 +101,7 @@
     padding: 0px;
 }
 
-#circos-size, #circos-graph-type, #circos-view-dataset, #circos-preloaded-uploaded {
+#circos-size, #circos-graph-type, #circos-view-dataset, #circos-preloaded-uploaded, #circos-view-dataset-custom {
     width: 140px;
     position: relative;
     display: inline-block;
@@ -157,6 +156,8 @@
     width: 320px;
     padding-top: 50px;
     padding-bottom: 50px;
+    margin-top: -20px;
+    margin-bottom: 20px;
 }
 #circos-body .Select-menu-outer {
     z-index: 100;
@@ -164,13 +165,16 @@
 #circos-body #data-table .row.row-0 {
     z-index: 1;
 }
+#circos-body button {
+    color: #E2EFFA;
+}
 #circos-body button.previous-page, #circos-body button.next-page {
     font-size: 0px;
     border: none;
     padding: 0px;
     width: 50%;
     text-align: center;
-    color: #E2EFFA;
+    transition-duration: 300ms;
 }
 
 #circos-body button.previous-page:hover, #circos-body button.next-page:hover {
@@ -183,4 +187,16 @@
 #circos-body button.previous-page:after {
     content: "<";
     font-size: 20px;
+}
+#circos-download-button, #render-button {
+    width: 100%;
+    margin-left: 0px;
+    margin-bottom: 30px;
+}
+#circos-body h5 {
+    margin-bottom: 15px;
+}
+#circos-body #chords-text {
+    font-size: 9pt !important;
+    margin-bottom: 20px;
 }
