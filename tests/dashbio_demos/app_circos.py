@@ -1,4 +1,3 @@
-from textwrap import dedent
 import base64
 import io
 import pandas as pd
@@ -99,7 +98,7 @@ def get_circos_graph(
                             },
                         },
                     ],
-                    size=600,
+                    size=700,
                 ),
 
         'select-dataset-parser': dash_bio.Circos(
@@ -142,7 +141,7 @@ def get_circos_graph(
                         },
                     },
                 ],
-                size=800,
+                size=700,
             ),
 
         'select-dataset-heatmap': dash_bio.Circos(
@@ -185,7 +184,7 @@ def get_circos_graph(
                         },
                     },
                 ],
-                size=800
+                size=700
             ),
 
         'select-dataset-chords': dash_bio.Circos(
@@ -233,7 +232,7 @@ def get_circos_graph(
                         },
                     },
                 ],
-                size=800,
+                size=700,
             ),
 
         'select-dataset-highlight': dash_bio.Circos(
@@ -259,7 +258,7 @@ def get_circos_graph(
                         },
                     }
                 ],
-                size=800,
+                size=700,
             ),
 
         'select-dataset-histogram': dash_bio.Circos(
@@ -295,7 +294,7 @@ def get_circos_graph(
                         },
                     },
                 ],
-                size=800,
+                size=700,
             ),
 
         'select-dataset-line': dash_bio.Circos(
@@ -465,7 +464,7 @@ def get_circos_graph(
                         },
                     },
                 ],
-                size=800,
+                size=700,
             ),
 
         'select-dataset-scatter': dash_bio.Circos(
@@ -720,7 +719,7 @@ def get_circos_graph(
                         },
                     },
                 ],
-                size=800,
+                size=700,
             ),
 
         'select-dataset-stack': dash_bio.Circos(
@@ -770,7 +769,7 @@ def get_circos_graph(
                         },
                     }
                 ],
-                size=800,
+                size=700,
             ),
 
         'select-dataset-text': dash_bio.Circos(
@@ -823,7 +822,7 @@ def get_circos_graph(
                         },
                     },
                 ],
-                size=800,
+                size=700,
             )
     }
 
@@ -888,25 +887,8 @@ def header_colors():
 
 # Circos explanation blurb
 def circos_explain():
-    return dcc.Markdown(
-        dedent(
-            """
-    A Circos graph consists of two main parts: the layout and the tracks.
-    The layout sets the basic parameters of the
-    graph such as radius, ticks, labels, etc. The tracks are graph layouts
-    that take in a series of data points and can be one of:  heatmaps,
-    chords, highlights, histograms, line, scatter, stack and text graphs.
-    Tracks can be placed on and around the layout graph.
-
-    Reference : [Seminal paper](
-    http://www.doi.org/10.1101/gr.092759.109)
-
-    For a look into Circos and the API please go here:
-    [https://github.com/nicgirault/circosJS](
-     https://github.com/nicgirault/circosJS)
-    """
-        )
-    )
+    return [
+    ]
 
 
 # Empty Circos needed for circos graph callback
@@ -914,7 +896,7 @@ empty = dash_bio.Circos(
     id="main-circos",
     selectEvent={},
     layout=[],
-    size=800,
+    size=700,
     config={},
     tracks=[],
     enableZoomPan=True,
@@ -943,8 +925,46 @@ def layout():
                     label='About',
                     value='what-is',
                     children=html.Div(className='circos-tab', children=[
-                        html.H4("What is Circos?"),
-                        circos_explain(),
+                        html.H3("What is Circos?"),
+
+                        html.P('Circos is a circular visualization of data, and can be used '
+                               'to highlight relationships between objects in a dataset '
+                               '(e.g., genes that are located on different chromosomes '
+                               'in the genome of an organism).'),
+                        html.P('A Dash Circos graph consists of two main parts: the layout '
+                               'and the tracks. '
+                               'The layout sets the basic parameters of the graph, such as '
+                               'radius, ticks, labels, etc; the tracks are graph layouts '
+                               'that take in a series of data points to display.'),
+                        html.P('The visualizations supported by Dash Circos are: heatmaps, '
+                               'chords, highlights, histograms, line, scatter, stack, '
+                               'and text graphs.'),
+                        html.P('In the "Data" tab, you can opt to use preloaded datasets; '
+                               'additionally, you can download sample data that you would '
+                               'use with a Dash Circos component, upload that sample data, '
+                               'and render it with the "Render" button.'),
+                        html.P('In the "Graph" tab, you can choose the type of Circos graph '
+                               'to display, control the size of the graph, and access data '
+                               'that are generated upon hovering over parts of the graph. '),
+                        html.P('In the "Table" tab, you can view the datasets that define '
+                               'the parameters of the graph, such as the layout, the '
+                               'highlights, and the chords. You can interact with Circos '
+                               'through this table by selecting the "Chords" graph in the '
+                               '"Graph" tab, then viewing the "Chords" dataset in the '
+                               '"Table" tab.'),
+
+                        html.Div([
+                            'Reference: ',
+                            html.A('Seminal paper', href='http://www.doi.org/10.1101/gr.092759.109)')
+                        ]),
+                        html.Div([
+                            'For a look into Circos and the Circos API, please visit the '
+                            'original repository ',
+                            html.A('here', href='https://github.com/nicgirault/circosJS)'),
+                            '.'
+                        ]),
+
+                        html.Br()
                     ])
                 ),
                 dcc.Tab(
@@ -1100,7 +1120,7 @@ def layout():
                             min=500,
                             max=800,
                             step=10,
-                            value=600
+                            value=650
                         ),
 
                         html.Hr(),

@@ -1,5 +1,5 @@
 #circos-body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Helvetica', sans-serif;
     padding: 5px;
     background-color: #1F2132;
     color: #E2EFFA;
@@ -59,7 +59,7 @@
 
 #circos-hold {
     display: inline-block !important;
-    padding: 0px;
+    padding: 40px;
     margin-left: 50px;
 }
 
@@ -199,4 +199,7 @@
 #circos-body #chords-text {
     font-size: 9pt !important;
     margin-bottom: 20px;
+}
+#circos-body h3 {
+    text-align: center;
 }
