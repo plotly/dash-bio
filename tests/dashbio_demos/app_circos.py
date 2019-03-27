@@ -957,7 +957,8 @@ def layout():
 
                         html.Div([
                             'Reference: ',
-                            html.A('Seminal paper', href='http://www.doi.org/10.1101/gr.092759.109)')
+                            html.A('Seminal paper',
+                                   href='http://www.doi.org/10.1101/gr.092759.109)')
                         ]),
                         html.Div([
                             'For a look into Circos and the Circos API, please visit the '
@@ -1395,6 +1396,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 contents.append(' - {}'.format(event_datum[key]))
                 contents.append(html.Br())
         return contents
+
 
 # only declare app/server if the file is being run directly
 if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
