@@ -158,3 +158,29 @@
     padding-top: 50px;
     padding-bottom: 50px;
 }
+#circos-body .Select-menu-outer {
+    z-index: 100;
+}
+#circos-body #data-table .row.row-0 {
+    z-index: 1;
+}
+#circos-body button.previous-page, #circos-body button.next-page {
+    font-size: 0px;
+    border: none;
+    padding: 0px;
+    width: 50%;
+    text-align: center;
+    color: #E2EFFA;
+}
+
+#circos-body button.previous-page:hover, #circos-body button.next-page:hover {
+    color: #303030;
+}
+#circos-body button.next-page:after {
+    content:">";
+    font-size: 20px;
+}
+#circos-body button.previous-page:after {
+    content: "<";
+    font-size: 20px;
+}

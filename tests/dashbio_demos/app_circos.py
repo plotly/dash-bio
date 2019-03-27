@@ -938,7 +938,7 @@ def layout():
         ),
 
         html.Div(id='circos-control-tabs', children=[
-            dcc.Tabs(id='circos-tabs', value='data', children=[
+            dcc.Tabs(id='circos-tabs', value='table', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -961,15 +961,6 @@ def layout():
                             value='preloaded'
                         ),
                         html.Hr(),
-                        html.Div(className='circos-option-name', children='View dataset'),
-                        dcc.Dropdown(
-                            id='circos-view-dataset',
-                            options=[
-                                {'label': 'Layout',
-                                 'value': 'layout'}
-                            ],
-                            value='layout'
-                        ),
                         html.A(
                             html.Button(
                                 "Download",
@@ -1008,6 +999,16 @@ def layout():
                     label='Table',
                     value='table',
                     children=html.Div(className='circos-tab', children=[
+                        html.Div(className='circos-option-name', children='View dataset'),
+                        dcc.Dropdown(
+                            id='circos-view-dataset',
+                            options=[
+                                {'label': 'Layout',
+                                 'value': 'layout'}
+                            ],
+                            value='layout'
+                        ),
+
                         html.Div(id='circos-table-container', children=[dt.DataTable(
                             id="data-table",
                             row_selectable='multi',
@@ -1038,9 +1039,10 @@ def layout():
                                 'textAlign': 'center'
                             },
                             style_table={
-                                "maxHeight": "400px",
-                                'width': '340px',
-                                'marginTop': '10px'
+                                "maxHeight": "340px",
+                                'width': '320px',
+                                'marginTop': '10px',
+                                'marginBottom': '10px',
                             },
                             n_fixed_rows=1,
                             n_fixed_columns=1
@@ -1279,21 +1281,22 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             array = []
             dropdown = []
 
-            for k, v in [(k, v) for x in tracks for (k, v) in x.items()]:
-                if k == "type":
-                    array.append(v)
+            array = [t['type'] for t in tracks if 'type' in t.keys()]
 
-            for i in range(len(tracks)):
-                dropdown.append({"label": "{}".format(array[i]), "value": i})
+            for i in range(len(array)):
+                dropdown.append(
+                    {'label': '{}'.format(array[i].lower().title()),
+                     'value': i}
+                )
 
-            dropdown.append({"label": "LAYOUT", "value": "layout"}.copy())
+            dropdown.append({"label": "Layout", "value": "layout"}.copy())
             answer = dropdown
 
         elif pre_up == 'upload':
             dropdown = [
-                {"label": "LAYOUT", "value": "layout"},
-                {"label": "HIGHLIGHT", "value": 0},
-                {"label": "HIGHLIGHT", "value": 1},
+                {"label": "Layout", "value": "layout"},
+                {"label": "Highlight (1)", "value": 0},
+                {"label": "Highlight (2)", "value": 1},
             ]
             answer = dropdown
 
