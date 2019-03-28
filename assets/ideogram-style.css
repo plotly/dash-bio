@@ -36,7 +36,6 @@
 
 #ideogram-control-tabs .tab-content {
     padding: 20px;
-
     height: 400px;
     margin: 20px;
     overflow-y: auto;
@@ -86,7 +85,9 @@
     top: 10px;
 }
 
-#ideogram-body #chr-select-1 .Select, #ideogram-body #chr-select-2 .Select, #ideogram-body #chr-brush .Select {
+#ideogram-body #chr-select-1 .Select,
+#ideogram-body #chr-select-2 .Select,
+#ideogram-body #chr-brush .Select {
     width: 65px !important;
 }
 #ideogram-body #chr-select-1 .Select {
@@ -109,16 +110,29 @@ input.ideogram-homology-inputs, input.ideogram-annot-inputs {
 #ideogram-body hr {
     width: 100%;
 }
-#organism-change, #orientation-switch, #bandlabel-switch, #chromlabel-switch, #rotatable-switch, #sex-switch, #fullband-switch, #resolution-select, #chr-brush, #annotation-select, #orientation-anote {
+#organism-change, #orientation-switch,
+#bandlabel-switch, #chromlabel-switch,
+#rotatable-switch, #sex-switch,
+#fullband-switch, #resolution-select,
+#chr-brush, #annotation-select,
+#orientation-anote {
     display: inline-block;
     width: 140px;
 }
 
-#bandlabel-switch > div,  #chromlabel-switch > div, #rotatable-switch > div, #sex-switch > div, #fullband-switch > div {
+#bandlabel-switch > div,
+#chromlabel-switch > div,
+#rotatable-switch > div,
+#sex-switch > div,
+#fullband-switch > div {
     display:inline-block !important;
     text-align: center;
 }
-#bandlabel-switch label, #chromlabel-switch label, #rotatable-switch label, #sex-switch label, #fullband-switch > label {
+#bandlabel-switch label,
+#chromlabel-switch label,
+#rotatable-switch label,
+#sex-switch label,
+#fullband-switch > label {
     display: inline-block;
     text-transform: lowercase;
     font-variant: all-small-caps;
@@ -128,14 +142,22 @@ input.ideogram-homology-inputs, input.ideogram-annot-inputs {
     font-weight: 500;
 }
 
-#bandlabel-switch > div > div > div, #chromlabel-switch > div > div > div, #rotatable-switch > div > div > div, #sex-switch > div > div > div, #fullband-switch > div > div > div {
+#bandlabel-switch > div > div > div,
+#chromlabel-switch > div > div > div,
+#rotatable-switch > div > div > div,
+#sex-switch > div > div > div,
+#fullband-switch > div > div > div {
     display: inline-block;
     position: relative;
     padding: 2px;
     margin: 3px;
 }
 
-#ideogram-body #chr-margin-input, #ideogram-body #chr-height-input, #ideogram-body #chr-width-input, #ideogram-body #bar-input, #ideogram-body #height-input {
+#ideogram-body #chr-margin-input,
+#ideogram-body #chr-height-input,
+#ideogram-body #chr-width-input,
+#ideogram-body #bar-input,
+#ideogram-body #height-input {
     width: 140px;
     display: inline-block;
 }
@@ -148,7 +170,8 @@ input.ideogram-homology-inputs, input.ideogram-annot-inputs {
 #ideogram-body h4 {
     margin-bottom: 25px;
 }
-#ideogram-body #chr-select-1, #ideogram-body #chr-select-2 {
+#ideogram-body #chr-select-1,
+#ideogram-body #chr-select-2 {
     display: inline-block;
 }
 #chr-brush {
