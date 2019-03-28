@@ -668,7 +668,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         annotations_path = None
         annotations_assembly = None
         annotation_tracks = None
-        annotation_height = height_input if height_input != '' else None
+        annotation_height = height_input
 
         if annotation_select == 'overlay-1':
             annotations_layout = 'overlay'
