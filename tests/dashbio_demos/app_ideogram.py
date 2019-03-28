@@ -19,7 +19,7 @@ def description():
 
 
 def header_colors():
-    return {'bg_color': '#230047', 'font_color': '#FFF', 'light_logo': True}
+    return {'bg_color': '#230047', 'font_color': '#FFFFFF', 'light_logo': True}
 
 
 # Used to simplify chromosome inputs for Homology
@@ -44,7 +44,7 @@ def chromosome_div(
             html.Div(className='ideogram-controls-name', children='%s Stop-one' % name_tag),
             dcc.Input(
                 id='%s-stopone' % id_tag,
-                placeholder='Enter chromoomes',
+                placeholder='Enter chromosomes',
                 type='number',
                 value=stopone,
                 className='ideogram-homology-inputs',

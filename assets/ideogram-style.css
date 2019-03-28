@@ -11,7 +11,7 @@
     width: 4px;
     height: 0px;
     margin-right: 500px;
-    background-color: #ffdfcff;
+    background-color: #fdfcff;
 }
 #ideogram-body ::-webkit-scrollbar-thumb {
     width: 2px;
@@ -29,7 +29,7 @@
     height: 550px;
     margin: 50px;
     margin-right: 0px;
-    background-color: #fff;
+    background-color: #ffffff;
     font-size: 10pt;
     float: left;
 }
