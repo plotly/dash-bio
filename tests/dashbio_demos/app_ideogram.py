@@ -448,22 +448,24 @@ def layout():
                     label='View',
                     value='view',
                     children=html.Div(className='ideogram-tab', children=[
-                        html.Div(
-                            className='ideogram-controls-name',
-                            children='View feature:'
-                        ),
-                        dcc.Dropdown(
-                            className='ideogram-dropdown',
-                            id='ideogram-feature-dropdown',
-                            options=[
-                                {'label': 'Customizability', 'value': 'custom'},
-                                {'label': 'Homology', 'value': 'homology'},
-                                {'label': 'Brush', 'value': 'brush'},
-                                {'label': 'Annotations', 'value': 'annotations'}
-                            ],
-                            clearable=False,
-                            value='custom'
-                        ),
+                        html.Div(id='ideogram-feature-select', children=[
+                            html.Div(
+                                className='ideogram-controls-name',
+                                children='View feature:'
+                            ),
+                            dcc.Dropdown(
+                                className='ideogram-dropdown',
+                                id='ideogram-feature-dropdown',
+                                options=[
+                                    {'label': 'Customizability', 'value': 'custom'},
+                                    {'label': 'Homology', 'value': 'homology'},
+                                    {'label': 'Brush', 'value': 'brush'},
+                                    {'label': 'Annotations', 'value': 'annotations'}
+                                ],
+                                clearable=False,
+                                value='custom'
+                            )
+                        ]),
                         html.Hr(),
                         html.Div(
                             id='ideogram-feature-view-options'

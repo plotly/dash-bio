@@ -45,6 +45,7 @@
     color: #230047;
 }
 .ideogram-tab {
+    position: relative;
     height: 400px;
     overflow-y: auto;
     padding-right: 15px;
@@ -66,7 +67,8 @@
 }
 #ideogram-container {
     display: inline-block;
-    width: 800px;
+    width: calc(100vw - 600px);
+    min-width:400px;
     height: 550px;
     overflow: auto;
     margin-left: 50px;
@@ -84,7 +86,12 @@
     position: relative;
     top: 10px;
 }
-
+#ideogram-feature-select {
+    position: sticky;
+    top: 0px;
+    z-index: 100;
+    background-color: white;
+}
 #ideogram-body #chr-select-1 .Select,
 #ideogram-body #chr-select-2 .Select,
 #ideogram-body #chr-brush .Select {
