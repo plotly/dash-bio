@@ -756,9 +756,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def annote_data(data):
         if data is None:
             data = 'None'
-        elif '<br>' in data:
-            data = data.split('<br>')
-            data = data[0] + ' ' + data[1]
+        data = data.replace('<br>', ' ')
         return data
 
 
