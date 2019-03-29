@@ -359,8 +359,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     str(key.replace(
                         'eventType', 'event type').replace(
                             'curveNumber', 'curve number').title()),
-                    str(data[key]).replace('<br>', ' - '))
-                ) for key in data.keys()]
+                    str(data[key]).replace('<br>', ' - '))) for key in data.keys()
+            ]
         return 'Hover over or click on a data point on the graph \
         to see it here.'
 
