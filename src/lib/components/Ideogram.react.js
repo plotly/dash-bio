@@ -8,7 +8,7 @@ import {omit} from 'ramda';
  * datasets for organisms such as human, mouse, and any other
  * eukaryote. The Ideogram component can be used to compare
  * homologous features between chromosomes, and depict
- * haploid, diploid, aneuploidy genomes. It can also display
+ * haploid, diploid, aneuploid genomes. It can also display
  * annotations on genomic data using histograms and overlays.
  *
  * Reference: https://eweitz.github.io/ideogram/
