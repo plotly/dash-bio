@@ -14,9 +14,6 @@
       "packagePatterns": [
         "*"
       ],
-      "excludePackagePatterns": [
-        "react-*"
-      ],
       "groupName": "all dependencies",
       "groupSlug": "all"
     }
@@ -26,6 +23,8 @@
   },
   "ignoreDeps": [
     "ideogram",
-    "react"
+    "react",
+    "react-dom",
+    "react-docgen"
   ]
 }
