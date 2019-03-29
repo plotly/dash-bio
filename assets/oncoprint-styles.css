@@ -1,82 +1,60 @@
-/* Generic components */
-.oncoprint-wrapper {
-    margin: 16px;
-    padding: 32px;
-    padding-left: 48px;
-    padding-right: 48px;
-    background-color: #F5F5F5;
-    border-radius: 8px;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+#oncoprint-body {
+    font-family: 'Open Sans', sans-serif;
+    padding: 5px;
+    background-color: #FAFCFE;
+    color: #505050;
+    height: calc(100vh - 65px);
+    overflow: auto;
 }
 
-.oncoprint-card {
-    padding: 16px;
-    background-color: white;
-    border-radius: 16px;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+#oncoprint-body ::-webkit-scrollbar {
+    width: 4px;
+    height: 0px;
+    margin-right: 500px;
+    background-color: #FAFCFE;
+}
+#oncoprint-body ::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: #009DFF;
+    border-radius: 15px;
+    padding-right: 5px;
 }
 
-.oncoprint-subcard {
-    margin-top: 16px;
-    padding: 16px;
-    padding-top: 4px;
-    padding-bottom: 8px;
-    background-color: #F5F5F5;
-    border-radius: 8px;
-    box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.05);
+#oncoprint-control-tabs {
+    width: 400px;
+    height: 550px;
+    margin: 50px;
+    margin-right: 0px;
+    background-color: #fff;
+    font-size: 10pt;
+    float: left;
+    display: inline-block;
+}
+#oncoprint-control-tabs .tab-content {
+    padding: 20px;
+}
+.oncoprint-tab {
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 15px;
 }
 
-
-/* Subcomponents */
-.oncoprint-events {
-    width: 100%;
-    min-height: 100px;
-    height: 10vh;
-    border-radius: 4px;
+#oncoprint-control-tabs .tab {
+    background-color: #fff;
+    padding: 15px;
 }
 
-.oncoprint-settings {
-    margin-top: 8px;
-    width: 100%;
+#oncoprint-control-tabs .tab--selected {
+    border-top: solid 2px #009DFF;
+    color: #009DFF;
 }
 
-.oncoprint-half-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: center;
+#oncoprint-control-tabs .tab-content {
+    padding: 20px;
 }
 
-.oncoprint-half-settings {
-    margin-top: 8px;
-    margin-right: 8px;
-    width: 50%;
-}
-
-.oncoprint-display-none {
-   display: none;
-}
-
-
-/* Selectors */
-.oncoprint-select {
-    margin-top: 16px;
-}
-
-.oncoprint-slider {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.oncoprint-radio {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: center;
-}
-
-.oncoprint-separator {
-    margin-top: 16px;
-    margin-bottom: 8px;
+#oncoprint-chart {
+    width: calc(100vw - 600px);
+    margin: 50px;
+    display: inline-block !important;
 }

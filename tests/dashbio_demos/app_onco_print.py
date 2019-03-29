@@ -102,219 +102,210 @@ def header_colors():
 
 def layout():
     return html.Div(id='oncoprint-body', children=[
-        html.Div([
-            html.Div([
-                dash_bio.OncoPrint(
-                    id='oncoprint-chart',
-                    data=dataset3
-                ),
-            ], className='oncoprint-card eight columns'),
-            html.Div([
-                dcc.Tabs(
-                    id='oncoprint-tabs',
-                    value='oncoprint-tab-select',
-                    children=[
-                        dcc.Tab(
-                            label='Select',
-                            value='oncoprint-tab-select',
-                            children=[
-                                html.Div([
-                                    html.H4(
-                                        "Select Dataset"
-                                    ),
-                                    dcc.Dropdown(
-                                        id='oncoprint-dropdown',
-                                        className='oncoprint-select',
+
+        dash_bio.OncoPrint(
+            id='oncoprint-chart',
+            data=dataset3
+        ),
+
+        html.Div(id='oncoprint-control-tabs', children=[
+            dcc.Tabs(
+                id='oncoprint-tabs',
+                children=[
+                    dcc.Tab(
+                        label='About',
+                        value='what-is',
+                        children=html.Div(className='oncoprint-tab', children=[
+                            html.H4(
+                                "What is OncoPrint?"
+                            ),
+                            html.P(
+                                """
+                                The OncoPrint component is used to view multiple genetic
+                                alteration events through an interactive and zoomable
+                                heatmap. It is a React/Dash port of the popular
+                                oncoPrint() function from the BioConductor R
+                                package. Under the hood, the rendering is done using
+                                Plotly.js built upon D3. Plotly's interactivity allows
+                                the user to bind clicks and hovers to genetic events,
+                                allowing the user to create complex bioinformatic apps
+                                or workflows that rely on crossfiltering.
+                                """
+                            ),
+                            html.P(
+                                """
+                                Read more about the component here:
+                                https://github.com/plotly/react-oncoprint
+                                """
+                            )
+                        ])
+                    ),
+                    dcc.Tab(
+                        label='Data',
+                        value='data',
+                        children=html.Div(className='oncoprint-tab', children=[
+                            html.Div([
+                                html.H4(
+                                    "Select Dataset"
+                                ),
+                                dcc.Dropdown(
+                                    id='oncoprint-dropdown',
+                                    className='oncoprint-select',
+                                    options=[
+                                        {
+                                            'label': '{}.json'.format(ds),
+                                            'value': ds
+                                        }
+                                        for ds in DATASETS
+                                    ],
+                                    value='dataset3',
+                                ),
+                            ]),
+                            html.Div([
+                                html.H4(
+                                    "Hover/Click/Event Data"
+                                ),
+                                dcc.Textarea(
+                                    id="oncoprint-events",
+                                    placeholder="Hover or click on data to see it here.",
+                                    value="Hover or click on data to see it here.",
+                                    className="oncoprint-events",
+                                ),
+                            ])
+
+                        ])
+                    ),
+                    dcc.Tab(
+                        label='View',
+                        value='view',
+                        children=html.Div(className='oncoprint-tab', children=[
+                            html.H4('Layout'),
+                            html.Hr(className='oncoprint-separator'),
+                            html.Div(
+                                children=[
+                                    html.H6("Overview"),
+                                    dcc.RadioItems(
+                                        id='oncoprint-show-overview-radio',
+                                        className='oncoprint-radio',
                                         options=[
-                                            {
-                                                'label': '{}.json'.format(ds),
-                                                'value': ds
-                                            }
-                                            for ds in DATASETS
+                                            {'label': 'Show', 'value': True},
+                                            {'label': 'Hide', 'value': False},
                                         ],
-                                        value='dataset3',
+                                        value=True,
+                                        labelStyle={
+                                            'display': 'inline-block',
+                                            'margin-right': '8px',
+                                        },
                                     ),
-                                ], className='oncoprint-subcard'),
-                                html.Div([
-                                    html.H4(
-                                        "Hover/Click/Event Data"
+                                ],
+                            ),
+                            html.Div(
+                                children=[
+                                    html.H6("Legend"),
+                                    dcc.RadioItems(
+                                        id='oncoprint-show-legend-radio',
+                                        className='oncoprint-radio',
+                                        options=[
+                                            {'label': 'Show ', 'value': True},
+                                            {'label': 'Hide ', 'value': False},
+                                        ],
+                                        value=True,
+                                        labelStyle={
+                                            'display': 'inline-block',
+                                            'margin-right': '8px',
+                                        },
                                     ),
-                                    dcc.Textarea(
-                                        id="oncoprint-events",
-                                        placeholder="Hover or click on data to see it here.",
-                                        value="Hover or click on data to see it here.",
-                                        className="oncoprint-events",
-                                    ),
-                                ], className='oncoprint-subcard'),
-                                html.Div([
-                                    html.H4(
-                                        "What is OncoPrint?"
-                                    ),
+                                ],
+                            ),
+                            html.Div(
+                                children=[
+                                    html.H6("Padding"),
                                     html.P(
-                                        """
-                                        The OncoPrint component is used to view multiple genetic
-                                        alteration events through an interactive and zoomable
-                                        heatmap. It is a React/Dash port of the popular
-                                        oncoPrint() function from the BioConductor R
-                                        package. Under the hood, the rendering is done using
-                                        Plotly.js built upon D3. Plotly's interactivity allows
-                                        the user to bind clicks and hovers to genetic events,
-                                        allowing the user to create complex bioinformatic apps
-                                        or workflows that rely on crossfiltering.
-                                        """
+                                        'Adjust the padding (as percentage) '
+                                        'between two tracks.'
                                     ),
-                                    html.P(
-                                        """
-                                        Read more about the component here:
-                                        https://github.com/plotly/react-oncoprint
-                                        """
+                                    dcc.Slider(
+                                        className='oncoprint-slider',
+                                        id='oncoprint-padding-input',
+                                        value=0.05,
+                                        min=0,
+                                        max=0.1,
+                                        step=0.01,
+                                        marks={
+                                            '0': '0',
+                                            '0.02': '0.02',
+                                            '0.04': '0.04',
+                                            '0.06': '0.06',
+                                            '0.08': '0.08',
+                                            '0.1': '0.1',
+                                        },
                                     ),
-                                ], className='oncoprint-subcard'),
-                            ],
-                        ),
-                        dcc.Tab(
-                            label='Customize',
-                            value='oncoprint-tab-customize',
-                            children=[
-                                html.Div([
-                                    html.H4('Layout'),
-                                    html.Hr(className='oncoprint-separator'),
+                                ],
+                            ),
+                            html.Div([
+                                html.H4('Colorscale'),
+                                html.Hr(className='oncoprint-separator'),
+                                html.Div(
+                                    children=[
+                                        html.H6("Track color"),
+                                        html.P(
+                                            'Change the default background '
+                                            'color for the tracks.'
+                                        ),
+                                        dcc.Dropdown(
+                                            id='oncoprint-tracks-color-dropdown',
+                                            options=[
+                                                {'label': col_code,
+                                                 'value': col_code}
+                                                for col_code in
+                                                TRACKS_COLORS_OPT
+                                            ],
+                                            value=TRACKS_COLORS_OPT[0],
+                                        ),
+                                    ],
+                                ),
+                                html.Hr(className='oncoprint-separator'),
+                                html.H6("Mutation colors"),
+                                html.P(
+                                    "Select a mutation type and a color "
+                                    "to customize its look."
+                                ),
+                                html.Div(children=[
                                     html.Div(
-                                        className='oncoprint-settings',
                                         children=[
-                                            html.H6("Overview"),
-                                            dcc.RadioItems(
-                                                id='oncoprint-show-overview-radio',
-                                                className='oncoprint-radio',
-                                                options=[
-                                                    {'label': 'Show', 'value': True},
-                                                    {'label': 'Hide', 'value': False},
-                                                ],
-                                                value=True,
-                                                labelStyle={
-                                                    'display': 'inline-block',
-                                                    'margin-right': '8px',
-                                                },
-                                            ),
-                                        ],
-                                    ),
-                                    html.Div(
-                                        className='oncoprint-settings',
-                                        children=[
-                                            html.H6("Legend"),
-                                            dcc.RadioItems(
-                                                id='oncoprint-show-legend-radio',
-                                                className='oncoprint-radio',
-                                                options=[
-                                                    {'label': 'Show ', 'value': True},
-                                                    {'label': 'Hide ', 'value': False},
-                                                ],
-                                                value=True,
-                                                labelStyle={
-                                                    'display': 'inline-block',
-                                                    'margin-right': '8px',
-                                                },
-                                            ),
-                                        ],
-                                    ),
-                                    html.Div(
-                                        className='oncoprint-settings',
-                                        children=[
-                                            html.H6("Padding"),
-                                            html.P(
-                                                'Adjust the padding (as percentage) '
-                                                'between two tracks.'
-                                            ),
-                                            dcc.Slider(
-                                                className='oncoprint-slider',
-                                                id='oncoprint-padding-input',
-                                                value=0.05,
-                                                min=0,
-                                                max=0.1,
-                                                step=0.01,
-                                                marks={
-                                                    '0': '0',
-                                                    '0.02': '0.02',
-                                                    '0.04': '0.04',
-                                                    '0.06': '0.06',
-                                                    '0.08': '0.08',
-                                                    '0.1': '0.1',
-                                                },
-                                            ),
-                                        ],
-                                    ),
-                                ], className='oncoprint-subcard'),
-                                html.Div([
-                                    html.H4('Colorscale'),
-                                    html.Hr(className='oncoprint-separator'),
-                                    html.Div(
-                                        className='oncoprint-settings',
-                                        children=[
-                                            html.H6("Track color"),
-                                            html.P(
-                                                'Change the default background '
-                                                'color for the tracks.'
-                                            ),
+                                            html.H6("Mutation type"),
                                             dcc.Dropdown(
-                                                id='oncoprint-tracks-color-dropdown',
+                                                id='oncoprint-colorscale-mutation-dropdown',
                                                 options=[
-                                                    {'label': col_code,
-                                                     'value': col_code}
-                                                    for col_code in
-                                                    TRACKS_COLORS_OPT
+                                                    {'label': mut_type, 'value': mut_type}
+                                                        for mut_type in COLORSCALE_MUTATIONS_OPT
                                                 ],
-                                                value=TRACKS_COLORS_OPT[0],
+                                                value=COLORSCALE_MUTATIONS_OPT[0],
                                             ),
                                         ],
-                                    ),
-                                    html.Hr(className='oncoprint-separator'),
-                                    html.H6("Mutation colors"),
-                                    html.P(
-                                        "Select a mutation type and a color "
-                                        "to customize its look."
                                     ),
                                     html.Div(
-                                        className='oncoprint-half-container',
                                         children=[
-                                            html.Div(
-                                                className='oncoprint-half-settings',
-                                                children=[
-                                                    html.H6("Mutation type"),
-                                                    dcc.Dropdown(
-                                                        id='oncoprint-colorscale-mutation-dropdown',
-                                                        options=[
-                                                            {'label': mut_type, 'value': mut_type}
-                                                            for mut_type in COLORSCALE_MUTATIONS_OPT
-                                                        ],
-                                                        value=COLORSCALE_MUTATIONS_OPT[0],
-                                                    ),
+                                            html.H6("Color"),
+                                            dcc.Dropdown(
+                                                id='oncoprint-colorscale-color-dropdown',
+                                                options=[
+                                                    {'label': col_code, 'value': col_code}
+                                                        for col_code in COLORSCALE_COLORS_OPT
                                                 ],
-                                            ),
-                                            html.Div(
-                                                className='oncoprint-half-settings',
-                                                children=[
-                                                    html.H6("Color"),
-                                                    dcc.Dropdown(
-                                                        id='oncoprint-colorscale-color-dropdown',
-                                                        options=[
-                                                            {'label': col_code, 'value': col_code}
-                                                            for col_code in COLORSCALE_COLORS_OPT
-                                                        ],
-                                                        value=COLORSCALE_COLORS_OPT[0],
-                                                    ),
-                                                ],
+                                                value=COLORSCALE_COLORS_OPT[0],
                                             ),
                                         ],
                                     ),
-                                ], className='oncoprint-subcard'),
-                            ],
-                        ),
-                    ],
-                ),
-            ], className='oncoprint-card four columns'),
-        ], className='oncoprint-wrapper row'),
+                                ])
+                            ])
+                        ])
+                    )
+                ]
+            )
+        ]),
         dcc.Store(id='oncoprint-store'),
-    ])
+    ]),
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
