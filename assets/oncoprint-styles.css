@@ -31,7 +31,7 @@
     display: inline-block;
 }
 #oncoprint-control-tabs .tab-content {
-    padding: 20px;
+    padding: 30px;
 }
 .oncoprint-tab {
     max-height: 420px;
@@ -49,12 +49,75 @@
     color: #009DFF;
 }
 
-#oncoprint-control-tabs .tab-content {
-    padding: 20px;
-}
 
 #oncoprint-chart {
+    height: 700px;
     width: calc(100vw - 600px);
     margin: 50px;
     display: inline-block !important;
+}
+.oncoprint-option-name {
+    width: 140px;
+    font-size: 14pt;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+#oncoprint-dropdown, #oncoprint-colorscale-mutation-dropdown {
+    display: inline-block;
+    width: 160px;
+    float: right;
+}
+.oncoprint-select {
+    display: inline-block;
+    width: 100%;
+}
+#oncoprint-show-overview, #oncoprint-show-legend {
+    width: 180px;
+    display: inline-block;
+}
+
+#oncoprint-show-overview label, #oncoprint-show-legend label {
+    display: inline-block;
+    text-transform: lowercase;
+    font-variant: all-small-caps;
+    position: relative;
+    top: -5px;
+    font-size: 12pt;
+    font-weight: 500;
+}
+#oncoprint-show-overview > div > div > div, #oncoprint-show-legend > div > div > div {
+    display: inline-block;
+    position: relative;
+    padding: 2px;
+    margin: 3px;
+}
+#oncoprint-show-overview > div, #oncoprint-show-legend > div {
+    display: inline-block !important;
+    text-align: center;
+}
+#oncoprint-control-tabs h4 {
+    margin-bottom: 20px;
+}
+.oncoprint-slider {
+    width: 140px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 15px;
+    display: inline-block !important
+}
+.oncoprint-slider .rc-slider-track {
+    background-color: #009DFF;
+}
+.oncoprint-slider .rc-slider-handle, .oncoprint-slider .rc-slider-dot-active {
+    border-color: #009DFF;
+}
+#oncoprint-padding-input {
+    display: inline-block;
+    float: right;
+}
+#oncoprint-body .chrome-picker {
+    border: none !important;
+    border-radius: 0px !important;
+    width: 100% !important;
 }

@@ -4,7 +4,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_bio
-
+import dash_daq as daq
 
 text_style = {
     'color': "#506784",
@@ -105,12 +105,13 @@ def layout():
 
         dash_bio.OncoPrint(
             id='oncoprint-chart',
-            data=dataset3
+            height=550,
+            data=[]
         ),
 
         html.Div(id='oncoprint-control-tabs', children=[
             dcc.Tabs(
-                id='oncoprint-tabs',
+                id='oncoprint-tabs', value='view',
                 children=[
                     dcc.Tab(
                         label='About',
@@ -145,8 +146,9 @@ def layout():
                         value='data',
                         children=html.Div(className='oncoprint-tab', children=[
                             html.Div([
-                                html.H4(
-                                    "Select Dataset"
+                                html.Div(
+                                    className='oncoprint-option-name',
+                                    children='Select dataset'
                                 ),
                                 dcc.Dropdown(
                                     id='oncoprint-dropdown',
@@ -158,18 +160,16 @@ def layout():
                                         }
                                         for ds in DATASETS
                                     ],
-                                    value='dataset3',
+                                    value='cBioPortalData',
                                 ),
                             ]),
+                            html.Hr(
+                                className='oncoprint-separator'
+                            ),
                             html.Div([
-                                html.H4(
-                                    "Hover/Click/Event Data"
-                                ),
-                                dcc.Textarea(
-                                    id="oncoprint-events",
-                                    placeholder="Hover or click on data to see it here.",
-                                    value="Hover or click on data to see it here.",
-                                    className="oncoprint-events",
+                                html.H4('Hover, click, or event data'),
+                                html.Div(
+                                    id='oncoprint-events'
                                 ),
                             ])
 
@@ -180,49 +180,41 @@ def layout():
                         value='view',
                         children=html.Div(className='oncoprint-tab', children=[
                             html.H4('Layout'),
-                            html.Hr(className='oncoprint-separator'),
                             html.Div(
                                 children=[
-                                    html.H6("Overview"),
-                                    dcc.RadioItems(
-                                        id='oncoprint-show-overview-radio',
-                                        className='oncoprint-radio',
-                                        options=[
-                                            {'label': 'Show', 'value': True},
-                                            {'label': 'Hide', 'value': False},
-                                        ],
-                                        value=True,
-                                        labelStyle={
-                                            'display': 'inline-block',
-                                            'margin-right': '8px',
-                                        },
+                                    html.Div(
+                                        className='oncoprint-option-name',
+                                        children='Overview'
+                                    ),
+                                    daq.ToggleSwitch(
+                                        id='oncoprint-show-overview',
+                                        label=['hide', 'show'],
+                                        color='#009DFF',
+                                        size=35,
+                                        value=True
                                     ),
                                 ],
                             ),
                             html.Div(
                                 children=[
-                                    html.H6("Legend"),
-                                    dcc.RadioItems(
-                                        id='oncoprint-show-legend-radio',
-                                        className='oncoprint-radio',
-                                        options=[
-                                            {'label': 'Show ', 'value': True},
-                                            {'label': 'Hide ', 'value': False},
-                                        ],
-                                        value=True,
-                                        labelStyle={
-                                            'display': 'inline-block',
-                                            'margin-right': '8px',
-                                        },
+                                    html.Div(
+                                        className='oncoprint-option-name',
+                                        children='Legend'
+                                    ),
+                                    daq.ToggleSwitch(
+                                        id='oncoprint-show-legend',
+                                        label=['hide', 'show'],
+                                        color='#009DFF',
+                                        size=35,
+                                        value=True
                                     ),
                                 ],
                             ),
                             html.Div(
                                 children=[
-                                    html.H6("Padding"),
-                                    html.P(
-                                        'Adjust the padding (as percentage) '
-                                        'between two tracks.'
+                                    html.Div(
+                                        className='oncoprint-option-name',
+                                        children='Padding'
                                     ),
                                     dcc.Slider(
                                         className='oncoprint-slider',
@@ -240,27 +232,29 @@ def layout():
                                             '0.1': '0.1',
                                         },
                                     ),
+                                    html.Br(),
+                                    html.Div(
+                                        'Adjust the padding (as percentage) '
+                                        'between two tracks.'
+                                    ),
                                 ],
                             ),
+                            html.Hr(className='oncoprint-separator'),
                             html.Div([
-                                html.H4('Colorscale'),
-                                html.Hr(className='oncoprint-separator'),
+                                html.H4('Colors'),
                                 html.Div(
                                     children=[
-                                        html.H6("Track color"),
+                                        html.Div(
+                                            className='oncoprint-option-name',
+                                            children='Track color'
+                                        ),
                                         html.P(
                                             'Change the default background '
                                             'color for the tracks.'
                                         ),
-                                        dcc.Dropdown(
-                                            id='oncoprint-tracks-color-dropdown',
-                                            options=[
-                                                {'label': col_code,
-                                                 'value': col_code}
-                                                for col_code in
-                                                TRACKS_COLORS_OPT
-                                            ],
-                                            value=TRACKS_COLORS_OPT[0],
+                                        daq.ColorPicker(
+                                            id='oncoprint-tracks-color',
+                                            value={'hex': '#AAAAAA'}
                                         ),
                                     ],
                                 ),
@@ -273,7 +267,10 @@ def layout():
                                 html.Div(children=[
                                     html.Div(
                                         children=[
-                                            html.H6("Mutation type"),
+                                            html.Div(
+                                                className='oncoprint-option-name',
+                                                children='Mutation type'
+                                            ),
                                             dcc.Dropdown(
                                                 id='oncoprint-colorscale-mutation-dropdown',
                                                 options=[
@@ -286,15 +283,14 @@ def layout():
                                     ),
                                     html.Div(
                                         children=[
-                                            html.H6("Color"),
-                                            dcc.Dropdown(
-                                                id='oncoprint-colorscale-color-dropdown',
-                                                options=[
-                                                    {'label': col_code, 'value': col_code}
-                                                        for col_code in COLORSCALE_COLORS_OPT
-                                                ],
-                                                value=COLORSCALE_COLORS_OPT[0],
+                                            html.Div(
+                                                className='oncoprint-option-name',
+                                                children='Mutation color'
                                             ),
+                                            daq.ColorPicker(
+                                                id='oncoprint-mutation-color',
+                                                value={'hex': COLORSCALE_COLORS_OPT[0]}
+                                            )
                                         ],
                                     ),
                                 ])
@@ -315,7 +311,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [
             Input('oncoprint-padding-input', 'value'),
             Input('oncoprint-colorscale-mutation-dropdown', 'value'),
-            Input('oncoprint-colorscale-color-dropdown', 'value'),
+            Input('oncoprint-mutation-color', 'value'),
         ],
         [
             State('oncoprint-store', 'data'),
@@ -328,6 +324,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 COLORSCALE_KEY: {},
                 TRIGGER_KEY: '',
             }
+
+        if mut_col is None or 'hex' not in mut_col.keys():
+            mut_col = {'hex': stored_data[COLORSCALE_KEY][mut_type]}
+
+        mut_col = mut_col['hex']
 
         if padding_val != stored_data[PADDING_KEY]:
             stored_data[PADDING_KEY] = padding_val
@@ -347,11 +348,21 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # Handle event data
     @app.callback(
-        Output("oncoprint-events", "value"),
+        Output("oncoprint-events", "children"),
         [Input("oncoprint-chart", "eventDatum")],
     )
     def event_data_select(data):
-        return str(data)
+        if data is not None and len(str(data)) > 0:
+            data = json.loads(data)
+            return [
+                html.Div('{}: {}'.format(
+                    str(key.replace(
+                        'eventType', 'event type').replace(
+                            'curveNumber', 'curve number').title()),
+                    str(data[key]).replace('<br>', ' - '))
+                ) for key in data.keys()]
+        return 'Hover over or click on a data point on the graph \
+        to see it here.'
 
     # Render main chart
     @app.callback(
@@ -364,24 +375,27 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     # Customization callbacks
     @app.callback(
         Output('oncoprint-chart', 'showlegend'),
-        [Input('oncoprint-show-legend-radio', 'value')],
+        [Input('oncoprint-show-legend', 'value')],
     )
     def toggle_legend(val):
         return val
 
     @app.callback(
         Output('oncoprint-chart', 'showoverview'),
-        [Input('oncoprint-show-overview-radio', 'value')],
+        [Input('oncoprint-show-overview', 'value')],
     )
     def toggle_overview(val):
         return val
 
     @app.callback(
         Output('oncoprint-chart', 'backgroundcolor'),
-        [Input('oncoprint-tracks-color-dropdown', 'value')],
+        [Input('oncoprint-tracks-color', 'value')],
     )
     def change_tracks_colors(val):
-        return val
+        if val is not None and 'hex' in val.keys():
+            print(val['hex'])
+            return val['hex']
+        return '#AAAAAA'
 
     @app.callback(
         Output('oncoprint-chart', 'padding'),
