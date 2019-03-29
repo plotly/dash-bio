@@ -1,5 +1,6 @@
-import os
 import json
+import os
+
 from pytest_dash.wait_for import (
     wait_for_element_by_css_selector,
     wait_for_element_by_id,
@@ -14,14 +15,12 @@ from .test_common_features import (
     COMPONENT_REACT_BASE
 )
 
-# TODO by merging https://github.com/plotly/dash-bio/pull/201
-
-# these tests are written for the locked version v1.4.1
+# NOTE These tests were written to work with dependency `ideogram` v1.4.1:
 # git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f
-# if the version in package-lock.json is different and some of the test fails it might be due
-# to changes from the author of https://github.com/eweitz/ideogram. For example, currently in the
-# version v1.5.1 test_orientation fails because "chromosome-set-container" was renamed to
-# "chromosome-set" which result in a timeout of the _wait_for function
+# This version is locked in `package-lock.json`. If that changed and some of the tests failed,
+# it might be due to changes in https://github.com/eweitz/ideogram. For example, test_orientation
+# fails with version v1.5.1 because "chromosome-set-container" was renamed to "chromosome-set"
+# (which results in the wait_for function timing out without finding the element).
 
 # define app name once
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
@@ -80,7 +79,7 @@ BASIC_PROPS = {
 
 
 def test_chr_height(dash_threaded):
-    """Test change maximal height of the chromosome."""
+    """Test change of chromosome maximal height."""
 
     prop_type = 'float'
 
@@ -227,16 +226,16 @@ def test_ploidy(dash_threaded):
     driver = dash_threaded.driver
 
     # assert 22 chromosomes + X and Y chromosomes
-    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
-    assert num_chromosoms == 24
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
+    assert len(chromosomes) == 24
 
     # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
     # assert doubling of the 22 chromosomes + X and Y chromosomes
-    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
-    assert num_chromosoms == 46
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
+    assert len(chromosomes) == 46
 
 
 def test_chromosomes(dash_threaded):
@@ -266,13 +265,17 @@ def test_chromosomes(dash_threaded):
 
     driver = dash_threaded.driver
 
+    # assert 22 chromosomes + X and Y chromosomes
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
+    assert len(chromosomes) == 24
+
     # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
     # assert the set of chromosomes contains 3 chromosomes
-    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
-    assert num_chromosoms == 3
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
+    assert len(chromosomes) == 3
 
 
 def test_chromosomes_wrong_input(dash_threaded):
@@ -302,13 +305,17 @@ def test_chromosomes_wrong_input(dash_threaded):
 
     driver = dash_threaded.driver
 
+    # assert 22 chromosomes + X and Y chromosomes
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
+    assert len(chromosomes) == 24
+
     # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
     # assert the set of chromosomes contains 2 chromosomes
-    num_chromosoms = len(wait_for_elements_by_css_selector(driver, '.chromosome'))
-    assert num_chromosoms == 2
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
+    assert len(chromosomes) == 2
 
 
 def test_brush(dash_threaded):
@@ -396,7 +403,7 @@ def test_show_band_labels(dash_threaded):
 
     # assert the presence of bands' labels
     labels = driver.find_elements_by_class_name('bandLabel')
-    assert len(labels) != 0
+    assert len(labels) > 0
 
 
 def test_show_chromosome_labels(dash_threaded):
@@ -435,8 +442,8 @@ def test_show_chromosome_labels(dash_threaded):
     btn.click()
 
     # assert the presence of chromosomes' labels
-    num_labels = len(wait_for_elements_by_css_selector(driver, '.chrLabel'))
-    assert num_labels != 0
+    labels = wait_for_elements_by_css_selector(driver, '.chrLabel')
+    assert len(labels) > 0
 
 
 def test_sex(dash_threaded):
@@ -629,7 +636,7 @@ def test_homology(dash_threaded):
 
     # assert the presence of homology region
     regions = wait_for_elements_by_css_selector(driver, '.syntenicRegion')
-    assert len(regions) != 0
+    assert len(regions) > 0
 
 
 def test_full_chromosome_labels(dash_threaded):
