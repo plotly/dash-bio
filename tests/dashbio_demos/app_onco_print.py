@@ -275,7 +275,7 @@ def layout():
                                                 id='oncoprint-colorscale-mutation-dropdown',
                                                 options=[
                                                     {'label': mut_type, 'value': mut_type}
-                                                        for mut_type in COLORSCALE_MUTATIONS_OPT
+                                                    for mut_type in COLORSCALE_MUTATIONS_OPT
                                                 ],
                                                 value=COLORSCALE_MUTATIONS_OPT[0],
                                             ),
