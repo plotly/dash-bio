@@ -871,7 +871,7 @@ def parse_contents(contents, filename, _):
     decoded = base64.b64decode(content_string).decode('UTF-8')
     answer = None
     try:
-        if 'csv' in filename:
+        if filename.endswith('.csv'):
             # Assume that the user uploaded a CSV file
             df = pd.read_csv(io.StringIO(decoded))
             df = df.to_dict(orient='records')
@@ -907,8 +907,8 @@ empty = dash_bio.Circos(
 
 # Upload text blurb
 upload_instructions = (
-    '1. Select your dataset or (press download for sample data). \n'
-    + '2. Drag and drop .CSV for each dataset dropdown (layout -> layout.csv, etc) \n'
+    '1. Select your dataset (or press download for sample data). \n'
+    + '2. Drag and drop .csv for each dataset dropdown (layout -> layout.csv, etc) \n'
     + '3. Press Render! \n'
     + '4. Go to "View Dataset" tab to view data in table.'
 )
