@@ -236,14 +236,6 @@ def layout():
             id='speck-store-preset-atom-style',
             data=None
         ),
-        dcc.Store(
-            id='speck-view-updated',
-            data=None
-        ),
-
-        html.Div(
-            id='speck-idk'
-        )
     ])
 
 
@@ -266,13 +258,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if len(presets_enable) == 0:
             return {'display': 'none'}
         return {'display': 'inline-block'}
-
-    @app.callback(
-        Output('speck-view-updated', 'data'),
-        [Input('speck', 'view')]
-    )
-    def update_something(_):
-        return 'update'
 
     @app.callback(
         Output('speck', 'data'),
