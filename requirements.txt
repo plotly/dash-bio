@@ -10,7 +10,6 @@ dash-bio==0.0.8rc13
 dash-core-components==0.43.1
 dash-daq==0.1.4
 dash-html-components==0.13.5
-dash-table==3.4.0
 gunicorn
 jsonschema
 matplotlib
