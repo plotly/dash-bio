@@ -279,18 +279,21 @@ def layout():
                                     id='needle-mutdata-file-div',
                                     title='Mutation data files are JSON files containing '
                                           'the following fields :\n'
-                                          '- "x" (protein coordinate of the mutation) \n'
-                                          '- "y" (number of recorded mutations) \n'
-                                          '- "mutationGroups" (type of mutations) \n'
-                                          '- "domains" (protein domains.\n '
-                                          '"x", "y", "mutationGroups" are arrays, they '
-                                          'must have the same length, '
-                                          '"x" is required. The "domains" is an array of '
+                                          '- "x" (protein coordinate of the mutation); \n'
+                                          '- "y" (number of recorded mutations); \n'
+                                          '- "mutationGroups" (type of mutations); \n'
+                                          '- "domains" (protein domains).\n '
+                                          '"x", "y", and "mutationGroups" are arrays, they '
+                                          'must have the same length. '
+                                          '"x" is required. "domains" is an array of '
                                           'JSON objects with required fields "name" '
-                                          'and "coord", which are a string and a string '
-                                          'detailing the start and end of the domains in '
-                                          'protein coordinate (e.g., "23-34"), '
-                                          'respectively.',
+                                          'and "coord"; "name" can be any string (think '
+                                          'of it as a label), whereas "coord" should be '
+                                          'a string formatted like '
+                                          '"<start_coord>-<stop_coord>" where integer '
+                                          '<start_coord> is less than integer <stop_coord> '
+                                          '(e.g., "23-34"), giving the domain in protein '
+                                          'coordinates.',
                                     children=[
                                         html.H5(
                                             'Upload mutation data JSON file'
@@ -313,10 +316,9 @@ def layout():
                                     title='Protein data files accepted here can be of'
                                           ' two types: \n'
                                           '- an array of JSON objects with the required '
-                                          'fields "name" and "coord", which are a string '
-                                          'and a string  detailing the start and end of '
-                                          'the domains in protein coordinate (eg. "23-34")'
-                                          ', respectively.\n'
+                                          'fields, i.e., "name" (any string) and "coord" '
+                                          '(a string specifying domains in protein '
+                                          'coordinates (e.g., "23-34");'
                                           '- a JSON file with the same structure as: '
                                           'http://pfam.xfam.org/protein/P04637/graphic.',
                                     children=[
