@@ -18,7 +18,7 @@ matplotlib
 numpy
 pandas
 parmed
-plotly==3.5.0
+plotly>=3.5.0
 requests
 scipy>=1.1.0
-sklearn
+scikit-learn

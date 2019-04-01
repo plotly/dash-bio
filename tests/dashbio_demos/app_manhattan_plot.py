@@ -1,5 +1,3 @@
-# In[]:
-# Import required libraries
 import os
 import pandas as pd
 import dash_html_components as html
@@ -25,109 +23,100 @@ DATASET = pd.read_csv("{}data.csv".format(DATAPATH))
 # Feed the data to a function which creates a Manhattan Plot figure
 fig = dash_bio.ManhattanPlot(DATASET)
 
-text_style = {
-    'color': "#506784",
-    'font-family': 'Open Sans'
-}
-
 
 def description():
     return 'Display genomic studies results sorted out by chromosome with ' \
            'this Manhattan plot.\
-    Perfect to visualize genome wide association studies (GWAS).'
+    Perfect to visualize genome-wide association studies (GWAS).'
 
 
 def header_colors():
     return {
         'bg_color': '#0D76BF',
-        'font_color': '#C8D4E3',
+        'font_color': '#fff',
         'light_logo': True
     }
 
 
 def layout():
-    return html.Div(
-        id='mhp-page-content',
-        children=[
-            html.Div(
-                id='mhp-graph-div',
-                className='seven columns',
-                children=dcc.Graph(
-                    figure=fig,
-                    id='mhp-graph',
-                    config={'scrollZoom': True},
-                )
-            ),
-            html.Div(
-                id='mhp-info-div',
-                className='four columns',
-                children=[
-                    html.Div(
-                        id='mhp-text',
-                        className='row mhp-text mhp-intro',
-                        children="Visualize genome wide association studies "
-                                 "(GWAS) with efficient manhattan plots. "
-                                 "Using WebGL under the hood, interactively "
-                                 "explore hundred of thousands of points at "
-                                 "once or individually hover over them.",
-                    ),
-                    html.Div(
-                        className='mhp-horizontal-style mph-control-div',
-                        id='mhp-slider-genome-div',
-                        children=[
-                            html.H5(
-                                "Threshold value (red line)",
-                                className='mhp-text',
-                            ),
-                            html.Div(
+    return html.Div(id='mhp-page-content', children=[
+        html.Div(
+            id='mhp-graph-div',
+            children=dcc.Graph(
+                figure=fig,
+                style={
+                    'bgcolor': 'rgba(0,0,0,0)'
+                },
+                id='mhp-graph',
+                config={'scrollZoom': True},
+            )
+        ),
 
-                                className='mhp-slider-div',
-                                children=dcc.Slider(
-                                    id='mhp-slider-genome',
-                                    vertical=False,
-                                    updatemode='mouseup',
-                                    max=9,
-                                    min=1,
-                                    value=7,
-                                    marks={
-                                        i + 1: '{}'.format(i + 1)
-                                        for i in range(9)
-                                    },
-                                    step=0.05
-                                ),
-                            )
-                        ]
-                    ),
-                    html.Div(
-                        className='mhp-horizontal-style mph-control-div',
-                        id='mhp-slider-indic-div',
-                        children=[
-                            html.H5(
-                                "Suggestive line (purple)",
-                                className='mhp-text',
-                            ),
-                            html.Div(
-                                className='mhp-slider-div',
-                                children=dcc.Slider(
-                                    id='mhp-slider-indic',
-                                    vertical=False,
-                                    updatemode='mouseup',
-                                    max=9,
-                                    min=1,
-                                    value=6,
-                                    marks={
-                                        i + 1: '{}'.format(i + 1)
-                                        for i in range(9)
-                                    },
-                                    step=0.05
-                                ),
-                            )
-                        ]
-                    ),
-                ]
-            ),
-        ]
-    )
+        html.Div(id='manhattan-control-tabs', children=[
+            dcc.Tabs(id='manhattan-tabs', children=[
+                dcc.Tab(
+                    label='About',
+                    value='what-is',
+                    children=html.Div(className='manhattan-tab', children=[
+                        html.H4('What is Manhattan Plot?'),
+                        html.P('ManhattanPlot allows you to visualize genome-'
+                               'wide association studies (GWAS) efficiently. '
+                               'Using WebGL under the hood, you can interactively '
+                               'explore overviews of massive datasets comprising '
+                               'hundreds of thousands of points at once, or '
+                               'take a closer look at a small subset of your data.'),
+                        html.P('You can adjust the threshold level and the '
+                               'suggestive line in the "Graph" tab.')
+                    ])
+                ),
+                dcc.Tab(
+                    label='Graph',
+                    value='graph',
+                    children=html.Div(className='manhattan-tab', children=[
+                        html.Div(
+                            className='manhattan-option-name',
+                            children=[
+                                'Threshold value (red)'
+                            ]
+                        ),
+                        dcc.Slider(
+                            id='mhp-slider-genome',
+                            vertical=False,
+                            updatemode='mouseup',
+                            max=9,
+                            min=1,
+                            value=7,
+                            marks={
+                                i + 1: '{}'.format(i + 1)
+                                for i in range(9)
+                            },
+                            step=0.05
+                        ),
+                        html.Br(),
+                        html.Div(
+                            className='manhattan-option-name',
+                            children=[
+                                'Suggestive line (purple)',
+                            ]
+                        ),
+                        dcc.Slider(
+                            id='mhp-slider-indic',
+                            vertical=False,
+                            updatemode='mouseup',
+                            max=9,
+                            min=1,
+                            value=6,
+                            marks={
+                                i + 1: '{}'.format(i + 1)
+                                for i in range(9)
+                            },
+                            step=0.05
+                        )
+                    ])
+                )
+            ])
+        ]),
+    ])
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name

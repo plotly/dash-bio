@@ -4,17 +4,15 @@ import PropTypes from 'prop-types';
 import {omit} from 'ramda';
 
 /**
- * The Dash Ideogram is used to draw and animate genome-wide
- * datasets for organisms such as human, mouse, and any
- * other eukaryotes. The Ideogram can be used to compare
- * homologous features between chromosomes, and depict,
- * haploid, diploid, aneuploidy genomes. It can also display
- * annotations using histograms, overlays, and simple side
- * by side tracks to show important genomic data.
+ * The Ideogram component is used to draw and animate genome-wide
+ * datasets for organisms such as human, mouse, and any other
+ * eukaryote. The Ideogram component can be used to compare
+ * homologous features between chromosomes, and depict
+ * haploid, diploid, aneuploid genomes. It can also display
+ * annotations on genomic data using histograms and overlays.
  *
- * Go here to see it in action: https://eweitz.github.io/ideogram/
- * Reference for the component's props:
- * https://github.com/eweitz/ideogram/blob/770ce1fe5ae4f27dd435f9f99948118af88f8349/api.md
+ * Reference: https://eweitz.github.io/ideogram/
+ * Component's props: https://github.com/eweitz/ideogram/blob/master/api.md
  */
 
 export default class Ideogram extends Component {
@@ -570,7 +568,7 @@ Ideogram.propTypes = {
     rotated: PropTypes.bool,
 
     /**
-     * Useful for omitting chromosome Y in female mammals.
+     * Useful for omitting chromosome Y in female animals.
      * Currently only supported for organisms that use XY sex-determination.
      */
     sex: PropTypes.oneOf(['male', 'female']),

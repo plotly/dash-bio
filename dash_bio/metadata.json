@@ -1183,7 +1183,7 @@
     }
   },
   "src/lib/components/Ideogram.react.js": {
-    "description": "The Dash Ideogram is used to draw and animate genome-wide\ndatasets for organisms such as human, mouse, and any\nother eukaryotes. The Ideogram can be used to compare\nhomologous features between chromosomes, and depict,\nhaploid, diploid, aneuploidy genomes. It can also display\nannotations using histograms, overlays, and simple side\nby side tracks to show important genomic data.\n\nGo here to see it in action: https://eweitz.github.io/ideogram/\nReference for the component's props:\nhttps://github.com/eweitz/ideogram/blob/770ce1fe5ae4f27dd435f9f99948118af88f8349/api.md",
+    "description": "The Ideogram component is used to draw and animate genome-wide\ndatasets for organisms such as human, mouse, and any other\neukaryote. The Ideogram component can be used to compare\nhomologous features between chromosomes, and depict\nhaploid, diploid, aneuploid genomes. It can also display\nannotations on genomic data using histograms and overlays.\n\nReference: https://eweitz.github.io/ideogram/\nComponent's props: https://github.com/eweitz/ideogram/blob/master/api.md",
     "displayName": "Ideogram",
     "methods": [
       {
@@ -1715,7 +1715,7 @@
           ]
         },
         "required": false,
-        "description": "Useful for omitting chromosome Y in female mammals.\nCurrently only supported for organisms that use XY sex-determination."
+        "description": "Useful for omitting chromosome Y in female animals.\nCurrently only supported for organisms that use XY sex-determination."
       },
       "showChromosomeLabels": {
         "type": {

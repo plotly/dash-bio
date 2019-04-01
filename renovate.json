@@ -1,0 +1,30 @@
+{
+  "extends": [
+    ":onlyNpm",
+    "schedule:daily"
+  ],
+  "enabledManagers": [
+    "npm"
+  ],
+  "groupName": "all dependencies",
+  "separateMajorMinor": false,
+  "groupSlug": "all",
+  "packageRules": [
+    {
+      "packagePatterns": [
+        "*"
+      ],
+      "groupName": "all dependencies",
+      "groupSlug": "all"
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": false
+  },
+  "ignoreDeps": [
+    "ideogram",
+    "react",
+    "react-dom",
+    "react-docgen"
+  ]
+}

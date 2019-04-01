@@ -1,122 +1,205 @@
-.circos-banner {
-    height: 75px;
-    background-color: rgb(66, 196, 247);
-    border-radius: 2px;
+#circos-body {
+    font-family: 'Helvetica', sans-serif;
+    padding: 5px;
+    background-color: #1F2132;
+    color: #E2EFFA;
+    font-weight:100;
+    height: calc(100vh - 65px);
+    overflow: auto;
 }
 
-.circos-banner h2{
-    color: white;
-    margin-left: 2%;
-    display: inline-block;
+#circos-body ::-webkit-scrollbar {
+    width: 4px;
+    height: 0px;
+    margin-right: 500px;
+    background-color: #1F2132;
+}
+#circos-body ::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: #7cd3f7;
+    border-radius: 15px;
+    padding-right: 5px;
 }
 
-.circos-banner Img{
-    position: relative;
+#circos-control-tabs {
+    width: 400px;
+    height: 550px;
+    margin: 50px;
+    margin-right: 0px;
+    background-color: #262b3d;
+    font-size: 10pt;
+    float: left;
+}
+
+.circos-tab {
+    height: 460px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+.circos-controls {
+    width: 100%;
+    overflow: auto;
+}
+#circos-control-tabs .tab {
+    background-color: #202530;
+    color: #E2EFFA;
+    padding: 15px;
+    border-color: #557;
+}
+
+#circos-control-tabs .tab--selected {
+    border-top: solid 2px #7CD3F7;
+    background-color: #262b3d;
+    color: #7CD3F7;
+}
+
+#circos-control-tabs .tab-content {
+    padding: 20px;
+}
+
+#circos-hold {
+    display: inline-block !important;
+    padding: 40px;
+    margin-left: 50px;
+}
+
+#circos-body .rc-slider-rail {
+    background-color: #1F2132;
+}
+#circos-body .rc-slider-track {
+    background-color: #7CD3F7;
+}
+#circos-body .rc-slider-handle {
+    border-color: #7CD3F7;
+    background-color: #1F2132;
+}
+#circos-body .rc-slider {
+    margin-right: 2px;
+    margin-top: 15px;
+    margin-bottom: 10px;
     float: right;
-    right: 10px;
-    height: 75px;
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(100% - 5px);
+}
+#circos-tabs-orig {
+    display: none;
 }
 
-.circos-datatable {
-    overflowY: hidden;
+#circos-tabs-orig-parent {
+    display: none;
+}
+#circos-control-tabs .Select-control, #circos-control-tabs .Select-menu-outer {
+    border: solid 1px #545454;
+    background-color: #262b3d !important;
+    width: 140px !important;
+}
+#circos-control-tabs span.Select-value-label {
+    color: #E2EFFA !important;
+}
+#circos-control-tabs .Select-input {
+    padding: 0px;
 }
 
-.circos-chords-text {
-   padding-top: 4%;
+#circos-size, #circos-graph-type, #circos-view-dataset, #circos-preloaded-uploaded, #circos-view-dataset-custom {
+    width: 140px;
+    position: relative;
+    display: inline-block;
+    float: right;
+    color: #E2EFFA;
+
+}
+#circos-control-tabs .Select-value-icon {
+    background-color: #232323;
+}
+#circos-graph-type .Select-multi-value-wrapper {
+    max-height: 100px;
+    width: calc(100% - 10px);
+    overflow: auto;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-right:10px;
 }
 
-.circos-size-slider {
-   padding-left: 3.5%;
+.circos-option-name {
+    font-size: 13pt;
+    width: 160px;
+    margin-bottom: 25px;
+    margin-top: 5px;
+    font-weight: 100 !important;
+    display: inline-block;
+    vertical-align: top;
 }
 
-.circos-row-one {
-   margin-top: 2.5%;
-   padding: 1% 3% 2% 3%;
-   border: 1px solid #2a3f5f;
+#circos-control-tabs .tab-content {
+    padding: 30px;
 }
 
-.circos-event-data {
-   width: 100%;
+
+#circos-body #data-table .dash-spreadsheet * {
+    box-shadow: none !important;
+}
+#circos-body tr, #circos-body th , #circos-body td{
+    background-color: #1F2132 !important;
+    border-color: #222830 !important;
+    padding: 5px;
+    height: 40px;
+    box-shadow: none !important;
+}
+#circos-body th.dash-filter input {
+    color: #E2EFFA;
+}
+#upload-data {
+    border-radius: 5px;
+    border: dotted 1px #7CD3F7;
+    text-align: center;
+    width: 320px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+#circos-body .Select-menu-outer {
+    z-index: 100;
+}
+#circos-body #data-table .row.row-0 {
+    z-index: 1;
+}
+#circos-body button {
+    color: #E2EFFA;
+}
+#circos-body button.previous-page, #circos-body button.next-page {
+    font-size: 0px;
+    border: none;
+    padding: 0px;
+    width: 50%;
+    text-align: center;
+    transition-duration: 300ms;
 }
 
-.circos-row-two {
-   margin-top: 2.5%; 
-   border: 1px solid #2a3f5f;
-   padding: 1% 2% 3% 3%;
+#circos-body button.previous-page:hover, #circos-body button.next-page:hover {
+    color: #303030;
 }
-
-.circos-select-data-set {
-   margin-right: 7.5%;
+#circos-body button.next-page:after {
+    content:">";
+    font-size: 20px;
 }
-
-.circos-button-data {
-   margin-top: 0.5%;
-   margin-bottom: 2%;
-   margin-right: 11%;
-   display: flex;
-   justify-content: center;
+#circos-body button.previous-page:after {
+    content: "<";
+    font-size: 20px;
 }
-
-.circos-button-render {
-   display: flex;
-   margin-top: 0.5%;
-   margin-bottom: 2%;
-   margin-left: 9.5%;
-   justify-content: center;
-   align-items: center;
+#circos-download-button, #render-button {
+    width: 100%;
+    margin-left: 0px;
+    margin-bottom: 30px;
 }
-
-.circos-row-three {
-   margin-top: 2.5%;
-   border: 1px solid #2a3f5f;
-   padding: 1% 0% 0% 3%
+#circos-body h5 {
+    margin-bottom: 15px;
 }
-
-.circos-text-area {
-   width: 100%;
-   height: 20vh;
+#circos-body #chords-text {
+    font-size: 9pt !important;
+    margin-bottom: 20px;
 }
-
-.circos-text-area-explain {
-   height: 30vh;
-   width: 100%;
-}
-
-.circos-upload-data {
-   width: 100%;
-   height: 19.5vh;
-   border-width: 1px;
-   border-style: dashed;
-   border-radius: 3px;
-   text-align: center;
-   margin: 3px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}
-
-.circos-row-four {
-   border: 1px solid #2a3f5f;
-   padding: 2% 2% 1% 2%;
-   border-top: 0px;
-}
-
-.circos-column-one {
-   max-height: 88.5vh;
-   padding-left: 1%;
-   padding-top: 1%;
-}
-
-.circos-column-two {
-   overflow: auto;
-}
-
-.circos-display-none {
-   display: none;
-}
-
-#main-circos {
-    display: flex;
-     justify-content: center;
-
+#circos-body h3 {
+    text-align: center;
 }
