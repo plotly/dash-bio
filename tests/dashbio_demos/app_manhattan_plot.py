@@ -53,7 +53,7 @@ def layout():
         ),
 
         html.Div(id='manhattan-control-tabs', children=[
-            dcc.Tabs(id='manhattan-tabs', children=[
+            dcc.Tabs(id='manhattan-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',

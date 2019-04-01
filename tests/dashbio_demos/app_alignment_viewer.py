@@ -104,11 +104,11 @@ def layout():
         html.Div([
             html.Div(id='alignment-control-tabs', children=[
                 dcc.Tabs(
-                    id='alignment-tabs',
+                    id='alignment-tabs', value='what-is',
                     children=[
                         dcc.Tab(
                             label='About',
-                            value='alignment-tab-about',
+                            value='what-is',
                             children=html.Div(className='alignment-tab', children=[
                                 html.H4(
                                     "What is Alignment Viewer?"

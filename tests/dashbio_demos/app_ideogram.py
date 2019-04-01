@@ -426,7 +426,7 @@ def layout():
     return html.Div(id='ideogram-body', children=[
         html.Div(id='ideogram-container'),
         html.Div(id='ideogram-control-tabs', children=[
-            dcc.Tabs(id='ideogram-tabs', children=[
+            dcc.Tabs(id='ideogram-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
