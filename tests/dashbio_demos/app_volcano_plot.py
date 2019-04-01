@@ -86,7 +86,7 @@ def layout():
                             'Specifically, volcano plots depict the negative '
                             'log-base-10 p-values plotted against their '
                             'effect size, odds ratio, or log fold-change. '
-                         ),
+                        ),
                     ])
                 ),
                 dcc.Tab(
@@ -104,7 +104,7 @@ def layout():
                                     'label': DATASETS[dset]['label'],
                                     'value': dset
                                 }
-                                    for dset in DATASETS
+                                for dset in DATASETS
                             ],
                             value='SET2'
                         )
