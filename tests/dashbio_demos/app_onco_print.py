@@ -111,7 +111,7 @@ def layout():
 
         html.Div(id='oncoprint-control-tabs', children=[
             dcc.Tabs(
-                id='oncoprint-tabs', value='view',
+                id='oncoprint-tabs',
                 children=[
                     dcc.Tab(
                         label='About',
@@ -393,7 +393,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def change_tracks_colors(val):
         if val is not None and 'hex' in val.keys():
-            print(val['hex'])
             return val['hex']
         return '#AAAAAA'
 
