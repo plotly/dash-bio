@@ -134,7 +134,7 @@ def layout():
         ),
 
         html.Div(id='speck-control-tabs', children=[
-            dcc.Tabs(id='speck-tabs', children=[
+            dcc.Tabs(id='speck-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
