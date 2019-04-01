@@ -18,8 +18,7 @@ setup(
     install_requires=[
         'biopython',
         'colour',
-        'dash>=0.37.0',
-        'dash-html-components',
+        'dash>=0.40.0',
         'pandas',
         'parmed',
         'plotly',

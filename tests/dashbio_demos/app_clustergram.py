@@ -125,7 +125,7 @@ def layout():
         ),
 
         html.Div(id='clustergram-control-tabs', children=[
-            dcc.Tabs(id='clustergram-tabs', children=[
+            dcc.Tabs(id='clustergram-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',

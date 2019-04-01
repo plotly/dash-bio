@@ -120,7 +120,7 @@ def layout():
         ),
 
         html.Div(id='needleplot-control-tabs', children=[
-            dcc.Tabs(id='needleplot-tabs', children=[
+            dcc.Tabs(id='needleplot-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',

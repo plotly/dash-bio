@@ -151,7 +151,7 @@ def layout():
         ),
 
         html.Div(id='seq-view-control-tabs', children=[
-            dcc.Tabs(id='seq-view-tabs', children=[
+            dcc.Tabs(id='seq-view-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
