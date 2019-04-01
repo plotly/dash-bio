@@ -156,7 +156,7 @@ input#coverage-color, input#coverage-bg-color, input#coverage-tooltip {
 #seq-view-body input[type=radio] {
     margin-right: 5px;
 }
-.Select, #selection-or-coverage, #sel-slider-or-input, #mouse-sel-or-subpart-sel {
+#seq-view-body .Select, #selection-or-coverage, #sel-slider-or-input, #mouse-sel-or-subpart-sel {
     width: 140px !important;
 }
 #selection-or-coverage, #sel-slider-or-input {
