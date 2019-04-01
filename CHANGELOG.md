@@ -4,6 +4,8 @@
 
 ### Fixed
 * Fixed issue with Clustergram not reordering rows and columns after clustering.
+* Fixed issue with Speck not properly handling incomplete "view" parameters.
+* Fixed issue with Speck not having setProps defined.
 
 ### Removed
 * Removed mentions of Dash events in OncoPrint component.

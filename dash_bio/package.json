@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.0.8-rc12",
+  "version": "0.0.8-rc14",
   "description": "Dash components for bioinformatics",
   "main": "build/index.js",
   "scripts": {
@@ -33,7 +33,7 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.0",
-    "babel-loader": "^8.0.0",
+    "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "copyfiles": "^2.0.0",
