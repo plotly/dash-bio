@@ -63,147 +63,168 @@ def header_colors():
 
 def layout():
 
-    return html.Div(
-        id='vp-page-content',
-        children=[
-            html.Div(
-                id='vp-info-panel-div',
-                children=[
-                    html.Div(
-                        "Interactively identify clinically meaningful "
-                        "markers in genomic experiments, i.e., markers "
-                        "that are statistically significant and have an "
-                        "effect size greater than some threshold. "
-                        "Volcano plots are the negative log10 p-values "
-                        "plotted against their effect size, odds ratio, "
-                        "or log fold-change.",
-                        className='vp-text vp-intro',
-                    ),
-                    html.Div(
-                        id='vp-dataset-div',
-                        className='vp-horizontal-style',
-                        title='',
-                        children=[
-                            html.H5(
-                                children='Choose Dataset to plot :',
-                                className='vp-title'
-                            ),
-                            dcc.Dropdown(
-                                id='vp-dataset-dropdown',
-                                options=[
-                                    {
-                                        'label': DATASETS[dset]['label'],
-                                        'value': dset
-                                    }
-                                    for dset in DATASETS
-                                ],
-                                value='SET2'
-                            )
-                        ]
-                    ),
-                    html.Div(
-                        id='vp-controls-div',
-                        children=[
-                            html.Div(
-                                className='vp-vertical-style',
-                                title='Changes the value of the left '
-                                      'vertical dashed line.',
-                                children=[
-                                    html.Div(
-                                        "Lower effect size",
-                                        className='vp-text',
-                                    ),
-                                    dcc.Input(
-                                        className='vp-input',
-                                        id='vp-lower-bound',
-                                        type='number',
-                                        value=-1,
-                                        max=0,
-                                    ),
-                                ],
-                            ),
-                            html.Div(
-                                className='vp-vertical-style',
-                                title='Changes the value of the right '
-                                      'vertical dashed line.',
-                                children=[
-                                    html.Div(
-                                        "Upper effect size",
-                                        className='vp-text',
-                                    ),
-                                    dcc.Input(
-                                        className='vp-input',
-                                        id='vp-upper-bound',
-                                        type='number',
-                                        value=1,
-                                        min=0,
-                                    ),
-                                ],
-                            ),
-                            html.Div(
-                                className='vp-vertical-style',
-                                title='Changes the value of the '
-                                      'horizontal dashed line.',
-                                children=[
-                                    html.Div(
-                                        "Threshold",
-                                        className='vp-text',
-                                    ),
-                                    dcc.Input(
-                                        className='vp-input',
-                                        id='vp-genomic-line',
-                                        type='number',
-                                        value=4,
-                                        max=10,
-                                        min=0
-                                    ),
-                                ],
-                            ),
-                        ],
-                    ),
-                    html.Div(
-                        id='vp-indicators-div',
-                        children=[
-                            html.Div(
-                                className='vp-vertical-style',
-                                title='Number of points in the upper left',
-                                children=[
-                                    html.Div(
-                                        "Upper left points",
-                                        className='vp-text',
-                                    ),
-                                    html.Div(
-                                        className='vp-input-like',
-                                        id='vp-upper-left',
-                                    ),
-                                ],
-                            ),
-                            html.Div(
-                                className='vp-vertical-style',
-                                title='Number of points in the upper right',
-                                children=[
-                                    html.Div(
-                                        "Upper right points",
-                                        className='vp-text',
-                                    ),
-                                    html.Div(
-                                        className='vp-input-like',
-                                        id='vp-upper-right',
-                                    ),
-                                ],
-                            ),
-                        ],
-                    ),
-                ],
+    return html.Div(id='vp-page-content', children=[
+        html.Div(
+            id='vp-graph-div',
+            children=dcc.Graph(
+                id='vp-graph'
             ),
-            html.Div(
-                id='vp-graph-div',
-                children=dcc.Graph(
-                    id='vp-graph',
+        ),
+        html.Div(id='vp-control-tabs', children=[
+            dcc.Tabs(id='vp-tabs', children=[
+                dcc.Tab(
+                    label='About',
+                    value='what-is',
+                    children=html.Div(className='vp-tab', children=[
+                        html.H4('What is Volcano Plot?'),
+                        html.Div(
+                            'You can use volcano plot to interactively '
+                            'identify clinically meaningful markers in '
+                            'genomic experiments, i.e., markers that are '
+                            'statistically significant and have an effect '
+                            'size greater than some threshold. '
+                            'Specifically, volcano plots depict the negative '
+                            'log-base-10 p-values plotted against their '
+                            'effect size, odds ratio, or log fold-change. '
+                         ),
+                    ])
                 ),
-            )
-        ],
-    )
+                dcc.Tab(
+                    label='Data',
+                    value='data',
+                    children=html.Div(className='vp-tab', children=[
+                        html.Div(
+                            className='vp-option-name',
+                            children='Dataset: '
+                        ),
+                        dcc.Dropdown(
+                            id='vp-dataset-dropdown',
+                            options=[
+                                {
+                                    'label': DATASETS[dset]['label'],
+                                    'value': dset
+                                }
+                                    for dset in DATASETS
+                            ],
+                            value='SET2'
+                        )
+                    ])
+                ),
+                dcc.Tab(
+                    label='View',
+                    value='view',
+                    children=html.Div(className='vp-tab', children=[
+
+                    ])
+                )
+            ])
+        ]),
+        html.Div(
+            id='vp-info-panel-div',
+            children=[
+                html.Div(
+                    id='vp-dataset-div',
+                    className='vp-horizontal-style',
+                    title='',
+                    children=[
+                    ]
+                ),
+                html.Div(
+                    id='vp-controls-div',
+                    children=[
+                        html.Div(
+                            className='vp-vertical-style',
+                            title='Changes the value of the left '
+                            'vertical dashed line.',
+                            children=[
+                                html.Div(
+                                    "Lower effect size",
+                                    className='vp-text',
+                                ),
+                                dcc.Input(
+                                    className='vp-input',
+                                    id='vp-lower-bound',
+                                    type='number',
+                                    value=-1,
+                                    max=0,
+                                ),
+                            ],
+                        ),
+                        html.Div(
+                            className='vp-vertical-style',
+                            title='Changes the value of the right '
+                            'vertical dashed line.',
+                            children=[
+                                html.Div(
+                                    "Upper effect size",
+                                    className='vp-text',
+                                ),
+                                dcc.Input(
+                                    className='vp-input',
+                                    id='vp-upper-bound',
+                                    type='number',
+                                    value=1,
+                                    min=0,
+                                ),
+                            ],
+                        ),
+                        html.Div(
+                            className='vp-vertical-style',
+                            title='Changes the value of the '
+                            'horizontal dashed line.',
+                            children=[
+                                html.Div(
+                                    "Threshold",
+                                    className='vp-text',
+                                ),
+                                dcc.Input(
+                                    className='vp-input',
+                                    id='vp-genomic-line',
+                                    type='number',
+                                    value=4,
+                                    max=10,
+                                    min=0
+                                ),
+                            ],
+                        ),
+                    ],
+                ),
+                html.Div(
+                    id='vp-indicators-div',
+                    children=[
+                        html.Div(
+                            className='vp-vertical-style',
+                            title='Number of points in the upper left',
+                            children=[
+                                html.Div(
+                                    "Upper left points",
+                                    className='vp-text',
+                                ),
+                                html.Div(
+                                    className='vp-input-like',
+                                    id='vp-upper-left',
+                                ),
+                            ],
+                        ),
+                        html.Div(
+                            className='vp-vertical-style',
+                            title='Number of points in the upper right',
+                            children=[
+                                html.Div(
+                                    "Upper right points",
+                                    className='vp-text',
+                                ),
+                                html.Div(
+                                    className='vp-input-like',
+                                    id='vp-upper-right',
+                                ),
+                            ],
+                        ),
+                    ],
+                ),
+            ],
+        ),
+    ])
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
