@@ -19,7 +19,6 @@ setup(
         'biopython',
         'colour',
         'dash>=0.40.0',
-        'dash-html-components',
         'pandas',
         'parmed',
         'plotly',
