@@ -14,6 +14,8 @@ from plotly import tools
 # pylint: disable=assignment-from-no-return, no-self-use
 def Clustergram(
         data=None,
+        generate_curves_dict=False,
+        use_precomputed_traces=False,
         computed_traces=None,
         row_labels=None,
         column_labels=None,
@@ -48,6 +50,15 @@ def Clustergram(
 Keyword arguments:
 
 - data (ndarray; required): Matrix of observations as array of arrays
+- generate_curves_dict (bool; optional): Whether or not to return a
+    dictionary containing information about the cluster number
+    associated with each curve number in the graph. (May be useful
+    if one wishes to capture the cluster number that is clicked.)
+    (Default: False)
+- use_precomputed_traces (bool; optional): Whether or not to return
+    the precomputed dendrogram traces. (May be useful if one wishes
+    to add, e.g., group markers to the figure without recalculating
+    the clustering in the entire figure.) (Default: False)
 - computed_traces (dict; optional): The dendrogram traces from another
    Clustergram component.
 - row_labels (list; optional): List of row category labels
@@ -161,14 +172,32 @@ Keyword arguments:
         hide_labels = []
     if color_threshold is None:
         color_threshold = dict(row=0, col=0)
+
+    # get rid of arguments that are not used by _Clustergram
     kwargs = locals()
+    kwargs.pop('use_precomputed_traces')
     kwargs.pop('computed_traces')
-    (fig, ct) = _Clustergram(
+    kwargs.pop('generate_curves_dict')
+
+    (fig, ct, curves_dict) = _Clustergram(
         **kwargs
     ).figure(
         computed_traces=computed_traces
     )
-    return go.Figure(fig), ct
+
+    return_values = [go.Figure(fig)]
+
+    if generate_curves_dict:
+        return_values.append(curves_dict)
+    if use_precomputed_traces:
+        return_values.append(ct)
+
+    # return only the figure by default
+    if(len(return_values) == 1):
+        return return_values[0]
+
+    # otherwise, return all requested values
+    return tuple(return_values)
 
 
 class _Clustergram():
@@ -177,8 +206,6 @@ class _Clustergram():
 Keyword arguments:
 
 - data (ndarray; required): Matrix of observations as array of arrays
-- computed_traces (dict; optional): The dendrogram traces from another
-   Clustergram component.
 - row_labels (list; optional): List of row category labels
    (observation labels)
 - column_labels (list; optional): List of column category labels
@@ -423,6 +450,10 @@ Keyword arguments:
         else:
             t = computed_traces
 
+        # get the translations for curve numbers (hover/click data
+        # interactions)
+        cluster_curve_numbers = {}
+
         # initialize plot; GM is for group markers
         # [empty]      [col. dendro] [col. dendro] [empty]
         # [row dendro] [heatmap]     [heatmap]     [row GM]
@@ -533,6 +564,7 @@ Keyword arguments:
                 width=self._line_width[1]
             )
             cdt['hoverinfo'] = 'y+name'
+            cluster_curve_numbers[len(fig.data)] = ['col', i]
             fig.append_trace(cdt, 1, 2)
 
         # row dendrogram (displays on left side)
@@ -543,6 +575,7 @@ Keyword arguments:
                 width=self._line_width[0]
             )
             rdt['hoverinfo'] = 'x+name'
+            cluster_curve_numbers[len(fig.data)] = ['row', i]
             fig.append_trace(rdt, 2, 1)
 
         # display row dendrogram sideways
@@ -753,7 +786,7 @@ Keyword arguments:
             width=self._width
         )
 
-        return (fig, t)
+        return (fig, t, cluster_curve_numbers)
 
     def _scale(
             self,
