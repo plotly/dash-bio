@@ -30,6 +30,7 @@ default_sliders = [
         value=0.6,
         updatemode='drag'
     ),
+    html.Br(),
     html.Span(
         "Relative atom radius",
         className='speck-slider-description'
@@ -42,6 +43,7 @@ default_sliders = [
         value=1.0,
         updatemode='drag'
     ),
+    html.Br(),
     html.Span(
         "Ambient occlusion",
         className='speck-slider-description'
@@ -53,6 +55,7 @@ default_sliders = [
         step=0.01,
         value=0.75
     ),
+    html.Br(),
     html.Span(
         "Brightness",
         className='speck-slider-description'
@@ -65,6 +68,7 @@ default_sliders = [
         value=0.5,
         updatemode='drag'
     ),
+    html.Br(),
     html.Span(
         "Outline",
         className='speck-slider-description'
@@ -88,7 +92,7 @@ default_sliders = [
         values=[]
     ),
     html.Span(
-        'Bond Scale',
+        'Bond scale',
         className='speck-slider-description'
     ),
     dcc.Slider(
@@ -105,7 +109,7 @@ default_sliders = [
 
 def header_colors():
     return {
-        'bg_color': '#ab63fa',
+        'bg_color': '#5673FA',
         'font_color': 'white'
     }
 
@@ -118,100 +122,120 @@ def layout():
 
     return html.Div(id='speck-body', children=[
 
-
         html.Div(
             id='speck-container',
             children=[
                 dash_bio.Speck(
                     id='speck',
-                    view={'resolution': 600},
+                    view={'resolution': 600, 'zoom': 0.03},
                     scrollZoom=True
                 )
             ]
         ),
 
-        html.Br(),
+        html.Div(id='speck-control-tabs', children=[
+            dcc.Tabs(id='speck-tabs', value='what-is', children=[
+                dcc.Tab(
+                    label='About',
+                    value='what-is',
+                    children=html.Div(className='speck-tab', children=[
+                        html.H4('What is Speck?'),
+                        html.P('Speck is a WebGL-based molecule renderer. By '
+                               'using ambient occlusion, the resolution of '
+                               'the rendering does not suffer as you zoom in.'),
+                        html.P('You can toggle between molecules using the menu under the '
+                               '"Data" tab, and control parameters related to '
+                               'the appearance of the molecule in the "View" tab. '
+                               'These parameters can be controlled at a low level '
+                               'with the sliders provided, or preset views can be '
+                               'applied for a higher-level demonstration of changing '
+                               'atom styles and rendering.')
+                        ])
+                ),
+                dcc.Tab(
+                    label='Data',
+                    value='datasets',
+                    children=html.Div(className='speck-tab', children=[
+                        html.H4("Choose preloaded XYZ data"),
+                        dcc.Dropdown(
+                            id='speck-molecule-dropdown',
+                            className='speck-dropdown',
+                            options=[
+                                {'label': 'DNA',
+                                 'value': '{}dna.xyz'.format(DATAPATH)},
+                                {'label': 'Caffeine',
+                                 'value': '{}caffeine.xyz'.format(DATAPATH)},
+                                {'label': 'Methane',
+                                 'value': '{}methane.xyz'.format(DATAPATH)}
+                            ],
+                            value='{}dna.xyz'.format(DATAPATH)
+                        )
+                    ])
+                ),
+                dcc.Tab(
+                    label='View',
+                    value='view-options',
+                    children=html.Div(className='speck-tab', children=[
+                        dcc.Checklist(
+                            id='speck-enable-presets',
+                            options=[{'label': 'Use presets', 'value': 'True'}],
+                            values=[]
+                        ),
+                        html.Hr(),
+                        html.Div(
+                            id='speck-controls-detailed',
+                            className='speck-controls',
+                            children=default_sliders
+                        ),
 
-        dcc.Checklist(
-            id='speck-enable-presets',
-            options=[{'label': 'Use presets', 'value': 'True'}],
-            values=[]
+                        html.Div(
+                            id='speck-controls-preset',
+                            className='speck-controls',
+                            children=[
+
+                                html.Span("Rendering style"),
+                                dcc.Dropdown(
+                                    id='speck-preset-rendering-dropdown',
+                                    className='speck-dropdown',
+                                    options=[
+                                        {'label': 'Default/reset',
+                                         'value': 'default'},
+                                        {'label': 'Toon',
+                                         'value': 'toon'},
+                                    ],
+                                    value='default'
+                                ),
+                                html.Br(),
+                                html.Span("Atom style"),
+                                dcc.Dropdown(
+                                    id='speck-preset-atom-style-dropdown',
+                                    className='speck-dropdown',
+                                    options=[
+                                        {'label': 'Ball-and-stick',
+                                         'value': 'stickball'},
+                                        {'label': 'Licorice',
+                                         'value': 'licorice'}
+                                    ],
+                                    value='default'
+                                ),
+
+
+                            ]
+                        )
+                    ])
+                ),
+            ])
+        ]),
+
+
+        dcc.Store(
+            id='speck-store-preset-rendering',
+            data=None
         ),
-
-        html.Br(),
-
-        dcc.Dropdown(
-            id='speck-molecule-dropdown',
-            className='speck-dropdown',
-            options=[
-                {'label': 'DNA',
-                 'value': '{}dna.xyz'.format(DATAPATH)},
-                {'label': 'Caffeine',
-                 'value': '{}caffeine.xyz'.format(DATAPATH)},
-                {'label': 'Methane',
-                 'value': '{}methane.xyz'.format(DATAPATH)}
-            ],
-            value='{}dna.xyz'.format(DATAPATH)
+        dcc.Store(
+            id='speck-store-preset-atom-style',
+            data=None
         ),
-
-        html.Br(),
-
-        html.Div(
-            id='speck-controls-preset',
-            className='speck-controls',
-            children=[
-
-                "1: Select rendering style",
-                dcc.Dropdown(
-                    id='speck-preset-rendering-dropdown',
-                    className='speck-dropdown',
-                    options=[
-                        {'label': 'Default/reset',
-                         'value': 'default'},
-                        {'label': 'Toon',
-                         'value': 'toon'},
-                    ],
-                    value='default'
-                ),
-                html.Br(),
-                "2: Select atom style",
-                dcc.Dropdown(
-                    id='speck-preset-atom-style-dropdown',
-                    className='speck-dropdown',
-                    options=[
-                        {'label': 'Ball-and-stick',
-                         'value': 'stickball'},
-                        {'label': 'Licorice',
-                         'value': 'licorice'}
-                    ],
-                    value='default'
-                ),
-
-                dcc.Store(
-                    id='speck-store-preset-rendering',
-                    data=None
-                ),
-                dcc.Store(
-                    id='speck-store-preset-atom-style',
-                    data=None
-                ),
-                dcc.Store(
-                    id='speck-view-updated',
-                    data=None
-                ),
-
-                html.Div(
-                    id='speck-idk'
-                )
-            ]
-        ),
-
-        html.Div(
-            id='speck-controls-detailed',
-            className='speck-controls',
-            children=default_sliders
-        )
-
     ])
 
 
@@ -234,13 +258,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if len(presets_enable) == 0:
             return {'display': 'none'}
         return {'display': 'inline-block'}
-
-    @app.callback(
-        Output('speck-view-updated', 'data'),
-        [Input('speck', 'view')]
-    )
-    def update_something(_):
-        return 'update'
 
     @app.callback(
         Output('speck', 'data'),

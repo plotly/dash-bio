@@ -32,7 +32,8 @@ def header_colors():
 
 def description():
     return 'Molecule visualization in 3D - perfect for viewing ' \
-           'biomolecules like proteins, DNA and RNA'
+           'biomolecules such as proteins, DNA and RNA. Includes ' \
+           'stick, cartoon, and sphere representations.'
 
 
 def layout():
@@ -40,23 +41,95 @@ def layout():
     return html.Div(
         id="mol3d-body",
         children=[
-
             html.Div(
                 id='mol3d-control-tabs',
                 children=[
-                    dcc.Tabs([
+                    dcc.Tabs(id='mol3d-tabs', value='what-is', children=[
                         dcc.Tab(
-                            label='What is Molecule 3D?',
+                            label='About',
                             value='what-is',
                             children=html.Div(className='mol3d-tab', children=[
-                                html.P('Molecule3D allows you to view ' +
-                                       'biomolecules in different ' +
-                                       'representations -- sticks, ' +
-                                       'spheres, and cartoons.')
+                                html.H4('What is Molecule3D?'),
+                                html.P('Molecule3D is a visualizer that allows you '
+                                       'to view biomolecules in multiple representations: '
+                                       'sticks, spheres, and cartoons.'),
+                                html.P('You can select a preloaded structure, or upload your own, '
+                                       'in the "Data" tab. A sample structure is also '
+                                       'available to download.'),
+                                html.P('In the "View" tab, you can change the style and '
+                                       'coloring of the various components of your molecule.')
                             ])
                         ),
+
                         dcc.Tab(
-                            label='View options',
+                            label='Data',
+                            value='upload-download',
+                            children=html.Div(className='mol3d-tab', children=[
+                                html.Div(
+                                    title='download a sample data file to view',
+                                    children=[
+                                        html.A(
+                                            html.Button(
+                                                "Download sample structure",
+                                                id="mol3d-download-sample-data",
+                                            ),
+                                            href='/assets/sample_data/2mru.pdb',
+                                            download='2mru.pdb'
+                                        )
+                                    ]
+                                ),
+                                html.Div(
+                                    title='Upload biomolecule to view here',
+                                    className='mol3d-controls',
+                                    id='mol3d-upload-container', children=[
+                                        dcc.Upload(
+                                            id='mol3d-upload-data',
+                                            children=html.Div([
+                                                'Drag and Drop or click to upload a file',
+                                            ]),
+                                            # Allow multiple files to be uploaded
+                                            multiple=True
+                                        ),
+                                    ]
+                                ),
+                                html.Div(
+                                    title='Select molecule to view',
+                                    className="mol3d-controls",
+                                    id="mol3d-demo-dropdown",
+                                    children=[
+                                        html.P(
+                                            'Select structure',
+                                            style={
+                                                'font-weight': 'bold',
+                                                'margin-bottom': '10px'
+                                            }
+                                        ),
+                                        dcc.Dropdown(
+                                            id='dropdown-demostr',
+                                            options=[
+                                                {
+                                                    'label': 'Protein',
+                                                    'value': '{}3aid.pdb'.format(DATAPATH)
+                                                },
+                                                {
+                                                    'label': 'DNA',
+                                                    'value': '{}1bna.pdb'.format(DATAPATH)
+                                                },
+                                                {
+                                                    'label': 'RNA',
+                                                    'value': '{}6dls.pdb'.format(DATAPATH)
+                                                },
+                                            ],
+                                            value='{}1bna.pdb'.format(DATAPATH)
+                                        ),
+                                    ],
+                                ),
+
+                            ])
+                        ),
+
+                        dcc.Tab(
+                            label='View',
                             value='view-options',
                             children=html.Div(className='mol3d-tab', children=[
                                 # Textarea container to display the selected atoms
@@ -156,74 +229,7 @@ def layout():
                             ]),
                         ),
 
-                        dcc.Tab(
-                            label='Datasets',
-                            value='upload-download',
-                            children=html.Div(className='mol3d-tab', children=[
-                                html.Div(
-                                    title='download a sample data file to view',
-                                    children=[
-                                        html.A(
-                                            html.Button(
-                                                "Download sample structure",
-                                                id="mol3d-download-sample-data",
-                                            ),
-                                            href='/assets/sample_data/2mru.pdb',
-                                            download='2mru.pdb'
-                                        )
-                                    ]
-                                ),
-                                html.Div(
-                                    title='Upload biomolecule to view here',
-                                    className='mol3d-controls',
-                                    id='mol3d-upload-container', children=[
-                                        dcc.Upload(
-                                            id='mol3d-upload-data',
-                                            children=html.Div([
-                                                'Drag and Drop or click to upload a file',
-                                            ]),
-                                            # Allow multiple files to be uploaded
-                                            multiple=True
-                                        ),
-                                    ]
-                                ),
-                                html.Div(
-                                    title='Select molecule to view',
-                                    className="mol3d-controls",
-                                    id="mol3d-demo-dropdown",
-                                    children=[
-                                        html.P(
-                                            'Select structure',
-                                            style={
-                                                'font-weight': 'bold',
-                                                'margin-bottom': '10px'
-                                            }
-                                        ),
-                                        dcc.Dropdown(
-                                            id='dropdown-demostr',
-                                            options=[
-                                                {
-                                                    'label': 'Protein',
-                                                    'value': '{}3aid.pdb'.format(DATAPATH)
-                                                },
-                                                {
-                                                    'label': 'DNA',
-                                                    'value': '{}1bna.pdb'.format(DATAPATH)
-                                                },
-                                                {
-                                                    'label': 'RNA',
-                                                    'value': '{}6dls.pdb'.format(DATAPATH)
-                                                },
-                                            ],
-                                            value='{}1bna.pdb'.format(DATAPATH)
-                                        ),
-                                    ],
-                                ),
-
-                            ])
-                        )
                     ]),
-                    html.Div(id='mol3d-tabs-content')
                 ]),
 
             html.Div(

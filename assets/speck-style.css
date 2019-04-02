@@ -1,59 +1,114 @@
 #speck-body {
-    min-height: calc(100vh - 100px);
+    font-family: 'Open Sans', sans-serif;
+    padding: 5px;
+    background-color: #fff;
+    color: #232323;
+    font-weight:100;
+    height: calc(100vh - 65px);
     overflow: auto;
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    background-color: #333;
-    color: #F3F6FA;
-    display: inline-block;
 }
 
-.speck-controls {
-    display: inline-block;
-    margin: 20px;
-    padding: 20px;
-    width: 200px; 
-    float: left;
-    border: solid 1px #F3F6FA;
-    border-radius: 5px;
-    color: white; 
+#speck-body ::-webkit-scrollbar {
+    width: 4px;
+    height: 0px;
+    margin-right: 500px;
+    background-color: #fff;
 }
-.speck-slider-description {
-    margin-top: 10px;
+#speck-body ::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: #5673fa;
+    border-radius: 15px;
+    padding-right: 5px;
+}
+
+#speck-control-tabs {
+    width: 400px;
+    height: 550px;
+    margin: 50px;
+    margin-right: 0px;
+    background-color: #eee;
+    font-size: 10pt;
+    float: left;
+}
+
+.speck-tab {
+    height: 460px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+.speck-controls {
+    width: 100%;
+    overflow: auto;
+}
+#speck-control-tabs .tab {
+    background-color: #eee;
+    color: #232323;
+    padding: 15px;
+    border-color: #ccc;
+}
+
+#speck-control-tabs .tab--selected {
+    border-top: solid 2px #5673FA;
+    color: #5673FA;
+}
+
+#speck-control-tabs .tab-content {
+    padding: 20px;
+}
+
+#speck-container {
+    display: inline-block !important;
+    padding: 0px;
+    margin: 50px;
+}
+#speck-body .rc-slider-rail {
+    background-color: rgba(255,255,255,0.7);
 }
 #speck-body .rc-slider-track {
-    background-color: #ab63fa;
+    background-color: #5673FA;
 }
 #speck-body .rc-slider-handle {
-    border-color: #ab63fa; 
+    border-color: #5673FA;
 }
-#speck-molecule-dropdown, #speck-preset-rendering-dropdown, #speck-preset-atom-style-dropdown {
-    color: black;
-}
-.speck-dropdown {
-    margin-top: 10px;
-    margin-bottom: 10px; 
-}
-#speck-enable-presets, #speck-molecule-dropdown {
-    display: inline-block;
-    width: 240px;
-    margin-left: 20px;
-    margin-bottom: 15px; 
-}
-#speck-container {
-    display: inline-block;
-    float: left;
-    margin: 10px; 
-}
-
-#speck-body hr {
-    margin-top: 10px;
+#speck-body .rc-slider {
+    margin: 5px;
+    margin-top: 25px;
     margin-bottom: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(100% - 130px);
 }
-#speck-show-hide-bonds {
-    margin-top: 10px; 
-    margin-bottom: 10px;
+span.speck-slider-description {
+    display: inline-block;
+    width: 100px;
+    line-height: 13pt;
+    vertical-align: middle;
+    font-size: 11pt;
+    margin-top: 20px;
+}
+#speck-show-hide-bonds label, #speck-enable-presets label {
+    font-size: 14pt;
+}
+#speck-show-hide-bonds label input[type=checkbox], #speck-enable-presets label input[type=checkbox] {
+    height: 12pt;
+    margin-right: 10px;
+}
+#speck-controls-preset > span {
+    width: 125px;
+    font-size: 11pt;
+    display: inline-block;
+    position: relative;
+    top: -10px;
+}
+#speck-preset-atom-style-dropdown, #speck-preset-rendering-dropdown {
+    display: inline-block;
+    width: calc(100% - 150px);
+    vertical-align: middle;
+    margin-bottom: 20px;
+}
+#speck-controls-preset.speck-controls {
+    height: 360px;
+}
+.speck-controls {
+    margin-bottom: 20px;
 }

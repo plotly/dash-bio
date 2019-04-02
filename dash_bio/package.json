@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.0.8-rc5",
+  "version": "0.0.8",
   "description": "Dash components for bioinformatics",
   "main": "build/index.js",
   "scripts": {
@@ -21,8 +21,8 @@
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
     "molecule-3d-for-react": "^0.4.5",
     "plotly.js": "^1.41.3",
-    "ramda": "^0.25.0",
-    "react": "15.4.2",
+    "ramda": "^0.26.0",
+    "react": "15.6.2",
     "react-alignment-viewer": "^0.5.2",
     "react-dom": "15.4.2",
     "react-oncoprint": "^1.2.2",
@@ -31,25 +31,24 @@
     "speck": "git://github.com/shammamah/speck.git"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.3",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
+    "@babel/core": "^7.1.6",
+    "babel-eslint": "^10.0.0",
+    "babel-loader": "^8.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
     "copyfiles": "^2.0.0",
-    "css-loader": "^0.28.11",
+    "css-loader": "^2.0.0",
     "eslint": "^5.12.1",
-    "eslint-config-prettier": "^3.6.0",
+    "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
-    "npm": "^6.1.0",
     "prettier": "^1.16.1",
     "react-docgen": "^2.20.1",
-    "style-loader": "^0.21.0",
+    "style-loader": "^0.23.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
-    "webpack-serve": "^1.0.2"
+    "webpack-serve": "^3.0.0"
   },
   "peerDependencies": {
     "react": ">=0.14",
