@@ -122,15 +122,15 @@ def layout():
                             ),
                             html.P(
                                 """
-                                The OncoPrint component is used to view multiple genetic
+                                The OncoPrint component is used to view multiple genomic
                                 alteration events through an interactive and zoomable
                                 heatmap. It is a React/Dash port of the popular
-                                oncoPrint() function from the BioConductor R
+                                oncoPrint() function from the Bioconductor R
                                 package. Under the hood, the rendering is done using
                                 Plotly.js built upon D3. Plotly's interactivity allows
-                                the user to bind clicks and hovers to genetic events,
-                                allowing the user to create complex bioinformatic apps
-                                or workflows that rely on crossfiltering.
+                                you to bind clicks and hovers to genetic events,
+                                letting you create complex bioinformatics apps
+                                or workflows that leverage crossfiltering.
                                 """
                             ),
                             html.P(
@@ -167,7 +167,7 @@ def layout():
                                 className='oncoprint-separator'
                             ),
                             html.Div([
-                                html.H4('Hover, click, or event data'),
+                                html.H4('Event metadata'),
                                 html.Div(
                                     id='oncoprint-events'
                                 ),
@@ -234,7 +234,7 @@ def layout():
                                     ),
                                     html.Br(),
                                     html.Div(
-                                        'Adjust the padding (as percentage) '
+                                        'Adjust padding (as percentage) '
                                         'between two tracks.'
                                     ),
                                 ],
@@ -249,7 +249,7 @@ def layout():
                                             children='Track color'
                                         ),
                                         html.P(
-                                            'Change the default background '
+                                            'Change default background '
                                             'color for the tracks.'
                                         ),
                                         daq.ColorPicker(
