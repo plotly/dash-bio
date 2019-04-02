@@ -1,6 +1,17 @@
 # Changelog
 
-## [0.0.8]
+## [0.0.9]
+
+### Changed
+* Changed Clustergram to only return a figure by default, so that
+  values no longer need to be unpacked.
+
+### Added
+* Added to Clustergram the ability to generate a "curves dictionary"
+to translate curve number (available in hoverData/clickData) to the
+row or column cluster it represents on the graph.
+
+## [0.0.8] - 2019-01-04
 
 ### Fixed
 * Fixed issue with Clustergram not reordering rows and columns after clustering.
