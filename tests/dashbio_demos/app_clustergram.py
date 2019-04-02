@@ -1,5 +1,7 @@
 import base64
 import os
+
+import dash
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
@@ -543,6 +545,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     ):
         # remove all group markers, if necessary, or
         # initialize the group markers data
+        ctx = dash.callback_context
+        if ctx.triggered[0]['prop_id'].split('.')[0] == 'remove-all-group-markers':
+            return {'row_group_marker': [],
+                    'col_group_marker': []}
+
         if current_group_markers is None:
             current_group_markers = {'row_group_marker': [],
                                      'col_group_marker': []}
@@ -567,7 +574,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 '{}_group_marker'.format(cluster_dimension)
             ].append(marker)
 
-        print(current_group_markers)
         return current_group_markers
 
     # description information
