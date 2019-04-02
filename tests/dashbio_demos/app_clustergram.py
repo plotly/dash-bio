@@ -301,12 +301,12 @@ def layout():
                                     n_clicks_timestamp=0
                                 ),
                                 html.Br(),
-                                html.Div(className='clustergram-option-desc', children=
+                                html.Div(className='clustergram-option-desc', children=[
                                          'Annotate your heatmap by labelling clusters; '
                                          'choose a color for the annotation, as well as '
                                          'text for the annotation, below. Then, click '
                                          'on the row cluster or column cluster that you '
-                                         'wish to annotate.'),
+                                         'wish to annotate.']),
 
                                 daq.ColorPicker(
                                     id='clustergram-annot-color',
