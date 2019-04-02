@@ -193,7 +193,7 @@ Keyword arguments:
         return_values.append(ct)
 
     # return only the figure by default
-    if(len(return_values) == 1):
+    if len(return_values) == 1:
         return return_values[0]
 
     # otherwise, return all requested values
