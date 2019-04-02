@@ -3,6 +3,8 @@ import os
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_daq as daq
+
 import dash_bio
 from dash_bio.utils import gene_expression_reader
 
@@ -121,11 +123,12 @@ def layout():
     return html.Div(id='clustergram-body', children=[
 
         html.Div(
-            id='clustergram-wrapper'
+            id='clustergram-wrapper',
+            children=dcc.Graph(id='clustergram', style={'display': 'none'})
         ),
 
         html.Div(id='clustergram-control-tabs', children=[
-            dcc.Tabs(id='clustergram-tabs', value='what-is', children=[
+            dcc.Tabs(id='clustergram-tabs', value='graph', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -208,7 +211,7 @@ def layout():
                 ),
                 dcc.Tab(
                     label='Graph',
-                    value='display-options',
+                    value='graph',
                     children=[html.Div(className='clustergram-tab', children=[
                         html.Div(
                             'Cluster by:',
@@ -225,8 +228,6 @@ def layout():
                             value=['row', 'col'],
                             multi=True
                         ),
-
-                        html.Br(),
 
                         html.Div(
                             'Hide labels:',
@@ -286,59 +287,38 @@ def layout():
                         html.Hr(),
 
                         html.Div(
-                            'Add or remove all group markers:',
-                            className='clustergram-option-name'
-                        ),
-
-                        html.Br(),
-
-                        html.Div(
                             id='add-group-markers',
-                            title='Annotate your heatmap by labelling clusters; ' +
-                            'hover over the clusters on the dendrogram to get their ' +
-                            'index.',
+                            title='',
                             children=[
-                                dcc.Dropdown(
-                                    id='row-or-col-group',
-                                    options=[
-                                        {'label': 'Row group', 'value': 'row'},
-                                        {'label': 'Column group', 'value': 'col'}
-                                    ]
+                                html.Div(
+                                    className='clustergram-option-name',
+                                    children='Add annotations'
                                 ),
-                                dcc.Input(
-                                    id='group-number',
-                                    placeholder='group number',
-                                    type='number',
-                                    value=''
+                                html.Button(
+                                    id='remove-all-group-markers',
+                                    children='Remove all',
+                                    n_clicks=0,
+                                    n_clicks_timestamp=0
                                 ),
-                                dcc.Input(
-                                    id='color',
-                                    placeholder='color',
-                                    type='text',
-                                    value=''
+                                html.Br(),
+                                html.Div(className='clustergram-option-desc', children=
+                                         'Annotate your heatmap by labelling clusters; '
+                                         'choose a color for the annotation, as well as '
+                                         'text for the annotation, below. Then, click '
+                                         'on the row cluster or column cluster that you '
+                                         'wish to annotate.'),
+
+                                daq.ColorPicker(
+                                    id='clustergram-annot-color',
+                                    size=335
                                 ),
                                 dcc.Input(
                                     id='annotation',
-                                    placeholder='annotation',
+                                    placeholder='annotation text',
                                     type='text',
                                     value=''
                                 ),
-                                html.Button(
-                                    id='submit-group-marker',
-                                    children='submit',
-                                    n_clicks=0,
-                                    n_clicks_timestamp=0
-                                )
                             ]
-                        ),
-
-                        html.Button(
-                            id='remove-all-group-markers',
-                            children=[
-                                "Remove"
-                            ],
-                            n_clicks=0,
-                            n_clicks_timestamp=0
                         ),
 
                         html.Br(),
@@ -389,6 +369,10 @@ def layout():
 
             dcc.Store(
                 id='computed-traces'
+            ),
+
+            dcc.Store(
+                id='curves-dict'
             ),
 
             dcc.Store(
@@ -540,47 +524,50 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         }
 
     # add group marker
-
     @app.callback(
         Output('group-markers', 'data'),
-        [Input('submit-group-marker', 'n_clicks'),
+        [Input('clustergram', 'clickData'),
          Input('remove-all-group-markers', 'n_clicks')],
-        state=[State('row-or-col-group', 'value'),
-               State('group-number', 'value'),
+        state=[State('curves-dict', 'data'),
                State('annotation', 'value'),
-               State('color', 'value'),
-               State('submit-group-marker', 'n_clicks_timestamp'),
-               State('remove-all-group-markers', 'n_clicks_timestamp'),
+               State('clustergram-annot-color', 'value'),
                State('group-markers', 'data')]
     )
     def add_marker(
-            submit_nclicks, remove_all_nclicks,
-            row_or_col, group_num, annotation, color,
-            submit_time, remove_time,
+            click_data,
+            remove_all,
+            curves_dict,
+            annotation,
+            color,
             current_group_markers
     ):
         # remove all group markers, if necessary, or
         # initialize the group markers data
-        if current_group_markers is None or remove_time > submit_time:
+        if current_group_markers is None:
             current_group_markers = {'row_group_marker': [],
                                      'col_group_marker': []}
 
-        if remove_time > submit_time:
-            return current_group_markers
+        if click_data is not None:
+            curve_clicked = str(click_data['points'][0]['curveNumber'])
+            if curves_dict is not None and curve_clicked in curves_dict.keys():
+                cluster_number, cluster_dimension = \
+                    curves_dict[curve_clicked][1], curves_dict[curve_clicked][0]
 
-        # otherwise, add the appropriate marker
-        marker = dict()
-        try:
-            marker['group'] = int(group_num)
-            marker['annotation'] = annotation
-            marker['color'] = color
-        except ValueError:
-            pass
-        if row_or_col == 'row':
-            current_group_markers['row_group_marker'].append(marker)
-        elif row_or_col == 'col':
-            current_group_markers['col_group_marker'].append(marker)
+            # otherwise, add the appropriate marker
+            marker = dict()
 
+            try:
+                marker['group'] = int(cluster_number)
+                marker['annotation'] = annotation
+                marker['color'] = color['hex']
+            except ValueError:
+                pass
+
+            current_group_markers[
+                '{}_group_marker'.format(cluster_dimension)
+            ].append(marker)
+
+        print(current_group_markers)
         return current_group_markers
 
     # description information
@@ -607,7 +594,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     # calculate and display clustergram
 
     @app.callback(
-        Output('clustergram-wrapper', 'children'),
+        [Output('clustergram-wrapper', 'children'),
+         Output('curves-dict', 'data')],
         [Input('fig-options-storage', 'modified_timestamp'),
          Input('group-markers', 'data'),
          Input('selected-rows', 'value'),
@@ -635,7 +623,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     'padding': '30px',
                     'font-size': '20pt'
                 }
-            )
+            ), None
         if fig_opts['cluster'] is None:
             return html.Div(
                 'No clustering dimension has been selected to display. Please \
@@ -644,7 +632,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     'padding': '30px',
                     'font-size': '20pt'
                 }
-            )
+            ), None
 
         if dataset_name is not None:
             dataset = datasets[dataset_name]
@@ -679,8 +667,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             fig_opts['col_group_marker'] = group_markers['col_group_marker']
 
         try:
-            fig = dash_bio.Clustergram(
+            fig, curves_dict = dash_bio.Clustergram(
                 computed_traces=None,
+                generate_curves_dict=True,
                 data=data,
                 **fig_opts
             )
@@ -688,14 +677,14 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return dcc.Graph(
                 id='clustergram',
                 figure=fig
-            )
+            ), curves_dict
 
-        except IndexError:
-            return "Loading data..."
-        except ValueError:
-            return "Loading data..."
+#        except IndexError:
+#            return "Loading data...", None
+#        except ValueError:
+#            return "Loading data...", None
         except Exception as e:
-            return "There was an error: {}".format(e)
+            return "There was an error: {}".format(e), None
 
     # update row and column options
 
