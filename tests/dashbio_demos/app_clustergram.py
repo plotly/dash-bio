@@ -679,7 +679,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             fig_opts['col_group_marker'] = group_markers['col_group_marker']
 
         try:
-            fig, _ = dash_bio.Clustergram(
+            fig = dash_bio.Clustergram(
                 computed_traces=None,
                 data=data,
                 **fig_opts
