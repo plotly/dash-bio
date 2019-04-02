@@ -260,9 +260,6 @@ def layout():
 
                         html.Div(
                             id='threshold-wrapper',
-                            title='Annotate your heatmap by labelling clusters; ' +
-                            'hover over the clusters on the dendrogram to get their ' +
-                            'index.',
                             children=[
                                 'Column: ',
                                 dcc.Slider(
@@ -304,11 +301,11 @@ def layout():
                                 ),
                                 html.Br(),
                                 html.Div(className='clustergram-option-desc', children=[
-                                         'Annotate your heatmap by labelling clusters; '
-                                         'choose a color for the annotation, as well as '
-                                         'text for the annotation, below. Then, click '
-                                         'on the row cluster or column cluster that you '
-                                         'wish to annotate.']),
+                                    'Annotate your heatmap by labelling clusters; '
+                                    'choose a color for the annotation, as well as '
+                                    'text for the annotation, below. Then, click '
+                                    'on the row cluster or column cluster that you '
+                                    'wish to annotate.']),
 
                                 daq.ColorPicker(
                                     id='clustergram-annot-color',
