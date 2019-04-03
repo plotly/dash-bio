@@ -1,8 +1,9 @@
-# In[]:
 # Import required libraries
 import os
+
 import pandas as pd
 import numpy as np
+
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
@@ -18,7 +19,7 @@ elif 'DASH_PATH_ROUTING' in os.environ:
     from tests.dashbio_demos.utils.app_standalone import run_standalone_app
 
 
-DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "volcano_")
+DATAPATH = os.path.join('.', 'tests', 'dashbio_demos', 'sample_data', 'volcano_')
 
 DATASETS = {
     'SET1': {
@@ -86,7 +87,7 @@ def layout():
                         title='',
                         children=[
                             html.H5(
-                                children='Choose Dataset to plot :',
+                                children='Select dataset',
                                 className='vp-title'
                             ),
                             dcc.Dropdown(
@@ -107,8 +108,7 @@ def layout():
                         children=[
                             html.Div(
                                 className='vp-vertical-style',
-                                title='Changes the value of the left '
-                                      'vertical dashed line.',
+                                title='Move left-side vertical dashed line',
                                 children=[
                                     html.Div(
                                         "Lower effect size",
@@ -134,8 +134,7 @@ def layout():
                             ),
                             html.Div(
                                 className='vp-vertical-style',
-                                title='Changes the value of the right '
-                                      'vertical dashed line.',
+                                title='Move right-side vertical dashed line',
                                 children=[
                                     html.Div(
                                         "Upper effect size",
@@ -161,8 +160,7 @@ def layout():
                             ),
                             html.Div(
                                 className='vp-vertical-style',
-                                title='Changes the value of the '
-                                      'horizontal dashed line.',
+                                title='Move horizontal dashed line',
                                 children=[
                                     html.Div(
                                         "Threshold",
@@ -245,7 +243,7 @@ def layout():
                             html.Div(
                                 id='vp-color-label',
                                 className='vp-text',
-                                children="Change the color of the highlighted points"
+                                children="Change color of highlighted points"
                             ),
                         ]
                     )
@@ -273,7 +271,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         ]
     )
     def update_graph(u_lim, l_lim, genomic_line, datadset_id, color):
-        """Update the data set of interest upon change the dashed lines value."""
+        """Update rendering of data points upon changing x-value of vertical dashed lines."""
         if 'hex' in color:
             color = color.get('hex', 'red')
         return dash_bio.VolcanoPlot(
@@ -291,7 +289,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         ]
     )
     def update_vp_dataset_div_hover(dataset_id):
-        """Update the data set of interest upon change the dashed lines value."""
+        """Update the dataset of interest."""
         return DATASETS[dataset_id]['datasource']
 
     @app.callback(
@@ -300,7 +298,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [State('vp-upper-bound', 'value')]
     )
     def update_upper_right_number(fig, u_lim,):
-        """Update the number of points in the upper right zone delimited by the thresholds."""
+        """Update the number of data points in the upper right corner."""
 
         number = 0
         if len(fig['data']) > 1:
@@ -315,7 +313,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [State('vp-lower-bound', 'value')]
     )
     def update_upper_left_number(fig, l_lim):
-        """Update the number of points in the upper left zone delimited by the thresholds."""
+        """Update the number of data points in the upper left corner."""
 
         number = 0
         if len(fig['data']) > 1:
@@ -324,15 +322,15 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             number = len(x[idx])
         return number
 
-    # Callbacks for integration tests purpose
+    # Callbacks for integration test purposes
     @app.callback(
         Output('vp-upper-left-val', 'children'),
         [Input('vp-graph', 'figure')],
         [State('vp-lower-bound', 'value')]
     )
     def update_upper_left_number_val(fig, l_lim):
-        """Update the number of points in the upper left zone delimited by
-        the thresholds for tests purpose.
+        """Update the number of data points in the upper left corner
+        for testing purposes.
         """
 
         number = 0
@@ -347,7 +345,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('vp-upper-bound', 'value')],
     )
     def update_upper_bound_val(u_lim):
-        """For selenium tests purpose."""
+        """For selenium tests."""
         return u_lim
 
     @app.callback(
@@ -356,8 +354,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [State('vp-upper-bound', 'value')]
     )
     def update_upper_right_number_val(fig, u_lim,):
-        """Update the number of points in the upper right zone delimited by
-        the thresholds for tests purpose.
+        """Update the number of data points in the upper right corner
+        for testing purposes.
         """
 
         number = 0
@@ -372,7 +370,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('vp-lower-bound', 'value')],
     )
     def update_lower_bound_val(l_lim):
-        """For selenium tests purpose."""
+        """For selenium tests."""
         return l_lim
 
     @app.callback(
