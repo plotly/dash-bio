@@ -297,7 +297,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('vp-graph', 'figure')],
         [State('vp-upper-bound', 'value')]
     )
-    def update_upper_right_number(fig, u_lim,):
+    def update_upper_right_number(fig, u_lim):
         """Update the number of data points in the upper right corner."""
 
         number = 0
@@ -353,7 +353,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input('vp-graph', 'figure')],
         [State('vp-upper-bound', 'value')]
     )
-    def update_upper_right_number_val(fig, u_lim,):
+    def update_upper_right_number_val(fig, u_lim):
         """Update the number of data points in the upper right corner
         for testing purposes.
         """
