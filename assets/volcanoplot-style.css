@@ -96,3 +96,10 @@
 #vp-dataset-dropdown {
     display: inline-block;
  }
+.vp-test-util-div {
+    display: none;
+}
+
+#vp-page-content .chrome-picker, #vp-color-picker {
+    border: none !important;
+}

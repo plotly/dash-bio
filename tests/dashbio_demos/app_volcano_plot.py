@@ -73,7 +73,7 @@ def layout():
             ),
         ),
         html.Div(id='vp-control-tabs', children=[
-            dcc.Tabs(id='vp-tabs', children=[
+            dcc.Tabs(id='vp-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -116,24 +116,6 @@ def layout():
                     label='View',
                     value='view',
                     children=html.Div(className='vp-tab', children=[
-
-                    ])
-                )
-            ])
-        ]),
-        html.Div(
-            id='vp-info-panel-div',
-            children=[
-                html.Div(
-                    id='vp-dataset-div',
-                    className='vp-horizontal-style',
-                    title='',
-                    children=[
-                    ]
-                ),
-                html.Div(
-                    id='vp-controls-div',
-                    children=[
                         html.Div(
                             className='vp-vertical-style',
                             title='Changes the value of the vertical dashed line '
@@ -144,28 +126,20 @@ def layout():
                                     className='vp-text',
                                 ),
                                 daq.Slider(
-                                        className='vp-input',
-                                        id='vp-lower-bound',
-                                        value=-1,
-                                        max=0,
-                                        min=-3,
-                                        handleLabel={'showCurrentValue': True, 'label': ' '},
-                                        step=0.01,
-                                        marks={str(num): str(num) for num in range(0, -4, -1)}
+                                    className='vp-input',
+                                    id='vp-lower-bound',
+                                    value=-1,
+                                    max=0,
+                                    min=-3,
+                                    handleLabel={'showCurrentValue': True, 'label': ' '},
+                                    step=0.01,
+                                    marks={str(num): str(num) for num in range(0, -4, -1)}
                                 ),
                                 dcc.Input(
                                     className='vp-test-util-div',
                                     id='vp-lower-bound-val',
                                     value=-1,
-                                    type='number',
-                                )
-
-                                dcc.Input(
-                                    className='vp-input',
-                                    id='vp-lower-bound',
-                                    type='number',
-                                    value=-1,
-                                    max=0,
+                                    type='number'
                                 ),
                             ],
                         ),
@@ -207,7 +181,7 @@ def layout():
                                 ),
                                 daq.Slider(
                                     className='vp-input',
-                                    id='vp-genomic-line',
+                                    id='vp-genomic-line-val',
                                     value=4,
                                     max=10,
                                     min=0,
@@ -217,53 +191,57 @@ def layout():
                                 ),
                             ],
                         ),
-                    ],
-                ),
-                html.Div(
-                    id='vp-indicators-div',
-                    children=[
                         html.Div(
-                            className='vp-vertical-style',
-                            title='Number of points in the upper left',
+                            id='vp-indicators-div',
                             children=[
                                 html.Div(
-                                    "Upper left points",
-                                    className='vp-text',
+                                    className='vp-vertical-style',
+                                    title='Number of points in the upper left',
+                                    children=[
+                                        daq.LEDDisplay(
+                                            className='vp-input-like',
+                                            label='Upper left points',
+                                            id='vp-upper-left',
+                                            size=20,
+                                        ),
+                                        html.Div(
+                                            className='vp-test-util-div',
+                                            id='vp-upper-left-val'
+                                        )
+                                    ]
                                 ),
                                 html.Div(
-                                    className='vp-input-like',
-                                    id='vp-upper-left',
+                                    className='vp-vertical-style',
+                                    title='Number of points in the upper right',
+                                    children=[
+                                        daq.LEDDisplay(
+                                            className='vp-input-like',
+                                            label='Upper right points',
+                                            id='vp-upper-right',
+                                            size=20,
+                                        ),
+                                        html.Div(
+                                            className='vp-test-util-div',
+                                            id='vp-upper-right-val'
+                                        )
+                                    ]
                                 ),
                             ],
                         ),
                         html.Div(
-                            className='vp-vertical-style',
-                            title='Number of points in the upper right',
+                            id='vp-color-div',
                             children=[
-                                html.Div(
-                                    "Upper right points",
-                                    className='vp-text',
-                                ),
-                                html.Div(
-                                    className='vp-input-like',
-                                    id='vp-upper-right',
-                                ),
-                            ],
-                        ),
-                    ],
-                ),
-                html.Div(
-                    id='vp-color-div',
-                    children=[
-                        daq.ColorPicker(
-                                id='vp-color-picker',
-                                value=dict(hex="#0000FF"),
-                                size=200,
+                                daq.ColorPicker(
+                                    id='vp-color-picker',
+                                    value=dict(hex="#0000FF"),
+                                    size=200,
+                                )
+                            ]
                         )
-                    ]
+                    ])
                 )
-            ],
-        ),
+            ])
+        ])
     ])
 
 
