@@ -922,7 +922,7 @@ def layout():
         ),
 
         html.Div(id='circos-control-tabs', children=[
-            dcc.Tabs(id='circos-tabs', children=[
+            dcc.Tabs(id='circos-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',

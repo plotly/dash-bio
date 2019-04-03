@@ -41,11 +41,10 @@ def layout():
     return html.Div(
         id="mol3d-body",
         children=[
-
             html.Div(
                 id='mol3d-control-tabs',
                 children=[
-                    dcc.Tabs([
+                    dcc.Tabs(id='mol3d-tabs', value='what-is', children=[
                         dcc.Tab(
                             label='About',
                             value='what-is',
@@ -231,7 +230,6 @@ def layout():
                         ),
 
                     ]),
-                    html.Div(id='mol3d-tabs-content')
                 ]),
 
             html.Div(

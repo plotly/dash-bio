@@ -33,6 +33,7 @@
     float: left;
 }
 
+
 #vp-control-tabs .tab-content {
     padding: 20px;
 }
@@ -57,6 +58,7 @@
     border-bottom: none;
     color: #19d3f3;
 }
+
 
 #vp-graph{
     height: 550px;
@@ -83,6 +85,7 @@
 #vp-page-content .rc-slider-handle, #vp-page-content .rc-slider-dot-active {
     border-color: #19d3f3;
 }
+
 #vp-page-content .rc-slider {
     width: 150px !important;
     float: right;
