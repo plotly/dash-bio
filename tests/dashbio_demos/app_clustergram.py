@@ -130,7 +130,7 @@ def layout():
         ),
 
         html.Div(id='clustergram-control-tabs', children=[
-            dcc.Tabs(id='clustergram-tabs', value='graph', children=[
+            dcc.Tabs(id='clustergram-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
@@ -287,7 +287,6 @@ def layout():
 
                         html.Div(
                             id='add-group-markers',
-                            title='',
                             children=[
                                 html.Div(
                                     className='clustergram-option-name',
@@ -622,6 +621,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             computed_traces
     ):
         ctx = dash.callback_context
+        adding_grp_marker = ctx.triggered[0]['prop_id'].split('.')[0] == 'group-markers'
 
         wrapper_content = ''
         curves = None
@@ -678,8 +678,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if group_markers is not None:
             fig_opts['row_group_marker'] = group_markers['row_group_marker']
             fig_opts['col_group_marker'] = group_markers['col_group_marker']
-
-        adding_grp_marker = ctx.triggered[0]['prop_id'].split('.')[0] == 'group-markers'
 
         try:
             # don't recompute the dendrogram traces if we're just adding a group
