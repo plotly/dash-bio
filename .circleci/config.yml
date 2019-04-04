@@ -25,6 +25,10 @@ jobs:
                 command: ./node_modules/.bin/eslint src
                 when: always
 
+            - run:
+                name: Build package
+                command: npm run build:all
+
 
     "python-3.6": &test-template
         docker:
