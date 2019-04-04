@@ -104,7 +104,7 @@ Keyword arguments:
     the dataset, the color on the heatmap would be white; all cells
     with a value in the 50th or higher percentile, excluding the 100th
     percentile, would be gray; and the cell(s) in the 100th percentile
-    would be colored black. (Default: [[0.0, 'rgb(255,0,0'], [0.5,
+    would be colored black. (Default: [[0.0, 'rgb(255,0,0)'], [0.5,
     'rgb(0,0,0)'], [1.0, 'rgb(0,255,0)']])
 - color_list (dict; optional): The list of colors to use for different
    clusters in the dendrogram that have a root under the threshold for
@@ -249,7 +249,7 @@ Keyword arguments:
     the dataset, the color on the heatmap would be white; all cells
     with a value in the 50th or higher percentile, excluding the 100th
     percentile, would be gray; and the cell(s) in the 100th percentile
-    would be colored black. (Default: [[0.0, 'rgb(255,0,0'], [0.5,
+    would be colored black. (Default: [[0.0, 'rgb(255,0,0)'], [0.5,
     'rgb(0,0,0)'], [1.0, 'rgb(0,255,0)']])
 - color_list (dict; optional): The list of colors to use for different
    clusters in the dendrogram that have a root under the threshold for
