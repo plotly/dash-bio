@@ -26,8 +26,8 @@ jobs:
                 when: always
 
             - run:
-                name: Build package
-                command: npm run build:all
+                name: Build node.js package
+                command: npm run build:js
 
 
     "python-3.6": &test-template
