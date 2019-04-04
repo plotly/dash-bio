@@ -598,7 +598,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         [Output('clustergram-wrapper', 'children'),
-         Output('curves-dict', 'data')],
+         Output('curves-dict', 'data'),
+         Output('computed-traces', 'data')],
         [Input('fig-options-storage', 'modified_timestamp'),
          Input('group-markers', 'data'),
          Input('selected-rows', 'value'),
@@ -607,18 +608,27 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                State('clustergram-datasets', 'value'),
                State('file-upload', 'contents'),
                State('file-upload', 'filename'),
-               State('row-labels-source', 'value')]
+               State('row-labels-source', 'value'),
+               State('computed-traces', 'data')]
     )
     def display_clustergram(
-            _, group_markers,
+            _,
+            group_markers,
             sel_rows, sel_cols,
             fig_opts,
             dataset_name,
             contents, filename,
-            row_labels_source
+            row_labels_source,
+            computed_traces
     ):
+        ctx = dash.callback_context
+
+        wrapper_content = ''
+        curves = None
+        comp_traces = computed_traces
+
         if len(sel_rows) < 2 or len(sel_cols) < 2 or fig_opts is None:
-            return html.Div(
+            wrapper_content = html.Div(
                 'No data have been selected to display. Please upload a file \
                 or select a preloaded file from the dropdown, then select at \
                 least two columns and two rows.',
@@ -626,16 +636,16 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     'padding': '30px',
                     'font-size': '20pt'
                 }
-            ), None
+            )
         if fig_opts['cluster'] is None:
-            return html.Div(
+            wrapper_content = html.Div(
                 'No clustering dimension has been selected to display. Please \
                 select at least one option from the dropdown.',
                 style={
                     'padding': '30px',
                     'font-size': '20pt'
                 }
-            ), None
+            )
 
         if dataset_name is not None:
             dataset = datasets[dataset_name]
@@ -669,25 +679,38 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             fig_opts['row_group_marker'] = group_markers['row_group_marker']
             fig_opts['col_group_marker'] = group_markers['col_group_marker']
 
-        try:
-            fig, curves_dict = dash_bio.Clustergram(
-                computed_traces=None,
-                generate_curves_dict=True,
-                data=data,
-                **fig_opts
-            )
+        adding_grp_marker = ctx.triggered[0]['prop_id'].split('.')[0] == 'group-markers'
 
-            return dcc.Graph(
+        try:
+            # don't recompute the dendrogram traces if we're just adding a group
+            # marker
+            if adding_grp_marker and computed_traces is not None:
+                fig, curves = dash_bio.Clustergram(
+                    generate_curves_dict=True,
+                    computed_traces=computed_traces,
+                    data=data,
+                    **fig_opts
+                )
+            else:
+                fig, curves, comp_traces = dash_bio.Clustergram(
+                    generate_curves_dict=True,
+                    return_computed_traces=True,
+                    data=data,
+                    **fig_opts
+                )
+            wrapper_content = dcc.Graph(
                 id='clustergram',
                 figure=fig
-            ), curves_dict
+            )
 
-#        except IndexError:
-#            return "Loading data...", None
-#        except ValueError:
-#            return "Loading data...", None
+        except IndexError:
+            wrapper_content = "Loading data..."
+        except ValueError:
+            wrapper_content = "Loading data..."
         except Exception as e:
-            return "There was an error: {}".format(e), None
+            wrapper_content = "There was an error: {}".format(e)
+
+        return wrapper_content, curves, comp_traces
 
     # update row and column options
 
