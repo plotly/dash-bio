@@ -36,7 +36,7 @@ def layout():
 
 
 def callbacks(app):
-    print("ok")
+
     @app.server.route('{}<data_path>'.format(static_image_route))
     def serve_image(data_path):
         if data_path not in list_of_data:
