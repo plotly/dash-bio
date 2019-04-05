@@ -135,7 +135,28 @@ def layout():
                     label='About',
                     value='what-is',
                     children=html.Div(className='clustergram-tab', children=[
-                        html.P('Gene expression data and heatmap with dendrogram.')
+                        html.H3('What is Clustergram?'),
+                        html.P('Clustergram is a combination of a heatmap and '
+                               'dendrograms that allows you to display '
+                               'hierarchical clustering data. '
+                               'Clusters on the dendrograms are highlighted in '
+                               'different colors if they comprise data points '
+                               'that share some minimal level of correlation.'),
+                        html.P('In the "Data" tab, you can select a preloaded '
+                               'dataset to display or, optionally, upload one '
+                               'of your own. A sample dataset is also available '
+                               'for download in the tab.'),
+                        html.P('In the "Graph" tab,  you can choose the '
+                               'dimension(s) along which clustering will be '
+                               'performed (row or column). You can also change '
+                               'the threshold that determines the point at which '
+                               'clusters are highlighted for the row and column '
+                               'dendrograms, and choose which rows and columns '
+                               'are used to compute the clustering.'),
+                        html.P('In addition, you can highlight specific clusters '
+                               'by adding annotations to the clustergram, and '
+                               'choose whether to show or hide the labels for the '
+                               'rows and/or columns.')
                     ])
                 ),
                 dcc.Tab(

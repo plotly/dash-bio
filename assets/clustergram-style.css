@@ -1,5 +1,5 @@
 #clustergram-body {
-    font-family: 'Open Sans Light', sans-serif;
+    font-family: sans-serif;
     padding: 5px;
     background-color: #191A1C;
     color: #dddddd;
@@ -39,9 +39,10 @@
 }
 
 .clustergram-tab {
-    max-height: 460px;
+    height: 420px;
+    margin: 15px;
     overflow-y: auto;
-    padding-right: 15px;
+    padding-right: 20px;
 }
 
 #clustergram-control-tabs .Select-control {
@@ -96,9 +97,9 @@
 }
 
 #clustergram-body .rc-slider {
-    width: 250px;
+    width: 225px;
     float: right;
-    margin-top: -15px;
+    margin-top: -17px;
 }
 
 #clustergram-body .rc-slider-track {
@@ -176,6 +177,14 @@ input#selected-rows, input#selected-columns {
     margin-right:10px;
 }
 
+#clustergram-body h3 {
+    font-size: 24pt !important;
+    text-align: center !important;
+}
+#clustergram-body p {
+    font-weight: 200 !important;
+    font-size: 10pt !important;
+}
 #row-or-col-group, input#annotation {
     margin-top: 5px !important;
     margin-bottom: 30px !important;
