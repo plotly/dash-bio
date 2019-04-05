@@ -16,10 +16,15 @@ setup(
     include_package_data=True,
     description=package['description'] if 'description' in package else package_name,
     install_requires=[
-        'dash',
-        'dash-html-components'
+        'biopython',
+        'colour',
+        'dash>=0.40.0',
+        'pandas',
+        'parmed',
+        'plotly',
+        'scipy',
+        'scikit-learn>=0.20.1'
     ],
-    python_requires='~=3.3',
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

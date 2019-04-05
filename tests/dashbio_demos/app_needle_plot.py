@@ -8,11 +8,20 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import dash_bio
 
-from dash_bio.utils.uniprotDatabaseTools import UniprotQueryBuilder
+from dash_bio.utils.uniprot_database_tools import UniprotQueryBuilder
 
-from dash_bio.utils.mutationDataParser import EMPTY_MUT_DATA, \
+from dash_bio.utils.mutation_data_parser import EMPTY_MUT_DATA, \
     load_protein_domains, parse_mutation_upload_file, \
     parse_domain_upload_file, parse_mutations_uniprot_data, load_mutation_data
+
+# running directly with Python
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+
+# running with gunicorn (on servers)
+elif 'DASH_PATH_ROUTING' in os.environ:
+    from tests.dashbio_demos.utils.app_standalone import run_standalone_app
+
 
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "needle_")
 
@@ -94,108 +103,262 @@ def description():
 
 def header_colors():
     return {
-        'bg_color': '#009900',
-        'font_color': '#DFE8F3',
-        'light_logo': False
+        'bg_color': '#0D1A51',
+        'font_color': '#FFFFFF',
+        'light_logo': True
     }
 
 
 def layout():
-    return html.Div(
-        className='row',
-        children=[
-            dcc.Store(id='needle-store'),
-            html.Div(
-                className='four columns needle-tabs',
-                children=dcc.Tabs(
-                    id='tabs',
-                    value='tab-data',
-                    children=[
-                        dcc.Tab(
-                            label='Sample Data',
-                            className='needle-tab',
-                            value='tab-data',
+    return html.Div(id='needleplot-body', children=[
+        html.Div(
+            id='needleplot-wrapper',
+            children=dash_bio.NeedlePlot(
+                id='needle-plot',
+                rangeSlider=True
+            )
+        ),
+
+        html.Div(id='needleplot-control-tabs', children=[
+            dcc.Tabs(id='needleplot-tabs', value='what-is', children=[
+                dcc.Tab(
+                    label='About',
+                    value='what-is',
+                    children=html.Div(className='needleplot-tab', children=[
+                        html.H4('What is Needle Plot?'),
+                        html.P('Needle Plot allows you to display mutations in '
+                               'a genome. Due to its similarity to both a barplot '
+                               'and a scatter plot, it can be used to plot '
+                               'datasets that have too many mutations for a '
+                               'barplot to be meaningful.'),
+                        html.P('In the "Data" tab, you can choose from preloaded '
+                               'datasets, as well as upload your own. You can '
+                               'additionally search the UniProt database for '
+                               'data to plot. If you wish to save the data that are '
+                               'plotted, you can choose to download all of it, or '
+                               'just the data corresponding to mutations or domains.'),
+                        html.P('In the "Graph" tab, you can change the aesthetics of '
+                               'the data points by customizing colors, marker shapes, '
+                               'and more.')
+                    ])
+                ),
+
+                dcc.Tab(
+                    label='Data',
+                    value='datasets',
+                    children=html.Div(className='needleplot-tab', children=[
+                        html.Div(
+                            className='needle-config-data',
+                            title='"Demo dataset" choice will allow you to play '
+                            'with the options.\n'
+                            '"UniProt dataset" choice will retrieve protein '
+                            'domain as well as mutation data from UniProt '
+                            'database.\n"Upload dataset" choice will let '
+                            'you choose your own mutation data with the '
+                            'option to load the protein domains from pfam '
+                            'database.',
                             children=[
                                 html.Div(
-                                    id='needle-dataset-header-div',
+                                    className='needleplot-option-name',
+                                    children='Dataset source:'
+                                ),
+                                dcc.Dropdown(
+                                    id='needle-dataset-select-dropdown',
+                                    options=[
+                                        {
+                                            'label': 'Demo dataset',
+                                            'value': DEMO_KEY
+                                        },
+                                        {
+                                            'label': 'Upload dataset',
+                                            'value': FILE_KEY
+                                        },
+                                        {
+                                            'label': 'UniProt dataset',
+                                            'value': DATABASE_KEY
+                                        },
+                                    ],
+                                    value=DEMO_KEY
+                                )
+                            ]
+                        ),
+
+                        html.Hr(),
+
+                        html.Div(
+                            id='needle-%s-div' % DEMO_KEY,
+                            className='needle-config-data',
+                            children=[
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Dataset:'
+                                ),
+                                dcc.Dropdown(
+                                    id='needle-dataset-dropdown',
+                                    options=[
+                                        {
+                                            'label': data['label'],
+                                            'value': i
+                                        }
+                                        for i, data in enumerate(DEMO_DATA)
+                                    ],
+                                    value=0
+                                ),
+                            ]
+                        ),
+
+
+                        html.Div(
+                            id='needle-protein-domains-select-div',
+                            className='needle-config-data',
+                            title='Check this box to enable loading of '
+                            'mutation data such as the protein coordinate '
+                            '(x), mutation number (y) and mutation type '
+                            '(mutationGroups), individually from the protein'
+                            ' domains',
+                            children=[
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Load protein domains:'
+                                ),
+                                dcc.Checklist(
+                                    id='needle-protein-domains-select-checklist',
+                                    className='needle-checklist',
+                                    options=[
+                                        {
+                                            'label': 'Individually',
+                                            'value': INDIV_DOMS_KEY
+                                        },
+                                        {
+                                            'label': 'From UniProt only',
+                                            'value': UNIPROT_DOMS_KEY
+                                        }
+                                    ],
+                                    values=[]
+                                )
+                            ]
+                        ),
+
+                        html.Div(
+                            id='needle-%s-div' % DATABASE_KEY,
+                            className='needle-load-option-div',
+                            children=[
+                                html.H5(
+                                    'Search UniProt'
+                                ),
+                                html.Div(
+                                    title='Enter the UniProt accession key '
+                                          'of the gene you want to display.\n'
+                                          'More information on https://www.uniprot.org/',
                                     children=[
-                                        html.Div(
-                                            id='needle-dataset-select-div',
-                                            title='"Demo dataset" choice will allow you to play '
-                                                  'with the options.\n'
-                                                  '"UniProt dataset" choice will retrieve protein '
-                                                  'domain as well as mutation data from UniProt '
-                                                  'database.\n"Upload dataset" choice will let '
-                                                  'you choose your own mutation data with the '
-                                                  'option to load the protein domains from pfam '
-                                                  'database.',
-                                            className='needle-dataset-header-div',
-                                            children=dcc.RadioItems(
-                                                id='needle-dataset-select-radio',
-                                                options=[
-                                                    {
-                                                        'label': 'Demo dataset',
-                                                        'value': DEMO_KEY
-                                                    },
-                                                    {
-                                                        'label': 'Upload dataset',
-                                                        'value': FILE_KEY
-                                                    },
-                                                    {
-                                                        'label': 'UniProt dataset',
-                                                        'value': DATABASE_KEY
-                                                    },
-                                                ],
-                                                value=DEMO_KEY
-                                            )
+                                        dcc.Input(
+                                            id='needle-sequence-input',
+                                            value='',
+                                            type='text',
+                                            placeholder='TP53, DDX3X, SMARCA4, ...',
                                         ),
-                                        html.Div(
-                                            id='needle-protein-domains-select-div',
-                                            title='If checked, it will allow the user to load '
-                                                  'mutation data such as the protein coordinate '
-                                                  '(x), mutation number (y) and mutation type '
-                                                  '(mutationGroups), individually from the protein'
-                                                  ' domains',
-                                            className='needle-dataset-header-div',
-                                            children=dcc.Checklist(
-                                                id='needle-protein-domains-select-checklist',
-                                                options=[
-                                                    {
-                                                        'label': 'Load protein domains '
-                                                                 'individually',
-                                                        'value': INDIV_DOMS_KEY
-                                                    },
-                                                    {
-                                                        'label': 'Load protein domains from '
-                                                                 'UniProt only',
-                                                        'value': UNIPROT_DOMS_KEY
-                                                    }
-                                                ],
-                                                values=[]
-                                            )
-                                        ),
+                                        html.Button(
+                                            id='needle-search-sequence-button',
+                                            children='submit',
+                                            n_clicks=0,
+                                            n_clicks_timestamp=0,
+                                        )
                                     ]
                                 ),
                                 html.Div(
-                                    id='needle-download-data-div',
-                                    className='needle-horizontal-style',
+                                    id='needle-uniprot-div',
+                                )
+                            ]
+                        ),
+
+                        html.Div(
+                            id='needle-%s-div' % FILE_KEY,
+                            className='needle-load-option-div',
+                            children=[
+                                html.Div(
+                                    id='needle-mutdata-file-div',
+                                    title='Mutation data files are JSON files containing '
+                                          'the following fields :\n'
+                                          '- "x" (protein coordinate of the mutation); \n'
+                                          '- "y" (number of recorded mutations); \n'
+                                          '- "mutationGroups" (type of mutations); \n'
+                                          '- "domains" (protein domains).\n '
+                                          '"x", "y", and "mutationGroups" are arrays, they '
+                                          'must have the same length. '
+                                          '"x" is required. "domains" is an array of '
+                                          'JSON objects with required fields "name" '
+                                          'and "coord"; "name" can be any string (think '
+                                          'of it as a label), whereas "coord" should be '
+                                          'a string formatted like '
+                                          '"<start_coord>-<stop_coord>" where integer '
+                                          '<start_coord> is less than integer <stop_coord> '
+                                          '(e.g., "23-34"), giving the domain in protein '
+                                          'coordinates.',
                                     children=[
-                                        html.A(
-                                            id='needle-download-data-button-link',
-                                            children=html.Button(
-                                                id='needle-download-data-button',
-                                                children='Download graph data',
-                                                n_clicks=0,
-                                                n_clicks_timestamp=0,
-                                            ),
-                                            href="",
-                                            download=""
+                                        html.H5(
+                                            'Upload mutation data JSON file'
+                                        ),
+                                        dcc.Upload(
+                                            id='needle-mutdata-file-upload',
+                                            className='needle-upload',
+                                            children=html.Div([
+                                                'Drag and drop or ',
+                                                html.A('select files')
+                                            ]),
+                                        ),
+                                        html.Div(
+                                            id='needle-mutdata-file-info-div'
+                                        )
+                                    ]
+                                ),
+                                html.Div(
+                                    id='needle-domain-file-div',
+                                    title='Protein data files accepted here can be of'
+                                          ' two types: \n'
+                                          '- an array of JSON objects with the required '
+                                          'fields, i.e., "name" (any string) and "coord" '
+                                          '(a string specifying domains in protein '
+                                          'coordinates (e.g., "23-34");'
+                                          '- a JSON file with the same structure as: '
+                                          'http://pfam.xfam.org/protein/P04637/graphic.',
+                                    children=[
+                                        html.H5('Upload protein data JSON file'),
+                                        dcc.Upload(
+                                            id='needle-domains-file-upload',
+                                            className='needle-upload',
+                                            children=html.Div([
+                                                'Drag and drop or ',
+                                                html.A('select files')
+                                            ]),
+                                        ),
+                                        html.Div(
+                                            id='needle-domains-file-info-div'
+                                        )
+                                    ]
+                                ),
+                                html.Div(
+                                    id='needle-domain-query-info-div'),
+                            ]
+                        ),
+
+                        html.Hr(),
+
+                        html.Br(),
+                        html.Div(
+                            id='needle-download-data-div',
+                            children=[
+                                html.Div(
+                                    className='needle-config-data',
+                                    children=[
+                                        html.Div(
+                                            className='needleplot-option-name',
+                                            children='Download data:'
                                         ),
                                         dcc.Dropdown(
                                             id='needle-download-data-dropdown',
                                             options=[
                                                 {
-                                                    'label': 'Whole',
+                                                    'label': 'All',
                                                     'value': FULL_KEY
                                                 },
                                                 {
@@ -211,298 +374,203 @@ def layout():
                                         )
                                     ]
                                 ),
-                                html.Div(
-                                    id='needle-%s-div' % DEMO_KEY,
-                                    className='needle-load-option-div',
-                                    children=[
-                                        html.H5(
-                                            'Select demo dataset'
-                                        ),
-                                        dcc.Dropdown(
-                                            id='needle-dataset-dropdown',
-                                            options=[
-                                                {
-                                                    'label': data['label'],
-                                                    'value': i
-                                                }
-                                                for i, data in enumerate(DEMO_DATA)
-                                            ],
-                                            value=0
-                                        ),
-                                    ]
+                                html.Br(),
+                                html.A(
+                                    id='needle-download-data-button-link',
+                                    children=html.Button(
+                                        id='needle-download-data-button',
+                                        children='Download graph data',
+                                        n_clicks=0,
+                                        n_clicks_timestamp=0,
+                                    ),
+                                    href="",
+                                    download=""
                                 ),
-                                html.Div(
-                                    id='needle-%s-div' % DATABASE_KEY,
-                                    className='needle-load-option-div',
-                                    children=[
-                                        html.H5(
-                                            'Search UniProt'
-                                        ),
-                                        html.Div(
-                                            title='Enter the UniProt accession key '
-                                                  'of the gene you want to display.\n'
-                                                  'More information on https://www.uniprot.org/',
-                                            children=[
-                                                dcc.Input(
-                                                    id='needle-sequence-input',
-                                                    value='',
-                                                    type='text',
-                                                    placeholder='TP53, DDX3X, SMARCA4, ...',
-                                                ),
-                                                html.Button(
-                                                    id='needle-search-sequence-button',
-                                                    children='submit',
-                                                    n_clicks=0,
-                                                    n_clicks_timestamp=0,
-                                                )
-                                            ]
-                                        ),
-                                        html.Div(
-                                            id='needle-uniprot-div',
-                                        )
-                                    ]
-                                ),
-                                html.Div(
-                                    id='needle-%s-div' % FILE_KEY,
-                                    className='needle-load-option-div',
-                                    children=[
-                                        html.Div(
-                                            id='needle-mutdata-file-div',
-                                            title='Mutation data files are json files containing '
-                                                  'the fields :\n'
-                                                  '- "x" (protein coordinate of the mutation) \n'
-                                                  '- "y" (number of recorded mutations) \n'
-                                                  '- "mutationGroups" (type of mutations) \n'
-                                                  '- "domains" (protein domains.\n '
-                                                  '"x", "y", "mutationGroups" are arrays, they '
-                                                  'must have the same length or be empty, '
-                                                  '"x" is required. The "domains" is an array of '
-                                                  'json objects with the required fields "name" '
-                                                  'and "coord", which are a string and a string '
-                                                  'detailing the start and end of the domains in '
-                                                  'protein coordinate (eg. "23-34"), '
-                                                  'respectively.',
-                                            children=[
-                                                html.H5(
-                                                    'Upload mutation data json file'
-                                                ),
-                                                dcc.Upload(
-                                                    id='needle-mutdata-file-upload',
-                                                    className='needle-upload',
-                                                    children=html.Div([
-                                                        'Drag and Drop or ',
-                                                        html.A('Select Files')
-                                                    ]),
-                                                ),
-                                                html.Div(
-                                                    id='needle-mutdata-file-info-div'
-                                                )
-                                            ]
-                                        ),
-                                        html.Div(
-                                            id='needle-domain-file-div',
-                                            title='Protein data files accepted here can be two'
-                                                  ' fold : \n'
-                                                  '- an array of json objects with the required '
-                                                  'fields "name" and "coord", which are a string '
-                                                  'and a string  detailing the start and end of '
-                                                  'the domains in protein coordinate (eg. "23-34")'
-                                                  ', respectively.\n'
-                                                  '- an json file with the same structure as the '
-                                                  'one in the PFAM database : '
-                                                  'http://pfam.xfam.org/protein/P04637/graphic.',
-                                            children=[
-                                                html.H5(
-                                                    'Upload protein domains json file'
-                                                ),
-                                                dcc.Upload(
-                                                    id='needle-domains-file-upload',
-                                                    className='needle-upload',
-                                                    children=html.Div([
-                                                        'Drag and Drop or ',
-                                                        html.A('Select Files')
-                                                    ]),
-                                                ),
-                                                html.Div(
-                                                    id='needle-domains-file-info-div'
-                                                )
-                                            ]
-                                        ),
-                                        html.Div(
-                                            id='needle-domain-query-info-div'),
-                                    ]
-                                )
-                            ],
+                            ]
                         ),
-                        dcc.Tab(
-                            label='Options',
-                            value='tab-options',
+
+
+                    ])
+                ),
+
+                dcc.Tab(
+                    label='Graph',
+                    value='graph',
+                    children=html.Div(className='needleplot-tab', children=[
+                        html.Div(
+                            className='needle-config-item-style',
                             children=[
                                 html.Div(
-                                    className='needle-config-option-div',
-                                    children=[
-                                        html.Div(
-                                            className='needle-config-item-style',
-                                            children=[
-                                                html.H6('Stem thickness'),
-                                                dcc.Input(
-                                                    id='needle-stem-thick-input',
-                                                    type='number',
-                                                    value=2,
-                                                    min=1,
-                                                    max=40
-                                                )
-                                            ]
-                                        ),
-                                        html.Div(
-                                            className='needle-config-item-style',
-                                            children=[
-                                                html.H6('Needle head size'),
-                                                dcc.Input(
-                                                    id='needle-head-size-input',
-                                                    type='number',
-                                                    value=7,
-                                                    min=1,
-                                                    max=40,
-                                                )
-                                            ]
-                                        ),
-                                        html.Div(
-                                            className='needle-config-item-style',
-                                            children=[
-                                                html.H6('Stem color'),
-                                                dcc.Dropdown(
-                                                    id='needle-stem-color-dropdown',
-                                                    options=[
-                                                        {
-                                                            'label': col,
-                                                            'value': col
-                                                        }
-                                                        for col in STEM_COLOR
-                                                    ],
-                                                    value=STEM_COLOR[0],
-                                                )
-                                            ]
-                                        ),
-                                        html.Div(
-                                            className='needle-config-item-style',
-                                            children=[
-                                                html.H6('Head color(s)'),
-                                                dcc.Dropdown(
-                                                    id='needle-head-color-dropdown',
-                                                    options=[
-                                                        {
-                                                            'label': col,
-                                                            'value': col
-                                                        }
-                                                        for col in HEAD_COLORS
-                                                    ],
-                                                    value=HEAD_COLORS[0:4],
-                                                    multi=True,
-                                                ),
-                                            ],
-                                        ),
-                                        html.Div(
-                                            className='needle-config-item-style',
-                                            children=[
-                                                html.H6('Head symbol(s)'),
-                                                dcc.Dropdown(
-                                                    id='needle-head-symbol-dropdown',
-                                                    options=[
-                                                        {
-                                                            'label': sym,
-                                                            'value': sym
-                                                        }
-                                                        for sym in HEAD_SYMBOLS
-                                                    ],
-                                                    value=HEAD_SYMBOLS[0:4],
-                                                    multi=True
-                                                ),
-                                            ],
-                                        ),
-                                        html.Div(
-                                            className='needle-config-item-style',
-                                            children=[
-                                                html.H6(
-                                                    'Constant height needles'),
-                                                dcc.RadioItems(
-                                                    id='needle-stem-height-radioitems',
-                                                    className='needle-radio',
-                                                    options=[
-                                                        {'label': 'On',
-                                                         'value': True},
-                                                        {'label': 'Off',
-                                                         'value': False},
-                                                    ],
-                                                    value=False
-                                                ),
-                                            ],
-                                        ),
-                                        html.Div(
-                                            className='needle-config-item-style',
-                                            children=[
-                                                html.H6('Rangeslider Display'),
-                                                dcc.RadioItems(
-                                                    id='needle-rangeslider-radioitems',
-                                                    className='needle-radio',
-                                                    options=[
-                                                        {'label': 'On',
-                                                         'value': True},
-                                                        {'label': 'Off',
-                                                         'value': False},
-                                                    ],
-                                                    value=True
-                                                ),
-                                            ],
-                                        ),
-                                        html.Div(
-                                            className='needle-config-item-style',
-                                            children=[
-                                                html.H6(
-                                                    'Small domains color(s)'),
-                                                dcc.Dropdown(
-                                                    id='needle-domains-color-dropdown',
-                                                    options=[
-                                                        {
-                                                            'label': col,
-                                                            'value': col
-                                                        }
-                                                        for col in DOMAIN_COLORS
-                                                    ],
-                                                    value=DOMAIN_COLORS[0:4],
-                                                    multi=True,
-                                                ),
-                                            ],
-                                        ),
-
+                                    className='needleplot-option-name',
+                                    children='Stem thickness'
+                                ),
+                                dcc.Slider(
+                                    id='needle-stem-thick-input',
+                                    value=2,
+                                    min=1,
+                                    max=10,
+                                    step=1
+                                )
+                            ]
+                        ),
+                        html.Div(
+                            className='needle-config-item-style',
+                            children=[
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Needle head size'
+                                ),
+                                dcc.Slider(
+                                    id='needle-head-size-input',
+                                    value=7,
+                                    min=1,
+                                    max=10,
+                                    step=1
+                                )
+                            ]
+                        ),
+                        html.Div(
+                            className='needle-config-item-style',
+                            children=[
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Stem color'
+                                ),
+                                dcc.Dropdown(
+                                    id='needle-stem-color-dropdown',
+                                    options=[
+                                        {
+                                            'label': col,
+                                            'value': col
+                                        }
+                                        for col in STEM_COLOR
                                     ],
+                                    value=STEM_COLOR[0],
+                                )
+                            ]
+                        ),
+                        html.Div(
+                            className='needle-config-item-style',
+                            children=[
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Head color(s)'
+                                ),
+                                dcc.Dropdown(
+                                    id='needle-head-color-dropdown',
+                                    options=[
+                                        {
+                                            'label': col,
+                                            'value': col
+                                        }
+                                        for col in HEAD_COLORS
+                                    ],
+                                    value=HEAD_COLORS[0:4],
+                                    multi=True,
+                                ),
+                            ],
+                        ),
+                        html.Div(
+                            className='needle-config-item-style',
+                            children=[
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Head symbol(s)'
+                                ),
+                                dcc.Dropdown(
+                                    id='needle-head-symbol-dropdown',
+                                    options=[
+                                        {
+                                            'label': sym,
+                                            'value': sym
+                                        }
+                                        for sym in HEAD_SYMBOLS
+                                    ],
+                                    value=HEAD_SYMBOLS[0:4],
+                                    multi=True
+                                ),
+                            ],
+                        ),
+                        html.Div(
+                            className='needle-config-item-style',
+                            children=[
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Constant height needles'
+                                ),
+                                dcc.RadioItems(
+                                    id='needle-stem-height-radioitems',
+                                    className='needle-radio',
+                                    options=[
+                                        {'label': 'On',
+                                         'value': True},
+                                        {'label': 'Off',
+                                         'value': False},
+                                    ],
+                                    value=False
+                                ),
+                            ],
+                        ),
+                        html.Div(
+                            className='needle-config-item-style',
+                            children=[
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Rangeslider display'
+                                ),
+                                dcc.RadioItems(
+                                    id='needle-rangeslider-radioitems',
+                                    className='needle-radio',
+                                    options=[
+                                        {'label': 'On',
+                                         'value': True},
+                                        {'label': 'Off',
+                                         'value': False},
+                                    ],
+                                    value=True
+                                ),
+                            ],
+                        ),
+                        html.Div(
+                            className='needle-config-item-style',
+                            children=[
+                                html.Div(
+                                    className='needleplot-option-name',
+                                    children='Small domains color(s)'
+                                ),
+                                dcc.Dropdown(
+                                    id='needle-domains-color-dropdown',
+                                    options=[
+                                        {
+                                            'label': col,
+                                            'value': col
+                                        }
+                                        for col in DOMAIN_COLORS
+                                    ],
+                                    value=DOMAIN_COLORS[0:4],
+                                    multi=True,
                                 ),
                             ],
                         )
-                    ]
-                ),
-            ),
-            html.Div(
-                id='needle-plot-div',
-                className='eight columns',
-                children=dash_bio.NeedlePlot(
-                    id='needle-plot',
-                    rangeSlider=True,
+
+                    ]),
                 )
-            )
-        ]
+            ])
+        ]),
 
-    )
+        dcc.Store(id='needle-store'),
+    ])
 
 
-def callbacks(app):
+def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('needle-%s-div' % DATABASE_KEY, 'style'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % DATABASE_KEY, 'style')]
     )
     def toggle_db(load_choice, div_style):
+
         """updates what the user can use to load data to the graph"""
         if div_style is None:
             div_style = {'display': 'none'}
@@ -516,24 +584,22 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-%s-div' % DEMO_KEY, 'style'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % DEMO_KEY, 'style')]
     )
     def toggle_demo(load_choice, div_style):
         """updates what the user can use to load data to the graph"""
         if div_style is None:
             div_style = {'display': 'none'}
-
         if load_choice == DEMO_KEY:
-            div_style['display'] = 'inherit'
+            div_style['display'] = 'table-row'
         else:
             div_style['display'] = 'none'
-
         return div_style
 
     @app.callback(
         Output('needle-%s-div' % FILE_KEY, 'style'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % FILE_KEY, 'style')]
     )
     def toggle_file(load_choice, div_style):
@@ -550,7 +616,7 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-uniprot-div', 'style'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-uniprot-div', 'style')]
     )
     def toggle_domain_doma(load_choice, div_style):
@@ -568,7 +634,7 @@ def callbacks(app):
     @app.callback(
         Output('needle-uniprot-div', 'children'),
         [Input('needle-store', 'data')],
-        [State('needle-dataset-select-radio', 'value')]
+        [State('needle-dataset-select-dropdown', 'value')]
     )
     def display_query_information(stored_data, load_choice):
         """diplays information about the query to the UniProt database"""
@@ -592,7 +658,7 @@ def callbacks(app):
     @app.callback(
         Output('needle-sequence-input', 'value'),
         [Input('needle-store', 'data')],
-        [State('needle-dataset-select-radio', 'value')]
+        [State('needle-dataset-select-dropdown', 'value')]
     )
     def reset_database_query(stored_data, load_choice):
         """resets the last query if the user changed dataset loading option"""
@@ -625,7 +691,7 @@ def callbacks(app):
         [Input('needle-protein-domains-select-checklist', 'values')],
         [
             State('needle-domain-query-info-div', 'style'),
-            State('needle-dataset-select-radio', 'value')
+            State('needle-dataset-select-dropdown', 'value')
         ]
     )
     def toggle_domain_domain_query_information(
@@ -647,7 +713,7 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-protein-domains-select-div', 'style'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-protein-domains-select-div', 'style')]
     )
     def toggle_protein_domain_select_div(load_choice, div_style):
@@ -668,7 +734,7 @@ def callbacks(app):
     # UPLOAD RELATED CALLBACKS========
     @app.callback(
         Output('needle-mutdata-file-upload', 'contents'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-mutdata-file-upload', 'contents')]
     )
     def reset_mutdata_upload_content(load_choice, mut_contents):
@@ -681,7 +747,7 @@ def callbacks(app):
 
     @app.callback(
         Output('needle-domains-file-upload', 'contents'),
-        [Input('needle-dataset-select-radio', 'value')],
+        [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-domains-file-upload', 'contents')]
     )
     def reset_domains_upload_content(load_choice, dom_contents):
@@ -811,7 +877,7 @@ def callbacks(app):
         Output('needle-store', 'data'),
         [
             Input('needle-search-sequence-button', 'n_clicks'),
-            Input('needle-dataset-select-radio', 'value'),
+            Input('needle-dataset-select-dropdown', 'value'),
             Input('needle-dataset-dropdown', 'value'),
             Input('needle-protein-domains-select-checklist', 'values'),
             Input('needle-mutdata-file-upload', 'contents'),
@@ -1012,3 +1078,12 @@ def callbacks(app):
 
         domain_sty['domainColor'] = small_domains_colors
         return domain_sty
+
+
+# only declare app/server if the file is being run directly
+if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
+    app = run_standalone_app(layout, callbacks, header_colors, __file__)
+    server = app.server
+
+if __name__ == '__main__':
+    app.run_server(debug=True, port=8050)

@@ -34,10 +34,7 @@ export default class OncoPrint extends Component {
             <div id={id} eventDatum={eventDatum}>
                 <PreOncoPrint
                     onChange={this.handleChange}
-                    {...omit(
-                        ['fireEvent', 'dashEvent', 'setProps'],
-                        this.props
-                    )}
+                    {...omit(['setProps'], this.props)}
                 />
             </div>
         );
@@ -124,15 +121,13 @@ OncoPrint.propTypes = {
 };
 
 OncoPrint.defaultProps = {
-    // Data
+    // Layout
     padding: 0.05,
     colorscale: null,
     backgroundcolor: 'rgb(190, 190, 190)',
-    // Layout
     range: [null, null],
     showlegend: true,
     showoverview: true,
-    // Other
     width: null,
     height: 500,
 };

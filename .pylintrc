@@ -15,7 +15,7 @@ ignore-patterns=
 
 # Python code to execute, usually for sys.path manipulation such as
 # pygtk.require().
-#init-hook=
+init-hook="import sys; sys.path.append('./tests/dashbio_demos')"
 
 # Use multiple processes to speed up Pylint.
 jobs=1
@@ -89,6 +89,7 @@ disable=print-statement,
         delslice-method,
         getslice-method,
         setslice-method,
+	no-else-raise,
         no-absolute-import,
         old-division,
         dict-iter-method,

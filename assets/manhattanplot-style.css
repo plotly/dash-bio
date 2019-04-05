@@ -1,63 +1,92 @@
 #mhp-page-content {
+    font-family: 'Open Sans Light', sans-serif;
+    background-color: #E8F0F9;
+    color: #5B5B5B;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-content: space-between;
+    min-height: calc(100vh - 60px);
 }
 
-#mhp-info-div {
-    width: 40%;
-    flex-grow: 1;
-    overflow-y: visible;
-    margin: 5px;
+#mhp-page-content ::-webkit-scrollbar {
+    width: 4px;
+    height: 0px;
+    margin-right: 500px;
+    background-color: #191A1C;
+}
+#mhp-page-content ::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: #E4E4E4;
+    border-radius:15px;
+    padding-right:5px;
+}
+
+#mhp-page-content::-webkit-scrollbar {
+    display: none;
+}
+
+#manhattan-control-tabs {
+    width: 400px;
+    height: 550px;
+    margin: 50px;
+    margin-right: 0px;
+    background-color: #fff;
+    font-size: 10pt;
+    float: left;
+}
+
+#manhattan-control-tabs .tab-content {
+    padding: 20px;
+}
+
+.manhattan-tab {
+    max-height: 460px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+#manhattan-control-tabs .tab {
+    background-color: #fff;
+    font-weight: 200;
+    font-size: 9pt;
+    border: solid 1px #D3D3D3;
+    height: 50px;
     padding: 15px;
-    border: solid #C8D4E3 2px;
-    border-radius: 5px;
 }
 
-.mhp-slider-div {
-    flex-grow: 1;
-    width: 20%;
-    margin-left: 15px;
-    margin-right: 15px;
+#manhattan-control-tabs .tab--selected {
+    border-top: solid 2px #56B5FF;
+    border-bottom: none;
+    color: #56B5FF;
 }
 
 #mhp-graph{
-    height: 650px;
+    height: 550px;
     width: 100%;
 }
-
-#mhp-graph-div{
-    width: 60%;
-    margin: 10px;
+#mhp-graph-div {
+    display: inline-block !important;
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
-.mph-control-div {
-    margin-top: 15px;
+.manhattan-option-name {
+    font-size: 12pt;
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 150px;
 }
 
-.mhp-vertical-style {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+#mhp-page-content .rc-slider-track {
+    background-color: #56B5FF;
 }
-
-.mhp-horizontal-style {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+#mhp-page-content .rc-slider-handle, #mhp-page-content .rc-slider-dot-active {
+    border-color: #56B5FF;
 }
-
-.mhp-text {
-    width: 300px;
-    color: #506784;
-}
-
-.mhp-intro {
-    font-size: 1.3em;
-    width: 100%;
-    align-items: center;
+#mhp-page-content .rc-slider {
+    width: 150px !important;
+    float: right;
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
