@@ -2,6 +2,11 @@
 
 ## [0.0.9]
 
+### Fixed
+* Fixed issue with Clustergram rows and columns reordering incorrectly
+  on the heatmap when precomputed traces are used to generate the
+  figure.
+
 ### Changed
 * Changed Clustergram to only return a figure by default, so that
   values no longer need to be unpacked.
