@@ -76,8 +76,12 @@ export default class GenomeViewer extends Component {
                     onVariantClicked: function(data) {
                         var content = 'Variants:\n';
                         for (var i = 0; i < data.length; i++) {
-                            content = content +
-                                data[i].id + ' - ' + data[i].vcfLine + '\n';
+                            content =
+                                content +
+                                data[i].id +
+                                ' - ' +
+                                data[i].vcfLine +
+                                '\n';
                         }
                     },
                 },

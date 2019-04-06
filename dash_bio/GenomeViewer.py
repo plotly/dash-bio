@@ -27,16 +27,13 @@ containing a called variant.
 names (introns, exons, coding regions).
 - genedata (string; required): URL of gene data.
 - showcoverage (boolean; optional): If True, coverage is shown.
-- compare (boolean; optional): If True, (???)
-
-Available events: """
+- compare (boolean; optional): If True, (???)"""
     @_explicitize_args
     def __init__(self, id=Component.REQUIRED, genomedata=Component.REQUIRED, trackdata=Component.REQUIRED, trackindex=Component.REQUIRED, contig=Component.REQUIRED, start=Component.REQUIRED, stop=Component.REQUIRED, showscale=Component.UNDEFINED, showlocation=Component.UNDEFINED, showvariants=Component.UNDEFINED, variantdata=Component.UNDEFINED, showgenes=Component.UNDEFINED, genedata=Component.REQUIRED, showcoverage=Component.UNDEFINED, compare=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'genomedata', 'trackdata', 'trackindex', 'contig', 'start', 'stop', 'showscale', 'showlocation', 'showvariants', 'variantdata', 'showgenes', 'genedata', 'showcoverage', 'compare']
         self._type = 'GenomeViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_events = []
         self.available_properties = ['id', 'genomedata', 'trackdata', 'trackindex', 'contig', 'start', 'stop', 'showscale', 'showlocation', 'showvariants', 'variantdata', 'showgenes', 'genedata', 'showcoverage', 'compare']
         self.available_wildcard_properties =            []
 
@@ -45,31 +42,8 @@ Available events: """
         _locals.update(kwargs)  # For wildcard attrs
         args = {k: _locals[k] for k in _explicit_args if k != 'children'}
 
-        for k in [u'id', u'genomedata', u'trackdata', u'trackindex', u'contig', u'start', u'stop', u'genedata']:
+        for k in ['id', 'genomedata', 'trackdata', 'trackindex', 'contig', 'start', 'stop', 'genedata']:
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
         super(GenomeViewer, self).__init__(**args)
-
-    def __repr__(self):
-        if(any(getattr(self, c, None) is not None
-               for c in self._prop_names
-               if c is not self._prop_names[0])
-           or any(getattr(self, c, None) is not None
-                  for c in self.__dict__.keys()
-                  if any(c.startswith(wc_attr)
-                  for wc_attr in self._valid_wildcard_attributes))):
-            props_string = ', '.join([c+'='+repr(getattr(self, c, None))
-                                      for c in self._prop_names
-                                      if getattr(self, c, None) is not None])
-            wilds_string = ', '.join([c+'='+repr(getattr(self, c, None))
-                                      for c in self.__dict__.keys()
-                                      if any([c.startswith(wc_attr)
-                                      for wc_attr in
-                                      self._valid_wildcard_attributes])])
-            return ('GenomeViewer(' + props_string +
-                   (', ' + wilds_string if wilds_string != '' else '') + ')')
-        else:
-            return (
-                'GenomeViewer(' +
-                repr(getattr(self, self._prop_names[0], None)) + ')')

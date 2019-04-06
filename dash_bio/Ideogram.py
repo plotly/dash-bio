@@ -113,12 +113,12 @@ Ex: homology={
 }. homology has the following type: dict containing keys 'chrOne', 'chrTwo'.
 Those keys have the following types:
   - chrOne (optional): . chrOne has the following type: dict containing keys 'organism', 'start', 'stop'.
-Those keys have the following types: 
+Those keys have the following types:
   - organism (string; required)
   - start (list; optional)
   - stop (list; optional)
   - chrTwo (optional): . chrTwo has the following type: dict containing keys 'organism', 'start', 'stop'.
-Those keys have the following types: 
+Those keys have the following types:
   - organism (string; required)
   - start (list; optional)
   - stop (list; optional)
@@ -160,7 +160,7 @@ e.g., for mitochondrial (MT) and chloroplast (CP) DNA."""
         _locals.update(kwargs)  # For wildcard attrs
         args = {k: _locals[k] for k in _explicit_args if k != 'children'}
 
-        for k in [u'id']:
+        for k in ['id']:
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
