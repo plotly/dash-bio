@@ -322,8 +322,8 @@ def layout():
                                 html.Br(),
                                 html.Div(className='clustergram-option-desc', children=[
                                     'Annotate your heatmap by labeling clusters; '
-                                    'choose a color for the annotation, as well as '
-                                    'text for the annotation, below. Then, click '
+                                    'below, you can choose a color for the annotation, '
+                                    'as well as text for the annotation. Then, click '
                                     'on the row cluster or column cluster that you '
                                     'wish to annotate.']),
 
