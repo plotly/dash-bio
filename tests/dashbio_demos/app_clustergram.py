@@ -140,7 +140,7 @@ def layout():
                                'dendrograms that allows you to display '
                                'hierarchical clustering data. '
                                'Clusters on the dendrograms are highlighted in '
-                               'different colors if they comprise data points '
+                               'one color if they comprise data points '
                                'that share some minimal level of correlation.'),
                         html.P('In the "Data" tab, you can select a preloaded '
                                'dataset to display or, alternatively, upload one '
@@ -660,8 +660,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             )
         if fig_opts['cluster'] is None:
             wrapper_content = html.Div(
-                'No clustering dimension has been selected to display. Please \
-                select at least one option from the dropdown.',
+                'No dimension has been selected along which to perform \
+                clustering. \
+                Please select at least one option from the dropdown.',
                 style={
                     'padding': '30px',
                     'font-size': '20pt'
