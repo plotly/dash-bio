@@ -12,7 +12,7 @@
   values no longer need to be unpacked.
 
 ### Added
-* Added to Clustergram the ability to generate a "curves dictionary"
+* Added to Clustergram the ability to generate a "curve dictionary"
 to translate curve number (available in hoverData/clickData) to the
 row or column cluster it represents on the graph.
 
