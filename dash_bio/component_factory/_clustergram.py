@@ -14,6 +14,8 @@ from plotly import tools
 # pylint: disable=assignment-from-no-return, no-self-use
 def Clustergram(
         data=None,
+        generate_curves_dict=False,
+        return_computed_traces=False,
         computed_traces=None,
         row_labels=None,
         column_labels=None,
@@ -48,6 +50,15 @@ def Clustergram(
 Keyword arguments:
 
 - data (ndarray; required): Matrix of observations as array of arrays
+- generate_curves_dict (bool; optional): Whether or not to return a
+    dictionary containing information about the cluster number
+    associated with each curve number in the graph. (May be useful
+    if one wishes to capture the cluster number that is clicked.)
+    (Default: False)
+- return_computed_traces (bool; optional): Whether or not to return
+    the precomputed dendrogram traces. (May be useful if one wishes
+    to add, e.g., group markers to the figure without recalculating
+    the clustering in the entire figure.) (Default: False)
 - computed_traces (dict; optional): The dendrogram traces from another
    Clustergram component.
 - row_labels (list; optional): List of row category labels
@@ -93,7 +104,7 @@ Keyword arguments:
     the dataset, the color on the heatmap would be white; all cells
     with a value in the 50th or higher percentile, excluding the 100th
     percentile, would be gray; and the cell(s) in the 100th percentile
-    would be colored black. (Default: [[0.0, 'rgb(255,0,0'], [0.5,
+    would be colored black. (Default: [[0.0, 'rgb(255,0,0)'], [0.5,
     'rgb(0,0,0)'], [1.0, 'rgb(0,255,0)']])
 - color_list (dict; optional): The list of colors to use for different
    clusters in the dendrogram that have a root under the threshold for
@@ -161,14 +172,32 @@ Keyword arguments:
         hide_labels = []
     if color_threshold is None:
         color_threshold = dict(row=0, col=0)
+
+    # get rid of arguments that are not used by _Clustergram
     kwargs = locals()
+    kwargs.pop('return_computed_traces')
     kwargs.pop('computed_traces')
-    (fig, ct) = _Clustergram(
+    kwargs.pop('generate_curves_dict')
+
+    (fig, ct, curves_dict) = _Clustergram(
         **kwargs
     ).figure(
         computed_traces=computed_traces
     )
-    return go.Figure(fig), ct
+
+    return_values = [go.Figure(fig)]
+
+    if generate_curves_dict:
+        return_values.append(curves_dict)
+    if return_computed_traces:
+        return_values.append(ct)
+
+    # return only the figure by default
+    if len(return_values) == 1:
+        return return_values[0]
+
+    # otherwise, return all requested values
+    return tuple(return_values)
 
 
 class _Clustergram():
@@ -177,8 +206,6 @@ class _Clustergram():
 Keyword arguments:
 
 - data (ndarray; required): Matrix of observations as array of arrays
-- computed_traces (dict; optional): The dendrogram traces from another
-   Clustergram component.
 - row_labels (list; optional): List of row category labels
    (observation labels)
 - column_labels (list; optional): List of column category labels
@@ -222,7 +249,7 @@ Keyword arguments:
     the dataset, the color on the heatmap would be white; all cells
     with a value in the 50th or higher percentile, excluding the 100th
     percentile, would be gray; and the cell(s) in the 100th percentile
-    would be colored black. (Default: [[0.0, 'rgb(255,0,0'], [0.5,
+    would be colored black. (Default: [[0.0, 'rgb(255,0,0)'], [0.5,
     'rgb(0,0,0)'], [1.0, 'rgb(0,255,0)']])
 - color_list (dict; optional): The list of colors to use for different
    clusters in the dendrogram that have a root under the threshold for
@@ -417,11 +444,22 @@ Keyword arguments:
             self,
             computed_traces=None
     ):
-        t = None
+        # use, if available, the precomputed dendrogram and heatmap
+        # traces (as well as the row and column labels)
+        dt, heatmap = None, None
+
         if computed_traces is None:
-            t = self._dendrogram_traces()
+            dt, self._data, \
+                self._row_labels, self._column_labels = self._compute_clustered_data()
         else:
-            t = computed_traces
+            dt = computed_traces['dendro_traces']
+            heatmap = computed_traces['heatmap']
+            self._row_labels = computed_traces['row_labels']
+            self._column_labels = computed_traces['column_labels']
+
+        # this dictionary relates curve numbers (accessible from the
+        # hoverData/clickData props) to cluster numbers
+        cluster_curve_numbers = {}
 
         # initialize plot; GM is for group markers
         # [empty]      [col. dendro] [col. dendro] [empty]
@@ -453,21 +491,21 @@ Keyword arguments:
         tickvals_row = []
 
         # for column dendrogram, leaves are at bottom (y=0)
-        for i in range(len(t['col'])):
-            xs = t['col'][i]['x']
-            ys = t['col'][i]['y']
+        for i in range(len(dt['col'])):
+            xs = dt['col'][i]['x']
+            ys = dt['col'][i]['y']
 
             # during serialization (e.g., in a dcc.Store, the NaN
             # values become None and the arrays get turned into lists;
             # they must be converted back
             if isinstance(xs, list):
                 xs = np.array(xs, dtype=np.float)
-                t['col'][i].update(
+                dt['col'][i].update(
                     x=xs
                 )
             if isinstance(ys, list):
                 ys = np.array(ys, dtype=np.float)
-                t['col'][i].update(
+                dt['col'][i].update(
                     y=ys
                 )
             tickvals_col += [
@@ -480,18 +518,18 @@ Keyword arguments:
 
         # for row dendrogram, leaves are at right(x=0, since we
         # horizontally flipped it)
-        for i in range(len(t['row'])):
-            xs = t['row'][i]['x']
-            ys = t['row'][i]['y']
+        for i in range(len(dt['row'])):
+            xs = dt['row'][i]['x']
+            ys = dt['row'][i]['y']
 
             if isinstance(xs, list):
                 xs = np.array(xs, dtype=np.float)
-                t['row'][i].update(
+                dt['row'][i].update(
                     x=xs
                 )
             if isinstance(ys, list):
                 ys = np.array(ys, dtype=np.float)
-                t['row'][i].update(
+                dt['row'][i].update(
                     y=ys
                 )
 
@@ -524,7 +562,7 @@ Keyword arguments:
             )
 
         (row_dendro_traces, col_dendro_traces) = self._sort_traces(
-            t['row'], t['col'])
+            dt['row'], dt['col'])
 
         for i in range(len(col_dendro_traces)):
             cdt = col_dendro_traces[i]
@@ -533,6 +571,7 @@ Keyword arguments:
                 width=self._line_width[1]
             )
             cdt['hoverinfo'] = 'y+name'
+            cluster_curve_numbers[len(fig.data)] = ['col', i]
             fig.append_trace(cdt, 1, 2)
 
         # row dendrogram (displays on left side)
@@ -543,6 +582,7 @@ Keyword arguments:
                 width=self._line_width[0]
             )
             rdt['hoverinfo'] = 'x+name'
+            cluster_curve_numbers[len(fig.data)] = ['row', i]
             fig.append_trace(rdt, 2, 1)
 
         # display row dendrogram sideways
@@ -600,23 +640,26 @@ Keyword arguments:
                 showticklabels=False
             )
 
-        # heatmap
-        heat_data = self._data
+        # recalculate the heatmap, if necessary
+        if heatmap is None:
 
-        # symmetrize the heatmap about zero, if necessary
-        if self._symmetric_value:
-            heat_data = np.subtract(heat_data, np.mean(heat_data))
+            # heatmap
+            heat_data = self._data
 
-        # row heatmap
-        heatmap = go.Heatmap(
-            x=tickvals_col,
-            y=tickvals_row,
-            z=heat_data,  # TODO z is not heat_data (check for rearrangement)
-            colorscale=self._color_map,
-            colorbar={
-                'xpad': 50  # move the colorbar legend away
-            }
-        )
+            # symmetrize the heatmap about zero, if necessary
+            if self._symmetric_value:
+                heat_data = np.subtract(heat_data, np.mean(heat_data))
+
+            heatmap = go.Heatmap(
+                x=tickvals_col,
+                y=tickvals_row,
+                z=heat_data,
+                colorscale=self._color_map,
+                colorbar={
+                    'xpad': 50
+                }
+            )
+
         fig.append_trace(heatmap, 2, 2)
 
         # hide all legends
@@ -753,7 +796,12 @@ Keyword arguments:
             width=self._width
         )
 
-        return (fig, t)
+        computed_traces = {'dendro_traces': dt,
+                           'heatmap': heatmap,
+                           'row_labels': self._row_labels,
+                           'column_labels': self._column_labels}
+
+        return (fig, computed_traces, cluster_curve_numbers)
 
     def _scale(
             self,
@@ -799,14 +847,25 @@ Keyword arguments:
 
         return (Zcol, Zrow)
 
-    def _dendrogram_traces(
+    def _compute_clustered_data(
             self
     ):
-        """Gets the traces that need to be plotted for the row and column
-        dendrograms.
+        """Get the traces that need to be plotted for the row and column
+        dendrograms, and update the ordering of the 2D data array,
+        row labels, and column labels to match the reordered
+        dendrogram leaves.
 
-        Returns: - dict: A dictionary containing entries for the row
-        and column dendrogram traces."""
+        Returns:
+        - dict: A dictionary containing entries for the row and column
+        dendrogram traces.
+        - ndarray: The original 2D data array that has been reordered to
+        match the ordering of the row and column dendrogram leaves.
+        - list: A list of the row labels that have been reordered to match
+        the ordering of the row dendrogram leaves.
+        - list: a list of the column labels that have been reordered to match
+        the ordering of the column dendrogram leaves.
+
+        """
 
         # initialize return dict
         trace_list = {
@@ -827,7 +886,6 @@ Keyword arguments:
                                   color_threshold=self._color_threshold['col'],
                                   labels=self._column_labels, no_plot=True)
             clustered_column_labels = scp.array(Pcol['ivl'])
-
             trace_list['col'] = self._color_dendro_clusters(Pcol, 'col')
 
         if Zrow is not None:
@@ -851,16 +909,12 @@ Keyword arguments:
         cl_indices = [list(clustered_column_labels).index(c)
                       for c in list(self._column_labels)]
 
-        # then modify the data here; first shuffle rows,
+        # modify the data here; first shuffle rows,
         # then transpose and shuffle columns,
         # then transpose again
-        self._data = self._data[rl_indices].T[cl_indices].T
+        clustered_data = self._data[rl_indices].T[cl_indices].T
 
-        # update the labels
-        self._column_labels = clustered_column_labels
-        self._row_labels = clustered_row_labels
-
-        return trace_list
+        return trace_list, clustered_data, clustered_row_labels, clustered_column_labels
 
     def _color_dendro_clusters(
             self,
