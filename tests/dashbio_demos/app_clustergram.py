@@ -648,7 +648,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         curves = None
         comp_traces = computed_traces
 
-        if len(sel_rows) < 2 or len(sel_cols) < 2 or fig_opts is None:
+        if len(sel_rows) < 2 or len(sel_cols) < 2:
             wrapper_content = html.Div(
                 'No data have been selected to display. Please upload a file \
                 or select a preloaded file from the dropdown, then select at \
@@ -658,7 +658,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     'font-size': '20pt'
                 }
             )
-        if fig_opts['cluster'] is None:
+            return wrapper_content, curves, comp_traces
+        if fig_opts['cluster'] is None or len(fig_opts['cluster']) == 0:
             wrapper_content = html.Div(
                 'No dimension has been selected along which to perform \
                 clustering. \
@@ -668,6 +669,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     'font-size': '20pt'
                 }
             )
+            return wrapper_content, curves, comp_traces
 
         if dataset_name is not None:
             dataset = datasets[dataset_name]
