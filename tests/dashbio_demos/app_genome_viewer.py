@@ -3,6 +3,14 @@ import dash_bio
 import flask
 import os
 
+# running directly with Python
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+
+# running with gunicorn (on servers)
+elif 'DASH_PATH_ROUTING' in os.environ:
+    from tests.dashbio_demos.utils.app_standalone import run_standalone_app
+
 data_directory = 'tests/dashbio_demos/sample_data'
 list_of_data = os.listdir(data_directory)
 static_image_route = '/static/'
@@ -42,3 +50,12 @@ def callbacks(app):
         if data_path not in list_of_data:
             raise Exception('"{}" is excluded from the allowed static files'.format(data_path))
         return flask.send_from_directory(data_directory, data_path)
+
+
+# only declare app/server if the file is being run directly
+if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
+    app = run_standalone_app(layout, callbacks, header_colors, __file__)
+    server = app.server
+
+if __name__ == '__main__':
+    app.run_server(debug=True, port=8050)
