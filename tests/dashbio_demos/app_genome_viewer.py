@@ -43,7 +43,7 @@ def layout():
     ])
 
 
-def callbacks(app):
+def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.server.route('{}<data_path>'.format(static_image_route))
     def serve_image(data_path):
