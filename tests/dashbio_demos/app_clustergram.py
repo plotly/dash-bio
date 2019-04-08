@@ -143,10 +143,10 @@ def layout():
                                'different colors if they comprise data points '
                                'that share some minimal level of correlation.'),
                         html.P('In the "Data" tab, you can select a preloaded '
-                               'dataset to display or, optionally, upload one '
+                               'dataset to display or, alternatively, upload one '
                                'of your own. A sample dataset is also available '
                                'for download in the tab.'),
-                        html.P('In the "Graph" tab,  you can choose the '
+                        html.P('In the "Graph" tab, you can choose the '
                                'dimension(s) along which clustering will be '
                                'performed (row or column). You can also change '
                                'the threshold that determines the point at which '
@@ -321,7 +321,7 @@ def layout():
                                 ),
                                 html.Br(),
                                 html.Div(className='clustergram-option-desc', children=[
-                                    'Annotate your heatmap by labelling clusters; '
+                                    'Annotate your heatmap by labeling clusters; '
                                     'choose a color for the annotation, as well as '
                                     'text for the annotation, below. Then, click '
                                     'on the row cluster or column cluster that you '

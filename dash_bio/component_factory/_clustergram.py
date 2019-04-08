@@ -850,8 +850,8 @@ Keyword arguments:
     def _compute_clustered_data(
             self
     ):
-        """Gets the traces that need to be plotted for the row and column
-        dendrograms, and updates the ordering of the 2D data array,
+        """Get the traces that need to be plotted for the row and column
+        dendrograms, and update the ordering of the 2D data array,
         row labels, and column labels to match the reordered
         dendrogram leaves.
 
