@@ -1,7 +1,9 @@
-import dash_html_components as html
-import dash_bio
-import flask
+import glob
 import os
+
+import dash_bio
+import dash_html_components as html
+import flask
 
 # running directly with Python
 if __name__ == '__main__':
@@ -11,14 +13,11 @@ if __name__ == '__main__':
 elif 'DASH_PATH_ROUTING' in os.environ:
     from tests.dashbio_demos.utils.app_standalone import run_standalone_app
 
-data_directory = 'tests/dashbio_demos/sample_data'
-list_of_data = os.listdir(data_directory)
+
+DATAPATH = os.path.join('.', 'tests', 'dashbio_demos', 'sample_data', 'genome_viewer_')
+data_filepaths = glob.glob(DATAPATH + '*')
+list_of_data = [os.path.basename(fp) for fp in data_filepaths]
 static_image_route = '/static/'
-
-
-def header_colors():
-    return {'bg_color': '#4d0000',
-            'font_color': 'white'}
 
 
 def description():
@@ -26,14 +25,19 @@ def description():
         'variants.'
 
 
+def header_colors():
+    return {'bg_color': '#4d0000',
+            'font_color': 'white'}
+
+
 def layout():
     return html.Div(id='genome-body', children=[
         dash_bio.GenomeViewer(
             id='genome-viewer',
             genomedata='https://www.biodalliance.org/datasets/hg19.2bit',
-            trackdata='/static/synth3.normal.17.7500000-7515000.bam',
-            trackindex='/static/synth3.normal.17.7500000-7515000.bam.bai',
-            variantdata='/static/snv.chr17.vcf',
+            trackdata='/static/genome_viewer_synth3.normal.17.7500000-7515000.bam',
+            trackindex='/static/genome_viewer_synth3.normal.17.7500000-7515000.bam.bai',
+            variantdata='/static/genome_viewer_snv.chr17.vcf',
             genedata="https://www.biodalliance.org/datasets/ensGene.bb",
             contig="chr17",
             start=7512284,
@@ -49,7 +53,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def serve_image(data_path):
         if data_path not in list_of_data:
             raise Exception('"{}" is excluded from the allowed static files'.format(data_path))
-        return flask.send_from_directory(data_directory, data_path)
+        return flask.send_from_directory(os.path.dirname(DATAPATH), data_path)
 
 
 # only declare app/server if the file is being run directly
