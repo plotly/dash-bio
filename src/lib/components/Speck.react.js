@@ -140,7 +140,7 @@ export default class Speck extends Component {
         this.setState({
             renderer: renderer,
             refreshView: true,
-        });
+        }, function () { this.loadStructure(this.props.data) });
 
         // add event listeners
         const interactionHandler = new SpeckInteractions( // eslint-disable-line no-unused-vars
