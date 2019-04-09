@@ -46,9 +46,9 @@ _js_dist = [
 
 
 _css_dist = [{
-    'relative_package_path': ['../assets/pileup.css'],
+    'relative_package_path': ['styles/pileup.css'],
     'external_url': [
-        'https://unpkg.com/dash-bio@{}/assets/pileup.css'.format(__version__)],
+        'https://unpkg.com/dash-bio@{}/dash-bio/styles/pileup.css'.format(__version__)],
     'namespace': package_name
 }]
 
