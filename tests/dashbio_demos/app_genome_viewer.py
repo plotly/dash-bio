@@ -59,7 +59,8 @@ def layout():
                             html.H4(
                                 "What is GenomeViewer?"
                             ),
-                            html.P(description()
+                            html.P(
+                                description()
                             )
                         ])
                     )
@@ -67,7 +68,6 @@ def layout():
             )
         ])
     ])
-
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
