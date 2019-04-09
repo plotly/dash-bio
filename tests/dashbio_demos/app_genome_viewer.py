@@ -31,20 +31,34 @@ def header_colors():
 
 
 def layout():
-    return html.Div(id='genome-body', children=[
-        dash_bio.GenomeViewer(
-            id='genome-viewer',
-            genomedata='https://www.biodalliance.org/datasets/hg19.2bit',
-            trackdata='/static/genome_viewer_synth3.normal.17.7500000-7515000.bam',
-            trackindex='/static/genome_viewer_synth3.normal.17.7500000-7515000.bam.bai',
-            variantdata='/static/genome_viewer_snv.chr17.vcf',
-            genedata="https://www.biodalliance.org/datasets/ensGene.bb",
-            contig="chr17",
-            start=7512284,
-            stop=7512644
-        )
-
-    ])
+    return html.Div(
+        id='gv-page-content',
+        children=[
+            html.Div(
+                id='gv-info-panel-div',
+                children=[
+                    html.Div(
+                        description(),
+                        className='gv-text gv-intro',
+                    ),
+                ]
+            ),
+            html.Div(
+                id='genome-body',
+                children=[dash_bio.GenomeViewer(
+                    id='genome-viewer',
+                    genomedata='https://www.biodalliance.org/datasets/hg19.2bit',
+                    trackdata='/static/genome_viewer_synth3.normal.17.7500000-7515000.bam',
+                    trackindex='/static/genome_viewer_synth3.normal.17.7500000-7515000.bam.bai',
+                    variantdata='/static/genome_viewer_snv.chr17.vcf',
+                    genedata="https://www.biodalliance.org/datasets/ensGene.bb",
+                    contig="chr17",
+                    start=7512284,
+                    stop=7512644)
+                ]
+            )
+        ]
+    )
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
