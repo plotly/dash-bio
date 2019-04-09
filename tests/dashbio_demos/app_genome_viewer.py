@@ -1,9 +1,9 @@
-import glob
 import os
 
 import dash_bio
+import dash_core_components as dcc
 import dash_html_components as html
-import flask
+from dash.dependencies import Input, Output
 
 # running directly with Python
 if __name__ == '__main__':
@@ -15,9 +15,12 @@ elif 'DASH_PATH_ROUTING' in os.environ:
 
 
 DATAPATH = os.path.join('.', 'tests', 'dashbio_demos', 'sample_data', 'genome_viewer_')
-data_filepaths = glob.glob(DATAPATH + '*')
-list_of_data = [os.path.basename(fp) for fp in data_filepaths]
-static_image_route = '/static/'
+DATASETS = {
+    'genedata': 'https://www.biodalliance.org/datasets/ensGene.bb',
+    'trackdata': DATAPATH + 'synth3.normal.17.7500000-7515000.bam',
+    'trackindex': DATAPATH + 'synth3.normal.17.7500000-7515000.bam.bai',
+    'variantdata': DATAPATH + 'snv.chr17.vcf'
+}
 
 
 def description():
@@ -31,43 +34,53 @@ def header_colors():
 
 
 def layout():
-    return html.Div(
-        id='gv-page-content',
-        children=[
-            html.Div(
-                id='gv-info-panel-div',
+    return html.Div(id='genome-body', children=[
+
+        dash_bio.GenomeViewer(
+            id='genome-viewer',
+            genomedata='https://www.biodalliance.org/datasets/hg19.2bit',
+            trackdata=DATASETS['trackdata'],
+            trackindex=DATASETS['trackindex'],
+            variantdata=DATASETS['variantdata'],
+            genedata=DATASETS['genedata'],
+            contig='chr17',
+            start=7512284,
+            stop=7512644
+        ),
+
+        html.Div(id='genome-control-tabs', children=[
+            dcc.Tabs(
+                id='genome-tabs',
                 children=[
-                    html.Div(
-                        description(),
-                        className='gv-text gv-intro',
-                    ),
-                ]
-            ),
-            html.Div(
-                id='genome-body',
-                children=[dash_bio.GenomeViewer(
-                    id='genome-viewer',
-                    genomedata='https://www.biodalliance.org/datasets/hg19.2bit',
-                    trackdata='/static/genome_viewer_synth3.normal.17.7500000-7515000.bam',
-                    trackindex='/static/genome_viewer_synth3.normal.17.7500000-7515000.bam.bai',
-                    variantdata='/static/genome_viewer_snv.chr17.vcf',
-                    genedata="https://www.biodalliance.org/datasets/ensGene.bb",
-                    contig="chr17",
-                    start=7512284,
-                    stop=7512644)
+                    dcc.Tab(
+                        label='About',
+                        value='what-is',
+                        children=html.Div(className='genome-tab', children=[
+                            html.H4(
+                                "What is GenomeViewer?"
+                            ),
+                            html.P(description()
+                            )
+                        ])
+                    )
                 ]
             )
-        ]
-    )
+        ])
+    ])
+
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
 
-    @app.server.route('{}<data_path>'.format(static_image_route))
-    def serve_image(data_path):
-        if data_path not in list_of_data:
-            raise Exception('"{}" is excluded from the allowed static files'.format(data_path))
-        return flask.send_from_directory(os.path.dirname(DATAPATH), data_path)
+    # Render main chart
+    @app.callback(
+        Output('genome-viewer', 'trackdata'),
+        [Input('track-content', 'value')],
+    )
+    def update_chart(variantdata):
+        # TODO replace select with a dcc.Dropdown so
+        # we can give it an id and pass it to Input()
+        return DATASETS['variantdata']
 
 
 # only declare app/server if the file is being run directly
