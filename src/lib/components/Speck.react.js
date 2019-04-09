@@ -137,10 +137,15 @@ export default class Speck extends Component {
         const aoResolution = 300;
         const renderer = new SpeckRenderer(canvas, resolution, aoResolution);
 
-        this.setState({
-            renderer: renderer,
-            refreshView: true,
-        }, function () { this.loadStructure(this.props.data) });
+        this.setState(
+            {
+                renderer: renderer,
+                refreshView: true,
+            },
+            function() {
+                this.loadStructure(this.props.data); // eslint-disable-line no-invalid-this
+            }
+        );
 
         // add event listeners
         const interactionHandler = new SpeckInteractions( // eslint-disable-line no-unused-vars
