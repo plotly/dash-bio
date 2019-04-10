@@ -6,7 +6,7 @@ biopython
 colour==0.1.5
 cython>=0.19
 dash>=0.40.0
-dash-bio==0.0.9-rc4
+dash-bio==0.0.9-rc6
 dash-daq==0.1.4
 gunicorn
 jsonschema
