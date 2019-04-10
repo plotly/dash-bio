@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.0.9-rc4",
+  "version": "0.0.9-rc6",
   "description": "Dash components for bioinformatics",
   "main": "build/index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "dependencies": {
     "circos": "^2.1.0",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
-    "molecule-3d-for-react": "^0.4.5",
+    "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
     "plotly.js": "^1.41.3",
     "ramda": "^0.26.0",
     "react": "15.6.2",
@@ -27,8 +27,8 @@
     "react-dom": "15.4.2",
     "react-oncoprint": "^1.2.2",
     "react-plotly.js": "^2.2.0",
-    "react-sequence-viewer": "git://github.com/shammamah/react-sequence-viewer.git",
-    "speck": "git://github.com/shammamah/speck.git"
+    "react-sequence-viewer": "git://github.com/plotly/react-sequence-viewer.git",
+    "speck": "git://github.com/plotly/speck.git"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
