@@ -1,2 +1,2 @@
-web: gunicorn index:server
+web: gunicorn tests.dashbio_demos.app_volcano_plot:server
 
