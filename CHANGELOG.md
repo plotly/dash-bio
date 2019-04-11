@@ -7,7 +7,7 @@
   on the heatmap when precomputed traces are used to generate the
   figure.
 * Fixed issue with Speck not rendering unless it is attached to a callback.
-* Fixed issue with Speck trying to calculate a system with no atoms,
+* Prevent Speck from trying to calculate a system with no atom.
   which led to an error.
 
 ### Changed
@@ -39,7 +39,7 @@
 * Changed install requirement to Dash version 0.40.0 or greater.
 
 ### Added
-* Added ability to define custom colours in styles parser for
+* Added ability to define custom colors in style parser for
   Molecule3D.
 
 ## [0.0.7] - 2019-26-02
