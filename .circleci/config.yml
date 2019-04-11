@@ -35,7 +35,7 @@ jobs:
 
             - run:
                 name: "Build Node.js package"
-                command: npm run build:js
+                command: npm run build:js-dev
 
             - run:
                 name: "Build Python package"
