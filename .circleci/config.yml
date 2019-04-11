@@ -3,10 +3,18 @@ version: 2
 jobs:
     "node":
         docker:
-            - image: circleci/node:11.10.1
+            - image: circleci/python:3.7-stretch-node
 
         steps:
             - checkout
+            - run:
+                name: "Update Node.js and npm"
+                command: |
+                  curl -sSL "https://nodejs.org/dist/v11.10.1/node-v11.10.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.1-linux-x64/bin/node
+                  curl https://www.npmjs.com/install.sh | sudo bash
+            - run:
+                name: Check current version of node
+                command: node -v
 
             - restore_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
@@ -24,6 +32,19 @@ jobs:
                 name: Run eslint
                 command: ./node_modules/.bin/eslint src
                 when: always
+
+            - run:
+                name: "Build Node.js package"
+                command: npm run build:js-dev
+
+            - run:
+                name: "Build Python package"
+                command: |
+                    python -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install dash==0.40.0
+                    npm run build:py
 
 
     "python-3.6": &test-template
