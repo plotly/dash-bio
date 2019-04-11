@@ -10,11 +10,11 @@
     width: 4px;
     height: 0px;
     margin-right: 500px;
-    background-color: #191A1C;
+    background-color: #F1F9FA;
 }
 #vp-page-content ::-webkit-scrollbar-thumb {
     width: 2px;
-    background-color: #F1F9FA;
+    background-color: #19D3F3;
     border-radius:15px;
     padding-right:5px;
 }
@@ -39,9 +39,10 @@
 }
 
 .vp-tab {
-    max-height: 460px;
+    height: 440px;
     overflow-y: auto;
-    padding-right: 15px;
+    padding-right: 20px;
+    margin: 20px;
 }
 
 #vp-control-tabs .tab {
@@ -70,13 +71,16 @@
     margin-left: 50px;
     margin-right: 50px;
 }
-
+.vp-option {
+    display: block;
+    margin-bottom: 10px;
+}
 .vp-option-name {
     font-size: 12pt;
     display: inline-block;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-bottom: 10px;
-    width: 150px;
+    width: 100px;
 }
 
 #vp-page-content .rc-slider-track {
@@ -85,12 +89,14 @@
 #vp-page-content .rc-slider-handle, #vp-page-content .rc-slider-dot-active {
     border-color: #19d3f3;
 }
-
-#vp-page-content .rc-slider {
-    width: 150px !important;
-    float: right;
+#vp-bound-val, #vp-genomic-line-val {
     display: inline-block;
-    margin-top: 20px;
+    float:right;
+}
+#vp-page-content .rc-slider {
+    width: 180px !important;
+    display: inline-block;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 #vp-dataset-dropdown {
@@ -102,4 +108,22 @@
 
 #vp-page-content .chrome-picker, #vp-color-picker {
     border: none !important;
+}
+#vp-color-picker {
+    margin-top: 20px;
+    display: inline-block;
+}
+#vp-num-points-display {
+    display: inline-block;
+    float: right;
+    margin-top: 35px;
+}
+.vp-event-data-display {
+    display: inline-block;
+    width: 180px;
+    vertical-align: top;
+    margin-top: 10px;
+}
+#vp-event-data {
+    margin-bottom: 20px;
 }

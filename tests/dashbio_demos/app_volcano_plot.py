@@ -116,93 +116,51 @@ def layout():
                     label='View',
                     value='view',
                     children=html.Div(className='vp-tab', children=[
-                        html.Div(
-                            className='vp-vertical-style',
-                            title='Changes the value of the vertical dashed line '
-                            'on the left side.',
-                            children=[
-                                html.Div(
-                                    "Lower effect size",
-                                    className='vp-text',
-                                ),
-                                daq.Slider(
-                                    className='vp-input',
-                                    id='vp-lower-bound',
-                                    value=-1,
-                                    max=0,
-                                    min=-3,
-                                    handleLabel={'showCurrentValue': True, 'label': ' '},
-                                    step=0.01,
-                                    marks={str(num): str(num) for num in range(0, -4, -1)}
-                                ),
-                                dcc.Input(
-                                    className='vp-test-util-div',
-                                    id='vp-lower-bound-val',
-                                    value=-1,
-                                    type='number'
-                                ),
-                            ],
+                        html.Div(className='vp-option', children=[
+                            html.Div(
+                                className='vp-option-name',
+                                children='Effect sizes'
+                            ),
+                            dcc.RangeSlider(
+                                id='vp-bound-val',
+                                min=-4,
+                                max=4,
+                                value=[-1, 1],
+                                step=0.01,
+                                marks={str(num): str(num) for num in range(-4, 5)}
+                            )
+                        ]),
+                        html.Div(className='vp-option', children=[
+                            html.Div(
+                                className='vp-option-name',
+                                children='Threshold',
+                            ),
+                            dcc.Slider(
+                                id='vp-genomic-line-val',
+                                value=4,
+                                max=10,
+                                min=0,
+                                step=0.01,
+                                marks={str(num): str(num) for num in range(0, 11, 2)}
+                            ),
+                        ]),
+                        daq.ColorPicker(
+                            id='vp-color-picker',
+                            value=dict(hex="#0000FF"),
+                            size=150,
                         ),
                         html.Div(
-                            className='vp-vertical-style',
-                            title='Changes the value of the vertical dashed line '
-                            'on the right side.',
+                            id='vp-num-points-display',
                             children=[
                                 html.Div(
-                                    "Upper effect size",
-                                    className='vp-text',
-                                ),
-                                daq.Slider(
-                                    className='vp-input',
-                                    id='vp-upper-bound',
-                                    value=1,
-                                    min=0,
-                                    max=3,
-                                    handleLabel={'showCurrentValue': True, 'label': ' '},
-                                    step=0.01,
-                                    marks={str(num): str(num) for num in range(4)}
-                                ),
-                                dcc.Input(
-                                    className='vp-test-util-div',
-                                    id='vp-upper-bound-val',
-                                    value=1,
-                                    type='number',
-                                )
-                            ],
-                        ),
-                        html.Div(
-                            className='vp-vertical-style',
-                            title='Changes the value of the '
-                            'horizontal dashed line.',
-                            children=[
-                                html.Div(
-                                    "Threshold",
-                                    className='vp-text',
-                                ),
-                                daq.Slider(
-                                    className='vp-input',
-                                    id='vp-genomic-line-val',
-                                    value=4,
-                                    max=10,
-                                    min=0,
-                                    handleLabel={'showCurrentValue': True, 'label': ' '},
-                                    step=0.01,
-                                    marks={str(num): str(num) for num in range(0, 11, 2)}
-                                ),
-                            ],
-                        ),
-                        html.Div(
-                            id='vp-indicators-div',
-                            children=[
-                                html.Div(
-                                    className='vp-vertical-style',
                                     title='Number of points in the upper left',
                                     children=[
                                         daq.LEDDisplay(
                                             className='vp-input-like',
                                             label='Upper left points',
                                             id='vp-upper-left',
-                                            size=20,
+                                            size=25,
+                                            color='#19D3F3'
                                         ),
                                         html.Div(
                                             className='vp-test-util-div',
@@ -210,6 +168,7 @@ def layout():
                                         )
                                     ]
                                 ),
+                                html.Br(),
                                 html.Div(
                                     className='vp-vertical-style',
                                     title='Number of points in the upper right',
@@ -218,7 +177,8 @@ def layout():
                                             className='vp-input-like',
                                             label='Upper right points',
                                             id='vp-upper-right',
-                                            size=20,
+                                            size=25,
+                                            color='#19D3F3'
                                         ),
                                         html.Div(
                                             className='vp-test-util-div',
@@ -228,16 +188,8 @@ def layout():
                                 ),
                             ],
                         ),
-                        html.Div(
-                            id='vp-color-div',
-                            children=[
-                                daq.ColorPicker(
-                                    id='vp-color-picker',
-                                    value=dict(hex="#0000FF"),
-                                    size=200,
-                                )
-                            ]
-                        )
+                        html.Hr(),
+                        html.Div(id='vp-event-data')
                     ])
                 )
             ])
@@ -247,17 +199,69 @@ def layout():
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
+        Output('vp-event-data', 'children'),
+        [Input('vp-graph', 'hoverData'),
+         Input('vp-graph', 'clickData')]
+    )
+    def get_event_data(hover, click):
+        hover_data_div = [
+            html.Div(className='vp-option-name', children='Hover data')
+        ]
+        hover_data = 'Hover over a data point to see it here.'
+
+        if hover is not None:
+            hovered_point = hover['points'][0]
+            hover_data = [
+                'x: {}'.format(hovered_point['x']),
+                html.Br(),
+                'y: {}'.format(hovered_point['y']),
+                html.Br(),
+                hovered_point['text'].strip('<br>').replace(
+                    '<br>', ' - ')
+            ]
+
+        hover_data_div.append(
+            html.Div(className='vp-event-data-display', children=hover_data)
+        )
+
+        click_data_div = [
+            html.Div(className='vp-option-name', children='Click data')
+        ]
+        click_data = 'Click on a data point to see it here.'
+
+        if click is not None:
+            clicked_point = click['points'][0]
+            click_data = [
+                'x: {}'.format(clicked_point['x']),
+                html.Br(),
+                'y: {}'.format(clicked_point['y']),
+                html.Br(),
+                clicked_point['text'].strip('<br>').replace(
+                    '<br>', ' - ')
+            ]
+
+        click_data_div.append(
+            html.Div(className='vp-event-data-display', children=click_data)
+        )
+
+        return html.Div([
+            html.Div(hover_data_div),
+            html.Div(click_data_div)
+        ])
+
+    @app.callback(
         Output('vp-graph', 'figure'),
         [
-            Input('vp-upper-bound-val', 'value'),
-            Input('vp-lower-bound-val', 'value'),
+            Input('vp-bound-val', 'value'),
             Input('vp-genomic-line-val', 'value'),
             Input('vp-dataset-dropdown', 'value'),
             Input('vp-color-picker', 'value')
         ]
     )
-    def update_graph(u_lim, l_lim, genomic_line, datadset_id, color):
+    def update_graph(effect_lims, genomic_line, datadset_id, color):
         """Update rendering of data points upon changing x-value of vertical dashed lines."""
+        l_lim = effect_lims[0]
+        u_lim = effect_lims[1]
         if 'hex' in color:
             color = color.get('hex', 'red')
         return dash_bio.VolcanoPlot(
@@ -281,11 +285,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         Output('vp-upper-right', 'value'),
         [Input('vp-graph', 'figure')],
-        [State('vp-upper-bound', 'value')]
+        [State('vp-bound-val', 'value')]
     )
-    def update_upper_right_number(fig, u_lim):
+    def update_upper_right_number(fig, bounds):
         """Update the number of data points in the upper right corner."""
-
+        u_lim = bounds[1]
         number = 0
         if len(fig['data']) > 1:
             x = np.array(fig['data'][0]['x'])
@@ -296,11 +300,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         Output('vp-upper-left', 'value'),
         [Input('vp-graph', 'figure')],
-        [State('vp-lower-bound', 'value')]
+        [State('vp-bound-val', 'value')]
     )
-    def update_upper_left_number(fig, l_lim):
+    def update_upper_left_number(fig, bounds):
         """Update the number of data points in the upper left corner."""
-
+        l_lim = bounds[0]
         number = 0
         if len(fig['data']) > 1:
             x = np.array(fig['data'][0]['x'])
@@ -312,13 +316,13 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         Output('vp-upper-left-val', 'children'),
         [Input('vp-graph', 'figure')],
-        [State('vp-lower-bound', 'value')]
+        [State('vp-bound-val', 'value')]
     )
-    def update_upper_left_number_val(fig, l_lim):
+    def update_upper_left_number_val(fig, bounds):
         """Update the number of data points in the upper left corner
         for testing purposes.
         """
-
+        l_lim = bounds[0]
         number = 0
         if len(fig['data']) > 1:
             x = np.array(fig['data'][0]['x'])
@@ -328,22 +332,22 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('vp-upper-bound-val', 'value'),
-        [Input('vp-upper-bound', 'value')],
+        [Input('vp-bound-val', 'value')],
     )
-    def update_upper_bound_val(u_lim):
+    def update_upper_bound_val(bounds):
         """For selenium tests."""
-        return u_lim
+        return bounds[1]
 
     @app.callback(
         Output('vp-upper-right-val', 'children'),
         [Input('vp-graph', 'figure')],
-        [State('vp-upper-bound', 'value')]
+        [State('vp-bound-val', 'value')]
     )
-    def update_upper_right_number_val(fig, u_lim):
+    def update_upper_right_number_val(fig, bounds):
         """Update the number of data points in the upper right corner
         for testing purposes.
         """
-
+        u_lim = bounds[1]
         number = 0
         if len(fig['data']) > 1:
             x = np.array(fig['data'][0]['x'])
@@ -353,10 +357,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('vp-lower-bound-val', 'value'),
-        [Input('vp-lower-bound', 'value')],
+        [Input('vp-bound-val', 'value')],
     )
-    def update_lower_bound_val(l_lim):
+    def update_lower_bound_val(bounds):
         """For selenium tests."""
+        l_lim = bounds[0]
         return l_lim
 
     @app.callback(
