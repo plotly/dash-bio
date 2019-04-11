@@ -38,13 +38,9 @@ jobs:
                 command: npm run build:js
 
             - run:
-                name: "Create virtualenv"
-                command: |
-                    python -m venv venv
-
-            - run:
                 name: "Build Python package"
                 command: |
+                    python -m venv venv
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install dash==0.40.0
