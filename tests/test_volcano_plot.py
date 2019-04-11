@@ -26,17 +26,7 @@ def test_click_app_link_from_gallery(dash_threaded):
            'dash-bio/{}'.format(APP_NAME)
 
 
-@init_demo_app(APP_NAME)
-def test_initial_dataset(dash_threaded):
-    """Check the default dataset is Set2."""
-
-    wait_for_text_to_equal(
-        dash_threaded.driver,
-        '#vp-dataset-dropdown .Select-value-label',
-        'Set2'
-    )
-
-
+# Component tests
 @init_demo_app(APP_NAME)
 def test_change_dataset(dash_threaded):
     """Change dataset using the dropdown."""
