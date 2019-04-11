@@ -59,8 +59,19 @@
     border-bottom: none;
     color: #19d3f3;
 }
-
-
+#vp-page-content .Select-multi-value-wrapper {
+    width: 100px !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: auto;
+    position: relative;
+}
+#vp-page-content .Select-menu-outer {
+    width: 100% !important;
+}
+#vp-page-content .Select input {
+    padding: 0px !important;
+}
 #vp-graph{
     height: 550px;
     width: 100%;
@@ -78,7 +89,8 @@
 .vp-option-name {
     font-size: 12pt;
     display: inline-block;
-    margin-top: 10px;
+    vertical-align: top;
+    margin-top: 15px;
     margin-bottom: 10px;
     width: 100px;
 }
@@ -91,11 +103,12 @@
 }
 #vp-bound-val, #vp-genomic-line-val {
     display: inline-block;
-    float:right;
+    float: right;
 }
-#vp-page-content .rc-slider {
+#vp-page-content .rc-slider, #vp-dataset-dropdown {
     width: 180px !important;
     display: inline-block;
+    float: right;
     margin-top: 10px;
     margin-bottom: 10px;
 }
