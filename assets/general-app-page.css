@@ -178,11 +178,33 @@
     width: 100% !important;
     margin: 0px;
 }
+#app-page-content .Select-input {
+    padding-top: 5px;
+}
 #app-page-content .control-slider {
     display: inline-block;
     width: 150px;
     float: right;
 }
+#app-page-content .control-upload {
+    display: block;
+    border: dotted 1px #119DFF;           /* Change in individual app stylesheet */
+    border-radius: 5px;
+    padding: 30px;
+    font-size: 9pt;
+}
+#app-page-content .control-download {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 7pt;
+    transition-duration: 500ms;
+}
+#app-page-content .control-download:hover {
+    color: #119DFF;                      /* Change in individual app stylesheet */
+    border-color: #119DFF;               /* Change in individual app stylesheet */
+}
+
 #app-page-content .rc-slider-rail {
     background-color: #F6F6F6;            /* Change in individual app stylesheet */
 }
