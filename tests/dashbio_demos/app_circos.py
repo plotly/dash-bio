@@ -990,7 +990,7 @@ def layout():
                                 id='circos-download-button',
                                 children="Download sample data"
                             ),
-                            href="/assets/sample_data/"
+                            href="sample_data/"
                             "circos_sample_data.rar",
                             download="circos_sample_data.rar",
                         ),

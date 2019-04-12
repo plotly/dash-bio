@@ -180,7 +180,7 @@ def layout():
                                             "Download sample data",
                                             className='alignment-button',
                                         ),
-                                        href="/assets/sample_data/p53_clustalo.fasta",
+                                        href="sample_data/p53_clustalo.fasta",
                                         download="p53_clustalo.fasta",
                                     )
                                 ]),

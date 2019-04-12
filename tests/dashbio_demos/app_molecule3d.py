@@ -73,7 +73,7 @@ def layout():
                                                 "Download sample structure",
                                                 id="mol3d-download-sample-data",
                                             ),
-                                            href='/assets/sample_data/2mru.pdb',
+                                            href='sample_data/2mru.pdb',
                                             download='2mru.pdb'
                                         )
                                     ]
