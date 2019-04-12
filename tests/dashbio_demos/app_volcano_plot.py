@@ -79,7 +79,7 @@ def layout():
                     value='what-is',
                     children=html.Div(className='vp-tab', children=[
                         html.H4('What is Volcano Plot?'),
-                        html.Div(
+                        html.P(
                             'You can use volcano plot to interactively '
                             'identify clinically meaningful markers in '
                             'genomic experiments, i.e., markers that are '
@@ -89,6 +89,15 @@ def layout():
                             'log-base-10 p-values plotted against their '
                             'effect size, odds ratio, or log fold-change. '
                         ),
+                        html.P(
+                            'In the "Data" tab, you can select a dataset '
+                            'to view on the plot. In the "View" tab, you '
+                            'can control the color of the highlighted '
+                            'points, as well as the threshold lines that '
+                            'define which values are significant. You can '
+                            'also access hover data and click data from '
+                            'your interactions with the graph. '
+                        )
                     ])
                 ),
                 dcc.Tab(
