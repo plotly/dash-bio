@@ -1,4 +1,5 @@
 import os
+import base64
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
@@ -194,6 +195,25 @@ def layout():
                                     value='{}dna.xyz'.format(DATAPATH)
                                 )
                             ]
+                        ),
+                        html.Div(id='speck-preloaded-uploaded-alert'),
+                        dcc.Upload(
+                            id='speck-file-upload',
+                            className='control-upload',
+                            children=html.Div([
+                                "Drag and drop .xyz files, or click \
+                                    to select files."
+                            ])
+                        ),
+
+                        html.A(
+                            html.Button(
+                                'Download sample .xyz data',
+                                id='speck-file-download',
+                                className='control-download'
+                            ),
+                            href='sample_data/4QCI.xyz',
+                            download='sample_data/4QCI.xyz'
                         )
                     ])
                 ),
@@ -280,11 +300,45 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return {'display': 'inline-block'}
 
     @app.callback(
-        Output('speck', 'data'),
-        [Input('speck-molecule-dropdown', 'value')]
+        Output('speck-molecule-dropdown', 'value'),
+        [Input('speck-file-upload', 'contents')],
+        state=[State('speck-molecule-dropdown', 'value')]
     )
-    def update_molecule(molecule_fname):
-        return read_xyz(molecule_fname)
+    def clear_preloaded_on_upload(upload_contents, current):
+        if upload_contents is not None:
+            return None
+        return current
+
+    @app.callback(
+        Output('speck-preloaded-uploaded-alert', 'children'),
+        [Input('speck-molecule-dropdown', 'value'),
+         Input('speck-file-upload', 'contents')],
+        state=[State('speck-file-upload', 'filename')]
+    )
+    def alert_preloaded_and_uploaded(molecule_fname, upload_contents, upload_fname):
+        if molecule_fname is not None and upload_contents is not None:
+            return 'Warning: you have uploaded a dataset ({}). To view the \
+            dataset, please ensure that the "Preloaded" dropdown has \
+            been cleared.'.format(upload_fname)
+        return ''
+
+    @app.callback(
+        Output('speck', 'data'),
+        [Input('speck-molecule-dropdown', 'value'),
+         Input('speck-file-upload', 'contents')]
+    )
+    def update_molecule(molecule_fname, upload_contents):
+        data = {}
+        if upload_contents is not None and molecule_fname is None:
+            try:
+                content_type, content_string = upload_contents.split(',')
+                data = base64.b64decode(content_string).decode('UTF-8')
+            except AttributeError:
+                pass
+            data = read_xyz(data_string=data)
+        elif molecule_fname is not None:
+            data = read_xyz(molecule_fname)
+        return data
 
     @app.callback(
         Output('speck', 'view'),
