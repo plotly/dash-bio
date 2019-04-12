@@ -233,7 +233,8 @@ def layout():
                             className='speck-controls',
                             children=[
                                 html.Div(className='app-controls-block', children=[
-                                    html.Div(className='app-controls-name', children='Rendering style'),
+                                    html.Div(className='app-controls-name',
+                                             children='Rendering style'),
                                     dcc.Dropdown(
                                         id='speck-preset-rendering-dropdown',
                                         className='speck-dropdown',
