@@ -1,84 +1,15 @@
 import os
-from selenium.webdriver.common.keys import Keys
-from pytest_dash.wait_for import (
-    wait_for_text_to_equal,
-    wait_for_element_by_css_selector,
-    wait_for_elements_by_css_selector
-)
+
 from dash_bio import VolcanoPlot
 from dash_bio.component_factory._volcano import GENOMEWIDE_LINE_LABEL, \
     EFFECT_SIZE_LINE_MIN_LABEL, EFFECT_SIZE_LINE_MAX_LABEL
 from tests.dashbio_demos.app_volcano_plot import DATASETS
 from .test_common_features import (
-    init_demo_app,
     template_test_python_component_prop,
     PROP_TYPES
 )
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
-
-
-# Demo app tests
-@init_demo_app(APP_NAME)
-def test_click_app_link_from_gallery(dash_threaded):
-
-    assert dash_threaded.driver.current_url.replace('http://localhost:8050', '').strip('/') == \
-           'dash-bio/{}'.format(APP_NAME)
-
-
-# Component tests
-@init_demo_app(APP_NAME)
-def test_change_dataset(dash_threaded):
-    """Change dataset using the dropdown."""
-
-    driver = dash_threaded.driver
-
-    dataset_dropdown = wait_for_element_by_css_selector(
-        driver,
-        '#vp-dataset-dropdown .Select-input input'
-    )
-
-    dataset_dropdown.send_keys('Set1')
-    dataset_dropdown.send_keys(Keys.RETURN)
-
-    wait_for_text_to_equal(
-        driver,
-        '#vp-dataset-dropdown .Select-value-label',
-        'Set1'
-    )
-
-
-@init_demo_app(APP_NAME)
-def test_lower_genomic_line(dash_threaded):
-    """Lower the threshold genomic line and verify the change in the highlight points number."""
-
-    driver = dash_threaded.driver
-
-    # display the test elements
-    test_divs = wait_for_elements_by_css_selector(driver, '.vp-test-util-div')
-    for div in test_divs:
-        driver.execute_script("arguments[0].setAttribute('style','display:block;');", div)
-    # initial check
-    wait_for_text_to_equal(driver, '#vp-dataset-dropdown .Select-value-label', 'Set2')
-    wait_for_text_to_equal(driver, '#vp-upper-left-val', '14')
-    wait_for_text_to_equal(driver, '#vp-upper-right-val', '92')
-
-    threshold = wait_for_element_by_css_selector(driver, '#vp-genomic-line-val')
-    lower_bound = wait_for_element_by_css_selector(driver, '#vp-lower-bound-val')
-    upper_bound = wait_for_element_by_css_selector(driver, '#vp-upper-bound-val')
-
-    assert int(threshold.get_attribute('value')) == 4
-    assert int(lower_bound.get_attribute('value')) == -1
-    assert int(upper_bound.get_attribute('value')) == 1
-
-    # lower the threshold
-    threshold.send_keys(Keys.ARROW_DOWN)
-
-    # driver.execute_script("arguments[0].setAttribute('value', '3');", threshold)
-
-    # number of points in the upper left and upper right quadrants
-    wait_for_text_to_equal(driver, '#vp-upper-left-val', '154')
-    wait_for_text_to_equal(driver, '#vp-upper-right-val', '271')
 
 
 # Volcano Plot component tests
