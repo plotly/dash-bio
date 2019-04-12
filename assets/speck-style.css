@@ -50,6 +50,18 @@
     margin-top: 10px;
     margin-right: 5px;
 }
+#speck-body .control-upload {
+    border-color: #5673FA;
+}
+#speck-body .control-download:hover {
+    color: #5673FA;
+    border-color: #5673FA;
+}
+#speck-preloaded-uploaded-alert {
+    font-size: 8pt;
+    margin: 10px;
+    margin-bottom: 20px;
+}
 #speck-controls-detailed {
     width: 100%;
 }
