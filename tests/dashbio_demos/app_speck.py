@@ -212,8 +212,9 @@ def layout():
                                 id='speck-file-download',
                                 className='control-download'
                             ),
-                            href='sample_data/4QCI.xyz',
-                            download='sample_data/4QCI.xyz'
+                            href=os.path.join('assets', 'sample_data',
+                                              '4QCI.xyz'),
+                            download='4QCI.xyz'
                         )
                     ])
                 ),
