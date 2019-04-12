@@ -213,7 +213,7 @@ def layout():
                                 className='control-download'
                             ),
                             href=os.path.join('assets', 'sample_data',
-                                              '4QCI.xyz'),
+                                              'speck_4QCI.xyz'),
                             download='4QCI.xyz'
                         )
                     ])
