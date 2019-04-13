@@ -118,7 +118,7 @@
     display: table-row;
     vertical-align: middle;
 }
-.Select .Select-menu-outer {
+#needleplot-body .Select .Select-menu-outer {
     width: 150px !important;
 }
 
