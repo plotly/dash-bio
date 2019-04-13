@@ -146,21 +146,20 @@ def description():
 
 def layout():
 
-    return html.Div(id='clustergram-body', children=[
+    return html.Div(id='clustergram-body', className='app-body', children=[
 
         html.Div(
             id='clustergram-wrapper',
             children=dcc.Graph(id='clustergram', style={'display': 'none'})
         ),
 
-        html.Div(id='clustergram-control-tabs', children=[
+        html.Div(id='clustergram-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='clustergram-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
-                    children=html.Div(className='clustergram-tab', children=[
-
-                        html.H3('What is Clustergram?'),
+                    children=html.Div(className='control-tab', children=[
+                        html.H4(className='what-is', children='What is Clustergram?'),
                         html.P('Clustergram is a combination of a heatmap and '
                                'dendrograms that allows you to display '
                                'hierarchical clustering data. '
@@ -187,7 +186,7 @@ def layout():
                 dcc.Tab(
                     label='Data',
                     value='datasets',
-                    children=html.Div(className='clustergram-tab', children=[
+                    children=html.Div(className='control-tab', children=[
                         html.Div(
                             id='clustergram-info'
                         ),
@@ -198,7 +197,7 @@ def layout():
                             'Preloaded dataset',
                             title='Choose from some pre-loaded datasets ' +
                             'to view them on the heatmap.',
-                            className='clustergram-option-name'
+                            className='fullwidth-app-controls-name',
                         ),
 
 
@@ -222,7 +221,7 @@ def layout():
                         html.Div(
                             'Upload dataset',
                             title='Upload your own dataset below.',
-                            className='clustergram-option-name'
+                            className='app-controls-name'
                         ),
 
                         html.Div(
@@ -235,6 +234,7 @@ def layout():
                             children=[
                                 dcc.Upload(
                                     id='file-upload',
+                                    className='control-upload',
                                     children=html.Div([
                                         "Drag and drop .tsv files, or click \
                                         to select files."
@@ -242,65 +242,73 @@ def layout():
                                 ),
                             ],
                         ),
-
-                        html.Div(
-                            'Name of index column in uploaded dataset',
-                            title='If a dataset was uploaded, enter the name of ' +
-                            'the column to use as index.',
-                            className='clustergram-option-name'
-                        ),
-                        html.Br(),
-                        dcc.Input(
-                            id='row-labels-source',
-                            type='text',
-                            value='Gene Name'
-                        ),
-
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(
+                                'Name of index column in uploaded dataset',
+                                title='If a dataset was uploaded, enter the name of ' +
+                                'the column to use as index.',
+                                className='fullwidth-app-controls-name',
+                            ),
+                            dcc.Input(
+                                id='row-labels-source',
+                                type='text',
+                                value='Gene Name'
+                            ),
+                        ])
                     ])
                 ),
                 dcc.Tab(
                     label='Graph',
                     value='graph',
-                    children=[html.Div(className='clustergram-tab', children=[
-                        html.Div(
-                            'Cluster by:',
-                            title='Calculate dendrogram for row data, column '
-                            'data, or both.',
-                            className='clustergram-option-name'
-                        ),
-                        dcc.Dropdown(
-                            id='cluster-checklist',
-                            options=[
-                                {'label': 'Row', 'value': 'row'},
-                                {'label': 'Column', 'value': 'col'}
-                            ],
-                            value=['row', 'col'],
-                            multi=True
-                        ),
-
-                        html.Div(
-                            'Hide labels:',
-                            title='Hide labels for the row and/or column ' +
-                            'dendrograms.',
-                            className='clustergram-option-name'
-                        ),
-                        dcc.Dropdown(
-                            id='hide-labels',
-                            options=[
-                                {'label': 'Row', 'value': 'row'},
-                                {'label': 'Column', 'value': 'col'}
-                            ],
-                            multi=True,
-                            value=['row']
-                        ),
+                    children=[html.Div(className='control-tab', children=[
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(
+                                'Cluster by:',
+                                title='Calculate dendrogram for row data, column '
+                                'data, or both.',
+                                className='app-controls-name'
+                            ),
+                            dcc.Dropdown(
+                                id='cluster-checklist',
+                                options=[
+                                    {'label': 'Row', 'value': 'row'},
+                                    {'label': 'Column', 'value': 'col'}
+                                ],
+                                value=['row', 'col'],
+                                multi=True
+                            )
+                        ]),
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(
+                                'Hide labels:',
+                                title='Hide labels for the row and/or column ' +
+                                'dendrograms.',
+                                className='app-controls-name'
+                            ),
+                            dcc.Dropdown(
+                                id='hide-labels',
+                                options=[
+                                    {'label': 'Row', 'value': 'row'},
+                                    {'label': 'Column', 'value': 'col'}
+                                ],
+                                multi=True,
+                                value=['row']
+                            ),
+                        ]),
 
                         html.Hr(),
 
+                        html.Div(className='app-controls-block', children=[
+                                 html.Div(
+                                     'Color threshold:',
+                                     className='app-controls-name'
+                                 )
+                        ]),
+
                         html.Div(
-                            'Change color threshold',
-                            title='Change the threshold level that is used to ' +
+                            className='clustergram-option-desc',
+                            children='Change the threshold level that is used to ' +
                             'determine separate clusters.',
-                            className='clustergram-option-name'
                         ),
 
                         html.Br(),
@@ -311,6 +319,7 @@ def layout():
                                 'Column: ',
                                 dcc.Slider(
                                     id='column-threshold',
+                                    className='control-slider',
                                     min=0,
                                     max=20,
                                     step=0.5,
@@ -320,6 +329,7 @@ def layout():
                                 'Row: ',
                                 dcc.Slider(
                                     id='row-threshold',
+                                    className='control-slider',
                                     min=0,
                                     max=20,
                                     step=0.5,
@@ -335,17 +345,18 @@ def layout():
                         html.Div(
                             id='add-group-markers',
                             children=[
-                                html.Div(
-                                    className='clustergram-option-name',
-                                    children='Add annotations'
-                                ),
-                                html.Button(
-                                    id='remove-all-group-markers',
-                                    children='Remove all',
-                                    n_clicks=0,
-                                    n_clicks_timestamp=0
-                                ),
-                                html.Br(),
+                                html.Div(className='app-controls-block', children=[
+                                    html.Div(
+                                        className='app-controls-name',
+                                        children='Add annotations'
+                                    ),
+                                    html.Button(
+                                        id='remove-all-group-markers',
+                                        children='Remove all',
+                                        n_clicks=0,
+                                        n_clicks_timestamp=0
+                                    )
+                                ]),
                                 html.Div(className='clustergram-option-desc', children=[
                                     'Annotate your heatmap by labeling clusters; '
                                     'below, you can choose a color for the annotation, '
@@ -355,8 +366,8 @@ def layout():
 
                                 daq.ColorPicker(
                                     id='clustergram-annot-color',
-                                    size=335,
-                                    value={'hex': color_palette[0]}
+                                    value={'hex': color_palette[0]},
+                                    size=315
                                 ),
                                 dcc.Input(
                                     id='annotation',
@@ -368,38 +379,37 @@ def layout():
                         ),
 
                         html.Br(),
+
                         html.Hr(),
 
-                        html.Div(
-                            'Rows to display',
-                            title='Select a subset of rows from the uploaded ' +
-                            'or preloaded dataset to compute clustering on.',
-                            className='clustergram-option-name'
-                        ),
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(
+                                'Rows to display',
+                                title='Select a subset of rows from the uploaded ' +
+                                'or preloaded dataset to compute clustering on.',
+                                className='app-controls-name'
+                            ),
 
-                        html.Br(),
+                            dcc.Dropdown(
+                                id='selected-rows',
+                                multi=True,
+                                value=[]
+                            )
+                        ]),
 
-                        dcc.Dropdown(
-                            id='selected-rows',
-                            multi=True,
-                            value=[]
-                        ),
-
-                        html.Br(),
-
-                        html.Div(
-                            'Columns to display',
-                            title='Select a subset of columns from the uploaded ' +
-                            'or preloaded dataset to compute clustering on.',
-                            className='clustergram-option-name'
-                        ),
-                        html.Br(),
-                        dcc.Dropdown(
-                            id='selected-columns',
-                            multi=True,
-                            value=[]
-                        ),
-
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(
+                                'Columns to display',
+                                title='Select a subset of columns from the uploaded ' +
+                                'or preloaded dataset to compute clustering on.',
+                                className='app-controls-name'
+                            ),
+                            dcc.Dropdown(
+                                id='selected-columns',
+                                multi=True,
+                                value=[]
+                            ),
+                        ])
                     ])]
                 )
             ]),
@@ -717,7 +727,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 or select a preloaded file from the dropdown, then select at \
                 least two columns and two rows.',
                 style={
-                    'padding': '30px',
+                    'padding': '40px',
                     'font-size': '20pt'
                 }
             )
