@@ -67,7 +67,7 @@ def description():
 
 def layout():
 
-    return html.Div(id='seq-view-body', children=[
+    return html.Div(id='seq-view-body', className='app-body', children=[
         html.Div(
             id='seq-view-container',
             children=[
@@ -150,13 +150,13 @@ def layout():
             ]
         ),
 
-        html.Div(id='seq-view-control-tabs', children=[
+        html.Div(id='seq-view-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='seq-view-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
-                    children=html.Div(className='seq-view-tab', children=[
-                        html.H4('What is Sequence Viewer?'),
+                    children=html.Div(className='control-tab', children=[
+                        html.H4(className='what-is', children='What is Sequence Viewer?'),
                         html.P('Sequence Viewer is a component that allows you '
                                'to display genomic and proteomic sequences. In '
                                'this app, you can choose to view one of the preloaded '
@@ -179,7 +179,7 @@ def layout():
                 dcc.Tab(
                     label='Data',
                     value='data',
-                    children=[
+                    children=html.Div(className='control-tab', children=[
                         html.Div(
                             id='preloaded-and-uploaded-alert',
                             children=[
@@ -192,9 +192,10 @@ def layout():
 
                         html.Div(
                             "Preloaded sequences",
-                            className='seq-view-controls-name'
+                            className='app-controls-name'
                         ),
                         dcc.Dropdown(
+                            className='app-dropdown',
                             id='preloaded-sequences',
                             options=[
                                 {
@@ -247,20 +248,21 @@ def layout():
                                 )
                             ]
                         )
-                    ]
+                    ])
                 ),
                 dcc.Tab(
                     label='Sequence',
                     value='sequence',
-                    children=[
+                    children=html.Div(className='control-tab', children=[
                         html.Div(
                             id='seq-view-entry-dropdown-container',
                             children=[
                                 html.Div(
                                     "View entry:",
-                                    className='seq-view-controls-name'
+                                    className='app-controls-name'
                                 ),
                                 dcc.Dropdown(
+                                    className='app-dropdown',
                                     id='fasta-entry-dropdown',
                                     options=[
                                         {'label': 1, 'value': 0}
@@ -279,7 +281,7 @@ def layout():
                             children=[
                                 html.Div(
                                     "Selection or coverage:",
-                                    className='seq-view-controls-name'
+                                    className='app-controls-name'
                                 ),
                                 dcc.RadioItems(
                                     id='selection-or-coverage',
@@ -302,150 +304,161 @@ def layout():
                         html.Hr(),
 
                         html.Div(id='cov-options', children=[
-                            html.Div(
-                                "Add coverage from selection by:",
-                                className='seq-view-controls-name'
-                            ),
-                            dcc.RadioItems(
-                                id='mouse-sel-or-subpart-sel',
-                                options=[
-                                    {'label': 'mouse',
-                                     'value': 'mouse'},
-                                    {'label': 'search',
-                                     'value': 'subpart'}
-                                ],
-                                value='mouse'
-                            ),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    "Add coverage from selection by:",
+                                    className='app-controls-name'
+                                ),
+                                dcc.RadioItems(
+                                    id='mouse-sel-or-subpart-sel',
+                                    options=[
+                                        {'label': 'mouse',
+                                         'value': 'mouse'},
+                                        {'label': 'search',
+                                         'value': 'subpart'}
+                                    ],
+                                    value='mouse'
+                                ),
+                            ]),
 
-                            html.Br(),
-
-                            html.Div(
-                                "Text color:",
-                                className='seq-view-controls-name'
-                            ),
-                            dcc.Input(
-                                id='coverage-color',
-                                type='text',
-                                value='rgb(255, 0, 0)'
-                            ),
-                            html.Br(),
-                            html.Div(
-                                "Background color:",
-                                className='seq-view-controls-name'
-                            ),
-                            dcc.Input(
-                                id='coverage-bg-color',
-                                type='text',
-                                value='rgb(0, 0, 255)'
-                            ),
-                            html.Br(),
-                            html.Div(
-                                "Tooltip:",
-                                className='seq-view-controls-name'
-                            ),
-                            dcc.Input(
-                                id='coverage-tooltip',
-                                type='text',
-                                value='',
-                                placeholder='hover text'
-                            ),
-                            html.Br(),
-                            html.Div(
-                                "Underscore text: ",
-                                className='seq-view-controls-name'
-                            ),
-                            dcc.Checklist(
-                                id='coverage-underscore',
-                                options=[
-                                    {'label': '',
-                                     'value': 'underscore'}
-                                ],
-                                values=[]
-                            ),
-                            html.Br(),
-                            html.Button(
-                                id='coverage-submit',
-                                children='Submit'
-                            ),
-                            html.Button(
-                                id='coverage-reset',
-                                children='Reset'
-                            ),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    "Text color:",
+                                    className='app-controls-name'
+                                ),
+                                dcc.Input(
+                                    id='coverage-color',
+                                    type='text',
+                                    value='rgb(255, 0, 0)'
+                                )
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    "Background color:",
+                                    className='app-controls-name'
+                                ),
+                                dcc.Input(
+                                    id='coverage-bg-color',
+                                    type='text',
+                                    value='rgb(0, 0, 255)'
+                                ),
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    "Tooltip:",
+                                    className='app-controls-name'
+                                ),
+                                dcc.Input(
+                                    id='coverage-tooltip',
+                                    type='text',
+                                    value='',
+                                    placeholder='hover text'
+                                ),
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    "Underscore text: ",
+                                    className='app-controls-name'
+                                ),
+                                dcc.Checklist(
+                                    id='coverage-underscore',
+                                    options=[
+                                        {'label': '',
+                                         'value': 'underscore'}
+                                    ],
+                                    values=[]
+                                )
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                html.Button(
+                                    id='coverage-submit',
+                                    children='Submit'
+                                ),
+                                html.Button(
+                                    id='coverage-reset',
+                                    children='Reset'
+                                )
+                            ])
                         ]),
 
                         html.Div(id='seq-view-sel-slider-container', children=[
-                            html.Div(
-                                className='seq-view-controls-name',
-                                children="Selection region:"
-                            ),
-                            dcc.RadioItems(
-                                id='sel-slider-or-input',
-                                options=[
-                                    {'label': 'slider', 'value': 'slider'},
-                                    {'label': 'input', 'value': 'input'}
-                                ],
-                                value='slider'
-                            ),
-                            dcc.RangeSlider(
-                                id='sel-slider',
-                                min=0,
-                                max=0,
-                                step=1,
-                                value=[0, 0]
-                            ),
-                            # optional numeric input for longer sequences
-                            html.Div(
-                                id='sel-region-inputs',
-                                children=[
-                                    "From: ",
-                                    dcc.Input(
-                                        id='sel-region-low',
-                                        type='number',
-                                        min=0,
-                                        max=0,
-                                        placeholder="low"
-                                    ),
-                                    "To: ",
-                                    dcc.Input(
-                                        id='sel-region-high',
-                                        type='number',
-                                        min=0,
-                                        max=0,
-                                        placeholder="high"
-                                    ),
-                                ],
-                                style={'display': 'none'}
-                            ),
-
-                            html.Br(),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    className='app-controls-name',
+                                    children="Selection region:"
+                                ),
+                                dcc.RadioItems(
+                                    id='sel-slider-or-input',
+                                    options=[
+                                        {'label': 'slider', 'value': 'slider'},
+                                        {'label': 'input', 'value': 'input'}
+                                    ],
+                                    value='slider'
+                                )
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                dcc.RangeSlider(
+                                    id='sel-slider',
+                                    min=0,
+                                    max=0,
+                                    step=1,
+                                    value=[0, 0]
+                                )
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                # optional numeric input for longer sequences
+                                html.Div(
+                                    id='sel-region-inputs',
+                                    children=[
+                                        "From: ",
+                                        dcc.Input(
+                                            id='sel-region-low',
+                                            type='number',
+                                            min=0,
+                                            max=0,
+                                            placeholder="low"
+                                        ),
+                                        "To: ",
+                                        dcc.Input(
+                                            id='sel-region-high',
+                                            type='number',
+                                            min=0,
+                                            max=0,
+                                            placeholder="high"
+                                        ),
+                                    ],
+                                    style={'display': 'none'}
+                                )
+                            ]),
 
                             html.Div(
                                 id='seq-view-dna-or-protein-container',
                                 children=[
-                                    html.Div(
-                                        className='seq-view-controls-name',
-                                        children="Translate selection from:"
-                                    ),
-                                    dcc.Dropdown(
-                                        id='translation-alphabet',
-                                        options=[
-                                            {'label': 'DNA',
-                                             'value': 'dna'},
-                                            {'label': 'RNA',
-                                             'value': 'rna'}
-                                        ],
-                                        value=None
-                                    )
+                                    html.Div(className='app-controls-block', children=[
+                                        html.Div(
+                                            className='app-controls-name',
+                                            children="Translate selection from:"
+                                        ),
+                                        dcc.Dropdown(
+                                            id='translation-alphabet',
+                                            options=[
+                                                {'label': 'DNA',
+                                                 'value': 'dna'},
+                                                {'label': 'RNA',
+                                                 'value': 'rna'}
+                                            ],
+                                            value=None
+                                        )
+                                    ])
                                 ]
                             ),
 
-                            html.Br(),
-
                             html.Div(
-                                className='seq-view-controls-name',
+                                className='app-controls-name',
                                 children="Selection highlight color:"
                             ),
                             dcc.Dropdown(
+                                className='app-dropdown',
                                 id='sel-color',
                                 options=[
                                     {'label': 'violet', 'value': 'violet'},
@@ -459,9 +472,8 @@ def layout():
                                 value='indigo'
                             )
                         ])
-                    ]
-                ),
-
+                    ])
+                )
             ]),
         ]),
         dcc.Store(

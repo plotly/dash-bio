@@ -118,14 +118,14 @@
     display: table-row;
     vertical-align: middle;
 }
-.Select .Select-menu-outer {
+#needleplot-body .Select .Select-menu-outer {
     width: 150px !important;
 }
 
-.Select .Select-control {
+#needleplot-body .Select .Select-control {
     max-height: 50px;
 }
-.Select .Select-multi-value-wrapper {
+#needleplot-body .Select .Select-multi-value-wrapper {
     max-height: 120px;
     height: calc(100% + 3px);
     overflow-y: auto;
