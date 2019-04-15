@@ -80,14 +80,14 @@ def layout():
                     children=html.Div(className='vp-tab', children=[
                         html.H4('What is Volcano Plot?'),
                         html.P(
-                            'You can use volcano plot to interactively '
+                            'You can use Volcano Plot to interactively '
                             'identify clinically meaningful markers in '
                             'genomic experiments, i.e., markers that are '
                             'statistically significant and have an effect '
                             'size greater than some threshold. '
                             'Specifically, volcano plots depict the negative '
                             'log-base-10 p-values plotted against their '
-                            'effect size, odds ratio, or log fold-change. '
+                            'effect size.'
                         ),
                         html.P(
                             'In the "Data" tab, you can select a dataset '
@@ -95,8 +95,8 @@ def layout():
                             'can control the color of the highlighted '
                             'points, as well as the threshold lines that '
                             'define which values are significant. You can '
-                            'also access hover data and click data from '
-                            'your interactions with the graph. '
+                            'also access metadata from hovering and '
+                            'clicking on the graph.'
                         )
                     ])
                 ),
@@ -128,7 +128,7 @@ def layout():
                         html.Div(className='vp-option', children=[
                             html.Div(
                                 className='vp-option-name',
-                                children='Effect sizes'
+                                children='Effect size bounds'
                             ),
                             dcc.RangeSlider(
                                 id='vp-bound-val',
