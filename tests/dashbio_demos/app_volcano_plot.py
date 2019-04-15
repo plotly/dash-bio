@@ -220,13 +220,14 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         if hover is not None:
             hovered_point = hover['points'][0]
+            hovered_text = hovered_point['text'].strip('<br>').split('<br>')
+
             hover_data = [
-                'x: {}'.format(hovered_point['x']),
+                'x: {}'.format('{0:.3f}'.format(hovered_point['x'])),
                 html.Br(),
-                'y: {}'.format(hovered_point['y']),
+                'y: {}'.format('{0:.3f}'.format(hovered_point['y'])),
                 html.Br(),
-                hovered_point['text'].strip('<br>').replace(
-                    '<br>', ' - ')
+                '{} ({})'.format(hovered_text[0], hovered_text[1])
             ]
 
         hover_data_div.append(
@@ -240,13 +241,14 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         if click is not None:
             clicked_point = click['points'][0]
+            clicked_text = clicked_point['text'].strip('<br>').split('<br>')
+
             click_data = [
-                'x: {}'.format(clicked_point['x']),
+                'x: {}'.format('{0:.3f}'.format(clicked_point['x'])),
                 html.Br(),
-                'y: {}'.format(clicked_point['y']),
+                'y: {}'.format('{0:.3f}'.format(clicked_point['y'])),
                 html.Br(),
-                clicked_point['text'].strip('<br>').replace(
-                    '<br>', ' - ')
+                '{} ({})'.format(clicked_text[0], clicked_text[1])
             ]
 
         click_data_div.append(
