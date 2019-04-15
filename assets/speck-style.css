@@ -1,5 +1,5 @@
 #speck-body {
-    background-color: #f;
+    background-color: #FFFFFF;
 }
 
 #speck-body ::-webkit-scrollbar-thumb {
@@ -36,7 +36,7 @@
     padding-top: 5px;
     display: inline-block;
     float: right;
-    width: 220px; ;
+    width: 220px;
     vertical-align: top;
     margin-bottom: 20px;
 }
