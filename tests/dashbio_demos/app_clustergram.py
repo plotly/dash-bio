@@ -274,10 +274,10 @@ def layout():
                         html.Hr(),
 
                         html.Div(className='app-controls-block', children=[
-                                 html.Div(
-                                     'Color threshold:',
-                                     className='app-controls-name'
-                                 )
+                            html.Div(
+                                'Color threshold:',
+                                className='app-controls-name'
+                            )
                         ]),
 
                         html.Div(
