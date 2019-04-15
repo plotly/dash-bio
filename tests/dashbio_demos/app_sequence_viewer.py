@@ -242,7 +242,8 @@ def layout():
                                         "Download sample FASTA data",
                                         id='seq-view-download-sample-data'
                                     ),
-                                    href="/assets/sample_data/tubulin.fasta.txt",
+                                    href=os.path.join('assets', 'sample_data',
+                                                      'sequence_viewer_tubulin.fasta.txt'),
                                     download="tubulin.fasta.txt"
                                 )
                             ]
