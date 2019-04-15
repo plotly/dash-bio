@@ -210,6 +210,7 @@
     border-radius: 5px;
     padding: 30px;
     font-size: 9pt;
+    text-align: center;
 }
 #app-page-content .control-download {
     width: 100%;
