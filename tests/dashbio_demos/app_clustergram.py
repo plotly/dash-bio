@@ -302,14 +302,13 @@ def layout():
                             html.Div(
                                 'Color threshold:',
                                 className='app-controls-name'
-                            )
+                            ),
+                            html.Div(
+                                className='app-controls-desc',
+                                children='Change the threshold level that is used to ' +
+                                'determine separate clusters.',
+                            ),
                         ]),
-
-                        html.Div(
-                            className='clustergram-option-desc',
-                            children='Change the threshold level that is used to ' +
-                            'determine separate clusters.',
-                        ),
 
                         html.Br(),
 
@@ -348,22 +347,22 @@ def layout():
                                 html.Div(className='app-controls-block', children=[
                                     html.Div(
                                         className='app-controls-name',
-                                        children='Add annotations'
+                                        children='Annotations:'
                                     ),
                                     html.Button(
                                         id='remove-all-group-markers',
                                         children='Remove all',
                                         n_clicks=0,
                                         n_clicks_timestamp=0
-                                    )
-                                ]),
-                                html.Div(className='clustergram-option-desc', children=[
-                                    'Annotate your heatmap by labeling clusters; '
-                                    'below, you can choose a color for the annotation, '
-                                    'as well as text for the annotation. Then, click '
-                                    'on the row cluster or column cluster that you '
-                                    'wish to annotate.']),
+                                    ),
 
+                                    html.Div(className='app-controls-desc', children=[
+                                        'Annotate your heatmap by labeling clusters; '
+                                        'below, you can choose a color for the annotation, '
+                                        'as well as text for the annotation. Then, click '
+                                        'on the row cluster or column cluster that you '
+                                        'wish to annotate.']),
+                                ]),
                                 daq.ColorPicker(
                                     id='clustergram-annot-color',
                                     value={'hex': color_palette[0]},
@@ -384,10 +383,10 @@ def layout():
 
                         html.Div(className='app-controls-block', children=[
                             html.Div(
-                                'Rows to display',
+                                'Rows to display:',
                                 title='Select a subset of rows from the uploaded ' +
                                 'or preloaded dataset to compute clustering on.',
-                                className='app-controls-name'
+                                className='fullwidth-app-controls-name'
                             ),
 
                             dcc.Dropdown(
@@ -399,10 +398,10 @@ def layout():
 
                         html.Div(className='app-controls-block', children=[
                             html.Div(
-                                'Columns to display',
+                                'Columns to display:',
                                 title='Select a subset of columns from the uploaded ' +
                                 'or preloaded dataset to compute clustering on.',
-                                className='app-controls-name'
+                                className='fullwidth-app-controls-name'
                             ),
                             dcc.Dropdown(
                                 id='selected-columns',

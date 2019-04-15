@@ -14,7 +14,6 @@
     padding: 0px;
     overflow-x: scroll;
     margin: 0px;
-    width: 800px;
 }
 #clustergram-wrapper::-webkit-scrollbar {
     display: none;
@@ -29,18 +28,11 @@
 #clustergram-control-tabs .tab {
     background-color: #232323;
     color: #E4E4E4;
-    font-weight: 200;
-    font-size: 9pt;
     border-color: #727272 !important;
-    height: 50px;
-    padding: 15px;
 }
 #clustergram-control-tabs .tab--selected {
     color: #FFBF00 !important;
     border-top-color: initial !important;
-}
-#clustergram-body .Select-input {
-    padding-top: 0px !important;
 }
 #clustergram-control-tabs .Select-control {
     border: solid 1px #727272;
@@ -93,7 +85,7 @@
 }
 
 #threshold-wrapper {
-    margin-top: -20px;
+    margin-top: -30px;
 }
 
 #clustergram-body #remove-all-group-markers {
@@ -105,7 +97,7 @@
     font-weight: 100;
     border-color: #FFBF00;
     text-align: center;
-    width: 150px;
+    width: 140px;
     height: 25px;
     margin-top: 5px;
     transition-duration: 500ms;
@@ -114,21 +106,18 @@
 #clustergram-body #remove-all-group-markers:hover {
     border-color: #E4E4E4;
 }
-.clustergram-option-desc {
-    font-size: 9pt;
-    margin-top: -25px;
-    margin-bottom: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
-}
 
 input#selected-rows, input#selected-columns {
     padding: 0px !important;
+    margin-top: 7px;
 }
 
-#hide-labels, #cluster-checklist, #selected-rows, #selected-columns {
+#hide-labels, #cluster-checklist {
     width: 190px;
     display: inline-block;
+}
+#selected-rows, #selected-columns {
+    width: 100%;
 }
 #selected-rows .Select-multi-value-wrapper, #selected-columns .Select-multi-value-wrapper {
     max-height: 115px;
@@ -138,17 +127,11 @@ input#selected-rows, input#selected-columns {
 #clustergram-body .app-controls-name {
     width: 125px;
 }
-#clustergram-info {
-    font-weight: 100;
-    font-size: 9pt;
-    margin-top: 20px;
-}
+
 #clustergram-body #annotation {
     width: 100% !important;
 }
 #clustergram-datasets {
-    padding: 0px;
-    margin: 10px 0px;
     width: 100%;
 }
 
@@ -161,15 +144,6 @@ input#selected-rows, input#selected-columns {
 }
 #clustergram-file-upload-container {
     margin: 10px 0px;
-}
-#clustergram-body .fullwidth-app-controls-name {
-    display: inline-block;
-    font-weight: 400;
-    vertical-align: top;
-    width: 160px;
-    font-size: 12pt;
-    margin-top: 5px;
-    width: 100%;
 }
 #clustergram-body #row-labels-source {
     width: 100%;
