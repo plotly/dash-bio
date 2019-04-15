@@ -103,8 +103,8 @@ def layout():
     return html.Div(id='alignment-body', className='app-body', children=[
         html.Div([
             html.Div(id='alignment-control-tabs', className='control-tabs', children=[
-                dcc.Tabs(value='control-tab-customize',
-                    id='alignment-tabs', #value='what-is',
+                dcc.Tabs(
+                    id='alignment-tabs', value='what-is',
                     children=[
                         dcc.Tab(
                             label='About',
@@ -281,7 +281,8 @@ def layout():
 
                                             html.Div(
                                                 className='app-controls-desc',
-                                                children='Toggle the consensus (most frequent) sequence.'
+                                                children='Toggle the consensus '
+                                                '(most frequent) sequence.'
                                             ),
                                         ],
                                     ),
@@ -308,7 +309,8 @@ def layout():
 
                                             html.Div(
                                                 className='app-controls-desc',
-                                                children='Adjust the font size (in px) of viewer text.'
+                                                children='Adjust the font size '
+                                                '(in px) of viewer text.'
                                             ),
                                         ],
                                     ),
@@ -355,9 +357,9 @@ def layout():
                                                 value='Viridis',
                                             ),
                                             html.Div(
-        className='app-controls-desc',
-        children='Change the colorscale for the '
-                                                   'conservation barplot.'),
+                                                className='app-controls-desc',
+                                                children='Change the colorscale for the '
+                                                'conservation barplot.'),
                                         ],
                                     ),
                                     html.Div(
@@ -378,8 +380,9 @@ def layout():
                                             ),
 
                                             html.Div(
-        className='app-controls-desc',
-        children="Conservation (MLE) or normalized entropy."),
+                                                className='app-controls-desc',
+                                                children="Conservation (MLE) or normalized entropy."
+                                            ),
                                         ],
                                     ),
                                 ]),
@@ -407,7 +410,8 @@ def layout():
                                             ),
                                             html.Div(
                                                 className='app-controls-desc',
-                                                children="Lowers conservation of high gap sequences."
+                                                children="Lowers conservation "
+                                                "of high gap sequences."
                                             )
                                         ],
                                     ),
@@ -495,8 +499,10 @@ def layout():
                                                 id='alignment-showlabel-radio',
                                                 className='alignment-radio',
                                                 options=[
-                                                    {'label': 'Show ', 'value': True},
-                                                    {'label': 'Hide ', 'value': False},
+                                                    {'label': 'Show ',
+                                                     'value': True},
+                                                    {'label': 'Hide ',
+                                                     'value': False},
                                                 ],
                                                 value=True,
                                                 labelStyle={
@@ -519,8 +525,10 @@ def layout():
                                                 id='alignment-showid-radio',
                                                 className='alignment-radio',
                                                 options=[
-                                                    {'label': 'Show ', 'value': True},
-                                                    {'label': 'Hide ', 'value': False},
+                                                    {'label': 'Show ',
+                                                     'value': True},
+                                                    {'label': 'Hide ',
+                                                     'value': False},
                                                 ],
                                                 value=True,
                                                 labelStyle={
