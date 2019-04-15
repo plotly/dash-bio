@@ -6,10 +6,20 @@ from dash_bio.component_factory._volcano import GENOMEWIDE_LINE_LABEL, \
 from tests.dashbio_demos.app_volcano_plot import DATASETS
 from .test_common_features import (
     template_test_python_component_prop,
-    PROP_TYPES
+    PROP_TYPES,
+    init_demo_app
 )
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
+
+
+# Demo app tests
+@init_demo_app(APP_NAME)
+def test_click_app_link_from_gallery(dash_threaded):
+    """Test that clicking on the given app goes to the expected URL."""
+
+    assert dash_threaded.driver.current_url.replace('http://localhost:8050', '').strip('/') == \
+        'dash-bio/{}'.format(APP_NAME)
 
 
 # Volcano Plot component tests
