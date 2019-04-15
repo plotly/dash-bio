@@ -1,23 +1,5 @@
-#alignment-body {
-    font-family: 'Open Sans', sans-serif;
-    padding: 5px;
-    background-color: #f2F7F7;
-    color: #505050;
-    height: calc(100vh - 65px);
-    overflow: auto;
-}
-
-#alignment-body ::-webkit-scrollbar {
-    width: 4px;
-    height: 0px;
-    margin-right: 500px;
-    background-color: #f2f7f7;
-}
 #alignment-body ::-webkit-scrollbar-thumb {
-    width: 2px;
-    background-color: #34ad99;
-    border-radius: 15px;
-    padding-right: 5px;
+    background-color: #34ad99 !important;
 }
 
 #alignment-control-tabs {
@@ -39,14 +21,8 @@
     padding-right: 15px;
 }
 
-#alignment-control-tabs .tab {
-    background-color: #fff;
-    padding: 15px;
-}
-
-#alignment-control-tabs .tab--selected {
-    border-top: solid 2px #34AD99;
-    color: #34AD99;
+#alignment-body .control-tabs .tab--selected {
+    color: #34AD99 !important;
 }
 
 #alignment-control-tabs .tab-content {
@@ -61,42 +37,18 @@
 #alignment-chart svg {
     background-color: rgba(0,0,0,0) !important;
 }
-#alignment-file-upload-container {
-    border: dotted 1px #34AD99;
-    width: calc(100% - 40px) !important;
-    padding: 10px;
-    margin: 10px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    font-size: 9pt;
-    font-weight: 100;
-    text-align: center;
-    border-radius: 5px;
+#alignment-body .control-upload {
+    border-color: #34AD99 !important;
 }
-.alignment-button {
-    border: solid 1px #34AD99;
-    color: #666666;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: calc(100% - 19px)!important;
-    transition-duration: 500ms;
-}
-
-#alignment-button:hover {
-    border-color: #F2F7F7;
+#alignment-body .control-download:hover {
+    color: #34AD99 !important;
+    border-color: #34AD99 !important;
 }
 #alignment-body h5 {
     margin-bottom: 10px;
     text-align: center;
 }
 
-#alignment-dropdown {
-    padding-left: 10px;
-    padding-right: 10px;
-    width: calc(100% - 20px) !important;
-}
 #alignment-body .rc-slider-track {
     background-color: #34AD99;
 }
@@ -107,49 +59,32 @@
     width: 50% !important;
     margin-left: 25px;
 }
-.alignment-settings > div {
-    display: inline-block;
-    width: 65%
-}
-.alignment-setting-name {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    font-size: 15pt;
-    display: inline-block !important;
-    width: 30% !important;
-    vertical-align: middle;
-}
-
-.alignment-settings-dropdown, .alignment-radio {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 85% !important;
-    margin-left: 10%;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.alignment-settings p za{
-    margin-top: 5px;
-    margin-left: 15px;
-    margin-bottom: 20px;
-}
 
 .alignment-radio > label {
-    width: 45%;
     text-align: left;
     display: block;
 }
 .alignment-radio {
-    width: 50% !important;
-    margin-left: 20px !important;
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 140px !important;
+    display: inline-block;
 }
 h3.alignment-settings-section {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    font-size: 16pt;
 }
 
-h4 {
-    text-align: center;
+#alignment-colorscale-dropdown, #alignment-overview-dropdown, #alignment-conservationcolorscale-dropdown, #alignment-conservationmethod-dropdown, #alignment-gapcolor-dropdown {
+    display: inline-block;
+    width: 150px;
+    float: right;
+}
+#alignment-body .rc-slider-track {
+    background-color: #34AD99 !important;
+}
+
+#alignment-body .rc-slider-handle {
+    border-color: #34AD99 !important;
 }
