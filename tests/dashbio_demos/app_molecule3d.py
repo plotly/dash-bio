@@ -73,7 +73,8 @@ def layout():
                                                 "Download sample structure",
                                                 id="mol3d-download-sample-data",
                                             ),
-                                            href='/assets/sample_data/2mru.pdb',
+                                            href=os.path.join('assets', 'sample_data',
+                                                              'molecule3d_2mru.pdb'),
                                             download='2mru.pdb'
                                         )
                                     ]
