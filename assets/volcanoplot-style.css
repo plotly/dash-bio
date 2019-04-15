@@ -1,106 +1,142 @@
 #vp-page-content {
+    font-family: 'Open Sans Light', sans-serif;
+    background-color: #F1F9FA;
+    color: #5B5B5B;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-content: space-evenly;
+    min-height: calc(100vh - 60px);
 }
 
-#vp-info-panel-div {
-    width: 70%;
-    margin: 15px;
-    border: solid 2px #C8D4E3;
-    border-radius: 5px;
-    padding: 10px;
+#vp-page-content ::-webkit-scrollbar {
+    width: 4px;
+    height: 0px;
+    margin-right: 500px;
+    background-color: #F1F9FA;
+}
+#vp-page-content ::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: #19D3F3;
+    border-radius:15px;
+    padding-right:5px;
 }
 
-#vp-controls-div {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
+#vp-page-content::-webkit-scrollbar {
+    display: none;
 }
 
-#vp-indicators-div {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
+#vp-control-tabs {
+    width: 400px;
+    height: 550px;
+    margin: 50px;
+    margin-right: 0px;
+    background-color: #fff;
+    font-size: 10pt;
+    float: left;
 }
 
-#vp-graph-div{
-    width: 100%;
-    align-items: center;
+
+#vp-control-tabs .tab-content {
+    padding: 20px;
 }
 
+.vp-tab {
+    height: 440px;
+    overflow-y: auto;
+    padding-right: 20px;
+    margin: 20px;
+}
+
+#vp-control-tabs .tab {
+    background-color: #FFFFFF;
+    font-weight: 200;
+    font-size: 9pt;
+    border: solid 1px #D3D3D3;
+    height: 50px;
+    padding: 15px;
+}
+
+#vp-control-tabs .tab--selected {
+    border-top: solid 2px #19D3F3;
+    border-bottom: none;
+    color: #19D3F3;
+}
+#vp-page-content .Select-multi-value-wrapper {
+    width: 100px !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: auto;
+    position: relative;
+}
+#vp-page-content .Select-menu-outer {
+    width: 100% !important;
+}
+#vp-page-content .Select input {
+    padding: 0px !important;
+}
 #vp-graph {
-    height: 600px;
-    margin-top: 2px;
+    height: 550px;
+    width: 100%;
+}
+#vp-graph-div {
+    display: inline-block !important;
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.vp-option {
+    display: block;
+    margin-bottom: 10px;
+}
+.vp-option-name {
+    font-size: 12pt;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    width: 100px;
 }
 
-#vp-dataset-dropdown{
-    width: 140px;
+#vp-page-content .rc-slider-track {
+    background-color: #19D3F3;
 }
-
-.vp-vertical-style {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+#vp-page-content .rc-slider-handle, #vp-page-content .rc-slider-dot-active {
+    border-color: #19D3F3;
 }
-
-.vp-horizontal-style {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+#vp-bound-val, #vp-genomic-line-val {
+    display: inline-block;
+    float: right;
 }
-
-.vp-input{
-    font-size: 1.5em;
-    height: 30px;
-    width: 80px;
-    margin-top: 20px;
+#vp-page-content .rc-slider, #vp-dataset-dropdown {
+    width: 180px !important;
+    display: inline-block;
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
-
-.vp-input-like{
-    text-align: center;
-    align-items: center;
-    margin-left: 5px;
-}
-
-#vp-color-div {
-    padding: 8px;
-    top: 2px;
-}
-
-#vp-color-picker .chrome-picker{
-    border: none !important;
-    border-radius: 0px !important;
-
-}
-
-#vp-color-label {
-    margin-right: 5%;
-    margin-left: 5%;
-}
-
-.vp-text {
-    font-size: 1.3em;
-    color: #506784;
-}
-.vp-title {
-    color: #506784;
-}
-
-.vp-intro {
-    align-items: center;
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
+#vp-dataset-dropdown {
+    display: inline-block;
+ }
 .vp-test-util-div {
     display: none;
+}
+
+#vp-page-content .chrome-picker, #vp-color-picker {
+    border: none !important;
+}
+#vp-color-picker {
+    margin-top: 20px;
+    display: inline-block;
+}
+#vp-num-points-display {
+    display: inline-block;
+    float: right;
+    margin-top: 35px;
+}
+.vp-event-data-display {
+    display: inline-block;
+    width: 180px;
+    vertical-align: top;
+    margin-top: 10px;
+}
+#vp-event-data {
+    margin-bottom: 20px;
 }
