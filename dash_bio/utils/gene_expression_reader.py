@@ -1,57 +1,63 @@
-import pandas as pd
+import GEOparse as gp
 import tempfile
 
 
 # pylint: disable=unnecessary-lambda
 
-def parse_tsv(
+def read_soft_file(
         contents='',
         filepath='',
-        row_labels_source=None,
         rows=None,
         columns=None,
-        header_rows=5,
-        header_cols=2
+        return_filtered_data=False
 ):
-
     if len(contents) > 0:
-        with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tf:
+        with tempfile.NamedTemporaryFile(
+                mode='w+', delete=False, suffix='.soft'
+        ) as tf:
             tf.write(contents)
             filepath = tf.name
-    df = pd.read_csv(filepath, sep='\t', skiprows=header_rows-1)
 
-    data = {}
+    geo_file = gp.get_GEO(filepath=filepath, geotype='GDS')
+
+    df = geo_file.table
+    df.set_index('ID_REF', inplace=True)
+
+    all_rows = list(df.index.values)
+    all_cols = list(df.columns.values)
+
+    for column in all_cols:
+        if 'GSM' not in column:
+            all_cols.remove(column)
+
+    if not return_filtered_data:
+        desc = geo_file.metadata
+        subsets = geo_file.subsets
+
+        for subset in geo_file.subsets:
+            subsets[subset] = geo_file.subsets[subset].metadata
+
+        return desc, subsets, all_rows, all_cols
+
+    if rows is None:
+        rows = []
+    if columns is None:
+        columns = []
 
     selected_rows = []
     selected_cols = []
 
-    all_rows = []
-    if (row_labels_source is not None) and (row_labels_source in df.keys().tolist()):
-        all_rows = df[row_labels_source].tolist()
-
-    all_cols = df.keys().tolist()[header_cols:]
-    if (rows is not None) and (columns is not None):
-        for r in rows:
-            if r not in all_rows:
-                continue
-            selected_rows.append(r)
-        selected_rows = list(map(lambda x: all_rows.index(x), selected_rows))
-
-        for c in columns:
-            if c not in all_cols:
-                continue
-            selected_cols.append(c)
-
-        selected_data = df.loc[selected_rows, selected_cols]
-        data = selected_data.values
-
-    desc = {}
-    info = pd.read_csv(filepath, sep='^', nrows=header_rows-1, header=None)[0]
-    for i in info:
-        tmp = i.strip('#').split(':', 1)
-        if len(tmp) < 2:
-            desc['Source'] = tmp[0]
+    for row in rows:
+        if row not in all_rows:
             continue
-        desc[tmp[0]] = tmp[1]
+        selected_rows.append(row)
 
-    return data, desc, all_rows, all_cols
+    for col in columns:
+        if col not in all_cols:
+            continue
+        selected_cols.append(col)
+
+    selected_data = df.loc[selected_rows, selected_cols]
+    data = selected_data.values
+
+    return data
