@@ -371,7 +371,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         # Return the new molecule visualization container
         return dash_bio.Molecule3dViewer(
             id='mol-3d',
-            selectionType='Atom',
+            selectionType='atom',
             modelData=mdata,
             styles=data_style,
             selectedAtomIds=[],
