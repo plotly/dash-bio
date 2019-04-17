@@ -12,6 +12,8 @@
 ### Changed
 * Changed Clustergram to only return a figure by default, so that
   values no longer need to be unpacked.
+* Changed Molecule3dViewer's `selectionType` prop to accept all-
+  lowercase values.
 
 ### Added
 * Added to Clustergram the ability to generate a "curve dictionary" to
