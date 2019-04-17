@@ -32,12 +32,19 @@ export default class Molecule3dViewer extends Component {
     }
 
     render() {
-        const {id} = this.props;
+        const {id, selectionType} = this.props;
+
+        // molecule-3d-for-react requires the first letter in the selection type to be
+        // capitalized, but Dash typically uses all-lowercase prop values
+
+        const capitalizedSelectionType =
+            selectionType.charAt(0).toUpperCase() + selectionType.slice(1);
 
         return (
             <div id={id}>
                 <Molecule3d
                     {...this.props}
+                    selectionType={capitalizedSelectionType}
                     onChangeSelection={this.onChangeSelection}
                     onRenderNewData={this.onRenderNewData}
                 />
@@ -60,7 +67,7 @@ Molecule3dViewer.propTypes = {
     /**
      * The selection type - may be atom, residue or chain
      */
-    selectionType: PropTypes.string,
+    selectionType: PropTypes.oneOf(['atom', 'residue', 'chain']),
 
     /**
      * Property to change the background color of the molecule viewer
@@ -76,7 +83,12 @@ Molecule3dViewer.propTypes = {
      * Property that can be used to change the representation of
      * the molecule. Options include sticks, cartoon and sphere
      */
-    styles: PropTypes.oneOf(['stick', 'cartoon', 'sphere']),
+    styles: PropTypes.arrayOf(
+        PropTypes.shape({
+            color: PropTypes.string,
+            visualization_type: PropTypes.oneOf(['cartoon', 'sphere', 'stick']),
+        })
+    ),
 
     /**
      * The data that will be used to display the molecule in 3D
