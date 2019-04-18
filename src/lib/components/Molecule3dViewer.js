@@ -34,7 +34,7 @@ export default class Molecule3dViewer extends Component {
     render() {
         const {id, selectionType} = this.props;
 
-        // molecule-3d-for-react requires the first letter in the selection type to be
+        // molecule-3d-for-react requires the selection type to be
         // capitalized, but Dash typically uses all-lowercase prop values
 
         const capitalizedSelectionType =
