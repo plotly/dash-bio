@@ -10,6 +10,11 @@ import {
 
 export default class Speck extends Component {
     loadStructure(data) {
+        // avoid trying to load an empty system
+        if (data.length === 0) {
+            return;
+        }
+
         const system = speckSystem.new();
 
         for (let i = 0; i < data.length; i++) {
@@ -18,6 +23,7 @@ export default class Speck extends Component {
             // add to the system
             speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
         }
+
         speckSystem.center(system);
         speckSystem.calculateBonds(system);
 
@@ -137,10 +143,15 @@ export default class Speck extends Component {
         const aoResolution = 300;
         const renderer = new SpeckRenderer(canvas, resolution, aoResolution);
 
-        this.setState({
-            renderer: renderer,
-            refreshView: true,
-        });
+        this.setState(
+            {
+                renderer: renderer,
+                refreshView: true,
+            },
+            function() {
+                this.loadStructure(this.props.data); // eslint-disable-line no-invalid-this
+            }
+        );
 
         // add event listeners
         const interactionHandler = new SpeckInteractions( // eslint-disable-line no-unused-vars

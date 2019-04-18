@@ -73,7 +73,8 @@ def layout():
                                                 "Download sample structure",
                                                 id="mol3d-download-sample-data",
                                             ),
-                                            href='/assets/sample_data/2mru.pdb',
+                                            href=os.path.join('assets', 'sample_data',
+                                                              'molecule3d_2mru.pdb'),
                                             download='2mru.pdb'
                                         )
                                     ]
@@ -370,7 +371,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         # Return the new molecule visualization container
         return dash_bio.Molecule3dViewer(
             id='mol-3d',
-            selectionType='Atom',
+            selectionType='atom',
             modelData=mdata,
             styles=data_style,
             selectedAtomIds=[],

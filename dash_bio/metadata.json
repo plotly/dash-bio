@@ -1945,7 +1945,21 @@
       },
       "selectionType": {
         "type": {
-          "name": "string"
+          "name": "enum",
+          "value": [
+            {
+              "value": "'atom'",
+              "computed": false
+            },
+            {
+              "value": "'residue'",
+              "computed": false
+            },
+            {
+              "value": "'chain'",
+              "computed": false
+            }
+          ]
         },
         "required": false,
         "description": "The selection type - may be atom, residue or chain"
@@ -1966,21 +1980,34 @@
       },
       "styles": {
         "type": {
-          "name": "enum",
-          "value": [
-            {
-              "value": "'stick'",
-              "computed": false
-            },
-            {
-              "value": "'cartoon'",
-              "computed": false
-            },
-            {
-              "value": "'sphere'",
-              "computed": false
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "color": {
+                "name": "string",
+                "required": false
+              },
+              "visualization_type": {
+                "name": "enum",
+                "value": [
+                  {
+                    "value": "'cartoon'",
+                    "computed": false
+                  },
+                  {
+                    "value": "'sphere'",
+                    "computed": false
+                  },
+                  {
+                    "value": "'stick'",
+                    "computed": false
+                  }
+                ],
+                "required": false
+              }
             }
-          ]
+          }
         },
         "required": false,
         "description": "Property that can be used to change the representation of\nthe molecule. Options include sticks, cartoon and sphere"
