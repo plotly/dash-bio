@@ -349,6 +349,13 @@ Keyword arguments:
             hide_labels = []
         if color_threshold is None:
             color_threshold = dict(row=0, col=0)
+        if row_labels is None:
+            row_labels = [str(i) for i in range(data.shape[0])]
+            hide_labels.append('row')
+        if column_labels is None:
+            column_labels = [str(i) for i in range(data.shape[1])]
+            hide_labels.append('col')
+
         self._data = data
         self._row_labels = row_labels
         self._column_labels = column_labels
