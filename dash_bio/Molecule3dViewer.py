@@ -9,10 +9,10 @@ class Molecule3dViewer(Component):
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in callbacks
-- selectionType (string; optional): The selection type - may be atom, residue or chain
+- selectionType (a value equal to: 'atom', 'residue', 'chain'; optional): The selection type - may be atom, residue or chain
 - backgroundColor (string; optional): Property to change the background color of the molecule viewer
 - backgroundOpacity (number; optional): Property to change the backgroun opacity - ranges from 0 to 1
-- styles (a value equal to: 'stick', 'cartoon', 'sphere'; optional): Property that can be used to change the representation of
+- styles (list; optional): Property that can be used to change the representation of
 the molecule. Options include sticks, cartoon and sphere
 - modelData (optional): The data that will be used to display the molecule in 3D
 The data will be in JSON format
