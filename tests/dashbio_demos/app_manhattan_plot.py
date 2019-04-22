@@ -91,12 +91,12 @@ def layout():
                                 className='control-slider',
                                 vertical=False,
                                 updatemode='mouseup',
-                                max=9,
+                                max=4,
                                 min=1,
-                                value=7,
+                                value=2,
                                 marks={
                                     i + 1: '{}'.format(i + 1)
-                                    for i in range(9)
+                                    for i in range(4)
                                 },
                                 step=0.05
                             ),
@@ -114,17 +114,16 @@ def layout():
                                     className='control-slider',
                                     vertical=False,
                                     updatemode='mouseup',
-                                    max=9,
+                                    max=4,
                                     min=1,
-                                    value=6,
+                                    value=3,
                                     marks={
                                         i + 1: '{}'.format(i + 1)
-                                        for i in range(9)
+                                        for i in range(4)
                                     },
                                     step=0.05
                                 )
                             ]
-                        ),
                         )
                     ])
                 )
