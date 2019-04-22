@@ -64,8 +64,19 @@ fig_options = dict(
 
 
 datasets = {
-    'ok': {
-        'file': '/Users/sham/Downloads/GDS6248.soft',
+    'lungcancer': {
+        'file': '{}GDS3627.soft'.format(DATAPATH),
+        'default_rows': 10,
+        'default_cols': 10,
+        'color_threshold': {
+            'max_row': 50,
+            'max_col': 20,
+            'row': 10,
+            'col': 4
+        }
+    },
+    'prostatecancer': {
+        'file': '{}GDS5373.soft'.format(DATAPATH),
         'default_rows': 5,
         'default_cols': 5,
         'color_threshold': {
@@ -148,13 +159,6 @@ def layout():
                     label='About',
                     value='what-is',
                     children=html.Div(className='clustergram-tab', children=[
-                        dcc.Upload(
-                            id='file-upload',
-                            children=html.Div([
-                                "Drag and drop .tsv files, or click \
-                                        to select files."
-                            ])
-                        ),
 
                         html.H3('What is Clustergram?'),
                         html.P('Clustergram is a combination of a heatmap and '
@@ -205,13 +209,12 @@ def layout():
                                  'value': 'iris'},
                                 {'label': 'mtcars',
                                  'value': 'mtcars'},
-                                {'label': 'Arabidopsis roots, leaves, \
-                                flowers and siliques',
-                                 'value': 'transcription'},
-                                {'label': 'ok',
-                                 'value': 'ok'}
+                                {'label': 'Prostate cancer',
+                                 'value': 'prostatecancer'},
+                                {'label': 'Lung cancer subtypes',
+                                 'value': 'lungcancer'}
                             ],
-                            value='ok'
+                            value='lungcancer'
                         ),
 
                         html.Br(),
@@ -230,6 +233,13 @@ def layout():
                             id='clustergram-file-upload-container',
                             title='Upload your own dataset here.',
                             children=[
+                                dcc.Upload(
+                                    id='file-upload',
+                                    children=html.Div([
+                                        "Drag and drop .tsv files, or click \
+                                        to select files."
+                                    ])
+                                ),
                             ],
                         ),
 
@@ -345,7 +355,8 @@ def layout():
 
                                 daq.ColorPicker(
                                     id='clustergram-annot-color',
-                                    size=335
+                                    size=335,
+                                    value={'hex': color_palette[0]}
                                 ),
                                 dcc.Input(
                                     id='annotation',
@@ -659,7 +670,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         try:
             for key in data['desc']:
                 infoContent.append(html.P("{}: {}".format(
-                    key, data['desc'][key]
+                    key, data['desc'][key][0]
                 )))
         except Exception as e:
             infoContent.append(html.P("Exception: {}".format(e)))
