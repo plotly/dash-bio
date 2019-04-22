@@ -8,10 +8,14 @@
   figure.
 * Fixed issue with Speck not rendering unless it is attached to a callback.
 * Prevent Speck from trying to calculate a system with no atom.
+* Let Clustergram render even when row and column labels are not
+  specified, by adding default values.
 
 ### Changed
 * Changed Clustergram to only return a figure by default, so that
   values no longer need to be unpacked.
+* Changed Molecule3dViewer's `selectionType` prop to accept all-
+  lowercase values.
 
 ### Added
 * Added to Clustergram the ability to generate a "curve dictionary" to
