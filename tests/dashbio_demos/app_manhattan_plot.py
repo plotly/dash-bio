@@ -18,7 +18,13 @@ elif 'DASH_PATH_ROUTING' in os.environ:
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "manhattan_")
 
 # Load the data
-DATASET = pd.read_csv("{}data.csv".format(DATAPATH))
+DT = pd.read_csv("{}data.csv".format(DATAPATH))
+
+# Trim down the data
+datasets = [DT.loc[DT['CHR'] == i+1] for i in range(23)]
+datasets = [dataset.iloc[:100] for dataset in datasets]
+
+DATASET = pd.concat(datasets).reset_index(drop=True)
 
 # Feed the data to a function which creates a Manhattan Plot figure
 fig = dash_bio.ManhattanPlot(DATASET)
@@ -118,6 +124,7 @@ def layout():
                                     step=0.05
                                 )
                             ]
+                        ),
                         )
                     ])
                 )
