@@ -11,11 +11,11 @@
     width: 4px;
     height: 0px;
     margin-right: 500px;
-    background-color: #191A1C;
+    background-color: #191A1C !important;
 }
 #clustergram-body ::-webkit-scrollbar-thumb {
     width: 2px;
-    background-color: #E4E4E4;
+    background-color: #FFBF00 !important;
     border-radius:15px;
     padding-right:5px;
 }
@@ -117,6 +117,7 @@
     padding: 0px;
     overflow-x: scroll;
     margin: 0px;
+    width: 900px;
 }
 
 #clustergram-file-upload-container {
