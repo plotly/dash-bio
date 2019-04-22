@@ -94,7 +94,7 @@ def layout():
                             value=2,
                             marks={
                                 i + 1: '{}'.format(i + 1)
-                                for i in range(9)
+                                for i in range(4)
                             },
                             step=0.05
                         ),
@@ -114,7 +114,7 @@ def layout():
                             value=3,
                             marks={
                                 i + 1: '{}'.format(i + 1)
-                                for i in range(9)
+                                for i in range(4)
                             },
                             step=0.05
                         )
