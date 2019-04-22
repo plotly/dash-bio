@@ -39,7 +39,7 @@ def header_colors():
 
 
 def layout():
-    return html.Div(id='mhp-page-content', children=[
+    return html.Div(id='mhp-page-content', className='app-body', children=[
         html.Div(
             id='mhp-graph-div',
             children=dcc.Graph(
@@ -52,13 +52,13 @@ def layout():
             )
         ),
 
-        html.Div(id='manhattan-control-tabs', children=[
+        html.Div(id='manhattan-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='manhattan-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
-                    children=html.Div(className='manhattan-tab', children=[
-                        html.H4('What is Manhattan Plot?'),
+                    children=html.Div(className='control-tab', children=[
+                        html.H4(className='what-is', children='What is Manhattan Plot?'),
                         html.P('ManhattanPlot allows you to visualize genome-'
                                'wide association studies (GWAS) efficiently. '
                                'Using WebGL under the hood, you can interactively '
@@ -72,45 +72,52 @@ def layout():
                 dcc.Tab(
                     label='Graph',
                     value='graph',
-                    children=html.Div(className='manhattan-tab', children=[
+                    children=html.Div(className='control-tab', children=[
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(
+                                className='app-controls-name',
+                                children=[
+                                    'Threshold value (red)'
+                                ]
+                            ),
+                            dcc.Slider(
+                                id='mhp-slider-genome',
+                                className='control-slider',
+                                vertical=False,
+                                updatemode='mouseup',
+                                max=9,
+                                min=1,
+                                value=7,
+                                marks={
+                                    i + 1: '{}'.format(i + 1)
+                                    for i in range(9)
+                                },
+                                step=0.05
+                            ),
+                        ]),
                         html.Div(
-                            className='manhattan-option-name',
-                            children=[
-                                'Threshold value (red)'
+                            className='app-controls-block', children=[
+                                html.Div(
+                                    className='app-controls-name',
+                                    children=[
+                                        'Suggestive line (purple)',
+                                    ]
+                                ),
+                                dcc.Slider(
+                                    id='mhp-slider-indic',
+                                    className='control-slider',
+                                    vertical=False,
+                                    updatemode='mouseup',
+                                    max=9,
+                                    min=1,
+                                    value=6,
+                                    marks={
+                                        i + 1: '{}'.format(i + 1)
+                                        for i in range(9)
+                                    },
+                                    step=0.05
+                                )
                             ]
-                        ),
-                        dcc.Slider(
-                            id='mhp-slider-genome',
-                            vertical=False,
-                            updatemode='mouseup',
-                            max=9,
-                            min=1,
-                            value=7,
-                            marks={
-                                i + 1: '{}'.format(i + 1)
-                                for i in range(9)
-                            },
-                            step=0.05
-                        ),
-                        html.Br(),
-                        html.Div(
-                            className='manhattan-option-name',
-                            children=[
-                                'Suggestive line (purple)',
-                            ]
-                        ),
-                        dcc.Slider(
-                            id='mhp-slider-indic',
-                            vertical=False,
-                            updatemode='mouseup',
-                            max=9,
-                            min=1,
-                            value=6,
-                            marks={
-                                i + 1: '{}'.format(i + 1)
-                                for i in range(9)
-                            },
-                            step=0.05
                         )
                     ])
                 )
