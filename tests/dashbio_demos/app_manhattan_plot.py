@@ -22,7 +22,7 @@ DT = pd.read_csv("{}data.csv".format(DATAPATH))
 
 # Trim down the data
 datasets = [DT.loc[DT['CHR'] == i+1] for i in range(23)]
-datasets = [dataset.iloc[:100] for dataset in datasets]
+datasets = [dataset.iloc[:50] for dataset in datasets]
 
 DATASET = pd.concat(datasets).reset_index(drop=True)
 
