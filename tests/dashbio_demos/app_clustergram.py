@@ -485,7 +485,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                         contents=decoded
                     )
             except Exception:
-                desc, subsets, row_options, col_options = '', {}, [], []
+                pass
 
         return {
             'desc': desc,
@@ -676,8 +676,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         infoContent = [html.H4('Dataset information')]
         try:
             for key in data['desc']:
+                info = data['desc'][key]
+                if isinstance(info, list):
+                    info = info[0]
                 infoContent.append(html.P("{}: {}".format(
-                    key.replace('_', ' ').title(), data['desc'][key][0]
+                    key.replace('_', ' ').title(), info
                 )))
         except Exception as e:
             infoContent.append(html.P("Exception: {}".format(e)))
