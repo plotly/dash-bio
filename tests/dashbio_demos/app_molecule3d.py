@@ -2,7 +2,10 @@ import os
 import base64
 import json
 import tempfile
+
 from shutil import copy2
+from textwrap import dedent as s
+
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
@@ -21,6 +24,93 @@ elif 'DASH_PATH_ROUTING' in os.environ:
 
 
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "molecule3d_")
+
+
+data_info = {
+    '{}4uft.pdb'.format(DATAPATH): {
+        'name': 'Measles Nucleocapsid',
+        'description': dcc.Markdown(s('''
+        The measles nucleoprotein forms a large helical complex with
+        RNA... It is thought to chaperone the process of replication and
+        transcription by providing a ready site for binding of the
+        polymerase/phosphoprotein complex while a new RNA chain is being
+        built.
+
+        The structure includes the stable core domain of the
+        nucleoprotein and a strand of RNA, but the flexible tail of
+        nucleoprotein was removed in this study.
+        ''')),
+        'link': 'http://pdb101.rcsb.org/motm/231'
+    },
+
+    '{}1yi5.pdb'.format(DATAPATH): {
+        'name': 'a-cobratoxin-AChBP complex',
+        'description': dcc.Markdown(s('''
+
+        The crystal structure of the snake long alpha-neurotoxin,
+        alpha-cobratoxin, bound to the pentameric
+        acetylcholine-binding protein (AChBP) from Lymnaea
+        stagnalis...
+
+        The structure unambiguously reveals the positions and
+        orientations of all five three-fingered toxin molecules
+        inserted at the AChBP subunit interfaces and the
+        conformational changes associated with toxin binding.
+        ''')),
+        'link': 'https://www.rcsb.org/structure/1yi5'
+    },
+
+    '{}1su4.pdb'.format(DATAPATH): {
+        'name': 'Calcium ATPase',
+        'description': dcc.Markdown(s('''
+        The calcium pump allows muscles to relax after... \[muscle\]
+        contraction. The pump is found in the membrane of the
+        sarcoplasmic reticulum. In some cases, it is so plentiful that
+        it may make up 90% of the protein there. Powered by ATP, it
+        pumps calcium ions back into the sarcoplasmic reticulum,
+        reducing the calcium level around the actin and myosin
+        filaments and allowing the muscle to relax.
+
+        \[The structure\] has a big domain poking out on the outside
+        of the sarcoplasmic reticulum, and a region that is embedded
+        in the membrane, forming a tunnel to the other side.
+        ''')),
+        'link': 'http://pdb101.rcsb.org/motm/51'
+    },
+
+    '{}1bna.pdb'.format(DATAPATH): {
+        'name': 'DNA',
+        'description': dcc.Markdown(s('''
+        DNA is read-only memory, archived safely inside cells. Genetic
+        information is stored in an orderly manner in strands of
+        DNA. DNA is composed of a long linear strand of millions of
+        nucleotides, and is most often found paired with a partner
+        strand. These strands wrap around one another in the familiar
+        double helix...
+        ''')),
+        'link': 'http://pdb101.rcsb.org/motm/23'
+    },
+
+    '{}1msw.pdb'.format(DATAPATH): {
+        'name': 'T7 RNA Polymerase',
+        'description': dcc.Markdown(s('''
+        RNA polymerase is a huge factory with many moving parts. \[The
+        constituent proteins\] form a machine that surrounds DNA
+        strands, unwinds them, and builds an RNA strand based on the
+        information held inside the DNA. Once the enzyme gets started,
+        RNA polymerase marches confidently along the DNA copying RNA
+        strands thousands of nucleotides long.
+
+        ...
+
+        This structure includes a very small RNA polymerase that is
+        made by the bacteriophage T7... \[a\] small transcription
+        bubble, composed of two DNA strands and an RNA strand, is
+        bound in the active site.
+        ''')),
+        'link': 'http://pdb101.rcsb.org/motm/40'}
+
+}
 
 
 def header_colors():
@@ -125,15 +215,15 @@ def layout():
                                                     'value': '{}1bna.pdb'.format(DATAPATH)
                                                 },
                                                 {
-                                                    'label': 'RNA',
-                                                    'value': '{}6dls.pdb'.format(DATAPATH)
+                                                    'label': 'T7 RNA polymerase',
+                                                    'value': '{}1msw.pdb'.format(DATAPATH)
                                                 },
                                             ],
-                                            value='{}1su4.pdb'.format(DATAPATH)
+                                            value='{}1bna.pdb'.format(DATAPATH)
                                         ),
                                     ],
                                 ),
-
+                                html.Div(id='mol3d-data-info')
                             ])
                         ),
 
@@ -263,6 +353,22 @@ def files_data_style(content):
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
+
+    @app.callback(
+        Output('mol3d-data-info', 'children'),
+        [Input('dropdown-demostr', 'value')]
+    )
+    def show_data(molecule_selected):
+        if molecule_selected in data_info.keys():
+            mol = data_info[molecule_selected]
+            return [
+                html.H4(mol['name']),
+                mol['description'],
+                html.A(
+                    '(source)',
+                    href=mol['link']
+                )
+            ]
 
     @app.callback(
         Output('dropdown-demostr', 'value'),
