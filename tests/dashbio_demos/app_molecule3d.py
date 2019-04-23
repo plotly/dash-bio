@@ -29,7 +29,7 @@ DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "molecule3
 data_info = {
     '{}4uft.pdb'.format(DATAPATH): {
         'name': 'Measles Nucleocapsid',
-        'description': dcc.Markdown(s('''
+        'description': dcc.Markdown(s(r'''
         The measles nucleoprotein forms a large helical complex with
         RNA... It is thought to chaperone the process of replication and
         transcription by providing a ready site for binding of the
@@ -45,7 +45,7 @@ data_info = {
 
     '{}1yi5.pdb'.format(DATAPATH): {
         'name': 'a-cobratoxin-AChBP complex',
-        'description': dcc.Markdown(s('''
+        'description': dcc.Markdown(s(r'''
 
         The crystal structure of the snake long alpha-neurotoxin,
         alpha-cobratoxin, bound to the pentameric
@@ -62,7 +62,7 @@ data_info = {
 
     '{}1su4.pdb'.format(DATAPATH): {
         'name': 'Calcium ATPase',
-        'description': dcc.Markdown(s('''
+        'description': dcc.Markdown(s(r'''
         The calcium pump allows muscles to relax after... \[muscle\]
         contraction. The pump is found in the membrane of the
         sarcoplasmic reticulum. In some cases, it is so plentiful that
@@ -80,7 +80,7 @@ data_info = {
 
     '{}1bna.pdb'.format(DATAPATH): {
         'name': 'DNA',
-        'description': dcc.Markdown(s('''
+        'description': dcc.Markdown(s(r'''
         DNA is read-only memory, archived safely inside cells. Genetic
         information is stored in an orderly manner in strands of
         DNA. DNA is composed of a long linear strand of millions of
@@ -93,7 +93,7 @@ data_info = {
 
     '{}1msw.pdb'.format(DATAPATH): {
         'name': 'T7 RNA Polymerase',
-        'description': dcc.Markdown(s('''
+        'description': dcc.Markdown(s(r'''
         RNA polymerase is a huge factory with many moving parts. \[The
         constituent proteins\] form a machine that surrounds DNA
         strands, unwinds them, and builds an RNA strand based on the
@@ -369,6 +369,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     href=mol['link']
                 )
             ]
+        return ''
 
     @app.callback(
         Output('dropdown-demostr', 'value'),
