@@ -143,6 +143,14 @@ input#selected-rows, input#selected-columns {
     display: block;
     margin-left: 10px;
 }
+#clustergram-body .control-download {
+    color: #E4E4E4;
+}
+#clustergram-body .control-download:hover {
+    color: #FFBF00 !important;
+    border-color: #FFBF00 !important;
+}
+    
 #clustergram-body .control-upload {
     border-color: #FFBF00 !important;
 }
