@@ -54,7 +54,7 @@ fig_options = dict(
     ),
     optimal_leaf_order=True,
     symmetric_value=False,
-    log_transform=True,
+    log_transform=False,
     imputer_parameters={
         'strategy': 'mean',
         'missingValues': 'NaN',
@@ -82,10 +82,10 @@ datasets = {
         'default_cols': 5,
         'ignore_columns': [],
         'color_threshold': {
-            'max_row': 100,
-            'max_col': 400,
-            'row': 50,
-            'col': 50
+            'max_row': 20,
+            'max_col': 20,
+            'row': 5,
+            'col': 5
         }
     },
     'transcription': {
@@ -211,7 +211,7 @@ def layout():
                                 {'label': 'Lung cancer subtypes',
                                  'value': 'lungcancer'}
                             ],
-                            value='iris'
+                            value='prostatecancer'
                         ),
 
                         html.Br(),
@@ -234,24 +234,25 @@ def layout():
                                     id='file-upload',
                                     className='control-upload',
                                     children=html.Div([
-                                        "Drag and drop .tsv files, or click \
+                                        "Drag and drop .soft files, or click \
                                         to select files."
-                                    ])
+                                    ]),
+                                    accept='.soft'
                                 ),
                             ],
                         ),
-                        html.Div(className='app-controls-block', children=[
-                            html.Div(
-                                'Name of index column in uploaded dataset',
-                                title='If a dataset was uploaded, enter the name of ' +
-                                'the column to use as index.',
-                                className='fullwidth-app-controls-name',
-                            ),
-                            dcc.Input(
-                                id='row-labels-source',
-                                type='text',
-                                value='Gene Name'
-                            ),
+
+                        html.Div([
+                            html.A(
+                                html.Button(
+                                    'Download sample .soft data',
+                                    id='clustergram-download-sample-data',
+                                    className='control-download'
+                                ),
+                                href=os.path.join('assets', 'sample_data',
+                                                  'clustergram_GDS5826.soft'),
+                                download='GDS5826.soft'
+                            )
                         ]),
                         html.Hr(),
                         html.Div(
@@ -447,12 +448,10 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         Output('data-meta-storage', 'data'),
         [Input('file-upload', 'contents'),
          Input('file-upload', 'filename'),
-         Input('clustergram-datasets', 'value')],
-        state=[State('row-labels-source', 'value')]
+         Input('clustergram-datasets', 'value')]
     )
     def store_file_meta_data(
-            contents, filename, dataset_name,
-            row_labels_source
+            contents, filename, dataset_name
     ):
         desc = ''
         subsets = []
@@ -473,29 +472,20 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             elif dataset['file'].endswith('.soft'):
                 desc, subsets, row_options, col_options = \
                     gene_expression_reader.read_soft_file(
-                        filepath=dataset['file'],
+                        filepath=dataset['file']
                     )
 
         elif contents is not None:
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
 
-            if filename.endswith('.tsv'):
-                desc, row_options, col_options = \
-                    gene_expression_reader.read_tsv_file(
-                        contents=decoded,
-                        index_column=dataset['row_labels_source'],
-                        ignore_columns='Gene ID'
-                    )
-                subsets = None
-
-            elif filename.endswith('.soft'):
+            try:
                 desc, subsets, row_options, col_options = \
                     gene_expression_reader.read_soft_file(
                         contents=decoded
                     )
-
-            desc, subsets, row_options, col_options = '', {}, [], []
+            except Exception:
+                desc, subsets, row_options, col_options = '', {}, [], []
 
         return {
             'desc': desc,
@@ -614,7 +604,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 'size': 10
             },
             'symmetric_value': dataset_name is None,
-            'log_transform': dataset_name is None,
+            'log_transform': False,
             'imputer_parameters': {
                 'strategy': 'median',
                 'missing_values': 'NaN',
@@ -708,7 +698,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                State('clustergram-datasets', 'value'),
                State('file-upload', 'contents'),
                State('file-upload', 'filename'),
-               State('row-labels-source', 'value'),
                State('computed-traces', 'data')]
     )
     def display_clustergram(
@@ -718,7 +707,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             fig_opts,
             dataset_name,
             contents, filename,
-            row_labels_source,
             computed_traces
     ):
         ctx = dash.callback_context
@@ -728,7 +716,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         curves = None
         comp_traces = computed_traces
 
-        if len(sel_rows) < 2 or len(sel_cols) < 2:
+        if len(sel_rows) < 2 or len(sel_cols) < 2 and \
+           dataset_name is None and contents is None:
             wrapper_content = html.Div(
                 'No data have been selected to display. Please upload a file \
                 or select a preloaded file from the dropdown, then select at \
@@ -775,21 +764,15 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
 
-            if filename.endswith('.tsv'):
-                data = gene_expression_reader.read_tsv_file(
-                    contents=decoded,
-                    rows=sel_rows,
-                    columns=sel_cols,
-                    index_column=row_labels_source,
-                    return_filtered_data=True
-                )
-            elif filename.endswith('.soft'):
+            try:
                 data = gene_expression_reader.read_soft_file(
                     contents=decoded,
                     rows=sel_rows,
                     columns=sel_cols,
                     return_filtered_data=True
                 )
+            except Exception:
+                data = None
 
         if group_markers is not None:
             fig_opts['row_group_marker'] = group_markers['row_group_marker']
