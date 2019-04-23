@@ -109,8 +109,16 @@ def layout():
                                             id='dropdown-demostr',
                                             options=[
                                                 {
-                                                    'label': 'Protein',
-                                                    'value': '{}3aid.pdb'.format(DATAPATH)
+                                                    'label': 'Measles nucleocapsid',
+                                                    'value': '{}4uft.pdb'.format(DATAPATH)
+                                                },
+                                                {
+                                                    'label':  'a-cobratoxin-AChBP complex',
+                                                    'value': '{}1yi5.pdb'.format(DATAPATH)
+                                                },
+                                                {
+                                                    'label': 'Calcium ATPase',
+                                                    'value': '{}1su4.pdb'.format(DATAPATH)
                                                 },
                                                 {
                                                     'label': 'DNA',
@@ -121,7 +129,7 @@ def layout():
                                                     'value': '{}6dls.pdb'.format(DATAPATH)
                                                 },
                                             ],
-                                            value='{}1bna.pdb'.format(DATAPATH)
+                                            value='{}1su4.pdb'.format(DATAPATH)
                                         ),
                                     ],
                                 ),
@@ -201,7 +209,7 @@ def layout():
                                                 {'label': 'Chain',
                                                  'value': 'chain'},
                                             ],
-                                            value='atom'
+                                            value='residue'
                                         ),
                                         dcc.Dropdown(
                                             id='mol3d-coloring-key',
