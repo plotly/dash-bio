@@ -68,6 +68,7 @@ datasets = {
         'file': '{}GDS3627.soft'.format(DATAPATH),
         'default_rows': 10,
         'default_cols': 10,
+        'ignore_columns': [],
         'color_threshold': {
             'max_row': 50,
             'max_col': 20,
@@ -79,6 +80,7 @@ datasets = {
         'file': '{}GDS5373.soft'.format(DATAPATH),
         'default_rows': 5,
         'default_cols': 5,
+        'ignore_columns': [],
         'color_threshold': {
             'max_row': 100,
             'max_col': 400,
@@ -106,6 +108,7 @@ datasets = {
         'row_labels_source': 'Num',
         'header_rows': 4,
         'header_cols': 2,
+        'ignore_columns': ['Class'],
         'default_rows': 150,
         'default_cols': 4,
         'color_threshold': {
@@ -187,11 +190,6 @@ def layout():
                     label='Data',
                     value='datasets',
                     children=html.Div(className='control-tab', children=[
-                        html.Div(
-                            id='clustergram-info'
-                        ),
-
-                        html.Hr(),
 
                         html.Div(
                             'Preloaded dataset',
@@ -213,7 +211,7 @@ def layout():
                                 {'label': 'Lung cancer subtypes',
                                  'value': 'lungcancer'}
                             ],
-                            value='lungcancer'
+                            value='iris'
                         ),
 
                         html.Br(),
@@ -254,7 +252,13 @@ def layout():
                                 type='text',
                                 value='Gene Name'
                             ),
-                        ])
+                        ]),
+                        html.Hr(),
+                        html.Div(
+                            id='clustergram-info'
+                        ),
+
+
                     ])
                 ),
                 dcc.Tab(
@@ -450,6 +454,10 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             contents, filename, dataset_name,
             row_labels_source
     ):
+        desc = ''
+        subsets = []
+        row_options = []
+        col_options = []
         if dataset_name is not None:
             dataset = datasets[dataset_name]
 
@@ -679,7 +687,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         try:
             for key in data['desc']:
                 infoContent.append(html.P("{}: {}".format(
-                    key, data['desc'][key][0]
+                    key.replace('_', ' ').title(), data['desc'][key][0]
                 )))
         except Exception as e:
             infoContent.append(html.P("Exception: {}".format(e)))
