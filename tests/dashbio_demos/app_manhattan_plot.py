@@ -21,7 +21,7 @@ DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "manhattan
 DT = pd.read_csv("{}data.csv".format(DATAPATH))
 
 # Trim down the data
-datasets = [DT.loc[DT['CHR'] == i+1] for i in range(23)]
+datasets = [DT.loc[DT['CHR'] == i+1] for i in range(DT['CHR'].max())]
 datasets = [dataset.iloc[:50] for dataset in datasets]
 
 DATASET = pd.concat(datasets).reset_index(drop=True)
