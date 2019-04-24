@@ -1,4 +1,5 @@
 import os
+
 import pandas as pd
 import dash_html_components as html
 import dash_core_components as dcc
@@ -17,8 +18,16 @@ elif 'DASH_PATH_ROUTING' in os.environ:
 
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "manhattan_")
 
-# Load the data
-DATASET = pd.read_csv("{}data.csv".format(DATAPATH))
+# Load dataset into a DataFrame
+df = pd.read_csv('{}data.csv'.format(DATAPATH))
+
+n_chr = 23  # number of chromosome pairs in humans
+assert 'CHR' in df.columns
+assert df['CHR'].max() == n_chr
+
+# Trim down the data
+DATASET = df.groupby('CHR').apply(lambda u: u.head(50))
+DATASET = DATASET.droplevel('CHR').reset_index(drop=True)
 
 # Feed the data to a function which creates a Manhattan Plot figure
 fig = dash_bio.ManhattanPlot(DATASET)
@@ -83,12 +92,12 @@ def layout():
                             id='mhp-slider-genome',
                             vertical=False,
                             updatemode='mouseup',
-                            max=9,
+                            max=4,
                             min=1,
-                            value=7,
+                            value=2,
                             marks={
                                 i + 1: '{}'.format(i + 1)
-                                for i in range(9)
+                                for i in range(4)
                             },
                             step=0.05
                         ),
@@ -103,12 +112,12 @@ def layout():
                             id='mhp-slider-indic',
                             vertical=False,
                             updatemode='mouseup',
-                            max=9,
+                            max=4,
                             min=1,
-                            value=6,
+                            value=3,
                             marks={
                                 i + 1: '{}'.format(i + 1)
-                                for i in range(9)
+                                for i in range(4)
                             },
                             step=0.05
                         )
