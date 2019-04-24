@@ -1,4 +1,5 @@
 import os
+
 import pandas as pd
 import dash_html_components as html
 import dash_core_components as dcc
@@ -17,16 +18,19 @@ elif 'DASH_PATH_ROUTING' in os.environ:
 
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "manhattan_")
 
-# Load the data
-DT = pd.read_csv("{}data.csv".format(DATAPATH))
+# Load dataset into a DataFrame
+df = pd.read_csv('{}data.csv'.format(DATAPATH))
 
+n_chr = 23  # number of chromosome pairs in humans
+assert 'CHR' in df.columns
+assert df['CHR'].max() == n_chr
+
+# Split data by chromosome
+datasets = [df.loc[df['CHR'] == i + 1] for i in range(n_chr)]
 # Trim down the data
-if 'CHR' in DT:
-    datasets = [DT.loc[DT['CHR'] == i+1] for i in range(DT['CHR'].max())]
-    datasets = [dataset.iloc[:50] for dataset in datasets]
-    DATASET = pd.concat(datasets).reset_index(drop=True)
-else:
-    DATASET = None
+datasets = [dataset.iloc[:50] for dataset in datasets]
+# Rebind subsets together
+DATASET = pd.concat(datasets).reset_index(drop=True)
 
 # Feed the data to a function which creates a Manhattan Plot figure
 fig = dash_bio.ManhattanPlot(DATASET)
