@@ -133,7 +133,7 @@ def _get_selected_data(
         columns = []
 
     selected_rows = list(set(all_rows).intersection(rows))
-    selected_cols = list(set(all_cols).intersection(cols))
+    selected_cols = list(set(all_cols).intersection(columns))
 
     selected_data = dataframe.loc[selected_rows, selected_cols]
     data = selected_data.values
