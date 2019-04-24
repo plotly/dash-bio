@@ -132,18 +132,8 @@ def _get_selected_data(
     if columns is None:
         columns = []
 
-    selected_rows = []
-    selected_cols = []
-
-    for row in rows:
-        if row not in all_rows:
-            continue
-        selected_rows.append(row)
-
-    for col in columns:
-        if col not in all_cols:
-            continue
-        selected_cols.append(col)
+    selected_rows = list(set(all_rows).intersection(rows))
+    selected_cols = list(set(all_cols).intersection(cols))
 
     selected_data = dataframe.loc[selected_rows, selected_cols]
     data = selected_data.values
