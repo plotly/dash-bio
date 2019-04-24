@@ -1,5 +1,3 @@
-# In[]:
-# Import required libraries
 import os
 import copy
 import json
@@ -110,7 +108,7 @@ def header_colors():
 
 
 def layout():
-    return html.Div(id='needleplot-body', children=[
+    return html.Div(id='needleplot-body', className='app-body', children=[
         html.Div(
             id='needleplot-wrapper',
             children=dash_bio.NeedlePlot(
@@ -119,13 +117,13 @@ def layout():
             )
         ),
 
-        html.Div(id='needleplot-control-tabs', children=[
+        html.Div(id='needleplot-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='needleplot-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
-                    children=html.Div(className='needleplot-tab', children=[
-                        html.H4('What is Needle Plot?'),
+                    children=html.Div(className='control-tab', children=[
+                        html.H4(className='what-is', children='What is Needle Plot?'),
                         html.P('Needle Plot allows you to display mutations in '
                                'a genome. Due to its similarity to both a barplot '
                                'and a scatter plot, it can be used to plot '
@@ -146,9 +144,9 @@ def layout():
                 dcc.Tab(
                     label='Data',
                     value='datasets',
-                    children=html.Div(className='needleplot-tab', children=[
+                    children=html.Div(className='control-tab', children=[
                         html.Div(
-                            className='needle-config-data',
+                            className='app-controls-block',
                             title='"Demo dataset" choice will allow you to play '
                             'with the options.\n'
                             '"UniProt dataset" choice will retrieve protein '
@@ -159,7 +157,7 @@ def layout():
                             'database.',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Dataset source:'
                                 ),
                                 dcc.Dropdown(
@@ -187,10 +185,10 @@ def layout():
 
                         html.Div(
                             id='needle-%s-div' % DEMO_KEY,
-                            className='needle-config-data',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Dataset:'
                                 ),
                                 dcc.Dropdown(
@@ -210,7 +208,7 @@ def layout():
 
                         html.Div(
                             id='needle-protein-domains-select-div',
-                            className='needle-config-data',
+                            className='app-controls-block',
                             title='Check this box to enable loading of '
                             'mutation data such as the protein coordinate '
                             '(x), mutation number (y) and mutation type '
@@ -218,7 +216,7 @@ def layout():
                             ' domains',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Load protein domains:'
                                 ),
                                 dcc.Checklist(
@@ -241,7 +239,7 @@ def layout():
 
                         html.Div(
                             id='needle-%s-div' % DATABASE_KEY,
-                            className='needle-load-option-div',
+                            className='app-controls-block',
                             children=[
                                 html.H5(
                                     'Search UniProt'
@@ -273,7 +271,7 @@ def layout():
 
                         html.Div(
                             id='needle-%s-div' % FILE_KEY,
-                            className='needle-load-option-div',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
                                     id='needle-mutdata-file-div',
@@ -300,7 +298,7 @@ def layout():
                                         ),
                                         dcc.Upload(
                                             id='needle-mutdata-file-upload',
-                                            className='needle-upload',
+                                            className='control-upload',
                                             children=html.Div([
                                                 'Drag and drop or ',
                                                 html.A('select files')
@@ -348,10 +346,10 @@ def layout():
                             id='needle-download-data-div',
                             children=[
                                 html.Div(
-                                    className='needle-config-data',
+                                    className='app-controls-block',
                                     children=[
                                         html.Div(
-                                            className='needleplot-option-name',
+                                            className='app-controls-name',
                                             children='Download data:'
                                         ),
                                         dcc.Dropdown(
@@ -374,11 +372,11 @@ def layout():
                                         )
                                     ]
                                 ),
-                                html.Br(),
                                 html.A(
                                     id='needle-download-data-button-link',
                                     children=html.Button(
                                         id='needle-download-data-button',
+                                        className='control-download',
                                         children='Download graph data',
                                         n_clicks=0,
                                         n_clicks_timestamp=0,
@@ -396,12 +394,12 @@ def layout():
                 dcc.Tab(
                     label='Graph',
                     value='graph',
-                    children=html.Div(className='needleplot-tab', children=[
+                    children=html.Div(className='control-tab', children=[
                         html.Div(
-                            className='needle-config-item-style',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Stem thickness'
                                 ),
                                 dcc.Slider(
@@ -414,10 +412,10 @@ def layout():
                             ]
                         ),
                         html.Div(
-                            className='needle-config-item-style',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Needle head size'
                                 ),
                                 dcc.Slider(
@@ -430,10 +428,10 @@ def layout():
                             ]
                         ),
                         html.Div(
-                            className='needle-config-item-style',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Stem color'
                                 ),
                                 dcc.Dropdown(
@@ -450,10 +448,10 @@ def layout():
                             ]
                         ),
                         html.Div(
-                            className='needle-config-item-style',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Head color(s)'
                                 ),
                                 dcc.Dropdown(
@@ -471,10 +469,10 @@ def layout():
                             ],
                         ),
                         html.Div(
-                            className='needle-config-item-style',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Head symbol(s)'
                                 ),
                                 dcc.Dropdown(
@@ -492,10 +490,10 @@ def layout():
                             ],
                         ),
                         html.Div(
-                            className='needle-config-item-style',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Constant height needles'
                                 ),
                                 dcc.RadioItems(
@@ -512,10 +510,10 @@ def layout():
                             ],
                         ),
                         html.Div(
-                            className='needle-config-item-style',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Rangeslider display'
                                 ),
                                 dcc.RadioItems(
@@ -532,10 +530,10 @@ def layout():
                             ],
                         ),
                         html.Div(
-                            className='needle-config-item-style',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
-                                    className='needleplot-option-name',
+                                    className='app-controls-name',
                                     children='Small domains color(s)'
                                 ),
                                 dcc.Dropdown(
@@ -592,7 +590,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if div_style is None:
             div_style = {'display': 'none'}
         if load_choice == DEMO_KEY:
-            div_style['display'] = 'table-row'
+            div_style['display'] = 'block'
         else:
             div_style['display'] = 'none'
         return div_style
@@ -848,9 +846,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def toggle_download_data_div(plotted_data, div_style):
         """toggles the display of the download data div"""
         if div_style is None:
-            div_style = {'display': 'flex'}
+            div_style = {'display': 'block'}
 
-        div_style['display'] = 'flex'
+        div_style['display'] = 'block'
 
         # Disables the download-data-div is there is no data plotted
         if not plotted_data['domains'] and not plotted_data['x']:
