@@ -25,12 +25,9 @@ n_chr = 23  # number of chromosome pairs in humans
 assert 'CHR' in df.columns
 assert df['CHR'].max() == n_chr
 
-# Split data by chromosome
-datasets = [df.loc[df['CHR'] == i + 1] for i in range(n_chr)]
 # Trim down the data
-datasets = [dataset.iloc[:50] for dataset in datasets]
-# Rebind subsets together
-DATASET = pd.concat(datasets).reset_index(drop=True)
+DATASET = df.groupby('CHR').apply(lambda u: u.head(50))
+DATASET = DATASET.droplevel('CHR').reset_index(drop=True)
 
 # Feed the data to a function which creates a Manhattan Plot figure
 fig = dash_bio.ManhattanPlot(DATASET)
