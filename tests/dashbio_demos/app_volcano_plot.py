@@ -59,26 +59,26 @@ def header_colors():
     return {
         'bg_color': '#19d3f3',
         'font_color': 'white',
-        'light_logo': False
+        'light_logo': True
     }
 
 
 def layout():
 
-    return html.Div(id='vp-page-content', children=[
+    return html.Div(id='vp-page-content', className='app-body', children=[
         html.Div(
             id='vp-graph-div',
             children=dcc.Graph(
                 id='vp-graph'
             ),
         ),
-        html.Div(id='vp-control-tabs', children=[
+        html.Div(id='vp-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='vp-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
-                    children=html.Div(className='vp-tab', children=[
-                        html.H4('What is Volcano Plot?'),
+                    children=html.Div(className='control-tab', children=[
+                        html.H4(className='what-is', children='What is Volcano Plot?'),
                         html.P(
                             'You can use Volcano Plot to interactively '
                             'identify clinically meaningful markers in '
@@ -103,31 +103,32 @@ def layout():
                 dcc.Tab(
                     label='Data',
                     value='data',
-                    children=html.Div(className='vp-tab', children=[
-                        html.Div(
-                            className='vp-option-name',
-                            children='Dataset: '
-                        ),
-                        dcc.Dropdown(
-                            id='vp-dataset-dropdown',
-                            options=[
-                                {
-                                    'label': DATASETS[dset]['label'],
-                                    'value': dset
-                                }
-                                for dset in DATASETS
-                            ],
-                            value='SET2'
-                        )
+                    children=html.Div(className='control-tab', children=[
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(
+                                className='app-controls-name',
+                                children='Dataset: '
+                            ),
+                            dcc.Dropdown(
+                                id='vp-dataset-dropdown',
+                                options=[
+                                    {
+                                        'label': DATASETS[dset]['label'],
+                                        'value': dset
+                                    }
+                                    for dset in DATASETS
+                                ],
+                                value='SET2'
+                            )
+                        ])
                     ])
                 ),
                 dcc.Tab(
                     label='View',
-                    value='view',
-                    children=html.Div(className='vp-tab', children=[
-                        html.Div(className='vp-option', children=[
+                    value='view', children=html.Div(className='control-tab', children=[
+                        html.Div(className='app-controls-block', children=[
                             html.Div(
-                                className='vp-option-name',
+                                className='app-controls-name',
                                 children='Effect size bounds'
                             ),
                             dcc.RangeSlider(
@@ -139,9 +140,9 @@ def layout():
                                 marks={str(num): str(num) for num in range(-4, 5)}
                             )
                         ]),
-                        html.Div(className='vp-option', children=[
+                        html.Div(className='app-controls-block', children=[
                             html.Div(
-                                className='vp-option-name',
+                                className='app-controls-name',
                                 children='Threshold',
                             ),
                             dcc.Slider(
@@ -153,50 +154,52 @@ def layout():
                                 marks={str(num): str(num) for num in range(0, 11, 2)}
                             ),
                         ]),
-                        daq.ColorPicker(
-                            id='vp-color-picker',
-                            value=dict(hex="#0000FF"),
-                            size=150,
-                        ),
-                        html.Div(
-                            id='vp-num-points-display',
-                            children=[
-                                html.Div(
-                                    title='Number of points in the upper left',
-                                    children=[
-                                        daq.LEDDisplay(
-                                            className='vp-input-like',
-                                            label='Upper left points',
-                                            id='vp-upper-left',
-                                            size=25,
-                                            color='#19D3F3'
-                                        ),
-                                        html.Div(
-                                            className='vp-test-util-div',
-                                            id='vp-upper-left-val'
-                                        )
-                                    ]
-                                ),
-                                html.Br(),
-                                html.Div(
-                                    className='vp-vertical-style',
-                                    title='Number of points in the upper right',
-                                    children=[
-                                        daq.LEDDisplay(
-                                            className='vp-input-like',
-                                            label='Upper right points',
-                                            id='vp-upper-right',
-                                            size=25,
-                                            color='#19D3F3'
-                                        ),
-                                        html.Div(
-                                            className='vp-test-util-div',
-                                            id='vp-upper-right-val'
-                                        )
-                                    ]
-                                ),
-                            ],
-                        ),
+                        html.Div(className='app-controls-block', children=[
+                            daq.ColorPicker(
+                                id='vp-color-picker',
+                                value=dict(hex="#0000FF"),
+                                size=150,
+                            ),
+                            html.Div(
+                                id='vp-num-points-display',
+                                children=[
+                                    html.Div(
+                                        title='Number of points in the upper left',
+                                        children=[
+                                            daq.LEDDisplay(
+                                                className='vp-input-like',
+                                                label='Upper left points',
+                                                id='vp-upper-left',
+                                                size=25,
+                                                color='#19D3F3'
+                                            ),
+                                            html.Div(
+                                                className='vp-test-util-div',
+                                                id='vp-upper-left-val'
+                                            )
+                                        ]
+                                    ),
+                                    html.Br(),
+                                    html.Div(
+                                        className='vp-vertical-style',
+                                        title='Number of points in the upper right',
+                                        children=[
+                                            daq.LEDDisplay(
+                                                className='vp-input-like',
+                                                label='Upper right points',
+                                                id='vp-upper-right',
+                                                size=25,
+                                                color='#19D3F3'
+                                            ),
+                                            html.Div(
+                                                className='vp-test-util-div',
+                                                id='vp-upper-right-val'
+                                            )
+                                        ]
+                                    ),
+                                ],
+                            )
+                        ]),
                         html.Hr(),
                         html.Div(id='vp-event-data')
                     ])
@@ -214,7 +217,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     )
     def get_event_data(hover, click):
         hover_data_div = [
-            html.Div(className='vp-option-name', children='Hover data')
+            html.Div(className='app-controls-name', children='Hover data')
         ]
         hover_data = 'Hover over a data point to see it here.'
 
@@ -235,7 +238,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         )
 
         click_data_div = [
-            html.Div(className='vp-option-name', children='Click data')
+            html.Div(className='app-controls-name', children='Click data')
         ]
         click_data = 'Click on a data point to see it here.'
 

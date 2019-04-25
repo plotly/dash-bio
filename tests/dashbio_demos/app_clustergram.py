@@ -258,8 +258,6 @@ def layout():
                         html.Div(
                             id='clustergram-info'
                         ),
-
-
                     ])
                 ),
                 dcc.Tab(

@@ -182,6 +182,7 @@ def layout():
                     children=html.Div(className='control-tab', children=[
                         html.Div(
                             id='preloaded-and-uploaded-alert',
+                            className='app-controls-desc',
                             children=[
                                 'You have uploaded your own data. In order \
                                 to view it, please ensure that the "preloaded \
@@ -189,44 +190,45 @@ def layout():
                             ],
                             style={'display': 'none'}
                         ),
-
-                        html.Div(
-                            "Preloaded sequences",
-                            className='app-controls-name'
-                        ),
-                        dcc.Dropdown(
-                            className='app-dropdown',
-                            id='preloaded-sequences',
-                            options=[
-                                {
-                                    'label': 'insulin',
-                                    'value': '{}P01308.fasta.txt'.format(DATAPATH)
-                                },
-                                {
-                                    'label': 'keratin',
-                                    'value': '{}P04264.fasta.txt'.format(DATAPATH)
-                                },
-                                {
-                                    'label': 'albumin',
-                                    'value': '{}NX_P02768.fasta.txt'.format(DATAPATH)
-                                },
-                                {
-                                    'label': 'myosin (gene)',
-                                    'value': '{}myosin.fasta.txt'.format(DATAPATH)
-                                },
-                                {
-                                    'label': 'HflX (gene)',
-                                    'value': '{}hflx.fasta.txt'.format(DATAPATH)
-                                }
-                            ],
-                            value='{}P01308.fasta.txt'.format(DATAPATH)
-                        ),
-
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(
+                                "Preloaded sequences",
+                                className='app-controls-name'
+                            ),
+                            dcc.Dropdown(
+                                className='app-dropdown',
+                                id='preloaded-sequences',
+                                options=[
+                                    {
+                                        'label': 'insulin',
+                                        'value': '{}P01308.fasta.txt'.format(DATAPATH)
+                                    },
+                                    {
+                                        'label': 'keratin',
+                                        'value': '{}P04264.fasta.txt'.format(DATAPATH)
+                                    },
+                                    {
+                                        'label': 'albumin',
+                                        'value': '{}NX_P02768.fasta.txt'.format(DATAPATH)
+                                    },
+                                    {
+                                        'label': 'myosin (gene)',
+                                        'value': '{}myosin.fasta.txt'.format(DATAPATH)
+                                    },
+                                    {
+                                        'label': 'HflX (gene)',
+                                        'value': '{}hflx.fasta.txt'.format(DATAPATH)
+                                    }
+                                ],
+                                value='{}P01308.fasta.txt'.format(DATAPATH)
+                            )
+                        ]),
                         html.Div(
                             id='seq-view-fasta-upload',
                             children=[
                                 dcc.Upload(
                                     id='upload-fasta-data',
+                                    className='control-upload',
                                     children=html.Div([
                                         "Drag and drop or click to upload a \
                                         file."
@@ -235,18 +237,15 @@ def layout():
                             ]
                         ),
 
-                        html.Div(
-                            children=[
-                                html.A(
-                                    html.Button(
-                                        "Download sample FASTA data",
-                                        id='seq-view-download-sample-data'
-                                    ),
-                                    href=os.path.join('assets', 'sample_data',
-                                                      'sequence_viewer_tubulin.fasta.txt'),
-                                    download="tubulin.fasta.txt"
-                                )
-                            ]
+                        html.A(
+                            children=html.Button(
+                                "Download sample FASTA data",
+                                id='seq-view-download-sample-data',
+                                className='control-download',
+                            ),
+                            href=os.path.join('assets', 'sample_data',
+                                              'sequence_viewer_tubulin.fasta.txt'),
+                            download="tubulin.fasta.txt"
                         )
                     ])
                 ),
@@ -256,6 +255,7 @@ def layout():
                     children=html.Div(className='control-tab', children=[
                         html.Div(
                             id='seq-view-entry-dropdown-container',
+                            className='app-controls-block',
                             children=[
                                 html.Div(
                                     "View entry:",
@@ -270,9 +270,9 @@ def layout():
                                     value=0
                                 ),
                                 html.Div(
-                                    id='seq-view-number-entries'
+                                    id='seq-view-number-entries',
+                                    className='app-controls-desc'
                                 )
-
                             ]
                         ),
                         html.Br(),

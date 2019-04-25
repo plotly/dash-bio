@@ -154,6 +154,7 @@ input#selected-rows, input#selected-columns {
 #clustergram-body .control-upload {
     border-color: #FFBF00 !important;
 }
+
 #clustergram-file-upload-container {
     margin: 10px 0px;
 }
