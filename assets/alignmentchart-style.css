@@ -76,7 +76,9 @@ h3.alignment-settings-section {
     font-size: 16pt;
 }
 
-#alignment-colorscale-dropdown, #alignment-overview-dropdown, #alignment-conservationcolorscale-dropdown, #alignment-conservationmethod-dropdown, #alignment-gapcolor-dropdown {
+#alignment-colorscale-dropdown, #alignment-overview-dropdown, 
+#alignment-conservationcolorscale-dropdown, #alignment-conservationmethod-dropdown, 
+#alignment-gapcolor-dropdown {
     display: inline-block;
     width: 150px;
     float: right;
