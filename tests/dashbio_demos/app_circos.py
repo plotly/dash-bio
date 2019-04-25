@@ -887,12 +887,6 @@ def header_colors():
     return {'bg_color': '#262B3D', 'font_color': '#FFF', 'light_logo': True}
 
 
-# Circos explanation blurb
-def circos_explain():
-    return [
-    ]
-
-
 # Empty Circos needed for circos graph callback
 empty = dash_bio.Circos(
     id='main-circos',
@@ -915,19 +909,19 @@ upload_instructions = (
 
 
 def layout():
-    return html.Div(id='circos-body', children=[
+    return html.Div(id='circos-body', className='app-body', children=[
         html.Div(
             id="circos-hold",
             children=[empty]
         ),
 
-        html.Div(id='circos-control-tabs', children=[
+        html.Div(id='circos-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='circos-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
-                    children=html.Div(className='circos-tab', children=[
-                        html.H3("What is Circos?"),
+                    children=html.Div(className='control-tab', children=[
+                        html.H4(className='what-is', children="What is Circos?"),
 
                         html.P('Circos is a circular visualization of data, and can be used '
                                'to highlight relationships between objects in a dataset '
@@ -974,20 +968,23 @@ def layout():
                 dcc.Tab(
                     label='Data',
                     value='data',
-                    children=html.Div(className='circos-tab', children=[
-                        html.Div(className='circos-option-name', children='Data source'),
-                        dcc.Dropdown(
-                            id='circos-preloaded-uploaded',
-                            options=[
-                                {'label': 'Preloaded', 'value': 'preloaded'},
-                                {'label': 'Upload', 'value': 'upload'}
-                            ],
-                            value='preloaded'
-                        ),
+                    children=html.Div(className='control-tab', children=[
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(className='app-controls-name', children='Data source'),
+                            dcc.Dropdown(
+                                id='circos-preloaded-uploaded',
+                                options=[
+                                    {'label': 'Preloaded', 'value': 'preloaded'},
+                                    {'label': 'Upload', 'value': 'upload'}
+                                ],
+                                value='preloaded'
+                            )
+                        ]),
                         html.Hr(),
                         html.A(
                             html.Button(
                                 id='circos-download-button',
+                                className='control-download',
                                 children="Download sample data"
                             ),
                             href=os.path.join('assets', 'sample_data', 'circos_sample_data.rar'),
@@ -997,6 +994,7 @@ def layout():
                         html.Div(id='circos-uploaded-data', children=[
                             dcc.Upload(
                                 id="upload-data",
+                                className='control-upload',
                                 children=html.Div(
                                     [
                                         "Drag and Drop or "
@@ -1004,33 +1002,34 @@ def layout():
                                         ".CSV file here!"
                                     ]
                                 ),
-                                className="circos-upload-data",
                                 multiple=True,
                             ),
-                            html.Div(className='circos-option-name', children='Select upload data'),
-                            dcc.Dropdown(
-                                id="circos-view-dataset-custom",
-                                options=[
-                                    {
-                                        "label": "Layout",
-                                        "value": 0,
-                                    },
-                                    {
-                                        "label": "Track 1",
-                                        "value": 1,
-                                    },
-                                    {
-                                        "label": "Track 2",
-                                        "value": 2,
-                                    },
-                                ],
-                                value=0,
-                            ),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(className='app-controls-name',
+                                         children='Select upload data'),
+                                dcc.Dropdown(
+                                    id="circos-view-dataset-custom",
+                                    options=[
+                                        {
+                                            "label": "Layout",
+                                            "value": 0,
+                                        },
+                                        {
+                                            "label": "Track 1",
+                                            "value": 1,
+                                        },
+                                        {
+                                            "label": "Track 2",
+                                            "value": 2,
+                                        },
+                                    ],
+                                    value=0,
+                                ),
+                            ]),
                             html.Button(
                                 "Render uploaded dataset",
                                 id="render-button",
-                                className="circos-button-render "
-                                "five columns",
+                                className='control-download',
                             )
 
                         ]),
@@ -1040,37 +1039,39 @@ def layout():
                 dcc.Tab(
                     label='Graph',
                     value='graph',
-                    children=html.Div(className='circos-tab', children=[
-                        html.Div(className='circos-option-name', children='Graph type'),
-                        dcc.Dropdown(
-                            id='circos-graph-type',
-                            options=[
-                                {'label': graph_type.title(), 'value': graph_type}
-                                for graph_type in [
-                                    'heatmap',
-                                    'chords',
-                                    'highlight',
-                                    'histogram',
-                                    'line',
-                                    'scatter',
-                                    'stack',
-                                    'text',
-                                    'parser_data'
-                                ]
-                            ],
-                            value='chords'
-                        ),
-                        html.Div(id='chords-text'),
-
-                        html.Div(className='circos-option-name', children='Graph size'),
-                        dcc.Slider(
-                            id='circos-size',
-                            min=500,
-                            max=800,
-                            step=10,
-                            value=650
-                        ),
-
+                    children=html.Div(className='control-tab', children=[
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(className='app-controls-name', children='Graph type'),
+                            dcc.Dropdown(
+                                id='circos-graph-type',
+                                options=[
+                                    {'label': graph_type.title(),
+                                     'value': graph_type} for graph_type in [
+                                         'heatmap',
+                                         'chords',
+                                         'highlight',
+                                         'histogram',
+                                         'line',
+                                         'scatter',
+                                         'stack',
+                                         'text',
+                                         'parser_data'
+                                     ]
+                                ],
+                                value='chords'
+                            ),
+                            html.Div(className='app-controls-desc', id='chords-text'),
+                        ]),
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(className='app-controls-name', children='Graph size'),
+                            dcc.Slider(
+                                id='circos-size',
+                                min=500,
+                                max=800,
+                                step=10,
+                                value=650
+                            ),
+                        ]),
                         html.Hr(),
                         html.H5('Hover data'),
                         html.Div(
@@ -1084,17 +1085,18 @@ def layout():
                 dcc.Tab(
                     label='Table',
                     value='table',
-                    children=html.Div(className='circos-tab', children=[
-                        html.Div(className='circos-option-name', children='View dataset'),
-                        dcc.Dropdown(
-                            id='circos-view-dataset',
-                            options=[
-                                {'label': 'Layout',
-                                 'value': 'layout'}
-                            ],
-                            value='layout'
-                        ),
-
+                    children=html.Div(className='control-tab', children=[
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(className='app-controls-name', children='View dataset'),
+                            dcc.Dropdown(
+                                id='circos-view-dataset',
+                                options=[
+                                    {'label': 'Layout',
+                                     'value': 'layout'}
+                                ],
+                                value='layout'
+                            )
+                        ]),
                         html.Div(id='circos-table-container', children=[dt.DataTable(
                             id="data-table",
                             row_selectable='multi',
@@ -1122,7 +1124,7 @@ def layout():
                                 'textAlign': 'center'
                             },
                             style_table={
-                                "maxHeight": "340px",
+                                "maxHeight": "310px",
                                 'width': '320px',
                                 'marginTop': '5px',
                                 'marginBottom': '10px',

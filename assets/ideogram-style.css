@@ -1,70 +1,18 @@
 #ideogram-body {
-    font-family: sans-serif;
-    font-weight: 200;
-    padding: 5px;
-    background-color: #fdfcff;
-    color: #303030;
-    height: calc(100vh - 70px);
-    overflow: auto;
+    background-color: #FDFCFF !important;
+    color: #303030 !important;
 }
 #ideogram-body ::-webkit-scrollbar {
-    width: 4px;
-    height: 0px;
-    margin-right: 500px;
-    background-color: #fdfcff;
+    background-color: #FDFCFF !important;
 }
 #ideogram-body ::-webkit-scrollbar-thumb {
-    width: 2px;
-    background-color: #230047;
-    border-radius:15px;
-    padding-right:5px;
+    background-color: #230047 !important;
 }
 
 #ideogram-wrapper::-webkit-scrollbar {
     display: none;
 }
 
-#ideogram-control-tabs {
-    width: 400px;
-    height: 550px;
-    margin: 50px;
-    margin-right: 0px;
-    background-color: #ffffff;
-    font-size: 10pt;
-    float: left;
-}
-
-#ideogram-control-tabs .tab-content {
-    padding: 20px;
-    height: 400px;
-    margin: 20px;
-    overflow-y: auto;
-}
-#ideogram-control-tabs .tab--selected {
-    border-top: solid 2px #230047;
-    color: #230047;
-}
-.ideogram-tab {
-    position: relative;
-    height: 400px;
-    overflow-y: auto;
-    padding-right: 15px;
-}
-
-.ideogram-controls-name {
-    display: inline-block;
-    margin-top: 15px;
-    font-weight: 400;
-    vertical-align: middle;
-    width: 160px;
-    font-size: 14pt;
-    margin-bottom: 20px;
-}
-
-#ideogram-feature-dropdown {
-    display: inline-block;
-    float: right;
-}
 #ideogram-container {
     display: inline-block;
     width: calc(100vw - 600px);
@@ -80,21 +28,16 @@
     height: 550px;
 }
 
-#ideogram-body .Select {
-    display: inline-block;
-    width: 140px;
-    position: relative;
-    top: 10px;
-}
 #ideogram-feature-select {
     position: sticky;
     top: 0px;
     z-index: 100;
+    display: inline-block;
+    margin-bottom: -25px;
     background-color: white;
 }
 #ideogram-body #chr-select-1 .Select,
-#ideogram-body #chr-select-2 .Select,
-#ideogram-body #chr-brush .Select {
+#ideogram-body #chr-select-2 .Select {
     width: 65px !important;
 }
 #ideogram-body #chr-select-1 .Select {
@@ -105,9 +48,6 @@
     margin-left: 5px;
     margin-right: 0px;
 }
-.Select .ideogram-dropdown {
-    display: inline-block;
-}
 
 input.ideogram-homology-inputs, input.ideogram-annot-inputs {
     display: inline-block;
@@ -117,12 +57,14 @@ input.ideogram-homology-inputs, input.ideogram-annot-inputs {
 #ideogram-body hr {
     width: 100%;
 }
-#organism-change, #orientation-switch,
-#bandlabel-switch, #chromlabel-switch,
-#rotatable-switch, #sex-switch,
-#fullband-switch, #resolution-select,
-#chr-brush, #annotation-select,
-#orientation-anote {
+
+#ideogram-feature-dropdown, #organism-change,
+#orientation-switch, #bandlabel-switch,
+#chromlabel-switch, #rotatable-switch,
+#sex-switch, #fullband-switch,
+#resolution-select, #chr-brush,
+#annotation-select, #orientation-anote,
+#chr-brush {
     display: inline-block;
     width: 140px;
 }
@@ -168,26 +110,31 @@ input.ideogram-homology-inputs, input.ideogram-annot-inputs {
     width: 140px;
     display: inline-block;
 }
+.ideogram-slider {
+    margin-top: 10px;
+}
 .ideogram-slider .rc-slider-track {
-    background-color: #230047;
+    background-color: #230047 !important;
 }
 .ideogram-slider .rc-slider-handle {
-    border-color: #230047;
+    border-color: #230047 !important;
 }
 #ideogram-body h4 {
     margin-bottom: 25px;
 }
+
 #ideogram-body #chr-select-1,
 #ideogram-body #chr-select-2 {
     display: inline-block;
 }
-#chr-brush {
-    width: 65px;
-    float: right;
-}
-#brush-control-name {
-    width: 200px;
-}
 #brush-data {
     font-size: 12pt;
+}
+
+#ideogram-body .control-tabs .tab--selected {
+    color: #230047 !important;
+}
+
+#ideogram-body h4 {
+    text-align: center;
 }

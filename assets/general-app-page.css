@@ -4,7 +4,7 @@
 /* Basic app page with header and content area */
 #app-page-content {
     margin: 0px;
-    margin-top: -1px; /* hide border between header and content */
+    margin-top: 0px; /* hide border between header and content */
     width: 100%;
     height: auto;
     min-height: calc(100vh - 60px);
@@ -110,6 +110,7 @@
     font-weight: 400;
     font-size: 20pt;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 
@@ -167,6 +168,23 @@
     width: 160px;
     font-size: 12pt;
     margin-top: 5px;
+    margin-bottom: 5px;
+}
+.fullwidth-app-controls-name {
+    display: inline-block;
+    font-weight: 400;
+    vertical-align: top;
+    width: 100%;
+    font-size: 12pt;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+.app-controls-desc {
+    font-size: 9pt;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
 }
 
 
@@ -180,7 +198,7 @@
     margin: 0px;
 }
 #app-page-content .Select-input {
-    padding-top: 5px;
+    padding-top: 0px !important;
 }
 #app-page-content .control-slider {
     display: inline-block;
@@ -193,6 +211,7 @@
     border-radius: 5px;
     padding: 30px;
     font-size: 9pt;
+    text-align: center;
 }
 #app-page-content .control-download {
     width: 100%;

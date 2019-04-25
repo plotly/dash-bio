@@ -1,57 +1,46 @@
 #clustergram-body {
-    font-family: sans-serif;
-    padding: 5px;
-    background-color: #191A1C;
-    color: #dddddd;
-    height: calc(100vh - 65px);
-    overflow: auto;
+    color: #E4E4E4 !important;
+    background-color: #191A1C !important;
 }
-
 #clustergram-body ::-webkit-scrollbar {
-    width: 4px;
-    height: 0px;
-    margin-right: 500px;
-    background-color: #191A1C;
+    background-color: #191A1C !important;
 }
 #clustergram-body ::-webkit-scrollbar-thumb {
-    width: 2px;
-    background-color: #E4E4E4;
-    border-radius:15px;
-    padding-right:5px;
+    background-color: #FFBF00 !important;
 }
 
+#clustergram-wrapper {
+    display: inline-block !important;
+    padding: 0px;
+    overflow-x: scroll;
+    margin: 0px;
+}
 #clustergram-wrapper::-webkit-scrollbar {
     display: none;
 }
 
-#clustergram-control-tabs {
-    width: 400px;
-    height: 550px;
-    margin: 50px;
-    margin-right: 0px;
+#clustergram-control-tabs, #clustergram-control-tabs .tab {
+    background-color: #232323 !important;
+}
+#clustergram-body .control-tab {
+    background-color: #232323 !important;
+}
+#clustergram-control-tabs .tab {
     background-color: #232323;
-    font-size: 10pt;
-    float: left;
+    color: #E4E4E4;
+    border-color: #727272 !important;
 }
-
-#clustergram-control-tabs .tab-content {
-    padding: 20px;
+#clustergram-control-tabs .tab--selected {
+    color: #FFBF00 !important;
+    border-top-color: initial !important;
 }
-
-.clustergram-tab {
-    height: 420px;
-    margin: 15px;
-    overflow-y: auto;
-    padding-right: 20px;
-}
-
 #clustergram-control-tabs .Select-control {
-    border: solid 1px #545454;
+    border: solid 1px #727272;
     background-color: #232323 !important;
 }
 #clustergram-control-tabs .Select, #clustergram-control-tabs .Select-control, #clustergram-control-tabs input, #clustergram-control-tabs .Select-menu-outer, #clustergram-control-tabs .Select-value-label {
     background-color: #232323 !important;
-    border-color: #545454 !important;
+    border-color: #727272 !important;
     color: #E4E4E4;
 }
 #clustergram-control-tabs .Select-value-icon {
@@ -60,20 +49,7 @@
 #clustergram-control-tabs .Select-value {
     border-color: #727272;
 }
-#clustergram-control-tabs .tab {
-    background-color: #232323;
-    color: #E4E4E4;
-    font-weight: 200;
-    font-size: 9pt;
-    border: solid 1px #444444;
-    height: 50px;
-    padding: 15px;
-}
-#clustergram-control-tabs .tab--selected {
-    border-top: solid 2px #FFBF00;
-    border-bottom: none;
-    color: #FFBF00;
-}
+
 #clustergram-annot-color, #clustergram-body .chrome-picker {
     border: none !important;
     background: none !important;
@@ -96,161 +72,80 @@
     border-right: 1px solid #AAAAAA;
 }
 
-#clustergram-body .rc-slider {
-    width: 225px;
-    float: right;
-    margin-top: -17px;
+#clustergram-body .control-slider {
+    width: 225px !important;
+    margin-top: 4px;
 }
-
 #clustergram-body .rc-slider-track {
-    background-color: #FFBF00
+    background-color: #FFBF00 !important;
 }
-
 #clustergram-body .rc-slider-handle {
     background-color: #232323;
-    border: solid 2px #FFBF00
+    border: solid 2px #FFBF00 !important;
 }
 
-
-#clustergram-wrapper {
-    display: inline-block !important;
-    padding: 0px;
-    overflow-x: scroll;
-    margin: 0px;
-}
-
-#clustergram-file-upload-container {
-    width: 95% !important;
-    margin-top: 20px;
+#threshold-wrapper {
+    margin-top: -30px;
 }
 
 #clustergram-body #remove-all-group-markers {
     float: right;
-    margin: 10px;
-    margin-bottom: 20px;
     font-size:7pt !important;
     line-height: 10pt;
     padding: 0px !important;
-    color: white;
+    color: #E4E4E4;
     font-weight: 100;
     border-color: #FFBF00;
     text-align: center;
-    width:48% !important;
+    width: 140px;
     height: 25px;
+    margin-top: 5px;
     transition-duration: 500ms;
 }
 
 #clustergram-body #remove-all-group-markers:hover {
-    border-color: white;
-}
-
-#clustergram-body #submit-group-marker {
-    margin-right:2%;
-}
-#clustergram-body #remove-all-group-markers {
-    margin-left: 2%;
+    border-color: #E4E4E4;
 }
 
 input#selected-rows, input#selected-columns {
     padding: 0px !important;
+    margin-top: 7px;
 }
 
-#cluster-checklist, #hide-labels {
-    width: 200px;
-    float: right;
+#hide-labels, #cluster-checklist {
+    width: 190px;
     display: inline-block;
-    margin-top: 0px;
 }
-#cluster-checklist .Select-multi-value-wrapper, #hide-labels .Select-multi-value-wrapper {
-    margin-bottom: -5px;
-}
-
-#selected-rows .Select-control, #selected-columns .Select-control {
-    padding: 10px 0px;
+#selected-rows, #selected-columns {
+    width: 100%;
 }
 #selected-rows .Select-multi-value-wrapper, #selected-columns .Select-multi-value-wrapper {
-    max-height: 100px;
-    width: calc(100% - 10px);
-    overflow: auto;
-    padding-right: 10px;
-    padding-left: 10px;
-    margin-right:10px;
+    max-height: 115px;
+    overflow-y: auto;
+    margin-top: 5px;
+}
+#clustergram-body .app-controls-name {
+    width: 125px;
 }
 
-#clustergram-body h3 {
-    font-size: 24pt !important;
-    text-align: center !important;
+#clustergram-body #annotation {
+    width: 100% !important;
 }
-#clustergram-body p {
-    font-weight: 200 !important;
-    font-size: 10pt !important;
-}
-#row-or-col-group, input#annotation {
-    margin-top: 5px !important;
-    margin-bottom: 30px !important;
-}
-
-#clustergram-body input {
-    float:left;
-    width: 100%;
-    margin: 0px;
-}
-#clustergram-info {
-    font-weight: 100;
-    font-size: 9pt;
-    margin-top: 20px;
-}
-
 #clustergram-datasets {
-    padding: 0px;
-    margin: 10px;
-    width: calc(100% - 20px) !important;
-}
-
-#clustergram-file-upload-container {
-    border: dotted 1px #FFBF00;
-    width: calc(100% - 40px) !important;
-    padding: 10px;
-    margin: 10px;
-    padding-top: 100px;
-    padding-bottom: 100px;
-    font-size: 9pt;
-    font-weight: 100;
-    text-align: center;
-    border-radius: 5px;
-}
-
-#clustergram-body hr {
     width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 #clustergram-body #file-upload-name {
     display: block;
     margin-left: 10px;
 }
-.clustergram-option-name {
-    font-size: 13pt;
-    padding-bottom: 20px;
-    margin-top: 10px;
-    font-weight: 100 !important;
-    display: inline-block;
-
+#clustergram-body .control-upload {
+    border-color: #FFBF00 !important;
 }
-.clustergram-option-name:after {
-    content: '';
+#clustergram-file-upload-container {
+    margin: 10px 0px;
+}
+#clustergram-body #row-labels-source {
     width: 100%;
-    margin-bottom: 20px;
-}
-.clustergram-option-desc {
-    width: 90%;
-    margin-left: 5%;
-    font-size: 9pt;
-    margin-bottom: 30px;
-}
-.clustergram-option-desc:after {
-    content: '';
-    width: 100%;
-    margin-bottom: 20px;
+    margin: 10px 0px;
 }

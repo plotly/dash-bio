@@ -1,24 +1,13 @@
 #circos-body {
-    font-family: 'Helvetica', sans-serif;
-    padding: 5px;
-    background-color: #1F2132;
-    color: #E2EFFA;
-    font-weight:100;
-    height: calc(100vh - 65px);
-    overflow: auto;
+    background-color: #1F2132 !important;
+    color: #E2EFFA !important;
 }
 
 #circos-body ::-webkit-scrollbar {
-    width: 4px;
-    height: 0px;
-    margin-right: 500px;
-    background-color: #1F2132;
+    background-color: #1F2132 !important;
 }
 #circos-body ::-webkit-scrollbar-thumb {
-    width: 2px;
-    background-color: #7cd3f7;
-    border-radius: 15px;
-    padding-right: 5px;
+    background-color: #7cd3f7 !important;
 }
 
 #circos-control-tabs {
@@ -26,7 +15,7 @@
     height: 550px;
     margin: 50px;
     margin-right: 0px;
-    background-color: #262b3d;
+    background-color: #262B3D !important;
     font-size: 10pt;
     float: left;
 }
@@ -41,20 +30,15 @@
     overflow: auto;
 }
 #circos-control-tabs .tab {
-    background-color: #202530;
-    color: #E2EFFA;
+    background-color: #262B3D !important;
+    color: #E2EFFA !important;
     padding: 15px;
-    border-color: #557;
+    border-color: #557 !important;
 }
 
 #circos-control-tabs .tab--selected {
-    border-top: solid 2px #7CD3F7;
-    background-color: #262b3d;
-    color: #7CD3F7;
-}
-
-#circos-control-tabs .tab-content {
-    padding: 20px;
+    border-top: solid 2px #7CD3F7 !important;
+    color: #7CD3F7 !important;
 }
 
 #circos-hold {
@@ -89,6 +73,10 @@
 #circos-tabs-orig-parent {
     display: none;
 }
+#circos-control-tabs .Select-value-icon {
+    background-color: #232323;
+}
+
 #circos-control-tabs .Select-control, #circos-control-tabs .Select-menu-outer {
     border: solid 1px #545454;
     background-color: #262b3d !important;
@@ -108,17 +96,6 @@
     float: right;
     color: #E2EFFA;
 
-}
-#circos-control-tabs .Select-value-icon {
-    background-color: #232323;
-}
-#circos-graph-type .Select-multi-value-wrapper {
-    max-height: 100px;
-    width: calc(100% - 10px);
-    overflow: auto;
-    padding-right: 10px;
-    padding-left: 10px;
-    margin-right:10px;
 }
 
 .circos-option-name {
@@ -150,14 +127,7 @@
     color: #E2EFFA;
 }
 #upload-data {
-    border-radius: 5px;
-    border: dotted 1px #7CD3F7;
-    text-align: center;
-    width: 320px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    margin-top: -20px;
-    margin-bottom: 20px;
+    border-color: #7CD3F7 !important;
 }
 #circos-body .Select-menu-outer {
     z-index: 100;
@@ -186,12 +156,7 @@
 }
 #circos-body button.previous-page:after {
     content: "<";
-    font-size: 20px;
-}
-#circos-download-button, #render-button {
-    width: 100%;
-    margin-left: 0px;
-    margin-bottom: 30px;
+   font-size: 20px;
 }
 #circos-body h5 {
     margin-bottom: 15px;
@@ -202,4 +167,7 @@
 }
 #circos-body h3 {
     text-align: center;
+}
+#circos-body .control-download:hover {
+    color: #7CD3F7 !important;
 }
