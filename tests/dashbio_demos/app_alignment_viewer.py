@@ -100,18 +100,19 @@ def header_colors():
 
 
 def layout():
-    return html.Div(id='alignment-body', children=[
+    return html.Div(id='alignment-body', className='app-body', children=[
         html.Div([
-            html.Div(id='alignment-control-tabs', children=[
+            html.Div(id='alignment-control-tabs', className='control-tabs', children=[
                 dcc.Tabs(
                     id='alignment-tabs', value='what-is',
                     children=[
                         dcc.Tab(
                             label='About',
                             value='what-is',
-                            children=html.Div(className='alignment-tab', children=[
+                            children=html.Div(className='control-tab', children=[
                                 html.H4(
-                                    "What is Alignment Viewer?"
+                                    className='what-is',
+                                    children='What is Alignment Viewer?'
                                 ),
                                 html.P(
                                     """
@@ -148,62 +149,65 @@ def layout():
                         dcc.Tab(
                             label='Data',
                             value='alignment-tab-select',
-                            children=html.Div(className='alignment-tab', children=[
-                                html.H5(
-                                    "Select preloaded dataset"
-                                ),
-                                dcc.Dropdown(
-                                    id='alignment-dropdown',
-                                    options=[
-                                        {
-                                            'label': 'Sample.fasta',
-                                            'value': 'dataset1'
-                                        },
-                                        {
-                                            'label': 'P53.fasta naive',
-                                            'value': 'dataset2'
-                                        },
-                                        {
-                                            'label': 'P53.fasta aligned (ClustalW)',
-                                            'value': 'dataset3'
-                                        },
-                                    ],
-                                    value='dataset3',
-                                ),
-                                html.Br(),
-                                html.H5(
-                                    "Upload your own dataset"
-                                ),
-                                html.Div([
-                                    html.A(
-                                        html.Button(
-                                            "Download sample data",
-                                            className='alignment-button',
-                                        ),
-                                        href="/assets/sample_data/p53_clustalo.fasta",
-                                        download="p53_clustalo.fasta",
+                            children=html.Div(className='control-tab', children=[
+                                html.Div(className='app-controls-block', children=[
+                                    html.Div(
+                                        className='fullwidth-app-controls-name',
+                                        children="Select preloaded dataset"
+                                    ),
+                                    dcc.Dropdown(
+                                        id='alignment-dropdown',
+                                        options=[
+                                            {
+                                                'label': 'Sample.fasta',
+                                                'value': 'dataset1'
+                                            },
+                                            {
+                                                'label': 'P53.fasta naive',
+                                                'value': 'dataset2'
+                                            },
+                                            {
+                                                'label': 'P53.fasta aligned (ClustalW)',
+                                                'value': 'dataset3'
+                                            },
+                                        ],
+                                        value='dataset3',
                                     )
                                 ]),
 
-                                html.Div(id='alignment-file-upload-container', children=[dcc.Upload(
-                                    id='alignment-file-upload',
-                                    className='alignment-upload',
-                                    children=html.Div([
-                                        "Drag and drop FASTA files or select files."
-                                    ]),
-                                )]),
 
-
+                                html.Div(className='app-controls-block', children=[
+                                    html.Div(className='fullwidth-app-controls-name',
+                                             children="Upload your own dataset"),
+                                    html.A(
+                                        html.Button(
+                                            "Download sample data",
+                                            className='control-download'
+                                        ),
+                                        href="/assets/sample_data/p53_clustalo.fasta",
+                                        download="p53_clustalo.fasta",
+                                    ),
+                                    html.Div(id='alignment-file-upload-container', children=[
+                                        dcc.Upload(
+                                            id='alignment-file-upload',
+                                            className='control-upload',
+                                            children=html.Div([
+                                                "Drag and drop FASTA files or select files."
+                                            ]),
+                                        )
+                                    ])
+                                ]),
 
                             ])
                         ),
                         dcc.Tab(
                             label='Interactions',
-                            value='alignment-tab-select2',
-                            children=html.Div(className='alignment-tab', children=[
+                            value='control-tab-select2',
+                            children=html.Div(className='control-tab', children=[
 
-                                html.H5(
-                                    "Hover/Click/Event Data"
+                                html.Div(
+                                    className='app-controls-name',
+                                    children='Event Metadata'
                                 ),
                                 html.P('Hover or click on data to see it here.'),
                                 html.Div(
@@ -213,32 +217,35 @@ def layout():
                         ),
                         dcc.Tab(
                             label='Graph',
-                            value='alignment-tab-customize',
-                            children=html.Div(className='alignment-tab', children=[
+                            value='control-tab-customize',
+                            children=html.Div(className='control-tab', children=[
                                 html.Div([
                                     html.H3('General', className='alignment-settings-section'),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children="Colorscale"),
                                             dcc.Dropdown(
                                                 id='alignment-colorscale-dropdown',
-                                                className='alignment-settings-dropdown',
+                                                className='app-controls-block-dropdown',
                                                 options=COLORSCALES_DICT,
                                                 value='clustal2',
                                             ),
-                                            html.P("Choose color theme of the viewer."),
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children='Choose the color theme of the viewer.'
+                                            )
                                         ],
                                     ),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Overview'),
                                             dcc.Dropdown(
                                                 id='alignment-overview-dropdown',
-                                                className='alignment-settings-dropdown',
+                                                className='app-controls-block-dropdown',
                                                 options=[
                                                     {'label': 'Heatmap', 'value': 'heatmap'},
                                                     {'label': 'Slider', 'value': 'slider'},
@@ -247,13 +254,16 @@ def layout():
                                                 value='heatmap',
                                             ),
 
-                                            html.P("Show slider, heatmap or no overview."),
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children='Show slider, heatmap or no overview.'
+                                            )
                                         ],
                                     ),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Consensus'),
                                             dcc.RadioItems(
                                                 id='alignment-showconsensus-radio',
@@ -269,18 +279,20 @@ def layout():
                                                 },
                                             ),
 
-                                            html.P(
-                                                'Toggle the consensus (most frequent) sequence.'
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children='Toggle the consensus '
+                                                '(most frequent) sequence.'
                                             ),
                                         ],
                                     ),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Text size'),
                                             dcc.Slider(
-                                                className='alignment-slider',
+                                                className='control-slider',
                                                 id='alignment-textsize-slider',
                                                 value=10,
                                                 min=8,
@@ -295,8 +307,10 @@ def layout():
                                                 },
                                             ),
 
-                                            html.P(
-                                                'Adjust the font size (in px) of viewer text.'
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children='Adjust the font size '
+                                                '(in px) of viewer text.'
                                             ),
                                         ],
                                     ),
@@ -305,9 +319,9 @@ def layout():
                                 html.Div([
                                     html.H3('Conservation', className='alignment-settings-section'),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Barplot'),
                                             dcc.RadioItems(
                                                 id='alignment-showconservation-radio',
@@ -322,35 +336,40 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
-                                            html.P('Show or hide the conservation barplot.')
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children='Show or hide the conservation barplot.'
+                                            )
                                         ],
                                     ),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Colorscale'),
                                             dcc.Dropdown(
                                                 id='alignment-conservationcolorscale-dropdown',
-                                                className='alignment-settings-dropdown',
+                                                className='app-controls-block-dropdown',
                                                 options=[
                                                     {'label': col_code, 'value': col_code}
                                                     for col_code in CONSERVATION_COLORS_OPT
                                                 ],
                                                 value='Viridis',
                                             ),
-                                            html.P('Change the colorscale for the '
-                                                   'conservation barplot.'),
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children='Change the colorscale for the '
+                                                'conservation barplot.'),
                                         ],
                                     ),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Method'),
                                             dcc.Dropdown(
                                                 id='alignment-conservationmethod-dropdown',
-                                                className='alignment-settings-dropdown',
+                                                className='app-controls-block-dropdown',
                                                 options=[
                                                     {'label': 'Entropy',
                                                      'value': 'entropy'},
@@ -360,7 +379,10 @@ def layout():
                                                 value='entropy',
                                             ),
 
-                                            html.P("Conservation (MLE) or normalized entropy."),
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children="Conservation (MLE) or normalized entropy."
+                                            ),
                                         ],
                                     ),
                                 ]),
@@ -369,9 +391,9 @@ def layout():
                                     html.H3('Conservation gap',
                                             className='alignment-settings-section'),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Colorscale'),
                                             dcc.RadioItems(
                                                 id='alignment-correctgap-radio',
@@ -386,13 +408,17 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
-                                            html.P("Lowers conservation of high gap sequences.")
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children="Lowers conservation "
+                                                "of high gap sequences."
+                                            )
                                         ],
                                     ),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Gap'),
                                             dcc.RadioItems(
                                                 id='alignment-showgap-radio',
@@ -407,31 +433,37 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
-                                            html.P("Show/hide the gap barplot.")
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children="Show/hide the gap barplot."
+                                            )
                                         ],
                                     ),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Color'),
                                             dcc.Dropdown(
                                                 id='alignment-gapcolor-dropdown',
-                                                className='alignment-settings-dropdown',
+                                                className='app-controls-block-dropdown',
                                                 options=[
                                                     {'label': col_code, 'value': col_code}
                                                     for col_code in GAP_COLORS_OPT
                                                 ],
                                                 value='grey',
                                             ),
-                                            html.P('Set the color of the traces '
-                                                   'that represent the gap.')
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children='Set the color of the traces '
+                                                'that represent the gap.'
+                                            )
                                         ],
                                     ),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Group'),
                                             dcc.RadioItems(
                                                 id='alignment-groupbars-radio',
@@ -446,7 +478,10 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
-                                            html.P('Group gap and conservation bars.')
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children='Group gap and conservation bars.'
+                                            )
                                         ],
                                     ),
                                     # Conservation colorscale
@@ -456,16 +491,18 @@ def layout():
                                 html.Div([
                                     html.H3('Layout', className='alignment-settings-section'),
                                     html.Div(
-                                        className='alignment-settings',
+                                        className='app-controls-block',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='Labels'),
                                             dcc.RadioItems(
                                                 id='alignment-showlabel-radio',
                                                 className='alignment-radio',
                                                 options=[
-                                                    {'label': 'Show ', 'value': True},
-                                                    {'label': 'Hide ', 'value': False},
+                                                    {'label': 'Show ',
+                                                     'value': True},
+                                                    {'label': 'Hide ',
+                                                     'value': False},
                                                 ],
                                                 value=True,
                                                 labelStyle={
@@ -473,22 +510,25 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
-                                            html.P(
-                                                'Show track labels on the left.'
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children='Show track labels on the left.'
                                             ),
                                         ],
                                     ),
                                     html.Div(
                                         className='alignment-settings',
                                         children=[
-                                            html.Div(className='alignment-setting-name',
+                                            html.Div(className='app-controls-name',
                                                      children='IDs'),
                                             dcc.RadioItems(
                                                 id='alignment-showid-radio',
                                                 className='alignment-radio',
                                                 options=[
-                                                    {'label': 'Show ', 'value': True},
-                                                    {'label': 'Hide ', 'value': False},
+                                                    {'label': 'Show ',
+                                                     'value': True},
+                                                    {'label': 'Hide ',
+                                                     'value': False},
                                                 ],
                                                 value=True,
                                                 labelStyle={
@@ -496,8 +536,9 @@ def layout():
                                                     'margin-right': '8px',
                                                 },
                                             ),
-                                            html.P(
-                                                'Show track IDs on the left.'
+                                            html.Div(
+                                                className='app-controls-desc',
+                                                children='Show track IDs on the left.'
                                             )
 
                                         ],

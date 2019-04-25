@@ -33,38 +33,46 @@ def chromosome_div(
 ):
     return html.Div(
         [
-            html.Div(className='ideogram-controls-name', children='%s Start-one' % name_tag),
-            dcc.Input(
-                id='%s-startone' % id_tag,
-                placeholder='%s StartOne',
-                type='number',
-                value=startone,
-                className='ideogram-homology-inputs',
-            ),
-            html.Div(className='ideogram-controls-name', children='%s Stop-one' % name_tag),
-            dcc.Input(
-                id='%s-stopone' % id_tag,
-                placeholder='Enter chromosomes',
-                type='number',
-                value=stopone,
-                className='ideogram-homology-inputs',
-            ),
-            html.Div(className='ideogram-controls-name', children='%s Start-two' % name_tag),
-            dcc.Input(
-                id='%s-starttwo' % id_tag,
-                placeholder='%s Starttwo' % name_tag,
-                type='number',
-                value=starttwo,
-                className='ideogram-homology-inputs',
-            ),
-            html.Div(className='ideogram-controls-name', children='%s Stop-two' % name_tag),
-            dcc.Input(
-                id='%s-stoptwo' % id_tag,
-                placeholder='Enter chromsomes',
-                type='number',
-                value=stoptwo,
-                className='ideogram-homology-inputs',
-            ),
+            html.Div(className='app-controls-block', children=[
+                html.Div(className='app-controls-name', children='%s Start-one' % name_tag),
+                dcc.Input(
+                    id='%s-startone' % id_tag,
+                    placeholder='%s StartOne',
+                    type='number',
+                    value=startone,
+                    className='ideogram-homology-inputs',
+                )
+            ]),
+            html.Div(className='app-controls-block', children=[
+                html.Div(className='app-controls-name', children='%s Stop-one' % name_tag),
+                dcc.Input(
+                    id='%s-stopone' % id_tag,
+                    placeholder='Enter chromosomes',
+                    type='number',
+                    value=stopone,
+                    className='ideogram-homology-inputs',
+                )
+            ]),
+            html.Div(className='app-controls-block', children=[
+                html.Div(className='app-controls-name', children='%s Start-two' % name_tag),
+                dcc.Input(
+                    id='%s-starttwo' % id_tag,
+                    placeholder='%s Starttwo' % name_tag,
+                    type='number',
+                    value=starttwo,
+                    className='ideogram-homology-inputs',
+                )
+            ]),
+            html.Div(className='app-controls-block', children=[
+                html.Div(className='app-controls-name', children='%s Stop-two' % name_tag),
+                dcc.Input(
+                    id='%s-stoptwo' % id_tag,
+                    placeholder='Enter chromsomes',
+                    type='number',
+                    value=stoptwo,
+                    className='ideogram-homology-inputs',
+                )
+            ])
         ]
     )
 
@@ -72,146 +80,167 @@ def chromosome_div(
 options = {
     'custom': [
         html.H4('Organism'),
-        html.Div(className='ideogram-controls-name', children='Species'),
-        dcc.Dropdown(
-            className='ideogram-dropdown',
-            id='organism-change',
-            options=[
-                {
-                    'label': 'Human',
-                    'value': 'human',
-                },
-                {
-                    'label': 'Drosophila-Melanogaster',
-                    'value': 'drosophila-melanogaster',
-                },
-                {
-                    'label': 'Zea-mays',
-                    'value': 'zea-mays',
-                },
-                {
-                    'label': 'Pan-troglodytes',
-                    'value': 'pan-troglodytes',
-                },
-                {
-                    'label': 'Macaca-fascicularis',
-                    'value': 'macaca-fascicularis',
-                },
-            ],
-            value='human',
-        ),
-        html.Div(className='ideogram-controls-name', children='Sex'),
-        daq.ToggleSwitch(
-            id='sex-switch',
-            color='#230047',
-            label=['m', 'f'],
-            size=35,
-            labelPosition='bottom',
-            value=True
-        ),
-        html.Div(id='ideogram-resolution-option', children=[
-            html.Div(className='ideogram-controls-name', children='Resolution'),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Species'),
             dcc.Dropdown(
                 className='ideogram-dropdown',
-                id='resolution-select',
+                id='organism-change',
                 options=[
                     {
-                        'label': '550 bphs',
-                        'value': 550,
+                        'label': 'Human',
+                        'value': 'human',
                     },
                     {
-                        'label': '650 bphs',
-                        'value': 850,
+                        'label': 'Drosophila-Melanogaster',
+                        'value': 'drosophila-melanogaster',
                     },
                     {
-                        'label': 'Off',
-                        'value': 1,
+                        'label': 'Zea-mays',
+                        'value': 'zea-mays',
+                    },
+                    {
+                        'label': 'Pan-troglodytes',
+                        'value': 'pan-troglodytes',
+                    },
+                    {
+                        'label': 'Macaca-fascicularis',
+                        'value': 'macaca-fascicularis',
                     },
                 ],
-                value=1,
+                value='human',
+            )
+        ]),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Sex'),
+            daq.ToggleSwitch(
+                id='sex-switch',
+                color='#230047',
+                label=['m', 'f'],
+                size=35,
+                labelPosition='bottom',
+                value=True
+            )
+        ]),
+        html.Div(id='ideogram-resolution-option', children=[
+            html.Div(className='app-controls-block', children=[
+                html.Div(className='app-controls-name', children='Resolution'),
+                dcc.Dropdown(
+                    className='ideogram-dropdown',
+                    id='resolution-select',
+                    options=[
+                        {
+                            'label': '550 bphs',
+                            'value': 550,
+                        },
+                        {
+                            'label': '650 bphs',
+                            'value': 850,
+                        },
+                        {
+                            'label': 'Off',
+                            'value': 1,
+                        },
+                    ],
+                    value=1,
+                )
+            ])
+        ]),
+
+        html.Hr(),
+
+        html.H4('Labels'),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Band'),
+            daq.ToggleSwitch(
+                id='bandlabel-switch',
+                color='#230047',
+                label=['off', 'on'],
+                size=35,
+                labelPosition='bottom',
+                value=True
+            )
+        ]),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Chromosome'),
+            daq.ToggleSwitch(
+                id='chromlabel-switch',
+                color='#230047',
+                label=['off', 'on'],
+                size=35,
+                labelPosition='bottom',
+                value=True
             )
         ]),
 
         html.Hr(),
-        html.H4('Labels'),
-        html.Div(className='ideogram-controls-name', children='Band'),
-        daq.ToggleSwitch(
-            id='bandlabel-switch',
-            color='#230047',
-            label=['off', 'on'],
-            size=35,
-            labelPosition='bottom',
-            value=True
-        ),
-        html.Div(className='ideogram-controls-name', children='Chromosome'),
-        daq.ToggleSwitch(
-            id='chromlabel-switch',
-            color='#230047',
-            label=['off', 'on'],
-            size=35,
-            labelPosition='bottom',
-            value=True
-        ),
-        html.Hr(),
+
         html.H4('Chromosome display'),
-        html.Div(className='ideogram-controls-name', children='Orientation'),
-        dcc.Dropdown(
-            className='ideogram-dropdown',
-            id='orientation-switch',
-            options=[
-                {
-                    'label': 'Vertical',
-                    'value': 'vertical',
-                },
-                {
-                    'label': 'Horizontal',
-                    'value': 'horizontal',
-                },
-            ],
-            value='horizontal',
-        ),
-        html.Div(className='ideogram-controls-name', children='Rotatable'),
-        daq.ToggleSwitch(
-            id='rotatable-switch',
-            color='#230047',
-            label=['off', 'on'],
-            size=35,
-            labelPosition='bottom',
-            value=True
-        ),
-        html.Div(className='ideogram-controls-name', children='Margin'),
-        dcc.Slider(
-            id='chr-margin-input',
-            className='ideogram-slider',
-            value=10
-        ),
-        html.Div(className='ideogram-controls-name', children='Height'),
-        dcc.Slider(
-            id='chr-height-input',
-            className='ideogram-slider',
-            min=100, max=700,
-            value=300
-        ),
-        html.Div(className='ideogram-controls-name', children='Width'),
-        dcc.Slider(
-            id='chr-width-input',
-            className='ideogram-slider',
-            min=5, max=30,
-            value=8
-        ),
-        html.Div(className='ideogram-controls-name', children='Fully banded'),
-        daq.ToggleSwitch(
-            id='fullband-switch',
-            color='#230047',
-            label=['off', 'on'],
-            size=35,
-            labelPosition='bottom',
-            value=True
-        )
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Orientation'),
+            dcc.Dropdown(
+                className='ideogram-dropdown',
+                id='orientation-switch',
+                options=[
+                    {
+                        'label': 'Vertical',
+                        'value': 'vertical',
+                    },
+                    {
+                        'label': 'Horizontal',
+                        'value': 'horizontal',
+                    },
+                ],
+                value='horizontal',
+            )
+        ]),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Rotatable'),
+            daq.ToggleSwitch(
+                id='rotatable-switch',
+                color='#230047',
+                label=['off', 'on'],
+                size=35,
+                labelPosition='bottom',
+                value=True
+            )
+        ]),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Margin'),
+            dcc.Slider(
+                id='chr-margin-input',
+                className='ideogram-slider',
+                value=10
+            ),
+            html.Div(className='app-controls-name', children='Height'),
+            dcc.Slider(
+                id='chr-height-input',
+                className='ideogram-slider',
+                min=100, max=700,
+                value=300
+            ),
+            html.Div(className='app-controls-name', children='Width'),
+            dcc.Slider(
+                id='chr-width-input',
+                className='ideogram-slider',
+                min=5, max=30,
+                value=8
+            )
+        ]),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Fully banded'),
+            daq.ToggleSwitch(
+                id='fullband-switch',
+                color='#230047',
+                label=['off', 'on'],
+                size=35,
+                labelPosition='bottom',
+                value=True
+            )
+        ])
     ],
 
     'homology': [
-        html.Div(className='ideogram-controls-name', children='Chromosomes:'),
+        html.Div(className='app-controls-name', children='Chromosomes:'),
         dcc.Dropdown(
             className='ideogram-dropdown',
             id='chr-select-1',
@@ -246,18 +275,20 @@ options = {
     ],
 
     'brush': [
-        html.Div(className='ideogram-controls-name', id='brush-control-name',
-                 children='Selected chromosome'),
-        dcc.Dropdown(
-            className='ideogram-dropdown',
-            id='chr-brush',
-            options=[
-                {'label': str(i), 'value': str(i)}
-                for i in range(1, 22)] +
-            [{'label': 'X', 'value': 'X'},
-             {'lahel': 'Y', 'value': 'Y'}],
-            value='X'
-        ),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', id='brush-control-name',
+                     children='Chromosome:'),
+            dcc.Dropdown(
+                className='ideogram-dropdown',
+                id='chr-brush',
+                options=[
+                    {'label': str(i), 'value': str(i)}
+                    for i in range(1, 22)] +
+                [{'label': 'X', 'value': 'X'},
+                 {'lahel': 'Y', 'value': 'Y'}],
+                value='X'
+            )
+        ]),
         html.Hr(),
         html.Div(
             id='brush-data',
@@ -303,71 +334,80 @@ options = {
         ),
         html.Hr(),
         html.H4('Appearance'),
-        html.Div(className='ideogram-controls-name', children='Type:'),
-        dcc.Dropdown(
-            className='ideogram-dropdown',
-            id='annotation-select',
-            options=[
-                {
-                    'label': 'Histogram',
-                    'value': 'histogram',
-                },
-                {
-                    'label': 'Overlay-1',
-                    'value': 'overlay-1',
-                },
-                {
-                    'label': 'Overlay-2',
-                    'value': 'overlay-2',
-                },
-            ],
-            value='histogram',
-        ),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Type:'),
+            dcc.Dropdown(
+                className='ideogram-dropdown',
+                id='annotation-select',
+                options=[
+                    {
+                        'label': 'Histogram',
+                        'value': 'histogram',
+                    },
+                    {
+                        'label': 'Overlay-1',
+                        'value': 'overlay-1',
+                    },
+                    {
+                        'label': 'Overlay-2',
+                        'value': 'overlay-2',
+                    },
+                ],
+                value='histogram',
+            )
+        ]),
         html.Div(id='ideogram-histo-options', children=[
-            html.Div(className='ideogram-controls-name', children='Color:'),
-            dcc.Input(
-                id='color-input',
-                className='ideogram-annot-inputs',
-                placeholder='Annotation Color',
-                type='text',
-                value='#FF0000'
-            ),
-            html.Div(className='ideogram-controls-name', children='Bar width:'),
-            dcc.Slider(
-                id='bar-input',
-                className='ideogram-slider',
-                value=3,
-                min=1,
-                max=10
-            ),
+            html.Div(className='app-controls-block', children=[
+                html.Div(className='app-controls-name', children='Color:'),
+                dcc.Input(
+                    id='color-input',
+                    className='ideogram-annot-inputs',
+                    placeholder='Annotation Color',
+                    type='text',
+                    value='#FF0000'
+                )
+            ]),
+            html.Div(className='app-controls-block', children=[
+                html.Div(className='app-controls-name', children='Bar width:'),
+                dcc.Slider(
+                    id='bar-input',
+                    className='ideogram-slider',
+                    value=3,
+                    min=1,
+                    max=10
+                )
+            ])
         ]),
 
-        html.Div(className='ideogram-controls-name', children='Height:'),
-        dcc.Slider(
-            id='height-input',
-            min=1,
-            max=10,
-            value=3,
-            className='ideogram-slider'
-        ),
-        html.Div(className='ideogram-controls-name', children='Orientation'),
-        dcc.Dropdown(
-            className='ideogram-dropdown',
-            id='orientation-anote',
-            options=[
-                {
-                    'label': 'Vertical',
-                    'value': 'vertical',
-                },
-                {
-                    'label': 'Horizontal',
-                    'value': 'horizontal',
-                },
-            ],
-            value='horizontal',
-        ),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Height:'),
+            dcc.Slider(
+                id='height-input',
+                min=1,
+                max=10,
+                value=3,
+                className='ideogram-slider'
+            )
+        ]),
+        html.Div(className='app-controls-block', children=[
+            html.Div(className='app-controls-name', children='Orientation:'),
+            dcc.Dropdown(
+                className='ideogram-dropdown',
+                id='orientation-anote',
+                options=[
+                    {
+                        'label': 'Vertical',
+                        'value': 'vertical',
+                    },
+                    {
+                        'label': 'Horizontal',
+                        'value': 'horizontal',
+                    },
+                ],
+                value='horizontal',
+            )
+        ])
     ]
-
 }
 
 ideograms_initial = {
@@ -423,15 +463,15 @@ ideograms_initial = {
 
 
 def layout():
-    return html.Div(id='ideogram-body', children=[
+    return html.Div(id='ideogram-body', className='app-body', children=[
         html.Div(id='ideogram-container'),
-        html.Div(id='ideogram-control-tabs', children=[
-            dcc.Tabs(id='ideogram-tabs', value='what-is', children=[
+        html.Div(className='control-tabs', children=[
+            dcc.Tabs(id='ideogram-control-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
                     value='what-is',
-                    children=html.Div(className='ideogram-tab', children=[
-                        html.H4('What is Ideogram?'),
+                    children=html.Div(className='control-tab', children=[
+                        html.H4(className='what-is', children='What is Ideogram?'),
                         html.P('Ideogram is a tool used to schematically '
                                'represent chromosomes. Bands on the chromosomes '
                                'can show the locations of specific genes.'),
@@ -447,24 +487,26 @@ def layout():
                 dcc.Tab(
                     label='View',
                     value='view',
-                    children=html.Div(className='ideogram-tab', children=[
+                    children=html.Div(className='control-tab', children=[
                         html.Div(id='ideogram-feature-select', children=[
-                            html.Div(
-                                className='ideogram-controls-name',
-                                children='View feature:'
-                            ),
-                            dcc.Dropdown(
-                                className='ideogram-dropdown',
-                                id='ideogram-feature-dropdown',
-                                options=[
-                                    {'label': 'Customizability', 'value': 'custom'},
-                                    {'label': 'Homology', 'value': 'homology'},
-                                    {'label': 'Brush', 'value': 'brush'},
-                                    {'label': 'Annotations', 'value': 'annotations'}
-                                ],
-                                clearable=False,
-                                value='custom'
-                            )
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    className='app-controls-name',
+                                    children='View feature:'
+                                ),
+                                dcc.Dropdown(
+                                    className='ideogram-dropdown',
+                                    id='ideogram-feature-dropdown',
+                                    options=[
+                                        {'label': 'Customizability', 'value': 'custom'},
+                                        {'label': 'Homology', 'value': 'homology'},
+                                        {'label': 'Brush', 'value': 'brush'},
+                                        {'label': 'Annotations', 'value': 'annotations'}
+                                    ],
+                                    clearable=False,
+                                    value='custom'
+                                )
+                            ]),
                         ]),
                         html.Hr(),
                         html.Div(

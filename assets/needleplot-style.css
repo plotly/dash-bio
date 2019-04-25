@@ -1,23 +1,13 @@
 #needleplot-body {
-    font-family: 'Open Sans', sans-serif;
-    padding: 5px;
-    background-color: #E8F0F9;
-    color: #5b5b5b;
-    height: calc(100vh - 65px);
-    overflow: auto;
+    background-color: #E8F0F9 !important;
+    color: #5b5b5b !important;
 }
 
 #needleplot-body ::-webkit-scrollbar {
-    width: 4px;
-    height: 0px;
-    margin-right: 500px;
-    background-color: #E8F0F9;
+    background-color: #E8F0F9 !important;
 }
 #needleplot-body ::-webkit-scrollbar-thumb {
-    width: 2px;
     background-color: #76D5FF;
-    border-radius:15px;
-    padding-right:5px;
 }
 #needleplot-wrapper {
     display: inline-block !important;
@@ -29,39 +19,6 @@
     transform: scale(1.2222);
 }
 
-#needleplot-control-tabs {
-    width: 400px;
-    height: 550px;
-    margin: 50px;
-    margin-right: 0px;
-    background-color: #FFF;
-    font-size: 10pt;
-    float: left;
-}
-
-#needleplot-control-tabs .tab-content {
-    padding: 20px;
-    padding-left:30px;
-}
-
-.needleplot-tab {
-    height: 460px;
-    overflow-y: auto;
-    padding-right: 15px;
-}
-
-#needleplot-control-tabs .Select-control {
-    border: solid 1px #E8F0F9;
-    background-color: #E8F0F9 !important;
-    color: #5B5B5B;
-    width: 150px;
-}
-#needleplot-control-tabs .Select, #needleplot-control-tabs .Select-control, #needleplot-control-tabs input, #needleplot-control-tabs .Select-menu-outer, #needleplot-control-tabs .Select-value-label {
-    background-color: #F3F3F3 !important;
-    border-color: #F3F3F3 !important;
-    color: #5B5B5B;
-    border-radius: 4px;
-}
 #needleplot-control-tabs .tab {
     background-color: #F3F3F3
     color: #5B5B5B;
@@ -72,20 +29,16 @@
     padding: 15px;
 }
 #needleplot-control-tabs .tab--selected {
-    border-top: solid 2px #76D5FF;
-    border-bottom: none;
-    color: #76D5FF;
+    border-color: #76D5FF !important;
+    color: #76D5FF !important;
 }
-
-#needleplot-body .Select-value-icon {
-    color: #76D5FF;
-    border-right: 1px solid #AAAAAA;
+#needle-stem-thick-input, #needle-head-size-input {
+    display: inline-block;
+    float: right;
+    margin-top: 10px;
 }
-
 #needleplot-body .rc-slider {
     width: 150px;
-    padding-top: 25px;
-    padding-bottom: 25px;
     float: right;
 }
 
@@ -94,7 +47,7 @@
 }
 
 #needleplot-body .rc-slider-handle {
-    border: solid 2px #76D5FF
+    border: solid 2px #76D5FF;
 }
 
 .needleplot-option-name {
@@ -105,74 +58,31 @@
     padding-top: 15px;
     padding-bottom: 20px;
 }
-#needle-stem-color-dropdown, #needle-head-color-dropdown, #needle-head-symbol-dropdown, #needle-dataset-select-dropdown, #needle-dataset-dropdown, #needle-download-data-dropdown {
-    display: table-cell;
-    vertical-align: middle;
+#needle-stem-color-dropdown, #needle-head-color-dropdown,
+#needle-head-symbol-dropdown, #needle-dataset-select-dropdown,
+#needle-dataset-dropdown, #needle-download-data-dropdown,
+#needle-domains-color-dropdown {
     width: 150px;
     float: right;
-    padding-top: 10px;
-    padding-bottom: 10px;
 }
 
-.needle-config-item-style, .needle-config-data {
-    display: table-row;
-    vertical-align: middle;
-}
-#needleplot-body .Select .Select-menu-outer {
-    width: 150px !important;
-}
-
-#needleplot-body .Select .Select-control {
-    max-height: 50px;
-}
-#needleplot-body .Select .Select-multi-value-wrapper {
-    max-height: 120px;
-    height: calc(100% + 3px);
-    overflow-y: auto;
-    margin-top: 3px;
-    margin-right: 5px;
-}
 .needle-radio, .needle-radio label {
     width: 100px;
-    float:left;
 }
 .needle-radio {
-    padding-top: 25px;
+    margin-top: 5px;
+    display: inline-block;
 }
 .needle-checklist {
-    display: table-cell;
-    padding-top: 25px;
+    display: inline-block;
+    padding-top: 5px;
 }
-#needle-download-data-div {
-    display: inline-block !important;
-    table-layout: fixed;
-}
-#needle-download-data-button {
-    width: 100%;
-    margin-bottom: 20px;
-    transition-duration: 500ms;
+a#needle-download-data-button-link {
+    display: block;
 }
 #needle-download-data-button:hover {
-    color: #76D5FF;
-    border-color: #76D5FF;
-}
-.needle-upload {
-    border: dotted 1px #76D5FF;
-    width: calc(100% - 40px) !important;
-    padding: 10px;
-    margin: 10px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    font-size: 9pt;
-    font-weight: 100;
-    text-align: center;
-    border-radius: 5px;
-}
-.needle-upload a {
-    text-decoration: none;
-}
-h5 {
-    text-align: center;
+    color: #76D5FF !important;
+    border-color: #76D5FF !important;
 }
 input#needle-sequence-input {
     margin-right: 30px;
