@@ -101,7 +101,7 @@ def header_colors():
 
 
 def layout():
-    return html.Div(id='oncoprint-body', children=[
+    return html.Div(id='oncoprint-body', className='app-body', children=[
 
         dash_bio.OncoPrint(
             id='oncoprint-chart',
@@ -109,17 +109,16 @@ def layout():
             data=[]
         ),
 
-        html.Div(id='oncoprint-control-tabs', children=[
+        html.Div(id='oncoprint-control-tabs', className='control-tabs', children=[
             dcc.Tabs(
                 id='oncoprint-tabs',
+                value='what-is',
                 children=[
                     dcc.Tab(
                         label='About',
                         value='what-is',
-                        children=html.Div(className='oncoprint-tab', children=[
-                            html.H4(
-                                "What is OncoPrint?"
-                            ),
+                        children=html.Div(className='control-tab', children=[
+                            html.H4(className='what-is', children='What is OncoPrint?'),
                             html.P(
                                 """
                                 The OncoPrint component is used to view multiple genomic
@@ -144,10 +143,10 @@ def layout():
                     dcc.Tab(
                         label='Data',
                         value='data',
-                        children=html.Div(className='oncoprint-tab', children=[
-                            html.Div([
+                        children=html.Div(className='control-tab', children=[
+                            html.Div(className='app-controls-block', children=[
                                 html.Div(
-                                    className='oncoprint-option-name',
+                                    className='app-controls-name',
                                     children='Select dataset'
                                 ),
                                 dcc.Dropdown(
@@ -178,121 +177,107 @@ def layout():
                     dcc.Tab(
                         label='View',
                         value='view',
-                        children=html.Div(className='oncoprint-tab', children=[
+                        children=html.Div(className='control-tab', children=[
                             html.H4('Layout'),
-                            html.Div(
-                                children=[
-                                    html.Div(
-                                        className='oncoprint-option-name',
-                                        children='Overview'
-                                    ),
-                                    daq.ToggleSwitch(
-                                        id='oncoprint-show-overview',
-                                        label=['hide', 'show'],
-                                        color='#009DFF',
-                                        size=35,
-                                        value=True
-                                    ),
-                                ],
-                            ),
-                            html.Div(
-                                children=[
-                                    html.Div(
-                                        className='oncoprint-option-name',
-                                        children='Legend'
-                                    ),
-                                    daq.ToggleSwitch(
-                                        id='oncoprint-show-legend',
-                                        label=['hide', 'show'],
-                                        color='#009DFF',
-                                        size=35,
-                                        value=True
-                                    ),
-                                ],
-                            ),
-                            html.Div(
-                                children=[
-                                    html.Div(
-                                        className='oncoprint-option-name',
-                                        children='Padding'
-                                    ),
-                                    dcc.Slider(
-                                        className='oncoprint-slider',
-                                        id='oncoprint-padding-input',
-                                        value=0.05,
-                                        min=0,
-                                        max=0.1,
-                                        step=0.01,
-                                        marks={
-                                            '0': '0',
-                                            '0.02': '0.02',
-                                            '0.04': '0.04',
-                                            '0.06': '0.06',
-                                            '0.08': '0.08',
-                                            '0.1': '0.1',
-                                        },
-                                    ),
-                                    html.Br(),
-                                    html.Div(
-                                        'Adjust padding (as percentage) '
-                                        'between two tracks.'
-                                    ),
-                                ],
-                            ),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    className='app-controls-name',
+                                    children='Overview'
+                                ),
+                                daq.ToggleSwitch(
+                                    id='oncoprint-show-overview',
+                                    label=['hide', 'show'],
+                                    color='#009DFF',
+                                    size=35,
+                                    value=True
+                                ),
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    className='app-controls-name',
+                                    children='Legend'
+                                ),
+                                daq.ToggleSwitch(
+                                    id='oncoprint-show-legend',
+                                    label=['hide', 'show'],
+                                    color='#009DFF',
+                                    size=35,
+                                    value=True
+                                ),
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    className='app-controls-name',
+                                    children='Padding'
+                                ),
+                                dcc.Slider(
+                                    className='control-slider',
+                                    id='oncoprint-padding-input',
+                                    value=0.05,
+                                    min=0,
+                                    max=0.1,
+                                    step=0.01,
+                                    marks={
+                                        '0': '0',
+                                        '0.02': '0.02',
+                                        '0.04': '0.04',
+                                        '0.06': '0.06',
+                                        '0.08': '0.08',
+                                        '0.1': '0.1',
+                                    },
+                                ),
+                                html.Div(
+                                    className='app-controls-desc',
+                                    children='Adjust padding (as percentage) '
+                                    'between two tracks.'
+                                ),
+                            ]),
                             html.Hr(className='oncoprint-separator'),
                             html.Div([
                                 html.H4('Colors'),
-                                html.Div(
-                                    children=[
-                                        html.Div(
-                                            className='oncoprint-option-name',
-                                            children='Track color'
-                                        ),
-                                        html.P(
-                                            'Change default background '
-                                            'color for the tracks.'
-                                        ),
-                                        daq.ColorPicker(
-                                            id='oncoprint-tracks-color',
-                                            value={'hex': '#AAAAAA'}
-                                        ),
-                                    ],
+                                html.P(
+                                    'Change default background '
+                                    'color for the tracks.'
                                 ),
+                                html.Div(className='app-controls-block', children=[
+                                    html.Div(
+                                        className='fullwidth-app-controls-name',
+                                        children='Track color'
+                                    ),
+                                    daq.ColorPicker(
+                                        id='oncoprint-tracks-color',
+                                        value={'hex': '#AAAAAA'}
+                                    )
+                                ]),
                                 html.Hr(className='oncoprint-separator'),
                                 html.H6("Mutation colors"),
                                 html.P(
                                     "Select a mutation type and a color "
                                     "to customize its look."
                                 ),
-                                html.Div(children=[
+                                html.Div(className='app-controls-block', children=[
                                     html.Div(
-                                        children=[
-                                            html.Div(
-                                                className='oncoprint-option-name',
-                                                children='Mutation type'
-                                            ),
-                                            dcc.Dropdown(
-                                                id='oncoprint-colorscale-mutation-dropdown',
-                                                options=[
-                                                    {'label': mut_type, 'value': mut_type}
-                                                    for mut_type in COLORSCALE_MUTATIONS_OPT
-                                                ],
-                                                value=COLORSCALE_MUTATIONS_OPT[0],
-                                            ),
-                                        ],
+                                        className='app-controls-name',
+                                        children='Mutation type'
                                     ),
+                                    dcc.Dropdown(
+                                        id='oncoprint-colorscale-mutation-dropdown',
+                                        options=[
+                                            {'label': mut_type, 'value': mut_type}
+                                            for mut_type in COLORSCALE_MUTATIONS_OPT
+                                        ],
+                                        value=COLORSCALE_MUTATIONS_OPT[0],
+                                    ),
+                                ]),
+                                html.Div(className='app-controls-block', children=[
                                     html.Div(
-                                        children=[
-                                            html.Div(
-                                                className='oncoprint-option-name',
-                                                children='Mutation color'
-                                            ),
-                                            daq.ColorPicker(
-                                                id='oncoprint-mutation-color',
-                                                value={'hex': COLORSCALE_COLORS_OPT[0]}
-                                            )
-                                        ],
+                                        className='app-controls-name',
+                                        children='Mutation color'
                                     ),
+                                    daq.ColorPicker(
+                                        id='oncoprint-mutation-color',
+                                        value={'hex': COLORSCALE_COLORS_OPT[0]}
+                                    )
                                 ])
                             ])
                         ])

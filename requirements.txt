@@ -12,7 +12,7 @@ gunicorn
 jsonschema
 matplotlib
 numpy
-pandas
+pandas>=0.24.2
 parmed
 plotly>=3.5.0
 requests
