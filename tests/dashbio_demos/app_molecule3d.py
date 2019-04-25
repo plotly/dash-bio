@@ -129,17 +129,19 @@ def description():
 def layout():
 
     return html.Div(
-        id="mol3d-body",
+        id='mol3d-body',
+        className='app-body',
         children=[
             html.Div(
                 id='mol3d-control-tabs',
+                className='control-tabs',
                 children=[
                     dcc.Tabs(id='mol3d-tabs', value='what-is', children=[
                         dcc.Tab(
                             label='About',
                             value='what-is',
-                            children=html.Div(className='mol3d-tab', children=[
-                                html.H4('What is Molecule3D?'),
+                            children=html.Div(className='control-tab', children=[
+                                html.H4(className='what-is', children='What is Molecule3D?'),
                                 html.P('Molecule3D is a visualizer that allows you '
                                        'to view biomolecules in multiple representations: '
                                        'sticks, spheres, and cartoons.'),
@@ -154,47 +156,19 @@ def layout():
                         dcc.Tab(
                             label='Data',
                             value='upload-download',
-                            children=html.Div(className='mol3d-tab', children=[
+                            children=html.Div(className='control-tab', children=[
                                 html.Div(
                                     title='download a sample data file to view',
                                     children=[
-                                        html.A(
-                                            html.Button(
-                                                "Download sample structure",
-                                                id="mol3d-download-sample-data",
-                                            ),
-                                            href=os.path.join('assets', 'sample_data',
-                                                              'molecule3d_2mru.pdb'),
-                                            download='2mru.pdb'
-                                        )
-                                    ]
-                                ),
-                                html.Div(
-                                    title='Upload biomolecule to view here',
-                                    className='mol3d-controls',
-                                    id='mol3d-upload-container', children=[
-                                        dcc.Upload(
-                                            id='mol3d-upload-data',
-                                            children=html.Div([
-                                                'Drag and Drop or click to upload a file',
-                                            ]),
-                                            # Allow multiple files to be uploaded
-                                            multiple=True
-                                        ),
                                     ]
                                 ),
                                 html.Div(
                                     title='Select molecule to view',
-                                    className="mol3d-controls",
-                                    id="mol3d-demo-dropdown",
+                                    className="app-controls-block",
                                     children=[
-                                        html.P(
-                                            'Select structure',
-                                            style={
-                                                'font-weight': 'bold',
-                                                'margin-bottom': '10px'
-                                            }
-                                        ),
+                                        html.Div(className='app-controls-name',
+                                                 children='Select structure'),
+
                                         dcc.Dropdown(
                                             id='dropdown-demostr',
                                             options=[
@@ -223,6 +197,32 @@ def layout():
                                         ),
                                     ],
                                 ),
+                                html.Div(
+                                    title='Upload biomolecule to view here',
+                                    className='app-controls-block',
+                                    id='mol3d-upload-container', children=[
+                                        dcc.Upload(
+                                            id='mol3d-upload-data',
+                                            className='control-upload',
+                                            children=html.Div([
+                                                'Drag and drop or click to upload a file.',
+                                            ]),
+                                            # Allow multiple files to be uploaded
+                                            multiple=True
+                                        ),
+                                        html.A(
+                                            html.Button(
+                                                "Download sample structure",
+                                                id="mol3d-download-sample-data",
+                                                className='control-download'
+                                            ),
+                                            href=os.path.join('assets', 'sample_data',
+                                                              'molecule3d_2mru.pdb'),
+                                            download='2mru.pdb'
+                                        )
+                                    ]
+                                ),
+
                                 html.Div(id='mol3d-data-info')
                             ])
                         ),
@@ -230,12 +230,12 @@ def layout():
                         dcc.Tab(
                             label='View',
                             value='view-options',
-                            children=html.Div(className='mol3d-tab', children=[
+                            children=html.Div(className='control-tab', children=[
                                 # Textarea container to display the selected atoms
                                 html.Div(
                                     title='view information about selected atoms '
                                     'of biomolecule',
-                                    className="mol3d-controls",
+                                    className="app-controls-block",
                                     id="mol3d-selection-display",
                                     children=[
                                         html.P(
@@ -252,7 +252,7 @@ def layout():
                                 # (sticks, cartoon, sphere)
                                 html.Div(
                                     title='select style for molecule representation',
-                                    className="mol3d-controls",
+                                    className="app-controls-block",
                                     id='mol3d-style',
                                     children=[
                                         html.P(
@@ -277,7 +277,7 @@ def layout():
                                 # Dropdown to select color of representation
                                 html.Div(
                                     title='select color scheme for viewing biomolecule',
-                                    className="mol3d-controls",
+                                    className="app-controls-block",
                                     id='mol3d-style-color',
                                     children=[
                                         html.P(
@@ -310,7 +310,7 @@ def layout():
                                 ),
                                 html.Div(
                                     title='Customize molecule coloring.',
-                                    className="mol3d-controls",
+                                    className="app-controls-block",
                                     children=[
                                         html.P(
                                             id='mol3d-customize-coloring',
@@ -321,7 +321,7 @@ def layout():
                                         ),
                                         daq.ColorPicker(
                                             id='mol3d-coloring-value',
-                                            size=340
+                                            size=315
                                         ),
                                     ]
                                 ),
