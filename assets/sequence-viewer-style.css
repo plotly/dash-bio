@@ -245,5 +245,5 @@ input#coverage-color, input#coverage-bg-color, input#coverage-tooltip {
 }
 #seq-view-body .control-download:hover {
     color: #C50063;
-    border-color: #C50063
+    border-color: #C50063;
 }
