@@ -130,6 +130,7 @@ export default class SequenceViewer extends Component {
 
     render() {
         const options = {
+            id: this.props.id,
             coverage: this.props.coverage,
             selection: this.props.selection,
             setProps: this.props.setProps,
@@ -147,12 +148,7 @@ export default class SequenceViewer extends Component {
         };
 
         return (
-            <div id={this.props.id}>
-                <ReactSequenceViewer
-                    sequence={this.props.sequence}
-                    {...options}
-                />
-            </div>
+            <ReactSequenceViewer sequence={this.props.sequence} {...options} />
         );
     }
 }
