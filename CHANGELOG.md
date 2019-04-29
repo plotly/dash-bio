@@ -6,10 +6,13 @@
 * Fixed issue with Clustergram rows and columns reordering incorrectly
   on the heatmap when precomputed traces are used to generate the
   figure.
-* Fixed issue with Speck not rendering unless it is attached to a callback.
-* Prevent Speck from trying to calculate a system with no atom.
+* Fixed issue with Speck not rendering unless it is attached to a
+  callback.
+* Prevented Speck from trying to calculate a system with no atom.
 * Let Clustergram render even when row and column labels are not
   specified, by adding default values.
+* Allowed multiple SequenceViewer components to render on the same
+  application.
 
 ### Changed
 * Changed Clustergram to only return a figure by default, so that

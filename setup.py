@@ -19,6 +19,7 @@ setup(
         'biopython',
         'colour',
         'dash>=0.40.0',
+        'GEOparse>=1.1.0',
         'pandas',
         'parmed',
         'plotly',
