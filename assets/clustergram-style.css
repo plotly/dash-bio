@@ -10,6 +10,7 @@
 }
 
 #clustergram-wrapper {
+    width: 900px;
     display: inline-block !important;
     padding: 0px;
     overflow-x: scroll;
@@ -83,6 +84,9 @@
     background-color: #232323;
     border: solid 2px #FFBF00 !important;
 }
+#clustergram-body .rc-slider-rail {
+    background-color: #191A1C !important;
+}
 
 #threshold-wrapper {
     margin-top: -30px;
@@ -139,9 +143,18 @@ input#selected-rows, input#selected-columns {
     display: block;
     margin-left: 10px;
 }
+#clustergram-body .control-download {
+    color: #E4E4E4;
+}
+#clustergram-body .control-download:hover {
+    color: #FFBF00 !important;
+    border-color: #FFBF00 !important;
+}
+    
 #clustergram-body .control-upload {
     border-color: #FFBF00 !important;
 }
+
 #clustergram-file-upload-container {
     margin: 10px 0px;
 }

@@ -2,7 +2,7 @@
 # Description: This is perhaps the best known database to be found in the pattern recognition literature. Fisher's paper is a classic in the field and is referenced frequently to this day. (See Duda & Hart, for example.) The data set contains 3 classes of 50 instances each, where each class refers to a type of iris plant. One class is linearly separable from the other 2; the latter are NOT linearly separable from each other. [from https://archive.ics.uci.edu/ml/datasets/iris]
 # Source: https://archive.ics.uci.edu/ml/machine-learning-databases/iris/
 
-Num	Class	Sepal length (cm)	Sepal width (cm)	Petal length(cm)	Petal width(cm)
+Num	Class	Sepal length (cm)	Sepal width (cm)	Petal length (cm)	Petal width (cm)
 1	Iris-setosa	5.1	3.5	1.4	0.2
 2	Iris-setosa	4.9	3	1.4	0.2
 3	Iris-setosa	4.7	3.2	1.3	0.2

@@ -54,7 +54,7 @@ fig_options = dict(
     ),
     optimal_leaf_order=True,
     symmetric_value=False,
-    log_transform=True,
+    log_transform=False,
     imputer_parameters={
         'strategy': 'mean',
         'missingValues': 'NaN',
@@ -64,12 +64,37 @@ fig_options = dict(
 
 
 datasets = {
-    'transcription': {
-        'file': '{}E-GEOD-38612-query-results.tpms.tsv'.format(DATAPATH),
-        'row_labels_source': 'Gene Name',
-        'header_rows': 5,
-        'header_cols': 2,
+    'lungcancer': {
+        'file': '{}GDS3627.soft'.format(DATAPATH),
         'default_rows': 10,
+        'default_cols': 10,
+        'ignore_columns': [],
+        'color_threshold': {
+            'max_row': 50,
+            'max_col': 20,
+            'row': 10,
+            'col': 4
+        }
+    },
+    'prostatecancer': {
+        'file': '{}GDS5373.soft'.format(DATAPATH),
+        'default_rows': 5,
+        'default_cols': 5,
+        'ignore_columns': [],
+        'color_threshold': {
+            'max_row': 20,
+            'max_col': 20,
+            'row': 5,
+            'col': 5
+        }
+    },
+    'transcription': {
+        'file': '{}GSE18842.tsv'.format(DATAPATH),
+        'row_labels_source': 'ID_REF',
+        'header_rows': 70,
+        'header_cols': 1,
+        'default_rows': 10,
+        'ignore_columns': ['Gene ID'],
         'default_cols': 4,
         'color_threshold': {
             'max_row': 330,
@@ -83,6 +108,7 @@ datasets = {
         'row_labels_source': 'Num',
         'header_rows': 4,
         'header_cols': 2,
+        'ignore_columns': ['Class'],
         'default_rows': 150,
         'default_cols': 4,
         'color_threshold': {
@@ -96,6 +122,7 @@ datasets = {
         'row_labels_source': 'model',
         'header_rows': 4,
         'header_cols': 1,
+        'ignore_columns': [],
         'default_rows': 32,
         'default_cols': 11,
         'color_threshold': {
@@ -163,11 +190,6 @@ def layout():
                     label='Data',
                     value='datasets',
                     children=html.Div(className='control-tab', children=[
-                        html.Div(
-                            id='clustergram-info'
-                        ),
-
-                        html.Hr(),
 
                         html.Div(
                             'Preloaded dataset',
@@ -184,11 +206,12 @@ def layout():
                                  'value': 'iris'},
                                 {'label': 'mtcars',
                                  'value': 'mtcars'},
-                                {'label': 'Arabidopsis roots, leaves, \
-                                flowers and siliques',
-                                 'value': 'transcription'},
+                                {'label': 'Prostate cancer',
+                                 'value': 'prostatecancer'},
+                                {'label': 'Lung cancer subtypes',
+                                 'value': 'lungcancer'}
                             ],
-                            value='iris'
+                            value='prostatecancer'
                         ),
 
                         html.Br(),
@@ -211,25 +234,30 @@ def layout():
                                     id='file-upload',
                                     className='control-upload',
                                     children=html.Div([
-                                        "Drag and drop .tsv files, or click \
+                                        "Drag and drop .soft files, or click \
                                         to select files."
-                                    ])
-                                )
+                                    ]),
+                                    accept='.soft'
+                                ),
                             ],
                         ),
-                        html.Div(className='app-controls-block', children=[
-                            html.Div(
-                                'Name of index column in uploaded dataset',
-                                title='If a dataset was uploaded, enter the name of ' +
-                                'the column to use as index.',
-                                className='fullwidth-app-controls-name',
-                            ),
-                            dcc.Input(
-                                id='row-labels-source',
-                                type='text',
-                                value='Gene Name'
-                            ),
-                        ])
+
+                        html.Div([
+                            html.A(
+                                html.Button(
+                                    'Download sample .soft data',
+                                    id='clustergram-download-sample-data',
+                                    className='control-download'
+                                ),
+                                href=os.path.join('assets', 'sample_data',
+                                                  'clustergram_GDS5826.soft'),
+                                download='GDS5826.soft'
+                            )
+                        ]),
+                        html.Hr(),
+                        html.Div(
+                            id='clustergram-info'
+                        ),
                     ])
                 ),
                 dcc.Tab(
@@ -340,6 +368,7 @@ def layout():
                                 ]),
                                 daq.ColorPicker(
                                     id='clustergram-annot-color',
+                                    value={'hex': color_palette[0]},
                                     size=315
                                 ),
                                 dcc.Input(
@@ -417,38 +446,48 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         Output('data-meta-storage', 'data'),
         [Input('file-upload', 'contents'),
          Input('file-upload', 'filename'),
-         Input('clustergram-datasets', 'value')],
-        state=[State('row-labels-source', 'value')]
+         Input('clustergram-datasets', 'value')]
     )
     def store_file_meta_data(
-            contents, filename, dataset_name,
-            row_labels_source
+            contents, filename, dataset_name
     ):
+        desc = ''
+        subsets = []
+        row_options = []
+        col_options = []
         if dataset_name is not None:
             dataset = datasets[dataset_name]
 
-            _, desc, row_options, col_options = \
-                gene_expression_reader.parse_tsv(
-                    filepath=dataset['file'],
-                    header_rows=dataset['header_rows'],
-                    header_cols=dataset['header_cols'],
-                    row_labels_source=dataset['row_labels_source']
-                )
+            if dataset['file'].endswith('.tsv'):
+                desc, row_options, col_options = \
+                    gene_expression_reader.read_tsv_file(
+                        filepath=dataset['file'],
+                        index_column=dataset['row_labels_source'],
+                        ignore_columns=dataset['ignore_columns']
+                    )
+                subsets = None
+
+            elif dataset['file'].endswith('.soft'):
+                desc, subsets, row_options, col_options = \
+                    gene_expression_reader.read_soft_file(
+                        filepath=dataset['file']
+                    )
+
         elif contents is not None:
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
-            if row_labels_source is None:
-                row_labels_source = 'Gene Name'
 
-            _, desc, row_options, col_options = \
-                gene_expression_reader.parse_tsv(
-                    contents=decoded,
-                    row_labels_source=row_labels_source
-                )
-        else:
-            desc, row_options, col_options = '', [], []
+            try:
+                desc, subsets, row_options, col_options = \
+                    gene_expression_reader.read_soft_file(
+                        contents=decoded
+                    )
+            except Exception:
+                pass
+
         return {
             'desc': desc,
+            'subsets': subsets,
             'row_options': row_options,
             'col_options': col_options
         }
@@ -504,17 +543,36 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
          Input('selected-columns', 'value'),
          Input('hide-labels', 'value')],
         state=[State('clustergram-datasets', 'value'),
-               State('file-upload', 'contents')]
+               State('file-upload', 'contents'),
+               State('data-meta-storage', 'data')]
     )
     def store_fig_options(
             cluster_by,
             row_thresh, col_thresh,
             sel_rows, sel_cols,
             hide_labels,
-            dataset_name, contents
+            dataset_name, contents,
+            metadata
     ):
         if len(cluster_by) == 0:
             cluster_by = [None]
+
+        row_labels = []
+        for row in sel_cols:
+            label = ''
+            try:
+                for subset in metadata['subsets']:
+                    subset_list = ','.split(metadata[subset]['sample_id'])
+                    if row in subset_list:
+                        label += metadata[subset]['description'] + ' | '
+            except Exception:
+                pass
+
+            if label == '':
+                row_labels.append(row)
+            else:
+                row_labels.append(label)
+
         return {
             'cluster': 'all' if len(cluster_by) > 1 else cluster_by[0],
             'color_threshold': {'row': row_thresh,
@@ -544,7 +602,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 'size': 10
             },
             'symmetric_value': dataset_name is None,
-            'log_transform': dataset_name is None,
+            'log_transform': False,
             'imputer_parameters': {
                 'strategy': 'median',
                 'missing_values': 'NaN',
@@ -616,8 +674,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         infoContent = [html.H4('Dataset information')]
         try:
             for key in data['desc']:
+                info = data['desc'][key]
+                if isinstance(info, list):
+                    info = info[0]
                 infoContent.append(html.P("{}: {}".format(
-                    key, data['desc'][key]
+                    key.replace('_', ' ').title(), info
                 )))
         except Exception as e:
             infoContent.append(html.P("Exception: {}".format(e)))
@@ -638,7 +699,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                State('clustergram-datasets', 'value'),
                State('file-upload', 'contents'),
                State('file-upload', 'filename'),
-               State('row-labels-source', 'value'),
                State('computed-traces', 'data')]
     )
     def display_clustergram(
@@ -648,7 +708,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             fig_opts,
             dataset_name,
             contents, filename,
-            row_labels_source,
             computed_traces
     ):
         ctx = dash.callback_context
@@ -658,7 +717,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         curves = None
         comp_traces = computed_traces
 
-        if len(sel_rows) < 2 or len(sel_cols) < 2:
+        if len(sel_rows) < 2 or len(sel_cols) < 2 and \
+           dataset_name is None and contents is None:
             wrapper_content = html.Div(
                 'No data have been selected to display. Please upload a file \
                 or select a preloaded file from the dropdown, then select at \
@@ -684,30 +744,36 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         if dataset_name is not None:
             dataset = datasets[dataset_name]
 
-            data, _, _, _ = \
-                gene_expression_reader.parse_tsv(
+            if dataset['file'].endswith('.tsv'):
+                data = gene_expression_reader.read_tsv_file(
                     filepath=dataset['file'],
-                    row_labels_source=dataset['row_labels_source'],
-                    header_rows=dataset['header_rows'],
-                    header_cols=dataset['header_cols'],
                     rows=sel_rows,
-                    columns=sel_cols
+                    columns=sel_cols,
+                    ignore_columns=dataset['ignore_columns'],
+                    index_column=dataset['row_labels_source'],
+                    return_filtered_data=True
+                )
+            elif dataset['file'].endswith('.soft'):
+                data = gene_expression_reader.read_soft_file(
+                    filepath=dataset['file'],
+                    rows=sel_rows,
+                    columns=sel_cols,
+                    return_filtered_data=True
                 )
 
         elif contents is not None and dataset_name is None:
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string).decode('UTF-8')
 
-            if row_labels_source is None:
-                row_labels_source = 'Gene Name'
-
-            data, _, _, _ = \
-                gene_expression_reader.parse_tsv(
+            try:
+                data = gene_expression_reader.read_soft_file(
                     contents=decoded,
-                    row_labels_source=row_labels_source,
                     rows=sel_rows,
-                    columns=sel_cols
+                    columns=sel_cols,
+                    return_filtered_data=True
                 )
+            except Exception:
+                data = None
 
         if group_markers is not None:
             fig_opts['row_group_marker'] = group_markers['row_group_marker']
