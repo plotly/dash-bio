@@ -1,20 +1,10 @@
 #mol3d-body {
-    font-family: 'Open Sans', sans-serif;
-    padding: 5px;
-    background-color: #fff;
-    color: #636363;
-    height: calc(100vh - 65px);
-    overflow: auto;
+    background-color: #FFFFFF !important;
+    color: #636363 !important;
 }
 
 #mol3d-control-tabs {
-    width: 400px;
-    height: 550px;
-    margin: 50px;
-    margin-right: 0px;
-    background-color: #fffafa;
-    font-size: 10pt;
-    float: left;
+    background-color: #FFFAFA !important;
 }
 #mol3d-biomolecule-viewer {
     display: inline-block;
@@ -22,21 +12,11 @@
     float: left;
     margin-top: 50px;
 }
-.mol3d-tab {
-    max-height: 400px;
-    overflow-y: auto;
-}
 #mol3d-body ::-webkit-scrollbar {
-    width: 4px;
-    height: 0px;
-    margin-right: 500px;
-    background-color: #fff;
+    background-color: #FFFFFF !important;
 }
 #mol3d-body ::-webkit-scrollbar-thumb {
-    width: 2px;
-    background-color: #e7625f;
-    border-radius:15px;
-    padding-right:5px;
+    background-color: #E7625F !important;
 }
 
 #mol-3d > .molecule-3d {
@@ -53,27 +33,11 @@
 }
 
 #mol3d-control-tabs .tab {
-    background-color: #fffafa;
-    color: black;
-    padding: 15px;
+    background-color: #FFFAFA !important;
 }
 
-#mol3d-control-tabs .tab > span {
-    top: 50%;
-    transform: translateY(-50%);
-}
 #mol3d-control-tabs .tab--selected {
-    border-top: solid 2px #e7625f;
-    color: #e7625f;
-}
-#mol3d-control-tabs .tab-content {
-    padding: 20px;
-}
-.mol3d-controls {
-    padding: 8px;
-    top: 2px;
-    right: 5px;
-    height: auto;
+    color: #E7625F !important;
 }
 
 #mol3d-selection-output {
@@ -90,52 +54,24 @@
     margin-top: 20px;
 }
 
-#mol3d-upload-container {
-    height: 30px;
-    line-height: 40px;
-    border: dashed 1px #dbdbdb;
-    border-radius: 5px;
-    text-align: center;
-    left: 5%;
-    width: 95%;
-    margin-top: 10px;
+#mol3d-body .control-upload {
+    border-color: #E7625F !important;
 }
 
-#mol3d-download-sample-data {
-    border-width: 1px;
-    border-radius: 5px;
-    text-align: center;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    bottom: 10px;
-    width: 99%;
+#mol3d-body .control-download:hover {
+    color: #E7625F !important;
+    border-color: #E7625F !important;
 }
 
-#mol3d-demo-dropdown {
-    margin-top: 20px;
-    margin-bottom: 100px;
-}
-
-#mol3d-input-bgcolor {
-    width:100%;
-}
-
-#mol3d-slider-opacity {
-    width: 90%;
-}
-
-#mol3d-coloring-key, #dropdown-style-color {
+#mol3d-coloring-key, #dropdown-style-color, #dropdown-demostr {
     display: inline-block;
-    width: 48%;
+    width: 150px;
 }
 #dropdown-style-color {
-    margin-right: 2%;
+    margin-right: 8px;
 }
 #mol3d-coloring-key {
-    margin-left: 2%;
-}
-#mol3d-custom-molcolor {
-    width: 69%;
+    margin-left: 8px;
 }
 
 #mol3d-selection_output {
@@ -143,4 +79,8 @@
     height: 30%;
     left: 50%;
     top: 30%;
+}
+
+#mol3d-body h4 {
+    text-align: center;
 }
