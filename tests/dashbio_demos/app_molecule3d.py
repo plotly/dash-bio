@@ -32,7 +32,7 @@ data_info = {
         'description': dcc.Markdown(s(r'''
         The measles nucleoprotein forms a large helical complex with
         RNA... It is thought to chaperone the process of replication and
-        transcription by providing a ready site for binding of the
+        transcription by providing a site ready for binding of the
         polymerase/phosphoprotein complex while a new RNA chain is being
         built.
 
@@ -85,7 +85,7 @@ data_info = {
         information is stored in an orderly manner in strands of
         DNA. DNA is composed of a long linear strand of millions of
         nucleotides, and is most often found paired with a partner
-        strand. These strands wrap around one another in the familiar
+        strand. These strands wrap around each other in the familiar
         double helix...
         ''')),
         'link': 'http://pdb101.rcsb.org/motm/23'
