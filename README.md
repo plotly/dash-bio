@@ -15,7 +15,7 @@ The Dash Bio components each fall into one of three categories:
 
 - Custom chart types
 - Sequence analysis tools
-- Visualization tools
+- 3D rendering tools
 
 
 ### Custom chart types
@@ -45,8 +45,8 @@ Learn more about Dash at
 ## Consulting and OEM
 
 For inquiries about Dash app development, advanced OEM integration,
-and more, please visit [this
-link](https://plotly.typeform.com/to/mH1Cpb).
+and more, please [reach
+out](https://plotly.typeform.com/to/mH1Cpb).
 
 ## Contributing
 
