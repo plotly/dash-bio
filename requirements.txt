@@ -1,5 +1,3 @@
---extra-index-url https://test.pypi.org/simple/
-
 # Switch into a virtual environment
 # pip install -r requirements.txt
 biopython==1.73
