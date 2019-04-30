@@ -1,5 +1,5 @@
 # Dash Bio
-  [![CircleCI](https://circleci.com/gh/plotly/dash-bio/tree/master.svg?style=svg)](https://circleci.com/gh/plotly/dash-bio)
+[![CircleCI](https://circleci.com/gh/plotly/dash-bio/tree/master.svg?style=svg)](https://circleci.com/gh/plotly/dash-bio)
 
 Dash Bio is a suite of bioinformatics components built to work with
 [Dash](https://github.com/plotly/dash/).
