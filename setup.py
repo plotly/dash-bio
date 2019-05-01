@@ -15,7 +15,7 @@ package_name = package["name"].replace(" ", "_").replace("-", "_")
 setup(
     name=package_name,
     version=package["version"],
-    url='http://github.com/plotly/{}'.format(package_name),
+    url='http://github.com/plotly/{}'.format(package_name.replace('_', '-')),
     author=package['author'],
     author_email='shammamah@plot.ly',
     packages=[package_name, '{}/utils'.format(package_name), '{}/component_factory'.format(package_name)],

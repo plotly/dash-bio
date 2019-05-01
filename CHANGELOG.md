@@ -1,6 +1,11 @@
 # Changelog
 
-## [0.0.9]
+## [0.0.10] - 2019-04-30
+
+### Fixed
+* Fixed homepage link in package metadata.
+
+## [0.0.9] - 2019-04-29
 
 ### Fixed
 * Fixed issue with Clustergram rows and columns reordering incorrectly
