@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Report a bug to help us improve Dash Bio
 title: ''
 labels: ''
 assignees: ''
@@ -17,7 +17,7 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If applicable, add screenshots to help explain the issue.
 
 **Python version: [e.g., 3.7.2]**
 
