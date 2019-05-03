@@ -103,7 +103,7 @@ def header_colors():
 def layout():
     return html.Div(id='oncoprint-body', className='app-body', children=[
 
-        dash_bio.OncoPrint(
+        dcc.Loading(className='dashbio-loading', children=dash_bio.OncoPrint(
             id='oncoprint-chart',
             height=550,
             data=[]

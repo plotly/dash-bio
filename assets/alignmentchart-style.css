@@ -29,9 +29,10 @@
     padding: 20px;
 }
 #alignment-chart {
-    width: calc(100% - 550px);
+    width: calc(100vw - 650px);
     margin-left: 50px;
     margin-right: 50px;
+    margin-top: 50px;
     display: inline-block;
 }
 #alignment-chart svg {
@@ -76,8 +77,8 @@ h3.alignment-settings-section {
     font-size: 16pt;
 }
 
-#alignment-colorscale-dropdown, #alignment-overview-dropdown, 
-#alignment-conservationcolorscale-dropdown, #alignment-conservationmethod-dropdown, 
+#alignment-colorscale-dropdown, #alignment-overview-dropdown,
+#alignment-conservationcolorscale-dropdown, #alignment-conservationmethod-dropdown,
 #alignment-gapcolor-dropdown {
     display: inline-block;
     width: 150px;

@@ -151,10 +151,10 @@ def layout():
 
     return html.Div(id='clustergram-body', className='app-body', children=[
 
-        html.Div(
+        dcc.Loading(className='dashbio-loading', children=html.Div(
             id='clustergram-wrapper',
             children=dcc.Graph(id='clustergram', style={'display': 'none'})
-        ),
+        )),
 
         html.Div(id='clustergram-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='clustergram-tabs', value='what-is', children=[

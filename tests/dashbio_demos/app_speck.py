@@ -131,16 +131,16 @@ def layout():
 
     return html.Div(id='speck-body', className='app-body', children=[
 
-        html.Div(
+        dcc.Loading(className='dashbio-loading', children=html.Div(
             id='speck-container',
             children=[
                 dash_bio.Speck(
                     id='speck',
-                    view={'resolution': 600, 'zoom': 0.03},
+                    view={'resolution': 600, 'zoom': 0.3},
                     scrollZoom=True
                 )
             ]
-        ),
+        )),
 
         html.Div(id='speck-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='speck-tabs', value='what-is', children=[

@@ -66,12 +66,12 @@ def header_colors():
 def layout():
 
     return html.Div(id='vp-page-content', className='app-body', children=[
-        html.Div(
+        dcc.Loading(className='dashbio-loading', children=html.Div(
             id='vp-graph-div',
             children=dcc.Graph(
                 id='vp-graph'
             ),
-        ),
+        )),
         html.Div(id='vp-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='vp-tabs', value='what-is', children=[
                 dcc.Tab(
