@@ -48,7 +48,7 @@ def read_xyz(
             # an example line in a xyz file:
             # C    +0.125    -1.032    +2.000
             r = re.search(
-                r'^([\w]+)\s+([\w\.\+\-]+)\s+([\w\.\+\-]+)\s+([\w\.\+\-]+)',
+                r'^\s*([\w]+)\s+([\w\.\+\-]+)\s+([\w\.\+\-]+)\s+([\w\.\+\-]+)\s*',
                 line)
 
             # pass if the line does not contain this information
