@@ -4,7 +4,7 @@
 
 ### Added
 * Added to xyz_reader the ability to handle whitespace at the
-beginning and end of a line.
+  beginning and end of a line (in data file).
 
 ## [0.0.10] - 2019-04-30
 
