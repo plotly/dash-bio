@@ -107,7 +107,7 @@ def layout():
             id='oncoprint-chart',
             height=550,
             data=[]
-        ),
+        )),
 
         html.Div(id='oncoprint-control-tabs', className='control-tabs', children=[
             dcc.Tabs(
