@@ -331,10 +331,10 @@ def layout():
                     ]),
                 ]),
 
-            html.Div(
+            dcc.Loading(html.Div(
                 id='mol3d-biomolecule-viewer',
                 children=[]
-            ),
+            )),
 
             dcc.Store(
                 id='mol3d-color-storage',

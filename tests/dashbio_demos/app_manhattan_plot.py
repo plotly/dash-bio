@@ -49,7 +49,7 @@ def header_colors():
 
 def layout():
     return html.Div(id='mhp-page-content', className='app-body', children=[
-        html.Div(
+        dcc.Loading(className='dashbio-loading', children=html.Div(
             id='mhp-graph-div',
             children=dcc.Graph(
                 figure=fig,
@@ -59,7 +59,7 @@ def layout():
                 id='mhp-graph',
                 config={'scrollZoom': True},
             )
-        ),
+        )),
 
         html.Div(id='manhattan-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='manhattan-tabs', value='what-is', children=[

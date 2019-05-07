@@ -464,7 +464,7 @@ ideograms_initial = {
 
 def layout():
     return html.Div(id='ideogram-body', className='app-body', children=[
-        html.Div(id='ideogram-container'),
+        dcc.Loading(className='dashbio-loading', children=html.Div(id='ideogram-container')),
         html.Div(className='control-tabs', children=[
             dcc.Tabs(id='ideogram-control-tabs', value='what-is', children=[
                 dcc.Tab(

@@ -910,10 +910,10 @@ upload_instructions = (
 
 def layout():
     return html.Div(id='circos-body', className='app-body', children=[
-        html.Div(
+        dcc.Loading(className='dashbio-loading', children=html.Div(
             id="circos-hold",
             children=[empty]
-        ),
+        )),
 
         html.Div(id='circos-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='circos-tabs', value='what-is', children=[
