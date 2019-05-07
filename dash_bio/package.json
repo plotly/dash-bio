@@ -25,7 +25,7 @@
     "react": "15.6.2",
     "react-alignment-viewer": "^0.5.5",
     "react-dom": "15.4.2",
-    "react-oncoprint": "^1.2.2",
+    "react-oncoprint": "^1.2.3",
     "react-plotly.js": "^2.2.0",
     "react-sequence-viewer": "git://github.com/plotly/react-sequence-viewer.git",
     "speck": "git://github.com/plotly/speck.git"
