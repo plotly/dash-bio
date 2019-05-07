@@ -4,6 +4,8 @@
 Dash Bio is a suite of bioinformatics components built to work with
 [Dash](https://github.com/plotly/dash/).
 
+Announcement: https://medium.com/@plotlygraphs/announcing-dash-bio-ed8835d5da0c
+
 Demo:
 [https://dash-bio.plotly.host/Portal/](https://dash-bio.plotly.host/Portal/)
 
