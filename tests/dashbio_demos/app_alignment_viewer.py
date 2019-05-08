@@ -550,13 +550,13 @@ def layout():
                 ),
             ]),
         ]),
-        html.Div([
+        dcc.Loading(className='dashbio-loading', children=html.Div([
             dash_bio.AlignmentChart(
                 id='alignment-chart',
                 height=725,
                 data=dataset3,
             ),
-        ]),
+        ])),
 
         dcc.Store(id='alignment-data-store'),
     ])

@@ -109,13 +109,13 @@ def header_colors():
 
 def layout():
     return html.Div(id='needleplot-body', className='app-body', children=[
-        html.Div(
+        dcc.Loading(className='dashbio-loading', children=html.Div(
             id='needleplot-wrapper',
             children=dash_bio.NeedlePlot(
                 id='needle-plot',
                 rangeSlider=True
             )
-        ),
+        )),
 
         html.Div(id='needleplot-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='needleplot-tabs', value='what-is', children=[
