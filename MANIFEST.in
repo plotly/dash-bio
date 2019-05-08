@@ -1,4 +1,4 @@
 include dash_bio/bundle.js
 include dash_bio/metadata.json
-include dash_bio/package.json
+include dash_bio/package_info.json
 include README.md
