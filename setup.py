@@ -7,7 +7,7 @@ filepath = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'README.md')
 with open(filepath, encoding='utf-8') as f:
     long_description = f.read()
 
-with open(os.path.join('dash_bio', 'package.json'), encoding='utf-8') as f:
+with open(os.path.join('dash_bio', 'package_info.json'), encoding='utf-8') as f:
     package = json.load(f)
 
 package_name = package["name"].replace(" ", "_").replace("-", "_")
