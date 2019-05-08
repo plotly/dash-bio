@@ -15,7 +15,7 @@ package_info = dict(
 
 package_info_file = os.path.abspath(os.path.join(
     os.path.dirname(__file__), os.path.join(
-        'dash_bio', 'package_info.json'
+        'dash_bio', 'package-info.json'
     )
 ))
 
