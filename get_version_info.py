@@ -8,8 +8,9 @@ with open(package_file) as f:
     package = json.load(f)
 
 package_info = dict(
-    package_name=package['name'].replace(' ', '_').replace('-', '_'),
-    version=package['version']
+    name=package['name'].replace(' ', '_').replace('-', '_'),
+    version=package['version'],
+    author=package['author']
 )
 
 package_info_file = os.path.abspath(os.path.join(
