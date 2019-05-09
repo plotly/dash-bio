@@ -13,22 +13,6 @@ export default class Speck extends Component {
     constructor(props) {
         super(props);
 
-        // setting refs in this way to allow for easier updating to
-        // react 16
-        this.setCanvasRef = e => {
-            this.canvas = e;
-        };
-        this.setContainerRef = e => {
-            this.container = e;
-        };
-        this.loop = this.loop.bind(this);
-        this.loadStructure = this.loadStructure.bind(this);
-
-        // initialize view if anything is supplied
-        if (props.view) {
-            this.props.view = Object.assign(speckView.new(), props.view);
-        }
-
         this.state = {
             refreshView: false,
             renderer: null,
@@ -38,6 +22,23 @@ export default class Speck extends Component {
                 lastY: 0.0,
             },
         };
+
+        // setting refs in this way to allow for easier updating to
+        // react 16
+        this.setCanvasRef = e => {
+            this.canvas = e;
+        };
+        this.setContainerRef = e => {
+            this.container = e;
+        };
+
+        // initialize view if anything is supplied
+        if (props.view) {
+            this.props.view = Object.assign(speckView.new(), props.view);
+        }
+
+        this.loop = this.loop.bind(this);
+        this.loadStructure = this.loadStructure.bind(this);
     }
 
     componentDidMount() {
