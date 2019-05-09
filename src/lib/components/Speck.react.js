@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import PropTypes from 'prop-types';
 import {
     speckRenderer as SpeckRenderer,
@@ -68,7 +68,7 @@ export default class Speck extends Component {
         this.loop();
     }
 
-    shouldComponentUpdate(nextProps, _) {
+    shouldComponentUpdate(nextProps) {
         const {view, data, presetView} = this.props;
 
         let needsUpdate = false;
@@ -120,7 +120,7 @@ export default class Speck extends Component {
         return needsUpdate;
     }
 
-    componentDidUpdate(_) {
+    componentDidUpdate() {
         const {data, view} = this.props;
 
         if (view && this.state.renderer && data.length > 0) {
