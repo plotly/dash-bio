@@ -1,10 +1,12 @@
 # Changelog
 
-## [0.0.11]
+## [0.0.11] - 2019-05-09
 
 ### Added
 * Added to xyz_reader the ability to handle whitespace at the
   beginning and end of a line (in data file).
+* Added a working link to the JS distribution, so serving scripts
+  locally is no longer necessary.
 
 ## [0.0.10] - 2019-04-30
 
