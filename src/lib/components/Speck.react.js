@@ -9,49 +9,6 @@ import {
 } from 'speck';
 
 export default class Speck extends Component {
-    loadStructure(data) {
-        // avoid trying to load an empty system
-        if (data.length === 0) {
-            return;
-        }
-
-        const system = speckSystem.new();
-
-        for (let i = 0; i < data.length; i++) {
-            // get the coordinate data
-            const a = data[i];
-            // add to the system
-            speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
-        }
-
-        speckSystem.center(system);
-        speckSystem.calculateBonds(system);
-
-        const renderer = this.state.renderer;
-        const view = this.props.view;
-
-        renderer.setSystem(system, view);
-
-        // update the resolution
-        renderer.setResolution(view.resolution, view.aoRes);
-
-        this.setState({
-            refreshView: true,
-        });
-    }
-
-    loop() {
-        if (this.state.renderer && this.props.view) {
-            if (this.state.refreshView) {
-                this.state.renderer.reset();
-                this.setState({
-                    refreshView: false,
-                });
-            }
-            this.state.renderer.render(this.props.view);
-        }
-        requestAnimationFrame(this.loop);
-    }
 
     constructor(props) {
         super(props);
@@ -81,6 +38,33 @@ export default class Speck extends Component {
                 lastY: 0.0,
             },
         };
+    }
+
+    componentDidMount() {
+        // add canvas, container, and renderer
+        const canvas = this.canvas;
+        const container = this.container;
+        const resolution = 200;
+        const aoResolution = 300;
+        const renderer = new SpeckRenderer(canvas, resolution, aoResolution);
+
+        this.setState(
+            {
+                renderer: renderer,
+                refreshView: true,
+            },
+            function() {
+                this.loadStructure(this.props.data); // eslint-disable-line no-invalid-this
+            }
+        );
+
+        // add event listeners
+        const interactionHandler = new SpeckInteractions( // eslint-disable-line no-unused-vars
+            this,
+            renderer,
+            container
+        );
+        this.loop();
     }
 
     shouldComponentUpdate(nextProps, _) {
@@ -135,39 +119,56 @@ export default class Speck extends Component {
         return needsUpdate;
     }
 
-    componentDidMount() {
-        // add canvas, container, and renderer
-        const canvas = this.canvas;
-        const container = this.container;
-        const resolution = 200;
-        const aoResolution = 300;
-        const renderer = new SpeckRenderer(canvas, resolution, aoResolution);
-
-        this.setState(
-            {
-                renderer: renderer,
-                refreshView: true,
-            },
-            function() {
-                this.loadStructure(this.props.data); // eslint-disable-line no-invalid-this
-            }
-        );
-
-        // add event listeners
-        const interactionHandler = new SpeckInteractions( // eslint-disable-line no-unused-vars
-            this,
-            renderer,
-            container
-        );
-        this.loop();
-    }
-
     componentDidUpdate(_) {
         const {data, view} = this.props;
 
         if (view && this.state.renderer && data.length > 0) {
             this.loadStructure(data);
         }
+    }
+
+    loadStructure(data) {
+        // avoid trying to load an empty system
+        if (data.length === 0) {
+            return;
+        }
+
+        const system = speckSystem.new();
+
+        for (let i = 0; i < data.length; i++) {
+            // get the coordinate data
+            const a = data[i];
+            // add to the system
+            speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
+        }
+
+        speckSystem.center(system);
+        speckSystem.calculateBonds(system);
+
+        const renderer = this.state.renderer;
+        const view = this.props.view;
+
+        renderer.setSystem(system, view);
+
+        // update the resolution
+        renderer.setResolution(view.resolution, view.aoRes);
+
+        this.setState({
+            refreshView: true,
+        });
+    }
+
+    loop() {
+        if (this.state.renderer && this.props.view) {
+            if (this.state.refreshView) {
+                this.state.renderer.reset();
+                this.setState({
+                    refreshView: false,
+                });
+            }
+            this.state.renderer.render(this.props.view);
+        }
+        requestAnimationFrame(this.loop);
     }
 
     render() {
