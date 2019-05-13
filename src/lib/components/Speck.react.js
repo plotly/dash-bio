@@ -32,10 +32,11 @@ export default class Speck extends Component {
             this.container = e;
         };
 
-        // initialize view if anything is supplied
-        if (props.view) {
-            this.props.view = Object.assign(speckView.new(), props.view);
-        }
+        // initialize view
+        this.props.setProps({
+            view: Object.assign(speckView.new(), props.view || {}),
+        });
+
 
         this.loop = this.loop.bind(this);
         this.loadStructure = this.loadStructure.bind(this);
