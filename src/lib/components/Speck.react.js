@@ -67,41 +67,45 @@ export default class Speck extends React.Component {
         this.loop();
     }
 
-    componentWillReceiveProps(nextProps) {
-        const {data, presetView} = this.props;
-        let {view} = this.props;
+    componentDidUpdate(prevProps) {
+        const {
+            setProps,
+            data,
+            view,
+            presetView
+        } = this.props;
+        const {
+            renderer,
+        } = this.state;
 
+        let viewNew = prevProps.view || {};
         let needsUpdate = false;
 
-        // add the appropriate preset view, if that has recently changed
-        if (presetView !== nextProps.presetView) {
-            view = Object.assign(
-                view,
-                speckPresetViews[nextProps.presetView]
-            );
-
+        // apply applicable preset parameters if preset has changed
+        if (prevProps.presetView !== presetView) {
+            viewNew = Object.assign(viewNew, speckPresetViews[presetView]);
             needsUpdate = true;
         }
 
-        // finally apply the user-supplied view parameters
+        // apply the user-supplied view parameters
         if (
-            Object.keys(view).length !== Object.keys(nextProps.view).length ||
-            Object.keys(view).some(
+            Object.keys(viewNew).length !== Object.keys(view).length ||
+            Object.keys(viewNew).some(
                 propertyName =>
-                    view[propertyName] !== nextProps.view[propertyName]
+                    viewNew[propertyName] !== view[propertyName]
             )
         ) {
-            view = Object.assign(view, nextProps.view);
-
+            viewNew = Object.assign(viewNew, view);
             needsUpdate = true;
         }
 
-        if(needsUpdate) {
-            this.props.setProps({
-                view,
+        // perform update
+        if (needsUpdate) {
+            setProps({
+                view: viewNew
             });
 
-            if (view && this.state.renderer) {
+            if (renderer) {
                 this.loadStructure(data);
             }
         }
