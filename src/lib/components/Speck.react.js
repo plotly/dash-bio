@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
     speckRenderer as SpeckRenderer,
@@ -8,7 +8,7 @@ import {
     speckPresetViews,
 } from 'speck';
 
-export default class Speck extends Component {
+export default class Speck extends React.Component {
 
     constructor(props) {
         super(props);
