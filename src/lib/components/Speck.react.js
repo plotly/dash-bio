@@ -55,9 +55,7 @@ export default class Speck extends Component {
                 renderer: renderer,
                 refreshView: true,
             },
-            function() {
-                this.loadStructure(this.props.data); // eslint-disable-line no-invalid-this
-            }
+            () => this.loadStructure(this.props.data)
         );
 
         // add event listeners
@@ -69,35 +67,18 @@ export default class Speck extends Component {
         this.loop();
     }
 
-    shouldComponentUpdate(nextProps) {
-        const {view, data, presetView} = this.props;
+    componentWillReceiveProps(nextProps) {
+        const {data, presetView} = this.props;
+        let {view} = this.props;
 
         let needsUpdate = false;
 
-        // update if data have changed
-        if (
-            data.length !== nextProps.data.length ||
-            Object.keys(data).some(
-                propertyName =>
-                    data[propertyName] !== nextProps.data[propertyName]
-            )
-        ) {
-            this.props.setProps({
-                data: nextProps.data,
-            });
-
-            needsUpdate = true;
-        }
-
         // add the appropriate preset view, if that has recently changed
         if (presetView !== nextProps.presetView) {
-            const v = Object.assign(
+            view = Object.assign(
                 view,
                 speckPresetViews[nextProps.presetView]
             );
-            this.props.setProps({
-                view: v,
-            });
 
             needsUpdate = true;
         }
@@ -110,22 +91,19 @@ export default class Speck extends Component {
                     view[propertyName] !== nextProps.view[propertyName]
             )
         ) {
-            const v = Object.assign(view, nextProps.view);
-            this.props.setProps({
-                view: v,
-            });
+            view = Object.assign(view, nextProps.view);
 
             needsUpdate = true;
         }
 
-        return needsUpdate;
-    }
+        if(needsUpdate) {
+            this.props.setProps({
+                view,
+            });
 
-    componentDidUpdate() {
-        const {data, view} = this.props;
-
-        if (view && this.state.renderer && data.length > 0) {
-            this.loadStructure(data);
+            if (view && this.state.renderer) {
+                this.loadStructure(data);
+            }
         }
     }
 
