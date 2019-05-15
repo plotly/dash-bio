@@ -589,7 +589,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def event_data_select(data):
         try:
             data = json.loads(data)
-        except:
+        except (TypeError, json.JSONDecodeError):
             return 'Could not decode JSON object.'
 
         if len(data.keys()) == 0:
