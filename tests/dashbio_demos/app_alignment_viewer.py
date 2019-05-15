@@ -592,7 +592,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         except (TypeError, json.JSONDecodeError):
             return 'Could not decode JSON object.'
 
-        if len(data.keys()) == 0:
+        if not hasattr(data, 'keys') or len(data.keys()) == 0:
             return 'No event data to display.'
         return [
             html.Div('- {}: {}'.format(key, data[key]))
