@@ -587,9 +587,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [Input("alignment-chart", "eventDatum")]
     )
     def event_data_select(data):
-        data = json.loads(data)
+        try:
+            data = json.loads(data)
+        except:
+            return 'Could not decode JSON object.'
 
-        if data is None or len(data.keys()) == 0:
+        if len(data.keys()) == 0:
             return 'No event data to display.'
         return [
             html.Div('- {}: {}'.format(key, data[key]))
