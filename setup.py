@@ -10,7 +10,8 @@ package = {
     'name': os.path.basename(filepath).replace('-', '_'),
     'version': '0.0.1',
     'author': 'The Plotly Team',
-    'author_email': 'dashbio@plot.ly'
+    'author_email': 'dashbio@plot.ly',
+    'description': 'Simple parsing tools that supplement dash-bio.'
 }
 
 setup(
@@ -19,6 +20,7 @@ setup(
     url='http://github.com/plotly/{}'.format(package['name'].replace('_', '-')),
     author=package['author'],
     author_email='dashbio@plot.ly',
+    description=package['description'],
     long_description=long_description,
     long_description_content_type='text/markdown',
     install_requires=[
