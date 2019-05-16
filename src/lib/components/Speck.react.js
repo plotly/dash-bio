@@ -9,7 +9,6 @@ import {
 } from 'speck';
 
 export default class Speck extends Component {
-
     constructor(props) {
         super(props);
 
@@ -36,7 +35,6 @@ export default class Speck extends Component {
         this.props.setProps({
             view: Object.assign(speckView.new(), props.view || {}),
         });
-
 
         this.loop = this.loop.bind(this);
         this.loadStructure = this.loadStructure.bind(this);
@@ -68,15 +66,8 @@ export default class Speck extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const {
-            setProps,
-            data,
-            view,
-            presetView,
-        } = this.props;
-        const {
-            renderer,
-        } = this.state;
+        const {setProps, data, view, presetView} = this.props;
+        const {renderer} = this.state;
 
         let viewNew = prevProps.view || {};
         let needsUpdate = false;
@@ -91,8 +82,7 @@ export default class Speck extends Component {
         if (
             Object.keys(viewNew).length !== Object.keys(view).length ||
             Object.keys(viewNew).some(
-                propertyName =>
-                    viewNew[propertyName] !== view[propertyName]
+                propertyName => viewNew[propertyName] !== view[propertyName]
             )
         ) {
             viewNew = Object.assign(viewNew, view);
@@ -156,10 +146,7 @@ export default class Speck extends Component {
     }
 
     render() {
-        const {
-            id,
-            view,
-        } = this.props;
+        const {id, view} = this.props;
 
         const divStyle = {
             height: view.resolution,

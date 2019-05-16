@@ -2705,10 +2705,8 @@
               "required": false
             },
             "rotation": {
-              "name": "arrayOf",
-              "value": {
-                "name": "number"
-              },
+              "name": "shape",
+              "value": {},
               "required": false
             },
             "ao": {

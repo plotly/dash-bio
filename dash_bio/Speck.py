@@ -26,7 +26,9 @@ Those keys have the following types:
   - atomScale (number; optional)
   - relativeAtomScale (number; optional)
   - bondScale (number; optional)
-  - rotation (list; optional)
+  - rotation (optional): . rotation has the following type: dict containing keys .
+Those keys have the following types:
+
   - ao (number; optional)
   - aoRes (number; optional)
   - brightness (number; optional)
