@@ -9,7 +9,7 @@ import csv
 #
 # Ex:
 #
-# from dash_bio.utils import ideogramParser as ideoParser
+# from dash_bio_utils import ideogramParser as ideoParser
 # parsed_data = ideoParser.ncbi_gdp_to_array('./ideogram_10116_GCF_000000225.4_NA_V1')
 #
 #     dash_bio.DashIdeogram(

@@ -4,7 +4,7 @@ import jsonschema
 import numpy as np
 import copy
 
-from dash_bio.utils.uniprot_database_tools import pfam_domain_parser
+from dash_bio_utils.uniprot_database_tools import pfam_domain_parser
 
 EMPTY_MUT_DATA = dict(
     x=[],
