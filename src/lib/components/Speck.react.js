@@ -72,7 +72,7 @@ export default class Speck extends React.Component {
             setProps,
             data,
             view,
-            presetView
+            presetView,
         } = this.props;
         const {
             renderer,
@@ -102,7 +102,7 @@ export default class Speck extends React.Component {
         // perform update
         if (needsUpdate) {
             setProps({
-                view: viewNew
+                view: viewNew,
             });
 
             if (renderer) {
@@ -156,7 +156,10 @@ export default class Speck extends React.Component {
     }
 
     render() {
-        const {id, view} = this.props;
+        const {
+            id,
+            view,
+        } = this.props;
 
         const divStyle = {
             height: view.resolution,
@@ -223,7 +226,7 @@ Speck.propTypes = {
         atomScale: PropTypes.number,
         relativeAtomScale: PropTypes.number,
         bondScale: PropTypes.number,
-        rotation: PropTypes.arrayOf(PropTypes.number),
+        rotation: PropTypes.shape({}),
         ao: PropTypes.number,
         aoRes: PropTypes.number,
         brightness: PropTypes.number,
