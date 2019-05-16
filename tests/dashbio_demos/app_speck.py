@@ -5,7 +5,7 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bio
-from dash_bio.utils.xyz_reader import read_xyz
+from dash_bio_utils.xyz_reader import read_xyz
 
 # running directly with Python
 if __name__ == '__main__':
