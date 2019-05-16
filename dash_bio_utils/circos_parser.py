@@ -47,8 +47,8 @@ def colors_array_track(data):
 
 
 def layout_rename_columns(main_data):
-    """Rename layout dataset columns to circos specified data keys."""
-    data = pd.read_csv(main_data, delimiter='\t', engine="python")
+    """Rename layout dataset columns to circos specific data keys."""
+    data = pd.read_csv(main_data, delimiter='\t', engine='python')
     data["chromStart"] = data["#chrom"]
     data.rename(columns={'#chrom': 'id', 'chromStart': 'label',
                          'chromEnd': 'len', 'gieStain': 'color'}, inplace=True)
@@ -173,7 +173,7 @@ def txt_to_layout(
 
 def txt_to_track(file_name='', append_block_id='', rel_path=False, create_local=False):
     """
-    Call this function to produce a local .JSON & .CSV track, or directly in the application.
+    Call this function to produce a local JSON & CSV track, or directly in the application.
 
     @param file_name
     File name of track data set including .txt extension. Used for track.
@@ -184,7 +184,7 @@ def txt_to_track(file_name='', append_block_id='', rel_path=False, create_local=
     Set to "True" if using a relative path for file_name.
 
     @param create_local
-    Set to "True" if you want to create a .CSV and .JSON version of your dataset. When this
+    Set to "True" if you want to create a CSV and a JSON version of your dataset. When this
     is "False" the program will return a direct python dict/JSON object that can be used in dash.
     """
 
