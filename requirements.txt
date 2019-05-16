@@ -5,7 +5,7 @@ colour==0.1.5
 cython>=0.19
 dash==0.40.0
 dash-bio==0.1.0rc2
-dash-bio-utils==0.0.0rc2
+dash-bio-utils==0.0.0rc3
 dash-daq==0.1.4
 gunicorn==19.9.0
 jsonschema==2.6.0
