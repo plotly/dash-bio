@@ -8,7 +8,7 @@ with open(os.path.join(filepath, 'README.md'), encoding='utf-8') as f:
 
 package = {
     'name': os.path.basename(filepath).replace('-', '_'),
-    'version': '0.0.0rc1',
+    'version': '0.0.0rc2',
     'author': 'The Plotly Team',
     'author_email': 'dashbio@plot.ly',
     'description': 'Simple parsing tools that supplement dash-bio.'
@@ -20,6 +20,8 @@ setup(
     url='http://github.com/plotly/{}'.format(package['name'].replace('_', '-')),
     author=package['author'],
     author_email='dashbio@plot.ly',
+    packages=[package['name']],
+    include_package_data=True,
     description=package['description'],
     long_description=long_description,
     long_description_content_type='text/markdown',
