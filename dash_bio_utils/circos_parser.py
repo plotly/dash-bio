@@ -1,6 +1,6 @@
+import json
 import os
 import pandas as pd
-import json
 from colour import Color
 
 # This code was written to parse data from the UCSC website, using the
