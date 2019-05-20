@@ -6,12 +6,12 @@ import multiprocessing
 import sys
 import time
 import unittest
-import percy
 import threading
 import platform
 import flask
 import requests
 
+import percy
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 

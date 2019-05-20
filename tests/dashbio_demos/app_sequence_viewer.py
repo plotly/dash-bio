@@ -1,14 +1,16 @@
 import os
 import base64
+
 from Bio.SeqUtils import seq3
 from Bio.Alphabet import generic_dna, generic_rna
 from Bio.Seq import Seq
 from Bio.Data.CodonTable import TranslationError
-import dash_bio
-from dash_bio.utils import protein_reader as pr
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
+
+import dash_bio
+from dash_bio.utils import protein_reader as pr
 
 # running directly with Python
 if __name__ == '__main__':

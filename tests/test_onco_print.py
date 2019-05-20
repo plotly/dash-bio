@@ -5,13 +5,13 @@ from pytest_dash.wait_for import (
     wait_for_elements_by_css_selector
 )
 
+from tests.dashbio_demos.app_onco_print import DATASETS
 from .test_common_features import (
     init_demo_app,
     template_test_component,
     PROP_TYPES,
     COMPONENT_REACT_BASE
 )
-from tests.dashbio_demos.app_onco_print import DATASETS
 
 # define app name once
 APP_NAME = os.path.basename(__file__).replace(
