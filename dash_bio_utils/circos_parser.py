@@ -21,6 +21,9 @@ def colors_array_layout(data):
     they are "red" and "blue". Change these colors if you'd like a different
     gradient.
     """
+    if not isinstance(data, pd.DataFrame):
+        raise Exception('This function must be called with a Pandas dataframe.')
+
     rows = len(data.index)
     input_color = Color("red")
     color_array = list(input_color.range_to(Color("blue"), rows))
