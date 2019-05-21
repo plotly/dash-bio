@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+from random import shuffle
 
 import numpy as np
 import scipy as scp
 import scipy.cluster.hierarchy as sch
 import scipy.spatial as scs
 from sklearn.impute import SimpleImputer
-from random import shuffle
 
 import plotly.graph_objs as go
 from plotly import tools
