@@ -1,3 +1,8 @@
+"""XYZ reader
+
+This module contains functions that can read an XYZ file and return a
+Python dictionary with its contents."""
+
 import tempfile
 import re
 
@@ -23,13 +28,13 @@ def read_xyz(
     """
     atoms = []
 
-    if len(file_path) > 0 and len(data_string) > 0:
+    if file_path and data_string:
         raise Exception(
             "Please specify either a file path or a \
             string of data."
         )
 
-    if len(file_path) > 0:
+    if file_path:
         with open(file_path, 'r') as f:
             lines = f.readlines()
 

@@ -1,11 +1,11 @@
-'''Protein reader
+"""Protein reader
 
-This file includes functions that extract data from FASTA files into
+This module includes functions that extract data from FASTA files into
 dictionaries.
 
 Attributes: _DATABASES (dict): A dictionary that translates the
     database sepecified in the description line of the FASTA file to
-    its constituent metadata fields.'''
+    its constituent metadata fields."""
 
 import tempfile
 import re

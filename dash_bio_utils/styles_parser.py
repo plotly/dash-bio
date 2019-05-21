@@ -1,3 +1,9 @@
+"""Styles parser
+
+This module contains functions that can specify the style of a
+molecule that is rendered using the Molecule3dViewer component in Dash
+Bio."""
+
 import json
 
 ATOM_COLOR_DICT = {
@@ -68,7 +74,7 @@ RESIDUE_COLOR_DICT = {
     'U': '#FF8080'
 }
 
-tmp = {
+tmp = {  # pylint: disable=invalid-name
     'hydrophobic': ['GLY', 'ALA', 'LEU', 'ILE', 'VAL', 'MET', 'PRO'],
     'polar': ['ASN', 'GLN', 'SER', 'THR', 'CYS'],
     'acidic': ['ASP', 'GLU'],
@@ -95,6 +101,9 @@ RESIDUE_TYPE_COLOR_DICT = {
 
 
 def fill_in_defaults(input_dict, default_dict):
+    """Function to automatically populate any missing values in the
+    specified style dictionary with default values.
+    """
     if input_dict is None:
         input_dict = {}
     for key in default_dict:

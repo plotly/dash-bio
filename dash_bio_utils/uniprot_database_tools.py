@@ -1,3 +1,8 @@
+"""Uniprot database tools
+
+This module contains functions that can directly query the Uniprot
+database and retrieve files."""
+
 import json
 import urllib.error
 import urllib.request
@@ -6,6 +11,7 @@ import pandas as pd
 
 
 class UniprotQueryBuilder():
+
     """class which handles the query of gff files from the UniProt database
         build following https://www.uniprot.org/help/api_queries
     """

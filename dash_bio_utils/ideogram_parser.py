@@ -1,21 +1,25 @@
-import csv
+"""A simple tab-delimited parser for the ideogram, that parses data
+ from the NCBI Genome Ideogram data bank. The function below returns
+ an array, containing the rows of the dataset as strings.
 
-# A simple tab-delimited parser for the ideogram, that parses data from the NCBI
-# Genome Ideogram data bank. The function below returns an array, containing
-# the rows of the dataset as strings.
-#
-# NCBI Genome Ideogram data bank: ftp://ftp.ncbi.nlm.nih.gov/pub/gdp/ (grab data from here)
-# NCBI Genome Decoration Page: https://www.ncbi.nlm.nih.gov/genome/tools/gdp
-#
-# Ex:
-#
-# from dash_bio_utils import ideogramParser as ideoParser
-# parsed_data = ideoParser.ncbi_gdp_to_array('./ideogram_10116_GCF_000000225.4_NA_V1')
-#
-#     dash_bio.DashIdeogram(
-#         localOrganism=parsed_data
-#         ...
-#         )
+ NCBI Genome Ideogram data bank: ftp://ftp.ncbi.nlm.nih.gov/pub/gdp/
+ (grab data from here) NCBI Genome Decoration Page:
+ https://www.ncbi.nlm.nih.gov/genome/tools/gdp
+
+ Example:
+
+     from dash_bio_utils import ideogramParser as ideoParser
+     parsed_data = \
+     ideoParser.ncbi_gdp_to_array('./ideogram_10116_GCF_000000225.4_NA_V1')
+
+     dash_bio.DashIdeogram(
+         localOrganism=parsed_data
+         ...
+      )
+
+"""
+
+import csv
 
 
 def ncbi_gdp_to_list(file_location="", header_rows=1):

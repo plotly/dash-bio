@@ -1,3 +1,8 @@
+"""Gene expression reader
+
+This module contains functions that parse SOFT files and TSV files
+to extract metadata and numerical data."""
+
 import tempfile
 
 import pandas as pd
@@ -13,7 +18,33 @@ def read_soft_file(
         columns=None,
         return_filtered_data=False
 ):
-    if len(contents) > 0:
+    """Read a file in SOFT format, either from a file or from a string of raw data.
+
+    :param (string) contents: A string corresponding to the FASTA file
+                                (including newline characters).
+    :param (string) file_path: The full path to the SOFT file (can be
+                                relative or absolute).
+    :param (list[string]) rows: The rows that should be returned in
+                                the event that return_filtered_data is
+                                True.
+    :param (list[string]) columns: The columns that should be returned
+                                   in the event that
+                                   return_filtered_data is True.
+    :param (bool) return_filtered_data: If True, the function will
+                                        return metadata from the
+                                        file. If False, it will return
+                                        an ndarray that contains the
+                                        data that are selected based
+                                        on the values of the "rows"
+                                        and "columns" arguments.
+
+    :rtype (tuple|ndarray): A tuple containing the description,
+                            subsets, row names, and column names for
+                            the SOFT file, or a subset of data that
+                            are selected with the "rows" and "columns"
+                            arguments.
+    """
+    if contents:
         with tempfile.NamedTemporaryFile(
                 mode='w+', delete=False, suffix='.soft'
         ) as tf:
@@ -62,9 +93,55 @@ def read_tsv_file(
         index_column='Gene Name',
         return_filtered_data=False
 ):
+    """Read a file in TSV format, either from a file or from a string of raw data.
+
+    :param (string) contents: A string corresponding to the FASTA file
+                              (including newline characters).
+    :param (string) file_path: The full path to the SOFT file (can be
+                                relative or absolute).
+    :param (list[string]) rows: The rows that should be returned in
+                                the event that return_filtered_data is
+                                True.
+    :param (list[string]) columns: The columns that should be returned
+                                   in the event that
+                                   return_filtered_data is True.
+    :param (string) description_row_prefix: The first character in any
+                                            lines that contain
+                                            metadata.
+    :param (string) description_row_separator: The character that is
+                                               used to separate keys
+                                               and values in the
+                                               description lines.
+    :param (int) skiprows: The number of rows to skip after the
+                           description lines when converting the TSV
+                           to a dataframe.
+    :param (list[string]) ignore_columns: A list of column names. The
+                                          columns that have those
+                                          names will not be included
+                                          in the dataframe in the
+                                          event that
+                                          return_filtered_data is
+                                          True.
+
+    :param (bool) return_filtered_data: If True, the function will
+                                        return metadata from the
+                                        file. If False, it will return
+                                        an ndarray that contains the
+                                        data that are selected based
+                                        on the values of the "rows"
+                                        and "columns" arguments.
+
+    :rtype (tuple|ndarray): A tuple containing the description,
+                            subsets, row names, and column names for
+                            the SOFT file, or a subset of data that
+                            are selected with the "rows" and "columns"
+                            arguments.
+
+    """
+
     desc = {}
 
-    if len(contents) > 0:
+    if contents:
         with tempfile.NamedTemporaryFile(
                 mode='w+', delete=False, suffix='.soft'
         ) as tf:
@@ -72,7 +149,7 @@ def read_tsv_file(
             filepath = tf.name
 
         for line in tf.lines:
-            if line[0] == description_row_prefix or len(line.strip()) == 0:
+            if line[0] == description_row_prefix or not line.strip():
                 if line[0] == description_row_prefix:
                     desc_line = line.strip(
                         description_row_prefix
@@ -85,7 +162,7 @@ def read_tsv_file(
     else:
         with open(filepath, 'r') as f:
             for line in f.readlines():
-                if line[0] == description_row_prefix or len(line.strip()) == 0:
+                if line[0] == description_row_prefix or not line.strip():
                     if line[0] == description_row_prefix:
                         desc_line = line.strip(
                             description_row_prefix

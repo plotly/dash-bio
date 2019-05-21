@@ -1,16 +1,18 @@
+"""Circos parser
+
+ This code was written to parse data from the UCSC website, using the
+ following settings:
+
+ Group: Mapping and Sequencing
+ Track: Chromosome band (Ideogram)
+
+ The parser can either create local JSON or CSV files, or be used directly
+ in your code."""
+
 import json
 import os
 import pandas as pd
 from colour import Color
-
-# This code was written to parse data from the UCSC website, using the
-# following settings:
-#
-# Group: Mapping and Sequencing
-# Track: Chromosome band (Ideogram)
-#
-# The parser can either create local JSON or CSV files, or be used directly
-# in your code.
 
 
 def colors_array_layout(data):

@@ -1,3 +1,8 @@
+"""PDB parser
+
+This module contains functions that can read PDB files and return a
+JSON representation of the structural data."""
+
 import re
 import json
 import os
@@ -87,7 +92,7 @@ def create_data(pdb_path):
     # Create list of atoms
     tmp_res = res_id[0]
     resct = 1
-    for i in range(len(chain)):
+    for i in range(len(chain)):  # pylint: disable=consider-using-enumerate
         if tmp_res != res_id[i]:
             tmp_res = res_id[i]
             resct += 1

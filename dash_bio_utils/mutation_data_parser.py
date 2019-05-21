@@ -1,3 +1,8 @@
+"""Mutation data parser
+
+This module contains functions that can take files from the Uniprot
+database and parse the information into JSON format."""
+
 import base64
 import json
 import copy
@@ -223,7 +228,7 @@ def decode_dcc_upload_contents(contents, encoding='utf-8'):
     """
     decoded = ""
     if contents is not None:
-        content_type, content_string = contents.split(',')
+        _, content_string = contents.split(',')
         decoded = base64.b64decode(content_string)
         decoded = decoded.decode(encoding)
     return decoded
