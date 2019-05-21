@@ -70,7 +70,7 @@ OncoPrint.propTypes = {
     /**
      * Adjusts the padding (as a proportion of whitespace) between two tracks.
      * Value is a ratio between 0 and 1.
-     * Defaults to 0.05 (e.g. 5%). If set to 0, plot will look like a heatmap.
+     * Defaults to 0.05 (e.g. 5 percent). If set to 0, plot will look like a heatmap.
      */
     padding: PropTypes.number,
 
