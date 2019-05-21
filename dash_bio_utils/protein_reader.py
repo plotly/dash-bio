@@ -1,10 +1,19 @@
+'''Protein reader
+
+This file includes functions that extract data from FASTA files into
+dictionaries.
+
+Attributes: _DATABASES (dict): A dictionary that translates the
+    database sepecified in the description line of the FASTA file to
+    its constituent metadata fields.'''
+
 import tempfile
 import re
 from Bio import SeqIO
 
 # information on database header formats, taken from
 # https://en.wikipedia.org/wiki/FASTA_format
-_databases = {
+_DATABASES = {
     'gb': ['accession', 'locus'],
     'emb': ['accession', 'locus'],
     'dbj': ['accession', 'locus'],
@@ -46,7 +55,7 @@ def read_fasta(
     """
 
     # ensure we are only given one file specification
-    if len(file_path) > 0 and len(data_string) > 0:
+    if file_path and data_string:
         raise Exception(
             "Please specify either a file path or a \
             string of data."
@@ -55,7 +64,7 @@ def read_fasta(
     raw_data = []
 
     # open file if given a path
-    if len(file_path) > 0:
+    if file_path:
         with open(file_path, 'r') as f:
             lines = f.readlines()
             if '>' not in lines[0]:
@@ -85,7 +94,7 @@ def read_fasta(
 def decode_description(description):
     """
     Parse the first line of a FASTA file using the specifications of
-    several different database headers (in _databases).
+    several different database headers (in _DATABASES).
 
     :param (string) description: The header line with the initial '>'
                                  removed.
@@ -95,14 +104,14 @@ def decode_description(description):
                    database is not recognized, the keys are given as
                    'desc-n' where n is the position of the property.
     """
-    if len(description) == 0:
+    if not description:
         return {'-1': 'no description'}
 
     decoded = {}
 
     desc = description.split('|')
-    if desc[0] in _databases:
-        db_info = _databases[desc[0]]
+    if desc[0] in _DATABASES:
+        db_info = _DATABASES[desc[0]]
         if desc[0] in ['sp', 'tr']:
             decoded['accession'] = desc[1]
             # using regex to get the other information
