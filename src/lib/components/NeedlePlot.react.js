@@ -29,15 +29,15 @@ function filterNanArray(test_array) {
  * by the presence of a '-' character in the element of the array.
  * @param  {Array} protein_pos_array        An array containing protein domains
  * @return {Array} positions_array          An array with only single site
-                                            protein mutations.
+					    protein mutations.
  * @return {Array} domains_array            An array with only small domains
-                                            protein mutations.
+					    protein mutations.
  * @return {Array} idx_old_positions_array  An array with the indexes of the
-                                            single site protein mutations
-                                            relative to protein_pos_array
+					    single site protein mutations
+					    relative to protein_pos_array
  * @return {Array} idx_bogus_entry          An array with the indexes of the
-                                            bogus entries (containing '?')
-                                            relative to protein_pos_array
+					    bogus entries (containing '?')
+					    relative to protein_pos_array
 */
 function extractSmallDomains(protein_pos_array) {
     const positions_array = [];
@@ -92,6 +92,11 @@ function nanMax(test_array) {
     return reduce(max, -Infinity, filterNanArray(test_array));
 }
 
+/**
+ * The Needle Plot component is used to display large datasets
+ * containing categorical or numerical data. The lines and markers in
+ * the plot correspond to bars in a histogram.
+ **/
 export default class NeedlePlot extends Component {
     constructor() {
         super();
@@ -447,6 +452,9 @@ NeedlePlot.propTypes = {
      */
     id: PropTypes.string,
 
+    /**
+     * The data that are displayed on the plot.
+     */
     mutationData: PropTypes.shape({
         /*
       coordinate of mutations on the protein sequence
@@ -466,18 +474,24 @@ NeedlePlot.propTypes = {
         domains: PropTypes.array,
     }),
 
-    // Title of the x-axis
+    /**
+     * Title of the x-axis.
+     **/
     xlabel: PropTypes.string,
 
-    // Title of the y-axis
+    /**
+     * Title of the y-axis.
+     **/
     ylabel: PropTypes.string,
 
-    // if true enables a rangeslider for xaxis
+    /**
+     * If True, enables a rangeslider for the x-axis.
+     **/
     rangeSlider: PropTypes.bool,
 
-    /*
-    options for the needle marking single site mutations
-    */
+    /**
+     * Options for the needle marking single site mutations.
+     */
     needleStyle: PropTypes.shape({
         // Color of the stems of the needles
         stemColor: PropTypes.string,
@@ -490,8 +504,8 @@ NeedlePlot.propTypes = {
         // Color of the heads of the needlehead
         headColor: PropTypes.oneOfType([
             /* different color for different mutations, must be larger or
-            equal to the size of the mutationGroup prop
-            */
+	    equal to the size of the mutationGroup prop
+	    */
             PropTypes.array,
             // same color for all needles
             PropTypes.string,
@@ -499,24 +513,24 @@ NeedlePlot.propTypes = {
         // Style of the heads of the needlehead
         headSymbol: PropTypes.oneOfType([
             /* different marker for different mutations, must be larger or
-            equal to the size of the mutationGroup prop
-            */
+	    equal to the size of the mutationGroup prop
+	    */
             PropTypes.array,
             // same marker for all needles
             PropTypes.string,
         ]),
     }),
 
-    /*
-    options for the protein domain coloring
-    */
+    /**
+     * Options for the protein domain coloring.
+     */
     domainStyle: PropTypes.shape({
         // Color of the protein domains
         domainColor: PropTypes.array,
         /*
-        the prop x sometimes contains smaller domains (e.g. multi-site
-        mutations), if true, they are displayed
-        */
+	the prop x sometimes contains smaller domains (e.g. multi-site
+	mutations), if true, they are displayed
+	*/
         displayMinorDomains: PropTypes.bool,
     }),
 
