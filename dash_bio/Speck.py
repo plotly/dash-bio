@@ -5,7 +5,9 @@ from dash.development.base_component import Component, _explicitize_args
 
 class Speck(Component):
     """A Speck component.
-
+The Speck component is a WebGL-based 3D molecule renderer.
+Read more about the component here:
+https://github.com/wwwtyro/speck
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in Dash callbacks.

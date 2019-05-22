@@ -13,8 +13,8 @@ beautiful way. Please checkout the Dash Bio repository
 on github to learn more about this API.
 
 Keyword arguments:
-- enableDownloadSVG (boolean; optional)
-- enableZoomPan (boolean; optional)
+- enableDownloadSVG (boolean; optional): Allow for an SVG snapshot of the Circos graph to be downloaded.
+- enableZoomPan (boolean; optional): Allow for zooming and panning the Circos graph.
 - id (string; optional): The ID of the component to be used in Dash callbacks
 - style (dict; optional): The CSS styling of the div wrapping the component
 - eventDatum (dict; optional): A Dash prop that returns data on clicking or hovering of the tracks.
@@ -24,11 +24,11 @@ data on click, hover, or both, with the dash prop "eventDatum".
 The keys of the dictionary represent the index of the list
 specified for "tracks".
 
-Ex:                 
+Ex:
 selectEvent={
-        "0": "hover",
-        "1": "click",
-        "2": "both"
+    "0": "hover",
+    "1": "click",
+    "2": "both"
     },
 - layout (list; required): The overall layout of the Circos graph, provided
 as a list of dictionaries.
