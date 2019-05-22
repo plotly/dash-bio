@@ -14,3 +14,4 @@ dashbioAlignmentViewer <- function(id=NULL, eventDatum=NULL, data=NULL, extensio
 
     structure(component, class = c('dash_component', 'list'))
 }
+

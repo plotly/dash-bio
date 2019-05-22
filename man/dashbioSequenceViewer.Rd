@@ -65,3 +65,4 @@ final indices, respectively, of the subsequence, and
 \item{subpartSelected}{A list of the subparts selected using the
 "search" function or the "selection" property.}
 }
+

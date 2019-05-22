@@ -14,3 +14,4 @@ dashbioSpeck <- function(id=NULL, data=NULL, scrollZoom=NULL, view=NULL, presetV
 
     structure(component, class = c('dash_component', 'list'))
 }
+

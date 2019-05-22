@@ -14,3 +14,4 @@ dashbioCircos <- function(enableDownloadSVG=NULL, enableZoomPan=NULL, id=NULL, s
 
     structure(component, class = c('dash_component', 'list'))
 }
+

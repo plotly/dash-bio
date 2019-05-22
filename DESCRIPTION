@@ -4,8 +4,8 @@ Version: 0.0.11
 Authors @R: as.person(c(The Plotly Team <dashbio@plot.ly>))
 Description: Dash components for bioinformatics
 Depends: R (>= 3.0.2), manhattanly
-Imports: dashR 
-Suggests: testthat, roxygen2
+Imports: dashR
+Suggests: 
 License: MIT + file LICENSE
 URL: https://github.com/plotly/dash-bio
 BugReports: https://github.com/plotly/dash-bio/issues

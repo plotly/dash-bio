@@ -50,3 +50,4 @@ Will disable auto-resizing of plots if set.}
 \item{height}{Height of the OncoPrint.
 Will disable auto-resizing of plots if set.}
 }
+

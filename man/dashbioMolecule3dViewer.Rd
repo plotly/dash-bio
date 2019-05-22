@@ -41,3 +41,4 @@ when modelData is changed}
 \item{onChangeSelection}{Callback to change append selectedAtomIds
 when a selection is made}
 }
+

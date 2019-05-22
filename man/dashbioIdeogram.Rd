@@ -170,3 +170,4 @@ beside chromosomes of less studied organisms, e.g., chimpanzee.}
 \item{showNonNuclearChromosomes}{Whether to show non-nuclear chromosomes,
 e.g., for mitochondrial (MT) and chloroplast (CP) DNA.}
 }
+

@@ -14,3 +14,4 @@ dashbioOncoPrint <- function(id=NULL, eventDatum=NULL, data=NULL, padding=NULL, 
 
     structure(component, class = c('dash_component', 'list'))
 }
+

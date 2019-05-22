@@ -14,3 +14,4 @@ dashbioSequenceViewer <- function(id=NULL, sequence=NULL, showLineNumbers=NULL, 
 
     structure(component, class = c('dash_component', 'list'))
 }
+

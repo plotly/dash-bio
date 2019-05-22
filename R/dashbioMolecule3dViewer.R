@@ -14,3 +14,4 @@ dashbioMolecule3dViewer <- function(id=NULL, selectionType=NULL, backgroundColor
 
     structure(component, class = c('dash_component', 'list'))
 }
+

@@ -14,3 +14,4 @@ dashbioAlignmentChart <- function(id=NULL, eventDatum=NULL, data=NULL, extension
 
     structure(component, class = c('dash_component', 'list'))
 }
+

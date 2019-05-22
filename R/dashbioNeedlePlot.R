@@ -14,3 +14,4 @@ dashbioNeedlePlot <- function(id=NULL, mutationData=NULL, xlabel=NULL, ylabel=NU
 
     structure(component, class = c('dash_component', 'list'))
 }
+

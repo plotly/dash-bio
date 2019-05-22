@@ -14,3 +14,4 @@ dashbioIdeogram <- function(id=NULL, style=NULL, className=NULL, annotationsLayo
 
     structure(component, class = c('dash_component', 'list'))
 }
+

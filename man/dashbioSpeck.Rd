@@ -29,3 +29,4 @@ related to how the molecule is displayed.}
 \item{presetView}{One of several pre-loaded views: default, stick-ball, toon,
 and licorice}
 }
+
