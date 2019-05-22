@@ -272,9 +272,16 @@ Circos.defaultProps = {
 };
 
 Circos.propTypes = {
+    /**
+     * Allow for an SVG snapshot of the Circos graph to be downloaded.
+     **/
     enableDownloadSVG: PropTypes.bool,
 
+    /**
+     * Allow for zooming and panning the Circos graph.
+     **/
     enableZoomPan: PropTypes.bool,
+
     /**
      * The ID of the component to be used in Dash callbacks
      */
@@ -296,12 +303,12 @@ Circos.propTypes = {
    * data on click, hover, or both, with the dash prop "eventDatum".
    * The keys of the dictionary represent the index of the list
    * specified for "tracks".
-   * 
-   * Ex:                 
+   *
+   * Ex:
    * selectEvent={
-        "0": "hover",
-        "1": "click",
-        "2": "both"
+	"0": "hover",
+	"1": "click",
+	"2": "both"
     },
    */
     selectEvent: PropTypes.object,
@@ -384,30 +391,30 @@ Circos.propTypes = {
             type: PropTypes.oneOf(TRACK_TYPES),
 
             /**
-         * Specify what data for tooltipContent is
-         * displayed.
-         * 
-         * The entry for the "name" key, is any of the keys used in the data loaded into tracks. 
-         * Ex: "tooltipContent": {"name": "block_id"},
-         * 
-         * To display all data in the dataset use "all" as the entry for the key "name".
-         * Ex: "tooltipContent": {"name": "all"}
-         * 
-         * Ex: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'. 
-         * "tooltipContent": {
-            "source": "block_id",
-            "target": "position",
-            "targetEnd": "value"
-                                },
-         * Ex: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.                  
-         * "tooltipContent": {
-            "source": "source",
-            "sourceID": "id",
-            "target": "target",
-            "targetID": "id",
-            "targetEnd": "end"
-        }
-         **/
+	 * Specify what data for tooltipContent is
+	 * displayed.
+	 *
+	 * The entry for the "name" key, is any of the keys used in the data loaded into tracks.
+	 * Ex: "tooltipContent": {"name": "block_id"},
+	 *
+	 * To display all data in the dataset use "all" as the entry for the key "name".
+	 * Ex: "tooltipContent": {"name": "all"}
+	 *
+	 * Ex: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.
+	 * "tooltipContent": {
+	    "source": "block_id",
+	    "target": "position",
+	    "targetEnd": "value"
+				},
+	 * Ex: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.
+	 * "tooltipContent": {
+	    "source": "source",
+	    "sourceID": "id",
+	    "target": "target",
+	    "targetID": "id",
+	    "targetEnd": "end"
+	}
+	 **/
             tooltipContent: PropTypes.oneOf([
                 PropTypes.string,
                 PropTypes.shape({
