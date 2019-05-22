@@ -24,7 +24,7 @@ consisting of 'sample', 'gene', 'alteration', and 'type'}
 
 \item{padding}{Adjusts the padding (as a proportion of whitespace) between two tracks.
 Value is a ratio between 0 and 1.
-Defaults to 0.05 (e.g. 5 percent). If set to 0, plot will look like a heatmap.}
+Defaults to 0.05 (i.e., 5 percent). If set to 0, plot will look like a heatmap.}
 
 \item{colorscale}{If not null, will override the default OncoPrint colorscale.
 Default OncoPrint colorscale same as CBioPortal implementation.
