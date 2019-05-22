@@ -8,6 +8,7 @@ import Circos from './components/Circos.react';
 import OncoPrint from './components/OncoPrint.react';
 import AlignmentChart from './components/AlignmentChart.react';
 import AlignmentViewer from './components/AlignmentViewer.react';
+import GenomeViewer from './components/GenomeViewer.react';
 
 export {
     Speck,
@@ -19,4 +20,5 @@ export {
     OncoPrint,
     AlignmentViewer,
     AlignmentChart,
+    GenomeViewer,
 };
