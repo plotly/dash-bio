@@ -93,7 +93,7 @@ function nanMax(test_array) {
 }
 
 /**
- * The Needle Plot component is used to display large datasets
+ * The Needle Plot component is used to visualize large datasets
  * containing categorical or numerical data. The lines and markers in
  * the plot correspond to bars in a histogram.
  **/
@@ -453,7 +453,7 @@ NeedlePlot.propTypes = {
     id: PropTypes.string,
 
     /**
-     * The data that are displayed on the plot.
+     * The data that are displayed on the plot
      */
     mutationData: PropTypes.shape({
         /*
@@ -485,12 +485,12 @@ NeedlePlot.propTypes = {
     ylabel: PropTypes.string,
 
     /**
-     * If True, enables a rangeslider for the x-axis.
+     * If true, enables a rangeslider for the x-axis.
      **/
     rangeSlider: PropTypes.bool,
 
     /**
-     * Options for the needle marking single site mutations.
+     * Options for the needle marking single site mutations
      */
     needleStyle: PropTypes.shape({
         // Color of the stems of the needles
@@ -522,7 +522,7 @@ NeedlePlot.propTypes = {
     }),
 
     /**
-     * Options for the protein domain coloring.
+     * Options for the protein domain coloring
      */
     domainStyle: PropTypes.shape({
         // Color of the protein domains

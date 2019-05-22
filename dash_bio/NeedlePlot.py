@@ -5,7 +5,7 @@ from dash.development.base_component import Component, _explicitize_args
 
 class NeedlePlot(Component):
     """A NeedlePlot component.
-The Needle Plot component is used to display large datasets
+The Needle Plot component is used to visualize large datasets
 containing categorical or numerical data. The lines and markers in
 the plot correspond to bars in a histogram.
 
@@ -13,7 +13,7 @@ Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.
-- mutationData (optional): The data that are displayed on the plot.. mutationData has the following type: dict containing keys 'x', 'y', 'mutationGroups', 'domains'.
+- mutationData (optional): The data that are displayed on the plot. mutationData has the following type: dict containing keys 'x', 'y', 'mutationGroups', 'domains'.
 Those keys have the following types:
   - x (string | list; optional)
   - y (string | list; optional)
@@ -21,8 +21,8 @@ Those keys have the following types:
   - domains (list; optional)
 - xlabel (string; optional): Title of the x-axis.
 - ylabel (string; optional): Title of the y-axis.
-- rangeSlider (boolean; optional): If True, enables a rangeslider for the x-axis.
-- needleStyle (optional): Options for the needle marking single site mutations.. needleStyle has the following type: dict containing keys 'stemColor', 'stemThickness', 'stemConstHeight', 'headSize', 'headColor', 'headSymbol'.
+- rangeSlider (boolean; optional): If true, enables a rangeslider for the x-axis.
+- needleStyle (optional): Options for the needle marking single site mutations. needleStyle has the following type: dict containing keys 'stemColor', 'stemThickness', 'stemConstHeight', 'headSize', 'headColor', 'headSymbol'.
 Those keys have the following types:
   - stemColor (string; optional)
   - stemThickness (number; optional)
@@ -30,7 +30,7 @@ Those keys have the following types:
   - headSize (number; optional)
   - headColor (list | string; optional)
   - headSymbol (list | string; optional)
-- domainStyle (optional): Options for the protein domain coloring.. domainStyle has the following type: dict containing keys 'domainColor', 'displayMinorDomains'.
+- domainStyle (optional): Options for the protein domain coloring. domainStyle has the following type: dict containing keys 'domainColor', 'displayMinorDomains'.
 Those keys have the following types:
   - domainColor (list; optional)
   - displayMinorDomains (boolean; optional)"""
