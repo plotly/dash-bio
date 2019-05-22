@@ -10,8 +10,8 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
-import dash_bio
 from dash_bio_utils import pdb_parser as parser, styles_parser as sparser
+import dash_bio
 
 
 # running directly with Python

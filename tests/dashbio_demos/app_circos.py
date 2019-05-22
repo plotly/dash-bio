@@ -3,12 +3,14 @@ import io
 import json
 import os
 
-import dash_bio
-from dash_bio_utils import circos_parser as cp
+import pandas as pd
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_table as dt
+
+from dash_bio_utils import circos_parser as cp
+import dash_bio
 
 # running directly with Python
 if __name__ == '__main__':
