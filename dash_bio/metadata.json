@@ -1182,6 +1182,55 @@
       }
     }
   },
+  "src/lib/components/GenomeViewer.react.js": {
+    "description": "",
+    "displayName": "GenomeViewer",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever any of\nthe properties change."
+      },
+      "genomedata": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "trackdata": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "trackindex": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "range": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      }
+    }
+  },
   "src/lib/components/Ideogram.react.js": {
     "description": "The Ideogram component is used to draw and animate genome-wide\ndatasets for organisms such as human, mouse, and any other\neukaryote. The Ideogram component can be used to compare\nhomologous features between chromosomes, and depict\nhaploid, diploid, aneuploid genomes. It can also display\nannotations on genomic data using histograms and overlays.\n\nReference: https://eweitz.github.io/ideogram/\nComponent's props: https://github.com/eweitz/ideogram/blob/master/api.md",
     "displayName": "Ideogram",
@@ -2018,7 +2067,7 @@
         "required": false,
         "description": "The data that are displayed on the plot",
         "defaultValue": {
-          "value": "{\nx: [],\ny: [],\ndomains: [],\nmutationGroups: [],\n}",
+          "value": "{\n    x: [],\n    y: [],\n    domains: [],\n    mutationGroups: [],\n}",
           "computed": false
         }
       },
@@ -2096,7 +2145,7 @@
         "required": false,
         "description": "Options for the needle marking single site mutations",
         "defaultValue": {
-          "value": "{\nstemColor: '#444',\nstemThickness: 0.5,\nstemConstHeight: false,\nheadSize: 5,\nheadColor: [\n    '#e41a1c',\n    '#377eb8',\n    '#4daf4a',\n    '#984ea3',\n    '#ff7f00',\n    '#ffff33',\n    '#a65628',\n    '#f781bf',\n    '#999999',\n    '#e41a1c',\n    '#377eb8',\n    '#4daf4a',\n    '#984ea3',\n    '#ff7f00',\n    '#ffff33',\n    '#a65628',\n    '#f781bf',\n    '#999999',\n    '#e41a1c',\n],\nheadSymbol: 'circle',\n}",
+          "value": "{\n    stemColor: '#444',\n    stemThickness: 0.5,\n    stemConstHeight: false,\n    headSize: 5,\n    headColor: [\n        '#e41a1c',\n        '#377eb8',\n        '#4daf4a',\n        '#984ea3',\n        '#ff7f00',\n        '#ffff33',\n        '#a65628',\n        '#f781bf',\n        '#999999',\n        '#e41a1c',\n        '#377eb8',\n        '#4daf4a',\n        '#984ea3',\n        '#ff7f00',\n        '#ffff33',\n        '#a65628',\n        '#f781bf',\n        '#999999',\n        '#e41a1c',\n    ],\n    headSymbol: 'circle',\n}",
           "computed": false
         }
       },
@@ -2117,7 +2166,7 @@
         "required": false,
         "description": "Options for the protein domain coloring",
         "defaultValue": {
-          "value": "{\ndisplayMinorDomains: false,\ndomainColor: [\n    '#8dd3c7',\n    '#ffffb3',\n    '#bebada',\n    '#fb8072',\n    '#80b1d3',\n    '#fdb462',\n    '#b3de69',\n    '#fccde5',\n    '#d9d9d9',\n    '#bc80bd',\n    '#ccebc5',\n    '#ffed6f',\n    '#8dd3c7',\n    '#ffffb3',\n    '#bebada',\n    '#fb8072',\n    '#80b1d3',\n    '#fdb462',\n    '#b3de69',\n],\n}",
+          "value": "{\n    displayMinorDomains: false,\n    domainColor: [\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n        '#fccde5',\n        '#d9d9d9',\n        '#bc80bd',\n        '#ccebc5',\n        '#ffed6f',\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n    ],\n}",
           "computed": false
         }
       },
