@@ -1,8 +1,9 @@
-import parmed as pmd
 import re
 import json
 import os
 from shutil import copy2
+
+import parmed as pmd
 
 
 def create_data(pdb_path):
