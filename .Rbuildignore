@@ -22,7 +22,8 @@ setup.py
 requirements.txt
 MANIFEST.in
 CHANGELOG.md
-test/
+tests/
+.pylintrc
 # CRAN has weird LICENSE requirements
 LICENSE.txt
 ^.*\.Rproj$
