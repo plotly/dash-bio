@@ -24,7 +24,5 @@ MANIFEST.in
 CHANGELOG.md
 tests/
 .pylintrc
-# CRAN has weird LICENSE requirements
-LICENSE.txt
 ^.*\.Rproj$
 ^\.Rproj\.user$
