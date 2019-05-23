@@ -14,9 +14,9 @@ dashbioCircos(enableDownloadSVG=NULL, enableZoomPan=NULL, id=NULL, style=NULL, e
 }
 
 \arguments{
-\item{enableDownloadSVG}{}
+\item{enableDownloadSVG}{Allow for an SVG snapshot of the Circos graph to be downloaded.}
 
-\item{enableZoomPan}{}
+\item{enableZoomPan}{Allow for zooming and panning the Circos graph.}
 
 \item{id}{The ID of the component to be used in Dash callbacks}
 
@@ -30,11 +30,11 @@ data on click, hover, or both, with the dash prop "eventDatum".
 The keys of the dictionary represent the index of the list
 specified for "tracks".
 
-Ex:                 
+Ex:
 selectEvent={
-        "0": "hover",
-        "1": "click",
-        "2": "both"
+    "0": "hover",
+    "1": "click",
+    "2": "both"
     },}
 
 \item{layout}{The overall layout of the Circos graph, provided

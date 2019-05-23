@@ -6,7 +6,7 @@
 \title{Molecule3dViewer component}
 
 \description{
-
+The Molecule3dViewer component is used to render schematic diagrams of biomolecules. It can display ribbon-structure diagrams, or render atoms in the molecule as sticks or spheres. Read more about the component here: https://github.com/Autodesk/molecule-3d-for-react
 }
 
 \usage{

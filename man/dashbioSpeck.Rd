@@ -6,7 +6,7 @@
 \title{Speck component}
 
 \description{
-
+The Speck component is a WebGL-based 3D molecule renderer. Read more about the component here: https://github.com/wwwtyro/speck
 }
 
 \usage{
