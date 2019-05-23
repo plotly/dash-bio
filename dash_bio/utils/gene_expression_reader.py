@@ -1,6 +1,7 @@
-import GEOparse as gp
-import pandas as pd
 import tempfile
+
+import pandas as pd
+import GEOparse as gp
 
 
 # pylint: disable=unnecessary-lambda

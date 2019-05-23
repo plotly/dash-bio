@@ -1,6 +1,7 @@
+import base64
+
 import dash_core_components as dcc
 import dash_html_components as html
-import base64
 
 
 def app_page_layout(page_layout,

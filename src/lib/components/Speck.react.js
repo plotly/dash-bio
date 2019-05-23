@@ -8,6 +8,11 @@ import {
     speckPresetViews,
 } from 'speck';
 
+/**
+ * The Speck component is a WebGL-based 3D molecule renderer.
+ * Read more about the component here:
+ * https://github.com/wwwtyro/speck
+ **/
 export default class Speck extends Component {
     constructor(props) {
         super(props);

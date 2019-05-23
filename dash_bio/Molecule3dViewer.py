@@ -5,7 +5,11 @@ from dash.development.base_component import Component, _explicitize_args
 
 class Molecule3dViewer(Component):
     """A Molecule3dViewer component.
-
+The Molecule3dViewer component is used to render schematic diagrams
+of biomolecules. It can display ribbon-structure diagrams, or
+render atoms in the molecule as sticks or spheres.
+Read more about the component here:
+https://github.com/Autodesk/molecule-3d-for-react
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in callbacks
