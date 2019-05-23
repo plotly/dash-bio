@@ -1,8 +1,9 @@
 import base64
 import json
+import copy
+
 import jsonschema
 import numpy as np
-import copy
 
 from dash_bio.utils.uniprot_database_tools import pfam_domain_parser
 
