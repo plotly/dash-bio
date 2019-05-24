@@ -23,7 +23,7 @@ in callbacks. The ID needs to be unique to the component.
 consisting of 'sample', 'gene', 'alteration', and 'type'
 - padding (number; optional): Adjusts the padding (as a proportion of whitespace) between two tracks.
 Value is a ratio between 0 and 1.
-Defaults to 0.05 (e.g. 5%). If set to 0, plot will look like a heatmap.
+Defaults to 0.05 (i.e., 5 percent). If set to 0, plot will look like a heatmap.
 - colorscale (boolean | dict; optional): If not null, will override the default OncoPrint colorscale.
 Default OncoPrint colorscale same as CBioPortal implementation.
 Make your own colrscale as a {'mutation': COLOR} dict.

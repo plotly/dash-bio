@@ -2,6 +2,14 @@
   "name": "dash-bio",
   "version": "0.1.0rc3",
   "description": "Dash components for bioinformatics",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:plotly/dash-bio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/plotly/dash-bio/issues"
+  },
+  "homepage": "https://github.com/plotly/dash-bio",
   "main": "build/index.js",
   "scripts": {
     "format:test": "prettier --config .prettierrc --list-different \"{src/**/, src/lib/components/}*.js\"",
@@ -14,7 +22,7 @@
     "build:all": "npm run build:js & npm run build:py",
     "build:all-dev": "npm run build:js-dev & npm run build:py"
   },
-  "author": "The Plotly Team",
+  "author": "The Plotly Team <dashbio@plot.ly>",
   "license": "MIT",
   "dependencies": {
     "circos": "^2.1.0",
@@ -32,10 +40,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
-    "babel-eslint": "^10.0.0",
-    "babel-loader": "^8.0.0",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.0",
+    "babel-loader": "^8.0.0",
     "copyfiles": "^2.0.0",
     "css-loader": "^2.0.0",
     "eslint": "^5.12.1",
@@ -44,7 +52,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "prettier": "^1.16.1",
-    "react-docgen": "^2.20.1",
+    "react-docgen": "^2.21.0",
     "style-loader": "^0.23.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
@@ -60,9 +68,5 @@
   "engines": {
     "node": ">=8.11.0",
     "npm": ">=6.1.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:plotly/dash-bio.git"
   }
 }
