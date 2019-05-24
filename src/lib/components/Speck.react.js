@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import memoize from 'fast-memoize';
+
 import {
     speckRenderer as SpeckRenderer,
     speckSystem,
@@ -7,6 +9,29 @@ import {
     speckInteractions as SpeckInteractions,
     speckPresetViews,
 } from 'speck';
+
+
+
+/**
+ * Define private functions used in the Speck component.
+ **/
+
+const generateSystem = memoize(data => {
+    const system = speckSystem.new();
+
+    for (let i = 0; i < data.length; i++) {
+        // get the coordinate data
+        const a = data[i];
+        // add to the system
+        speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
+    }
+
+    speckSystem.center(system);
+    speckSystem.calculateBonds(system);
+    return system;
+});
+
+
 
 /**
  * The Speck component is a WebGL-based 3D molecule renderer.
@@ -112,20 +137,9 @@ export default class Speck extends Component {
             return;
         }
 
-        const system = speckSystem.new();
-
-        for (let i = 0; i < data.length; i++) {
-            // get the coordinate data
-            const a = data[i];
-            // add to the system
-            speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
-        }
-
-        speckSystem.center(system);
-        speckSystem.calculateBonds(system);
-
         const renderer = this.state.renderer;
         const view = this.props.view;
+        const system = generateSystem(data);
 
         renderer.setSystem(system, view);
 
