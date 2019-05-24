@@ -10,44 +10,46 @@ The OncoPrint component is used to view multiple genetic alteration events throu
 }
 
 \usage{
-dashbioOncoPrint(id=NULL, eventDatum=NULL, data=NULL, padding=NULL, colorscale=NULL, backgroundcolor=NULL, range=NULL, showlegend=NULL, showoverview=NULL, width=NULL, height=NULL)
+dashbioOncoPrint(id=NULL, eventDatum=NULL, data=NULL, padding=NULL,
+colorscale=NULL, backgroundcolor=NULL, range=NULL, showlegend=NULL,
+showoverview=NULL, width=NULL, height=NULL)
 }
 
 \arguments{
-\item{id}{The ID of this component, used to identify dash components
+\item{id}{Character. The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique to the component.}
 
-\item{eventDatum}{A Dash prop that returns data on clicking, hovering or resizing the viewer.}
+\item{eventDatum}{Named list. A Dash prop that returns data on clicking, hovering or resizing the viewer.}
 
-\item{data}{Input data, in CBioPortal format where each list entry is a dict
+\item{data}{Unnamed list. Input data, in CBioPortal format where each list entry is a dict
 consisting of 'sample', 'gene', 'alteration', and 'type'}
 
-\item{padding}{Adjusts the padding (as a proportion of whitespace) between two tracks.
+\item{padding}{Numeric. Adjusts the padding (as a proportion of whitespace) between two tracks.
 Value is a ratio between 0 and 1.
 Defaults to 0.05 (i.e., 5 percent). If set to 0, plot will look like a heatmap.}
 
-\item{colorscale}{If not null, will override the default OncoPrint colorscale.
+\item{colorscale}{Logical.  | named list. . If not null, will override the default OncoPrint colorscale.
 Default OncoPrint colorscale same as CBioPortal implementation.
 Make your own colrscale as a {'mutation': COLOR} dict.
 Supported mutation keys are ['MISSENSE, 'INFRAME', 'FUSION',
 'AMP', 'GAIN', 'HETLOSS', 'HMODEL', 'UP', 'DOWN']
 Note that this is NOT a standard plotly colorscale.}
 
-\item{backgroundcolor}{Default color for the tracks, in common name, hex, rgb or rgba format.
+\item{backgroundcolor}{Character. Default color for the tracks, in common name, hex, rgb or rgba format.
 If left blank, will default to a light grey rgb(190, 190, 190).}
 
-\item{range}{.Toogles whether or not to show a legend on the right side of the plot,
+\item{range}{Unnamed list. .Toogles whether or not to show a legend on the right side of the plot,
 with mutation information.}
 
-\item{showlegend}{.Toogles whether or not to show a legend on the right side of the plot,
+\item{showlegend}{Logical. .Toogles whether or not to show a legend on the right side of the plot,
 with mutation information.}
 
-\item{showoverview}{.Toogles whether or not to show a heatmap overview of the tracks.}
+\item{showoverview}{Logical. .Toogles whether or not to show a heatmap overview of the tracks.}
 
-\item{width}{Width of the OncoPrint.
+\item{width}{Numeric.  | character. . Width of the OncoPrint.
 Will disable auto-resizing of plots if set.}
 
-\item{height}{Height of the OncoPrint.
+\item{height}{Numeric.  | character. . Height of the OncoPrint.
 Will disable auto-resizing of plots if set.}
 }
 

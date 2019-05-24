@@ -10,21 +10,22 @@ The Needle Plot component is used to visualize large datasets containing categor
 }
 
 \usage{
-dashbioNeedlePlot(id=NULL, mutationData=NULL, xlabel=NULL, ylabel=NULL, rangeSlider=NULL, needleStyle=NULL, domainStyle=NULL)
+dashbioNeedlePlot(id=NULL, mutationData=NULL, xlabel=NULL, ylabel=NULL,
+rangeSlider=NULL, needleStyle=NULL, domainStyle=NULL)
 }
 
 \arguments{
-\item{id}{The ID of this component, used to identify dash components
+\item{id}{Character. The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
 \item{mutationData}{The data that are displayed on the plot}
 
-\item{xlabel}{Title of the x-axis.}
+\item{xlabel}{Character. Title of the x-axis.}
 
-\item{ylabel}{Title of the y-axis.}
+\item{ylabel}{Character. Title of the y-axis.}
 
-\item{rangeSlider}{If true, enables a rangeslider for the x-axis.}
+\item{rangeSlider}{Logical. If true, enables a rangeslider for the x-axis.}
 
 \item{needleStyle}{Options for the needle marking single site mutations}
 

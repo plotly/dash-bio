@@ -10,30 +10,32 @@ The Molecule3dViewer component is used to render schematic diagrams of biomolecu
 }
 
 \usage{
-dashbioMolecule3dViewer(id=NULL, selectionType=NULL, backgroundColor=NULL, backgroundOpacity=NULL, styles=NULL, modelData=NULL, atomLabelsShown=NULL, selectedAtomIds=NULL, labels=NULL, onRenderNewData=NULL, onChangeSelection=NULL)
+dashbioMolecule3dViewer(id=NULL, selectionType=NULL, backgroundColor=NULL,
+backgroundOpacity=NULL, styles=NULL, modelData=NULL, atomLabelsShown=NULL,
+selectedAtomIds=NULL, labels=NULL, onRenderNewData=NULL, onChangeSelection=NULL)
 }
 
 \arguments{
-\item{id}{The ID used to identify this component in callbacks}
+\item{id}{Character. The ID used to identify this component in callbacks}
 
-\item{selectionType}{The selection type - may be atom, residue or chain}
+\item{selectionType}{A value equal to: 'atom', 'residue', 'chain'. The selection type - may be atom, residue or chain}
 
-\item{backgroundColor}{Property to change the background color of the molecule viewer}
+\item{backgroundColor}{Character. Property to change the background color of the molecule viewer}
 
-\item{backgroundOpacity}{Property to change the backgroun opacity - ranges from 0 to 1}
+\item{backgroundOpacity}{Numeric. Property to change the backgroun opacity - ranges from 0 to 1}
 
-\item{styles}{Property that can be used to change the representation of
+\item{styles}{List. Property that can be used to change the representation of
 the molecule. Options include sticks, cartoon and sphere}
 
 \item{modelData}{The data that will be used to display the molecule in 3D
 The data will be in JSON format
 and should have two main dictionaries - atoms, bonds}
 
-\item{atomLabelsShown}{Property to either show or hide labels}
+\item{atomLabelsShown}{Logical. Property to either show or hide labels}
 
-\item{selectedAtomIds}{Property that stores a list of all selected atoms}
+\item{selectedAtomIds}{Unnamed list. Property that stores a list of all selected atoms}
 
-\item{labels}{labels corresponding to the atoms of the molecule}
+\item{labels}{Unnamed list. labels corresponding to the atoms of the molecule}
 
 \item{onRenderNewData}{Callback to re-render molecule viewer
 when modelData is changed}
