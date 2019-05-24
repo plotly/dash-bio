@@ -28,22 +28,22 @@ at least the following three columns: \itemize{ \item{the chromosome
 number} \item{genomic base-pair position} \item{a numeric quantity to plot
 such as a p-value or zscore} }}
 
-\item{chrm}{A string denoting the column name for the chromosome. Default is
+\item{chrm}{Character. A string denoting the column name for the chromosome. Default is
 \code{chrm = "CHR"}. This column must be \code{numeric} or \code{integer}.
 Minimum number of chromosomes required is 1. If you have X, Y, or MT
 chromosomes, be sure to renumber these 23, 24, 25, etc.}
 
-\item{bp}{A string denoting the column name for the chromosomal position.
+\item{bp}{Character. A string denoting the column name for the chromosomal position.
 Default is \code{bp = "BP"}. This column must be \code{numeric} or
 \code{integer}.}
 
-\item{p}{A string denoting the column name for the numeric quantity to be
+\item{p}{Character. A string denoting the column name for the numeric quantity to be
 plotted on the y-axis. Default is \code{p = "P"}. This column must be
 \code{numeric} or \code{integer}. This does not have to be a p-value. It
 can be any numeric quantity such as peak heights, bayes factors, test
 statistics. If it is not a p-value, make sure to set \code{logp = FALSE}.}
 
-\item{snp}{A string denoting the column name for the SNP names (e.g. rs
+\item{snp}{Character. A string denoting the column name for the SNP names (e.g. rs
 number). More generally, this column could be anything that identifies each
 point being plotted. For example, in an Epigenomewide association study
 (EWAS) this could be the probe name or cg number. This column should be a
@@ -51,54 +51,54 @@ point being plotted. For example, in an Epigenomewide association study
 specify if you want to highlight points on the plot using the
 \code{highlight} argument in the \code{\link{manhattanly}} function}
 
-\item{logp}{If TRUE, the -log10 of the p-value is plotted. It isn't very
+\item{logp}{Logical. If TRUE, the -log10 of the p-value is plotted. It isn't very
 useful to plot raw p-values, but plotting the raw value could be useful for
 other genome-wide plots, for example, peak heights, bayes factors, test
 statistics, other "scores" etc.}
 
-\item{title}{Title of the plot. Default is \code{"Manhattan Plot"}}
+\item{title}{Character. Title of the plot. Default is \code{"Manhattan Plot"}}
 
-\item{showgrid}{Should gridlines be shown. Default is \code{FALSE}.}
+\item{showgrid}{Logical. Should gridlines be shown. Default is \code{FALSE}.}
 
-\item{xlabel}{X-axis label. Default is \code{NULL} which means that the label
+\item{xlabel}{Character. X-axis label. Default is \code{NULL} which means that the label
 is automatically determined by the \code{\link{manhattanr}} function.
 Specify here to overwrite the default.}
 
-\item{ylabel}{Y-axis label. Default is \code{"-log10(p)"}.}
+\item{ylabel}{Character. Y-axis label. Default is \code{"-log10(p)"}.}
 
-\item{point_size}{A \code{numeric} indicating the size of the points on the
+\item{point_size}{Numeric. A \code{numeric} indicating the size of the points on the
 plot. Default is 5}
 
-\item{showlegend}{Should a legend be shown. Default is \code{FALSE}.}
+\item{showlegend}{Logical. Should a legend be shown. Default is \code{FALSE}.}
 
-\item{col}{A character vector indicating the colors of each chromosome. If
+\item{col}{Vector of type character. A character vector indicating the colors of each chromosome. If
 the number of colors specified is less than the number of unique
 chromosomes, then the elements will be recycled. Can be
 \href{http://www.rapidtables.com/web/color/RGB_Color.htm}{Hex Codes} as
 well.}
 
-\item{suggestiveline_value}{Where to draw a "suggestive" line. Default is
+\item{suggestiveline_value}{Numeric | logical. Where to draw a "suggestive" line. Default is
 \code{-log10(1e-5)}. Set to \code{FALSE} to disable.}
 
-\item{suggestiveline_color}{color of "suggestive" line. Only used if
+\item{suggestiveline_color}{Character. Color of "suggestive" line. Only used if
 \code{suggestiveline} is not set to \code{FALSE}. Default is \code{"blue"}.}
 
-\item{suggestiveline_width}{Width of \code{suggestiveline}. Default is 1.}
+\item{suggestiveline_width}{Numeric. Width of \code{suggestiveline}. Default is 1.}
 
-\item{genomewideline_value}{Where to draw a "genome-wide sigificant" line. Default
+\item{genomewideline_value}{Numeric | logical. Where to draw a "genome-wide sigificant" line. Default
 \code{-log10(5e-8)}. Set to \code{FALSE} to disable.}
 
-\item{genomewideline_color}{color of "genome-wide sigificant" line. Only used
+\item{genomewideline_color}{Character. Color of "genome-wide sigificant" line. Only used
 if \code{genomewideline} is not set to \code{FALSE}. Default is
 \code{"red"}.}
 
-\item{genomewideline_width}{Width of \code{genomewideline}. Default is 1.}
+\item{genomewideline_width}{Numeric. Width of \code{genomewideline}. Default is 1.}
 
-\item{highlight}{A character vector of SNPs in your dataset to highlight.
+\item{highlight}{Vector of type character. A character vector of SNPs in your dataset to highlight.
 These SNPs should all be in your dataset. Default is \code{NULL} which
 means that nothing is highlighted.}
 
-\item{highlight_color}{Color used to highlight points. Only used if
+\item{highlight_color}{Character. Color used to highlight points. Only used if
 \code{highlight} argument has been specified}
 
 \item{...}{other parameters passed to \code{\link{manhattanr}}}

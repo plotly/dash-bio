@@ -27,17 +27,17 @@ at least the following two columns: \itemize{ \item{a p-value, must be
 numeric} \item{a measure of the strength of association, typically an odds 
 ratio, regression coefficient or log fold change. Must be numeric} }}
 
-\item{p}{A chracter string denoting the column name for the p-values. Default
+\item{p}{Character. A chracter string denoting the column name for the p-values. Default
 is \code{p = "P"}. This column must be \code{numeric} or \code{integer}. 
 Should not have missing, NA, NaN, or NULL values and should be between 0 
 and 1.}
 
-\item{effect_size}{Where to draw a "suggestive" line on the x-axis. 
+\item{effect_size}{Numeric | logical. Where to draw a "suggestive" line on the x-axis. 
 Default is \code{-1 and +1}. Must be a vector of length 2. If a longer 
 vector is supplied, only the first two elements will be used. First element
 must be smaller than second element. Set to \code{FALSE} to disable.}
 
-\item{snp}{A string denoting the column name for the SNP names (e.g. rs 
+\item{snp}{Character. A string denoting the column name for the SNP names (e.g. rs 
 number). This argument is optional but required if you want to highlight 
 any points. More generally, this column could be anything that identifies 
 each point being plotted. For example, in an Epigenomewide association 
@@ -45,60 +45,60 @@ study (EWAS) this could be the probe name or cg number. This column should
 contain \code{characters}. This argument is necessary. 
 \code{\link{volcanoly}} function}
 
-\item{gene}{A string denoting the column name for the GENE names. This column
+\item{gene}{Character | numeric. A string denoting the column name for the GENE names. This column
 could be a \code{character} or \code{numeric}. More generally this could be
 any annotation information that you want to include in the plot. This
 argument is optional.}
 
-\item{annotation}{A string denoting the column name for an annotation. This
+\item{annotation}{Character. A string denoting the column name for an annotation. This
 column could be a \code{character} or \code{numeric}. This could be any
 annotation information that you want to include in the plot (e.g. zscore,
 effect size, minor allele frequency). This argument is optional.}
 
-\item{title}{Title of the plot. Default is \code{"Volcano Plot"}}
+\item{title}{Character. Title of the plot. Default is \code{"Volcano Plot"}}
 
-\item{xlabel}{X-axis label. Default is \code{NULL} which means that the label 
+\item{xlabel}{Character. X-axis label. Default is \code{NULL} which means that the label 
 is automatically determined by the \code{\link{volcanor}} function. Specify
 here to overwrite the default.}
 
-\item{ylabel}{Y-axis label. Default is \code{"-log10(p)"}.}
+\item{ylabel}{Character. Y-axis label. Default is \code{"-log10(p)"}.}
 
-\item{point_size}{A \code{numeric} indicating the size of the points on the 
+\item{point_size}{Numeric. A \code{numeric} indicating the size of the points on the 
 plot. Default is 5}
 
-\item{col}{A character of length 1 indicating the color of the points. Only 
+\item{col}{Character. A character of length 1 indicating the color of the points. Only 
 the first argument will be used if more than one color is supplied. Can be 
 \href{http://www.rapidtables.com/web/color/RGB_Color.htm}{Hex Codes} as 
 well.}
 
-\item{effect_size_line}{Where to draw a "suggestive" line on the x-axis. 
+\item{effect_size_line}{Numeric | logical. Where to draw a "suggestive" line on the x-axis. 
 Default is \code{-1 and +1}. Must be a vector of length 2. If a longer 
 vector is supplied, only the first two elements will be used. First element
 must be smaller than second element. Set to \code{FALSE} to disable.}
 
-\item{effect_size_line_color}{color of "suggestive" line. Only used if 
+\item{effect_size_line_color}{Character. Color of "suggestive" line. Only used if 
 \code{effect_size_line} is not set to \code{FALSE}. Default is 
 \code{"blue"}.}
 
-\item{effect_size_line_width}{Width of \code{effect_size_line}. Default is 1.}
+\item{effect_size_line_width}{Numeric. Width of \code{effect_size_line}. Default is 1.}
 
-\item{genomewideline_value}{Where to draw a "genome-wide sigificant" line. Default 
+\item{genomewideline_value}{Numeric | logical. Where to draw a "genome-wide sigificant" line. Default 
 \code{-log10(1e-5)}. Set to \code{FALSE} to disable. If more than one 
 element is provided, only the first will be used}
 
-\item{genomewideline_color}{color of "genome-wide sigificant" line. Only used
+\item{genomewideline_color}{Character. Color of "genome-wide sigificant" line. Only used
 if \code{genomewideline} is not set to \code{FALSE}. Default is 
 \code{"red"}.}
 
-\item{genomewideline_width}{Width of \code{genomewideline}. Default is 1.}
+\item{genomewideline_width}{Numeric. Width of \code{genomewideline}. Default is 1.}
 
-\item{highlight}{A character vector of SNPs in your dataset to highlight. 
+\item{highlight}{Vector of type character | logical. A character vector of SNPs in your dataset to highlight. 
 These SNPs should all be in your dataset. Default is \code{NULL} which 
 means that all points that are both beyond \code{genomewideline_value} and 
 \code{effect_size_line} are highlighted. Set to \code{FALSE} if you don't 
 want any points highlighted.}
 
-\item{highlight_color}{Color used to highlight points. Only used if 
+\item{highlight_color}{Character. Color used to highlight points. Only used if 
 \code{highlight} argument has been specified}
 
 \item{...}{other parameters passed to \code{\link{volcanor}}}
