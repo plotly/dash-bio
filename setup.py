@@ -24,12 +24,8 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     install_requires=[
-        'biopython',
-        'colour',
         'dash>=0.40.0',
-        'GEOparse>=1.1.0',
         'pandas',
-        'parmed',
         'plotly',
         'scipy',
         'scikit-learn>=0.20.1'
