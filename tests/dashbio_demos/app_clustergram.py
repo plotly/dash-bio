@@ -652,12 +652,14 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 marker['group'] = int(cluster_number)
                 marker['annotation'] = annotation
                 marker['color'] = color['hex']
+
+                current_group_markers[
+                    '{}_group_marker'.format(cluster_dimension)
+                ].append(marker)
             except ValueError:
                 pass
-
-            current_group_markers[
-                '{}_group_marker'.format(cluster_dimension)
-            ].append(marker)
+            except UnboundLocalError:
+                pass
 
         return current_group_markers
 
