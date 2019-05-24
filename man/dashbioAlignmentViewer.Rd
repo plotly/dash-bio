@@ -31,17 +31,17 @@ components in an app.}
 
 \item{extension}{Character. Format type of the input data, either in FASTA or Clustal.}
 
-\item{colorscale}{Character.  | named list. . Colorscale in 'buried', 'cinema', 'clustal', 'clustal2', 'helix', 'hydrophobicity'
+\item{colorscale}{Character | named list. Colorscale in 'buried', 'cinema', 'clustal', 'clustal2', 'helix', 'hydrophobicity'
 'lesk', 'mae', 'nucleotide', 'purine', 'strand', 'taylor', 'turn', 'zappo',
 or your own colorscale as a {'nucleotide': COLOR} dict.
 Note that this is NOT a standard plotly colorscale.}
 
-\item{opacity}{Numeric.  | character. . Opacity of the main plot as a value between 0 and 1.}
+\item{opacity}{Numeric | character. Opacity of the main plot as a value between 0 and 1.}
 
 \item{textcolor}{Character. Color of the nucleotide labels, in common name, hex, rgb or rgba format.
 If left blank, handled by the colorscale automatically.}
 
-\item{textsize}{Numeric.  | character. . Size of the nucleotide labels, as a number.}
+\item{textsize}{Numeric | character. Size of the nucleotide labels, as a number.}
 
 \item{showlabel}{Logical. Toggles displaying sequence labels at left of alignment}
 
@@ -52,12 +52,12 @@ nucleotides or amino acids get greater bars.}
 
 \item{conservationcolor}{Character. Color of the conservation secondary barplot, in common name, hex, rgb or rgba format.}
 
-\item{conservationcolorscale}{Character.  | unnamed list. . Colorscale of the conservation barplot, in Plotly colorscales (e.g. 'Viridis')
+\item{conservationcolorscale}{Character | unnamed list. Colorscale of the conservation barplot, in Plotly colorscales (e.g. 'Viridis')
 or as custom Plotly colorscale under a list format.
 Note that this conservationcolorscale argument
 does NOT follow the same format as the colorscale argument.}
 
-\item{conservationopacity}{Numeric.  | character. . Opacity of the conservation secondary barplot as a value between 0 and 1.}
+\item{conservationopacity}{Numeric | character. Opacity of the conservation secondary barplot as a value between 0 and 1.}
 
 \item{conservationmethod}{A value equal to: 'conservation', 'entropy'. Whether to use most conserved ratio (MLE) 'conservation'
 or normalized entropy 'entropy' to determine conservation,
@@ -72,12 +72,12 @@ with the fewest gaps get the greatest bars.}
 
 \item{gapcolor}{Character. Color of the gap secondary barplot, in common name, hex, rgb or rgba format.}
 
-\item{gapcolorscale}{Character.  | unnamed list. . Colorscale of the gap barplot, in Plotly colorscales (e.g. 'Viridis')
+\item{gapcolorscale}{Character | unnamed list. Colorscale of the gap barplot, in Plotly colorscales (e.g. 'Viridis')
 or as custom Plotly colorscale under a list format.
 Note that this conservationcolorscale argument
 does NOT follow the same format as the colorscale argument.}
 
-\item{gapopacity}{Numeric.  | character. . Opacity of the gap secondary barplot as a value between 0 and 1.}
+\item{gapopacity}{Numeric | character. Opacity of the gap secondary barplot as a value between 0 and 1.}
 
 \item{groupbars}{Logical. If both conservation and gap are enabled,
 toggles whether to group bars or to stack them as separate subplots.
@@ -106,21 +106,21 @@ that value.}
 with each slider movement.
 Has no effect if scroll is not enabled (such as with overview or none).}
 
-\item{tickstart}{Numeric.  | character. . Determines where to start annotating the first tile.
+\item{tickstart}{Numeric | character. Determines where to start annotating the first tile.
 If let blank will be automatically determined by Plotly.
 Equivalent to Plotly's tick0 property.
 Does not function if overview mode 'slider' is applied. (Current bug)}
 
-\item{ticksteps}{Numeric.  | character. . Determines at what interval to keep annotating the tiles.
+\item{ticksteps}{Numeric | character. Determines at what interval to keep annotating the tiles.
 If left blank will be automatially determined by Plotly.
 Equivalent to Plotly's dtick property.
 Does not function if overview mode 'slider' is applied. (Current bug)}
 
-\item{width}{Numeric.  | character. . Width of the Viewer.
+\item{width}{Numeric | character. Width of the Viewer.
 Property takes precedence over tileswidth and numtiles
 if either of them is set.}
 
-\item{height}{Numeric.  | character. . Width of the Viewer.
+\item{height}{Numeric | character. Width of the Viewer.
 Property takes precedence over tilesheight if both
 are set.}
 }

@@ -28,7 +28,7 @@ consisting of 'sample', 'gene', 'alteration', and 'type'}
 Value is a ratio between 0 and 1.
 Defaults to 0.05 (i.e., 5 percent). If set to 0, plot will look like a heatmap.}
 
-\item{colorscale}{Logical.  | named list. . If not null, will override the default OncoPrint colorscale.
+\item{colorscale}{Logical | named list. If not null, will override the default OncoPrint colorscale.
 Default OncoPrint colorscale same as CBioPortal implementation.
 Make your own colrscale as a {'mutation': COLOR} dict.
 Supported mutation keys are ['MISSENSE, 'INFRAME', 'FUSION',
@@ -46,10 +46,10 @@ with mutation information.}
 
 \item{showoverview}{Logical. .Toogles whether or not to show a heatmap overview of the tracks.}
 
-\item{width}{Numeric.  | character. . Width of the OncoPrint.
+\item{width}{Numeric | character. Width of the OncoPrint.
 Will disable auto-resizing of plots if set.}
 
-\item{height}{Numeric.  | character. . Height of the OncoPrint.
+\item{height}{Numeric | character. Height of the OncoPrint.
 Will disable auto-resizing of plots if set.}
 }
 

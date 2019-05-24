@@ -100,7 +100,7 @@ react-ideogram.js, this is where all the d3 magic happens.}
 
 \item{chrWidth}{Numeric. The pixel width of each chromosome.}
 
-\item{chromosomes}{List.  | named list. . A list of the names of chromosomes to display. Useful for depicting a subset of the
+\item{chromosomes}{List | named list. A list of the names of chromosomes to display. Useful for depicting a subset of the
 chromosomes in the genome, e.g., a single chromosome.
 
 If Homology (between two different species):
@@ -115,7 +115,7 @@ Ex: chromosomes=['1', '2']}
 \item{dataDir}{Character. Absolute or relative URL of the directory containing data needed to draw banded chromosomes.
 You will need to set up your own database to grab data from a custom database.}
 
-\item{organism}{Character.  | numeric. . Organism(s) to show chromosomes for. Supply organism's name as a string (e.g., "human") or
+\item{organism}{Character | numeric. Organism(s) to show chromosomes for. Supply organism's name as a string (e.g., "human") or
 organism's NCBI Taxonomy ID (taxid, e.g., 9606) to display chromosomes from a single
 organism, or an array of organisms' names or taxids to display chromosomes from multiple
 species.}
