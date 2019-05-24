@@ -17,7 +17,7 @@ setup(
     version=package["version"],
     url='http://github.com/plotly/{}'.format(package_name.replace('_', '-')),
     author=package['author'],
-    author_email='shammamah@plot.ly',
+    author_email='dashbio@plot.ly',
     packages=[package_name, '{}/component_factory'.format(package_name)],
     include_package_data=True,
     description=package['description'] if 'description' in package else package_name,
