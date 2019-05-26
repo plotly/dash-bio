@@ -1,0 +1,26 @@
+dashbioVolcano <- function (dataframe,  p = "P", effect_size = "EFFECTSIZE", snp = "SNP", gene = "GENE", 
+title = "Volcano Plot", xlabel = NULL, ylabel = "-log10(p)", point_size = 5, 
+col = c("#252525"), effect_size_line = c(-1, 1), effect_size_line_color = "blue", effect_size_line_width = 1, 
+genomewideline_value = -log10(1e-05), genomewideline_color = "grey", genomewideline_width = 0.5, 
+highlight = NULL, highlight_color = "red", ...) 
+{
+  manhattanly::volcanoly(x = dataframe, 
+                         p = p,
+                         effect_size = effect_size,
+                         snp = snp,
+                         gene = gene,
+                         title = title,
+                         xlab = xlabel,
+                         ylab = ylabel,
+                         point_size = point_size,
+                         col = col,
+                         effect_size_line = effect_size_line,
+                         effect_size_line_color = effect_size_line_color,
+                         effect_size_line_width = effect_size_line_width,
+                         genomewideline = genomewideline_value,
+                         genomewideline_color = genomewideline_color,
+                         genomewideline_width = genomewideline_width,
+                         highlight = highlight,
+                         highlight_color = highlight_color,
+                         ...)
+}

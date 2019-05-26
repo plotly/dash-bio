@@ -2018,7 +2018,7 @@
         "required": false,
         "description": "The data that are displayed on the plot",
         "defaultValue": {
-          "value": "{\nx: [],\ny: [],\ndomains: [],\nmutationGroups: [],\n}",
+          "value": "{\n    x: [],\n    y: [],\n    domains: [],\n    mutationGroups: [],\n}",
           "computed": false
         }
       },
@@ -2096,7 +2096,7 @@
         "required": false,
         "description": "Options for the needle marking single site mutations",
         "defaultValue": {
-          "value": "{\nstemColor: '#444',\nstemThickness: 0.5,\nstemConstHeight: false,\nheadSize: 5,\nheadColor: [\n    '#e41a1c',\n    '#377eb8',\n    '#4daf4a',\n    '#984ea3',\n    '#ff7f00',\n    '#ffff33',\n    '#a65628',\n    '#f781bf',\n    '#999999',\n    '#e41a1c',\n    '#377eb8',\n    '#4daf4a',\n    '#984ea3',\n    '#ff7f00',\n    '#ffff33',\n    '#a65628',\n    '#f781bf',\n    '#999999',\n    '#e41a1c',\n],\nheadSymbol: 'circle',\n}",
+          "value": "{\n    stemColor: '#444',\n    stemThickness: 0.5,\n    stemConstHeight: false,\n    headSize: 5,\n    headColor: [\n        '#e41a1c',\n        '#377eb8',\n        '#4daf4a',\n        '#984ea3',\n        '#ff7f00',\n        '#ffff33',\n        '#a65628',\n        '#f781bf',\n        '#999999',\n        '#e41a1c',\n        '#377eb8',\n        '#4daf4a',\n        '#984ea3',\n        '#ff7f00',\n        '#ffff33',\n        '#a65628',\n        '#f781bf',\n        '#999999',\n        '#e41a1c',\n    ],\n    headSymbol: 'circle',\n}",
           "computed": false
         }
       },
@@ -2117,7 +2117,7 @@
         "required": false,
         "description": "Options for the protein domain coloring",
         "defaultValue": {
-          "value": "{\ndisplayMinorDomains: false,\ndomainColor: [\n    '#8dd3c7',\n    '#ffffb3',\n    '#bebada',\n    '#fb8072',\n    '#80b1d3',\n    '#fdb462',\n    '#b3de69',\n    '#fccde5',\n    '#d9d9d9',\n    '#bc80bd',\n    '#ccebc5',\n    '#ffed6f',\n    '#8dd3c7',\n    '#ffffb3',\n    '#bebada',\n    '#fb8072',\n    '#80b1d3',\n    '#fdb462',\n    '#b3de69',\n],\n}",
+          "value": "{\n    displayMinorDomains: false,\n    domainColor: [\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n        '#fccde5',\n        '#d9d9d9',\n        '#bc80bd',\n        '#ccebc5',\n        '#ffed6f',\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n    ],\n}",
           "computed": false
         }
       },
