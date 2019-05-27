@@ -72,17 +72,15 @@ def layout():
             id='mol-dropdown',
             options=[
                 {'label': mol, 'value': '{}{}.json'.format(DATAPATH, mol)}
-                for mol in ['aspirin', 'morphine']
+                for mol in ['aspirin', 'benzene', 'morphine']
             ],
-            value='{}{}.json'.format(DATAPATH, 'aspirin')
+            value='{}{}.json'.format(DATAPATH, 'benzene')
         ),
-
-        dash_bio.Molecule2dViewer(
-            id='mol2d',
-            modelData={'nodes': [], 'links': []},
-            height=500,
-            width=500
-        ),
+        html.Div(id='mol2d-container', children=[
+            dash_bio.Molecule2dViewer(
+                id='mol2d',
+            )
+        ]),
         html.Div(id='sel-atoms-output')
     ])
 
@@ -90,23 +88,17 @@ def layout():
 def callbacks(app):
 
     @app.callback(
-        Output('sel-atoms-output', 'children'),
-        [Input('mol2d', 'selectedAtomIds')]
-    )
-    def selected_atoms(ids):
-        if ids is None:
-            return ''
-        atoms = {str(atm['id']): atm['atom'] for atm in residue['nodes']}
-        sel_atoms = [atoms[str(i)] for i in ids]
-        return str(sel_atoms)
-
-    @app.callback(
-        Output('mol2d', 'modelData'),
+        Output('mol2d-container', 'children'),
         [Input('mol-dropdown', 'value')]
     )
     def change_molecule(molfile):
-        print(read_structure(file_path=molfile))
-        return read_structure(file_path=molfile)
+        ok = read_structure(file_path=molfile)
+        for atm in ok['nodes']:
+            print(atm)
+        print()
+        for bnd in ok['links']:
+            print(bnd)
+        return dash_bio.Molecule2dViewer(id='mol2d', modelData=ok)
 
 
 # only declare app/server if the file is being run directly
