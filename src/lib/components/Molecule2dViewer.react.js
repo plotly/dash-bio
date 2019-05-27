@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Molecule2d from 'molecule-2d-for-react';
+import {omit} from 'ramda';
 
 /**
  *
@@ -15,19 +16,33 @@ export default class Molecule2dViewer extends Component {
         this.props.setProps({selectedAtomIds: selectedAtomIds});
     }
 
-    render() {
-        const {id} = this.props;
+    shouldComponentUpdate(nextProps) {
+        if (this.props.modelData !== nextProps.modelData) {
+            return true;
+        }
+        return false;
+    }
 
+    render() {
         return (
-            <div id={id}>
+            <div id={this.props.id}>
                 <Molecule2d
-                    {...this.props}
                     onChangeSelection={this.onChangeSelection}
+                    {...omit(['id', 'setProps'], this.props)}
                 />
             </div>
         );
     }
 }
+
+Molecule2dViewer.defaultProps = {
+    width: 500,
+    height: 500,
+    modelData: {
+        nodes: [],
+        links: [],
+    },
+};
 
 Molecule2dViewer.propTypes = {
     /**
