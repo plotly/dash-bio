@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.0] - 2019-05-27
+
+### Removed
+* Removed all parsing tools in `dash_bio.utils` to a separate package,
+  `dash_bio_utils`.
+
 ## [0.0.11] - 2019-05-09
 
 ### Added
