@@ -10,6 +10,7 @@ export default class Molecule2dViewer extends Component {
     constructor(props) {
         super(props);
         this.onChangeSelection = this.onChangeSelection.bind(this);
+        this.key = 0;
     }
 
     onChangeSelection(selectedAtomIds) {
@@ -23,10 +24,28 @@ export default class Molecule2dViewer extends Component {
         return false;
     }
 
+    componentDidUpdate(prevProps) {
+        const {modelData} = this.props;
+
+        if (
+            Object.keys(modelData).some(
+                propertyName =>
+                    modelData[propertyName].length !==
+                    prevProps.modelData[propertyName].length
+            )
+        ) {
+            this.forceUpdate();
+        }
+    }
+
     render() {
+        this.key++;
+        // increment key to force remount
+
         return (
             <div id={this.props.id}>
                 <Molecule2d
+                    key={this.key}
                     onChangeSelection={this.onChangeSelection}
                     {...omit(['id', 'setProps'], this.props)}
                 />
