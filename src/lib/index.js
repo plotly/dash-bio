@@ -8,6 +8,7 @@ import Circos from './components/Circos.react';
 import OncoPrint from './components/OncoPrint.react';
 import AlignmentChart from './components/AlignmentChart.react';
 import AlignmentViewer from './components/AlignmentViewer.react';
+import Molecule2dViewer from './components/Molecule2dViewer.react';
 
 export {
     Speck,
@@ -19,4 +20,5 @@ export {
     OncoPrint,
     AlignmentViewer,
     AlignmentChart,
+    Molecule2dViewer,
 };
