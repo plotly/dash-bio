@@ -1810,14 +1810,22 @@
           "name": "number"
         },
         "required": false,
-        "description": "The width of the SVG element."
+        "description": "The width of the SVG element.",
+        "defaultValue": {
+          "value": "500",
+          "computed": false
+        }
       },
       "height": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": "The height of the SVG element."
+        "description": "The height of the SVG element.",
+        "defaultValue": {
+          "value": "500",
+          "computed": false
+        }
       },
       "modelData": {
         "type": {
@@ -1876,7 +1884,11 @@
           }
         },
         "required": false,
-        "description": "Description of the molecule to display."
+        "description": "Description of the molecule to display.",
+        "defaultValue": {
+          "value": "{\n    nodes: [],\n    links: [],\n}",
+          "computed": false
+        }
       }
     }
   },
