@@ -55,8 +55,6 @@ residue = {
 
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "mol2d_")
 
-residue = read_structure(file_path='{}aspirin.json'.format(DATAPATH))
-
 
 def header_colors():
     return {}
@@ -88,17 +86,18 @@ def layout():
 def callbacks(app):
 
     @app.callback(
-        Output('mol2d-container', 'children'),
+        Output('sel-atoms-output', 'children'),
+        [Input('mol2d', 'selectedAtomIds')]
+    )
+    def show_selected(ids):
+        return str(ids)
+
+    @app.callback(
+        Output('mol2d', 'modelData'),
         [Input('mol-dropdown', 'value')]
     )
     def change_molecule(molfile):
-        ok = read_structure(file_path=molfile)
-        for atm in ok['nodes']:
-            print(atm)
-        print()
-        for bnd in ok['links']:
-            print(bnd)
-        return dash_bio.Molecule2dViewer(id='mol2d', modelData=ok)
+        return read_structure(file_path=molfile)
 
 
 # only declare app/server if the file is being run directly
