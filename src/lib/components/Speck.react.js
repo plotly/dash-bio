@@ -83,8 +83,21 @@ const viewAssign = (view1 = {}, view2 = {}) => ({
     fxaa: scAssign(view1.fxaa, view2.fxaa),
 });
 
-const viewEqual = (view1, view2) =>
-    JSON.stringify(view1) === JSON.stringify(view2);
+const viewEqual = function(view1, view2) {
+    const view1Str = JSON.stringify(view1);
+    const argLength = arguments.length;
+    if(argLength === 2) {
+        return view1Str === JSON.stringify(view2);
+    }
+    else {
+        for(let i = 1; i < argLength; i++) {
+            if(view1Str === JSON.stringify(arguments[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
 
 // Assume that view2 will never have a property that view1 does not have
 // const viewDiff = (view1, view2) => {
@@ -119,8 +132,9 @@ export default class Speck extends Component {
 
         this.eventListenDestructor = () => {/* no-op */};
         this.refreshView = false;
-        this.view = viewAssign(speckView.new(), props.view);
+        this.propsReconcileTimeout = null;
 
+        this.view = viewAssign(speckView.new(), props.view);
         this.props.setProps({
             view: viewClone(this.view),
         });
@@ -136,6 +150,8 @@ export default class Speck extends Component {
 
         this.loop = this.loop.bind(this);
         this.loadStructure = this.loadStructure.bind(this);
+        this.propsReconcile = this.propsReconcile.bind(this);
+        this.propsReconcileSchedule = this.propsReconcileSchedule.bind(this);
 
         window.x = this;
     }
@@ -161,12 +177,16 @@ export default class Speck extends Component {
             container,
 
             getRotation: () => this.view.rotation,
-            setRotation: rotationObj =>
-                (this.view = viewAssign(this.view, {rotation: rotationObj})),
+            setRotation: rotationObj => {
+                this.view = viewAssign(this.view, {rotation: rotationObj});
+                this.propsReconcileSchedule();
+            },
 
             getZoom: () => this.view.zoom,
-            setZoom: zoomVal =>
-                (this.view = viewAssign(this.view, {zoom: zoomVal})),
+            setZoom: zoomVal => {
+                this.view = viewAssign(this.view, {zoom: zoomVal});
+                this.propsReconcileSchedule();
+            },
 
             refreshView: () => (this.refreshView = true),
         });
@@ -188,7 +208,7 @@ export default class Speck extends Component {
         }
 
         // apply the user-supplied view parameters
-        if (!viewEqual(prevProps.view, view)) {
+        if (!viewEqual(view, prevProps.view, viewInternal)) {
             viewInternal = viewAssign(viewInternal, view);
             needsUpdate = true;
         }
@@ -210,6 +230,17 @@ export default class Speck extends Component {
         this.props.setProps({
             view: this.view,
         });
+    }
+
+    propsReconcile() {
+        if(!viewEqual(this.view, this.props.view)) {
+            this.props.setProps({view: viewClone(this.view)});
+        }
+    }
+
+    propsReconcileSchedule() {
+        clearTimeout(this.propsReconcileTimeout);
+        this.propsReconcileTimeout = setTimeout(this.propsReconcile, 500);
     }
 
     loadStructure(data) {
