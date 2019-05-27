@@ -6,7 +6,7 @@ import {
     speckRenderer as SpeckRenderer,
     speckSystem,
     speckView,
-    speckInteractions as SpeckInteractions,
+    speckInteractions,
     speckPresetViews,
 } from 'speck';
 
@@ -31,6 +31,77 @@ const generateSystem = memoize(data => {
     return system;
 });
 
+const viewClone = view => ({
+    aspect: view.aspect,
+    zoom: view.zoom,
+    translation: {
+        x: view.translation.x,
+        y: view.translation.y,
+    },
+    atomScale: view.atomScale,
+    relativeAtomScale: view.relativeAtomScale,
+    bondScale: view.bondScale,
+    rotation: new Float32Array(view.rotation),
+    ao: view.ao,
+    aoRes: view.aoRes,
+    brightness: view.brightness,
+    outline: view.outline,
+    spf: view.spf,
+    bonds: view.bonds,
+    bondThreshold: view.bondThreshold,
+    bondShade: view.bondShade,
+    atomShade: view.atomShade,
+    resolution: view.resolution,
+    dofStrength: view.dofStrength,
+    dofPosition: view.dofPosition,
+    fxaa: view.fxaa,
+});
+
+const scAssign = (prop1, prop2) =>
+    prop2 === undefined ? prop1 : prop2;
+
+const viewAssign = (view1 = {}, view2 = {}) => ({
+    aspect: scAssign(view1.aspect, view2.aspect),
+    zoom: scAssign(view1.zoom, view2.zoom),
+    translation: view2.translation || view1.translation,
+    atomScale: scAssign(view1.atomScale, view2.atomScale),
+    relativeAtomScale: scAssign(view1.relativeAtomScale, view2.relativeAtomScale),
+    bondScale: scAssign(view1.bondScale, view2.bondScale),
+    rotation: view2.rotation || view1.rotation,
+    ao: scAssign(view1.ao, view2.ao),
+    aoRes: scAssign(view1.aoRes, view2.aoRes),
+    brightness: scAssign(view1.brightness, view2.brightness),
+    outline: scAssign(view1.outline, view2.outline),
+    spf: scAssign(view1.spf, view2.spf),
+    bonds: scAssign(view1.bonds, view2.bonds),
+    bondThreshold: scAssign(view1.bondThreshold, view2.bondThreshold),
+    bondShade: scAssign(view1.bondShade, view2.bondShade),
+    atomShade: scAssign(view1.atomShade, view2.atomShade),
+    resolution: scAssign(view1.resolution, view2.resolution),
+    dofStrength: scAssign(view1.dofStrength, view2.dofStrength),
+    dofPosition: scAssign(view1.dofPosition, view2.dofPosition),
+    fxaa: scAssign(view1.fxaa, view2.fxaa),
+});
+
+const viewEqual = (view1, view2) =>
+    JSON.stringify(view1) === JSON.stringify(view2);
+
+// Assume that view2 will never have a property that view1 does not have
+// const viewDiff = (view1, view2) => {
+//     const view1Keys = Object.keys(view1);
+//     const outputObj = {};
+//     for(let i = 0; i < view1Keys.length; i++) {
+//         const key = view1Keys[i];
+//         if((typeof view1[key] !== 'object') && (view1[key] !== view2[key])) {
+//             outputObj[key] = view2[key];
+//         }
+//     }
+
+//     return outputObj;
+// }
+
+// const clone = obj => JSON.parse(JSON.stringify(obj));
+
 
 
 /**
@@ -43,14 +114,16 @@ export default class Speck extends Component {
         super(props);
 
         this.state = {
-            refreshView: false,
             renderer: null,
-            interactions: {
-                buttonDown: false,
-                lastX: 0.0,
-                lastY: 0.0,
-            },
         };
+
+        this.eventListenDestructor = () => {/* no-op */};
+        this.refreshView = false;
+        this.view = viewAssign(speckView.new(), props.view);
+
+        this.props.setProps({
+            view: viewClone(this.view),
+        });
 
         // setting refs in this way to allow for easier updating to
         // react 16
@@ -61,37 +134,43 @@ export default class Speck extends Component {
             this.container = e;
         };
 
-        // initialize view
-        this.props.setProps({
-            view: Object.assign(speckView.new(), props.view || {}),
-        });
-
         this.loop = this.loop.bind(this);
         this.loadStructure = this.loadStructure.bind(this);
+
+        window.x = this;
     }
 
     componentDidMount() {
-        // add canvas, container, and renderer
-        const canvas = this.canvas;
-        const container = this.container;
+        const {data, scrollZoom} = this.props;
+        const {canvas, container} = this;
         const resolution = 200;
         const aoResolution = 300;
         const renderer = new SpeckRenderer(canvas, resolution, aoResolution);
 
+        this.refreshView = true;
         this.setState(
             {
-                renderer: renderer,
-                refreshView: true,
+                renderer,
             },
             () => this.loadStructure(this.props.data)
         );
 
         // add event listeners
-        const interactionHandler = new SpeckInteractions( // eslint-disable-line no-unused-vars
-            this,
-            renderer,
-            container
-        );
+        this.eventListenDestructor = speckInteractions({
+            scrollZoom,
+            container,
+
+            getRotation: () => this.view.rotation,
+            setRotation: rotationObj =>
+                (this.view = viewAssign(this.view, {rotation: rotationObj})),
+
+            getZoom: () => this.view.zoom,
+            setZoom: zoomVal =>
+                (this.view = viewAssign(this.view, {zoom: zoomVal})),
+
+            refreshView: () => (this.refreshView = true),
+        });
+
         this.loop();
     }
 
@@ -99,36 +178,38 @@ export default class Speck extends Component {
         const {setProps, data, view, presetView} = this.props;
         const {renderer} = this.state;
 
-        let viewNew = prevProps.view || {};
+        let viewInternal = this.view;
         let needsUpdate = false;
 
         // apply applicable preset parameters if preset has changed
         if (prevProps.presetView !== presetView) {
-            viewNew = Object.assign(viewNew, speckPresetViews[presetView]);
+            viewInternal = viewAssign(viewInternal, speckPresetViews[presetView]);
             needsUpdate = true;
         }
 
         // apply the user-supplied view parameters
-        if (
-            Object.keys(viewNew).length !== Object.keys(view).length ||
-            Object.keys(viewNew).some(
-                propertyName => viewNew[propertyName] !== view[propertyName]
-            )
-        ) {
-            viewNew = Object.assign(viewNew, view);
+        if (!viewEqual(prevProps.view, view)) {
+            viewInternal = viewAssign(viewInternal, view);
             needsUpdate = true;
         }
 
         // perform update
         if (needsUpdate) {
-            setProps({
-                view: viewNew,
-            });
-
+            this.view = viewInternal;
             if (renderer) {
                 this.loadStructure(data);
             }
         }
+    }
+
+    componentWillUnmount() {
+        // set this.state.renderer = null to ensure all refs to renderer are
+        // destroyed so garbage collector will clean up webgl contexts
+        this.state.renderer = null;
+        this.eventListenDestructor();
+        this.props.setProps({
+            view: this.view,
+        });
     }
 
     loadStructure(data) {
@@ -137,8 +218,8 @@ export default class Speck extends Component {
             return;
         }
 
-        const renderer = this.state.renderer;
-        const view = this.props.view;
+        const {renderer} = this.state;
+        const {view} = this;
         const system = generateSystem(data);
 
         renderer.setSystem(system, view);
@@ -146,26 +227,23 @@ export default class Speck extends Component {
         // update the resolution
         renderer.setResolution(view.resolution, view.aoRes);
 
-        this.setState({
-            refreshView: true,
-        });
+        this.refreshView = true;
     }
 
     loop() {
-        if (this.state.renderer && this.props.view) {
-            if (this.state.refreshView) {
+        if (this.state.renderer && this.view) {
+            if (this.refreshView) {
                 this.state.renderer.reset();
-                this.setState({
-                    refreshView: false,
-                });
+                this.refreshView = false;
             }
-            this.state.renderer.render(this.props.view);
+            this.state.renderer.render(this.view);
         }
         requestAnimationFrame(this.loop);
     }
 
     render() {
-        const {id, view} = this.props;
+        const {id} = this.props;
+        const {view} = this;
 
         const divStyle = {
             height: view.resolution,
