@@ -3,7 +3,7 @@
 cython>=0.19
 dash==0.40.0
 dash-bio==0.1.1rc2
-dash-bio-utils==0.0.1
+dash-bio-utils==0.0.2rc1
 dash-daq==0.1.4
 gunicorn==19.9.0
 jsonschema==2.6.0
