@@ -8,7 +8,7 @@ with open(os.path.join(filepath, 'README.md'), encoding='utf-8') as f:
 
 package = {
     'name': os.path.basename(filepath).replace('-', '_'),
-    'version': '0.0.1',
+    'version': '0.0.2rc1',
     'author': 'The Plotly Team',
     'author_email': 'dashbio@plot.ly',
     'description': 'Simple parsing tools that supplement dash-bio.'
@@ -29,6 +29,7 @@ setup(
         'biopython',
         'colour',
         'GEOparse>=1.1.0',
+        'periodic',
         'pandas',
         'parmed'
     ],
