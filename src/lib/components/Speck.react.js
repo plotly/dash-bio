@@ -14,7 +14,7 @@ import {
 
 
 /**
- * Define private functions used in the Speck component.
+ * Define private functions and variables used in the Speck component.
  **/
 
 const PROPS_RECONCILE_DEBOUNCE_TIME = 500;
@@ -95,8 +95,6 @@ export default class Speck extends Component {
         this.loadStructure = this.loadStructure.bind(this);
         this.propsReconcile = this.propsReconcile.bind(this);
         this.propsReconcileSchedule = this.propsReconcileSchedule.bind(this);
-
-        window.x = this;
     }
 
     componentDidMount() {
@@ -106,7 +104,6 @@ export default class Speck extends Component {
         const aoResolution = 300;
         const renderer = new SpeckRenderer(canvas, resolution, aoResolution);
 
-        this.refreshView = true;
         this.setState(
             {
                 renderer,
