@@ -189,7 +189,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 data_string=json.dumps(
                     stored_compounds[list(stored_compounds.keys())[0]]
                 ),
-                base_distance=bond_length
+                bond_distance=bond_length
             )
         elif selected_compound is not None:
             error_message = 'Displaying: {}'.format(
@@ -199,7 +199,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 data_string=json.dumps(
                     stored_compounds[selected_compound]
                 ),
-                base_distance=bond_length
+                bond_distance=bond_length
             )
 
         return model_data, error_message
