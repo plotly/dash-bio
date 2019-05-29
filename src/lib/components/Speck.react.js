@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { mergeAll, equals } from 'ramda';
 import memoize from 'fast-memoize';
 
 import {
@@ -31,72 +32,26 @@ const generateSystem = memoize(data => {
     return system;
 });
 
-const viewClone = view => ({
-    aspect: view.aspect,
-    zoom: view.zoom,
-    translation: {
-        x: view.translation.x,
-        y: view.translation.y,
-    },
-    atomScale: view.atomScale,
-    relativeAtomScale: view.relativeAtomScale,
-    bondScale: view.bondScale,
-    rotation: new Float32Array(view.rotation),
-    ao: view.ao,
-    aoRes: view.aoRes,
-    brightness: view.brightness,
-    outline: view.outline,
-    spf: view.spf,
-    bonds: view.bonds,
-    bondThreshold: view.bondThreshold,
-    bondShade: view.bondShade,
-    atomShade: view.atomShade,
-    resolution: view.resolution,
-    dofStrength: view.dofStrength,
-    dofPosition: view.dofPosition,
-    fxaa: view.fxaa,
-});
+const viewClone = view =>
+    mergeAll([
+        view,
+        {
+            rotation: new Float32Array(view.rotation),
+            translation: mergeAll([view.translation]),
+        },
+    ]);
 
-const scAssign = (prop1, prop2) =>
-    prop2 === undefined ? prop1 : prop2;
+const viewAssign = (view1 = {}, view2 = {}) =>
+    Object.assign(view1, view2);
 
-const viewAssign = (view1 = {}, view2 = {}) => ({
-    aspect: scAssign(view1.aspect, view2.aspect),
-    zoom: scAssign(view1.zoom, view2.zoom),
-    translation: view2.translation || view1.translation,
-    atomScale: scAssign(view1.atomScale, view2.atomScale),
-    relativeAtomScale: scAssign(view1.relativeAtomScale, view2.relativeAtomScale),
-    bondScale: scAssign(view1.bondScale, view2.bondScale),
-    rotation: view2.rotation || view1.rotation,
-    ao: scAssign(view1.ao, view2.ao),
-    aoRes: scAssign(view1.aoRes, view2.aoRes),
-    brightness: scAssign(view1.brightness, view2.brightness),
-    outline: scAssign(view1.outline, view2.outline),
-    spf: scAssign(view1.spf, view2.spf),
-    bonds: scAssign(view1.bonds, view2.bonds),
-    bondThreshold: scAssign(view1.bondThreshold, view2.bondThreshold),
-    bondShade: scAssign(view1.bondShade, view2.bondShade),
-    atomShade: scAssign(view1.atomShade, view2.atomShade),
-    resolution: scAssign(view1.resolution, view2.resolution),
-    dofStrength: scAssign(view1.dofStrength, view2.dofStrength),
-    dofPosition: scAssign(view1.dofPosition, view2.dofPosition),
-    fxaa: scAssign(view1.fxaa, view2.fxaa),
-});
-
-const viewEqual = function(view1, view2) {
+const viewHasEqual = function(view1) {
     const view1Str = JSON.stringify(view1);
-    const argLength = arguments.length;
-    if(argLength === 2) {
-        return view1Str === JSON.stringify(view2);
-    }
-    else {
-        for(let i = 1; i < argLength; i++) {
-            if(view1Str === JSON.stringify(arguments[i])) {
-                return true;
-            }
+    for(let i = 1; i < arguments.length; i++) {
+        if(view1Str === JSON.stringify(arguments[i])) {
+            return true;
         }
-        return false;
     }
+    return false;
 }
 
 // Assume that view2 will never have a property that view1 does not have
@@ -204,18 +159,25 @@ export default class Speck extends Component {
         // apply applicable preset parameters if preset has changed
         if (prevProps.presetView !== presetView) {
             viewInternal = viewAssign(viewInternal, speckPresetViews[presetView]);
+            this.propsReconcileSchedule();
             needsUpdate = true;
         }
 
         // apply the user-supplied view parameters
-        if (!viewEqual(view, prevProps.view, viewInternal)) {
+        if (!viewHasEqual(view, prevProps.view, viewInternal)) {
             viewInternal = viewAssign(viewInternal, view);
+            needsUpdate = true;
+        }
+
+        // check for changes to data
+        if (!equals(data, prevProps.data)) {
             needsUpdate = true;
         }
 
         // perform update
         if (needsUpdate) {
             this.view = viewInternal;
+
             if (renderer) {
                 this.loadStructure(data);
             }
@@ -233,7 +195,7 @@ export default class Speck extends Component {
     }
 
     propsReconcile() {
-        if(!viewEqual(this.view, this.props.view)) {
+        if(!equals(this.view, this.props.view)) {
             this.props.setProps({view: viewClone(this.view)});
         }
     }
