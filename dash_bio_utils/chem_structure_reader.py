@@ -36,7 +36,7 @@ def _get_distance(point_1, point_2, base_distance):
                     scaled by a multiplier.
     """
 
-    return base_distance*np.round(np.sqrt(
+    return np.round(base_distance*np.sqrt(
         (point_1['x'] - point_2['x'])**2 +
         (point_1['y'] - point_2['y'])**2
     ), 2)
