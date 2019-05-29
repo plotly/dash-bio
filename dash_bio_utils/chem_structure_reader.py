@@ -15,7 +15,7 @@ from periodictable import elements
 _ELEMENTS = {el.number: el.symbol for el in elements}
 
 
-def get_distance(point_1, point_2, base_distance=20.0):
+def get_distance(point_1, point_2, base_distance):
 
     """Get the Euclidean distance between two points.
 
@@ -44,7 +44,8 @@ def get_distance(point_1, point_2, base_distance=20.0):
 
 def read_structure(
         file_path='',
-        data_string=''
+        data_string='',
+        bond_distance=20.0
 ):
 
     """Read molecular strucural data in JSON format, either from a file or
@@ -53,7 +54,8 @@ def read_structure(
     :param (string) file_path: The full path to the JSON file (can be
                                relative or absolute).
     :param (string) data_string: A string corresponding to the JSON file.
-
+    :param (float) bond_distance: The base value to use as a multiplier
+                                  for the computation of bond distance.
     :rtype (dict[list]): A dictionary containing the atoms and bonds
                          in the file.
 
@@ -118,7 +120,11 @@ def read_structure(
         bonds = []
 
     for bnd in bonds:
-        bnd['distance'] = get_distance(pos[bnd['source']], pos[bnd['target']])
+        bnd['distance'] = get_distance(
+            pos[bnd['source']],
+            pos[bnd['target']],
+            bond_distance
+        )
 
     parsed_structure = {
         'nodes': atoms,
