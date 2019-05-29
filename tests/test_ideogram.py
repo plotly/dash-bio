@@ -234,7 +234,7 @@ def test_ploidy(dash_threaded):
     btn.click()
 
     # assert doubling of the 22 chromosomes + X and Y chromosomes
-    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome', timeout=20)
     assert len(chromosomes) == 46
 
 
@@ -314,7 +314,7 @@ def test_chromosomes_wrong_input(dash_threaded):
     btn.click()
 
     # assert the set of chromosomes contains 2 chromosomes
-    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome', timeout=20)
     assert len(chromosomes) == 2
 
 
@@ -489,7 +489,7 @@ def test_sex(dash_threaded):
     btn.click()
 
     # assert the absence of the chromosome Y
-    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome', timeout=20)
     num_chromosoms = len(chromosomes)
     assert num_chromosoms == 23
 
