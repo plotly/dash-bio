@@ -1,7 +1,7 @@
 """Chem structure reader
 
 This module contains functions that extract data from JSON files for
-compatibility with the Dash bio Molecule2dViewer component.
+compatibility with the Dash Bio Molecule2dViewer component.
 
 Attributes: _ELEMENTS (dict): A dictionary that maps the atomic
     numbers of elements to their corresponding symbols."""
