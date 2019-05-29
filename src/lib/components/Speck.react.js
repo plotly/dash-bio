@@ -137,6 +137,12 @@ export default class Speck extends Component {
                 this.propsReconcileSchedule();
             },
 
+            getTranslation: () => this.view.translation,
+            setTranslation: translationObj => {
+                this.view = viewAssign(this.view, {translation: translationObj});
+                this.propsReconcileSchedule();
+            },
+
             getZoom: () => this.view.zoom,
             setZoom: zoomVal => {
                 this.view = viewAssign(this.view, {zoom: zoomVal});
