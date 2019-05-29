@@ -100,7 +100,7 @@ export default class Speck extends Component {
     }
 
     componentDidMount() {
-        const {data, scrollZoom} = this.props;
+        const {scrollZoom} = this.props;
         const {canvas, container} = this;
         const resolution = 200;
         const aoResolution = 300;
@@ -111,7 +111,7 @@ export default class Speck extends Component {
             {
                 renderer,
             },
-            () => this.loadStructure(data)
+            this.loadStructure
         );
 
         // add event listeners
@@ -173,7 +173,7 @@ export default class Speck extends Component {
             this.view = viewInternal;
 
             if (renderer) {
-                this.loadStructure(data);
+                this.loadStructure();
             }
         }
     }
@@ -203,7 +203,9 @@ export default class Speck extends Component {
         );
     }
 
-    loadStructure(data) {
+    loadStructure() {
+        const {data} = this.props;
+
         // avoid trying to load an empty system
         if (data.length === 0) {
             return;
