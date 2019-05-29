@@ -68,7 +68,9 @@ def layout():
                                         html.Div(
                                             className='app-controls-desc',
                                             children='Search the PubChem database for a molecule ' +
-                                            'by typing in its name, then pressing the return key.'
+                                            'by typing in its common name or its IUPAC name, then ' +
+                                            'pressing the return key. (e.g., "penta-2,3-diene", ' +
+                                            '"tylenol", "norepinephrine")'
                                         ),
                                         dcc.Input(
                                             id='mol2d-search',
