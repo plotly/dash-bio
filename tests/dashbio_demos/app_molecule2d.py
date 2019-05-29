@@ -49,7 +49,7 @@ def layout():
                             children=html.Div(className='control-tab', children=[
                                 html.H4(className='what-is', children='What is Molecule2D?'),
                                 html.P('Molecule2D is a visualizer for molecular structures.'),
-                                html.P('In the "Data" tab, you can use the text input to '
+                                html.P('In the "View" tab, you can use the text input to '
                                        'search the PubChem database by molecule name for '
                                        'structural information.'),
                                 html.P('You can also change the bond lengths with the '
@@ -57,7 +57,7 @@ def layout():
                             ])
                         ),
                         dcc.Tab(
-                            label='Data',
+                            label='View',
                             children=html.Div(className='control-tab', children=[
                                 html.Div(
                                     title='Search for a molecule to view',
