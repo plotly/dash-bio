@@ -21,37 +21,104 @@ elif 'DASH_PATH_ROUTING' in os.environ:
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "mol2d_")
 
 
-def header_colors():
-    return {}
-
-
 def description():
-    return ''
+    return 'Two-dimensional visualizations of molecular structure.'
+
+
+def header_colors():
+    return {
+        'bg_color': '#015BB0',
+        'font_color': '#FFFFFF',
+        'light_logo': True
+    }
 
 
 def layout():
-    return html.Div([
-        html.Div(id='mol2d-container', children=[
-            dash_bio.Molecule2dViewer(
-                id='mol2d',
-            )
-        ]),
-        dcc.Input(id='mol-search'),
-        html.Div(id='error-wrapper'),
-        html.Div(
-            id='search-results-wrapper', children=[
-                dcc.Dropdown(id='search-results')
-            ]
-        ),
-        html.Div(id='sel-atoms-output'),
-        dcc.Store(id='search-results-store'),
-        dcc.Store(id='compound-options-store')
-    ])
+    return html.Div(
+        id='mol2d-body',
+        className='app-body',
+        children=[
+            html.Div(
+                id='mol2d-control-tabs',
+                className='control-tabs',
+                children=[
+                    dcc.Tabs(id='mol2d-tabs', value='what-is', children=[
+                        dcc.Tab(
+                            label='About',
+                            value='what-is',
+                            children=html.Div(className='control-tab', children=[
+                                html.H4(className='what-is', children='What is Molecule2D?')
+                            ])
+                        ),
+                        dcc.Tab(
+                            label='Data',
+                            children=html.Div(className='control-tab', children=[
+                                html.Div(
+                                    title='Search for a molecule to view',
+                                    className='app-controls-block',
+                                    children=[
+                                        html.Div(className='fullwidth-app-controls-name',
+                                                 children='Search for molecule by name'),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Search the PubChem database for a molecule ' +
+                                            'by name, then press the return key.'
+                                        ),
+                                        dcc.Input(
+                                            id='mol2d-search',
+                                            placeholder='molecule name',
+                                            type='text',
+                                            value='aspirin'
+                                        )
+                                    ]
+                                ),
+                                html.Div(
+                                    title='Change the base bond length',
+                                    className='app-controls-block',
+                                    children=[
+                                        html.Div(className='app-controls-name',
+                                                 children='Bond length'),
+                                        dcc.Slider(
+                                            id='mol2d-bond-length',
+                                            min=5,
+                                            max=100,
+                                            value=20
+                                        ),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Change the base bond length.'
+                                        )
+                                    ]
+                                ),
+                                html.Div(
+                                    id='mol2d-search-results-wrapper', children=[
+                                        dcc.Dropdown(id='mol2d-search-results')
+                                    ]
+                                ),
+                                html.Hr(),
+                                html.Div(id='error-wrapper'),
+                                html.Div(id='mol2d-sel-atoms-output'),
+                            ])
+                        )
+                    ])
+                ]
+            ),
+            html.Div(id='mol2d-container', children=[
+                dash_bio.Molecule2dViewer(
+                    id='mol2d',
+                    height=700,
+                    width=700
+                )
+            ]),
+            dcc.Store(id='mol2d-search-results-store'),
+            dcc.Store(id='mol2d-compound-options-store')
+        ]
+    )
 
 
 def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
-        Output('sel-atoms-output', 'children'),
+        Output('mol2d-sel-atoms-output', 'children'),
         [Input('mol2d', 'selectedAtomIds')]
     )
     def show_selected(ids):
@@ -60,11 +127,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return str(ids)
 
     @app.callback(
-        [Output('search-results-wrapper', 'style'),
-         Output('compound-options-store', 'data'),
-         Output('search-results-store', 'data')],
-        [Input('mol-search', 'n_submit')],
-        state=[State('mol-search', 'value')]
+        [Output('mol2d-search-results-wrapper', 'style'),
+         Output('mol2d-compound-options-store', 'data'),
+         Output('mol2d-search-results-store', 'data')],
+        [Input('mol2d-search', 'n_submit')],
+        state=[State('mol2d-search', 'value')]
     )
     def update_results(_, query):
         results_dropdown = {'display': 'none'}
@@ -101,11 +168,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     @app.callback(
         [Output('mol2d', 'modelData'),
          Output('error-wrapper', 'children')],
-        [Input('search-results-store', 'modified_timestamp')],
-        state=[State('search-results-store', 'data'),
-               State('search-results', 'value')]
+        [Input('mol2d-search-results-store', 'modified_timestamp'),
+         Input('mol2d-bond-length', 'value')],
+        state=[State('mol2d-search-results-store', 'data'),
+               State('mol2d-search-results', 'value')]
     )
-    def update_model(_, stored_compounds, selected_compound):
+    def update_model(_, bond_length, stored_compounds, selected_compound):
 
         error_message = ''
 
@@ -120,7 +188,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             model_data = read_structure(
                 data_string=json.dumps(
                     stored_compounds[list(stored_compounds.keys())[0]]
-                )
+                ),
+                base_distance=bond_length
             )
         elif selected_compound is not None:
             error_message = 'Displaying: {}'.format(
@@ -129,10 +198,18 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             model_data = read_structure(
                 data_string=json.dumps(
                     stored_compounds[selected_compound]
-                )
+                ),
+                base_distance=bond_length
             )
 
         return model_data, error_message
+
+    @app.callback(
+        Output('mol2d', 'selectedAtomIds'),
+        [Input('mol2d-search', 'n_submit')]
+    )
+    def reset_selected_atoms(_):
+        return []
 
 
 # only declare app/server if the file is being run directly
