@@ -29,9 +29,9 @@ setup(
         'biopython',
         'colour',
         'GEOparse>=1.1.0',
-        'periodictable',
         'pandas',
-        'parmed'
+        'parmed',
+        'periodictable'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
