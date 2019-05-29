@@ -60,15 +60,10 @@ def read_structure(
     """
 
     # ensure we are only given one file specification
-    if file_path and data_string:
+    if (file_path and data_string) or (not file_path and not data_string):
         raise Exception(
             "Please specify either a file path or a \
             string of data."
-        )
-
-    if not file_path and not data_string:
-        raise Exception(
-            'no'
         )
 
     structural_info = {}
