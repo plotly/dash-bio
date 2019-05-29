@@ -17,6 +17,8 @@ import {
  * Define private functions used in the Speck component.
  **/
 
+const PROPS_RECONCILE_DEBOUNCE_TIME = 500;
+
 const generateSystem = memoize(data => {
     const system = speckSystem.new();
 
@@ -54,22 +56,6 @@ const viewHasEqual = function(view1) {
     return false;
 }
 
-// Assume that view2 will never have a property that view1 does not have
-// const viewDiff = (view1, view2) => {
-//     const view1Keys = Object.keys(view1);
-//     const outputObj = {};
-//     for(let i = 0; i < view1Keys.length; i++) {
-//         const key = view1Keys[i];
-//         if((typeof view1[key] !== 'object') && (view1[key] !== view2[key])) {
-//             outputObj[key] = view2[key];
-//         }
-//     }
-
-//     return outputObj;
-// }
-
-// const clone = obj => JSON.parse(JSON.stringify(obj));
-
 
 
 /**
@@ -85,7 +71,9 @@ export default class Speck extends Component {
             renderer: null,
         };
 
-        this.eventListenDestructor = () => {/* no-op */};
+        this.eventListenDestructor = () => {
+            /* no-op */
+        };
         this.refreshView = false;
         this.propsReconcileTimeout = null;
 
@@ -123,7 +111,7 @@ export default class Speck extends Component {
             {
                 renderer,
             },
-            () => this.loadStructure(this.props.data)
+            () => this.loadStructure(data)
         );
 
         // add event listeners
@@ -156,7 +144,7 @@ export default class Speck extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const {setProps, data, view, presetView} = this.props;
+        const {data, view, presetView} = this.props;
         const {renderer} = this.state;
 
         let viewInternal = this.view;
@@ -193,6 +181,7 @@ export default class Speck extends Component {
     componentWillUnmount() {
         // set this.state.renderer = null to ensure all refs to renderer are
         // destroyed so garbage collector will clean up webgl contexts
+        // eslint-disable-next-line react/no-direct-mutation-state
         this.state.renderer = null;
         this.eventListenDestructor();
         this.props.setProps({
@@ -208,7 +197,10 @@ export default class Speck extends Component {
 
     propsReconcileSchedule() {
         clearTimeout(this.propsReconcileTimeout);
-        this.propsReconcileTimeout = setTimeout(this.propsReconcile, 500);
+        this.propsReconcileTimeout = setTimeout(
+            this.propsReconcile,
+            PROPS_RECONCILE_DEBOUNCE_TIME
+        );
     }
 
     loadStructure(data) {
