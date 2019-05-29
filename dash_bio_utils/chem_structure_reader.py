@@ -15,7 +15,7 @@ from periodictable import elements
 _ELEMENTS = {el.number: el.symbol for el in elements}
 
 
-def get_distance(point_1, point_2, base_distance):
+def _get_distance(point_1, point_2, base_distance):
 
     """Get the Euclidean distance between two points.
 
@@ -120,7 +120,7 @@ def read_structure(
         bonds = []
 
     for bnd in bonds:
-        bnd['distance'] = get_distance(
+        bnd['distance'] = _get_distance(
             pos[bnd['source']],
             pos[bnd['target']],
             bond_distance
