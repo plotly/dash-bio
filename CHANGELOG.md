@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.1] - 2019-05-29
+## [0.1.2] - 2019-05-29
 
 ### Fixed
 * Fixed issue with Speck not responding to preset changes.
