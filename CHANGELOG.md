@@ -4,5 +4,6 @@
 
 ### Added
 
-* Added chem_structure_reader to allow for parsing PubChem files for
-  molecular data for the `dash_bio` `Molecule2dViewer` component.
+* Added `chem_structure_reader` to allow for parsing PubChem files for
+  molecular structural data for the `dash_bio` `Molecule2dViewer` 
+  component.
