@@ -85,37 +85,43 @@ def read_structure(
                 [_ELEMENTS[int(el)] for el in structure['atoms']['element']]
             ))
         ]
-    except Exception:
+    except KeyError:
         atoms = []
 
-    bonds = [
-        {'id': int(bnd[0]),
-         'source': int(bnd[1]),
-         'target': int(bnd[2]),
-         'bond': int(bnd[3]),
-         'strength': 1}
-        for bnd in list(zip(
-            [i+1 for i in range(len(structure['bonds']['aid1']))],
-            structure['bonds']['aid1'],
-            structure['bonds']['aid2'],
-            structure['bonds']['order']
-        ))
-    ]
-
-    pos = {
-        i: {
-            'x':
-            structure['coords'][0]['conformers'][0]['x'][structure['coords'][0]['aid'].index(i)],
-            'y':
-            structure['coords'][0]['conformers'][0]['y'][structure['coords'][0]['aid'].index(i)],
-        } for i in structure['coords'][0]['aid']
-    }
+    try:
+        bonds = [
+            {'id': int(bnd[0]),
+             'source': int(bnd[1]),
+             'target': int(bnd[2]),
+             'bond': int(bnd[3]),
+             'strength': 1}
+            for bnd in list(zip(
+                [i+1 for i in range(len(structure['bonds']['aid1']))],
+                structure['bonds']['aid1'],
+                structure['bonds']['aid2'],
+                structure['bonds']['order']
+            ))
+        ]
+        pos = {
+            i: {
+                'x':
+                structure['coords'][0]['conformers'][0]['x'][
+                    structure['coords'][0]['aid'].index(i)
+                ],
+                'y':
+                structure['coords'][0]['conformers'][0]['y'][
+                    structure['coords'][0]['aid'].index(i)
+                ]
+            } for i in structure['coords'][0]['aid']
+        }
+    except KeyError:
+        bonds = []
 
     for bnd in bonds:
         bnd['distance'] = get_distance(pos[bnd['source']], pos[bnd['target']])
 
-    residue = {
+    parsed_structure = {
         'nodes': atoms,
         'links': bonds
     }
-    return residue
+    return parsed_structure
