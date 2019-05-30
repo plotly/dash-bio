@@ -81,7 +81,7 @@ jobs:
                 name: Run pylint
                 command: |
                     . venv/bin/activate
-                    pylint tests/ dash_bio/utils/ dash_bio/component_factory/
+                    pylint tests/ dash_bio/component_factory/
                 when: always
 
             - run:
