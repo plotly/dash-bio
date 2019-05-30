@@ -42,18 +42,19 @@ def _get_distance(point_1, point_2, base_distance):
     ), 2)
 
 
-def read_structure(
-        file_path='',
-        data_string='',
-        bond_distance=20.0
-):
+def read_structure(datapath_or_datastring,
+                   is_datastring=False,
+                   bond_distance=20.0):
 
     """Read molecular strucural data in JSON format, either from a file or
     from a string of raw data.
 
-    :param (string) file_path: The full path to the JSON file (can be
-                               relative or absolute).
-    :param (string) data_string: A string corresponding to the JSON file.
+    :param (string) datapath_or_datastring: Either the full path to the JSON file (can be relative
+                                            or absolute), or a string corresponding to the content
+                                            of a JSON file (including newline characters).
+    :param (bool, optional) is_datastring: False (default) if data filepath is passed to
+                                           `datapath_or_datastring`, True if raw data string is
+                                           passed instead.
     :param (float) bond_distance: The base value to use as a multiplier
                                   for the computation of bond distance.
     :rtype (dict[list]): A dictionary containing the atoms and bonds
@@ -61,20 +62,17 @@ def read_structure(
 
     """
 
-    # ensure we are only given one file specification
-    if (file_path and data_string) or (not file_path and not data_string):
-        raise Exception(
-            "Please specify either a file path or a \
-            string of data."
-        )
+    # ensure required argument is a string
+    if not isinstance(datapath_or_datastring, str):
+        raise TypeError('Please pass either data filepath or string of raw data.')
 
     structural_info = {}
 
-    if file_path:
-        with open(file_path, 'r') as f:
+    if is_datastring is False:
+        with open(datapath_or_datastring, 'r') as f:
             structural_info = json.loads(f.read())
     else:
-        structural_info = json.loads(data_string)
+        structural_info = json.loads(datapath_or_datastring)
 
     structure = structural_info['PC_Compounds'][0]
 
