@@ -35,18 +35,18 @@ _DATABASES = {
 }
 
 
-def read_fasta(
-        file_path='',
-        data_string='',
-):
+def read_fasta(datapath_or_datastring,
+               is_datastring=False):
     """
     Read a file in FASTA format, either from a file or from a string of raw
     data.
 
-    :param (string) file_path: The full path to the FASTA file (can be relative
-                              or absolute).
-    :param (string) data_string: A string corresponding to the FASTA file
-                                (including newline characters).
+    :param (string) datapath_or_datastring: Either the full path to the FASTA file (can be relative
+                                            or absolute), or a string corresponding to the content
+                                            of a FASTA file (including newline characters).
+    :param (bool, optional) is_datastring: False (default) if data filepath is passed to
+                                           `datapath_or_datastring`, True if raw data string is
+                                           passed instead.
 
     :rtype (list[dict]): A list of protein objects, each containing a
                          description (based on the header line) and the amino
@@ -54,18 +54,15 @@ def read_fasta(
                          letters removed.
     """
 
-    # ensure we are only given one file specification
-    if file_path and data_string:
-        raise Exception(
-            "Please specify either a file path or a \
-            string of data."
-        )
+    # ensure argument is a string
+    if not isinstance(datapath_or_datastring, str):
+        raise TypeError('Please pass either data filepath or string of raw data.')
 
     raw_data = []
 
     # open file if given a path
-    if file_path:
-        with open(file_path, 'r') as f:
+    if is_datastring is False:
+        with open(datapath_or_datastring, 'r') as f:
             lines = f.readlines()
             if '>' not in lines[0]:
                 raw_data = ['>']
@@ -73,7 +70,7 @@ def read_fasta(
 
     # or read the raw string
     else:
-        lines = data_string.split('\n')
+        lines = datapath_or_datastring.split('\n')
         if '>' not in lines[0]:
             raw_data = ['>']
         raw_data += lines
