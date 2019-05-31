@@ -1,6 +1,9 @@
 # Changelog
 
-## [0.1.2] - 2019-05-29
+## [0.1.1] = 
+
+### Added
+* Added Molecule2dViewer component.
 
 ### Fixed
 * Fixed issue with Speck not responding to preset changes.
