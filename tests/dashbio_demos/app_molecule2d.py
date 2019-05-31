@@ -76,7 +76,8 @@ def layout():
                                             id='mol2d-search',
                                             placeholder='molecule name',
                                             type='text',
-                                            value='aspirin'
+                                            value='buckminsterfullerene',
+                                            n_submit=1
                                         )
                                     ]
                                 ),
