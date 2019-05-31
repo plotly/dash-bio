@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2] - 2019-05-29
+
+### Fixed
+* Fixed issue with Speck not responding to preset changes.
+* Refactored Speck component and implemented general bug fixes.
+
 ## [0.1.0] - 2019-05-27
 
 ### Removed

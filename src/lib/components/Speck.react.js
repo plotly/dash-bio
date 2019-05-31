@@ -14,6 +14,98 @@ import {
  * https://github.com/wwwtyro/speck
  **/
 export default class Speck extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            refreshView: false,
+            renderer: null,
+            interactions: {
+                buttonDown: false,
+                lastX: 0.0,
+                lastY: 0.0,
+            },
+        };
+
+        // setting refs in this way to allow for easier updating to
+        // react 16
+        this.setCanvasRef = e => {
+            this.canvas = e;
+        };
+        this.setContainerRef = e => {
+            this.container = e;
+        };
+
+        // initialize view
+        this.props.setProps({
+            view: Object.assign(speckView.new(), props.view || {}),
+        });
+
+        this.loop = this.loop.bind(this);
+        this.loadStructure = this.loadStructure.bind(this);
+    }
+
+    componentDidMount() {
+        // add canvas, container, and renderer
+        const canvas = this.canvas;
+        const container = this.container;
+        const resolution = 200;
+        const aoResolution = 300;
+        const renderer = new SpeckRenderer(canvas, resolution, aoResolution);
+
+        this.setState(
+            {
+                renderer: renderer,
+                refreshView: true,
+            },
+            () => this.loadStructure(this.props.data)
+        );
+
+        // add event listeners
+        const interactionHandler = new SpeckInteractions( // eslint-disable-line no-unused-vars
+            this,
+            renderer,
+            container
+        );
+        this.loop();
+    }
+
+    componentDidUpdate(prevProps) {
+        const {setProps, data, view, presetView} = this.props;
+        const {renderer} = this.state;
+
+        let viewNew = prevProps.view || {};
+        let needsUpdate = false;
+
+        // apply applicable preset parameters if preset has changed
+        if (prevProps.presetView !== presetView) {
+            viewNew = Object.assign(viewNew, speckPresetViews[presetView]);
+            needsUpdate = true;
+        }
+
+        // apply the user-supplied view parameters
+        if (
+            Object.keys(viewNew).length !== Object.keys(view).length ||
+            Object.keys(viewNew).some(
+                propertyName => viewNew[propertyName] !== view[propertyName]
+            )
+        ) {
+            viewNew = Object.assign(viewNew, view);
+            needsUpdate = true;
+        }
+
+        // perform update
+        if (needsUpdate) {
+            setProps({
+                view: viewNew,
+            });
+
+            if (renderer) {
+                this.loadStructure(data);
+            }
+        }
+    }
+
     loadStructure(data) {
         // avoid trying to load an empty system
         if (data.length === 0) {
@@ -56,123 +148,6 @@ export default class Speck extends Component {
             this.state.renderer.render(this.props.view);
         }
         requestAnimationFrame(this.loop);
-    }
-
-    constructor(props) {
-        super(props);
-
-        // setting refs in this way to allow for easier updating to
-        // react 16
-        this.setCanvasRef = e => {
-            this.canvas = e;
-        };
-        this.setContainerRef = e => {
-            this.container = e;
-        };
-        this.loop = this.loop.bind(this);
-        this.loadStructure = this.loadStructure.bind(this);
-
-        // initialize view if anything is supplied
-        if (props.view) {
-            this.props.view = Object.assign(speckView.new(), props.view);
-        }
-
-        this.state = {
-            refreshView: false,
-            renderer: null,
-            interactions: {
-                buttonDown: false,
-                lastX: 0.0,
-                lastY: 0.0,
-            },
-        };
-    }
-
-    shouldComponentUpdate(nextProps, _) {
-        const {view, data, presetView} = this.props;
-
-        let needsUpdate = false;
-
-        // update if data have changed
-        if (
-            data.length !== nextProps.data.length ||
-            Object.keys(data).some(
-                propertyName =>
-                    data[propertyName] !== nextProps.data[propertyName]
-            )
-        ) {
-            this.props.setProps({
-                data: nextProps.data,
-            });
-
-            needsUpdate = true;
-        }
-
-        // add the appropriate preset view, if that has recently changed
-        if (presetView !== nextProps.presetView) {
-            const v = Object.assign(
-                view,
-                speckPresetViews[nextProps.presetView]
-            );
-            this.props.setProps({
-                view: v,
-            });
-
-            needsUpdate = true;
-        }
-
-        // finally apply the user-supplied view parameters
-        if (
-            Object.keys(view).length !== Object.keys(nextProps.view).length ||
-            Object.keys(view).some(
-                propertyName =>
-                    view[propertyName] !== nextProps.view[propertyName]
-            )
-        ) {
-            const v = Object.assign(view, nextProps.view);
-            this.props.setProps({
-                view: v,
-            });
-
-            needsUpdate = true;
-        }
-
-        return needsUpdate;
-    }
-
-    componentDidMount() {
-        // add canvas, container, and renderer
-        const canvas = this.canvas;
-        const container = this.container;
-        const resolution = 200;
-        const aoResolution = 300;
-        const renderer = new SpeckRenderer(canvas, resolution, aoResolution);
-
-        this.setState(
-            {
-                renderer: renderer,
-                refreshView: true,
-            },
-            function() {
-                this.loadStructure(this.props.data); // eslint-disable-line no-invalid-this
-            }
-        );
-
-        // add event listeners
-        const interactionHandler = new SpeckInteractions( // eslint-disable-line no-unused-vars
-            this,
-            renderer,
-            container
-        );
-        this.loop();
-    }
-
-    componentDidUpdate(_) {
-        const {data, view} = this.props;
-
-        if (view && this.state.renderer && data.length > 0) {
-            this.loadStructure(data);
-        }
     }
 
     render() {
@@ -243,7 +218,7 @@ Speck.propTypes = {
         atomScale: PropTypes.number,
         relativeAtomScale: PropTypes.number,
         bondScale: PropTypes.number,
-        rotation: PropTypes.arrayOf(PropTypes.number),
+        rotation: PropTypes.shape({}),
         ao: PropTypes.number,
         aoRes: PropTypes.number,
         brightness: PropTypes.number,
