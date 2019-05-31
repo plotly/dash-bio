@@ -5,7 +5,10 @@ from dash.development.base_component import Component, _explicitize_args
 
 class Molecule2dViewer(Component):
     """A Molecule2dViewer component.
-
+The Molecule2dViewer component is used to render structural
+formulae of molecules.
+Read more about the component here:
+https://github.com/Autodesk/molecule-2d-for-react
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in callbacks

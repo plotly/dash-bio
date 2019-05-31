@@ -1764,7 +1764,7 @@
     }
   },
   "src/lib/components/Molecule2dViewer.react.js": {
-    "description": "",
+    "description": "The Molecule2dViewer component is used to render structural\nformulae of molecules.\nRead more about the component here:\nhttps://github.com/Autodesk/molecule-2d-for-react",
     "displayName": "Molecule2dViewer",
     "methods": [
       {
