@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.1] = 
+## [0.1.1] -
 
 ### Added
 * Added Molecule2dViewer component.
