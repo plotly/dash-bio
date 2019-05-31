@@ -4,7 +4,10 @@ import Molecule2d from 'molecule-2d-for-react';
 import {omit} from 'ramda';
 
 /**
- *
+ * The Molecule2dViewer component is used to render structural
+ * formulae of molecules.
+ * Read more about the component here:
+ * https://github.com/Autodesk/molecule-2d-for-react
  */
 export default class Molecule2dViewer extends Component {
     constructor(props) {
