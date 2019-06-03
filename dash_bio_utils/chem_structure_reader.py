@@ -52,7 +52,7 @@ def read_structure(datapath_or_datastring,
     :param (string) datapath_or_datastring: Either the full path to the JSON file (can be relative
                                             or absolute), or a string corresponding to the content
                                             of a JSON file (including newline characters).
-    :param (bool, optional) is_datastring: False (default) if data filepath is passed to
+    :param (bool, optional) is_datastring: False (default) if the filepath to the data is passed to
                                            `datapath_or_datastring`, True if raw data string is
                                            passed instead.
     :param (float) bond_distance: The base value to use as a multiplier
