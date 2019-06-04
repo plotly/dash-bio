@@ -22,7 +22,7 @@ DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "mol2d_")
 
 
 def description():
-    return 'Two-dimensional visualizations of molecular structure.'
+    return 'Two-dimensional visualization of molecular structures.'
 
 
 def header_colors():
