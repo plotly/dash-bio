@@ -11,14 +11,14 @@ import SequenceViewer from './components/SequenceViewer.react';
 import Speck from './components/Speck.react';
 
 export {
-    Speck,
-    Molecule3dViewer,
-    SequenceViewer,
-    NeedlePlot,
-    Ideogram,
-    Circos,
-    OncoPrint,
-    AlignmentViewer,
     AlignmentChart,
+    AlignmentViewer,
+    Circos,
+    Ideogram,
     Molecule2dViewer,
+    Molecule3dViewer,
+    NeedlePlot,
+    OncoPrint,
+    SequenceViewer,
+    Speck
 };
