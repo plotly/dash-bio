@@ -68,12 +68,12 @@ Molecule2dViewer.defaultProps = {
 
 Molecule2dViewer.propTypes = {
     /**
-     * The ID used to identify this component in callbacks
+     * The ID used to identify this component in callbacks.
      */
     id: PropTypes.string,
 
     /**
-     * Dash-assigned callback that should be called whenever properties change
+     * Dash-assigned callback that should be called whenever properties change.
      */
     setProps: PropTypes.func,
 
