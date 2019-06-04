@@ -20,5 +20,5 @@ export {
     NeedlePlot,
     OncoPrint,
     SequenceViewer,
-    Speck
+    Speck,
 };

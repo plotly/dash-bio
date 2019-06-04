@@ -11,7 +11,7 @@ Read more about the component here:
 https://github.com/Autodesk/molecule-2d-for-react
 
 Keyword arguments:
-- id (string; optional): The ID used to identify this component in callbacks
+- id (string; optional): The ID used to identify this component in callbacks.
 - selectedAtomIds (list; optional): The selected atom IDs.
 - width (number; optional): The width of the SVG element.
 - height (number; optional): The height of the SVG element.
