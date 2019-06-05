@@ -24,7 +24,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     install_requires=[
-        'dash==0.40.0',
+        'dash==0.43.0',
         'pandas',
         'plotly',
         'scipy',
