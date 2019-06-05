@@ -82,11 +82,11 @@ def layout():
                                     ]
                                 ),
                                 html.Div(
-                                    title='Change the base bond length',
+                                    title='Change the bond length multiplier',
                                     className='app-controls-block',
                                     children=[
                                         html.Div(className='app-controls-name',
-                                                 children='Bond length'),
+                                                 children='Bond length multiplier'),
                                         dcc.Slider(
                                             id='mol2d-bond-length',
                                             min=5,
@@ -95,7 +95,9 @@ def layout():
                                         ),
                                         html.Div(
                                             className='app-controls-desc',
-                                            children='Change the base bond length.'
+                                            children='Change the bond length multiplier. This ' +
+                                            'will cause the structure of the molecule to change ' +
+                                            'as the atoms are pushed farther apart.'
                                         )
                                     ]
                                 ),
