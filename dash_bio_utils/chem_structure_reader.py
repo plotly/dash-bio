@@ -64,7 +64,7 @@ def read_structure(datapath_or_datastring,
 
     # ensure required argument is a string
     if not isinstance(datapath_or_datastring, str):
-        raise TypeError('Please pass either data filepath or string of raw data.')
+        raise TypeError('Please pass either the filepath to the data, or the data as a string.')
 
     structural_info = {}
 
