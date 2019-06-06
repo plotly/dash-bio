@@ -89,15 +89,15 @@ def layout():
                                                  children='Bond length multiplier'),
                                         dcc.Slider(
                                             id='mol2d-bond-length',
-                                            min=5,
+                                            min=1,
                                             max=100,
-                                            value=20
+                                            value=1
                                         ),
                                         html.Div(
                                             className='app-controls-desc',
-                                            children='Change the bond length multiplier. This ' +
-                                            'will cause the structure of the molecule to change ' +
-                                            'as the atoms are pushed farther apart.'
+                                            children='Increase bond lengths linearly from their values ' +
+                                            'at equilibrium. This visualization will be reminiscent ' +
+                                            'of chemical bond stretching.'
                                         )
                                     ]
                                 ),
