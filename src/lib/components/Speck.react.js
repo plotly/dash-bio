@@ -17,6 +17,8 @@ import {
  * Define private functions and variables used in the Speck component.
  **/
 
+// Time (in milliseconds) idle before props reconciliation with external
+// view is done
 const PROPS_RECONCILE_DEBOUNCE_TIME = 500;
 
 const generateSystem = memoize(data => {
@@ -192,6 +194,9 @@ export default class Speck extends Component {
         }
     }
 
+    // Schedule the function "propsReconcile" to run after the amount of time
+    // specified in PROPS_RECONCILE_DEBOUNCE_TIME. If a run has been scheduled
+    // previously, cancel it.
     propsReconcileSchedule() {
         clearTimeout(this.propsReconcileTimeout);
         this.propsReconcileTimeout = setTimeout(
