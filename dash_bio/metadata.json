@@ -1763,6 +1763,135 @@
       }
     }
   },
+  "src/lib/components/Molecule2dViewer.react.js": {
+    "description": "The Molecule2dViewer component is used to render structural\nformulae of molecules.\nRead more about the component here:\nhttps://github.com/Autodesk/molecule-2d-for-react",
+    "displayName": "Molecule2dViewer",
+    "methods": [
+      {
+        "name": "onChangeSelection",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "selectedAtomIds",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in callbacks."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever properties change."
+      },
+      "selectedAtomIds": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "number"
+          }
+        },
+        "required": false,
+        "description": "The selected atom IDs."
+      },
+      "width": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The width of the SVG element.",
+        "defaultValue": {
+          "value": "500",
+          "computed": false
+        }
+      },
+      "height": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The height of the SVG element.",
+        "defaultValue": {
+          "value": "500",
+          "computed": false
+        }
+      },
+      "modelData": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "nodes": {
+              "name": "arrayOf",
+              "value": {
+                "name": "shape",
+                "value": {
+                  "id": {
+                    "name": "number",
+                    "required": false
+                  },
+                  "atom": {
+                    "name": "string",
+                    "required": false
+                  }
+                }
+              },
+              "required": false
+            },
+            "links": {
+              "name": "arrayOf",
+              "value": {
+                "name": "shape",
+                "value": {
+                  "id": {
+                    "name": "number",
+                    "required": false
+                  },
+                  "source": {
+                    "name": "number",
+                    "required": false
+                  },
+                  "target": {
+                    "name": "number",
+                    "required": false
+                  },
+                  "bond": {
+                    "name": "number",
+                    "required": false
+                  },
+                  "strength": {
+                    "name": "number",
+                    "required": false
+                  },
+                  "distance": {
+                    "name": "number",
+                    "required": false
+                  }
+                }
+              },
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Description of the molecule to display.",
+        "defaultValue": {
+          "value": "{\n    nodes: [],\n    links: [],\n}",
+          "computed": false
+        }
+      }
+    }
+  },
   "src/lib/components/Molecule3dViewer.js": {
     "description": "The Molecule3dViewer component is used to render schematic diagrams\nof biomolecules. It can display ribbon-structure diagrams, or\nrender atoms in the molecule as sticks or spheres.\nRead more about the component here:\nhttps://github.com/Autodesk/molecule-3d-for-react",
     "displayName": "Molecule3dViewer",
