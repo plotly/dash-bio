@@ -95,9 +95,9 @@ def layout():
                                         ),
                                         html.Div(
                                             className='app-controls-desc',
-                                            children='Increase bond lengths linearly from their values ' +
-                                            'at equilibrium. This visualization will be reminiscent ' +
-                                            'of chemical bond stretching.'
+                                            children='Increase bond lengths linearly from their ' +
+                                            'values at equilibrium. This visualization will be ' +
+                                            'reminiscent of chemical bond stretching.'
                                         )
                                     ]
                                 ),
