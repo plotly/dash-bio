@@ -274,7 +274,7 @@ def test_chromosomes(dash_threaded):
     btn.click()
 
     # assert the set of chromosomes contains 3 chromosomes
-    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome')
+    chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome', timeout=20)
     assert len(chromosomes) == 3
 
 
@@ -442,7 +442,7 @@ def test_show_chromosome_labels(dash_threaded):
     btn.click()
 
     # assert the presence of chromosomes' labels
-    labels = wait_for_elements_by_css_selector(driver, '.chrLabel')
+    labels = wait_for_elements_by_css_selector(driver, '.chrLabel', timeout=20)
     assert len(labels) > 0
 
 
@@ -635,7 +635,7 @@ def test_homology(dash_threaded):
     btn.click()
 
     # assert the presence of homology region
-    regions = wait_for_elements_by_css_selector(driver, '.syntenicRegion')
+    regions = wait_for_elements_by_css_selector(driver, '.syntenicRegion', timeout=20)
     assert len(regions) > 0
 
 
@@ -677,5 +677,5 @@ def test_full_chromosome_labels(dash_threaded):
     btn.click()
 
     # assert the presence of a full label
-    regions = wait_for_elements_by_css_selector(driver, 'tspan')
+    regions = wait_for_elements_by_css_selector(driver, 'tspan', timeout=20)
     assert len(regions) == 2
