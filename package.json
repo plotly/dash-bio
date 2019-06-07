@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.1.1-rc4",
+  "version": "0.1.2-rc3",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
@@ -27,9 +27,9 @@
   "dependencies": {
     "circos": "^2.1.0",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
-    "molecule-2d-for-react": "^0.2.3",
+    "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
-    "plotly.js": "^1.47.4",
+    "plotly.js": "^1.48.1",
     "ramda": "^0.26.0",
     "react": "15.6.2",
     "react-alignment-viewer": "^0.5.5",
