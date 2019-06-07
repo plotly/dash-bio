@@ -2,7 +2,7 @@
 # pip install -r requirements.txt
 cython>=0.19
 dash==0.40.0
-dash-bio==0.1.1rc4
+dash-bio==0.1.2rc3
 dash-bio-utils==0.0.2
 dash-daq==0.1.4
 gunicorn==19.9.0
