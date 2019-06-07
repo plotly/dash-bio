@@ -1,14 +1,14 @@
-from setuptools import setup
 import os
+import io
+from setuptools import setup
 
 filepath = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(filepath, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+long_description = io.open('README.md', encoding='utf-8').read()
 
 package = {
     'name': os.path.basename(filepath).replace('-', '_'),
-    'version': '0.0.2',
+    'version': '0.0.3rc2',
     'author': 'The Plotly Team',
     'author_email': 'dashbio@plot.ly',
     'description': 'Simple parsing tools that supplement dash-bio.'
