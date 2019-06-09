@@ -36,17 +36,16 @@ _DATABASES = {
 
 
 def read_fasta(datapath_or_datastring,
-               is_datastring=False):
+               is_datafile=True):
     """
     Read a file in FASTA format, either from a file or from a string of raw
     data.
 
-    :param (string) datapath_or_datastring: Either the full path to the FASTA file (can be relative
+    :param (string) datapath_or_datastring: Either the path to the FASTA file (can be relative
                                             or absolute), or a string corresponding to the content
                                             of a FASTA file (including newline characters).
-    :param (bool, optional) is_datastring: False (default) if data filepath is passed to
-                                           `datapath_or_datastring`, True if raw data string is
-                                           passed instead.
+    :param (bool, optional) is_datafile: Either True (default) if passing the filepath to the data,
+                                         or False if passing a string of raw data.
 
     :rtype (list[dict]): A list of protein objects, each containing a
                          description (based on the header line) and the amino
@@ -54,14 +53,14 @@ def read_fasta(datapath_or_datastring,
                          letters removed.
     """
 
-    # ensure argument is a string
-    if not isinstance(datapath_or_datastring, str):
-        raise TypeError('Please pass either data filepath or string of raw data.')
+    # ensure required argument is a string
+    err_msg = 'Please pass either the filepath to the data, or the data as a string.'
+    assert isinstance(datapath_or_datastring, str), err_msg
 
     raw_data = []
 
     # open file if given a path
-    if is_datastring is False:
+    if is_datafile:
         with open(datapath_or_datastring, 'r') as f:
             lines = f.readlines()
             if '>' not in lines[0]:

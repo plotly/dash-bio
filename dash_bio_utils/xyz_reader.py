@@ -8,16 +8,15 @@ import re
 
 
 def read_xyz(datapath_or_datastring,
-             is_datastring=False):
+             is_datafile=True):
     """
     Read data in .xyz format, from either a file or a raw string.
 
-    :param (string) datapath_or_datastring: Either the full path to the XYZ file (can be relative
+    :param (string) datapath_or_datastring: Either the path to the XYZ file (can be relative
                                             or absolute), or a string corresponding to the content
                                             of an XYZ file (including newline characters).
-    :param (bool, optional) is_datastring: False (default) if data filepath is passed to
-                                           `datapath_or_datastring`, True if raw data string is
-                                           passed instead.
+    :param (bool, optional) is_datafile: Either True (default) if passing the filepath to the data,
+                                         or False if passing a string of raw data.
 
     :rtype (list): A list of the atoms in the order that
                    they appear on the file, stored in
@@ -25,14 +24,14 @@ def read_xyz(datapath_or_datastring,
                    and "z".
     """
 
-    # ensure argument is a string
-    if not isinstance(datapath_or_datastring, str):
-        raise TypeError('Please pass either data filepath or string of raw data.')
+    # ensure required argument is a string
+    err_msg = 'Please pass either the filepath to the data, or the data as a string.'
+    assert isinstance(datapath_or_datastring, str), err_msg
 
     atoms = []
 
     # open file if given a path
-    if is_datastring is False:
+    if is_datafile:
         with open(datapath_or_datastring, 'r') as f:
             lines = f.readlines()
 

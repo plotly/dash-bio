@@ -43,7 +43,7 @@ def _get_distance(point_1, point_2, base_distance):
 
 
 def read_structure(datapath_or_datastring,
-                   is_datastring=False,
+                   is_datafile=True,
                    bond_distance=20.0):
 
     """Read molecular strucural data in JSON format, either from a file or
@@ -52,9 +52,8 @@ def read_structure(datapath_or_datastring,
     :param (string) datapath_or_datastring: Either the path to the JSON data file (can be relative
                                             or absolute), or a string corresponding to the content
                                             of a JSON file (including newline characters).
-    :param (bool, optional) is_datastring: False (default) if the filepath to the data is passed to
-                                           `datapath_or_datastring`, True if a string of raw data
-                                           is passed instead.
+    :param (bool, optional) is_datafile: Either True (default) if passing the filepath to the data,
+                                         or False if passing a string of raw data.
     :param (float) bond_distance: The base value to use as a multiplier
                                   for the computation of bond distance.
     :rtype (dict[list]): A dictionary containing the atoms and bonds
@@ -68,7 +67,7 @@ def read_structure(datapath_or_datastring,
 
     structural_info = {}
 
-    if is_datastring is False:
+    if is_datafile:
         with open(datapath_or_datastring, 'r') as f:
             structural_info = json.loads(f.read())
     else:
