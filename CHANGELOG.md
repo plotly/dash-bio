@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.2] - 2019-06-10
+## [0.1.2] - 
 
 ### Changed
 * Made Speck component compatible with refactored Speck library.
