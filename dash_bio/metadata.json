@@ -2729,15 +2729,24 @@
     "displayName": "Speck",
     "methods": [
       {
+        "name": "propsReconcile",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "propsReconcileSchedule",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
         "name": "loadStructure",
         "docblock": null,
         "modifiers": [],
-        "params": [
-          {
-            "name": "data",
-            "type": null
-          }
-        ],
+        "params": [],
         "returns": null
       },
       {

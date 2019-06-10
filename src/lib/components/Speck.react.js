@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { mergeAll, equals } from 'ramda';
+import {mergeAll, equals} from 'ramda';
 import memoize from 'fast-memoize';
 
 import {
@@ -10,8 +10,6 @@ import {
     speckInteractions,
     speckPresetViews,
 } from 'speck';
-
-
 
 /**
  * Define private functions and variables used in the Speck component.
@@ -45,20 +43,17 @@ const viewClone = view =>
         },
     ]);
 
-const viewAssign = (view1 = {}, view2 = {}) =>
-    Object.assign(view1, view2);
+const viewAssign = (view1 = {}, view2 = {}) => Object.assign(view1, view2);
 
 const viewHasEqual = function(view1) {
     const view1Str = JSON.stringify(view1);
-    for(let i = 1; i < arguments.length; i++) {
-        if(view1Str === JSON.stringify(arguments[i])) {
+    for (let i = 1; i < arguments.length; i++) {
+        if (view1Str === JSON.stringify(arguments[i])) {
             return true;
         }
     }
     return false;
-}
-
-
+};
 
 /**
  * The Speck component is a WebGL-based 3D molecule renderer.
@@ -126,7 +121,9 @@ export default class Speck extends Component {
 
             getTranslation: () => this.view.translation,
             setTranslation: translationObj => {
-                this.view = viewAssign(this.view, {translation: translationObj});
+                this.view = viewAssign(this.view, {
+                    translation: translationObj,
+                });
                 this.propsReconcileSchedule();
             },
 
@@ -151,7 +148,10 @@ export default class Speck extends Component {
 
         // apply applicable preset parameters if preset has changed
         if (prevProps.presetView !== presetView) {
-            viewInternal = viewAssign(viewInternal, speckPresetViews[presetView]);
+            viewInternal = viewAssign(
+                viewInternal,
+                speckPresetViews[presetView]
+            );
             this.propsReconcileSchedule();
             needsUpdate = true;
         }
@@ -189,7 +189,7 @@ export default class Speck extends Component {
     }
 
     propsReconcile() {
-        if(!equals(this.view, this.props.view)) {
+        if (!equals(this.view, this.props.view)) {
             this.props.setProps({view: viewClone(this.view)});
         }
     }
