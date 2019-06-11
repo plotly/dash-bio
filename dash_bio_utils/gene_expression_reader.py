@@ -13,7 +13,7 @@ import GEOparse as gp
 
 def read_soft(datapath_or_datastring,
               is_datafile=True,
-              is_data_unfiltered=True,
+              return_filtered_data=False,
               rows=None,
               columns=None):
     """Read a file in SOFT format, either from a file or from a string of raw data.
