@@ -23,17 +23,17 @@ def read_soft(datapath_or_datastring,
                                             of a SOFT file (including newline characters).
     :param (bool, optional) is_datafile: Either True (default) if passing the filepath to the data,
                                          or False if passing a string of raw data.
-    :param (bool) is_data_unfiltered: Either True (default) to return all the metadata, or False to
-                                      return the data filtered by rows and/or columns.
+    :param (bool) return_filtered_data: Either False (default) to return all the metadata, or True
+                                        to return only the data filtered by rows and/or columns.
     :param (list[string]) rows: The rows that should be filtered in if `is_data_unfiltered` is
                                 False.
     :param (list[string]) columns: The columns that should be filtered in if `is_data_unfiltered`
                                    is False.
 
     :rtype (tuple|ndarray): Either a tuple containing the description (metadata), subsets, row
-                            names, and column names for the SOFT data if `is_data_unfiltered` is
-                            True, or a dataframe of the filtered SOFT data if `is_data_unfiltered`
-                            is False.
+                            names, and column names for the SOFT data if `return_filtered_data` is
+                            False, or an array of the filtered SOFT data if `return_filtered_data`
+                            is True.
     """
 
     # ensure required argument is a string
@@ -61,22 +61,16 @@ def read_soft(datapath_or_datastring,
         if 'GSM' not in column:
             all_cols.remove(column)
 
-    if is_data_unfiltered:
-        desc = geo_file.metadata
-        subsets = geo_file.subsets
+    if return_filtered_data:
+        return _get_selected_data(df, all_rows, all_cols, rows, columns)
 
-        for subset in subsets:
-            subsets[subset] = subsets[subset].metadata
+    desc = geo_file.metadata
+    subsets = geo_file.subsets
 
-        return desc, subsets, all_rows, all_cols
+    for subset in subsets:
+        subsets[subset] = subsets[subset].metadata
 
-    return _get_selected_data(
-        df,
-        all_rows,
-        all_cols,
-        rows,
-        columns
-    )
+    return desc, subsets, all_rows, all_cols
 
 
 def read_tsv_file(
