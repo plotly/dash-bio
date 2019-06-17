@@ -7,39 +7,37 @@ import tempfile
 import re
 
 
-def read_xyz(
-        file_path='',
-        data_string=''
-):
+def read_xyz(datapath_or_datastring,
+             is_datafile=True):
     """
-    Reads .xyz files from either a raw string or a
-    relative file path.
+    Read data in .xyz format, from either a file or a raw string.
 
-    :param (string) file_path: The relative filepath to
-                              the .xyz file.
-    :param (string) data_string: A raw string containing
-                                the contents of the .xyz
-                                file.
+    :param (string) datapath_or_datastring: Either the path to the XYZ file (can be relative
+                                            or absolute), or a string corresponding to the content
+                                            of an XYZ file (including newline characters).
+    :param (bool, optional) is_datafile: Either True (default) if passing the filepath to the data,
+                                         or False if passing a string of raw data.
 
     :rtype (list): A list of the atoms in the order that
                    they appear on the file, stored in
                    objects with keys "symbol", "x", "y",
                    and "z".
     """
+
+    # ensure required argument is a string
+    err_msg = 'Please pass either the filepath to the data, or the data as a string.'
+    assert isinstance(datapath_or_datastring, str), err_msg
+
     atoms = []
 
-    if file_path and data_string:
-        raise Exception(
-            "Please specify either a file path or a \
-            string of data."
-        )
-
-    if file_path:
-        with open(file_path, 'r') as f:
+    # open file if given a path
+    if is_datafile:
+        with open(datapath_or_datastring, 'r') as f:
             lines = f.readlines()
 
+    # or read the raw string
     else:
-        lines = data_string.split('\n')
+        lines = datapath_or_datastring.split('\n')
 
     with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tf:
         tf.write('\n'.join(lines))

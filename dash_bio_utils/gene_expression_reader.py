@@ -11,44 +11,42 @@ import GEOparse as gp
 
 # pylint: disable=unnecessary-lambda
 
-def read_soft_file(
-        contents='',
-        filepath='',
-        rows=None,
-        columns=None,
-        return_filtered_data=False
-):
+def read_soft(datapath_or_datastring,
+              is_datafile=True,
+              return_filtered_data=False,
+              rows=None,
+              columns=None):
     """Read a file in SOFT format, either from a file or from a string of raw data.
 
-    :param (string) contents: A string corresponding to the FASTA file
-                                (including newline characters).
-    :param (string) file_path: The full path to the SOFT file (can be
-                                relative or absolute).
-    :param (list[string]) rows: The rows that should be returned in
-                                the event that return_filtered_data is
-                                True.
-    :param (list[string]) columns: The columns that should be returned
-                                   in the event that
-                                   return_filtered_data is True.
-    :param (bool) return_filtered_data: If True, the function will
-                                        return metadata from the
-                                        file. If False, it will return
-                                        an ndarray that contains the
-                                        data that are selected based
-                                        on the values of the "rows"
-                                        and "columns" arguments.
+    :param (string) datapath_or_datastring: Either the path to the SOFT data file (can be relative
+                                            or absolute), or a string corresponding to the content
+                                            of a SOFT file (including newline characters).
+    :param (bool, optional) is_datafile: Either True (default) if passing the filepath to the data,
+                                         or False if passing a string of raw data.
+    :param (bool) return_filtered_data: Either False (default) to return all the metadata, or True
+                                        to return only the data filtered by rows and/or columns.
+    :param (list[string]) rows: The rows that should be filtered in if `is_data_unfiltered` is
+                                False.
+    :param (list[string]) columns: The columns that should be filtered in if `is_data_unfiltered`
+                                   is False.
 
-    :rtype (tuple|ndarray): A tuple containing the description,
-                            subsets, row names, and column names for
-                            the SOFT file, or a subset of data that
-                            are selected with the "rows" and "columns"
-                            arguments.
+    :rtype (tuple|ndarray): Either a tuple containing the description (metadata), subsets, row
+                            names, and column names for the SOFT data if `return_filtered_data` is
+                            False, or an array of the filtered SOFT data if `return_filtered_data`
+                            is True.
     """
-    if contents:
+
+    # ensure required argument is a string
+    err_msg = 'Please pass either the filepath to the data, or the data as a string.'
+    assert isinstance(datapath_or_datastring, str), err_msg
+
+    if is_datafile:
+        filepath = datapath_or_datastring
+    else:
         with tempfile.NamedTemporaryFile(
                 mode='w+', delete=False, suffix='.soft'
         ) as tf:
-            tf.write(contents)
+            tf.write(datapath_or_datastring)
             filepath = tf.name
 
     geo_file = gp.get_GEO(filepath=filepath, geotype='GDS')
@@ -63,22 +61,16 @@ def read_soft_file(
         if 'GSM' not in column:
             all_cols.remove(column)
 
-    if not return_filtered_data:
-        desc = geo_file.metadata
-        subsets = geo_file.subsets
+    if return_filtered_data:
+        return _get_selected_data(df, all_rows, all_cols, rows, columns)
 
-        for subset in geo_file.subsets:
-            subsets[subset] = geo_file.subsets[subset].metadata
+    desc = geo_file.metadata
+    subsets = geo_file.subsets
 
-        return desc, subsets, all_rows, all_cols
+    for subset in subsets:
+        subsets[subset] = subsets[subset].metadata
 
-    return _get_selected_data(
-        df,
-        all_rows,
-        all_cols,
-        rows,
-        columns
-    )
+    return desc, subsets, all_rows, all_cols
 
 
 def read_tsv_file(
