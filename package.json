@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.1.1",
+  "version": "0.1.2rc4",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "circos": "^2.1.0",
+    "fast-memoize": "^2.5.1",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
     "molecule-2d-for-react": "^0.2.3",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
@@ -46,9 +47,9 @@
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
     "copyfiles": "^2.0.0",
-    "css-loader": "^2.0.0",
+    "css-loader": "^3.0.0",
     "eslint": "^5.12.1",
-    "eslint-config-prettier": "^4.0.0",
+    "eslint-config-prettier": "^5.0.0",
     "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",

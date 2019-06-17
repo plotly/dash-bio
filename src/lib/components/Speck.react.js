@@ -1,12 +1,59 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {mergeAll, equals} from 'ramda';
+import memoize from 'fast-memoize';
+
 import {
     speckRenderer as SpeckRenderer,
     speckSystem,
     speckView,
-    speckInteractions as SpeckInteractions,
+    speckInteractions,
     speckPresetViews,
 } from 'speck';
+
+/**
+ * Define private functions and variables used in the Speck component.
+ **/
+
+// Time (in milliseconds) idle before props reconciliation with external
+// view is done
+const PROPS_RECONCILE_DEBOUNCE_TIME = 500;
+
+const generateSystem = memoize(data => {
+    const system = speckSystem.new();
+
+    for (let i = 0; i < data.length; i++) {
+        // get the coordinate data
+        const a = data[i];
+        // add to the system
+        speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
+    }
+
+    speckSystem.center(system);
+    speckSystem.calculateBonds(system);
+    return system;
+});
+
+const viewClone = view =>
+    mergeAll([
+        view,
+        {
+            rotation: new Float32Array(view.rotation),
+            translation: mergeAll([view.translation]),
+        },
+    ]);
+
+const viewAssign = (view1 = {}, view2 = {}) => Object.assign(view1, view2);
+
+const viewHasEqual = function(view1) {
+    const view1Str = JSON.stringify(view1);
+    for (let i = 1; i < arguments.length; i++) {
+        if (view1Str === JSON.stringify(arguments[i])) {
+            return true;
+        }
+    }
+    return false;
+};
 
 /**
  * The Speck component is a WebGL-based 3D molecule renderer.
@@ -18,14 +65,19 @@ export default class Speck extends Component {
         super(props);
 
         this.state = {
-            refreshView: false,
             renderer: null,
-            interactions: {
-                buttonDown: false,
-                lastX: 0.0,
-                lastY: 0.0,
-            },
         };
+
+        this.eventListenDestructor = () => {
+            /* no-op */
+        };
+        this.refreshView = false;
+        this.propsReconcileTimeout = null;
+
+        this.view = viewAssign(speckView.new(), props.view);
+        this.props.setProps({
+            view: viewClone(this.view),
+        });
 
         // setting refs in this way to allow for easier updating to
         // react 16
@@ -36,122 +88,157 @@ export default class Speck extends Component {
             this.container = e;
         };
 
-        // initialize view
-        this.props.setProps({
-            view: Object.assign(speckView.new(), props.view || {}),
-        });
-
         this.loop = this.loop.bind(this);
         this.loadStructure = this.loadStructure.bind(this);
+        this.propsReconcile = this.propsReconcile.bind(this);
+        this.propsReconcileSchedule = this.propsReconcileSchedule.bind(this);
     }
 
     componentDidMount() {
-        // add canvas, container, and renderer
-        const canvas = this.canvas;
-        const container = this.container;
+        const {scrollZoom} = this.props;
+        const {canvas, container} = this;
         const resolution = 200;
         const aoResolution = 300;
         const renderer = new SpeckRenderer(canvas, resolution, aoResolution);
 
         this.setState(
             {
-                renderer: renderer,
-                refreshView: true,
+                renderer,
             },
-            () => this.loadStructure(this.props.data)
+            this.loadStructure
         );
 
         // add event listeners
-        const interactionHandler = new SpeckInteractions( // eslint-disable-line no-unused-vars
-            this,
-            renderer,
-            container
-        );
+        this.eventListenDestructor = speckInteractions({
+            scrollZoom,
+            container,
+
+            getRotation: () => this.view.rotation,
+            setRotation: rotationObj => {
+                this.view = viewAssign(this.view, {rotation: rotationObj});
+                this.propsReconcileSchedule();
+            },
+
+            getTranslation: () => this.view.translation,
+            setTranslation: translationObj => {
+                this.view = viewAssign(this.view, {
+                    translation: translationObj,
+                });
+                this.propsReconcileSchedule();
+            },
+
+            getZoom: () => this.view.zoom,
+            setZoom: zoomVal => {
+                this.view = viewAssign(this.view, {zoom: zoomVal});
+                this.propsReconcileSchedule();
+            },
+
+            refreshView: () => (this.refreshView = true),
+        });
+
         this.loop();
     }
 
     componentDidUpdate(prevProps) {
-        const {setProps, data, view, presetView} = this.props;
+        const {data, view, presetView} = this.props;
         const {renderer} = this.state;
 
-        let viewNew = prevProps.view || {};
+        let viewInternal = this.view;
         let needsUpdate = false;
 
         // apply applicable preset parameters if preset has changed
         if (prevProps.presetView !== presetView) {
-            viewNew = Object.assign(viewNew, speckPresetViews[presetView]);
+            viewInternal = viewAssign(
+                viewInternal,
+                speckPresetViews[presetView]
+            );
+            this.propsReconcileSchedule();
             needsUpdate = true;
         }
 
         // apply the user-supplied view parameters
-        if (
-            Object.keys(viewNew).length !== Object.keys(view).length ||
-            Object.keys(viewNew).some(
-                propertyName => viewNew[propertyName] !== view[propertyName]
-            )
-        ) {
-            viewNew = Object.assign(viewNew, view);
+        if (!viewHasEqual(view, prevProps.view, viewInternal)) {
+            viewInternal = viewAssign(viewInternal, view);
+            needsUpdate = true;
+        }
+
+        // check for changes to data
+        if (!equals(data, prevProps.data)) {
             needsUpdate = true;
         }
 
         // perform update
         if (needsUpdate) {
-            setProps({
-                view: viewNew,
-            });
+            this.view = viewInternal;
 
             if (renderer) {
-                this.loadStructure(data);
+                this.loadStructure();
             }
         }
     }
 
-    loadStructure(data) {
+    componentWillUnmount() {
+        // set this.state.renderer = null to ensure all refs to renderer are
+        // destroyed so garbage collector will clean up webgl contexts
+        // eslint-disable-next-line react/no-direct-mutation-state
+        this.state.renderer = null;
+        this.eventListenDestructor();
+        this.props.setProps({
+            view: this.view,
+        });
+    }
+
+    propsReconcile() {
+        if (!equals(this.view, this.props.view)) {
+            this.props.setProps({view: viewClone(this.view)});
+        }
+    }
+
+    // Schedule the function "propsReconcile" to run after the amount of time
+    // specified in PROPS_RECONCILE_DEBOUNCE_TIME. If a run has been scheduled
+    // previously, cancel it.
+    propsReconcileSchedule() {
+        clearTimeout(this.propsReconcileTimeout);
+        this.propsReconcileTimeout = setTimeout(
+            this.propsReconcile,
+            PROPS_RECONCILE_DEBOUNCE_TIME
+        );
+    }
+
+    loadStructure() {
+        const {data} = this.props;
+
         // avoid trying to load an empty system
         if (data.length === 0) {
             return;
         }
 
-        const system = speckSystem.new();
-
-        for (let i = 0; i < data.length; i++) {
-            // get the coordinate data
-            const a = data[i];
-            // add to the system
-            speckSystem.addAtom(system, a.symbol, a.x, a.y, a.z);
-        }
-
-        speckSystem.center(system);
-        speckSystem.calculateBonds(system);
-
-        const renderer = this.state.renderer;
-        const view = this.props.view;
+        const {renderer} = this.state;
+        const {view} = this;
+        const system = generateSystem(data);
 
         renderer.setSystem(system, view);
 
         // update the resolution
         renderer.setResolution(view.resolution, view.aoRes);
 
-        this.setState({
-            refreshView: true,
-        });
+        this.refreshView = true;
     }
 
     loop() {
-        if (this.state.renderer && this.props.view) {
-            if (this.state.refreshView) {
+        if (this.state.renderer && this.view) {
+            if (this.refreshView) {
                 this.state.renderer.reset();
-                this.setState({
-                    refreshView: false,
-                });
+                this.refreshView = false;
             }
-            this.state.renderer.render(this.props.view);
+            this.state.renderer.render(this.view);
         }
         requestAnimationFrame(this.loop);
     }
 
     render() {
-        const {id, view} = this.props;
+        const {id} = this.props;
+        const {view} = this;
 
         const divStyle = {
             height: view.resolution,

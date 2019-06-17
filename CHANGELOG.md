@@ -1,13 +1,21 @@
 # Changelog
 
+## [0.1.2] - 
+
+### Changed
+* Made Speck component compatible with refactored Speck library.
+* Optimized Speck component further to increase performance.
+
 ## [0.1.1] - 2019-06-06
 
 ### Added
 * Added Molecule2dViewer component.
 
+### Changed
+* Refactored Speck component and implemented general bug fixes.
+
 ### Fixed
 * Fixed issue with Speck not responding to preset changes.
-* Refactored Speck component and implemented general bug fixes.
 
 ## [0.1.0] - 2019-05-27
 
