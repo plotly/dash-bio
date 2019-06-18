@@ -27,7 +27,7 @@
   "dependencies": {
     "circos": "^2.1.0",
     "fast-memoize": "^2.5.1",
-    "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
+    "ideogram": "1.9.0",
     "molecule-2d-for-react": "^0.2.3",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
     "plotly.js": "^1.47.4",

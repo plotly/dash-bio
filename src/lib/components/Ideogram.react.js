@@ -268,7 +268,7 @@ export default class Ideogram extends Component {
 
 Ideogram.defaultProps = {
     organism: 'human',
-    dataDir: 'https://unpkg.com/ideogram@1.5.0/dist/data/bands/native/',
+    dataDir: 'https://unpkg.com/ideogram@1.9.0/dist/data/bands/native/',
     annotationsColor: '#F00',
     annotationsLayout: 'tracks',
     barWidth: 3,
