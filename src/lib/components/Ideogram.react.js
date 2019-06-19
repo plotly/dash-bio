@@ -65,6 +65,90 @@ export default class Ideogram extends Component {
         this.initIdeogram = this.initIdeogram.bind(this);
     }
 
+    componentDidMount() {
+        this.initIdeogram();
+    }
+
+    shouldComponentUpdate(nextProps) {
+        return this.propKeys.some(currentKey => {
+            return this.props[currentKey] !== nextProps[currentKey];
+        });
+    }
+
+    componentDidUpdate() {
+        // Have to remove old data, because it breaks new instances
+        delete window.chrBands;
+        this.initIdeogram();
+    }
+
+    componentWillUnmount() {
+        delete window.chrBands;
+    }
+
+    initIdeogram() {
+        // Used to pass in a local dataset
+        if (this.props.localOrganism) {
+            this.props.dataDir = null;
+            window.chrBands = this.props.localOrganism;
+        }
+        this.ideogram = new IdeogramJS(this.setConfig());
+    }
+
+    setConfig() {
+        // Pass in all props into config except setProps
+        const config = omit(['setProps'], this.props);
+        // Event handlers
+        config.onDidRotate = this.onRotateHandler;
+        config.onBrushMove = this.props.brush ? this.onBrushHandler : null;
+        config.onLoad = this.onLoadHandler;
+        config.container = '#ideogram-container-' + this.props.id;
+
+        return config;
+    }
+
+    onLoadHandler() {
+        /**
+         *  An event handler that will load a function depending on
+         * whether the brush prop is activated, or the homology prop
+         * is activated. This prop is activated on the loading of the
+         * Ideogram.
+         */
+
+        if (typeof this.props.brush !== 'undefined') {
+            this.onBrushHandler();
+        } else if (typeof this.props.homology !== 'undefined') {
+            this.onHomologyHandler();
+        }
+        return null;
+    }
+
+    onBrushHandler() {
+        /**
+         * An event handler that is called when an Ideogram
+         * is using the brush prop. This event handler
+         * returns brush data in to the Dash application
+         * with the prop 'brushData'.
+         */
+
+        const r = this.ideogram.selectedRegion,
+            start = r.from.toLocaleString(),
+            end = r.to.toLocaleString(),
+            extent = r.extent.toLocaleString();
+
+        if (
+            typeof this.props.brush !== 'undefined' &&
+            typeof this.props.setProps !== 'undefined'
+        ) {
+            this.props.setProps({
+                brushData: {
+                    start: start,
+                    end: end,
+                    extent: extent,
+                },
+            });
+        }
+    }
+
     onHomologyHandler() {
         /**
          * An event handler used to compare two chromosomes,
@@ -131,49 +215,6 @@ export default class Ideogram extends Component {
         }
     }
 
-    onBrushHandler() {
-        /**
-         * An event handler that is called when an Ideogram
-         * is using the brush prop. This event handler
-         * returns brush data in to the Dash application
-         * with the prop 'brushData'.
-         */
-
-        const r = this.ideogram.selectedRegion,
-            start = r.from.toLocaleString(),
-            end = r.to.toLocaleString(),
-            extent = r.extent.toLocaleString();
-
-        if (
-            typeof this.props.brush !== 'undefined' &&
-            typeof this.props.setProps !== 'undefined'
-        ) {
-            this.props.setProps({
-                brushData: {
-                    start: start,
-                    end: end,
-                    extent: extent,
-                },
-            });
-        }
-    }
-
-    onLoadHandler() {
-        /**
-         *  An event handler that will load a function depending on
-         * whether the brush prop is activated, or the homology prop
-         * is activated. This prop is activated on the loading of the
-         * Ideogram.
-         */
-
-        if (typeof this.props.brush !== 'undefined') {
-            this.onBrushHandler();
-        } else if (typeof this.props.homology !== 'undefined') {
-            this.onHomologyHandler();
-        }
-        return null;
-    }
-
     onRotateHandler() {
         /**
          * An event handler that returns 'true' or 'false' if the
@@ -193,7 +234,7 @@ export default class Ideogram extends Component {
     onMouseOverHandler() {
         /**
          * Event handler that activates when you hover the mouse over an annotation.
-         * This event handler allows the user to add an prop `onMouseOver` into their
+         * This event handler allows the user to add a prop `onMouseOver` into their
          * Dash application, that will return the annotation that the mouse hovers over.
          */
 
@@ -206,47 +247,6 @@ export default class Ideogram extends Component {
                     ? this.onToolTipHandler()
                     : document.getElementById('_ideogramTooltip').innerHTML;
         }
-    }
-
-    setConfig() {
-        // Pass in all props into config except setProps
-        const config = omit(['setProps'], this.props);
-        // Event handlers
-        config.onDidRotate = this.onRotateHandler;
-        config.onBrushMove = this.props.brush ? this.onBrushHandler : null;
-        config.onLoad = this.onLoadHandler;
-        config.container = '#ideogram-container-' + this.props.id;
-
-        return config;
-    }
-
-    initIdeogram() {
-        // Used to pass in a local dataset
-        if (this.props.localOrganism) {
-            this.props.dataDir = null;
-            window.chrBands = this.props.localOrganism;
-        }
-        this.ideogram = new IdeogramJS(this.setConfig());
-    }
-
-    shouldComponentUpdate(nextProps) {
-        return this.propKeys.some(currentKey => {
-            return this.props[currentKey] !== nextProps[currentKey];
-        });
-    }
-
-    componentDidMount() {
-        this.initIdeogram();
-    }
-
-    componentDidUpdate() {
-        // Have to remove old data, because it breaks new instances
-        delete window.chrBands;
-        this.initIdeogram();
-    }
-
-    componentWillUnmount() {
-        delete window.chrBands;
     }
 
     render() {
