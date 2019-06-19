@@ -3,6 +3,38 @@ import {default as IdeogramJS} from 'ideogram';
 import PropTypes from 'prop-types';
 import {omit} from 'ramda';
 
+const IDEOGRAM_PROPS = [
+    'localOrganism',
+    'organism',
+    'showBandLabels',
+    'orientation',
+    'dataDir',
+    'chrHeight',
+    'chrWidth',
+    'chrMargin',
+    'resolution',
+    'ploidy',
+    'sex',
+    'annotationsColor',
+    'annotationHeight',
+    'annotationsLayout',
+    'annotationsPath',
+    'style',
+    'chromosomes',
+    'rotatable',
+    'showChromosomeLabels',
+    'showFullyBanded',
+    'showNonNuclearChromsomes',
+    'annotationTracks',
+    'annotations',
+    'assembly',
+    'barWidth',
+    'filterable',
+    'homology',
+    'perspective',
+    'fullChromosomeLabels',
+];
+
 /**
  * The Ideogram component is used to draw and animate genome-wide
  * datasets for organisms such as human, mouse, and any other
@@ -23,38 +55,6 @@ export default class Ideogram extends Component {
         this.tooltipData = null;
         this.tooltipDataTwo = null;
 
-        this.propKeys = [
-            'localOrganism',
-            'organism',
-            'showBandLabels',
-            'orientation',
-            'dataDir',
-            'chrHeight',
-            'chrWidth',
-            'chrMargin',
-            'resolution',
-            'ploidy',
-            'sex',
-            'annotationsColor',
-            'annotationHeight',
-            'annotationsLayout',
-            'annotationsPath',
-            'style',
-            'chromosomes',
-            'rotatable',
-            'showChromosomeLabels',
-            'showFullyBanded',
-            'showNonNuclearChromsomes',
-            'annotationTracks',
-            'annotations',
-            'assembly',
-            'barWidth',
-            'filterable',
-            'homology',
-            'perspective',
-            'fullChromosomeLabels',
-        ];
-
         this.onBrushHandler = this.onBrushHandler.bind(this);
         this.onLoadHandler = this.onLoadHandler.bind(this);
         this.onRotateHandler = this.onRotateHandler.bind(this);
@@ -69,16 +69,16 @@ export default class Ideogram extends Component {
         this.initIdeogram();
     }
 
-    shouldComponentUpdate(nextProps) {
-        return this.propKeys.some(currentKey => {
-            return this.props[currentKey] !== nextProps[currentKey];
-        });
-    }
+    componentDidUpdate(prevProps) {
+        const shouldUpdate = IDEOGRAM_PROPS.some(currentKey =>
+            this.props[currentKey] !== prevProps[currentKey]
+        );
 
-    componentDidUpdate() {
-        // Have to remove old data, because it breaks new instances
-        delete window.chrBands;
-        this.initIdeogram();
+        if(shouldUpdate) {
+            // Have to remove old data, because it breaks new instances
+            delete window.chrBands;
+            this.initIdeogram();
+        }
     }
 
     componentWillUnmount() {
