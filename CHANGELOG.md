@@ -5,7 +5,8 @@
 ### Changed
 * Made Speck component compatible with refactored Speck library.
 * Optimized Speck component further to increase performance.
-* Update dash_bio_utils where data parsers were standardized.
+* Updated dash_bio_utils to version that introduced standardization of
+  data parsers.
 
 ## [0.1.1] - 2019-06-06
 
