@@ -531,7 +531,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return ''
 
         if preloaded is not None:
-            protein = pr.read_fasta(file_path=preloaded)[entry]
+            protein = pr.read_fasta(preloaded)[entry]
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
@@ -542,7 +542,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             if data == '':
                 return '-'
 
-            protein = pr.read_fasta(data_string=data)[entry]
+            protein = pr.read_fasta(data, is_datafile=False)[entry]
         else:
             return '-'
 
@@ -816,7 +816,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         ]
 
         if preloaded is not None:
-            proteins = pr.read_fasta(file_path=preloaded)
+            proteins = pr.read_fasta(preloaded)
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
@@ -824,7 +824,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 data = base64.b64decode(content_string).decode('UTF-8')
             except AttributeError:
                 pass
-            proteins = pr.read_fasta(data_string=data)
+            proteins = pr.read_fasta(data, is_datafile=False)
         else:
             return dropdown_options
 
@@ -877,7 +877,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return ''
 
         if preloaded is not None:
-            protein = pr.read_fasta(file_path=preloaded)[entry]
+            protein = pr.read_fasta(preloaded)[entry]
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
@@ -887,7 +887,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 pass
             if data == '':
                 return ''
-            protein = pr.read_fasta(data_string=data)[entry]
+            protein = pr.read_fasta(data, is_datafile=False)[entry]
         else:
             return ''
 
@@ -1025,7 +1025,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return 'Please select an entry.'
 
         if preloaded is not None:
-            protein = pr.read_fasta(file_path=preloaded)[entry]
+            protein = pr.read_fasta(preloaded)[entry]
 
         elif upload_contents is not None and preloaded is None:
             data = ''
@@ -1038,7 +1038,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             if data == '':
                 return []
             try:
-                protein = pr.read_fasta(data_string=data)[entry]
+                protein = pr.read_fasta(data, is_datafile=False)[entry]
             except Exception:
                 return ['NA']
         else:

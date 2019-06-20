@@ -197,9 +197,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 list(stored_compounds.keys())[0]
             )
             model_data = read_structure(
-                data_string=json.dumps(
-                    stored_compounds[list(stored_compounds.keys())[0]]
-                ),
+                json.dumps(stored_compounds[list(stored_compounds.keys())[0]]),
+                is_datafile=False,
                 bond_distance=bond_length
             )
         elif selected_compound is not None:
@@ -207,9 +206,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 selected_compound
             )
             model_data = read_structure(
-                data_string=json.dumps(
-                    stored_compounds[selected_compound]
-                ),
+                json.dumps(stored_compounds[selected_compound]),
+                is_datafile=False,
                 bond_distance=bond_length
             )
 

@@ -469,9 +469,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
             elif dataset['file'].endswith('.soft'):
                 desc, subsets, row_options, col_options = \
-                    gene_expression_reader.read_soft_file(
-                        filepath=dataset['file']
-                    )
+                    gene_expression_reader.read_soft(dataset['file'])
 
         elif contents is not None:
             content_type, content_string = contents.split(',')
@@ -479,8 +477,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
             try:
                 desc, subsets, row_options, col_options = \
-                    gene_expression_reader.read_soft_file(
-                        contents=decoded
+                    gene_expression_reader.read_soft(
+                        decoded,
+                        is_datafile=False
                     )
             except Exception:
                 pass
@@ -756,11 +755,11 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     return_filtered_data=True
                 )
             elif dataset['file'].endswith('.soft'):
-                data = gene_expression_reader.read_soft_file(
-                    filepath=dataset['file'],
+                data = gene_expression_reader.read_soft(
+                    dataset['file'],
+                    return_filtered_data=True,
                     rows=sel_rows,
-                    columns=sel_cols,
-                    return_filtered_data=True
+                    columns=sel_cols
                 )
 
         elif contents is not None and dataset_name is None:
@@ -768,11 +767,12 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             decoded = base64.b64decode(content_string).decode('UTF-8')
 
             try:
-                data = gene_expression_reader.read_soft_file(
-                    contents=decoded,
+                data = gene_expression_reader.read_soft(
+                    decoded,
+                    is_datafile=False,
+                    return_filtered_data=True,
                     rows=sel_rows,
-                    columns=sel_cols,
-                    return_filtered_data=True
+                    columns=sel_cols
                 )
             except Exception:
                 data = None

@@ -338,7 +338,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 data = base64.b64decode(content_string).decode('UTF-8')
             except AttributeError:
                 pass
-            data = read_xyz(data_string=data)
+            data = read_xyz(data, is_datafile=False)
         elif molecule_fname is not None:
             data = read_xyz(molecule_fname)
         return data
