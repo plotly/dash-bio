@@ -18,3 +18,14 @@ and more, please [reach out](https://plotly.typeform.com/to/mH1Cpb).
 If you would like to contribute to this repository, please refer to
 the [contributing
 guidelines](https://github.com/plotly/dash-bio-utils/blob/master/CONTRIBUTING.md).
+
+### Running tests
+
+```bash
+conda create -n dash-bio-utils python=3.7
+conda activate dash-bio-utils
+conda config --add channels conda-forge
+conda install pytest
+python setup.py install
+pytest tests/
+```
