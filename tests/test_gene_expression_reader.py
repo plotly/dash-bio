@@ -52,8 +52,9 @@ def test_read_soft_datastring():
     assert isinstance(subsets, dict)
 
     rows = soft[2]
+    assert len(rows) == 7
     # first row is '1007_s_at'
-    assert '1007_s_at' in rows
+    assert rows[0] == '1007_s_at'
 
     cols = soft[3]
     # SOFT reader keeps columns with label containing 'GSM'
