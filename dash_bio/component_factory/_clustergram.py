@@ -119,7 +119,7 @@ Keyword arguments:
 - log_transform (bool; default false): Whether or not to transforms
     the data by taking the base-two logarithm of all values in the
     dataset.
-- display_ratio (list | float; default 0.2): The dendrograms' heights with
+- display_ratio (list | number; default 0.2): The dendrograms' heights with
     respect to the size of the heatmap; with one element, both the row
     and column dendrograms have the same ratio; with two, the row
     dendrogram ratio corresponds to the first element of the list and
@@ -153,7 +153,7 @@ Keyword arguments:
 - annotation_font (dict; optional): The font options for annotations,
    as specified in the Plotly graph_objs documentation (see:
    https://plot.ly/python/reference/#layout-scene-annotations-items-annotation-font).
-- line_width (list | float; default 0.5): The line width for the
+- line_width (list | number; default 0.5): The line width for the
     dendrograms. If in list format, the first element corresponds to
     the width of the row dendrogram traces, and the second corresponds
     to the width of the column dendrogram traces.
@@ -161,8 +161,8 @@ Keyword arguments:
     color of the paper on the graph.
 - plot_bg_color (string; default 'rgba(0,0,0,0)'): The background
     color of the subplots on the graph.
-- height (int; default 500): The height of the graph, in px.
-- width (int; default 500): The width of the graph, in px.
+- height (number; default 500): The height of the graph, in px.
+- width (number; default 500): The width of the graph, in px.
 
     """
     if hide_labels is None:
@@ -260,7 +260,7 @@ class _Clustergram():
 - log_transform (bool; default false): Whether or not to transforms
     the data by taking the base-two logarithm of all values in the
     dataset.
-- display_ratio (list | float; default 0.2): The dendrograms' heights with
+- display_ratio (list | number; default 0.2): The dendrograms' heights with
     respect to the size of the heatmap; with one element, both the row
     and column dendrograms have the same ratio; with two, the row
     dendrogram ratio corresponds to the first element of the list and
@@ -294,7 +294,7 @@ class _Clustergram():
 - annotation_font (dict; optional): The font options for annotations,
    as specified in the Plotly graph_objs documentation (see:
    https://plot.ly/python/reference/#layout-scene-annotations-items-annotation-font).
-- line_width (list | float; default 0.5): The line width for the
+- line_width (list | number; default 0.5): The line width for the
     dendrograms. If in list format, the first element corresponds to
     the width of the row dendrogram traces, and the second corresponds
     to the width of the column dendrogram traces.
@@ -302,8 +302,8 @@ class _Clustergram():
     color of the paper on the graph.
 - plot_bg_color (string; default 'rgba(0,0,0,0)'): The background
     color of the subplots on the graph.
-- height (int; default 500): The height of the graph, in px.
-- width (int; default 500): The width of the graph, in px.
+- height (number; default 500): The height of the graph, in px.
+- width (number; default 500): The width of the graph, in px.
 """
     def __init__(
             self,
