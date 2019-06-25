@@ -96,7 +96,7 @@ Keyword arguments:
     probe name or cg number. This column should be a character. This
     argument is optional, however it is necessary to specify if you
     want to highlight points on the plot using the highlight argument
-    in the figure method.(Default: "SNP")
+    in the figure method.
 - gene (string; default 'GENE'): A string denoting the column name for
     the GENE names. More generally, this could be any annotation
     information that should be included in the plot.
@@ -207,11 +207,10 @@ class _VolcanoPlot():
         numeric.  This does not have to be a p-value. It can be any
         numeric quantity such as peak heights, bayes factors, test
         statistics. If it is not a p-value, make sure to set logp =
-        FALSE. (Default: "P")
+        FALSE.
     - effect_size (string; optional): A string denoting the column name
         for the effect size. This column in the dataframe must have
-        numeric values, with no values being missing nor NaN. (Default:
-        "EFFECTSIZE")
+        numeric values, with no values being missing nor NaN.
     - snp (string; optional): A string denoting the column name for the
         SNP names (e.g. rs number). More generally, this column could be
         anything that identifies each point being plotted. For example, in
@@ -219,19 +218,19 @@ class _VolcanoPlot():
         name or cg number. This column should be a character. This
         argument is optional, however it is necessary to specify if you
         want to highlight points on the plot using the highlight argument
-        in the figure method.(Default: "SNP")
+        in the figure method.
     - gene (string; optional): A string denoting the column name for the
         GENE names. More generally, this could be any annotation
-        information that should be included in the plot. (Default: "GENE")
+        information that should be included in the plot.
     - annotation (string; optional): A string denoting the column name for
         an annotation. This could be any annotation information that you
         want to include in the plot (e.g. zscore, effect size, minor
-        allele frequency). (Default: None)
+        allele frequency).
     - logp (bool; optional): If True, the -log10 of the p-value is
         plotted.  It isn't very useful to plot raw p-values; however,
         plotting the raw value could be useful for other genome-wide plots
         (e.g., peak heights, bayes factors, test statistics, and other
-        "scores"). (Default: "True")
+        "scores").
 
     Returns:
     - object: A Dash Bio ManhattanPlot object."""
@@ -328,46 +327,45 @@ class _VolcanoPlot():
             highlight=True,
             highlight_color="red",
     ):
-        """
+        """Keyword arguments:
 
-    Keyword arguments:
-    - title (string; optional): Title of the graph. (Default: "Volcano
-    Plot")
-    - xlabel (string; optional): Label of the x axis. (Default: None)
-    - ylabel (string; optional): Label of the y axis. (Default: "-log10(p)")
-    - point_size (number; optional): Size of the points of the Scatter
-      plot. (Default: 5)
+    - title (string; default 'Volcano Plot'): Title of the
+        graph.
+    - xlabel (string; optional): Label of the x axis.
+    - ylabel (string; default '-log10(p)'): Label of the y axis.
+    - point_size (number; default 5): Size of the points of the Scatter
+      plot.
     - col (string; optional): Color of the points of the Scatter plot. Can
-        be in any color format accepted by plotly_js graph_objs. (Default:
-        None)
-    - effect_size_line (bool/list; optional): A boolean which must be
+        be in any color format accepted by plotly_js graph_objs.
+    - effect_size_line (bool | list; default [-1, 1]): A boolean which must be
         False to deactivate the option, or a list/array containing the
         upper and lower bounds of the effect size values. Significant data
         points will have lower values than the lower bound, or higher
         values than the higher bound.  Keeping the default value will
-        result in assigning the list [-1, 1] to the argument. (Default:
-        [-1, 1])
-    - effect_size_line_color (string; optional): Color of the effect size
-        lines. (Default: "grey")
-    - effect_size_line_width (number; optional): Width of the effect size
-      lines. (Default: 2)
-    - genomewideline_value (bool/number; optional): A boolean which must
-        be False to deactivate the option, or a numerical value
-        corresponding to the p-value above which the data points are
-        considered significant. (Default: -np.log10(5e-8))
-    - genomewideline_color (string; optional): Color of the genome wide
+        result in assigning the list [-1, 1] to the argument.
+    - effect_size_line_color (string; default 'grey'): Color of the
+        effect size lines.
+    - effect_size_line_width (number; default 2): Width of the effect
+      size lines.
+    - genomewideline_value (bool | number; default -log10(5e-8)): A
+        boolean which must be False to deactivate the option, or a
+        numerical value corresponding to the p-value above which the
+        data points are considered significant.
+    - genomewideline_color (string; default 'red'): Color of the genome wide
         line. Can be in any color format accepted by plotly_js
-        graph_objs. (Default: "red")
-    - genomewideline_width (number; optional): Width of the genome wide
-      line. (Default: 1)
-    - highlight (bool; optional): Whether the data points considered
-      significant should be highlighted. (Default: True)
-    - highlight_color (string; optional): Color of the data points
+        graph_objs.
+    - genomewideline_width (number; default 1): Width of the genome
+      wide line.
+    - highlight (bool; default true): Whether the data points considered
+      significant should be highlighted.
+    - highlight_color (string; default red): Color of the data points
         highlighted because considered as significant Can be in any color
-        format accepted by plotly_js graph_objs. (Default: "red")
+        format accepted by plotly_js graph_objs.
 
     Returns:
-    - object: A figure compatible with plotly.graph_objs."""
+    - object: A figure compatible with plotly.graph_objs.
+
+        """
 
         if xlabel is None:
             xlabel = self.xlabel
