@@ -78,80 +78,76 @@ def ManhattanPlot(
 
 Keyword arguments:
 - dataframe (dataframe; required): A pandas dataframe which must contain at
-    least the following  three columns:
+    least the following three columns:
             - the chromosome number
             - genomic base-pair position
             - a numeric quantity to plot such as a p-value or zscore
-- chrm (string; optional): A string denoting the column name for the
-    chromosome.  This column must be float or integer.  Minimum number
-    of chromosomes required is 1. If you have X, Y, or MT chromosomes,
-    be sure to renumber these 23, 24, 25, etc. (Default: "CHR")
-- bp (string; optional): A string denoting the column name for the
-    chromosomal position. (Default: "BP")
-- p (string; optional): A string denoting the column name for the
+- chrm (string; default 'CHR'): A string denoting the column name for
+    the chromosome.  This column must be float or integer.  Minimum
+    number of chromosomes required is 1. If you have X, Y, or MT
+    chromosomes, be sure to renumber these 23, 24, 25, etc.
+- bp (string; default 'BP'): A string denoting the column name for the
+    chromosomal position.
+- p (string; default 'P'): A string denoting the column name for the
     float quantity to be plotted on the y-axis. This column must be
-    numeric. This does not have to be a p-value. It can be any
-    numeric quantity such as peak heights, bayes factors, test
-    statistics. If it is not a p-value, make sure to set logp = FALSE.
-    (Default: "P")
-- snp (string; optional): A string denoting the column name for the
-    SNP names (e.g. rs number). More generally, this column could be
-    anything that identifies each point being plotted. For example, in
-    an Epigenomewide association study (EWAS) this could be the probe
-    name or cg number. This column should be a character. This
+    numeric. This does not have to be a p-value. It can be any numeric
+    quantity such as peak heights, bayes factors, test statistics. If
+    it is not a p-value, make sure to set logp = FALSE.
+- snp (string; default 'SNP'): A string denoting the column name for
+    the SNP names (e.g. rs number). More generally, this column could
+    be anything that identifies each point being plotted. For example,
+    in an Epigenomewide association study (EWAS) this could be the
+    probe name or cg number. This column should be a character. This
     argument is optional, however it is necessary to specify if you
     want to highlight points on the plot using the highlight argument
-    in the figure method. (Default: "SNP")
-- gene (string; optional): A string denoting the column name for the
-    GENE names. This column could be a string or a float. More
+    in the figure method.
+- gene (string; default 'GENE'): A string denoting the column name for
+    the GENE names. This column could be a string or a float. More
     generally this could be any annotation information that you want
-    to include in the plot. (Default: "GENE")
+    to include in the plot.
 - annotation (string; optional): A string denoting the column name for
     an annotation. This column could be a string or a float.  This
     could be any annotation information that you want to include in
     the plot (e.g. zscore, effect size, minor allele frequency).
-    (Default: None)
 - logp (bool; optional): If True, the -log10 of the p-value is
     plotted.  It isn't very useful to plot raw p-values; however,
     plotting the raw value could be useful for other genome-wide plots
     (e.g., peak heights, bayes factors, test statistics, other
     "scores", etc.) (Default: True)
-- title (string; optional) The title of the graph. (Default: "Manhattan Plot")
-- showgrid (bool; optional): Boolean indicating whether gridlines should be
-    shown. (Default: True)
-- xlabel (string; optional): Label of the x axis. (Default: None)
-- ylabel: (string; optional): Label of the y axis. (Default:
-    "-log10(p)")
-- point_size (number; optional): Size of the points of the Scatter
-    plot. (Default: 5)
-- showlegend (bool; optional): Boolean indicating whether legends should be
-    shown. (Default: True)
+- title (string; default 'Manhattan Plot') The title of the graph.
+- showgrid (bool; default true): Boolean indicating whether gridlines
+    should be shown.
+- xlabel (string; optional): Label of the x axis.
+- ylabel: (string; default '-log10(p)'): Label of the y axis.
+- point_size (number; default 5): Size of the points of the Scatter
+    plot.
+- showlegend (bool; default true): Boolean indicating whether legends
+    should be shown.
 - col (string; optional): A string representing the color of the
     points of the Scatter plot. Can be in any color format accepted by
-    plotly_js graph_objs. (Default: None) Default = None
-- suggestiveline_value (bool/float; optional): A value which must
+    plotly_js graph_objs.
+- suggestiveline_value (bool | float; default 8): A value which must
     be False to deactivate the option, or a numerical value
     corresponding to the p-value at which the line should be drawn.
-    The line has no influence on the data points. (Default:
-    -np.log10(1e-8))
-- suggestiveline_color (string; optional): Color of the suggestive
+    The line has no influence on the data points.
+- suggestiveline_color (string; default 'grey'): Color of the suggestive
   line. (Default: "grey")
-- suggestiveline_width (number): Width of the suggestive
+- suggestiveline_width (number; default 2): Width of the suggestive
         line. (Default: 2)
-- genomewideline_value (bool/float; optional): A boolean which must be
-    False to deactivate the option, or a numerical value corresponding
-    to the p-value above which the data points are considered
-    significant. (Default: -np.log10(5e-8))
-- genomewideline_color (string; optional): Color of the genome wide
+- genomewideline_value (bool | float; default -log10(5e-8)): A boolean
+    which must be False to deactivate the option, or a numerical value
+    corresponding to the p-value above which the data points are
+    considered significant.
+- genomewideline_color (string; default 'red'): Color of the genome wide
     line. Can be in any color format accepted by plotly_js
-    graph_objs. (Default: "red")
-- genomewideline_width (number; optional): Width of the genome wide
-  line. (Default: 1)
-- highlight (bool; optional): turning on/off the highlighting of data points
-    considered significant. (Default: True)
-- highlight_color (string; optional): Color of the data points
+    graph_objs.
+- genomewideline_width (number; default 1): Width of the genome wide
+  line.
+- highlight (bool; default true): turning on/off the highlighting of
+    data points considered significant.
+- highlight_color (string; default 'red'): Color of the data points
     highlighted because they are significant Can be in any color
-    format accepted by plotly_js graph_objs. (Default: "red")
+    format accepted by plotly_js graph_objs.
 
     # ...
     Example 1: Random Manhattan Plot
