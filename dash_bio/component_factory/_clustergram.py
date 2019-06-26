@@ -53,7 +53,7 @@ Keyword arguments:
 - generate_curves_dict (bool; default false): Whether or not to return a
     dictionary containing information about the cluster number
     associated with each curve number in the graph. (May be useful
-    if one wishes to capture the cluster number that is clicked.)
+    for capturing the cluster number that is clicked.)
 - return_computed_traces (bool; default false): Whether or not to return
     the precomputed dendrogram traces. (May be useful if one wishes
     to add, e.g., group markers to the figure without recalculating
@@ -98,8 +98,8 @@ Keyword arguments:
     heatmap. Each list element contains two elements; the first
     element refers to the portion of the maximum data point under
     which a cell will be colored, and the second element refers to the
-    color. e.g., a colorscale [[0.0, 'white'], [0.5, 'gray'], [1.0,
-    'black']] mean that for all cells with a value in the 50th or
+    color, e.g., a colorscale [[0.0, 'white'], [0.5, 'gray'], [1.0,
+    'black']] means that for all cells with a value in the 50th or
     lower percentile of the dataset, the color on the heatmap would be
     white; all cells with a value in the 50th or higher percentile,
     excluding the 100th percentile, would be gray; and the cell(s) in
@@ -156,7 +156,7 @@ Keyword arguments:
     dendrograms. If in list format, the first element corresponds to
     the width of the row dendrogram traces, and the second corresponds
     to the width of the column dendrogram traces.
-- paper_bg_color (string; default 'rgba(0,0,0,0)`): The background
+- paper_bg_color (string; default 'rgba(0,0,0,0)'): The background
     color of the paper on the graph.
 - plot_bg_color (string; default 'rgba(0,0,0,0)'): The background
     color of the subplots on the graph.
@@ -296,7 +296,7 @@ class _Clustergram():
     dendrograms. If in list format, the first element corresponds to
     the width of the row dendrogram traces, and the second corresponds
     to the width of the column dendrogram traces.
-- paper_bg_color (string; default 'rgba(0,0,0,0)`): The background
+- paper_bg_color (string; default 'rgba(0,0,0,0)'): The background
     color of the paper on the graph.
 - plot_bg_color (string; default 'rgba(0,0,0,0)'): The background
     color of the subplots on the graph.

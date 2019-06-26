@@ -83,7 +83,7 @@ Keyword arguments:
             - genomic base-pair position
             - a numeric quantity to plot such as a p-value or zscore
 - chrm (string; default 'CHR'): A string denoting the column name for
-    the chromosome.  This column must be float or integer.  Minimum
+    the chromosome. This column must be float or integer. Minimum
     number of chromosomes required is 1. If you have X, Y, or MT
     chromosomes, be sure to renumber these 23, 24, 25, etc.
 - bp (string; default 'BP'): A string denoting the column name for the
@@ -91,10 +91,10 @@ Keyword arguments:
 - p (string; default 'P'): A string denoting the column name for the
     float quantity to be plotted on the y-axis. This column must be
     numeric. This does not have to be a p-value. It can be any numeric
-    quantity such as peak heights, bayes factors, test statistics. If
+    quantity such as peak heights, Bayes factors, test statistics. If
     it is not a p-value, make sure to set logp = FALSE.
 - snp (string; default 'SNP'): A string denoting the column name for
-    the SNP names (e.g. rs number). More generally, this column could
+    the SNP names (e.g., rs number). More generally, this column could
     be anything that identifies each point being plotted. For example,
     in an Epigenomewide association study (EWAS) this could be the
     probe name or cg number. This column should be a character. This
