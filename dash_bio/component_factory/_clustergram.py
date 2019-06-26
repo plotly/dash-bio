@@ -147,11 +147,11 @@ Keyword arguments:
     'color' (a string representation of the color of the
     annotation).
 - tick_font (dict; optional): The font options for ticks, as specified
-   in the Plotly graph_objs documentation (see:
-   https://plot.ly/python/reference/#bar-marker-colorbar-tickfont).
+    in the Plotly graph_objs documentation (see:
+    https://plot.ly/python/reference/#bar-marker-colorbar-tickfont).
 - annotation_font (dict; optional): The font options for annotations,
-   as specified in the Plotly graph_objs documentation (see:
-   https://plot.ly/python/reference/#layout-scene-annotations-items-annotation-font).
+    as specified in the Plotly graph_objs documentation (see:
+    https://plot.ly/python/reference/#layout-scene-annotations-items-annotation-font).
 - line_width (list | number; default 0.5): The line width for the
     dendrograms. If in list format, the first element corresponds to
     the width of the row dendrogram traces, and the second corresponds
@@ -287,11 +287,11 @@ class _Clustergram():
     'color' (a string representation of the color of the
     annotation).
 - tick_font (dict; optional): The font options for ticks, as specified
-   in the Plotly graph_objs documentation (see:
-   https://plot.ly/python/reference/#bar-marker-colorbar-tickfont).
+    in the Plotly graph_objs documentation (see:
+    https://plot.ly/python/reference/#bar-marker-colorbar-tickfont).
 - annotation_font (dict; optional): The font options for annotations,
-   as specified in the Plotly graph_objs documentation (see:
-   https://plot.ly/python/reference/#layout-scene-annotations-items-annotation-font).
+    as specified in the Plotly graph_objs documentation (see:
+    https://plot.ly/python/reference/#layout-scene-annotations-items-annotation-font).
 - line_width (list | number; default 0.5): The line width for the
     dendrograms. If in list format, the first element corresponds to
     the width of the row dendrogram traces, and the second corresponds
