@@ -143,7 +143,7 @@ Keyword arguments:
     graph_objs.
 - genomewideline_width (number; default 1): Width of the genome wide
   line.
-- highlight (bool; default true): turning on/off the highlighting of
+- highlight (bool; default True): turning on/off the highlighting of
     data points considered significant.
 - highlight_color (string; default 'red'): Color of the data points
     highlighted because they are significant Can be in any color

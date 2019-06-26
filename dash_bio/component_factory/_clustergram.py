@@ -50,11 +50,11 @@ def Clustergram(
 Keyword arguments:
 
 - data (ndarray; required): Matrix of observations as array of arrays
-- generate_curves_dict (bool; default false): Whether or not to return a
+- generate_curves_dict (bool; default False): Whether or not to return a
     dictionary containing information about the cluster number
     associated with each curve number in the graph. (May be useful
     for capturing the cluster number that is clicked.)
-- return_computed_traces (bool; default false): Whether or not to return
+- return_computed_traces (bool; default False): Whether or not to return
     the precomputed dendrogram traces. (May be useful if one wishes
     to add, e.g., group markers to the figure without recalculating
     the clustering in the entire figure.)
@@ -90,7 +90,7 @@ Keyword arguments:
 - color_threshold (dict; default {'row': 0, 'col': 0}): Maximum
     linkage value for which unique colors are assigned to clusters;
     'row' for rows, and 'col' for columns.
-- optimal_leaf_order (bool; default false): Enabling/disabling of the
+- optimal_leaf_order (bool; default False): Enabling/disabling of the
     option to determine leaf order that maximizes similarity between
     neighboring leaves.
 - color_map (list; default [[0.0, 'rgb(255,0,0)'], [0.5,
@@ -114,9 +114,9 @@ Keyword arguments:
     values from the dataset that are below the negative of this value
     will be colored with one shade, and the values that are above this
     value will be colored with another.
-- symmetric_value (bool; default true): Whether or not to center the
+- symmetric_value (bool; default True): Whether or not to center the
     values of the heatmap about zero.
-- log_transform (bool; default false): Whether or not to transforms
+- log_transform (bool; default False): Whether or not to transform
     the data by taking the base-two logarithm of all values in the
     dataset.
 - display_ratio (list | number; default 0.2): The dendrograms' heights with
