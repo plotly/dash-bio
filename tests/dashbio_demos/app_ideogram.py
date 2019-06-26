@@ -721,6 +721,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 'ideogram/data/annotations/10_virtual_cnvs.json'
 
         elif annotation_select == 'histogram':
+            annotations_layout = 'histogram'
+            bar_input = 3
             annotations_path = 'https://eweitz.github.io/' + \
                 'ideogram/data/annotations/SRR562646.json'
             annotations_assembly = 'GRCh37'
