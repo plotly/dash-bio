@@ -99,8 +99,8 @@ Keyword arguments:
     element refers to the portion of the maximum data point under
     which a cell will be colored, and the second element refers to the
     color, e.g., a colorscale [[0.0, 'white'], [0.5, 'gray'], [1.0,
-    'black']] means that for all cells with a value in the 50th or
-    lower percentile of the dataset, the color on the heatmap would be
+    'black']] means that for all cells with a value below the 50th
+    percentile of the dataset, the color on the heatmap would be
     white; all cells with a value in the 50th or higher percentile,
     excluding the 100th percentile, would be gray; and the cell(s) in
     the 100th percentile would be colored black.
@@ -239,8 +239,8 @@ class _Clustergram():
     element refers to the portion of the maximum data point under
     which a cell will be colored, and the second element refers to the
     color. e.g., a colorscale [[0.0, 'white'], [0.5, 'gray'], [1.0,
-    'black']] mean that for all cells with a value in the 50th or
-    lower percentile of the dataset, the color on the heatmap would be
+    'black']] mean that for all cells with a value below the 50th
+    percentile of the dataset, the color on the heatmap would be
     white; all cells with a value in the 50th or higher percentile,
     excluding the 100th percentile, would be gray; and the cell(s) in
     the 100th percentile would be colored black.
