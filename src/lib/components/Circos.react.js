@@ -19,6 +19,22 @@ export default class Circos extends Component {
         this.setEvent = this.setEvent.bind(this);
         this.setColor = this.setColor.bind(this);
         this.setToolTip = this.setToolTip.bind(this);
+
+        this.stopScroll = this.stopScroll.bind(this);
+        this.setStopScroll = this.setStopScroll.bind(this);
+    }
+
+    stopScroll(e) {
+        e.preventDefault();
+    }
+
+    setStopScroll(stop) {
+        if(stop) {
+            this.ref.addEventListener('wheel', this.stopScroll);
+        }
+        else {
+            this.ref.removeEventListener('wheel', this.stopScroll);
+        }
     }
 
     setEvent(setProps, index) {
@@ -206,6 +222,8 @@ export default class Circos extends Component {
             enableDownloadSVG: enableDownloadSVG,
         });
         this.configCircos(layout, config, tracks, setProps);
+
+        this.setStopScroll(enableZoomPan);
     }
 
     shouldComponentUpdate(nextProps) {
@@ -235,6 +253,10 @@ export default class Circos extends Component {
         this.circos.enableZoomPan = enableZoomPan;
         this.circos.enableDownloadSVG = enableDownloadSVG;
         this.configCircos(layout, config, tracks, setProps);
+    }
+
+    componentWillUnmount() {
+        this.setStopScroll(false);
     }
 
     render() {
