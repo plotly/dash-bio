@@ -23,6 +23,7 @@
     "build:all-dev": "npm run build:js-dev & npm run build:py"
   },
   "author": "The Plotly Team <dashbio@plot.ly>",
+  "maintainer": "Ryan Patrick Kyle <ryan@plot.ly>",
   "license": "MIT",
   "dependencies": {
     "circos": "^2.1.0",
