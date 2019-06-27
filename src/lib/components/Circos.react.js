@@ -15,7 +15,7 @@ export default class Circos extends Component {
     constructor(props) {
         super(props);
         this.circos = null;
-        this.configIdeogram = this.configIdeogram.bind(this);
+        this.configCircos = this.configCircos.bind(this);
         this.setEvent = this.setEvent.bind(this);
         this.setColor = this.setColor.bind(this);
         this.setToolTip = this.setToolTip.bind(this);
@@ -156,7 +156,7 @@ export default class Circos extends Component {
         }
     }
 
-    configIdeogram(layout, config, tracks, setProps) {
+    configCircos(layout, config, tracks, setProps) {
         this.circos.layout(layout, config);
         tracks.forEach((track, index) => {
             const {id, data, config, type} = track;
@@ -205,7 +205,7 @@ export default class Circos extends Component {
             enableZoomPan: enableZoomPan,
             enableDownloadSVG: enableDownloadSVG,
         });
-        this.configIdeogram(layout, config, tracks, setProps);
+        this.configCircos(layout, config, tracks, setProps);
     }
 
     shouldComponentUpdate(nextProps) {
@@ -234,7 +234,7 @@ export default class Circos extends Component {
         this.circos.height = size;
         this.circos.enableZoomPan = enableZoomPan;
         this.circos.enableDownloadSVG = enableDownloadSVG;
-        this.configIdeogram(layout, config, tracks, setProps);
+        this.configCircos(layout, config, tracks, setProps);
     }
 
     render() {
