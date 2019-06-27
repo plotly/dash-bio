@@ -1,6 +1,6 @@
 .dashBio_js_metadata <- function() {
 deps_metadata <- list(`dash_bio` = structure(list(name = "dash_bio",
-version = "0.1.2rc5", src = list(href = NULL,
+version = "0.1.2", src = list(href = NULL,
 file = "deps"), meta = NULL,
 script = 'bundle.js',
 stylesheet = NULL, head = NULL, attachment = NULL, package = "dashBio",
