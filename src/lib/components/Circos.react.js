@@ -252,9 +252,7 @@ export default class Circos extends Component {
             <div id={id} style={style} eventDatum={eventDatum}>
                 <div
                     id="Circos-container"
-                    ref={ref => {
-                        this.ref = ref;
-                    }}
+                    ref={ref => this.ref = ref}
                     config={config}
                     layout={layout}
                     tracks={tracks}
@@ -306,9 +304,9 @@ Circos.propTypes = {
    *
    * Ex:
    * selectEvent={
-	"0": "hover",
-	"1": "click",
-	"2": "both"
+        "0": "hover",
+        "1": "click",
+        "2": "both"
     },
    */
     selectEvent: PropTypes.object,
@@ -391,30 +389,30 @@ Circos.propTypes = {
             type: PropTypes.oneOf(TRACK_TYPES),
 
             /**
-	 * Specify what data for tooltipContent is
-	 * displayed.
-	 *
-	 * The entry for the "name" key, is any of the keys used in the data loaded into tracks.
-	 * Ex: "tooltipContent": {"name": "block_id"},
-	 *
-	 * To display all data in the dataset use "all" as the entry for the key "name".
-	 * Ex: "tooltipContent": {"name": "all"}
-	 *
-	 * Ex: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.
-	 * "tooltipContent": {
-	    "source": "block_id",
-	    "target": "position",
-	    "targetEnd": "value"
-				},
-	 * Ex: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.
-	 * "tooltipContent": {
-	    "source": "source",
-	    "sourceID": "id",
-	    "target": "target",
-	    "targetID": "id",
-	    "targetEnd": "end"
-	}
-	 **/
+             * Specify what data for tooltipContent is
+             * displayed.
+             *
+             * The entry for the "name" key, is any of the keys used in the data loaded into tracks.
+             * Ex: "tooltipContent": {"name": "block_id"},
+             *
+             * To display all data in the dataset use "all" as the entry for the key "name".
+             * Ex: "tooltipContent": {"name": "all"}
+             *
+             * Ex: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.
+             * "tooltipContent": {
+                "source": "block_id",
+                "target": "position",
+                "targetEnd": "value"
+                        },
+             * Ex: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.
+             * "tooltipContent": {
+                "source": "source",
+                "sourceID": "id",
+                "target": "target",
+                "targetID": "id",
+                "targetEnd": "end"
+            }
+             **/
             tooltipContent: PropTypes.oneOf([
                 PropTypes.string,
                 PropTypes.shape({
