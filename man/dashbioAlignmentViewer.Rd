@@ -10,14 +10,14 @@ The Alignment Viewer (MSA) component is used to align multiple genomic or proteo
 }
 
 \usage{
-dashbioAlignmentViewer(id=NULL, eventDatum=NULL, data=NULL, extension=NULL,
-colorscale=NULL, opacity=NULL, textcolor=NULL, textsize=NULL, showlabel=NULL,
-showid=NULL, showconservation=NULL, conservationcolor=NULL,
-conservationcolorscale=NULL, conservationopacity=NULL, conservationmethod=NULL,
-correctgap=NULL, showgap=NULL, gapcolor=NULL, gapcolorscale=NULL,
-gapopacity=NULL, groupbars=NULL, showconsensus=NULL, tilewidth=NULL,
-tileheight=NULL, overview=NULL, numtiles=NULL, scrollskip=NULL, tickstart=NULL,
-ticksteps=NULL, width=NULL, height=NULL)
+dashbioAlignmentViewer(id=NULL, eventDatum=NULL, data=NULL, extension=NULL, colorscale=NULL,
+opacity=NULL, textcolor=NULL, textsize=NULL, showlabel=NULL, showid=NULL,
+showconservation=NULL, conservationcolor=NULL, conservationcolorscale=NULL,
+conservationopacity=NULL, conservationmethod=NULL, correctgap=NULL,
+showgap=NULL, gapcolor=NULL, gapcolorscale=NULL, gapopacity=NULL,
+groupbars=NULL, showconsensus=NULL, tilewidth=NULL, tileheight=NULL,
+overview=NULL, numtiles=NULL, scrollskip=NULL, tickstart=NULL, ticksteps=NULL,
+width=NULL, height=NULL)
 }
 
 \arguments{
@@ -124,4 +124,3 @@ if either of them is set.}
 Property takes precedence over tilesheight if both
 are set.}
 }
-

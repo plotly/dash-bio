@@ -10,9 +10,9 @@ The Molecule3dViewer component is used to render schematic diagrams of biomolecu
 }
 
 \usage{
-dashbioMolecule3dViewer(id=NULL, selectionType=NULL, backgroundColor=NULL,
-backgroundOpacity=NULL, styles=NULL, modelData=NULL, atomLabelsShown=NULL,
-selectedAtomIds=NULL, labels=NULL, onRenderNewData=NULL, onChangeSelection=NULL)
+dashbioMolecule3dViewer(id=NULL, selectionType=NULL, backgroundColor=NULL, backgroundOpacity=NULL,
+styles=NULL, modelData=NULL, atomLabelsShown=NULL, selectedAtomIds=NULL,
+labels=NULL, onRenderNewData=NULL, onChangeSelection=NULL)
 }
 
 \arguments{
@@ -24,10 +24,16 @@ selectedAtomIds=NULL, labels=NULL, onRenderNewData=NULL, onChangeSelection=NULL)
 
 \item{backgroundOpacity}{Numeric. Property to change the backgroun opacity - ranges from 0 to 1}
 
-\item{styles}{List. Property that can be used to change the representation of
+\item{styles}{List of lists containing elements 'color', 'visualization_type'.
+those elements have the following types:
+  - color (character; optional)
+  - visualization_type (a value equal to: 'cartoon', 'sphere', 'stick'; optional)s. Property that can be used to change the representation of
 the molecule. Options include sticks, cartoon and sphere}
 
-\item{modelData}{The data that will be used to display the molecule in 3D
+\item{modelData}{Lists containing elements 'atoms', 'bonds'.
+those elements have the following types:
+  - atoms (unnamed list; optional)
+  - bonds (unnamed list; optional). The data that will be used to display the molecule in 3D
 The data will be in JSON format
 and should have two main dictionaries - atoms, bonds}
 
@@ -43,4 +49,3 @@ when modelData is changed}
 \item{onChangeSelection}{Callback to change append selectedAtomIds
 when a selection is made}
 }
-
