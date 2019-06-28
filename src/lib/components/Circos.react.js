@@ -238,8 +238,6 @@ export default class Circos extends Component {
 
     componentDidUpdate() {
         const {
-            enableDownloadSVG,
-            enableZoomPan,
             size,
             layout,
             config,
@@ -250,8 +248,6 @@ export default class Circos extends Component {
         this.container = this.ref;
         this.circos.width = size;
         this.circos.height = size;
-        this.circos.enableZoomPan = enableZoomPan;
-        this.circos.enableDownloadSVG = enableDownloadSVG;
         this.configCircos(layout, config, tracks, setProps);
     }
 
