@@ -270,7 +270,9 @@ export default class Circos extends Component {
             <div id={id} style={style} eventDatum={eventDatum}>
                 <div
                     id="Circos-container"
-                    ref={ref => this.ref = ref}
+                    ref={ref => {
+                        this.ref = ref
+                    }}
                     config={config}
                     layout={layout}
                     tracks={tracks}
