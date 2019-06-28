@@ -25,7 +25,7 @@
   "author": "The Plotly Team <dashbio@plot.ly>",
   "license": "MIT",
   "dependencies": {
-    "circos": "^2.1.0",
+    "circos": "git+https://github.com/matthewchan15/circosJS.git#matthewchan15-zoom-pan-svg",
     "fast-memoize": "^2.5.1",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
     "molecule-2d-for-react": "^0.2.3",
