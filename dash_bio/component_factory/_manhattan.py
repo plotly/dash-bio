@@ -413,7 +413,7 @@ class _ManhattanPlot():
     - ylabel: (string; default '-log10(p)'): Label of the y axis.
     - point_size (number; default 5): Size of the points of the
         Scatter plot.
-    - showlegend (bool; default true): Boolean indicating whether
+    - showlegend (bool; default True): Boolean indicating whether
         legends should be shown.
     - col (string; optional): A string representing the color of the
         points of the Scatter plot. Can be in any color format
@@ -435,7 +435,7 @@ class _ManhattanPlot():
         plotly_js graph_objs.
     - genomewideline_width (number; default 1): Width of the genome
       wide line.
-    - highlight (bool; default true): turning on/off the highlighting
+    - highlight (bool; default True): turning on/off the highlighting
         of data points considered significant.
     - highlight_color (string; default 'red'): Color of the data
         points highlighted because they are significant. Can be in any

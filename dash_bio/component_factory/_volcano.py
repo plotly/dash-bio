@@ -104,7 +104,7 @@ Keyword arguments:
     an annotation. This could be any annotation information that you
     want to include in the plot (e.g. zscore, effect size, minor
     allele frequency).
-- logp (bool; default true): If True, the -log10 of the p-value is
+- logp (bool; default True): If True, the -log10 of the p-value is
     plotted.  It isn't very useful to plot raw p-values; however,
     plotting the raw value could be useful for other genome-wide plots
     (e.g., peak heights, bayes factors, test statistics, and other
@@ -135,7 +135,7 @@ Keyword arguments:
     graph_objs.
 - genomewideline_width (number; default 1): Width of the genome wide
     line.
-- highlight (bool; default true): Whether the data points considered
+- highlight (bool; default True): Whether or not the data points considered
     significant should be highlighted.
 - highlight_color (string; default 'red'): Color of the data points
     highlighted because considered as significant Can be in any color
@@ -356,7 +356,7 @@ class _VolcanoPlot():
         graph_objs.
     - genomewideline_width (number; default 1): Width of the genome
       wide line.
-    - highlight (bool; default true): Whether the data points considered
+    - highlight (bool; default True): Whether the data points considered
       significant should be highlighted.
     - highlight_color (string; default 'red'): Color of the data points
         highlighted because considered as significant. Can be in any color
