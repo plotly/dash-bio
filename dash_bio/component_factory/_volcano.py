@@ -90,7 +90,7 @@ Keyword arguments:
     column name for the effect size. This column in the dataframe must
     have numeric values, with no values being missing nor NaN.
 - snp (string; default 'SNP'): A string denoting the column name for
-    the SNP names (e.g. rs number). More generally, this column could
+    the SNP names (e.g., rs number). More generally, this column could
     be anything that identifies each point being plotted. For example,
     in an Epigenomewide association study (EWAS) this could be the
     probe name or cg number. This column should be a character. This
@@ -358,8 +358,8 @@ class _VolcanoPlot():
       wide line.
     - highlight (bool; default true): Whether the data points considered
       significant should be highlighted.
-    - highlight_color (string; default red): Color of the data points
-        highlighted because considered as significant Can be in any color
+    - highlight_color (string; default 'red'): Color of the data points
+        highlighted because considered as significant. Can be in any color
         format accepted by plotly_js graph_objs.
 
     Returns:
