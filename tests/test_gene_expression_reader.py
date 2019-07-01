@@ -41,7 +41,6 @@ DATASTRING = '^DATABASE = Geo\n!Database_name = Gene Expression Omnibus' + \
 
 
 def test_read_soft_datastring():
-    """Test that SOFT data string can be read."""
     soft = read_soft(DATASTRING,
                      is_datafile=False)
 
@@ -61,8 +60,7 @@ def test_read_soft_datastring():
     assert all(['GSM' in col for col in cols])
 
 
-def test_read_soft_filtered():
-    """Test that SOFT data string can be filtered."""
+def test_read_soft_return_filtered():
     soft = read_soft(DATASTRING,
                      is_datafile=False,
                      return_filtered_data=True,
