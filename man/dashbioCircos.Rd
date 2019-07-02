@@ -121,7 +121,7 @@ library(dashBio)
 
 app <- Dash$new()
 
-pathToData <- system.file("circos_graph_data.json", package = "dashBio")
+pathToData <- system.file("extdata/circos_graph_data.json", package = "dashBio")
 
 circos_graph_data <- jsonlite::fromJSON(pathToData, simplifyDataFrame=FALSE)
 

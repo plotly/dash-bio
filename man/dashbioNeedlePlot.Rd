@@ -54,7 +54,7 @@ library(dashHtmlComponents)
 library(dashCoreComponents)
 library(dashBio)
 
-pathToData <- system.file("needle_PIK3CA.json", package="dashBio")
+pathToData <- system.file("extdata/needle_PIK3CA.json", package="dashBio")
 
 mdata <- jsonlite::read_json(pathToData)
 
