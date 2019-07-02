@@ -7,11 +7,6 @@ lib/
 .builderrc
 .eslintrc
 .npmignore
-.editorconfig
-.eslintignore
-.prettierrc
-.circleci
-.github
 
 # demo folder has special meaning in R
 # this should hopefully make it still
@@ -22,13 +17,12 @@ demo/.*\.css
 
 # ignore python files/folders
 setup.py
-usage.py
-setup.py
+index.py
+config.py
 requirements.txt
 MANIFEST.in
 CHANGELOG.md
-test/
-# CRAN has weird LICENSE requirements
-LICENSE.txt
+tests/
+.pylintrc
 ^.*\.Rproj$
 ^\.Rproj\.user$
