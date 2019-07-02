@@ -103,3 +103,63 @@ want any points highlighted.}
 
 \item{...}{other parameters passed to \code{\link{volcanor}}}
 }
+
+\examples{
+\dontrun{
+library(dash)
+library(dashBio)
+library(dashHtmlComponents)
+library(dashCoreComponents)
+
+app <- Dash$new()
+
+data(voldata)
+
+app$layout(
+  htmlDiv(
+    list(
+      'Effect sizes',
+      dccRangeSlider(
+        id = 'volcanoplot-input',
+        min = -3,
+        max = 3,
+        step = 0.05,
+        marks = setNames(
+          lapply(-3:3, 
+                 function(i){
+                   list(label = as.character(i))
+                 }), 
+          -3:3
+        ),
+        value = c(-0.5, 1)
+      ),
+      htmlBr(),
+      htmlDiv(
+        dccGraph(
+          id = 'my-dashbio-volcanoplot',
+          figure = dashbioVolcano(
+            dataframe = voldata
+          )
+        )
+      )
+    )
+  )
+)
+
+app$callback(
+  output = list(id = 'my-dashbio-volcanoplot', property = 'figure'),
+  params = list(input(id = 'volcanoplot-input', property = 'value')),
+  function(effects) {
+
+    dashbioVolcano(
+      dataframe = voldata,
+      genomewideline_value = 2.5,
+      effect_size_line = unlist(effects),
+      
+    )
+  }
+)
+
+app$run_server()
+}
+}

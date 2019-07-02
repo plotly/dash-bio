@@ -103,3 +103,28 @@ means that nothing is highlighted.}
 
 \item{...}{other parameters passed to \code{\link{manhattanr}}}
 }
+
+\examples{
+\dontrun{
+library(dash)
+library(dashHtmlComponents)
+library(dashCoreComponents)
+library(dashBio)
+
+app <- Dash$new()
+  
+app$layout(
+    htmlDiv(
+      list(
+        dccGraph(id = 'manhattan-plot', 
+                 figure = dashbioManhattan(HapMap,
+                 snp = "SNP",
+                 highlight = significantSNP)
+        )
+      )
+    )
+)
+
+app$run_server()
+}
+}
