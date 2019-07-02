@@ -52,3 +52,29 @@ Will disable auto-resizing of plots if set.}
 \item{height}{Numeric | character. Height of the OncoPrint.
 Will disable auto-resizing of plots if set.}
 }
+
+\examples{
+\dontrun{
+library(dash)
+library(dashCoreComponents)
+library(dashHtmlComponents)
+library(dashBio)
+
+app <- Dash$new()
+
+pathToData <- system.file("extdata/cBioPortalData.json", package = "dashBio")
+
+cBioPortalData <- jsonlite::fromJSON(pathToData, simplifyDataFrame=FALSE)
+
+app$layout(htmlDiv(list(
+    dashbioOncoPrint(
+    id = 'my-dashbio-oncoprint',
+    data = cBioPortalData
+  )
+)
+)
+)
+
+app$run_server(showcase = TRUE)
+}
+}

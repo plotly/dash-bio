@@ -46,3 +46,31 @@ those elements have the following types:
   - domaincolor (unnamed list; optional)
   - displayminordomains (logical; optional). Options for the protein domain coloring}
 }
+
+\examples{
+\dontrun{
+library(dash)
+library(dashHtmlComponents)
+library(dashCoreComponents)
+library(dashBio)
+
+pathToData <- system.file("needle_PIK3CA.json", package="dashBio")
+
+mdata <- jsonlite::read_json(pathToData)
+
+app <- Dash$new()
+
+app$layout(
+    htmlDiv(
+      list(
+        dashbioNeedlePlot(
+          id = 'my-dashbio-needleplot',
+          mutationData = mdata
+        )
+      )
+    )
+)  
+
+app$run_server()
+}
+}

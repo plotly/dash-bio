@@ -124,3 +124,28 @@ if either of them is set.}
 Property takes precedence over tilesheight if both
 are set.}
 }
+
+\examples{
+\dontrun{
+library(dash)
+library(dashCoreComponents)
+library(dashHtmlComponents)
+library(dashBio)
+
+data(p53fasta)
+
+app <- Dash$new()
+
+app$layout(htmlDiv(list(
+  dashbioAlignmentViewer(
+    id='my-dashbio-alignmentviewer',
+    data=p53fasta
+  )
+)
+)
+)
+
+app$run_server(showcase = TRUE)
+}
+
+}

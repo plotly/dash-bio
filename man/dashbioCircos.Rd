@@ -111,3 +111,44 @@ ex: "color": {"name": "some key that refers to color in a data set"}. color has 
 For a complete list of tracks and usage,
 please check the docs.}
 }
+
+\examples{
+\dontrun{
+library(dash)
+library(dashCoreComponents)
+library(dashHtmlComponents)
+library(dashBio)
+
+app <- Dash$new()
+
+pathToData <- system.file("circos_graph_data.json", package = "dashBio")
+
+circos_graph_data <- jsonlite::fromJSON(pathToData, simplifyDataFrame=FALSE)
+
+app$layout(htmlDiv(list(
+dashbioCircos(
+  id = 'my-dashbio-circos',
+  tracks = list(
+  list('type' = 'CHORDS',
+       'data' = circos_graph_data[['chords']],
+       'opacity' = '0.7',
+       'color' = list('name' = 'color'),
+       'config' = list(
+            'tooltipContent' = list(
+                  'source' = 'source',
+                  'sourceID' = 'id',
+                  'target' = 'target',
+                  'targetID' = 'id',
+                  'targetEnd' = 'end'
+                  )
+              )
+        )),
+  layout = circos_graph_data[['GRCh37']]
+)
+)
+)
+)
+
+app$run_server(showcase = TRUE)
+}
+}

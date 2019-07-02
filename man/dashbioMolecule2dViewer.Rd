@@ -37,3 +37,36 @@ those elements have the following types:
   - strength (numeric; optional)
   - distance (numeric; optional)s. Description of the molecule to display.}
 }
+
+\examples{
+\dontrun{
+library(dash)
+library(dashHtmlComponents)
+library(dashCoreComponents)
+library(dashBio)
+library(jsonlite)
+
+# data available within the package:
+pathToModelData <- system.file("extdata/mol2d_buckminsterfullerene.json", package = "dashBio")
+
+modelData <- jsonlite::read_json(pathToModelData)
+
+app <- Dash$new()
+  
+app$layout(
+    htmlDiv(
+      list(
+        htmlLabel("Click and drag an element to rotate the molecule in 2D space:"),
+        dashbioMolecule2dViewer(
+          id = 'my-dashbio-molecule2d',
+          modelData = modelData
+        )
+      ),
+      style = list("text-align" = "center",
+                   "border-style" = "solid")
+    )
+)
+  
+app$run_server()
+}
+}

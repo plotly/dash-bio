@@ -199,3 +199,29 @@ beside chromosomes of less studied organisms, e.g., chimpanzee.}
 \item{showNonNuclearChromosomes}{Logical. Whether to show non-nuclear chromosomes,
 e.g., for mitochondrial (MT) and chloroplast (CP) DNA.}
 }
+
+\examples{
+\dontrun{
+library(dash)
+library(dashHtmlComponents)
+library(dashCoreComponents)
+library(dashBio)
+
+app <- Dash$new()
+
+app$layout(
+    htmlDiv(
+      list(
+        htmlLabel("Click a chromosome for a closer look; double-click to return to the overview:"),
+        dashbioIdeogram(
+          id='my-dashbio-ideogram',
+          chrHeight=250
+        )
+      ),
+      style = list("text-align" = "center")
+    )
+)  
+  
+app$run_server()
+}
+}

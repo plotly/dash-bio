@@ -60,3 +60,91 @@ related to how the molecule is displayed.}
 \item{presetView}{A value equal to: 'default', 'stickball', 'toon', 'licorice'. One of several pre-loaded views: default, stick-ball, toon,
 and licorice}
 }
+
+\examples{
+\dontrun{
+library(dash)
+library(dashHtmlComponents)
+library(dashCoreComponents)
+library(dashBio)
+
+app <- Dash$new()
+
+# a helper function to simplify data import
+importSpeck <- function(filepath, 
+                        header = FALSE, 
+                        skip = 2) {
+  textdata <- read.table(
+    text = paste0(
+      readLines(filepath), collapse="\n"
+    ),
+  header = header,
+  skip = skip,
+  col.names = c("symbol", "x", "y", "z"),
+  stringsAsFactors = FALSE)
+  return(dashTable::df_to_list(textdata))
+}
+
+# data available within the package:
+caffeine <- importSpeck(system.file("extdata/caffeine.xyz", 
+                                    package = "dashBio"))
+
+methane <- importSpeck(system.file("extdata/methane.xyz", 
+                                   package = "dashBio"))
+
+testosterone <- importSpeck(system.file("extdata/testosterone.xyz", 
+                                        package = "dashBio"))
+
+app$layout(htmlDiv(list(
+  htmlDiv(list(
+    htmlDiv(
+      id = 'speck-container',
+      children = list(
+        dashbioSpeck(
+          id = 'speck',
+          view = list('resolution' = 600, 'zoom'= 0.1),
+          scrollZoom = TRUE
+          )
+        ),
+      style = list('display' = 'inline-block')
+      ),
+    htmlDiv(list(
+      htmlLabel("Select a molecule to render:"),
+      dccDropdown(id = 'molecule-dropdown',
+                  value = 'caffeine', 
+                  disabled = FALSE, 
+                  multi = FALSE,
+                  options = list(list(value = "caffeine", label = "Caffeine"),
+                                 list(value = "methane", label = "Methane"),
+                                 list(value = "testosterone", label = "Testosterone")))
+      ),
+      style = list('display' = 'inline-block',
+                   'position' = 'absolute',
+                   'top' = '25px',
+                   'right' = '50px',
+                   'width' = '300px',
+                   'padding' = '10px'),
+      id = 'selector'
+      )
+    ),
+    style = list('width' = '80\%', 
+                 'display' = 'inline-block')
+    )
+  )
+  )
+)
+
+app$callback(output=list(id='speck', property='data'),
+             params=list(
+               input(id='molecule-dropdown', property='value')),
+             function(molecule)
+             {
+               if (molecule == "caffeine") caffeine
+               else if (molecule == "methane") methane
+               else if (molecule == "testosterone") testosterone
+             }
+)
+
+app$run_server()
+}
+}

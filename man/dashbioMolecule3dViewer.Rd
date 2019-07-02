@@ -49,3 +49,42 @@ when modelData is changed}
 \item{onChangeSelection}{Callback to change append selectedAtomIds
 when a selection is made}
 }
+
+\examples{
+\dontrun{
+library(dash)
+library(dashHtmlComponents)
+library(dashCoreComponents)
+library(dashBio)
+library(jsonlite)
+
+# data available within the package:
+pathToModelData <- system.file("extdata/model_data.json", package = "dashBio")
+pathToStylesData <- system.file("extdata/styles_data.json", package = "dashBio")
+
+modelData <- jsonlite::read_json(pathToModelData)
+stylesData <- jsonlite::read_json(pathToStylesData)
+
+app <- Dash$new()
+
+app$layout(
+  htmlDiv(
+    list(
+      htmlLabel("Click and drag to rotate the molecule in 3D space:"),
+      dashbioMolecule3dViewer(
+        id = 'my-dashbio-molecule3d',
+        styles = stylesData,
+        modelData = modelData,
+        selectionType = 'Chain',
+        backgroundColor='#FF0000',
+        backgroundOpacity=0.2
+      )
+    ),
+    style = list("text-align" = "center",
+                 "border-style" = "solid")
+  )
+)
+
+app$run_server()
+}
+}
