@@ -29,10 +29,9 @@ export default class Circos extends Component {
     }
 
     setStopScroll(stop) {
-        if(stop) {
+        if (stop) {
             this.ref.addEventListener('wheel', this.stopScroll);
-        }
-        else {
+        } else {
             this.ref.removeEventListener('wheel', this.stopScroll);
         }
     }
@@ -237,13 +236,7 @@ export default class Circos extends Component {
     }
 
     componentDidUpdate() {
-        const {
-            size,
-            layout,
-            config,
-            tracks,
-            setProps,
-        } = this.props;
+        const {size, layout, config, tracks, setProps} = this.props;
         this.circos.removeTracks();
         this.container = this.ref;
         this.circos.width = size;
@@ -271,7 +264,7 @@ export default class Circos extends Component {
                 <div
                     id="Circos-container"
                     ref={ref => {
-                        this.ref = ref
+                        this.ref = ref;
                     }}
                     config={config}
                     layout={layout}
