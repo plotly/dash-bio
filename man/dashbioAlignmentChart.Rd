@@ -10,14 +10,14 @@ The Alignment Viewer (MSA) component is used to align multiple genomic or proteo
 }
 
 \usage{
-dashbioAlignmentChart(id=NULL, eventDatum=NULL, data=NULL, extension=NULL,
-colorscale=NULL, opacity=NULL, textcolor=NULL, textsize=NULL, showlabel=NULL,
-showid=NULL, showconservation=NULL, conservationcolor=NULL,
-conservationcolorscale=NULL, conservationopacity=NULL, conservationmethod=NULL,
-correctgap=NULL, showgap=NULL, gapcolor=NULL, gapcolorscale=NULL,
-gapopacity=NULL, groupbars=NULL, showconsensus=NULL, tilewidth=NULL,
-tileheight=NULL, overview=NULL, numtiles=NULL, scrollskip=NULL, tickstart=NULL,
-ticksteps=NULL, width=NULL, height=NULL)
+dashbioAlignmentChart(id=NULL, eventDatum=NULL, data=NULL, extension=NULL, colorscale=NULL,
+opacity=NULL, textcolor=NULL, textsize=NULL, showlabel=NULL, showid=NULL,
+showconservation=NULL, conservationcolor=NULL, conservationcolorscale=NULL,
+conservationopacity=NULL, conservationmethod=NULL, correctgap=NULL,
+showgap=NULL, gapcolor=NULL, gapcolorscale=NULL, gapopacity=NULL,
+groupbars=NULL, showconsensus=NULL, tilewidth=NULL, tileheight=NULL,
+overview=NULL, numtiles=NULL, scrollskip=NULL, tickstart=NULL, ticksteps=NULL,
+width=NULL, height=NULL)
 }
 
 \arguments{
@@ -125,3 +125,27 @@ Property takes precedence over tilesheight if both
 are set.}
 }
 
+\examples{
+\dontrun{
+library(dash)
+library(dashCoreComponents)
+library(dashHtmlComponents)
+library(dashBio)
+
+data(p53fasta)
+
+app <- Dash$new()
+
+app$layout(htmlDiv(list(
+  dashbioAlignmentChart(
+    id='my-dashbio-alignmentchart',
+    data=p53fasta
+  )
+)
+)
+)
+
+app$run_server(showcase = TRUE)
+}
+
+}

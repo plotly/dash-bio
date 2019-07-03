@@ -1979,21 +1979,33 @@
           ]
         },
         "required": false,
-        "description": "The selection type - may be atom, residue or chain"
+        "description": "The selection type - may be atom, residue or chain",
+        "defaultValue": {
+          "value": "'atom'",
+          "computed": false
+        }
       },
       "backgroundColor": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "Property to change the background color of the molecule viewer"
+        "description": "Property to change the background color of the molecule viewer",
+        "defaultValue": {
+          "value": "'#FFFFFF'",
+          "computed": false
+        }
       },
       "backgroundOpacity": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": "Property to change the backgroun opacity - ranges from 0 to 1"
+        "description": "Property to change the backgroun opacity - ranges from 0 to 1",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
       },
       "styles": {
         "type": {

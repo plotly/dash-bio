@@ -23,12 +23,13 @@
     "build:all-dev": "npm run build:js-dev & npm run build:py"
   },
   "author": "The Plotly Team <dashbio@plot.ly>",
+  "maintainer": "Ryan Patrick Kyle <ryan@plot.ly>",
   "license": "MIT",
   "dependencies": {
     "circos": "git+https://github.com/matthewchan15/circosJS.git#matthewchan15-zoom-pan-svg",
     "fast-memoize": "^2.5.1",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
-    "molecule-2d-for-react": "^0.2.3",
+    "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
     "plotly.js": "^1.47.4",
     "ramda": "^0.26.0",

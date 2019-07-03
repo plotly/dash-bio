@@ -8,6 +8,9 @@
 * Updated dash_bio_utils to version that introduced standardization of
   data parsers.
 
+### Added
+* Added default props to Molecule3dViewer component.
+
 ## [0.1.1] - 2019-06-06
 
 ### Added
