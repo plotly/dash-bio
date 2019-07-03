@@ -60,6 +60,12 @@ export default class Molecule3dViewer extends Component {
     }
 }
 
+Molecule3dViewer.defaultProps = {
+    selectionType: 'atom',
+    backgroundColor: '#FFFFFF',
+    backgroundOpacity: 0,
+};
+
 Molecule3dViewer.propTypes = {
     /**
      * The ID used to identify this component in callbacks
