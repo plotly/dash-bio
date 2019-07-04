@@ -3,10 +3,18 @@ version: 2
 jobs:
     "node":
         docker:
-            - image: circleci/node:8.11.3
+            - image: circleci/python:3.7-stretch-node
 
         steps:
             - checkout
+            - run:
+                name: "Update Node.js and npm"
+                command: |
+                  curl -sSL "https://nodejs.org/dist/v11.10.1/node-v11.10.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.1-linux-x64/bin/node
+                  curl https://www.npmjs.com/install.sh | sudo bash
+            - run:
+                name: Check current version of node
+                command: node -v
 
             - restore_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
@@ -25,8 +33,21 @@ jobs:
                 command: ./node_modules/.bin/eslint src
                 when: always
 
+            - run:
+                name: "Build Node.js package"
+                command: npm run build:js-dev
 
-    "python-3.6":
+            - run:
+                name: "Build Python package"
+                command: |
+                    python -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install dash==0.40.0
+                    npm run build:py
+
+
+    "python-3.6": &test-template
         docker:
             - image: circleci/python:3.6-stretch-browsers
 
@@ -48,6 +69,7 @@ jobs:
                 name: Install requirements
                 command: |
                     . venv/bin/activate
+                    pip install --upgrade pip
                     pip install -r tests/requirements.txt --quiet
 
             - save_cache:
@@ -59,7 +81,7 @@ jobs:
                 name: Run pylint
                 command: |
                     . venv/bin/activate
-                    pylint tests/ dash_bio/utils/ dash_bio/component_factory/
+                    pylint tests/ dash_bio/component_factory/
                 when: always
 
             - run:
@@ -73,8 +95,18 @@ jobs:
                 name: Run Integration Tests
                 command: |
                     . venv/bin/activate
+                    pip install --upgrade pip
                     pip install -r tests/requirements.txt
-                    pytest --driver chrome tests
+                    pytest --webdriver Chrome tests --ignore tests/test_skeleton.py
+
+    "python-3.7":
+        <<: *test-template
+        docker:
+            - image: circleci/python:3.7-stretch-browsers
+
+        environment:
+            PERCY_ENABLED: False
+
 
 
 workflows:
@@ -82,4 +114,5 @@ workflows:
     build:
         jobs:
             - "python-3.6"
+            - "python-3.7"
             - "node"

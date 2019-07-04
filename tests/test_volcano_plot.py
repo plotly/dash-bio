@@ -1,114 +1,25 @@
 import os
-from selenium.webdriver.common.keys import Keys
-from pytest_dash.utils import (
-    wait_for_text_to_equal,
-    wait_for_element_by_css_selector,
-)
+
 from dash_bio import VolcanoPlot
 from dash_bio.component_factory._volcano import GENOMEWIDE_LINE_LABEL, \
     EFFECT_SIZE_LINE_MIN_LABEL, EFFECT_SIZE_LINE_MAX_LABEL
 from tests.dashbio_demos.app_volcano_plot import DATASETS
-from .test_common_features import init_demo_app, template_test_component_single_prop, PROP_TYPES
+from .test_common_features import (
+    template_test_python_component_prop,
+    PROP_TYPES,
+    init_demo_app
+)
 
 APP_NAME = os.path.basename(__file__).replace('test_', '').replace('.py', '').replace('_', '-')
 
 
 # Demo app tests
 @init_demo_app(APP_NAME)
-def test_click_app_link_from_gallery(dash_threaded, selenium):
+def test_click_app_link_from_gallery(dash_threaded):
+    """Test that clicking on the given app goes to the expected URL."""
 
-    assert selenium.current_url.replace('http://localhost:8050', '').strip('/') == \
-           'dash-bio/{}'.format(APP_NAME)
-
-
-@init_demo_app(APP_NAME)
-def test_initial_dataset(dash_threaded, selenium):
-    """Check the default dataset is Set2."""
-    wait_for_text_to_equal(
-        selenium,
-        '#vp-dataset-dropdown .Select-value-label',
-        'Set2'
-    )
-
-
-@init_demo_app(APP_NAME)
-def test_change_dataset(dash_threaded, selenium):
-    """Change dataset using the dropdown."""
-    dataset_dropdown = wait_for_element_by_css_selector(
-        selenium,
-        '#vp-dataset-dropdown .Select-input input'
-    )
-
-    dataset_dropdown.send_keys('Set1')
-    dataset_dropdown.send_keys(Keys.RETURN)
-
-    wait_for_text_to_equal(
-        selenium,
-        '#vp-dataset-dropdown .Select-value-label',
-        'Set1'
-    )
-
-
-@init_demo_app(APP_NAME)
-def test_lower_genomic_line(dash_threaded, selenium):
-    """Lower the threshold genomic line and verify the change in the highlight points number."""
-
-    # initial check
-    wait_for_text_to_equal(selenium, '#vp-dataset-dropdown .Select-value-label', 'Set2')
-    wait_for_text_to_equal(selenium, '#vp-upper-left', '14')
-    wait_for_text_to_equal(selenium, '#vp-upper-right', '92')
-
-    threshold = wait_for_element_by_css_selector(selenium, '#vp-genomic-line')
-    lower_bound = wait_for_element_by_css_selector(selenium, '#vp-lower-bound')
-    upper_bound = wait_for_element_by_css_selector(selenium, '#vp-upper-bound')
-
-    assert int(threshold.get_attribute('value')) == 4
-    assert int(lower_bound.get_attribute('value')) == -1
-    assert int(upper_bound.get_attribute('value')) == 1
-
-    # lower the threshold
-    threshold.send_keys(Keys.ARROW_DOWN)
-
-    # number of points in the upper left and upper right quadrants
-    wait_for_text_to_equal(selenium, '#vp-upper-left', '154')
-    wait_for_text_to_equal(selenium, '#vp-upper-right', '271')
-
-    threshold.send_keys(Keys.ARROW_DOWN)
-    threshold.send_keys(Keys.ARROW_DOWN)
-    threshold.send_keys(Keys.ARROW_DOWN)
-    threshold.send_keys(Keys.ARROW_DOWN)
-
-    assert int(threshold.get_attribute('value')) == 0
-
-
-@init_demo_app(APP_NAME)
-def test_effect_size_min_and_max(dash_threaded, selenium):
-    """Move the lower and upper effect size lines to their max and min, respectively."""
-
-    lower_bound = wait_for_element_by_css_selector(selenium, '#vp-lower-bound')
-    upper_bound = wait_for_element_by_css_selector(selenium, '#vp-upper-bound')
-
-    lower_bound.send_keys(Keys.ARROW_UP)
-    assert int(lower_bound.get_attribute('value')) == 0
-
-    # maximum should be set to 0
-    lower_bound.send_keys(Keys.ARROW_UP)
-    assert int(lower_bound.get_attribute('value')) == 0
-
-    # number of points in the upper left and upper right quadrants
-    wait_for_text_to_equal(selenium, '#vp-upper-left', '24')
-    wait_for_text_to_equal(selenium, '#vp-upper-right', '92')
-
-    upper_bound.send_keys(Keys.ARROW_DOWN)
-    assert int(upper_bound.get_attribute('value')) == 0
-
-    # minimum should be set to 0
-    upper_bound.send_keys(Keys.ARROW_DOWN)
-    assert int(upper_bound.get_attribute('value')) == 0
-
-    # number of points in the upper left and upper right quadrants
-    wait_for_text_to_equal(selenium, '#vp-upper-left', '24')
-    wait_for_text_to_equal(selenium, '#vp-upper-right', '99')
+    assert dash_threaded.driver.current_url.replace('http://localhost:8050', '').strip('/') == \
+        'dash-bio/{}'.format(APP_NAME)
 
 
 # Volcano Plot component tests
@@ -140,7 +51,7 @@ def volcano_plot_test_param_callback(
     return answer
 
 
-def test_xlabel(dash_threaded, selenium):
+def test_xlabel(dash_threaded):
     """Change xlabel."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -150,9 +61,8 @@ def test_xlabel(dash_threaded, selenium):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         volcano_plot_test_param_callback,
@@ -161,7 +71,7 @@ def test_xlabel(dash_threaded, selenium):
     )
 
 
-def test_ylabel(dash_threaded, selenium):
+def test_ylabel(dash_threaded):
     """Change ylabel."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -171,9 +81,8 @@ def test_ylabel(dash_threaded, selenium):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         volcano_plot_test_param_callback,
@@ -182,7 +91,7 @@ def test_ylabel(dash_threaded, selenium):
     )
 
 
-def test_title(dash_threaded, selenium):
+def test_title(dash_threaded):
     """Change title."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -192,9 +101,8 @@ def test_title(dash_threaded, selenium):
                 answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         volcano_plot_test_param_callback,
@@ -203,16 +111,16 @@ def test_title(dash_threaded, selenium):
     )
 
 
-def test_effect_size_line_input_value(dash_threaded, selenium):
+def test_effect_size_line_input_value(dash_threaded):
     """Modifies the effect_size line value."""
 
     def assert_callback(p_value, nclicks, input_value):
-        min_val, max_val = PROP_TYPES['array'](input_value)
-        print(min_val, max_val)
+
         answer = ''
         min_ok = False
         max_ok = False
         if nclicks is not None:
+            min_val, max_val = PROP_TYPES['array'](input_value)
             for shape in p_value['layout']['shapes']:
                 if shape['name'] == EFFECT_SIZE_LINE_MIN_LABEL:
                     min_ok = shape['x0'] == min_val
@@ -222,19 +130,18 @@ def test_effect_size_line_input_value(dash_threaded, selenium):
             answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         volcano_plot_test_param_callback,
         'effect_size_line',
         '-1.5, 2.2',
-        'array'
+        prop_type='array'
     )
 
 
-def test_genomewide_line_input_value(dash_threaded, selenium):
+def test_genomewide_line_input_value(dash_threaded):
     """Modifies the genomic line value."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -246,9 +153,8 @@ def test_genomewide_line_input_value(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         volcano_plot_test_param_callback,
@@ -258,13 +164,14 @@ def test_genomewide_line_input_value(dash_threaded, selenium):
     )
 
 
-def test_effect_size_line_input_color(dash_threaded, selenium):
+def test_effect_size_line_input_color(dash_threaded):
     """Modifies the effect_size line color."""
 
     def assert_callback(p_value, nclicks, input_value):
         answer = ''
         min_ok = False
         max_ok = False
+        print(p_value, input_value)
         if nclicks is not None:
             for shape in p_value['layout']['shapes']:
                 if shape['name'] == EFFECT_SIZE_LINE_MIN_LABEL:
@@ -275,9 +182,8 @@ def test_effect_size_line_input_color(dash_threaded, selenium):
             answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         volcano_plot_test_param_callback,
@@ -286,7 +192,7 @@ def test_effect_size_line_input_color(dash_threaded, selenium):
     )
 
 
-def test_genomewide_line_input_color(dash_threaded, selenium):
+def test_genomewide_line_input_color(dash_threaded):
     """Modifies the genomic line color."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -298,9 +204,8 @@ def test_genomewide_line_input_color(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         volcano_plot_test_param_callback,
@@ -309,7 +214,7 @@ def test_genomewide_line_input_color(dash_threaded, selenium):
     )
 
 
-def test_effect_size_line_input_width(dash_threaded, selenium):
+def test_effect_size_line_input_width(dash_threaded):
     """Modifies the effect_size line width."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -326,9 +231,8 @@ def test_effect_size_line_input_width(dash_threaded, selenium):
             answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         volcano_plot_test_param_callback,
@@ -338,7 +242,7 @@ def test_effect_size_line_input_width(dash_threaded, selenium):
     )
 
 
-def test_genomewide_line_input_width(dash_threaded, selenium):
+def test_genomewide_line_input_width(dash_threaded):
     """Modifies the genomic line width."""
 
     def assert_callback(p_value, nclicks, input_value):
@@ -350,9 +254,8 @@ def test_genomewide_line_input_width(dash_threaded, selenium):
                         answer = 'PASSED'
         return answer
 
-    template_test_component_single_prop(
+    template_test_python_component_prop(
         dash_threaded,
-        selenium,
         APP_NAME,
         assert_callback,
         volcano_plot_test_param_callback,

@@ -1,47 +1,140 @@
-.ideogram-banner {
-    height: 75px;
-    background-color: rgb(66, 196, 247);
-    border-radius: 2px;
+#ideogram-body {
+    background-color: #FDFCFF !important;
+    color: #303030 !important;
+}
+#ideogram-body ::-webkit-scrollbar {
+    background-color: #FDFCFF !important;
+}
+#ideogram-body ::-webkit-scrollbar-thumb {
+    background-color: #230047 !important;
 }
 
-.ideogram-banner h2{
-    color: white;
-    margin-left: 2%;
+#ideogram-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+#ideogram-container {
     display: inline-block;
+    width: calc(100vw - 600px);
+    min-width:400px;
+    height: 550px;
+    overflow: auto;
+    margin-left: 50px;
+    margin-top: 50px;
+    padding-right: 20px;
 }
 
-.ideogram-banner Img{
-    position: relative;
-    float: right;
-    right: 10px;
-    height: 75px;
+#_ideogramMiddleWrap {
+    height: 550px;
 }
 
-.ideogram-column {
-    padding-left: 0.5%;
-    max-height: 83vh;
-    overflow-y: auto;
+#ideogram-feature-select {
+    position: sticky;
+    top: 0px;
+    z-index: 100;
+    display: inline-block;
+    margin-bottom: -25px;
+    background-color: white;
+}
+#ideogram-body #chr-select-1 .Select,
+#ideogram-body #chr-select-2 .Select {
+    width: 65px !important;
+}
+#ideogram-body #chr-select-1 .Select {
+    margin-right: 5px;
+    margin-left: 0px;
+}
+#ideogram-body #chr-select-2 .Select {
+    margin-left: 5px;
+    margin-right: 0px;
 }
 
-.ideogram-custom {
-    max-height: 83vh;
-    overflow-y: auto;
-    position: relative;
+input.ideogram-homology-inputs, input.ideogram-annot-inputs {
+    display: inline-block;
+    width: 140px;
 }
 
-.ideogram-column-content {
+#ideogram-body hr {
     width: 100%;
 }
 
-.ideogram-homology-inputs {
-    max-width: 100%;
+#ideogram-feature-dropdown, #organism-change,
+#orientation-switch, #bandlabel-switch,
+#chromlabel-switch, #rotatable-switch,
+#sex-switch, #fullband-switch,
+#resolution-select, #chr-brush,
+#annotation-select, #orientation-anote,
+#chr-brush {
+    display: inline-block;
+    width: 140px;
 }
 
-.ideogram-databox-parameters {
-    border: 1px solid #D1D1D1;
-    border-radius: 4px;
-    margin-top: 5%;
-    padding-left: 4%;
-    padding-top: 3%;
-    padding-bottom: 3%;
+#bandlabel-switch > div,
+#chromlabel-switch > div,
+#rotatable-switch > div,
+#sex-switch > div,
+#fullband-switch > div {
+    display:inline-block !important;
+    text-align: center;
+}
+#bandlabel-switch label,
+#chromlabel-switch label,
+#rotatable-switch label,
+#sex-switch label,
+#fullband-switch > label {
+    display: inline-block;
+    text-transform: lowercase;
+    font-variant: all-small-caps;
+    position: relative;
+    top: -5px;
+    font-size: 12pt;
+    font-weight: 500;
+}
+
+#bandlabel-switch > div > div > div,
+#chromlabel-switch > div > div > div,
+#rotatable-switch > div > div > div,
+#sex-switch > div > div > div,
+#fullband-switch > div > div > div {
+    display: inline-block;
+    position: relative;
+    padding: 2px;
+    margin: 3px;
+}
+
+#ideogram-body #chr-margin-input,
+#ideogram-body #chr-height-input,
+#ideogram-body #chr-width-input,
+#ideogram-body #bar-input,
+#ideogram-body #height-input {
+    width: 140px;
+    display: inline-block;
+}
+.ideogram-slider {
+    margin-top: 10px;
+}
+.ideogram-slider .rc-slider-track {
+    background-color: #230047 !important;
+}
+.ideogram-slider .rc-slider-handle {
+    border-color: #230047 !important;
+}
+#ideogram-body h4 {
+    margin-bottom: 25px;
+}
+
+#ideogram-body #chr-select-1,
+#ideogram-body #chr-select-2 {
+    display: inline-block;
+}
+#brush-data {
+    font-size: 12pt;
+}
+
+#ideogram-body .control-tabs .tab--selected {
+    color: #230047 !important;
+}
+
+#ideogram-body h4 {
+    text-align: center;
 }

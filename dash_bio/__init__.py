@@ -17,10 +17,10 @@ if not hasattr(_dash, 'development'):
     _sys.exit(1)
 
 _basepath = _os.path.dirname(__file__)
-_filepath = _os.path.abspath(_os.path.join(_basepath, 'package.json'))
+_filepath = _os.path.abspath(_os.path.join(_basepath, 'package-info.json'))
 with open(_filepath) as f:
     package = json.load(f)
-    
+
 package_name = package['name'].replace(' ', '_').replace('-', '_')
 __version__ = package['version']
 
@@ -37,7 +37,7 @@ _js_dist = [
     {
         'relative_package_path': 'bundle.js',
         'external_url': (
-            'https://unpkg.com/dash_bio'
+            'https://unpkg.com/dash-bio'
             '/' + package_name + '/bundle.js'
         ).format(__version__),
         'namespace': package_name

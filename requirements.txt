@@ -1,23 +1,17 @@
---extra-index-url https://test.pypi.org/simple/
-
 # Switch into a virtual environment
 # pip install -r requirements.txt
-biopython
-colour==0.1.5
 cython>=0.19
-dash==0.35.2
-dash_bio==0.0.1
-dash-core-components==0.36.1
-dash-html-components==0.13.2
-dash-renderer==0.15.0
-dash-table==3.1.3
-gunicorn
-jsonschema
-matplotlib
-numpy
-pandas
-parmed
-plotly==3.5
-requests
+dash==0.40.0
+dash-bio==0.1.2rc7
+dash-bio-utils==0.0.3rc3
+dash-daq==0.1.4
+gunicorn==19.9.0
+jsonschema==2.6.0
+matplotlib==3.0.2
+numpy==1.15.4
+pandas>=0.24.2
+plotly>=3.5.0
+PubChemPy==1.0.4
+requests==2.21.0
+scikit-learn==0.20.2
 scipy>=1.1.0
-sklearn

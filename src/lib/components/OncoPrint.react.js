@@ -34,10 +34,7 @@ export default class OncoPrint extends Component {
             <div id={id} eventDatum={eventDatum}>
                 <PreOncoPrint
                     onChange={this.handleChange}
-                    {...omit(
-                        ['fireEvent', 'dashEvent', 'setProps'],
-                        this.props
-                    )}
+                    {...omit(['setProps'], this.props)}
                 />
             </div>
         );
@@ -73,7 +70,7 @@ OncoPrint.propTypes = {
     /**
      * Adjusts the padding (as a proportion of whitespace) between two tracks.
      * Value is a ratio between 0 and 1.
-     * Defaults to 0.05 (e.g. 5%). If set to 0, plot will look like a heatmap.
+     * Defaults to 0.05 (i.e., 5 percent). If set to 0, plot will look like a heatmap.
      */
     padding: PropTypes.number,
 
@@ -124,15 +121,13 @@ OncoPrint.propTypes = {
 };
 
 OncoPrint.defaultProps = {
-    // Data
+    // Layout
     padding: 0.05,
     colorscale: null,
     backgroundcolor: 'rgb(190, 190, 190)',
-    // Layout
     range: [null, null],
     showlegend: true,
     showoverview: true,
-    // Other
     width: null,
     height: 500,
 };

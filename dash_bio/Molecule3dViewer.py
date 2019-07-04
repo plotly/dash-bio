@@ -5,14 +5,18 @@ from dash.development.base_component import Component, _explicitize_args
 
 class Molecule3dViewer(Component):
     """A Molecule3dViewer component.
-
+The Molecule3dViewer component is used to render schematic diagrams
+of biomolecules. It can display ribbon-structure diagrams, or
+render atoms in the molecule as sticks or spheres.
+Read more about the component here:
+https://github.com/Autodesk/molecule-3d-for-react
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in callbacks
-- selectionType (string; optional): The selection type - may be atom, residue or chain
+- selectionType (a value equal to: 'atom', 'residue', 'chain'; optional): The selection type - may be atom, residue or chain
 - backgroundColor (string; optional): Property to change the background color of the molecule viewer
 - backgroundOpacity (number; optional): Property to change the backgroun opacity - ranges from 0 to 1
-- styles (a value equal to: 'stick', 'cartoon', 'sphere'; optional): Property that can be used to change the representation of
+- styles (list; optional): Property that can be used to change the representation of
 the molecule. Options include sticks, cartoon and sphere
 - modelData (optional): The data that will be used to display the molecule in 3D
 The data will be in JSON format
@@ -42,26 +46,3 @@ Those keys have the following types:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
         super(Molecule3dViewer, self).__init__(**args)
-
-    def __repr__(self):
-        if(any(getattr(self, c, None) is not None
-               for c in self._prop_names
-               if c is not self._prop_names[0])
-           or any(getattr(self, c, None) is not None
-                  for c in self.__dict__.keys()
-                  if any(c.startswith(wc_attr)
-                  for wc_attr in self._valid_wildcard_attributes))):
-            props_string = ', '.join([c+'='+repr(getattr(self, c, None))
-                                      for c in self._prop_names
-                                      if getattr(self, c, None) is not None])
-            wilds_string = ', '.join([c+'='+repr(getattr(self, c, None))
-                                      for c in self.__dict__.keys()
-                                      if any([c.startswith(wc_attr)
-                                      for wc_attr in
-                                      self._valid_wildcard_attributes])])
-            return ('Molecule3dViewer(' + props_string +
-                   (', ' + wilds_string if wilds_string != '' else '') + ')')
-        else:
-            return (
-                'Molecule3dViewer(' +
-                repr(getattr(self, self._prop_names[0], None)) + ')')

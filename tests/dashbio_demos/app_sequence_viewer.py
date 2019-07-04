@@ -1,14 +1,25 @@
 import os
 import base64
+
 from Bio.SeqUtils import seq3
 from Bio.Alphabet import generic_dna, generic_rna
 from Bio.Seq import Seq
 from Bio.Data.CodonTable import TranslationError
-import dash_bio
-from dash_bio.utils import proteinReader as pr
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
+
+from dash_bio_utils import protein_reader as pr
+import dash_bio
+
+# running directly with Python
+if __name__ == '__main__':
+    from utils.app_standalone import run_standalone_app
+
+# running with gunicorn (on servers)
+elif 'DASH_PATH_ROUTING' in os.environ:
+    from tests.dashbio_demos.utils.app_standalone import run_standalone_app
+
 
 DATAPATH = os.path.join(".", "tests", "dashbio_demos", "sample_data", "sequence_viewer_")
 proteinFolder = 'proteins'
@@ -46,7 +57,7 @@ initialCov = [
 
 def header_colors():
     return {
-        'bg_color': '#2b69fb',
+        'bg_color': '#C50063',
         'font_color': 'white'
     }
 
@@ -58,260 +69,398 @@ def description():
 
 def layout():
 
-    return html.Div(id='seq-view-body', children=[
-        html.Div(
-            id='seq-view-upload-display',
+    return html.Div(id='seq-view-body', className='app-body', children=[
+        dcc.Loading(className='dashbio-loading', children=html.Div(
+            id='seq-view-container',
             children=[
                 html.Div(
-                    id='seq-view-fasta-upload',
-                    children=[
-                        dcc.Upload(
-                            id='upload-fasta-data',
-                            children=html.Div([
-                                "Drag and drop or click to upload a \
-                                file."
-                            ]),
-                        ),
-                    ]
-                ),
-
-                html.Div(
-                    children=[
-                        html.A(
-                            html.Button(
-                                "Download sample FASTA data",
-                                id='seq-view-download-sample-data'
-                            ),
-                            href="/assets/sample_data/tubulin.fasta.txt",
-                            download="tubulin.fasta.txt"
-                        )
-                    ]
-                ),
-
-                html.Div(
-                    id='sequence-viewer-container',
+                    id='seq-view-component-container',
                     children=[
                         dash_bio.SequenceViewer(
                             id='sequence-viewer',
-                        )
+                            sequenceMaxHeight='100px'
+                        ),
                     ]
-                )
-            ]
-        ),
+                ),
+                html.Div(id='seq-view-info-container', children=html.Div(
+                    id='seq-view-info',
+                    children=[
+                        html.Div(id='seq-view-info-desc',
+                                 children=[
+                                     html.Span(
+                                         "Description",
+                                         className='seq-view-info-element-title'
+                                     ),
+                                     html.Div(
+                                         id='desc-info',
+                                         children=[]
+                                     )
+                                 ]),
 
-        html.Div(
-            id='seq-view-controls-container',
-            children=[
-                html.Div(id='seq-view-controls', children=[
-                    html.Div(
-                        "Preloaded sequences",
-                        className='seq-view-controls-name'
-                    ),
-                    dcc.Dropdown(
-                        id='preloaded-sequences',
-                        options=[
-                            {
-                                'label': 'insulin',
-                                'value': '{}P01308.fasta.txt'.format(DATAPATH)
-                            },
-                            {
-                                'label': 'keratin',
-                                'value': '{}P04264.fasta.txt'.format(DATAPATH)
-                            },
-                            {
-                                'label': 'albumin',
-                                'value': '{}NX_P02768.fasta.txt'.format(DATAPATH)
-                            },
-                            {
-                                'label': 'myosin (gene)',
-                                'value': '{}myosin.fasta.txt'.format(DATAPATH)
-                            },
-                            {
-                                'label': 'HflX (gene)',
-                                'value': '{}hflx.fasta.txt'.format(DATAPATH)
-                            }
-                        ],
-                        value='{}P01308.fasta.txt'.format(DATAPATH)
-                    ),
-                    html.Br(),
-                    html.Div(
-                        id='seq-view-entry-dropdown-container',
-                        children=[
-                            html.Div(
-                                "View entry:",
-                                className='seq-view-controls-name'
+                        html.Br(),
+
+                        html.Div(id='seq-view-info-aa-comp',
+                                 children=[
+                                     html.Span(
+                                         "Amino acid composition",
+                                         className='seq-view-info-element-title'
+                                     ),
+                                     html.Div(
+                                         id='test-selection'
+                                     )
+                                 ]),
+
+                        html.Br(),
+
+                        html.Div(id='seq-view-info-coverage-clicked',
+                                 children=[
+                                     html.Span(
+                                         "Coverage entry clicked",
+                                         className='seq-view-info-element-title'
+                                     ),
+                                     html.Div(
+                                         id='test-coverage-clicked'
+                                     )
+                                 ]),
+
+                        html.Br(),
+
+                        html.Div(id='seq-view-info-mouse-selection',
+                                 children=[
+                                     html.Span(
+                                         "Mouse selection",
+                                         className='seq-view-info-element-title'
+                                     ),
+                                     html.Div(
+                                         id='test-mouse-selection'
+                                     )
+                                 ]),
+
+                        html.Br(),
+
+                        html.Div(id='seq-view-info-subpart-sel', children=[
+                            html.Span(
+                                "Subpart selected",
+                                className='seq-view-info-element-title'
                             ),
                             html.Div(
-                                id='seq-view-number-entries'
+                                id='test-subpart-selection'
+                            )
+                        ])
+                    ]
+                ))
+            ]
+        )),
+
+        html.Div(id='seq-view-control-tabs', className='control-tabs', children=[
+            dcc.Tabs(id='seq-view-tabs', value='what-is', children=[
+                dcc.Tab(
+                    label='About',
+                    value='what-is',
+                    children=html.Div(className='control-tab', children=[
+                        html.H4(className='what-is', children='What is Sequence Viewer?'),
+                        html.P('Sequence Viewer is a component that allows you '
+                               'to display genomic and proteomic sequences. In '
+                               'this app, you can choose to view one of the preloaded '
+                               'data sets or upload your own FASTA file in the "Data" '
+                               'tab. For FASTA files with multiple entries, the entry '
+                               'to display in the component can be selected in the '
+                               '"Sequence" tab.'),
+                        html.P('In the "Sequence" tab, you can also select a region '
+                               'of the sequence to highlight and view its amino '
+                               'acid composition in the box under the component. '),
+                        html.P('You can additionally create a sequence coverage '
+                               '(i.e., a collection of subsequences to highlight '
+                               'and annotate). These subsequences can be extracted '
+                               'from your mouse selection, or from the results of the '
+                               'search that is shown in the component. Upon clicking on '
+                               'a coverage entry, you will be able to see the '
+                               'annotation that you have provided.'),
+                    ])
+                ),
+                dcc.Tab(
+                    label='Data',
+                    value='data',
+                    children=html.Div(className='control-tab', children=[
+                        html.Div(
+                            id='preloaded-and-uploaded-alert',
+                            className='app-controls-desc',
+                            children=[
+                                'You have uploaded your own data. In order \
+                                to view it, please ensure that the "preloaded \
+                                sequences" dropdown has been cleared.'
+                            ],
+                            style={'display': 'none'}
+                        ),
+                        html.Div(className='app-controls-block', children=[
+                            html.Div(
+                                "Preloaded sequences",
+                                className='app-controls-name'
                             ),
                             dcc.Dropdown(
-                                id='fasta-entry-dropdown',
-                                options=[
-                                    {'label': 1, 'value': 0}
-                                ],
-                                value=0
-                            )
-                        ]
-                    ),
-                    html.Br(),
-                    html.Div(
-                        id='seq-view-sel-or-cov-container',
-                        children=[
-                            html.Div(
-                                "Selection or coverage",
-                                className='seq-view-controls-name'
-                            ),
-                            dcc.RadioItems(
-                                id='selection-or-coverage',
+                                className='app-dropdown',
+                                id='preloaded-sequences',
                                 options=[
                                     {
-                                        'label': 'Enable selection',
-                                        'value': 'sel'
+                                        'label': 'insulin',
+                                        'value': '{}P01308.fasta.txt'.format(DATAPATH)
                                     },
                                     {
-                                        'label': 'Enable coverage',
-                                        'value': 'cov'
+                                        'label': 'keratin',
+                                        'value': '{}P04264.fasta.txt'.format(DATAPATH)
+                                    },
+                                    {
+                                        'label': 'albumin',
+                                        'value': '{}NX_P02768.fasta.txt'.format(DATAPATH)
+                                    },
+                                    {
+                                        'label': 'myosin (gene)',
+                                        'value': '{}myosin.fasta.txt'.format(DATAPATH)
+                                    },
+                                    {
+                                        'label': 'HflX (gene)',
+                                        'value': '{}hflx.fasta.txt'.format(DATAPATH)
                                     }
                                 ],
-                                value='sel'
+                                value='{}P01308.fasta.txt'.format(DATAPATH)
                             )
-                        ]
-                    ),
-
-
-                    html.Hr(),
-
-                    html.Div(id='cov-options', children=[
+                        ]),
                         html.Div(
-                            "Add coverage",
-                            style={'font-weight': 'bold'}
+                            id='seq-view-fasta-upload',
+                            children=[
+                                dcc.Upload(
+                                    id='upload-fasta-data',
+                                    className='control-upload',
+                                    children=html.Div([
+                                        "Drag and drop or click to upload a \
+                                        file."
+                                    ]),
+                                ),
+                            ]
                         ),
-                        dcc.RadioItems(
-                            id='mouse-sel-or-subpart-sel',
-                            options=[
-                                {'label': 'Use mouse selection',
-                                 'value': 'mouse'},
-                                {'label': 'Use subpart selection',
-                                 'value': 'subpart'}
-                            ],
-                            value='mouse'
-                        ),
-                        html.Br(),
-                        'Text color: ',
-                        dcc.Input(
-                            id='coverage-color',
-                            type='text',
-                            value='rgb(255, 0, 0)'
-                        ),
-                        'Background color: ',
-                        dcc.Input(
-                            id='coverage-bg-color',
-                            type='text',
-                            value='rgb(0, 0, 255)'
-                        ),
-                        'Tooltip: ',
-                        dcc.Input(
-                            id='coverage-tooltip',
-                            type='text',
-                            value='',
-                            placeholder='hover text'
-                        ),
-                        dcc.Checklist(
-                            id='coverage-underscore',
-                            options=[
-                                {'label': 'underscore text',
-                                 'value': 'underscore'}
-                            ],
-                            values=[]
-                        ),
-                        html.Br(),
-                        html.Button(
-                            id='coverage-submit',
-                            children='Submit'
-                        ),
-                        html.Button(
-                            id='coverage-reset',
-                            children='Reset'
-                        ),
-                        dcc.Store(
-                            id='coverage-storage',
-                            data=initialCov
-                        ),
-                        dcc.Store(
-                            id='clear-coverage',
-                            data=0
-                        ),
-                        dcc.Store(
-                            id='current-sequence',
-                            data=0
+
+                        html.A(
+                            children=html.Button(
+                                "Download sample FASTA data",
+                                id='seq-view-download-sample-data',
+                                className='control-download',
+                            ),
+                            href=os.path.join('assets', 'sample_data',
+                                              'sequence_viewer_tubulin.fasta.txt'),
+                            download="tubulin.fasta.txt"
                         )
-                    ]),
+                    ])
+                ),
+                dcc.Tab(
+                    label='Sequence',
+                    value='sequence',
+                    children=html.Div(className='control-tab', children=[
+                        html.Div(
+                            id='seq-view-entry-dropdown-container',
+                            className='app-controls-block',
+                            children=[
+                                html.Div(
+                                    "View entry:",
+                                    className='app-controls-name'
+                                ),
+                                dcc.Dropdown(
+                                    className='app-dropdown',
+                                    id='fasta-entry-dropdown',
+                                    options=[
+                                        {'label': 1, 'value': 0}
+                                    ],
+                                    value=0
+                                ),
+                                html.Div(
+                                    id='seq-view-number-entries',
+                                    className='app-controls-desc'
+                                )
+                            ]
+                        ),
+                        html.Br(),
+                        html.Div(
+                            id='seq-view-sel-or-cov-container',
+                            children=[
+                                html.Div(
+                                    "Selection or coverage:",
+                                    className='app-controls-name'
+                                ),
+                                dcc.RadioItems(
+                                    id='selection-or-coverage',
+                                    options=[
+                                        {
+                                            'label': 'selection',
+                                            'value': 'sel'
+                                        },
+                                        {
+                                            'label': 'coverage',
+                                            'value': 'cov'
+                                        }
+                                    ],
+                                    value='sel'
+                                )
+                            ]
+                        ),
 
-                    html.Div(
-                        id='seq-view-sel-slider-container',
-                        children=[
-                            "Selection region",
-                            dcc.RadioItems(
-                                id='sel-slider-or-input',
-                                options=[
-                                    {'label': 'slider', 'value': 'slider'},
-                                    {'label': 'input', 'value': 'input'}
-                                ],
-                                value='slider'
-                            ),
-                            dcc.RangeSlider(
-                                id='sel-slider',
-                                min=0,
-                                max=0,
-                                step=1,
-                                value=[0, 0]
-                            ),
-                            # optional numeric input for longer sequences
-                            html.Div(
-                                id='sel-region-inputs',
-                                children=[
-                                    dcc.Input(
-                                        id='sel-region-low',
-                                        type='number',
-                                        min=0,
-                                        max=0,
-                                        placeholder="low"
-                                    ),
-                                    dcc.Input(
-                                        id='sel-region-high',
-                                        type='number',
-                                        min=0,
-                                        max=0,
-                                        placeholder="high"
-                                    ),
-                                    html.Button(id='submit-sel-region',
-                                                children="Submit")
-                                ],
-                                style={'display': 'none'}
-                            ),
 
-                            html.Br(),
+                        html.Hr(),
+
+                        html.Div(id='cov-options', children=[
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    "Add coverage from selection by:",
+                                    className='app-controls-name'
+                                ),
+                                dcc.RadioItems(
+                                    id='mouse-sel-or-subpart-sel',
+                                    options=[
+                                        {'label': 'mouse',
+                                         'value': 'mouse'},
+                                        {'label': 'search',
+                                         'value': 'subpart'}
+                                    ],
+                                    value='mouse'
+                                ),
+                            ]),
+
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    "Text color:",
+                                    className='app-controls-name'
+                                ),
+                                dcc.Input(
+                                    id='coverage-color',
+                                    type='text',
+                                    value='rgb(255, 0, 0)'
+                                )
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    "Background color:",
+                                    className='app-controls-name'
+                                ),
+                                dcc.Input(
+                                    id='coverage-bg-color',
+                                    type='text',
+                                    value='rgb(0, 0, 255)'
+                                ),
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    "Tooltip:",
+                                    className='app-controls-name'
+                                ),
+                                dcc.Input(
+                                    id='coverage-tooltip',
+                                    type='text',
+                                    value='',
+                                    placeholder='hover text'
+                                ),
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    "Underscore text: ",
+                                    className='app-controls-name'
+                                ),
+                                dcc.Checklist(
+                                    id='coverage-underscore',
+                                    options=[
+                                        {'label': '',
+                                         'value': 'underscore'}
+                                    ],
+                                    values=[]
+                                )
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                html.Button(
+                                    id='coverage-submit',
+                                    children='Submit'
+                                ),
+                                html.Button(
+                                    id='coverage-reset',
+                                    children='Reset'
+                                )
+                            ])
+                        ]),
+
+                        html.Div(id='seq-view-sel-slider-container', children=[
+                            html.Div(className='app-controls-block', children=[
+                                html.Div(
+                                    className='app-controls-name',
+                                    children="Selection region:"
+                                ),
+                                dcc.RadioItems(
+                                    id='sel-slider-or-input',
+                                    options=[
+                                        {'label': 'slider', 'value': 'slider'},
+                                        {'label': 'input', 'value': 'input'}
+                                    ],
+                                    value='slider'
+                                )
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                dcc.RangeSlider(
+                                    id='sel-slider',
+                                    min=0,
+                                    max=0,
+                                    step=1,
+                                    value=[0, 0]
+                                )
+                            ]),
+                            html.Div(className='app-controls-block', children=[
+                                # optional numeric input for longer sequences
+                                html.Div(
+                                    id='sel-region-inputs',
+                                    children=[
+                                        "From: ",
+                                        dcc.Input(
+                                            id='sel-region-low',
+                                            type='number',
+                                            min=0,
+                                            max=0,
+                                            placeholder="low"
+                                        ),
+                                        "To: ",
+                                        dcc.Input(
+                                            id='sel-region-high',
+                                            type='number',
+                                            min=0,
+                                            max=0,
+                                            placeholder="high"
+                                        ),
+                                    ],
+                                    style={'display': 'none'}
+                                )
+                            ]),
 
                             html.Div(
                                 id='seq-view-dna-or-protein-container',
                                 children=[
-                                    "Translate from",
-                                    dcc.Dropdown(
-                                        id='translation-alphabet',
-                                        options=[
-                                            {'label': 'DNA',
-                                             'value': 'dna'},
-                                            {'label': 'RNA',
-                                             'value': 'rna'}
-                                        ],
-                                        value=None
-                                    )
+                                    html.Div(className='app-controls-block', children=[
+                                        html.Div(
+                                            className='app-controls-name',
+                                            children="Translate selection from:"
+                                        ),
+                                        dcc.Dropdown(
+                                            id='translation-alphabet',
+                                            options=[
+                                                {'label': 'DNA',
+                                                 'value': 'dna'},
+                                                {'label': 'RNA',
+                                                 'value': 'rna'}
+                                            ],
+                                            value=None
+                                        )
+                                    ])
                                 ]
                             ),
 
-                            html.Br(),
-                            "Color",
+                            html.Div(
+                                className='app-controls-name',
+                                children="Selection highlight color:"
+                            ),
                             dcc.Dropdown(
+                                className='app-dropdown',
                                 id='sel-color',
                                 options=[
                                     {'label': 'violet', 'value': 'violet'},
@@ -322,98 +471,29 @@ def layout():
                                     {'label': 'orange', 'value': 'orange'},
                                     {'label': 'red', 'value': 'red'}
                                 ],
-                                value='blue'
-                            ),
-                        ]
-                    ),
-
-                ])
-            ]
+                                value='indigo'
+                            )
+                        ])
+                    ])
+                )
+            ]),
+        ]),
+        dcc.Store(
+            id='coverage-storage',
+            data=initialCov
         ),
-
-        html.Div(
-            id='seq-view-info-container',
-            children=[
-                html.Div(id='seq-view-info', children=[
-                    html.Div(
-                        id='preloaded-and-uploaded-alert',
-                        children=[
-                            'You have uploaded your own data. In order \
-                            to view it, please ensure that the "preloaded \
-                            sequences" dropdown has been cleared.'
-                        ],
-                        style={'display': 'none'}
-                    ),
-
-                    html.Div(id='seq-view-info-desc',
-                             children=[
-                                 html.Span(
-                                     "Description: ",
-                                     className='seq-view-info-element-title'
-                                 ),
-                                 html.Div(
-                                     id='desc-info',
-                                     children=[]
-                                 )
-                             ]),
-
-                    html.Br(),
-
-                    html.Div(id='seq-view-info-aa-comp',
-                             children=[
-                                 html.Span(
-                                     "Amino acid composition: ",
-                                     className='seq-view-info-element-title'
-                                 ),
-                                 html.Div(
-                                     id='test-selection'
-                                 )
-                             ]),
-
-                    html.Br(),
-
-                    html.Div(id='seq-view-info-coverage-clicked',
-                             children=[
-                                 html.Span(
-                                     "Coverage entry clicked: ",
-                                     className='seq-view-info-element-title'
-                                 ),
-                                 html.Div(
-                                     id='test-coverage-clicked'
-                                 )
-                             ]),
-
-                    html.Br(),
-
-                    html.Div(id='seq-view-info-mouse-selection',
-                             children=[
-                                 html.Span(
-                                     "Mouse selection: ",
-                                     className='seq-view-info-element-title'
-                                 ),
-                                 html.Div(
-                                     id='test-mouse-selection'
-                                 )
-                             ]),
-
-                    html.Br(),
-
-                    html.Div(id='seq-view-info-subpart-sel',
-                             children=[
-                                 html.Span(
-                                     "Subpart selected: ",
-                                     className='seq-view-info-element-title'
-                                 ),
-                                 html.Div(
-                                     id='test-subpart-selection'
-                                 )
-                             ])
-                ])
-            ])
+        dcc.Store(
+            id='clear-coverage',
+            data=0
+        ),
+        dcc.Store(
+            id='current-sequence',
+            data=0
+        )
     ])
 
 
-def callbacks(app):
+def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # upload or preloaded
     @app.callback(
@@ -451,7 +531,7 @@ def callbacks(app):
             return ''
 
         if preloaded is not None:
-            protein = pr.read_fasta(file_path=preloaded)[entry]
+            protein = pr.read_fasta(preloaded)[entry]
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
@@ -462,7 +542,7 @@ def callbacks(app):
             if data == '':
                 return '-'
 
-            protein = pr.read_fasta(data_string=data)[entry]
+            protein = pr.read_fasta(data, is_datafile=False)[entry]
         else:
             return '-'
 
@@ -488,6 +568,8 @@ def callbacks(app):
         state=[State('current-sequence', 'data')]
     )
     def signal_sequence_updated(_, current):
+        if current is None:
+            return 0
         return current + 1
 
     # whether or not to clear the coverage, based on a
@@ -628,13 +710,6 @@ def callbacks(app):
         return 0
 
     @app.callback(
-        Output('sel-region-high', 'min'),
-        [Input('sel-region-low', 'value')]
-    )
-    def lower_bound(low_val):
-        return low_val
-
-    @app.callback(
         Output('sel-region-high', 'value'),
         [Input('sequence-viewer', 'sequence')]
     )
@@ -644,23 +719,24 @@ def callbacks(app):
     @app.callback(
         Output('sequence-viewer', 'selection'),
         [Input('sel-slider', 'value'),
-         Input('submit-sel-region', 'n_clicks'),
+         Input('sel-region-low', 'value'),
+         Input('sel-region-high', 'value'),
          Input('selection-or-coverage', 'value'),
          Input('sel-color', 'value')],
-        state=[State('sel-slider-or-input', 'value'),
-               State('sel-region-low', 'value'),
-               State('sel-region-high', 'value')]
+        state=[State('sel-slider-or-input', 'value')]
     )
     def update_sel(
             slider_value,
-            _,
+            sel_low,
+            sel_high,
             sel_or_cov,
             color,
             slider_input,
-            sel_low,
-            sel_high
     ):
         answer = []
+        if sel_low > sel_high:
+            sel_low = 0
+            sel_high = 0
         if sel_or_cov != 'sel':
             answer = []
         else:
@@ -740,7 +816,7 @@ def callbacks(app):
         ]
 
         if preloaded is not None:
-            proteins = pr.read_fasta(file_path=preloaded)
+            proteins = pr.read_fasta(preloaded)
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
@@ -748,7 +824,7 @@ def callbacks(app):
                 data = base64.b64decode(content_string).decode('UTF-8')
             except AttributeError:
                 pass
-            proteins = pr.read_fasta(data_string=data)
+            proteins = pr.read_fasta(data, is_datafile=False)
         else:
             return dropdown_options
 
@@ -801,7 +877,7 @@ def callbacks(app):
             return ''
 
         if preloaded is not None:
-            protein = pr.read_fasta(file_path=preloaded)[entry]
+            protein = pr.read_fasta(preloaded)[entry]
         elif upload_contents is not None and preloaded is None:
             data = ''
             try:
@@ -811,7 +887,7 @@ def callbacks(app):
                 pass
             if data == '':
                 return ''
-            protein = pr.read_fasta(data_string=data)[entry]
+            protein = pr.read_fasta(data, is_datafile=False)[entry]
         else:
             return ''
 
@@ -949,7 +1025,7 @@ def callbacks(app):
             return 'Please select an entry.'
 
         if preloaded is not None:
-            protein = pr.read_fasta(file_path=preloaded)[entry]
+            protein = pr.read_fasta(preloaded)[entry]
 
         elif upload_contents is not None and preloaded is None:
             data = ''
@@ -962,7 +1038,7 @@ def callbacks(app):
             if data == '':
                 return []
             try:
-                protein = pr.read_fasta(data_string=data)[entry]
+                protein = pr.read_fasta(data, is_datafile=False)[entry]
             except Exception:
                 return ['NA']
         else:
@@ -993,3 +1069,12 @@ def callbacks(app):
             test.append("Sequence: %s" % sel['sequence'])
             test.append(html.Br())
         return test
+
+
+# only declare app/server if the file is being run directly
+if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
+    app = run_standalone_app(layout, callbacks, header_colors, __file__)
+    server = app.server
+
+if __name__ == '__main__':
+    app.run_server(debug=True, port=8050)

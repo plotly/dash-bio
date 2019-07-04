@@ -1,7 +1,15 @@
 {
   "name": "dash-bio",
-  "version": "0.0.1",
+  "version": "0.1.2rc7",
   "description": "Dash components for bioinformatics",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:plotly/dash-bio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/plotly/dash-bio/issues"
+  },
+  "homepage": "https://github.com/plotly/dash-bio",
   "main": "build/index.js",
   "scripts": {
     "format:test": "prettier --config .prettierrc --list-different \"{src/**/, src/lib/components/}*.js\"",
@@ -10,57 +18,58 @@
     "lint": "eslint src --fix",
     "build:js-dev": "webpack --mode development",
     "build:js": "npm run lint & npm run format & webpack --mode production",
-    "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && copyfiles package.json dash_bio && python -c \"import dash; dash.development.component_loader.generate_classes('dash_bio', 'dash_bio/metadata.json')\"",
+    "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && python get_version_info.py && python -c \"import dash; dash.development.component_loader.generate_classes('dash_bio', 'dash_bio/metadata.json')\"",
     "build:all": "npm run build:js & npm run build:py",
     "build:all-dev": "npm run build:js-dev & npm run build:py"
   },
-  "author": "The Plotly Team",
+  "author": "The Plotly Team <dashbio@plot.ly>",
+  "maintainer": "Ryan Patrick Kyle <ryan@plot.ly>",
   "license": "MIT",
   "dependencies": {
     "circos": "^2.1.0",
-    "ideogram": "git+https://github.com/eweitz/ideogram.git",
-    "molecule-3d-for-react": "^0.4.5",
-    "plotly.js": "^1.41.3",
-    "ramda": "^0.25.0",
-    "react": "15.4.2",
-    "react-alignment-viewer": "^0.5.2",
+    "fast-memoize": "^2.5.1",
+    "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
+    "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
+    "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
+    "plotly.js": "^1.47.4",
+    "ramda": "^0.26.0",
+    "react": "15.6.2",
+    "react-alignment-viewer": "^0.5.5",
     "react-dom": "15.4.2",
-    "react-oncoprint": "^1.2.2",
+    "react-oncoprint": "^1.2.3",
     "react-plotly.js": "^2.2.0",
-    "react-sequence-viewer": "git://github.com/shammamah/react-sequence-viewer.git",
-    "speck": "git://github.com/shammamah/speck.git"
+    "react-sequence-viewer": "git://github.com/plotly/react-sequence-viewer.git",
+    "speck": "git://github.com/plotly/speck.git"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.3",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.0",
+    "babel-loader": "^8.0.0",
     "copyfiles": "^2.0.0",
-    "css-loader": "^0.28.11",
+    "css-loader": "^3.0.0",
     "eslint": "^5.12.1",
-    "eslint-config-prettier": "^3.6.0",
+    "eslint-config-prettier": "^5.0.0",
     "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
-    "npm": "^6.1.0",
     "prettier": "^1.16.1",
-    "react-docgen": "^2.20.1",
-    "style-loader": "^0.21.0",
+    "react-docgen": "^2.21.0",
+    "style-loader": "^0.23.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
-    "webpack-serve": "^1.0.2"
+    "webpack-serve": "^3.0.0"
   },
   "peerDependencies": {
     "react": ">=0.14",
     "react-dom": ">=0.14"
   },
+  "files": [
+    "dash_bio/bundle.js"
+  ],
   "engines": {
     "node": ">=8.11.0",
     "npm": ">=6.1.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:plotly/dash-bio.git"
   }
 }

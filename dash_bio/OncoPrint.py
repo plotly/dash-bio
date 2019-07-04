@@ -23,7 +23,7 @@ in callbacks. The ID needs to be unique to the component.
 consisting of 'sample', 'gene', 'alteration', and 'type'
 - padding (number; optional): Adjusts the padding (as a proportion of whitespace) between two tracks.
 Value is a ratio between 0 and 1.
-Defaults to 0.05 (e.g. 5%). If set to 0, plot will look like a heatmap.
+Defaults to 0.05 (i.e., 5 percent). If set to 0, plot will look like a heatmap.
 - colorscale (boolean | dict; optional): If not null, will override the default OncoPrint colorscale.
 Default OncoPrint colorscale same as CBioPortal implementation.
 Make your own colrscale as a {'mutation': COLOR} dict.
@@ -60,26 +60,3 @@ Will disable auto-resizing of plots if set."""
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
         super(OncoPrint, self).__init__(**args)
-
-    def __repr__(self):
-        if(any(getattr(self, c, None) is not None
-               for c in self._prop_names
-               if c is not self._prop_names[0])
-           or any(getattr(self, c, None) is not None
-                  for c in self.__dict__.keys()
-                  if any(c.startswith(wc_attr)
-                  for wc_attr in self._valid_wildcard_attributes))):
-            props_string = ', '.join([c+'='+repr(getattr(self, c, None))
-                                      for c in self._prop_names
-                                      if getattr(self, c, None) is not None])
-            wilds_string = ', '.join([c+'='+repr(getattr(self, c, None))
-                                      for c in self.__dict__.keys()
-                                      if any([c.startswith(wc_attr)
-                                      for wc_attr in
-                                      self._valid_wildcard_attributes])])
-            return ('OncoPrint(' + props_string +
-                   (', ' + wilds_string if wilds_string != '' else '') + ')')
-        else:
-            return (
-                'OncoPrint(' +
-                repr(getattr(self, self._prop_names[0], None)) + ')')

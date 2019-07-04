@@ -1,0 +1,17 @@
+# AUTO GENERATED FILE - DO NOT EDIT
+
+export(dashbioAlignmentChart)
+export(dashbioAlignmentViewer)
+export(dashbioCircos)
+export(dashbioIdeogram)
+export(dashbioMolecule2dViewer)
+export(dashbioMolecule3dViewer)
+export(dashbioNeedlePlot)
+export(dashbioOncoPrint)
+export(dashbioSequenceViewer)
+export(dashbioSpeck)
+export(dashbioManhattan)
+export(dashbioVolcano)
+import(manhattanly)
+
+import(dash)

@@ -13,8 +13,8 @@ beautiful way. Please checkout the Dash Bio repository
 on github to learn more about this API.
 
 Keyword arguments:
-- enableDownloadSVG (boolean; optional)
-- enableZoomPan (boolean; optional)
+- enableDownloadSVG (boolean; optional): Allow for an SVG snapshot of the Circos graph to be downloaded.
+- enableZoomPan (boolean; optional): Allow for zooming and panning the Circos graph.
 - id (string; optional): The ID of the component to be used in Dash callbacks
 - style (dict; optional): The CSS styling of the div wrapping the component
 - eventDatum (dict; optional): A Dash prop that returns data on clicking or hovering of the tracks.
@@ -24,11 +24,11 @@ data on click, hover, or both, with the dash prop "eventDatum".
 The keys of the dictionary represent the index of the list
 specified for "tracks".
 
-Ex:                 
+Ex:
 selectEvent={
-        "0": "hover",
-        "1": "click",
-        "2": "both"
+    "0": "hover",
+    "1": "click",
+    "2": "both"
     },
 - layout (list; required): The overall layout of the Circos graph, provided
 as a list of dictionaries.
@@ -57,26 +57,3 @@ please check the docs."""
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
         super(Circos, self).__init__(**args)
-
-    def __repr__(self):
-        if(any(getattr(self, c, None) is not None
-               for c in self._prop_names
-               if c is not self._prop_names[0])
-           or any(getattr(self, c, None) is not None
-                  for c in self.__dict__.keys()
-                  if any(c.startswith(wc_attr)
-                  for wc_attr in self._valid_wildcard_attributes))):
-            props_string = ', '.join([c+'='+repr(getattr(self, c, None))
-                                      for c in self._prop_names
-                                      if getattr(self, c, None) is not None])
-            wilds_string = ', '.join([c+'='+repr(getattr(self, c, None))
-                                      for c in self.__dict__.keys()
-                                      if any([c.startswith(wc_attr)
-                                      for wc_attr in
-                                      self._valid_wildcard_attributes])])
-            return ('Circos(' + props_string +
-                   (', ' + wilds_string if wilds_string != '' else '') + ')')
-        else:
-            return (
-                'Circos(' +
-                repr(getattr(self, self._prop_names[0], None)) + ')')

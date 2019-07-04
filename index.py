@@ -54,20 +54,12 @@ app.layout = html.Div(
 )
 
 
-def demo_app_img_src(name):
-    """ Returns the base-64 encoded image corresponding
-        to the specified app."""
+def get_demo_app_img(name):
+    """Get path to image corresponding to given app."""
     pic_fname = './tests/dashbio_demos/images/pic_{}.png'.format(
         name.replace('app_', '')
     )
-    try:
-        return 'data:image/png;base64,{}'.format(
-            base64.b64encode(
-                open(pic_fname, 'rb').read()).decode())
-    except Exception:
-        return 'data:image/png;base64,{}'.format(
-            base64.b64encode(
-                open('./assets/dashbio_logo.png', 'rb').read()).decode())
+    return pic_fname
 
 
 def demo_app_name(name):
@@ -94,11 +86,6 @@ def demo_app_header_colors(name):
         return {}
 
 
-def demo_app_github_url(name):
-    """ Returns the link with the code for the demo app. """ 
-    return name
-
-
 def demo_app_link_id(name):
     """Returns the value of the id of the dcc.Link related to the demo app. """
     return 'app-link-id-{}'.format(name.replace("_", "-"))
@@ -116,7 +103,10 @@ def display_app(pathname):
                     dcc.Link(
                         children=[
                             html.Img(className='gallery-app-img',
-                                     src=demo_app_img_src(name)),
+                                     src='data:image/png;base64,{}'.format(
+                                         base64.b64encode(open(get_demo_app_img(name),
+                                                               'rb').read()).decode()
+                                     )),  # base-64 encoded image
                             html.Div(className='gallery-app-info', children=[
                                 html.Div(className='gallery-app-name', children=[
                                     demo_app_name(name)
@@ -145,7 +135,7 @@ def display_app(pathname):
                         children=app_page_layout(
                             apps[app_name].layout(),
                             app_title=demo_app_name(app_name),
-                            app_github_url=demo_app_github_url(app_name),
+                            app_name=app_name,
                             **demo_app_header_colors(app_name)
                         ))
     else:

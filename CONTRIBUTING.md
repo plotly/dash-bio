@@ -32,8 +32,18 @@ the component itself, and a sample application that showcases the capabilities
 of your component and how it interacts with Dash.
 
 ##### Components
-Components can either be created using React, or they can be written in pure
-Python.
+Components can either be created using React, or they can be written
+in pure Python. React components are written in `src/lib/components`
+before being compiled into Python components that are in the
+`dash_bio` folder. Python components are written in
+`dash_bio/component_factory/` and must be imported in
+`dash_bio/__init__.py`.
+
+###### Naming components
+Components, regardless of whether they are written using React or
+Python, need to be named in upper camel case. This is incredibly
+important due to the amount of parsing we perform in our testing suite
+and app deployments.
 
 ##### Demo applications 
 Instead of creating standalone Dash apps for each component, there is a file
@@ -43,7 +53,7 @@ to follow a specific file structure for the corresponding app to be displayed
 and run correctly.
 
 ###### Setup
-In the `tests/dash/` subfolder, please create a file named
+In the `tests/dashbio_demos/` subfolder, please create a file named
 `app_{your component name in snake case}.py`. In this file, please include the
 following functions:
 
@@ -99,7 +109,7 @@ Setup subsection, please account for an extra height of `100px` that is taken
 up by the header when you are specifying the height of the container.
 
 ###### Final touches 
-In the `tests/dash/images/` subfolder, please include a PNG file named
+In the `tests/dashbio_demos/images/` subfolder, please include a PNG file named
 `pic_{your component name in snake case}.png`.
 
 In your demo app file, please include the following functions:
@@ -135,7 +145,7 @@ Each commit is small; a pull request typically consists of a few commits.
 To run integration tests locally on, say, Google Chrome:
 ```bash
 pip install -r tests/requirements.txt
-pytest tests --driver Chrome
+pytest tests --webdriver Chrome --ignore tests/test_skeleton.py
 ```
 Do not worry if you get errors running this last command. You will have to
 download a Chrome driver, install it, and add its path. Follow what the error
@@ -164,3 +174,58 @@ the package.
 Fill out the description template in the GitHub interface.
 When you submit the PR, a Heroku review app will be automatically created; it
 will remain available for 5 days.
+
+
+### Deployment 
+
+*Deployment is done from the `master` branch only.*
+
+#### Step 1: Initialize the app on the playground server
+Log into your account on
+[dash-playground.plotly.host](dash-playground.plotly.host) and create
+a new application. The name of the application should consist of the
+component name in lowercase, with words separated by dashes (`-`). The
+deployment server will provide a remote repository URL that will
+contain the app. Add it to the list of remotes by running `git
+remote add [app name]-test [deployment server git URL]`.
+
+#### Step 2: Edit and commit app-specific files
+
+##### Step 2a: Edit the `Procfile`
+Edit the `Procfile` at the root of the repository to say `gunicorn
+tests.dashbio_demos.app_name:server`, where `app_name` is the name of
+the app you want to deploy in the `tests/dashbio_demos/` folder. 
+
+##### Step 2b: Edit `config.py`
+Edit the `config.py` file at the root of the repository such that the variable
+`DASH_APP_NAME` be set to the name of your app, but with `app`
+replaced by `dash` and underscores (`_`) replaced by dashes
+(`-`). (e.g., for `app_manhattan_plot`, the `DASH_APP_NAME` variable
+should be set to `dash-manhattan-plot`.)
+
+##### Step 2c: Commit the changes
+Commit the `Procfile` and `config.py`, but *do not push to the
+`dash-bio` repo*!
+
+#### Step 3: Push to the playground server
+Run `git push [app name]-test master`. This will deploy the app
+on the playground server. Check that it works by visiting the URL that
+is displayed in the console. Try out a few of the callbacks to make
+sure that they are working.
+
+#### Step 4: Initialize the app on the dash-bio server and push to it 
+Log into the `admin` account on
+[dash-bio.plotly.host](dash-bio.plotly.host) and follow the same
+instructions as in Step 1, but give this remote a different name
+(e.g., by running `git remote add gallery [deployment server git
+URL]`). Then, run `git push gallery master`.
+
+#### Step 5: Undo the app-specific commit 
+Run `git log` to find the ID of the commit prior to the one that you
+just made to change the `Procfile`. Then, reset your local branch to
+this commit so that the `index.py` app still deploys and runs
+normally. You can do this by running `git reset --hard [commit ID]`.
+
+#### Step 6: Ensure that your branch is even with `master` 
+Since you've reverted the change, running `git diff` should return
+nothing.
