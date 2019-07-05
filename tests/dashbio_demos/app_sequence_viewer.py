@@ -69,7 +69,7 @@ def description():
 
 def layout():
 
-    return html.Div(id='seq-view-body', className='app-body dashbio-loading', children=[
+    return html.Div(id='seq-view-body', className='app-body', children=[
         html.Div(
             id='seq-view-container',
             children=[
