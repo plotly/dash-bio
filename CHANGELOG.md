@@ -11,7 +11,7 @@
 
 ### Added
 * Added default props to Molecule3dViewer component.
-* Added zoompan and export SVG to circos.
+* Added zoom/pan and export SVG capabilities to Circos.
 
 ## [0.1.1] - 2019-06-06
 
