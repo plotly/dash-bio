@@ -7,7 +7,7 @@
 * Optimized Speck component further to increase performance.
 * Updated dash_bio_utils to version that introduced standardization of
   data parsers.
-* Changed circos source from npm to github fork.
+* Changed Circos source from NPM to GitHub fork.
 
 ### Added
 * Added default props to Molecule3dViewer component.
