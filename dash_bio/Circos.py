@@ -26,9 +26,9 @@ specified for "tracks".
 
 Ex:
 selectEvent={
-    "0": "hover",
-    "1": "click",
-    "2": "both"
+        "0": "hover",
+        "1": "click",
+        "2": "both"
     },
 - layout (list; required): The overall layout of the Circos graph, provided
 as a list of dictionaries.
