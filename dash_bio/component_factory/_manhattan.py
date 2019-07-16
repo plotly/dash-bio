@@ -147,7 +147,7 @@ Keyword arguments:
     data points considered significant.
 - highlight_color (string; default 'red'): Color of the data points
     highlighted because they are significant. Can be in any color
-    format accepted by plotly_js graph_objs.
+    format accepted by plotly's graph_objs.
 
     # ...
     Example 1: Random Manhattan Plot
@@ -407,7 +407,7 @@ class _ManhattanPlot():
         """Keyword arguments:
     - title (string; default 'Manhattan Plot') The title of the
         graph.
-    - showgrid (bool; default true): Boolean indicating whether
+    - showgrid (bool; default True): Boolean indicating whether
         gridlines should be shown.
     - xlabel (string; optional): Label of the x axis.
     - ylabel: (string; default '-log10(p)'): Label of the y axis.
