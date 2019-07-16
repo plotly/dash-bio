@@ -207,7 +207,7 @@ class _VolcanoPlot():
         numeric.  This does not have to be a p-value. It can be any
         numeric quantity such as peak heights, bayes factors, test
         statistics. If it is not a p-value, make sure to set logp =
-        FALSE.
+        False.
     - effect_size (string; optional): A string denoting the column name
         for the effect size. This column in the dataframe must have
         numeric values, with no values being missing nor NaN.
@@ -333,7 +333,7 @@ class _VolcanoPlot():
         graph.
     - xlabel (string; optional): Label of the x axis.
     - ylabel (string; default '-log10(p)'): Label of the y axis.
-    - point_size (number; default 5): Size of the points of the Scatter
+    - point_size (number; default 5): Size of the points of the scatter
       plot.
     - col (string; optional): Color of the points of the Scatter plot. Can
         be in any color format accepted by plotly.graph_objs.

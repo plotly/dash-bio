@@ -254,9 +254,9 @@ class _Clustergram():
     values from the dataset that are below the negative of this value
     will be colored with one shade, and the values that are above this
     value will be colored with another.
-- symmetric_value (bool; default true): Whether or not to center the
+- symmetric_value (bool; default True): Whether or not to center the
     values of the heatmap about zero.
-- log_transform (bool; default false): Whether or not to transforms
+- log_transform (bool; default False): Whether or not to transforms
     the data by taking the base-two logarithm of all values in the
     dataset.
 - display_ratio (list | number; default 0.2): The dendrograms' heights with
