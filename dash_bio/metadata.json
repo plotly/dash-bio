@@ -940,6 +940,30 @@
     "displayName": "Circos",
     "methods": [
       {
+        "name": "stopScroll",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "setStopScroll",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "stop",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
         "name": "setEvent",
         "docblock": null,
         "modifiers": [],
@@ -980,7 +1004,7 @@
         "returns": null
       },
       {
-        "name": "configIdeogram",
+        "name": "configCircos",
         "docblock": null,
         "modifiers": [],
         "params": [
@@ -1045,7 +1069,7 @@
           "name": "object"
         },
         "required": false,
-        "description": "A dictionary used to choose whether tracks should return\ndata on click, hover, or both, with the dash prop \"eventDatum\".\nThe keys of the dictionary represent the index of the list\nspecified for \"tracks\".\n\nEx:\nselectEvent={\n    \"0\": \"hover\",\n    \"1\": \"click\",\n    \"2\": \"both\"\n    },"
+        "description": "A dictionary used to choose whether tracks should return\ndata on click, hover, or both, with the dash prop \"eventDatum\".\nThe keys of the dictionary represent the index of the list\nspecified for \"tracks\".\n\nEx:\nselectEvent={\n        \"0\": \"hover\",\n        \"1\": \"click\",\n        \"2\": \"both\"\n    },"
       },
       "setProps": {
         "type": {
@@ -1152,7 +1176,7 @@
                     "computed": true
                   }
                 ],
-                "description": "Specify what data for tooltipContent is\ndisplayed.\n\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks.\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\n\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\n\nEx: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.\n\"tooltipContent\": {\n        \"source\": \"block_id\",\n        \"target\": \"position\",\n        \"targetEnd\": \"value\"\n                },\nEx: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.\n\"tooltipContent\": {\n        \"source\": \"source\",\n        \"sourceID\": \"id\",\n        \"target\": \"target\",\n        \"targetID\": \"id\",\n        \"targetEnd\": \"end\"\n    }",
+                "description": "Specify what data for tooltipContent is\ndisplayed.\n\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks.\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\n\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\n\nEx: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.\n\"tooltipContent\": {\n                \"source\": \"block_id\",\n                \"target\": \"position\",\n                \"targetEnd\": \"value\"\n                        },\nEx: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.\n\"tooltipContent\": {\n                \"source\": \"source\",\n                \"sourceID\": \"id\",\n                \"target\": \"target\",\n                \"targetID\": \"id\",\n                \"targetEnd\": \"end\"\n            }",
                 "required": false
               },
               "color": {
@@ -1955,21 +1979,33 @@
           ]
         },
         "required": false,
-        "description": "The selection type - may be atom, residue or chain"
+        "description": "The selection type - may be atom, residue or chain",
+        "defaultValue": {
+          "value": "'atom'",
+          "computed": false
+        }
       },
       "backgroundColor": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "Property to change the background color of the molecule viewer"
+        "description": "Property to change the background color of the molecule viewer",
+        "defaultValue": {
+          "value": "'#FFFFFF'",
+          "computed": false
+        }
       },
       "backgroundOpacity": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": "Property to change the backgroun opacity - ranges from 0 to 1"
+        "description": "Property to change the backgroun opacity - ranges from 0 to 1",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
       },
       "styles": {
         "type": {

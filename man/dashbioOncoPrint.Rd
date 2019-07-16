@@ -10,9 +10,9 @@ The OncoPrint component is used to view multiple genetic alteration events throu
 }
 
 \usage{
-dashbioOncoPrint(id=NULL, eventDatum=NULL, data=NULL, padding=NULL,
-colorscale=NULL, backgroundcolor=NULL, range=NULL, showlegend=NULL,
-showoverview=NULL, width=NULL, height=NULL)
+dashbioOncoPrint(id=NULL, eventDatum=NULL, data=NULL, padding=NULL, colorscale=NULL,
+backgroundcolor=NULL, range=NULL, showlegend=NULL, showoverview=NULL,
+width=NULL, height=NULL)
 }
 
 \arguments{
@@ -53,3 +53,28 @@ Will disable auto-resizing of plots if set.}
 Will disable auto-resizing of plots if set.}
 }
 
+\examples{
+\dontrun{
+library(dash)
+library(dashCoreComponents)
+library(dashHtmlComponents)
+library(dashBio)
+
+app <- Dash$new()
+
+pathToData <- system.file("extdata/cBioPortalData.json", package = "dashBio")
+
+cBioPortalData <- jsonlite::fromJSON(pathToData, simplifyDataFrame=FALSE)
+
+app$layout(htmlDiv(list(
+    dashbioOncoPrint(
+    id = 'my-dashbio-oncoprint',
+    data = cBioPortalData
+  )
+)
+)
+)
+
+app$run_server(showcase = TRUE)
+}
+}

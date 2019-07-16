@@ -45,7 +45,10 @@ export default class Molecule3dViewer extends Component {
         // capitalized, but Dash typically uses all-lowercase prop values
 
         const capitalizedSelectionType =
-            selectionType.charAt(0).toUpperCase() + selectionType.slice(1);
+            selectionType === null
+                ? null
+                : selectionType.charAt(0).toUpperCase() +
+                  selectionType.slice(1);
 
         return (
             <div id={id}>
@@ -59,6 +62,12 @@ export default class Molecule3dViewer extends Component {
         );
     }
 }
+
+Molecule3dViewer.defaultProps = {
+    selectionType: 'atom',
+    backgroundColor: '#FFFFFF',
+    backgroundOpacity: 0,
+};
 
 Molecule3dViewer.propTypes = {
     /**

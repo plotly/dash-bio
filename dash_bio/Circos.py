@@ -26,9 +26,9 @@ specified for "tracks".
 
 Ex:
 selectEvent={
-    "0": "hover",
-    "1": "click",
-    "2": "both"
+        "0": "hover",
+        "1": "click",
+        "2": "both"
     },
 - layout (list; required): The overall layout of the Circos graph, provided
 as a list of dictionaries.
@@ -52,7 +52,7 @@ please check the docs."""
         _locals.update(kwargs)  # For wildcard attrs
         args = {k: _locals[k] for k in _explicit_args if k != 'children'}
 
-        for k in ['layout']:
+        for k in [u'layout']:
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')

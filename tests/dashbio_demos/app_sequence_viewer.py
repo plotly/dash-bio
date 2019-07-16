@@ -70,7 +70,7 @@ def description():
 def layout():
 
     return html.Div(id='seq-view-body', className='app-body', children=[
-        dcc.Loading(className='dashbio-loading', children=html.Div(
+        html.Div(
             id='seq-view-container',
             children=[
                 html.Div(
@@ -150,8 +150,7 @@ def layout():
                     ]
                 ))
             ]
-        )),
-
+        ),
         html.Div(id='seq-view-control-tabs', className='control-tabs', children=[
             dcc.Tabs(id='seq-view-tabs', value='what-is', children=[
                 dcc.Tab(

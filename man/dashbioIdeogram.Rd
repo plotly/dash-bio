@@ -10,17 +10,16 @@ The Ideogram component is used to draw and animate genome-wide datasets for orga
 }
 
 \usage{
-dashbioIdeogram(id=NULL, style=NULL, className=NULL, annotationsLayout=NULL,
-annotations=NULL, annotationsPath=NULL, annotationsData=NULL,
-annotationTracks=NULL, annotationHeight=NULL, annotationsColor=NULL,
-histogramScaling=NULL, barWidth=NULL, showAnnotTooltip=NULL, assembly=NULL,
-brush=NULL, brushData=NULL, container=NULL, chrHeight=NULL, chrMargin=NULL,
-chrWidth=NULL, chromosomes=NULL, dataDir=NULL, organism=NULL,
-localOrganism=NULL, homology=NULL, perspective=NULL, fullChromosomeLabels=NULL,
-resolution=NULL, filterable=NULL, orientation=NULL, ploidy=NULL,
-ploidyDesc=NULL, ancestors=NULL, rangeSet=NULL, rotatable=NULL, rotated=NULL,
-sex=NULL, showChromosomeLabels=NULL, showBandLabels=NULL, showFullyBanded=NULL,
-showNonNuclearChromosomes=NULL)
+dashbioIdeogram(id=NULL, style=NULL, className=NULL, annotationsLayout=NULL, annotations=NULL,
+annotationsPath=NULL, annotationsData=NULL, annotationTracks=NULL,
+annotationHeight=NULL, annotationsColor=NULL, histogramScaling=NULL,
+barWidth=NULL, showAnnotTooltip=NULL, assembly=NULL, brush=NULL, brushData=NULL,
+container=NULL, chrHeight=NULL, chrMargin=NULL, chrWidth=NULL, chromosomes=NULL,
+dataDir=NULL, organism=NULL, localOrganism=NULL, homology=NULL,
+perspective=NULL, fullChromosomeLabels=NULL, resolution=NULL, filterable=NULL,
+orientation=NULL, ploidy=NULL, ploidyDesc=NULL, ancestors=NULL, rangeSet=NULL,
+rotatable=NULL, rotated=NULL, sex=NULL, showChromosomeLabels=NULL,
+showBandLabels=NULL, showFullyBanded=NULL, showNonNuclearChromosomes=NULL)
 }
 
 \arguments{
@@ -42,7 +41,12 @@ genomic range.
 
 "overlay": display annotations directly over chromosomes.}
 
-\item{annotations}{List. A list of annotation objects. Annotation objects can also have a name, color, shape, and
+\item{annotations}{List of lists containing elements 'name', 'chr', 'start', 'stop'.
+those elements have the following types:
+  - name (character; optional)
+  - chr (character; optional)
+  - start (numeric; optional)
+  - stop (numeric; optional)s. A list of annotation objects. Annotation objects can also have a name, color, shape, and
 track index. At the moment there is more keys specified and the docs need updating.}
 
 \item{annotationsPath}{Character. An absolute or relative URL directing to a JSON file containing annotation objects (JSON).}
@@ -51,7 +55,7 @@ track index. At the moment there is more keys specified and the docs need updati
 It is read-only, i.e., it cannot be used with dash.dependencies.Output but only with
 dash.dependencies.Input}
 
-\item{annotationTracks}{List. A list of objects with metadata for each track, e.g., id, display name, color, shape.}
+\item{annotationTracks}{List of named lists. A list of objects with metadata for each track, e.g., id, display name, color, shape.}
 
 \item{annotationHeight}{Numeric. Not used if annotationsLayout is set to "overlay".
 The height of histogram bars or the size of annotations tracks symbols}
@@ -81,7 +85,11 @@ chromosome. Useful when ideogram consists of one chromosome and you want to be
 able to focus on a region within that chromosome,
 and create an interactive sliding window to other regions}
 
-\item{brushData}{A dash callback that is activated when the 'brush' prop is used in component.
+\item{brushData}{Lists containing elements 'start', 'end', 'extent'.
+those elements have the following types:
+  - start (character; optional)
+  - end (character; optional)
+  - extent (character; optional). A dash callback that is activated when the 'brush' prop is used in component.
 It will return an dictionary like so:
 
 {'start': <value>, 'end': <value>, 'extent': <value>}
@@ -100,7 +108,7 @@ react-ideogram.js, this is where all the d3 magic happens.}
 
 \item{chrWidth}{Numeric. The pixel width of each chromosome.}
 
-\item{chromosomes}{List | named list. A list of the names of chromosomes to display. Useful for depicting a subset of the
+\item{chromosomes}{List of characters | named list. A list of the names of chromosomes to display. Useful for depicting a subset of the
 chromosomes in the genome, e.g., a single chromosome.
 
 If Homology (between two different species):
@@ -123,7 +131,18 @@ species.}
 \item{localOrganism}{Named list. Provide local JSON organism into this prop from a local user JSON file.
 DataDir must not be initialized.}
 
-\item{homology}{Used to compare two chromosomes with each other.
+\item{homology}{Lists containing elements 'chrone', 'chrtwo'.
+those elements have the following types:
+  - chrone (optional): . chrone has the following type: lists containing elements 'organism', 'start', 'stop'.
+those elements have the following types:
+  - organism (character; required)
+  - start (list of numerics; optional)
+  - stop (list of numerics; optional)
+  - chrtwo (optional): . chrtwo has the following type: lists containing elements 'organism', 'start', 'stop'.
+those elements have the following types:
+  - organism (character; required)
+  - start (list of numerics; optional)
+  - stop (list of numerics; optional). Used to compare two chromosomes with each other.
 The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the taxID or name.
 Start is an array, containing start one and start two, in this order. Stop is an array,
 containing stop one, and stop two, in this order.
@@ -155,12 +174,12 @@ One of 450, 550, or 850.}
 
 \item{ploidy}{Numeric. The ploidy - number of chromosomes to depict for each chromosome set.}
 
-\item{ploidyDesc}{List. Description of ploidy in each chromosome set in terms of ancestry composition.}
+\item{ploidyDesc}{List of named lists. Description of ploidy in each chromosome set in terms of ancestry composition.}
 
 \item{ancestors}{Named list. A map associating ancestor labels to colors. Used to color
 chromosomes from different ancestors in polyploid genomes.}
 
-\item{rangeSet}{List. List of objects describing segments of recombination among chromosomes in a chromosome set.}
+\item{rangeSet}{List of named lists. List of objects describing segments of recombination among chromosomes in a chromosome set.}
 
 \item{rotatable}{Logical. Whether chromosomes are rotatable on click.}
 
@@ -181,3 +200,28 @@ beside chromosomes of less studied organisms, e.g., chimpanzee.}
 e.g., for mitochondrial (MT) and chloroplast (CP) DNA.}
 }
 
+\examples{
+\dontrun{
+library(dash)
+library(dashHtmlComponents)
+library(dashCoreComponents)
+library(dashBio)
+
+app <- Dash$new()
+
+app$layout(
+    htmlDiv(
+      list(
+        htmlLabel("Click a chromosome for a closer look; double-click to return to the overview:"),
+        dashbioIdeogram(
+          id='my-dashbio-ideogram',
+          chrHeight=250
+        )
+      ),
+      style = list("text-align" = "center")
+    )
+)  
+  
+app$run_server()
+}
+}

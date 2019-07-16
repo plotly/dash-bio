@@ -15,10 +15,25 @@ export default class Circos extends Component {
     constructor(props) {
         super(props);
         this.circos = null;
-        this.configIdeogram = this.configIdeogram.bind(this);
+        this.configCircos = this.configCircos.bind(this);
         this.setEvent = this.setEvent.bind(this);
         this.setColor = this.setColor.bind(this);
         this.setToolTip = this.setToolTip.bind(this);
+
+        this.stopScroll = this.stopScroll.bind(this);
+        this.setStopScroll = this.setStopScroll.bind(this);
+    }
+
+    stopScroll(e) {
+        e.preventDefault();
+    }
+
+    setStopScroll(stop) {
+        if (stop) {
+            this.ref.addEventListener('wheel', this.stopScroll);
+        } else {
+            this.ref.removeEventListener('wheel', this.stopScroll);
+        }
     }
 
     setEvent(setProps, index) {
@@ -156,7 +171,7 @@ export default class Circos extends Component {
         }
     }
 
-    configIdeogram(layout, config, tracks, setProps) {
+    configCircos(layout, config, tracks, setProps) {
         this.circos.layout(layout, config);
         tracks.forEach((track, index) => {
             const {id, data, config, type} = track;
@@ -205,7 +220,9 @@ export default class Circos extends Component {
             enableZoomPan: enableZoomPan,
             enableDownloadSVG: enableDownloadSVG,
         });
-        this.configIdeogram(layout, config, tracks, setProps);
+        this.configCircos(layout, config, tracks, setProps);
+
+        this.setStopScroll(enableZoomPan);
     }
 
     shouldComponentUpdate(nextProps) {
@@ -219,22 +236,16 @@ export default class Circos extends Component {
     }
 
     componentDidUpdate() {
-        const {
-            enableDownloadSVG,
-            enableZoomPan,
-            size,
-            layout,
-            config,
-            tracks,
-            setProps,
-        } = this.props;
+        const {size, layout, config, tracks, setProps} = this.props;
         this.circos.removeTracks();
         this.container = this.ref;
         this.circos.width = size;
         this.circos.height = size;
-        this.circos.enableZoomPan = enableZoomPan;
-        this.circos.enableDownloadSVG = enableDownloadSVG;
-        this.configIdeogram(layout, config, tracks, setProps);
+        this.configCircos(layout, config, tracks, setProps);
+    }
+
+    componentWillUnmount() {
+        this.setStopScroll(false);
     }
 
     render() {
@@ -306,9 +317,9 @@ Circos.propTypes = {
    *
    * Ex:
    * selectEvent={
-	"0": "hover",
-	"1": "click",
-	"2": "both"
+        "0": "hover",
+        "1": "click",
+        "2": "both"
     },
    */
     selectEvent: PropTypes.object,
@@ -391,30 +402,30 @@ Circos.propTypes = {
             type: PropTypes.oneOf(TRACK_TYPES),
 
             /**
-	 * Specify what data for tooltipContent is
-	 * displayed.
-	 *
-	 * The entry for the "name" key, is any of the keys used in the data loaded into tracks.
-	 * Ex: "tooltipContent": {"name": "block_id"},
-	 *
-	 * To display all data in the dataset use "all" as the entry for the key "name".
-	 * Ex: "tooltipContent": {"name": "all"}
-	 *
-	 * Ex: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.
-	 * "tooltipContent": {
-	    "source": "block_id",
-	    "target": "position",
-	    "targetEnd": "value"
-				},
-	 * Ex: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.
-	 * "tooltipContent": {
-	    "source": "source",
-	    "sourceID": "id",
-	    "target": "target",
-	    "targetID": "id",
-	    "targetEnd": "end"
-	}
-	 **/
+             * Specify what data for tooltipContent is
+             * displayed.
+             *
+             * The entry for the "name" key, is any of the keys used in the data loaded into tracks.
+             * Ex: "tooltipContent": {"name": "block_id"},
+             *
+             * To display all data in the dataset use "all" as the entry for the key "name".
+             * Ex: "tooltipContent": {"name": "all"}
+             *
+             * Ex: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.
+             * "tooltipContent": {
+                "source": "block_id",
+                "target": "position",
+                "targetEnd": "value"
+                        },
+             * Ex: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.
+             * "tooltipContent": {
+                "source": "source",
+                "sourceID": "id",
+                "target": "target",
+                "targetID": "id",
+                "targetEnd": "end"
+            }
+             **/
             tooltipContent: PropTypes.oneOf([
                 PropTypes.string,
                 PropTypes.shape({

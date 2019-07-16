@@ -1,12 +1,14 @@
 # Changelog
 
-## [0.1.2] - 
+## [0.1.2] - 2019-07-13
 
 ### Changed
 * Made Speck component compatible with refactored Speck library.
 * Optimized Speck component further to increase performance.
-* Updated dash_bio_utils to version that introduced standardization of
-  data parsers.
+
+### Added
+* Added default props to Molecule3dViewer component.
+* Added zoom/pan and export SVG capabilities to Circos.
 
 ## [0.1.1] - 2019-06-06
 
