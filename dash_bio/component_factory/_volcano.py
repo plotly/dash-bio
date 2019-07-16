@@ -130,10 +130,10 @@ Keyword arguments:
     boolean which must be False to deactivate the option, or a
     numerical value corresponding to the p-value above which the data
     points are considered significant.
-- genomewideline_color (string; default 'red'): Color of the genome
-    wide line. Can be in any color format accepted by
+- genomewideline_color (string; default 'red'): Color of the
+    genome-wide line. Can be in any color format accepted by
     plotly.graph_objs.
-- genomewideline_width (number; default 1): Width of the genome wide
+- genomewideline_width (number; default 1): Width of the genome-wide
     line.
 - highlight (bool; default True): Whether or not the data points considered
     significant should be highlighted.
@@ -351,10 +351,10 @@ class _VolcanoPlot():
         boolean which must be False to deactivate the option, or a
         numerical value corresponding to the p-value above which the
         data points are considered significant.
-    - genomewideline_color (string; default 'red'): Color of the genome wide
+    - genomewideline_color (string; default 'red'): Color of the genome-wide
         line. Can be in any color format accepted by plotly.graph_objs.
-    - genomewideline_width (number; default 1): Width of the genome
-      wide line.
+    - genomewideline_width (number; default 1): Width of the genome-wide
+        line.
     - highlight (bool; default True): Whether the data points considered
       significant should be highlighted.
     - highlight_color (string; default 'red'): Color of the data points

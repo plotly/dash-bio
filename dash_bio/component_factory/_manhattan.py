@@ -430,7 +430,7 @@ class _ManhattanPlot():
         numerical value corresponding to the p-value above which the
         data points are considered significant.
     - genomewideline_color (string; default 'red'): Color of the
-        genome wide line. Can be in any color format accepted by
+        genome-wide line. Can be in any color format accepted by
         plotly.graph_objs.
     - genomewideline_width (number; default 1): Width of the genome
       wide line.
