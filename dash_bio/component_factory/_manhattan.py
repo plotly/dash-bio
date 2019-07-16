@@ -125,7 +125,7 @@ Keyword arguments:
     should be shown.
 - col (string; optional): A string representing the color of the
     points of the Scatter plot. Can be in any color format accepted by
-    plotly_js graph_objs.
+    plotly.graph_objs.
 - suggestiveline_value (bool | float; default 8): A value which must
     be False to deactivate the option, or a numerical value
     corresponding to the p-value at which the line should be drawn.
@@ -139,8 +139,7 @@ Keyword arguments:
     corresponding to the p-value above which the data points are
     considered significant.
 - genomewideline_color (string; default 'red'): Color of the genome-wide
-    line. Can be in any color format accepted by plotly_js
-    graph_objs.
+    line. Can be in any color format accepted by plotly.graph_objs.
 - genomewideline_width (number; default 1): Width of the genome-wide
   line.
 - highlight (bool; default True): turning on/off the highlighting of
@@ -417,7 +416,7 @@ class _ManhattanPlot():
         legends should be shown.
     - col (string; optional): A string representing the color of the
         points of the Scatter plot. Can be in any color format
-        accepted by plotly_js graph_objs.
+        accepted by plotly.graph_objs.
     - suggestiveline_value (bool | float; default 8): A value which
         must be False to deactivate the option, or a numerical value
         corresponding to the p-value at which the line should be
@@ -432,14 +431,14 @@ class _ManhattanPlot():
         data points are considered significant.
     - genomewideline_color (string; default 'red'): Color of the
         genome wide line. Can be in any color format accepted by
-        plotly_js graph_objs.
+        plotly.graph_objs.
     - genomewideline_width (number; default 1): Width of the genome
       wide line.
     - highlight (bool; default True): turning on/off the highlighting
         of data points considered significant.
     - highlight_color (string; default 'red'): Color of the data
         points highlighted because they are significant. Can be in any
-        color format accepted by plotly_js graph_objs.
+        color format accepted by plotly.graph_objs.
 
     Returns:
     - A figure formatted for plotly.graph_objs.
