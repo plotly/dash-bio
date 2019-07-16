@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.3] -
+
+### Fixed
+* Fixed issue with Molecule2dViewer not displaying triple bonds.
+
 ## [0.1.2] - 2019-07-13
 
 ### Changed
