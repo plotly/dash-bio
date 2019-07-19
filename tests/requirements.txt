@@ -1,5 +1,22 @@
 --extra-index-url https://test.pypi.org/simple/
--r ../requirements.txt
+
+# Same dependencies as for library and demo apps,
+# except for frozen dash==0.40.0
+cython>=0.19
+dash==0.40.0
+dash-bio==0.1.3rc2
+dash-bio-utils==0.0.3rc3
+dash-daq==0.1.4
+gunicorn==19.9.0
+jsonschema==2.6.0
+matplotlib==3.0.2
+numpy==1.15.4
+pandas>=0.24.2
+plotly>=3.5.0
+PubChemPy==1.0.4
+requests==2.21.0
+scikit-learn==0.20.2
+scipy>=1.1.0
 
 # Additional packages needed to run the tests.
 chromedriver-binary==2.45.0
