@@ -146,7 +146,7 @@ Keyword arguments:
     data points considered significant.
 - highlight_color (string; default 'red'): Color of the data points
     highlighted because they are significant. Can be in any color
-    format accepted by plotly's graph_objs.
+    format accepted by plotly.graph_objs.
 
     # ...
     Example 1: Random Manhattan Plot
