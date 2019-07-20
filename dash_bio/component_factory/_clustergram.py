@@ -256,9 +256,8 @@ class _Clustergram():
     value will be colored with another.
 - symmetric_value (bool; default True): Whether or not to center the
     values of the heatmap about zero.
-- log_transform (bool; default False): Whether or not to transforms
-    the data by taking the base-two logarithm of all values in the
-    dataset.
+- log_transform (bool; default False): Whether or not to transform
+    the data by taking the base-two logarithm of all values.
 - display_ratio (list | number; default 0.2): The dendrograms' heights with
     respect to the size of the heatmap; with one element, both the row
     and column dendrograms have the same ratio; with two, the row
@@ -274,7 +273,7 @@ class _Clustergram():
     imputing should happen along columns, while 'axis=1' indicates
     that it should happen along rows (see: https://scikit
     -learn.org/stable/modules/generated/sklearn.preprocessing.Imputer.html).
-- row_group_marker (list; optional) A list containing the annotations
+- row_group_marker (list; optional): A list containing the annotations
     for row clusters in the dendrogram. Each annotation is a
     dictionary with the keys 'group_number' (the cluster number to
     highlight), 'annotation' (a string containing the text of the
