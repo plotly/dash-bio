@@ -1,12 +1,12 @@
 from __future__ import absolute_import
 
+import numpy as np
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
-import numpy as np
-
-from _volcano import _get_hover_text
 
 import plotly.graph_objs as go
+
+from _volcano import _get_hover_text
 
 SUGGESTIVE_LINE_LABEL = "suggestive line"
 GENOMEWIDE_LINE_LABEL = "genomewide line"
