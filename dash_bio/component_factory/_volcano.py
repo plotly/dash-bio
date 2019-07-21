@@ -1,70 +1,65 @@
 from __future__ import absolute_import
 
+import numpy as np
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
-import numpy as np
 
 import plotly.graph_objs as go
 
-GENOMEWIDE_LINE_LABEL = "genomewide_line"
-EFFECT_SIZE_LINE_MIN_LABEL = "effect size min line"
-EFFECT_SIZE_LINE_MAX_LABEL = "effect size max line"
+GENOMEWIDE_LINE_LABEL = 'genomewide_line'
+EFFECT_SIZE_LINE_MIN_LABEL = 'effect size min line'
+EFFECT_SIZE_LINE_MAX_LABEL = 'effect size max line'
 
 
 def _get_hover_text(df, snpname=None, genename=None, annotationname=None):
-    """format the hover text used for Manhattan and Volcano Plots
-    :param (dataFrame): A pandas dataframe
+    """Format the hover text used in Manhattan and Volcano plots.
+    :param (dataFrame) df: A pandas dataframe.
     :param (string) snpname: A string denoting the column name for the SNP
-    names (e.g. rs number). More generally, this column could be anything
+    names (e.g., rs number). More generally, this column could be anything
     that identifies each point being plotted. For example,
-    in an Epigenomewide association study (EWAS) this could be the probe
+    in an Epigenomewide association study (EWAS), this could be the probe
     name or cg number. This column should be a character. This argument is
-    optional, however it is necessary to specify if you want to
+    optional, however it is necessary to specify it if you want to
     highlight points on the plot using the highlight argument in the
     figure method.
-        Default = None
     :param (string) genename: A string denoting the column name for the
     GENE names.
-    More generally this could be any annotation information that you
-    want to include in the plot.
-        Default = None
-    :param (string) annotationname: A string denoting the column name
-    for an annotation. This could be any annotation information that you
-    want to include in the plot (e.g. zscore, effect size, minor allele
+    :param (string) annotationname: A string denoting the column name for
+    annotations. This could be any annotation information that you
+    want to include in the plot (e.g., zscore, effect size, minor allele
     frequency).
-        Default = None
     """
-    hover_text = ""
+    hover_text = ''
     if snpname is not None and snpname in df.columns:
-        hover_text = "SNP: " + df[snpname].astype(str)
+        hover_text = 'SNP: ' + df[snpname].astype(str)
 
     if genename is not None and genename in df.columns:
         hover_text = hover_text \
-                     + "<br>GENE: " \
+                     + '<br>GENE: ' \
                      + df[genename].astype(str)
 
     if annotationname is not None and annotationname in df.columns:
         hover_text = hover_text \
-                     + "<br>" \
+                     + '<br>' \
                      + df[annotationname].astype(str)
     return hover_text
 
 
 def VolcanoPlot(
         dataframe,
-        effect_size="EFFECTSIZE",
-        p="P",
-        snp="SNP",
-        gene="GENE",
+        effect_size='EFFECTSIZE',
+        p='P',
+        snp='SNP',
+        gene='GENE',
         annotation=None,
         logp=True,
-        title="Volcano Plot",
+        title='Volcano Plot',
         xlabel=None,
-        ylabel="-log10(p)",
+        ylabel='-log10(p)',
         point_size=5,
         col=None,
         effect_size_line=None,
-        effect_size_line_color="grey",
+        effect_size_line_color='grey',
         effect_size_line_width=0.5,
         genomewideline_value=-np.log10(5e-8),
         genomewideline_color='grey',
@@ -72,23 +67,23 @@ def VolcanoPlot(
         highlight=True,
         highlight_color="red"
 ):
-    """Returns a figure for a volcano plot.
+    """Return a Dash Bio VolcanoPlot figure.
 
 Keyword arguments:
-- dataFrame (dataframe; required): A pandas dataframe which must contain at
+- dataframe (dataframe; required): A pandas dataframe which must contain at
     least the following two columns:
             - a numeric quantity to plot such as a p-value or zscore
             - a numeric quantity measuring the strength of association,
               typically an odds ratio, regression coefficient, or log fold
               change. Here, it is referred to as `effect_size`.
+- effect_size (string; default 'EFFECTSIZE'): A string denoting the
+    column name for the effect size. This column must be numeric and must
+    not contain missing nor NaN values.
 - p (string; default 'P'): A string denoting the column name for the
     float quantity to be plotted on the y-axis. This column must be
     numeric. It does not have to be a p-value. It can be any
     numeric quantity such as peak heights, Bayes factors, test
     statistics. If it is not a p-value, make sure to set logp = False.
-- effect_size (string; default 'EFFECTSIZE'): A string denoting the
-    column name for the effect size. This column must be numeric and must
-    not contain missing nor NaN values.
 - snp (string; default 'SNP'): A string denoting the column name for
     the SNP names (e.g., rs number). More generally, this column could
     be anything that identifies each point being plotted. For example,
@@ -186,14 +181,14 @@ class _VolcanoPlot():
     def __init__(
             self,
             x,
-            effect_size="EFFECTSIZE",
-            p="P",
-            snp="SNP",
-            gene="GENE",
+            effect_size='EFFECTSIZE',
+            p='P',
+            snp='SNP',
+            gene='GENE',
             annotation=None,
             logp=True
     ):
-        """
+        """Return a Dash Bio VolcanoPlot object.
 
     Keyword arguments:
     - x (dataframe; required): A pandas dataframe which must contain at
@@ -231,9 +226,7 @@ class _VolcanoPlot():
         plotting the raw value could be useful for other genome-wide plots
         (e.g., peak heights, bayes factors, test statistics, and other
         "scores").
-
-    Returns:
-    - object: A Dash Bio ManhattanPlot object."""
+    """
 
         # checking the validity of the arguments
 
@@ -261,7 +254,7 @@ class _VolcanoPlot():
                     raise ValueError("P-values greater than 1 found. "
                                      "These must be removed.")
                 if np.isnan(x[p]).any():
-                    raise ValueError("NaN P-values found. These must be "
+                    raise ValueError("NaN p-values found. These must be "
                                      "removed")
 
         # Create a new DataFrame with columns named after effect_size and p.
@@ -313,22 +306,23 @@ class _VolcanoPlot():
 
     def figure(
             self,
-            title="Volcano Plot",
+            title='Volcano Plot',
             xlabel=None,
             ylabel='-log10(p)',
             point_size=5,
             col=None,
             effect_size_line=None,
-            effect_size_line_color="grey",
+            effect_size_line_color='grey',
             effect_size_line_width=0.5,
             genomewideline_value=-np.log10(5e-8),
             genomewideline_color='grey',
             genomewideline_width=1,
             highlight=True,
-            highlight_color="red",
+            highlight_color='red',
     ):
-        """Keyword arguments:
+        """Return a figure object compatible with plotly.graph_objs.
 
+        Keyword arguments:
     - title (string; default 'Volcano Plot'): Title of the
         graph.
     - xlabel (string; optional): Label of the x axis.
@@ -360,10 +354,6 @@ class _VolcanoPlot():
     - highlight_color (string; default 'red'): Color of the data points
         highlighted because considered significant. Can be in any color
         format accepted by plotly.graph_objs.
-
-    Returns:
-    - object: A figure compatible with plotly.graph_objs.
-
         """
 
         if xlabel is None:
@@ -374,7 +364,7 @@ class _VolcanoPlot():
 
         if not effect_size_line and not isinstance(effect_size_line, bool):
             raise ValueError("If effect_size_line is a logical, it must be "
-                             "set to FALSE")
+                             "set to False")
 
         if np.size(effect_size_line) > 2:
             raise ValueError("The argument effect_size_line should be a "
@@ -460,12 +450,12 @@ class _VolcanoPlot():
                             x=tmp[self.effectSize],
                             y=-np.log10(tmp[self.pName].values) if self.logp
                             else tmp[self.pName].values,
-                            mode="markers",
+                            mode='markers',
                             text=highlight_hover_text,
                             marker=dict(
                                 color=highlight_color,
                                 size=point_size),
-                            name="Point(s) of interest"
+                            name='Point(s) of interest'
                         )
                     )
 
@@ -487,14 +477,14 @@ class _VolcanoPlot():
                 x=data[self.effectSize].values,
                 y=-np.log10(data[self.pName].values) if self.logp
                 else data[self.pName].values,
-                mode="markers",
+                mode='markers',
                 marker={
                     'color': col,
                     'size': point_size,
                     # 'name': "chr%i" % self.data[self.chrName].unique()
                 },
                 text=hover_text,
-                name="Dataset"
+                name='Dataset'
             )
         )
 
@@ -503,25 +493,25 @@ class _VolcanoPlot():
             lines = [
                 go.layout.Shape(
                     name=EFFECT_SIZE_LINE_MIN_LABEL,
-                    type="line",
+                    type='line',
                     line=dict(
                         color=effect_size_line_color,
                         width=effect_size_line_width,
                         dash='dash'
                     ),
-                    x0=effect_size_line[0], x1=effect_size_line[0], xref="x",
-                    y0=ymin, y1=ymax, yref="y"
+                    x0=effect_size_line[0], x1=effect_size_line[0], xref='x',
+                    y0=ymin, y1=ymax, yref='y'
                 ),
                 go.layout.Shape(
                     name=EFFECT_SIZE_LINE_MAX_LABEL,
-                    type="line",
+                    type='line',
                     line=dict(
                         color=effect_size_line_color,
                         width=effect_size_line_width,
                         dash='dash'
                     ),
-                    x0=effect_size_line[1], x1=effect_size_line[1], xref="x",
-                    y0=ymin, y1=ymax, yref="y"
+                    x0=effect_size_line[1], x1=effect_size_line[1], xref='x',
+                    y0=ymin, y1=ymax, yref='y'
                 ),
             ]
         else:
@@ -530,14 +520,14 @@ class _VolcanoPlot():
         if genomewideline_value:
             genomewideline = go.layout.Shape(
                 name=GENOMEWIDE_LINE_LABEL,
-                type="line",
+                type='line',
                 line=dict(
                     color=genomewideline_color,
                     width=genomewideline_width,
                     dash='dash'
                 ),
-                x0=-xlim, x1=xlim, xref="x",
-                y0=genomewideline_value, y1=genomewideline_value, yref="y"
+                x0=-xlim, x1=xlim, xref='x',
+                y0=genomewideline_value, y1=genomewideline_value, yref='y'
             )
             lines.append(genomewideline)
 
