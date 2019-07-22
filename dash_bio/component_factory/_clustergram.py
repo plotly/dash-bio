@@ -100,9 +100,10 @@ Keyword arguments:
 - color_list (dict; optional): The list of colors to use for different
    clusters in the dendrogram that have a root under the threshold for
    each dimension. If there are fewer colors than there are clusters
-   along a specific dimension. The keys are: 'row' (for row clusters),
-   'col' (for column clusters), and 'bg' (for all traces above the
-   clustering threshold for both row and column.
+   along a specific dimension, the colors of the clusters will cycle
+   through the colors specified in the list. The keys are: 'row' (for
+   row clusters), 'col' (for column clusters), and 'bg' (for all
+   traces above the clustering threshold for both row and column).
 - display_range (double; default 3.0): In the heatmap, standardized
     values from the dataset that are below the negative of this value
     will be colored with one shade, and the values that are above this
