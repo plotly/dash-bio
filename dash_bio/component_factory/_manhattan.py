@@ -6,7 +6,7 @@ from pandas.api.types import is_numeric_dtype
 
 import plotly.graph_objs as go
 
-from ._volcano import _get_hover_text
+from .utils import _get_hover_text
 
 SUGGESTIVE_LINE_LABEL = "suggestive line"
 GENOMEWIDE_LINE_LABEL = "genomewide line"
