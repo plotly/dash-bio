@@ -74,9 +74,11 @@ Keyword arguments:
     clustered along columns, then clustered along rows of
     column-clustered data.
 - row_dist (string; default 'euclidean'): Distance metric for rows.
-    Passed as argument `metric` to the function specified in `dist_fun`.
+    Passed as argument `metric` to the function specified in `dist_fun`
+    when called for clustering along rows.
 - col_dist (string; default 'euclidean'): Distance metric for columns.
-    Passed as argument `metric` to the function specified in `dist_fun`.
+    Passed as argument `metric` to the function specified in `dist_fun`
+    when called for clustering along columns.
 - dist_fun (function; default scipy.spatial.distance.pdist): Function
     to compute the pairwise distance from the observations (see docs for
     scipy.spatial.distance.pdist).
