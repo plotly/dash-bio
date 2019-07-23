@@ -74,7 +74,7 @@ def ideogram_test_props_callback(
 HUMAN_TXID = 9606  # NCBI:Txid for human
 BASIC_PROPS = {
     'organism': 'human',
-    'dataDir': 'https://unpkg.com/ideogram@1.9.0/dist/data/bands/native/'
+    'dataDir': 'https://unpkg.com/ideogram@1.10.0/dist/data/bands/native/'
 }
 
 

@@ -88,11 +88,11 @@ export default class Ideogram extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const shouldUpdate = IDEOGRAM_PROPS.some(currentKey =>
-            this.props[currentKey] !== prevProps[currentKey]
+        const shouldUpdate = IDEOGRAM_PROPS.some(
+            currentKey => this.props[currentKey] !== prevProps[currentKey]
         );
 
-        if(shouldUpdate) {
+        if (shouldUpdate) {
             // Have to remove old data, because it breaks new instances
             this.initIdeogram();
         }
@@ -275,7 +275,7 @@ export default class Ideogram extends Component {
 
 Ideogram.defaultProps = {
     organism: 'human',
-    dataDir: 'https://unpkg.com/ideogram@1.9.0/dist/data/bands/native/',
+    dataDir: 'https://unpkg.com/ideogram@1.10.0/dist/data/bands/native/',
     annotationsColor: '#F00',
     annotationsLayout: 'tracks',
     barWidth: 3,
