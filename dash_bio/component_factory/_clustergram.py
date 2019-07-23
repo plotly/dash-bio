@@ -19,7 +19,7 @@ def Clustergram(
         computed_traces=None,
         row_labels=None,
         column_labels=None,
-        hidden_labels=None,
+        hide_labels=None,
         standardize='none',
         cluster='all',
         row_dist='euclidean',
@@ -64,7 +64,7 @@ Keyword arguments:
    (observation labels).
 - column_labels (list; optional): List of column category labels
    (observation labels).
-- hidden_labels (list; optional): List of labels not to display on the
+- hide_labels (list; optional): List of labels not to display on the
     final plot.
 - standardize (string; default 'none'): The dimension for standardizing
     values, so that the mean is 0 and the standard deviation is 1,
@@ -158,8 +158,8 @@ Keyword arguments:
 - width (number; default 500): The width of the graph, in px.
 
     """
-    if hidden_labels is None:
-        hidden_labels = []
+    if hide_labels is None:
+        hide_labels = []
     if color_threshold is None:
         color_threshold = dict(row=0, col=0)
 
@@ -197,7 +197,7 @@ class _Clustergram():
             data=None,
             row_labels=None,
             column_labels=None,
-            hidden_labels=None,
+            hide_labels=None,
             standardize='none',
             cluster='all',
             row_dist='euclidean',
@@ -223,16 +223,16 @@ class _Clustergram():
             height=500,
             width=500
     ):
-        if hidden_labels is None:
-            hidden_labels = []
+        if hide_labels is None:
+            hide_labels = []
         if color_threshold is None:
             color_threshold = dict(row=0, col=0)
         if row_labels is None:
             row_labels = [str(i) for i in range(data.shape[0])]
-            hidden_labels.append('row')
+            hide_labels.append('row')
         if column_labels is None:
             column_labels = [str(i) for i in range(data.shape[1])]
-            hidden_labels.append('col')
+            hide_labels.append('col')
 
         self._data = data
         self._row_labels = row_labels
@@ -295,12 +295,12 @@ class _Clustergram():
         elif self._cluster == 'col':
             self._display_ratio = [0, display_ratio[1]]
 
-        self._hidden_labels = []
+        self._hide_labels = []
 
-        if 'row' in hidden_labels:
-            self._hidden_labels.append('yaxis5')
-        if 'col' in hidden_labels:
-            self._hidden_labels.append('xaxis5')
+        if 'row' in hide_labels:
+            self._hide_labels.append('yaxis5')
+        if 'col' in hide_labels:
+            self._hide_labels.append('xaxis5')
 
         # preprocessing data
         if self._imputer_parameters is not None:
@@ -523,7 +523,7 @@ class _Clustergram():
         )
 
         # hide labels, if necessary
-        for l in self._hidden_labels:
+        for l in self._hide_labels:
             fig['layout'][l].update(
                 ticks='',
                 showticklabels=False
