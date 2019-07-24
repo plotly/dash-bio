@@ -31,7 +31,7 @@ def Clustergram(
         color_map=None,
         color_list=None,
         display_range=3,
-        symmetric_value=True,
+        center_values=True,
         log_transform=False,
         display_ratio=0.2,
         imputer_parameters=None,
@@ -110,7 +110,7 @@ Keyword arguments:
     values from the dataset that are below the negative of this value
     will be colored with one shade, and the values that are above this
     value will be colored with another.
-- symmetric_value (bool; default True): Whether or not to center the
+- center_values (bool; default True): Whether or not to center the
     values of the heatmap about zero.
 - log_transform (bool; default False): Whether or not to transform
     the data by taking the base-two logarithm of all values in the
@@ -211,7 +211,7 @@ class _Clustergram():
             color_map=None,
             color_list=None,
             display_range=3,
-            symmetric_value=True,
+            center_values=True,
             log_transform=False,
             display_ratio=0.2,
             imputer_parameters=None,
@@ -254,7 +254,7 @@ class _Clustergram():
             self._color_map = color_map
         self._color_list = color_list
         self._display_range = display_range
-        self._symmetric_value = symmetric_value
+        self._center_values = center_values
         self._display_ratio = display_ratio
         self._imputer_parameters = imputer_parameters
         if row_group_marker is None:
@@ -538,7 +538,7 @@ class _Clustergram():
             heat_data = self._data
 
             # symmetrize the heatmap about zero, if necessary
-            if self._symmetric_value:
+            if self._center_values:
                 heat_data = np.subtract(heat_data, np.mean(heat_data))
 
             heatmap = go.Heatmap(
