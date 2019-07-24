@@ -2,7 +2,7 @@
 from random import shuffle
 
 import numpy as np
-import scipy as scp
+import scipy
 import scipy.cluster.hierarchy as sch
 import scipy.spatial as scs
 from sklearn.impute import SimpleImputer
@@ -710,9 +710,9 @@ class _Clustergram():
         std = np.zeros(self._data.shape)
 
         if dim == 'row':
-            std = scp.stats.zscore(self._data, axis=1)
+            std = scipy.stats.zscore(self._data, axis=1)
         elif dim == 'column':
-            std = scp.stats.zscore(self._data, axis=0)
+            std = scipy.stats.zscore(self._data, axis=0)
 
         return std
 
@@ -777,7 +777,7 @@ class _Clustergram():
             Pcol = sch.dendrogram(Zcol, orientation='top',
                                   color_threshold=self._color_threshold['col'],
                                   labels=self._column_labels, no_plot=True)
-            clustered_column_labels = scp.array(Pcol['ivl'])
+            clustered_column_labels = scipy.array(Pcol['ivl'])
             trace_list['col'] = self._color_dendro_clusters(Pcol, 'col')
 
         if Zrow is not None:
@@ -790,7 +790,7 @@ class _Clustergram():
                 'dcoord': Prow['icoord'],
                 'color_list': Prow['color_list']
             }
-            clustered_row_labels = scp.array(Prow['ivl'])
+            clustered_row_labels = scipy.array(Prow['ivl'])
             trace_list['row'] = self._color_dendro_clusters(Prow_tmp, 'row')
 
         # now, we need to rearrange the data array to fit the labels
@@ -825,8 +825,8 @@ class _Clustergram():
 
         traces = []
 
-        icoord = scp.array(P['icoord'])
-        dcoord = scp.array(P['dcoord'])
+        icoord = scipy.array(P['icoord'])
+        dcoord = scipy.array(P['dcoord'])
 
         color_list = self._cluster_colors(P['color_list'], dim)
 
