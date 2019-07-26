@@ -28,13 +28,13 @@
 #app-page-header > a > img {
     height: 70px;
     float: left;
-    padding: 10px;
+    padding: 15px;
     padding-bottom: 0px;
-    transition-duration:500ms;
+    transition-duration: 500ms;
 }
 
 #app-page-header > a > img:hover {
-    filter:brightness(2.00);
+    filter: brightness(2);
 }
 
 #app-page-header h2 {
@@ -47,16 +47,16 @@
     display: inline-block;
 }
 
-#dashbio-logo > img{
-    height: 40px !important;
+#dashbio-logo > img {
+    height: 30px !important;
 }
 
 #app-page-header > img {
     height: 36px;
-    float:right;
+    float: right;
     margin-top: 12px;
     margin-right: 10px;
-    transition-duration:500ms;
+    transition-duration: 500ms;
 }
 #gh-link {
     text-decoration: none;
@@ -72,28 +72,28 @@
     font-weight: 100;
     position: relative;
     top: 15px;
-    float:right;
+    float: right;
     margin-right: 20px;
     margin-left: 0px;
     transition-duration: 400ms;
 }
 #gh-link:hover {
-    color: #DFE8F3 !important;
-    border-color: #DFE8F3 !important;
+    color: #dfe8f3 !important;
+    border-color: #dfe8f3 !important;
 }
 
 /* Scrollbar */
 #app-page-content ::-webkit-scrollbar {
     width: 4px;
     height: 0px;
-    background-color: #F6F6F6;           /* Change in individual app stylesheet */
+    background-color: #f6f6f6; /* Change in individual app stylesheet */
 }
 
 #app-page-content ::-webkit-scrollbar-thumb {
     width: 2px;
     border-radius: 15px;
     padding-right: 5px;
-    background-color: #119DFF;           /* Change in individual app stylesheet */
+    background-color: #119dff; /* Change in individual app stylesheet */
 }
 
 /* Body */
@@ -101,10 +101,9 @@
     padding: 5px;
     min-height: calc(100vh - 70px);
     overflow: auto;
-    background-color: #F6F6F6;           /* Change in individual app stylesheet */
-    color: #303030;                      /* Change in individual app stylesheet */
+    background-color: #f6f6f6; /* Change in individual app stylesheet */
+    color: #303030; /* Change in individual app stylesheet */
 }
-
 
 /* Fonts */
 #app-page-content .app-body {
@@ -119,7 +118,6 @@
     text-align: center;
 }
 
-
 /* Tabs */
 #app-page-content .control-tabs {
     width: 400px;
@@ -128,7 +126,7 @@
     margin-right: 0px;
     font-size: 10pt;
     float: left;
-    background-color: #FFFFFF;           /* Change in individual app stylesheet */
+    background-color: #ffffff; /* Change in individual app stylesheet */
 }
 
 #app-page-content .control-tabs .tab-content {
@@ -149,17 +147,16 @@
     font-size: 9pt;
     height: 50px;
     padding: 15px;
-    background-color: #FFFFFF;           /* Change in individual app stylesheet */
-    border: solid 1px #D3D3D3;           /* Change in individual app stylesheet */
+    background-color: #ffffff; /* Change in individual app stylesheet */
+    border: solid 1px #d3d3d3; /* Change in individual app stylesheet */
 }
 
 #app-page-content .control-tabs .tab--selected {
     font-weight: bolder;
     border: none;
     border-top: solid 2px;
-    color: #119DFF;                      /* Change in individual app stylesheet */
+    color: #119dff; /* Change in individual app stylesheet */
 }
-
 
 /* Control names */
 .app-controls-block {
@@ -193,7 +190,6 @@
     margin-top: 5px;
 }
 
-
 /* Dash components */
 #app-page-content .Select {
     width: 100% !important;
@@ -213,7 +209,7 @@
 }
 #app-page-content .control-upload {
     display: block;
-    border: dotted 1px #119DFF;           /* Change in individual app stylesheet */
+    border: dotted 1px #119dff; /* Change in individual app stylesheet */
     border-radius: 5px;
     padding: 30px;
     font-size: 9pt;
@@ -227,28 +223,26 @@
     transition-duration: 500ms;
 }
 #app-page-content .control-download:hover {
-    color: #119DFF;                      /* Change in individual app stylesheet */
-    border-color: #119DFF;               /* Change in individual app stylesheet */
+    color: #119dff; /* Change in individual app stylesheet */
+    border-color: #119dff; /* Change in individual app stylesheet */
 }
 
 #app-page-content .rc-slider-rail {
-    background-color: #F6F6F6;            /* Change in individual app stylesheet */
+    background-color: #f6f6f6; /* Change in individual app stylesheet */
 }
 #app-page-content .rc-slider-track {
-    background-color: #119DFF;            /* Change in individual app stylesheet */
+    background-color: #119dff; /* Change in individual app stylesheet */
 }
 
 #app-page-content .rc-slider-handle {
-    border: solid 2px #119DFF;            /* Change in individual app stylesheet */
-
+    border: solid 2px #119dff; /* Change in individual app stylesheet */
+}
 @media (max-width: 800px) {
-
     #app-page-content .control-tabs {
-	height: 650px;
+        height: 650px;
     }
 
     #app-page-content .control-tabs .tab--selected {
-	border: solid 1px #D3D3D3;       /* Change in individual app stylesheet */
+        border: solid 1px #d3d3d3; /* Change in individual app stylesheet */
     }
-
 }

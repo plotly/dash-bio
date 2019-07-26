@@ -24,7 +24,7 @@ def app_page_layout(page_layout,
                                 src='data:image/png;base64,{}'.format(
                                     base64.b64encode(
                                         open(
-                                            './assets/dashbio_logo_transparent.png', 'rb'
+                                            './assets/dash-logo.png', 'rb'
                                         ).read()
                                     ).decode()
                                 )
