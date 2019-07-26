@@ -2,6 +2,9 @@
 
 ## [0.1.3] -
 
+### Changed
+* Standardized Clustergram code.
+
 ### Fixed
 * Fixed issue with Molecule2dViewer not displaying triple bonds.
 
