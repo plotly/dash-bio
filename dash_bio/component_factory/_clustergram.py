@@ -719,10 +719,11 @@ class _Clustergram():
     def _get_clusters(
             self
     ):
-        """Clusters the data according to the specified dimensions.
+        """Cluster the data according to the specified dimensions.
 
         Returns:
-        - tuple: The linkage matrices for the columns and/or rows."""
+        - tuple: The linkage matrices for the columns and/or rows.
+        """
 
         Zcol = None
         Zrow = None
@@ -756,7 +757,6 @@ class _Clustergram():
         the ordering of the row dendrogram leaves.
         - list: a list of the column labels that have been reordered to match
         the ordering of the column dendrogram leaves.
-
         """
 
         # initialize return dict
@@ -813,7 +813,7 @@ class _Clustergram():
             P,
             dim
     ):
-        """Colors each cluster below the color threshold separately.
+        """Color each cluster below the color threshold separately.
 
         Keyword arguments:
         - P (dict): The x and y values of the dendrogram traces, along
@@ -821,7 +821,8 @@ class _Clustergram():
         - dim (string): The dimension of the clusters.
 
         Returns:
-        - list: The list of colored traces for the dendrogram."""
+        - list: The list of colored traces for the dendrogram.
+        """
 
         traces = []
 
@@ -877,14 +878,15 @@ class _Clustergram():
             clist,
             dim
     ):
-        """Returns a set of n unique colours for each cluster in the dendrogram.
+        """Return a set of n unique colours for each cluster in the dendrogram.
 
         Keyword arguments:
         - clist (list): The color list returned by dendrogram.
         - dim (string): The dimension of the clusters to color.
 
         Returns:
-        list: A list of RGB strings."""
+        list: A list of RGB strings.
+        """
         # the colors repeat; get how many repetitions there are
 
         # the colors go through cycles of g, r, c, m, y, k
@@ -1002,7 +1004,7 @@ class _Clustergram():
             rdt,
             cdt
     ):
-        """Sorts row dendrogram clusters and column dendrogram clusters
+        """Sort row dendrogram clusters and column dendrogram clusters
         so that the background trace (above threshold) is trace 0
         and all other traces are ordered top-to-bottom (row dendrogram)
         or left-to-right (column dendrogram).
@@ -1013,7 +1015,8 @@ class _Clustergram():
 
         Returns:
         - tuple: The sorted row dendrogram clusters and column
-                        dendrogram clusters."""
+            dendrogram clusters.
+        """
 
         tmp_rdt = []
         tmp_cdt = []
@@ -1042,7 +1045,7 @@ class _Clustergram():
             row_clusters,
             col_clusters
     ):
-        """Calculates the traces and annotations that correspond to group
+        """Calculate the traces and annotations that correspond to group
         labels.
 
         Keyword arguments:
@@ -1053,7 +1056,8 @@ class _Clustergram():
 
         Returns:
         - tuple: The row label traces, column label traces, row group
-            annotations, and column group annotations."""
+            annotations, and column group annotations.
+        """
 
         row_group_labels = []
         col_group_labels = []
