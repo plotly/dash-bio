@@ -3,7 +3,8 @@
 ## [0.1.3] -
 
 ### Changed
-* Standardized Clustergram code.
+* Renamed Clustergram parameters `hide_labels` and `symmetric_value` into
+  `hidden_labels` and `center_values` respectively.
 
 ### Fixed
 * Fixed issue with Molecule2dViewer not displaying triple bonds.
