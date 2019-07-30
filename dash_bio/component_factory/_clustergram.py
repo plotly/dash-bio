@@ -59,7 +59,7 @@ Keyword arguments:
     to add, e.g., group markers to the figure without recalculating
     the clustering in the entire figure.)
 - computed_traces (dict; optional): The dendrogram traces from another
-   Clustergram component.
+   (precomputed) Clustergram component.
 - row_labels (list; optional): List of row category labels
    (observation labels).
 - column_labels (list; optional): List of column category labels
@@ -193,6 +193,12 @@ Keyword arguments:
 
 
 class _Clustergram():
+    """A Dash Bio Clustergram class.
+
+Methods:
+
+- figure(computed_traces=None): Return a figure object compatible with plotly.graph_objs.
+    """
 
     def __init__(
             self,
@@ -225,6 +231,11 @@ class _Clustergram():
             height=500,
             width=500
     ):
+        """Construct a Dash Bio Clustergram object.
+
+    See docstring of the `Clustergram` function, where the same keyword arguments (and a couple
+    of other ones) are documented.
+        """
         if hidden_labels is None:
             hidden_labels = []
         if color_threshold is None:
@@ -335,14 +346,21 @@ class _Clustergram():
             self,
             computed_traces=None
     ):
-        # use, if available, the precomputed dendrogram and heatmap
-        # traces (as well as the row and column labels)
+        """Return a figure object compatible with plotly.graph_objs.
+
+    Parameters:
+
+    - computed_traces (dict; optional): The dendrogram traces from another
+        (precomputed) Clustergram component.
+        """
         dt, heatmap = None, None
 
         if computed_traces is None:
             dt, self._data, \
                 self._row_labels, self._column_labels = self._compute_clustered_data()
         else:
+            # use, if available, the precomputed dendrogram and heatmap
+            # traces (as well as the row and column labels)
             dt = computed_traces['dendro_traces']
             heatmap = computed_traces['heatmap']
             self._row_labels = computed_traces['row_labels']
@@ -700,7 +718,7 @@ class _Clustergram():
     ):
         """Return standardized data based on user parameters.
 
-        Keyword arguments:
+        Parameters:
         - dim (string): The dimension, row or column, to standardize across.
 
         Returns:
@@ -815,7 +833,7 @@ class _Clustergram():
     ):
         """Color each cluster below the color threshold separately.
 
-        Keyword arguments:
+        Parameters:
         - P (dict): The x and y values of the dendrogram traces, along
             with the list of trace colors returned by sch.dendrogram
         - dim (string): The dimension of the clusters.
@@ -880,7 +898,7 @@ class _Clustergram():
     ):
         """Return a set of n unique colours for each cluster in the dendrogram.
 
-        Keyword arguments:
+        Parameters:
         - clist (list): The color list returned by dendrogram.
         - dim (string): The dimension of the clusters to color.
 
@@ -1009,7 +1027,7 @@ class _Clustergram():
         and all other traces are ordered top-to-bottom (row dendrogram)
         or left-to-right (column dendrogram).
 
-        Keyword arguments:
+        Parameters:
         - rdt (list[dict]): The row dendrogram cluster traces.
         - cdt (list[dict]): The column dendrogram cluster traces.
 
@@ -1048,7 +1066,7 @@ class _Clustergram():
         """Calculate the traces and annotations that correspond to group
         labels.
 
-        Keyword arguments:
+        Parameters:
         - row_clusters (list[dict]): List of all row traces (each
             trace corresponds to a cluster)
         - col_clusters (list[dict]): List of all column traces (each
