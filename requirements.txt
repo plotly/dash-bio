@@ -1,7 +1,7 @@
 # Switch into a virtual environment
 # pip install -r requirements.txt
 cython>=0.19
-dash==0.40.0
+dash>=0.40.0
 dash-bio==0.1.3rc6
 dash-bio-utils==0.0.3rc3
 dash-daq==0.1.4
