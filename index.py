@@ -63,9 +63,8 @@ def get_demo_app_img(name):
 
 
 def demo_app_name(name):
-    """ Returns a capitalized title for the app, with "Dash"
-        in front."""
-    return 'Dash ' + name.replace('app_', '').replace('_', ' ').title()
+    """ Returns a capitalized title for the app """
+    return name.replace('app_', '').replace('_', ' ').title()
 
 
 def demo_app_desc(name):
