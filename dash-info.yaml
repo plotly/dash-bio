@@ -2,3 +2,417 @@ pkg_help_description: >
     Dash Bio is a suite of bioinformatics components that make it simpler to analyze and visualize bioinformatics data and interact with them in a Dash application.
 pkg_help_title: >
     Open-source Bioinformatics Components for Dash
+
+r_examples:
+    - name: dashbioAlignmentChart
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashCoreComponents)
+            library(dashHtmlComponents)
+            library(dashBio)
+            
+            data(p53fasta)
+            
+            app <- Dash$new()
+            
+            app$layout(htmlDiv(list(
+              dashbioAlignmentChart(
+                id='my-dashbio-alignmentchart',
+                data=p53fasta
+              )
+            )
+            )
+            )
+
+            app$run_server(showcase = TRUE)
+    - name: dashbioAlignmentViewer
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashCoreComponents)
+            library(dashHtmlComponents)
+            library(dashBio)
+            
+            data(p53fasta)
+            
+            app <- Dash$new()
+            
+            app$layout(htmlDiv(list(
+              dashbioAlignmentViewer(
+                id='my-dashbio-alignmentviewer',
+                data=p53fasta
+              )
+            )
+            )
+            )
+            
+            app$run_server(showcase = TRUE)
+    - name: dashbioCircos
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashCoreComponents)
+            library(dashHtmlComponents)
+            library(dashBio)
+            
+            app <- Dash$new()
+            
+            pathToData <- system.file("extdata/circos_graph_data.json", package = "dashBio")
+            
+            circos_graph_data <- jsonlite::fromJSON(pathToData, simplifyDataFrame=FALSE)
+            
+            app$layout(htmlDiv(list(
+            dashbioCircos(
+              id = 'my-dashbio-circos',
+              tracks = list(
+              list('type' = 'CHORDS',
+                   'data' = circos_graph_data[['chords']],
+                   'opacity' = '0.7',
+                   'color' = list('name' = 'color'),
+                   'config' = list(
+                        'tooltipContent' = list(
+                              'source' = 'source',
+                              'sourceID' = 'id',
+                              'target' = 'target',
+                              'targetID' = 'id',
+                              'targetEnd' = 'end'
+                              )
+                          )
+                    )),
+              layout = circos_graph_data[['GRCh37']]
+            )
+            )
+            )
+            )
+            
+            app$run_server(showcase = TRUE)
+    - name: dashbioIdeogram
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashHtmlComponents)
+            library(dashCoreComponents)
+            library(dashBio)
+            
+            app <- Dash$new()
+            
+            app$layout(
+                htmlDiv(
+                  list(
+                    htmlLabel("Click a chromosome for a closer look; double-click to return to the overview:"),
+                    dashbioIdeogram(
+                      id='my-dashbio-ideogram',
+                      chrHeight=250
+                    )
+                  ),
+                  style = list("text-align" = "center")
+                )
+            )  
+              
+            app$run_server()
+    - name: dashbioManhattan
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashHtmlComponents)
+            library(dashCoreComponents)
+            library(dashBio)
+            
+            app <- Dash$new()
+              
+            app$layout(
+                htmlDiv(
+                  list(
+                    dccGraph(id = 'manhattan-plot', 
+                             figure = dashbioManhattan(HapMap,
+                             snp = "SNP",
+                             highlight = significantSNP)
+                    )
+                  )
+                )
+            )
+            
+            app$run_server()
+    - name: dashbioMolecule2dViewer
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashHtmlComponents)
+            library(dashCoreComponents)
+            library(dashBio)
+            library(jsonlite)
+            
+            # data available within the package:
+            pathToModelData <- system.file("extdata/mol2d_buckminsterfullerene.json", package = "dashBio")
+            
+            modelData <- jsonlite::read_json(pathToModelData)
+            
+            app <- Dash$new()
+              
+            app$layout(
+                htmlDiv(
+                  list(
+                    htmlLabel("Click and drag an element to rotate the molecule in 2D space:"),
+                    dashbioMolecule2dViewer(
+                      id = 'my-dashbio-molecule2d',
+                      modelData = modelData
+                    )
+                  ),
+                  style = list("text-align" = "center",
+                               "border-style" = "solid")
+                )
+            )
+              
+            app$run_server()
+    - name: dashbioMolecule3dViewer
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashHtmlComponents)
+            library(dashCoreComponents)
+            library(dashBio)
+            library(jsonlite)
+            
+            # data available within the package:
+            pathToModelData <- system.file("extdata/model_data.json", package = "dashBio")
+            pathToStylesData <- system.file("extdata/styles_data.json", package = "dashBio")
+            
+            modelData <- jsonlite::read_json(pathToModelData)
+            stylesData <- jsonlite::read_json(pathToStylesData)
+            
+            app <- Dash$new()
+            
+            app$layout(
+              htmlDiv(
+                list(
+                  htmlLabel("Click and drag to rotate the molecule in 3D space:"),
+                  dashbioMolecule3dViewer(
+                    id = 'my-dashbio-molecule3d',
+                    styles = stylesData,
+                    modelData = modelData,
+                    selectionType = 'Chain',
+                    backgroundColor='#FF0000',
+                    backgroundOpacity=0.2
+                  )
+                ),
+                style = list("text-align" = "center",
+                             "border-style" = "solid")
+              )
+            )
+            
+            app$run_server()
+    - name: dashbioNeedlePlot
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashHtmlComponents)
+            library(dashCoreComponents)
+            library(dashBio)
+            
+            pathToData <- system.file("extdata/needle_PIK3CA.json", package="dashBio")
+            
+            mdata <- jsonlite::read_json(pathToData)
+            
+            app <- Dash$new()
+            
+            app$layout(
+                htmlDiv(
+                  list(
+                    dashbioNeedlePlot(
+                      id = 'my-dashbio-needleplot',
+                      mutationData = mdata
+                    )
+                  )
+                )
+            )  
+            
+            app$run_server()
+    - name: dashbioOncoPrint
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashCoreComponents)
+            library(dashHtmlComponents)
+            library(dashBio)
+            
+            app <- Dash$new()
+            
+            pathToData <- system.file("extdata/cBioPortalData.json", package = "dashBio")
+            
+            cBioPortalData <- jsonlite::fromJSON(pathToData, simplifyDataFrame=FALSE)
+            
+            app$layout(htmlDiv(list(
+                dashbioOncoPrint(
+                id = 'my-dashbio-oncoprint',
+                data = cBioPortalData
+              )
+            )
+            )
+            )
+            
+            app$run_server(showcase = TRUE)
+    - name: dashbioSequenceViewer
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashCoreComponents)
+            library(dashHtmlComponents)
+            library(dashBio)
+            
+            app <- Dash$new()
+            
+            app$layout(htmlDiv(list(
+                dashbioSequenceViewer(
+                id = 'my-dashbio-sequenceviewer',
+                sequence = "MALIPDLAMETWLLLAVSLVLLYLYGTHSHGLFKKLGIPGPTPLPFLGNILSYHKGFCMFDMECHKKYGKVWGFYDGQQPVLAITDPDMIKTVLVKECYSVFTNRRPFGPVGFMKSAISIAEDEEWKRLRSLLSPTFTSGKLKEMVPIIAQYGDVLVRNLRREAETGKPVTLKDVFGAYSMDVITSTSFGVNIDSLNNPQDPFVENTKKLLRFDFLDPFFLSITVFPFLIPILEVLNICVFPREVTNFLRKSVKRMKESRLEDTQKHRVDFLQLMIDSQNSKETESHKALSDLELVAQSIIFIFAGYETTSSVLSFIMYELATHPDVQQKLQEEIDAVLPNKAPPTYDTVLQMEYLDMVVNETLRLFPIAMRLERVCKKDVEINGMFIPKGVVVMIPSYALHRDPKYWTEPEKFLPERFSKKNKDNIDPYIYTPFGSGPRNCIGMRFALMNMKLALIRVLQNFSFKPCKETQIPLKLSLGGLLQPEKPVVLKVESRDGTVSGA"
+              )
+            )
+            )
+            )
+            
+            app$run_server(showcase = TRUE)
+    - name: dashbioSpeck
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashHtmlComponents)
+            library(dashCoreComponents)
+            library(dashBio)
+            
+            app <- Dash$new()
+            
+            # a helper function to simplify data import
+            importSpeck <- function(filepath, 
+                                    header = FALSE, 
+                                    skip = 2) {
+              textdata <- read.table(
+                text = paste0(
+                  readLines(filepath), collapse="\n"
+                ),
+              header = header,
+              skip = skip,
+              col.names = c("symbol", "x", "y", "z"),
+              stringsAsFactors = FALSE)
+              return(dashTable::df_to_list(textdata))
+            }
+            
+            # data available within the package:
+            caffeine <- importSpeck(system.file("extdata/caffeine.xyz", 
+                                                package = "dashBio"))
+            
+            methane <- importSpeck(system.file("extdata/methane.xyz", 
+                                               package = "dashBio"))
+            
+            testosterone <- importSpeck(system.file("extdata/testosterone.xyz", 
+                                                    package = "dashBio"))
+            
+            app$layout(htmlDiv(list(
+              htmlDiv(list(
+                htmlDiv(
+                  id = 'speck-container',
+                  children = list(
+                    dashbioSpeck(
+                      id = 'speck',
+                      view = list('resolution' = 600, 'zoom'= 0.1),
+                      scrollZoom = TRUE
+                      )
+                    ),
+                  style = list('display' = 'inline-block')
+                  ),
+                htmlDiv(list(
+                  htmlLabel("Select a molecule to render:"),
+                  dccDropdown(id = 'molecule-dropdown',
+                              value = 'caffeine', 
+                              disabled = FALSE, 
+                              multi = FALSE,
+                              options = list(list(value = "caffeine", label = "Caffeine"),
+                                             list(value = "methane", label = "Methane"),
+                                             list(value = "testosterone", label = "Testosterone")))
+                  ),
+                  style = list('display' = 'inline-block',
+                               'position' = 'absolute',
+                               'top' = '25px',
+                               'right' = '50px',
+                               'width' = '300px',
+                               'padding' = '10px'),
+                  id = 'selector'
+                  )
+                ),
+                style = list('width' = '80\%', 
+                             'display' = 'inline-block')
+                )
+              )
+              )
+            )
+            
+            app$callback(output=list(id='speck', property='data'),
+                         params=list(
+                           input(id='molecule-dropdown', property='value')),
+                         function(molecule)
+                         {
+                           if (molecule == "caffeine") caffeine
+                           else if (molecule == "methane") methane
+                           else if (molecule == "testosterone") testosterone
+                         }
+            )
+            
+            app$run_server()
+    - name: dashbioVolcano
+      dontrun: TRUE
+      code: |
+            library(dash)
+            library(dashBio)
+            library(dashHtmlComponents)
+            library(dashCoreComponents)
+            
+            app <- Dash$new()
+            
+            data(voldata)
+            
+            app$layout(
+              htmlDiv(
+                list(
+                  'Effect sizes',
+                  dccRangeSlider(
+                    id = 'volcanoplot-input',
+                    min = -3,
+                    max = 3,
+                    step = 0.05,
+                    marks = setNames(
+                      lapply(-3:3, 
+                             function(i){
+                               list(label = as.character(i))
+                             }), 
+                      -3:3
+                    ),
+                    value = c(-0.5, 1)
+                  ),
+                  htmlBr(),
+                  htmlDiv(
+                    dccGraph(
+                      id = 'my-dashbio-volcanoplot',
+                      figure = dashbioVolcano(
+                        dataframe = voldata
+                      )
+                    )
+                  )
+                )
+              )
+            )
+            
+            app$callback(
+              output = list(id = 'my-dashbio-volcanoplot', property = 'figure'),
+              params = list(input(id = 'volcanoplot-input', property = 'value')),
+              function(effects) {
+            
+                dashbioVolcano(
+                  dataframe = voldata,
+                  genomewideline_value = 2.5,
+                  effect_size_line = unlist(effects),
+                  
+                )
+              }
+            )
+            
+            app$run_server()
