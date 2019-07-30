@@ -2,7 +2,7 @@
 from random import shuffle
 
 import numpy as np
-import scipy as scp
+import scipy
 import scipy.cluster.hierarchy as sch
 import scipy.spatial as scs
 from sklearn.impute import SimpleImputer
@@ -19,7 +19,7 @@ def Clustergram(
         computed_traces=None,
         row_labels=None,
         column_labels=None,
-        hide_labels=None,
+        hidden_labels=None,
         standardize='none',
         cluster='all',
         row_dist='euclidean',
@@ -31,7 +31,7 @@ def Clustergram(
         color_map=None,
         color_list=None,
         display_range=3,
-        symmetric_value=True,
+        center_values=True,
         log_transform=False,
         display_ratio=0.2,
         imputer_parameters=None,
@@ -64,7 +64,7 @@ Keyword arguments:
    (observation labels).
 - column_labels (list; optional): List of column category labels
    (observation labels).
-- hide_labels (list; optional): List of labels not to display on the
+- hidden_labels (list; optional): List of labels not to display on the
     final plot.
 - standardize (string; default 'none'): The dimension for standardizing
     values, so that the mean is 0 and the standard deviation is 1,
@@ -110,7 +110,7 @@ Keyword arguments:
     values from the dataset that are below the negative of this value
     will be colored with one shade, and the values that are above this
     value will be colored with another.
-- symmetric_value (bool; default True): Whether or not to center the
+- center_values (bool; default True): Whether or not to center the
     values of the heatmap about zero.
 - log_transform (bool; default False): Whether or not to transform
     the data by taking the base-two logarithm of all values in the
@@ -160,8 +160,8 @@ Keyword arguments:
 - width (number; default 500): The width of the graph, in px.
 
     """
-    if hide_labels is None:
-        hide_labels = []
+    if hidden_labels is None:
+        hidden_labels = []
     if color_threshold is None:
         color_threshold = dict(row=0, col=0)
 
@@ -199,7 +199,7 @@ class _Clustergram():
             data=None,
             row_labels=None,
             column_labels=None,
-            hide_labels=None,
+            hidden_labels=None,
             standardize='none',
             cluster='all',
             row_dist='euclidean',
@@ -211,7 +211,7 @@ class _Clustergram():
             color_map=None,
             color_list=None,
             display_range=3,
-            symmetric_value=True,
+            center_values=True,
             log_transform=False,
             display_ratio=0.2,
             imputer_parameters=None,
@@ -225,16 +225,16 @@ class _Clustergram():
             height=500,
             width=500
     ):
-        if hide_labels is None:
-            hide_labels = []
+        if hidden_labels is None:
+            hidden_labels = []
         if color_threshold is None:
             color_threshold = dict(row=0, col=0)
         if row_labels is None:
             row_labels = [str(i) for i in range(data.shape[0])]
-            hide_labels.append('row')
+            hidden_labels.append('row')
         if column_labels is None:
             column_labels = [str(i) for i in range(data.shape[1])]
-            hide_labels.append('col')
+            hidden_labels.append('col')
 
         self._data = data
         self._row_labels = row_labels
@@ -254,7 +254,7 @@ class _Clustergram():
             self._color_map = color_map
         self._color_list = color_list
         self._display_range = display_range
-        self._symmetric_value = symmetric_value
+        self._center_values = center_values
         self._display_ratio = display_ratio
         self._imputer_parameters = imputer_parameters
         if row_group_marker is None:
@@ -297,12 +297,12 @@ class _Clustergram():
         elif self._cluster == 'col':
             self._display_ratio = [0, display_ratio[1]]
 
-        self._hide_labels = []
+        self._hidden_labels = []
 
-        if 'row' in hide_labels:
-            self._hide_labels.append('yaxis5')
-        if 'col' in hide_labels:
-            self._hide_labels.append('xaxis5')
+        if 'row' in hidden_labels:
+            self._hidden_labels.append('yaxis5')
+        if 'col' in hidden_labels:
+            self._hidden_labels.append('xaxis5')
 
         # preprocessing data
         if self._imputer_parameters is not None:
@@ -525,7 +525,7 @@ class _Clustergram():
         )
 
         # hide labels, if necessary
-        for l in self._hide_labels:
+        for l in self._hidden_labels:
             fig['layout'][l].update(
                 ticks='',
                 showticklabels=False
@@ -538,7 +538,7 @@ class _Clustergram():
             heat_data = self._data
 
             # symmetrize the heatmap about zero, if necessary
-            if self._symmetric_value:
+            if self._center_values:
                 heat_data = np.subtract(heat_data, np.mean(heat_data))
 
             heatmap = go.Heatmap(
@@ -710,9 +710,9 @@ class _Clustergram():
         std = np.zeros(self._data.shape)
 
         if dim == 'row':
-            std = scp.stats.zscore(self._data, axis=1)
+            std = scipy.stats.zscore(self._data, axis=1)
         elif dim == 'column':
-            std = scp.stats.zscore(self._data, axis=0)
+            std = scipy.stats.zscore(self._data, axis=0)
 
         return std
 
@@ -777,7 +777,7 @@ class _Clustergram():
             Pcol = sch.dendrogram(Zcol, orientation='top',
                                   color_threshold=self._color_threshold['col'],
                                   labels=self._column_labels, no_plot=True)
-            clustered_column_labels = scp.array(Pcol['ivl'])
+            clustered_column_labels = scipy.array(Pcol['ivl'])
             trace_list['col'] = self._color_dendro_clusters(Pcol, 'col')
 
         if Zrow is not None:
@@ -790,7 +790,7 @@ class _Clustergram():
                 'dcoord': Prow['icoord'],
                 'color_list': Prow['color_list']
             }
-            clustered_row_labels = scp.array(Prow['ivl'])
+            clustered_row_labels = scipy.array(Prow['ivl'])
             trace_list['row'] = self._color_dendro_clusters(Prow_tmp, 'row')
 
         # now, we need to rearrange the data array to fit the labels
@@ -825,8 +825,8 @@ class _Clustergram():
 
         traces = []
 
-        icoord = scp.array(P['icoord'])
-        dcoord = scp.array(P['dcoord'])
+        icoord = scipy.array(P['icoord'])
+        dcoord = scipy.array(P['dcoord'])
 
         color_list = self._cluster_colors(P['color_list'], dim)
 
