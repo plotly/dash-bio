@@ -26,7 +26,7 @@ r_examples:
             )
 
             app$run_server(showcase = TRUE)
-    - name: dashBioAlignmentViewer
+    - name: dashbioAlignmentViewer
       dontrun: TRUE
       code: |
             library(dash)
@@ -339,7 +339,7 @@ r_examples:
                   id = 'selector'
                   )
                 ),
-                style = list('width' = '80%', 
+                style = list('width' = '80\%', 
                              'display' = 'inline-block')
                 )
               )
@@ -416,6 +416,3 @@ r_examples:
             )
             
             app$run_server()
-    - name: 
-      dontrun:
-      code: 
