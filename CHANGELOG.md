@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.3] -
+## [0.1.3] - 2019-07-31
 
 ### Changed
 * Renamed Clustergram parameters `hide_labels` and `symmetric_value` into
