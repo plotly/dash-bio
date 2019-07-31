@@ -25,19 +25,20 @@ The Dash Bio components each fall into one of three categories:
 
 - Dash Circos
 - Dash Clustergram
-- Dash Needle Plot
 - Dash Manhattan Plot
+- Dash Needle Plot
 - Dash Volcano Plot
 
 ### Sequence analysis tools
 
 - Dash Alignment Viewer
-- Dash Sequence Viewer
 - Dash Onco Print
+- Dash Sequence Viewer
 
 ### Visualization tools
 
-- Dash MolJS
+- Dash Mol2D
+- Dash Mol3D
 - Dash Speck
 
 ## Dash
