@@ -107,6 +107,33 @@ jobs:
         environment:
             PERCY_ENABLED: False
 
+    "deploy_to_gallery":
+        docker:
+            - image: circleci/python:3.7-stretch-browsers
+        working_directory: ~/dash-bio
+        steps:
+          - checkout
+          - run:
+              name: Create helper-script
+              command: printf '#!/bin/bash\necho username=$GALLERY_DEPLOY_USERNAME\necho password=$GALLERY_DEPLOY_PASSWORD' >> /home/circleci/helper-script.sh
+          - run:
+              name: Set up git config
+              command: |
+                git config credential.helper "/bin/bash /home/circleci/helper-script.sh"
+                git config --global user.email '<>'
+                git config --global user.name "Circle Auto-deployment"
+          - run:
+              name: Deploy
+              command: |
+                while IFS='' read -r line || [[ -n "$APP" ]]; do
+                    git remote add $APP https://dash-gallery.plotly.host/GIT/$APP
+                    python tests/dashbio_demos/generate_procfile.py $APP
+                    echo $PLOTLY_GA_CODE > assets/plotly_ga.js
+                    git add Procfile assets/plotly_ga.js
+                    git commit -m "Deployed commit: $CIRCLE_SHA1"
+                    git push --force $APP master || echo "Deploy failed. Continuing..."
+                    git reset --hard origin/master
+                done < "tests/dashbio_demos/deployment/app_remotes.txt"
 
 
 workflows:
@@ -116,3 +143,9 @@ workflows:
             - "python-3.6"
             - "python-3.7"
             - "node"
+            - "deploy_to_gallery":
+                filters:
+                  branches:
+                    only:
+                    - master
+
