@@ -15,10 +15,7 @@ APP_REMOTE_MAPPING = {
     'dash-volcano-plot': 'app_volcano_plot'
 }
 
-
-def generate_procfile(app_name):
-    return f'web: gunicorn tests.dashbio_demos.{app_name}:server'
-
-
 with open('Procfile', 'w+') as f:
-    f.write(generate_procfile(APP_REMOTE_MAPPING[sys.argv[1]]))
+    f.write('web: gunicorn tests.dashbio_demos.{}:server'.format(
+        APP_REMOTE_MAPPING[sys.argv[1]]
+    ))
