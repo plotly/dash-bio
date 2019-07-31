@@ -128,7 +128,8 @@ jobs:
                 while IFS='' read -r line || [[ -n "$APP" ]]; do
                     git remote add $APP https://dash-gallery.plotly.host/GIT/$APP
                     python tests/dashbio_demos/generate_procfile.py $APP
-                    git add Procfile
+                    echo $PLOTLY_GA_CODE > assets/plotly_ga.js
+                    git add Procfile assets/plotly_ga.js
                     git commit -m "Deployed commit: $CIRCLE_SHA1"
                     git push --force $APP master || echo "Deploy failed. Continuing..."
                     git reset --hard origin/master
