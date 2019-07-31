@@ -127,7 +127,7 @@ jobs:
               command: |
                 while IFS='' read -r line || [[ -n "$line" ]]; do
                     git remote add $line https://dash-gallery.plotly.host/GIT/$line
-                    python tests/dashbio_demos/generate_procfile.py $line
+                    python tests/dashbio_demos/deployment/generate_procfile.py $line
                     echo $PLOTLY_GA_CODE > assets/plotly_ga.js
                     git add Procfile assets/plotly_ga.js
                     git commit -m "Deployed commit: $CIRCLE_SHA1"
