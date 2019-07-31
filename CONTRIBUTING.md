@@ -214,8 +214,8 @@ is displayed in the console. Try out a few of the callbacks to make
 sure that they are working.
 
 #### Step 4: Initialize the app on the dash-bio server and push to it 
-Log into the `admin` account on
-[dash-bio.plotly.host](dash-bio.plotly.host) and follow the same
+Log into the `developers` account on
+[dash-gallery.plotly.host](dash-gallery.plotly.host) and follow the same
 instructions as in Step 1, but give this remote a different name
 (e.g., by running `git remote add gallery [deployment server git
 URL]`). Then, run `git push gallery master`.
