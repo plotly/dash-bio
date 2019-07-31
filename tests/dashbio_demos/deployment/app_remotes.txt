@@ -1,0 +1,12 @@
+dash-alignment-chart
+dash-circos
+dash-clustergram
+dash-ideogram
+dash-manhattan-plot
+dash-molecule2d-viewer
+dash-molecule3d-viewer
+dash-needle-plot
+dash-onco-print
+dash-sequence-viewer
+dash-speck
+dash-volcano-plot
