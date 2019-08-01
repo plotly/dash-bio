@@ -213,7 +213,7 @@ on the playground server. Check that it works by visiting the URL that
 is displayed in the console. Try out a few of the callbacks to make
 sure that they are working.
 
-#### Step 4: Initialize the app on the dash-bio server and push to it 
+#### Step 4: Initialize the app on the dash-gallery server and push to it 
 Log into the `developers` account on
 [dash-gallery.plotly.host](dash-gallery.plotly.host) and follow the same
 instructions as in Step 1, but give this remote a different name
