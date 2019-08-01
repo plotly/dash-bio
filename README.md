@@ -7,7 +7,7 @@ Dash Bio is a suite of bioinformatics components built to work with
 Announcement: https://medium.com/@plotlygraphs/announcing-dash-bio-ed8835d5da0c
 
 Demo:
-[https://dash-bio.plotly.host/Portal/](https://dash-bio.plotly.host/Portal/)
+[https://dash-gallery.plotly.host/Portal/?search=Bioinformatics](https://dash-gallery.plotly.host/Portal/?search=Bioinformatics)
 
 Documentation:
 [https://dash.plot.ly/dash-bio](https://dash.plot.ly/dash-bio)
@@ -25,19 +25,20 @@ The Dash Bio components each fall into one of three categories:
 
 - Dash Circos
 - Dash Clustergram
-- Dash Needle Plot
 - Dash Manhattan Plot
+- Dash Needle Plot
 - Dash Volcano Plot
 
 ### Sequence analysis tools
 
 - Dash Alignment Viewer
-- Dash Sequence Viewer
 - Dash Onco Print
+- Dash Sequence Viewer
 
 ### Visualization tools
 
-- Dash MolJS
+- Dash Mol2D
+- Dash Mol3D
 - Dash Speck
 
 ## Dash
