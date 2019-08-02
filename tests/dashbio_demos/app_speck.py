@@ -96,7 +96,7 @@ default_sliders = [
             {'label': 'Show bonds',
              'value': 'True'}
         ],
-        values=[]
+        value=[]
     ),
     html.Div(className='app-controls-block', children=[
         html.Div(
@@ -226,7 +226,7 @@ def layout():
                         dcc.Checklist(
                             id='speck-enable-presets',
                             options=[{'label': 'Use presets', 'value': 'True'}],
-                            values=[]
+                            value=[]
                         ),
                         html.Hr(),
                         html.Div(id='speck-controls-detailed', children=default_sliders),
@@ -286,7 +286,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('speck-controls-detailed', 'style'),
-        [Input('speck-enable-presets', 'values')]
+        [Input('speck-enable-presets', 'value')]
     )
     def show_hide_detailed_controls(presets_enable):
         if len(presets_enable) > 0:
@@ -295,7 +295,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('speck-controls-preset', 'style'),
-        [Input('speck-enable-presets', 'values')]
+        [Input('speck-enable-presets', 'value')]
     )
     def show_hide_preset_controls(presets_enable):
         if len(presets_enable) == 0:
@@ -345,10 +345,10 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         Output('speck', 'view'),
-        [Input('speck-enable-presets', 'values'),
+        [Input('speck-enable-presets', 'value'),
          Input('speck-atom-radius', 'value'),
          Input('speck-relative-atom-radius', 'value'),
-         Input('speck-show-hide-bonds', 'values'),
+         Input('speck-show-hide-bonds', 'value'),
          Input('speck-bond-scale', 'value'),
          Input('speck-ao', 'value'),
          Input('speck-brightness', 'value'),
