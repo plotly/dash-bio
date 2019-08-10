@@ -42,7 +42,14 @@ Clone this repo, install the `dash-bio-utils` package, and run its tests:
 
 ```bash
 git clone https://github.com/plotly/dash-bio-utils.git
-cd dash-bio-utils
+cd dash-bio-utils/
 python setup.py install
-pytest tests/
+python -m pytest tests/
+```
+
+If you are setting breakpoints with [ipdb](https://pypi.org/project/ipdb/), you
+want to disable capturing on the command line:
+
+```bash
+python -m pytest -s tests/
 ```
