@@ -21,11 +21,28 @@ guidelines](https://github.com/plotly/dash-bio-utils/blob/master/CONTRIBUTING.md
 
 ### Running tests
 
+Create and activate a new virtualenv:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install pytest
+```
+
+or a conda env:
+
 ```bash
 conda create -n dash-bio-utils python=3.7
-conda activate dash-bio-utils
+source activate dash-bio-utils
 conda config --add channels conda-forge
 conda install pytest
+```
+
+Clone this repo, install the `dash-bio-utils` package, and run its tests:
+
+```bash
+git clone https://github.com/plotly/dash-bio-utils.git
+cd dash-bio-utils
 python setup.py install
 pytest tests/
 ```
