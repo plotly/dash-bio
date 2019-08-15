@@ -1,4 +1,3 @@
-import json
 import os
 
 from pytest_dash.wait_for import (
@@ -611,10 +610,11 @@ def test_homology(dash_threaded):
         APP_NAME,
         assert_callback,
         ideogram_test_props_callback,
-        'homology',
-        json.dumps(prop_val),
+        'ploidy',
+        "1",
         prop_type=prop_type,
         component_base=COMPONENT_REACT_BASE,
+        homology=prop_val,
         perspective="comparative",
         chromosomes=["1", "2"],
         fullChromosomeLabels="true",
@@ -625,15 +625,7 @@ def test_homology(dash_threaded):
     driver = dash_threaded.driver
 
     # assert the absence of homology region
-    # regions = driver.find_elements_by_class_name('syntenicRegion')
-    # assert len(regions) == 0
-
-    # trigger a change of the component prop
-    btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
-    btn.click()
-
-    # assert the presence of homology region
-    regions = wait_for_elements_by_css_selector(driver, '.syntenicRegion', timeout=20)
+    regions = driver.find_elements_by_class_name('syntenicRegion')
     assert len(regions) > 0
 
 
