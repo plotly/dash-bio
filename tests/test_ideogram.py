@@ -317,7 +317,6 @@ def test_chromosomes_wrong_input(dash_threaded):
     assert len(chromosomes) == 2
 
 
-# BROKEN -----------------------------------------------------------------------
 def test_brush(dash_threaded):
     """Test enabling the brush prop."""
 
@@ -578,7 +577,6 @@ def test_annotations_path(dash_threaded):
     wait_for_element_by_css_selector(driver, '.annot')
 
 
-# BROKEN -----------------------------------------------------------------------
 def test_homology(dash_threaded):
     """Test the display of a basic homology"""
 
