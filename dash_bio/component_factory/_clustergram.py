@@ -130,7 +130,7 @@ Keyword arguments:
     imputing should happen along columns, while 'axis=1' indicates
     that it should happen along rows (see: https://scikit
     -learn.org/stable/modules/generated/sklearn.preprocessing.Imputer.html).
-- row_group_marker (list; optional) A list containing the annotations
+- row_group_marker (list; optional): A list containing the annotations
     for row clusters in the dendrogram. Each annotation is a
     dictionary with the keys 'group_number' (the cluster number to
     highlight), 'annotation' (a string containing the text of the
