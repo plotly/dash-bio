@@ -1,4 +1,5 @@
 import os
+import time
 
 from pytest_dash.wait_for import (
     wait_for_element_by_css_selector,
@@ -191,6 +192,8 @@ def test_orientation(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    time.sleep(1)
+
     # assert absence of chromosomes' rotation
     chromosoms = wait_for_elements_by_css_selector(driver, '.chromosome-set')
     for chromosom in chromosoms:
@@ -232,6 +235,8 @@ def test_ploidy(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    time.sleep(1)
+
     # assert doubling of the 22 chromosomes + X and Y chromosomes
     chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome', timeout=20)
     assert len(chromosomes) == 46
@@ -271,6 +276,8 @@ def test_chromosomes(dash_threaded):
     # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
+
+    time.sleep(1)
 
     # assert the set of chromosomes contains 3 chromosomes
     chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome', timeout=20)
@@ -312,6 +319,8 @@ def test_chromosomes_wrong_input(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    time.sleep(1)
+
     # assert the set of chromosomes contains 2 chromosomes
     chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome', timeout=20)
     assert len(chromosomes) == 2
@@ -350,6 +359,8 @@ def test_brush(dash_threaded):
     # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
+
+    time.sleep(1)
 
     brush = driver.find_elements_by_class_name('brush')
     assert len(brush) == 1
@@ -394,6 +405,8 @@ def test_show_band_labels(dash_threaded):
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
 
+    time.sleep(1)
+
     # assert the presence of bands' labels
     labels = driver.find_elements_by_class_name('bandLabel')
     assert len(labels) > 0
@@ -433,6 +446,8 @@ def test_show_chromosome_labels(dash_threaded):
     # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
+
+    time.sleep(1)
 
     # assert the presence of chromosomes' labels
     labels = wait_for_elements_by_css_selector(driver, '.chrLabel', timeout=20)
@@ -480,6 +495,8 @@ def test_sex(dash_threaded):
     # trigger a change of the component prop
     btn = wait_for_element_by_css_selector(driver, '#test-{}-btn'.format(APP_NAME))
     btn.click()
+
+    time.sleep(1)
 
     # assert the absence of the chromosome Y
     chromosomes = wait_for_elements_by_css_selector(driver, '.chromosome', timeout=20)
