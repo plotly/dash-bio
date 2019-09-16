@@ -4,7 +4,7 @@ from dash.development.base_component import Component, _explicitize_args
 
 
 class AlignmentChart(Component):
-    """A AlignmentChart component.
+    """An AlignmentChart component.
 The Alignment Viewer (MSA) component is used to align multiple genomic
 or proteomic sequences from a FASTA or Clustal file. Among its
 extensive set of features, the multiple sequence alignment viewer
@@ -24,59 +24,59 @@ Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.
-- eventDatum (dict; optional): A Dash prop that returns data on clicking, hovering or resizing the viewer.
+- eventDatum (string; optional): A Dash prop that returns data on clicking, hovering or resizing the viewer.
 - data (string; optional): Input data, either in FASTA or Clustal format.
-- extension (string; optional): Format type of the input data, either in FASTA or Clustal.
-- colorscale (string | dict; optional): Colorscale in 'buried', 'cinema', 'clustal', 'clustal2', 'helix', 'hydrophobicity'
+- extension (string; default 'fasta'): Format type of the input data, either in FASTA or Clustal.
+- colorscale (string | dict; default 'clustal2'): Colorscale in 'buried', 'cinema', 'clustal', 'clustal2', 'helix', 'hydrophobicity'
 'lesk', 'mae', 'nucleotide', 'purine', 'strand', 'taylor', 'turn', 'zappo',
 or your own colorscale as a {'nucleotide': COLOR} dict.
 Note that this is NOT a standard plotly colorscale.
 - opacity (number | string; optional): Opacity of the main plot as a value between 0 and 1.
 - textcolor (string; optional): Color of the nucleotide labels, in common name, hex, rgb or rgba format.
 If left blank, handled by the colorscale automatically.
-- textsize (number | string; optional): Size of the nucleotide labels, as a number.
-- showlabel (boolean; optional): Toggles displaying sequence labels at left of alignment
-- showid (boolean; optional): Toggles displaying sequence IDs at left of alignment.
-- showconservation (boolean; optional): Enables the display of conservation secondary barplot where the most conserved
+- textsize (number | string; default 10): Size of the nucleotide labels, as a number.
+- showlabel (boolean; default True): Toggles displaying sequence labels at left of alignment
+- showid (boolean; default True): Toggles displaying sequence IDs at left of alignment.
+- showconservation (boolean; default True): Enables the display of conservation secondary barplot where the most conserved
 nucleotides or amino acids get greater bars.
 - conservationcolor (string; optional): Color of the conservation secondary barplot, in common name, hex, rgb or rgba format.
-- conservationcolorscale (string | list; optional): Colorscale of the conservation barplot, in Plotly colorscales (e.g. 'Viridis')
+- conservationcolorscale (string | list; default 'Viridis'): Colorscale of the conservation barplot, in Plotly colorscales (e.g. 'Viridis')
 or as custom Plotly colorscale under a list format.
 Note that this conservationcolorscale argument
 does NOT follow the same format as the colorscale argument.
 - conservationopacity (number | string; optional): Opacity of the conservation secondary barplot as a value between 0 and 1.
-- conservationmethod (a value equal to: 'conservation', 'entropy'; optional): Whether to use most conserved ratio (MLE) 'conservation'
+- conservationmethod (a value equal to: 'conservation', 'entropy'; default 'entropy'): Whether to use most conserved ratio (MLE) 'conservation'
 or normalized entropy 'entropy' to determine conservation,
 which is a value between 0 and 1 where 1 is most conserved.
-- correctgap (boolean; optional): Whether to normalize the conservation barchart
+- correctgap (boolean; default True): Whether to normalize the conservation barchart
 By multiplying it elementwise with the gap barchart, as to
 lower the conservation values across sequences regions with many gaps.
-- showgap (boolean; optional): Enables the display of gap secondary barplot where the sequence regions
+- showgap (boolean; default True): Enables the display of gap secondary barplot where the sequence regions
 with the fewest gaps get the greatest bars.
-- gapcolor (string; optional): Color of the gap secondary barplot, in common name, hex, rgb or rgba format.
+- gapcolor (string; default 'grey'): Color of the gap secondary barplot, in common name, hex, rgb or rgba format.
 - gapcolorscale (string | list; optional): Colorscale of the gap barplot, in Plotly colorscales (e.g. 'Viridis')
 or as custom Plotly colorscale under a list format.
 Note that this conservationcolorscale argument
 does NOT follow the same format as the colorscale argument.
 - gapopacity (number | string; optional): Opacity of the gap secondary barplot as a value between 0 and 1.
-- groupbars (boolean; optional): If both conservation and gap are enabled,
+- groupbars (boolean; default False): If both conservation and gap are enabled,
 toggles whether to group bars or to stack them as separate subplots.
 No effect if not both gap and conservation are shown.
-- showconsensus (boolean; optional): Displays toggling the consensus sequence, where each nucleotide in the
+- showconsensus (boolean; default True): Displays toggling the consensus sequence, where each nucleotide in the
 consensus sequence is the argmax of its distribution at a set nucleotide.
-- tilewidth (number; optional): Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
+- tilewidth (number; default 16): Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
 takes up horizontally. The total number of tiles (numtiles) seen
 horizontally is automatically determined by rounding
 the Viewer width divided by the tile width.
 the Viewwer width divided by the tile witdth.
-- tileheight (number; optional): Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
+- tileheight (number; default 16): Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
 takes up vertically.
 If enabled, set height dynamically.
-- overview (a value equal to: 'heatmap', 'slider', 'none'; optional): Toggles whether the overview should be a heatmap, a slider, or none.
+- overview (a value equal to: 'heatmap', 'slider', 'none'; default 'heatmap'): Toggles whether the overview should be a heatmap, a slider, or none.
 - numtiles (number; optional): Sets how many tiles to display across horitontally. If enabled,
 overrides tilewidth and sets the amount of tiles directly based off
 that value.
-- scrollskip (number; optional): If overview is set to 'scroll', determines how many tiles to skip
+- scrollskip (number; default 10): If overview is set to 'scroll', determines how many tiles to skip
 with each slider movement.
 Has no effect if scroll is not enabled (such as with overview or none).
 - tickstart (number | string; optional): Determines where to start annotating the first tile.
@@ -90,7 +90,7 @@ Does not function if overview mode 'slider' is applied. (Current bug)
 - width (number | string; optional): Width of the Viewer.
 Property takes precedence over tileswidth and numtiles
 if either of them is set.
-- height (number | string; optional): Width of the Viewer.
+- height (number | string; default 900): Width of the Viewer.
 Property takes precedence over tilesheight if both
 are set."""
     @_explicitize_args

@@ -11,24 +11,29 @@ https://github.com/wwwtyro/speck
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in Dash callbacks.
-- data (list; optional): The xyz file data; a list of atoms such that each atom
+- data (dict; optional): The xyz file data; a list of atoms such that each atom
 has a dictionary defining the x, y, and z coordinates
-along with the atom's symbol.
+along with the atom's symbol. data has the following type: list of dicts containing keys 'symbol', 'x', 'y', 'z'.
+Those keys have the following types:
+  - symbol (string; optional)
+  - x (number; optional)
+  - y (number; optional)
+  - z (number; optional)
 - scrollZoom (boolean; optional): The option of whether or not to allow scrolling to control
 the zoom.
-- view (optional): An object that determines and controls various parameters
-related to how the molecule is displayed.. view has the following type: dict containing keys 'aspect', 'zoom', 'translation', 'atomScale', 'relativeAtomScale', 'bondScale', 'rotation', 'ao', 'aoRes', 'brightness', 'outline', 'spf', 'bonds', 'bondThreshold', 'bondShade', 'atomShade', 'resolution', 'dofStrength', 'dofPosition', 'fxaa'.
+- view (dict; default speckView.new()): An object that determines and controls various parameters
+related to how the molecule is displayed. view has the following type: dict containing keys 'aspect', 'zoom', 'translation', 'atomScale', 'relativeAtomScale', 'bondScale', 'rotation', 'ao', 'aoRes', 'brightness', 'outline', 'spf', 'bonds', 'bondThreshold', 'bondShade', 'atomShade', 'resolution', 'dofStrength', 'dofPosition', 'fxaa'.
 Those keys have the following types:
   - aspect (number; optional)
   - zoom (number; optional)
-  - translation (optional): . translation has the following type: dict containing keys 'x', 'y'.
+  - translation (dict; optional): translation has the following type: dict containing keys 'x', 'y'.
 Those keys have the following types:
   - x (number; optional)
   - y (number; optional)
   - atomScale (number; optional)
   - relativeAtomScale (number; optional)
   - bondScale (number; optional)
-  - rotation (optional): . rotation has the following type: dict containing keys .
+  - rotation (dict; optional): rotation has the following type: dict containing keys .
 Those keys have the following types:
 
   - ao (number; optional)

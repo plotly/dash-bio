@@ -33,7 +33,7 @@
       },
       "eventDatum": {
         "type": {
-          "name": "object"
+          "name": "string"
         },
         "required": false,
         "description": "A Dash prop that returns data on clicking, hovering or resizing the viewer."
@@ -1882,11 +1882,13 @@
                     "required": false
                   },
                   "source": {
-                    "name": "number",
+                    "name": "custom",
+                    "raw": "PropTypes.number | PropTypes.shape",
                     "required": false
                   },
                   "target": {
-                    "name": "number",
+                    "name": "custom",
+                    "raw": "PropTypes.number | PropTypes.shape",
                     "required": false
                   },
                   "bond": {
