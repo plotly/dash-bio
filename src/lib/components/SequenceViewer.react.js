@@ -133,7 +133,6 @@ export default class SequenceViewer extends Component {
     render() {
         const options = {
             id: this.props.id,
-            coverage: this.props.coverage,
             selection: this.props.selection,
             setProps: this.props.setProps,
             showLineNumbers: this.props.showLineNumbers,
@@ -149,8 +148,18 @@ export default class SequenceViewer extends Component {
             legend: this.props.legend,
         };
 
+        const coverage = this.props.coverage;
+
+        for (let i = 0; i < coverage.length; i++) {
+            coverage[i].onclick = this.getOnClick(i);
+        }
+
         return (
-            <ReactSequenceViewer sequence={this.props.sequence} {...options} />
+            <ReactSequenceViewer
+                sequence={this.props.sequence}
+                coverage={coverage}
+                {...options}
+            />
         );
     }
 }
