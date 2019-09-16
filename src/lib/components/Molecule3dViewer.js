@@ -31,7 +31,22 @@ export default class Molecule3dViewer extends Component {
             this.props.modelData !== nextProps.modelData ||
             this.props.backgroundColor !== nextProps.backgroundColor ||
             this.props.backgroundOpacity !== nextProps.backgroundOpacity ||
-            this.props.styles !== nextProps.styles
+            this.props.styles !== nextProps.styles ||
+            this.props.selectionType !== nextProps.selectionType ||
+            (!this.props.selectedAtomIds && nextProps.selectedAtomIds) ||
+            (this.props.selectedAtomIds && !nextProps.selectedAtomIds) ||
+            (this.props.selectedAtomIds &&
+                nextProps.selectedAtomIds &&
+                this.props.selectedAtomIds.length !==
+                    nextProps.selectedAtomIds.length) ||
+            (this.props.selectedAtomIds &&
+                nextProps.selectedAtomIds &&
+                (this.props.selectedAtomIds.some(
+                    atomId => !(atomId in nextProps.selectedAtomIds)
+                ) ||
+                    nextProps.selectedAtomIds.some(
+                        atomId => !(atomId in this.props.selectedAtomIds)
+                    )))
         ) {
             return true;
         }
