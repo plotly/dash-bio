@@ -1,0 +1,1 @@
+{"nodes": [{"id": 1, "atom": "C"}, {"id": 2, "atom": "C"}, {"id": 3, "atom": "H"}, {"id": 4, "atom": "H"}], "links": [{"id": 1, "source": 1, "target": 2, "bond": 3, "strength": 1, "distance": 20.0}, {"id": 2, "source": 1, "target": 3, "bond": 1, "strength": 1, "distance": 12.4}, {"id": 3, "source": 2, "target": 4, "bond": 1, "strength": 1, "distance": 12.4}]}
