@@ -71,7 +71,7 @@ AlignmentChart.propTypes = {
     /**
      * A Dash prop that returns data on clicking, hovering or resizing the viewer.
      */
-    eventDatum: PropTypes.object,
+    eventDatum: PropTypes.string,
 
     /**
      * Input data, either in FASTA or Clustal format.
