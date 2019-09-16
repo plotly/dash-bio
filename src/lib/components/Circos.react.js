@@ -173,32 +173,34 @@ export default class Circos extends Component {
 
     configCircos(layout, config, tracks, setProps) {
         this.circos.layout(layout, config);
-        tracks.forEach((track, index) => {
-            const {id, data, config, type} = track;
+        if (tracks) {
+            tracks.forEach((track, index) => {
+                const {id, data, config, type} = track;
 
-            // Since config is const, can't manipulate and throws error
-            let configApply;
+                // Since config is const, can't manipulate and throws error
+                let configApply;
 
-            if (typeof config !== 'undefined') {
-                configApply = config;
+                if (typeof config !== 'undefined') {
+                    configApply = config;
 
-                // Set Event Handling
-                if (setProps) {
-                    configApply.events = this.setEvent(setProps, index);
+                    // Set Event Handling
+                    if (setProps) {
+                        configApply.events = this.setEvent(setProps, index);
+                    }
+
+                    // Set Color
+                    this.setColor(configApply);
+
+                    // Set Tooltip
+                    this.setToolTip(configApply);
                 }
-
-                // Set Color
-                this.setColor(configApply);
-
-                // Set Tooltip
-                this.setToolTip(configApply);
-            }
-            this.circos[type.toLowerCase()](
-                id || `track-${index}`,
-                data,
-                configApply
-            );
-        });
+                this.circos[type.toLowerCase()](
+                    id || `track-${index}`,
+                    data,
+                    configApply
+                );
+            });
+        }
         this.circos.render();
     }
 
