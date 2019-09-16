@@ -47,6 +47,8 @@ export default class Molecule2dViewer extends Component {
         const {modelData} = this.props;
 
         if (
+            modelData &&
+            prevProps.modelData &&
             Object.keys(modelData).some(
                 propertyName =>
                     modelData[propertyName].length !==
