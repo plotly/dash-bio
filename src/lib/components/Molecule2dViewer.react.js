@@ -21,7 +21,23 @@ export default class Molecule2dViewer extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        if (this.props.modelData !== nextProps.modelData) {
+        if (
+            this.props.modelData !== nextProps.modelData ||
+            (!this.props.selectedAtomIds && nextProps.selectedAtomIds) ||
+            (this.props.selectedAtomIds && !nextProps.selectedAtomIds) ||
+            (this.props.selectedAtomIds &&
+                nextProps.selectedAtomIds &&
+                this.props.selectedAtomIds.length !==
+                    nextProps.selectedAtomIds.length) ||
+            (this.props.selectedAtomIds &&
+                nextProps.selectedAtomIds &&
+                (this.props.selectedAtomIds.some(
+                    atomId => !(atomId in nextProps.selectedAtomIds)
+                ) ||
+                    nextProps.selectedAtomIds.some(
+                        atomId => !(atomId in this.props.selectedAtomIds)
+                    )))
+        ) {
             return true;
         }
         return false;
