@@ -46,6 +46,7 @@ export default class SequenceViewer extends Component {
             sequenceMaxHeight,
             badge,
             coverage,
+            coverageClicked,
             selection,
             legend,
         } = this.props;
@@ -59,6 +60,7 @@ export default class SequenceViewer extends Component {
             title !== nextProps.title ||
             sequenceMaxHeight !== nextProps.sequenceMaxHeight ||
             badge !== nextProps.badge ||
+            coverageClicked !== nextProps.coverageClicked ||
             legend !== nextProps.legend ||
             sequence !== nextProps.sequence
         ) {
