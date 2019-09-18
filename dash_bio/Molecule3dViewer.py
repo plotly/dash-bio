@@ -13,12 +13,15 @@ https://github.com/Autodesk/molecule-3d-for-react
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in callbacks
-- selectionType (a value equal to: 'atom', 'residue', 'chain'; optional): The selection type - may be atom, residue or chain
-- backgroundColor (string; optional): Property to change the background color of the molecule viewer
-- backgroundOpacity (number; optional): Property to change the backgroun opacity - ranges from 0 to 1
-- styles (list; optional): Property that can be used to change the representation of
-the molecule. Options include sticks, cartoon and sphere
-- modelData (optional): The data that will be used to display the molecule in 3D
+- selectionType (a value equal to: 'atom', 'residue', 'chain'; default 'atom'): The selection type - may be atom, residue or chain
+- backgroundColor (string; default '#FFFFFF'): Property to change the background color of the molecule viewer
+- backgroundOpacity (number; default 0): Property to change the backgroun opacity - ranges from 0 to 1
+- styles (dict; optional): Property that can be used to change the representation of
+the molecule. Options include sticks, cartoon and sphere. styles has the following type: list of dicts containing keys 'color', 'visualization_type'.
+Those keys have the following types:
+  - color (string; optional)
+  - visualization_type (a value equal to: 'cartoon', 'sphere', 'stick'; optional)
+- modelData (dict; optional): The data that will be used to display the molecule in 3D
 The data will be in JSON format
 and should have two main dictionaries - atoms, bonds. modelData has the following type: dict containing keys 'atoms', 'bonds'.
 Those keys have the following types:

@@ -1206,6 +1206,168 @@
       }
     }
   },
+  "src/lib/components/FornaContainer.react.js": {
+    "description": "This is a FornaContainer component.",
+    "displayName": "FornaContainer",
+    "methods": [
+      {
+        "name": "renderNewSequences",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": "The ID of this component, used to identify dash components in\ncallbacks. The ID needs to be unique across all of the\ncomponents in an app."
+      },
+      "height": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The height (in px) of the container in which the molecules will\nbe displayed.",
+        "defaultValue": {
+          "value": "500",
+          "computed": false
+        }
+      },
+      "width": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The width (in px) of the container in which the molecules will\nbe displayed.",
+        "defaultValue": {
+          "value": "300",
+          "computed": false
+        }
+      },
+      "sequences": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "sequence": {
+                "name": "string",
+                "description": "A string representing the RNA nucleotide sequence of\nthe RNA molecule.",
+                "required": true
+              },
+              "structure": {
+                "name": "string",
+                "description": "A dot-bracket string\n(https://software.broadinstitute.org/software/igv/RNAsecStructure)\nthat specifies the secondary structure of the RNA\nmolecule.",
+                "required": true
+              },
+              "options": {
+                "name": "shape",
+                "value": {
+                  "applyForce": {
+                    "name": "bool",
+                    "description": "Indicate whether the force-directed layout will be\napplied to the displayed molecule. Enabling this\noption allows users to change the layout of the\nmolecule by selecting and dragging the individual\nnucleotide nodes. True by default.",
+                    "required": false
+                  },
+                  "circularizeExternal": {
+                    "name": "bool",
+                    "description": "This only makes sense in connection with the\napplyForce argument. If it's true, the external\nloops will be arranged in a nice circle. If false,\nthey will be allowed to flop around as the force\nlayout dictates. True by default.",
+                    "required": false
+                  },
+                  "labelInterval": {
+                    "name": "number",
+                    "description": "Change how often nucleotide numbers are labelled\nwith their number. 10 by default.",
+                    "required": false
+                  },
+                  "name": {
+                    "name": "string",
+                    "description": "The molecule name; this is used in custom color\nscales.",
+                    "required": false
+                  },
+                  "avoidOthers": {
+                    "name": "bool",
+                    "description": "Whether or not this molecule should \"avoid\" other\nmolecules in the map.",
+                    "required": false
+                  }
+                },
+                "description": "Additional options to be applied to the rendering of\nthe RNA molecule.",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "The molecules that will be displayed.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "nodeFillColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The fill color for all of the nodes. This will override any\ncolor scheme defined in colorScheme."
+      },
+      "colorScheme": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'sequence'",
+              "computed": false
+            },
+            {
+              "value": "'structure'",
+              "computed": false
+            },
+            {
+              "value": "'positions'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "The color scheme that is used to color the nodes.",
+        "defaultValue": {
+          "value": "'sequence'",
+          "computed": false
+        }
+      },
+      "allowPanningAndZooming": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Allow users to zoom in and pan the display. If this is enabled,\nthen pressing the 'c' key on the keyboard will center the view."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that gets fired when the value changes."
+      },
+      "allowPanningandZooming": {
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        },
+        "required": false
+      },
+      "labelInterval": {
+        "defaultValue": {
+          "value": "10",
+          "computed": false
+        },
+        "required": false
+      }
+    }
+  },
   "src/lib/components/Ideogram.react.js": {
     "description": "The Ideogram component is used to draw and animate genome-wide\ndatasets for organisms such as human, mouse, and any other\neukaryote. The Ideogram component can be used to compare\nhomologous features between chromosomes, and depict\nhaploid, diploid, aneuploid genomes. It can also display\nannotations on genomic data using histograms and overlays.\n\nReference: https://eweitz.github.io/ideogram/\nComponent's props: https://github.com/eweitz/ideogram/blob/master/api.md",
     "displayName": "Ideogram",

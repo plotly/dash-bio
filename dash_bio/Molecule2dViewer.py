@@ -12,13 +12,26 @@ https://github.com/Autodesk/molecule-2d-for-react
 
 Keyword arguments:
 - id (string; optional): The ID used to identify this component in callbacks.
-- selectedAtomIds (list; optional): The selected atom IDs.
-- width (number; optional): The width of the SVG element.
-- height (number; optional): The height of the SVG element.
-- modelData (optional): Description of the molecule to display.. modelData has the following type: dict containing keys 'nodes', 'links'.
+- selectedAtomIds (list of numbers; optional): The selected atom IDs.
+- width (number; default 500): The width of the SVG element.
+- height (number; default 500): The height of the SVG element.
+- modelData (dict; default {
+    nodes: [],
+    links: [],
+}): Description of the molecule to display. modelData has the following type: dict containing keys 'nodes', 'links'.
 Those keys have the following types:
-  - nodes (list; optional)
-  - links (list; optional)"""
+  - nodes (dict; optional): nodes has the following type: list of dicts containing keys 'id', 'atom'.
+Those keys have the following types:
+  - id (number; optional)
+  - atom (string; optional)
+  - links (dict; optional): links has the following type: list of dicts containing keys 'id', 'source', 'target', 'bond', 'strength', 'distance'.
+Those keys have the following types:
+  - id (number; optional)
+  - source (number; optional)
+  - target (number; optional)
+  - bond (number; optional)
+  - strength (number; optional)
+  - distance (number; optional)"""
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, modelData=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'selectedAtomIds', 'width', 'height', 'modelData']
