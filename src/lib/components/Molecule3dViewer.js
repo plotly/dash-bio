@@ -106,7 +106,7 @@ Molecule3dViewer.propTypes = {
     backgroundColor: PropTypes.string,
 
     /**
-     * Property to change the backgroun opacity - ranges from 0 to 1
+     * Property to change the background opacity - ranges from 0 to 1
      */
     backgroundOpacity: PropTypes.number,
 

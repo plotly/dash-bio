@@ -401,11 +401,9 @@ Ideogram.propTypes = {
     brush: PropTypes.string,
 
     /**
-     * A dash callback that is activated when the 'brush' prop is used in component.
+     * A dash callback that is activated when the 'brush' prop is used.
      * It will return an dictionary like so:
-     *
      * {'start': <value>, 'end': <value>, 'extent': <value>}
-     *
      * where start is the left most edge, end is right most edge, and extent is the total width of
      * the brush.
      * It is read-only, i.e., it cannot be used with dash.dependencies.Output but only with
@@ -477,7 +475,7 @@ Ideogram.propTypes = {
     localOrganism: PropTypes.object,
 
     /**
-     * Used to compare two chromosomes with each other.
+     * Used to compare two chromosomes.
      * The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the taxID or name.
      * Start is an array, containing start one and start two, in this order. Stop is an array,
      * containing stop one, and stop two, in this order.
@@ -579,7 +577,7 @@ Ideogram.propTypes = {
     showChromosomeLabels: PropTypes.bool,
 
     /**
-     * Whether to show cytogenetic band labels, e.g., 1q21
+     * Whether to show cytogenetic band labels, e.g., 1q21.
      **/
     showBandLabels: PropTypes.bool,
 
