@@ -1,0 +1,72 @@
+#forna-container {
+    display: inline-block;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+#forna-body ::-webkit-scrollbar-thumb {
+    background-color: #85002D !important;
+}
+
+#forna-control-tabs .tab--selected {
+    color: #85002D !important;
+}
+
+#forna-body .rc-slider-track {
+    background-color: #85002D !important;
+}
+
+#forna-body .rc-slider-handle, #forna-body .rc-slider-dot-active {
+    border-color: #85002D !important;
+}
+
+#forna-body input[type="text"] {
+    width: 100%;
+    margin-top: 15px;
+}
+
+#forna-body #forna-bond-length {
+    display: inline-block;
+    width: 150px;
+    margin-top: 10px;
+}
+
+#forna-control-tabs .app-controls-block {
+    margin-bottom: 20px;
+}
+
+#forna-submit-sequence {
+    width: 100%;
+}
+
+#forna-apply-force, #forna-circularize-external,
+#forna-avoid-others, #forna-label-interval, #forna-color-scheme {
+    display: inline-block !important;
+    text-align: right;
+    position: relative;
+    top: 5px;
+    float: right;
+}
+
+#forna-label-interval, #forna-color-scheme {
+    width: 150px;
+    position: relative;
+    text-align: left;
+}
+
+#forna-sequence-info {
+    font-size: 10pt;
+}
+
+#forna-color-scheme {
+    position: relative;
+    top: 0px;
+}
+
+#forna-error-message {
+    text-align: center;
+}
+
+#forna-color-scheme-desc {
+    margin-top: 20px;
+}
