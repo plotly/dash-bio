@@ -316,7 +316,6 @@ Circos.propTypes = {
    * data on click, hover, or both, with the dash prop "eventDatum".
    * The keys of the dictionary represent the index of the list
    * specified for "tracks".
-   *
    * Ex:
    * selectEvent={
         "0": "hover",
@@ -406,13 +405,10 @@ Circos.propTypes = {
             /**
              * Specify what data for tooltipContent is
              * displayed.
-             *
              * The entry for the "name" key, is any of the keys used in the data loaded into tracks.
              * Ex: "tooltipContent": {"name": "block_id"},
-             *
              * To display all data in the dataset use "all" as the entry for the key "name".
              * Ex: "tooltipContent": {"name": "all"}
-             *
              * Ex: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.
              * "tooltipContent": {
                 "source": "block_id",
@@ -428,7 +424,7 @@ Circos.propTypes = {
                 "targetEnd": "end"
             }
              **/
-            tooltipContent: PropTypes.oneOf([
+            tooltipContent: PropTypes.oneOfType([
                 PropTypes.string,
                 PropTypes.shape({
                     name: PropTypes.string.isRequired,
@@ -444,17 +440,15 @@ Circos.propTypes = {
             /**
              * Specify which dictonary key to grab color values from, in the passed in dataset.
              * This can be a string or an object.
-             *
              * If using a string, you can specify hex,
              * RGB, and colors from d3 scale chromatic (Ex: RdYlBu).
-             *
              * The key "name" is required for this dictionary,
              * where the input for "name" points to some list of
              * dictionaries color values.
-             *
              * Ex: "color": {"name": "some key that refers to color in a data set"}
+             *
              **/
-            color: PropTypes.oneOf([
+            color: PropTypes.oneOfType([
                 PropTypes.string,
                 PropTypes.shape({
                     name: PropTypes.string.isRequired,
