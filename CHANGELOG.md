@@ -14,7 +14,7 @@
   was used as a list instead of `self._display_ratio`, which always
   has the type `list`.
 * Fixed Molecule2dViewer error in which `modelData` being undefined
-  causesd rendering to fail.
+  caused rendering to fail.
 * Fixed Molecule2dViewer PropType for `source` and `target` atoms
   within the `links` property to also include `PropTypes.shape`.
 * Fixed Molecule3dViewer error in which there was no re-rendering upon
