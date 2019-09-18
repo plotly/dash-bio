@@ -1,7 +1,7 @@
 import json
 
-from dash_bio_utils import pdb_parser, styles_parser, \
-    protein_reader, xyz_reader
+from dash_bio_utils import pdb_parser, protein_reader, \
+    styles_parser, xyz_reader
 
 with open('mol3d_model_data.json', 'w+') as f:
     f.write(pdb_parser.create_data(
