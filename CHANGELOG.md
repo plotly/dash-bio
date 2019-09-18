@@ -25,8 +25,8 @@
 ### Added
 
 * Added re-rendering for Molecule2dViewer and Molecule3dViewer upon
-  the `selectedAtomIds` prop being updated. (This allows for the user
-  to write to the `selectedAtomIds` prop through a Dash component.)
+  the `selectedAtomIds` prop being updated. (This lets the user write
+  to the `selectedAtomIds` prop through a Dash component.)
 * Added re-rendering for SequenceViewer upon the `coverageClicked`
   prop being updated.
 
