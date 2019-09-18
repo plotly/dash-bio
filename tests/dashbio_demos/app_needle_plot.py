@@ -231,7 +231,7 @@ def layout():
                                             'value': UNIPROT_DOMS_KEY
                                         }
                                     ],
-                                    values=[]
+                                    value=[]
                                 )
                             ]
                         ),

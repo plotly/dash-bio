@@ -1101,8 +1101,6 @@ def layout():
                         html.Div(id='circos-table-container', children=[dt.DataTable(
                             id="data-table",
                             row_selectable='multi',
-                            sorting=True,
-                            filtering=True,
                             css=[{
                                 "selector":  ".dash-cell div.dash-cell-value",
                                 "rule":  "display: inline; "
@@ -1130,8 +1128,8 @@ def layout():
                                 'marginTop': '5px',
                                 'marginBottom': '10px',
                             },
-                            n_fixed_rows=1,
-                            n_fixed_columns=1
+                            fixed_rows=1,
+                            fixed_columns=1
                         )]),
                         html.Div(
                             id="expected-index"),

@@ -367,7 +367,7 @@ def layout():
                                         {'label': '',
                                          'value': 'underscore'}
                                     ],
-                                    values=[]
+                                    value=[]
                                 )
                             ]),
                             html.Div(className='app-controls-block', children=[
