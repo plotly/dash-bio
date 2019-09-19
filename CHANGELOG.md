@@ -32,8 +32,8 @@
 
 ## [0.1.4] - 2019-08-02
 
-### Fixed
-* Fixed incompatibility with Dash 1.0.0.
+### Changed
+* Updated core dependency to `dash>=1.0.0`.
 
 ## [0.1.3] - 2019-07-31
 
