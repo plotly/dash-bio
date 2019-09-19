@@ -148,16 +148,16 @@ export default class SequenceViewer extends Component {
             legend: this.props.legend,
         };
 
-        const coverage = this.props.coverage;
-
-        for (let i = 0; i < coverage.length; i++) {
-            coverage[i].onclick = this.getOnClick(i);
-        }
+        const coverageWithClicks = this.props.coverage.map((entry, i) => {
+            return Object.assign(this.props.coverage[i], {
+                onclick: this.getOnClick(i),
+            });
+        });
 
         return (
             <ReactSequenceViewer
                 sequence={this.props.sequence}
-                coverage={coverage}
+                coverage={coverageWithClicks}
                 {...options}
             />
         );
