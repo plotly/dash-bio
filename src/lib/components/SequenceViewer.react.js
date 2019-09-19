@@ -156,6 +156,8 @@ SequenceViewer.defaultProps = {
     coverage: [],
 };
 
+/* eslint-disable consistent-return, no-unused-vars */
+
 SequenceViewer.propTypes = {
     /**
      * The ID used to identify this component in Dash callbacks.
@@ -221,13 +223,21 @@ SequenceViewer.propTypes = {
      * and color is a string that defines the highlight color.
      * Cannot be used at the same time as coverage.
      */
-    selection: PropTypes.arrayOf(
-        PropTypes.shape({
-            low: PropTypes.number,
-            high: PropTypes.number,
-            color: PropTypes.string,
-        })
-    ),
+    selection: function(props, propName, componentName) {
+        if (
+            props[propName] !== undefined &&
+            ((typeof props[propName][0] !== 'undefined' &&
+                typeof props[propName][0] !== 'number') ||
+                (typeof props[propName][1] !== 'undefined' &&
+                    typeof props[propName][1] !== 'number') ||
+                (typeof props[propName][2] !== 'undefined' &&
+                    typeof props[propName][2] !== 'string'))
+        ) {
+            return new Error(
+                'Invalid prop value. Selection should be an array with type [number, number, string].'
+            );
+        }
+    },
 
     /**
      * A coverage of the entire sequence; each section of the sequence
