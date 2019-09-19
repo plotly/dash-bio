@@ -180,13 +180,11 @@ export default class Circos extends Component {
                 // Since config is const, can't manipulate and throws error
                 let configApply;
 
-                if (typeof config !== 'undefined') {
+                if (config !== undefined) {
                     configApply = config;
 
                     // Set Event Handling
-                    if (setProps) {
-                        configApply.events = this.setEvent(setProps, index);
-                    }
+                    configApply.events = this.setEvent(setProps, index);
 
                     // Set Color
                     this.setColor(configApply);
