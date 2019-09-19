@@ -124,11 +124,9 @@ export default class Ideogram extends Component {
          */
 
         this.tooltipDataTwo = this.tooltipData;
-        if (this.props.setProps) {
-            this.props.setProps({
-                annotationsData: this.tooltipData,
-            });
-        }
+        this.props.setProps({
+            annotationsData: this.tooltipData,
+        });
     }
 
     onBrushHandler() {
@@ -145,9 +143,8 @@ export default class Ideogram extends Component {
             extent = r.extent.toLocaleString();
 
         if (
-            typeof this.props.brush !== 'undefined' &&
-            typeof this.props.setProps !== 'undefined'
-        ) {
+            typeof this.props.brush !== 'undefined'
+         ) {
             this.props.setProps({
                 brushData: {
                     start: start,
@@ -183,11 +180,9 @@ export default class Ideogram extends Component {
 
         this.isRotated = this.isRotated ? false : true;
 
-        if (this.props.setProps) {
-            this.props.setProps({
-                rotated: this.isRotated,
-            });
-        }
+        this.props.setProps({
+            rotated: this.isRotated,
+        });
     }
 
     onMouseOverHandler() {
@@ -197,15 +192,13 @@ export default class Ideogram extends Component {
          * Dash application, that will return the annotation that the mouse hovers over.
          */
 
-        if (this.props.setProps) {
-            this.tooltipData = document.getElementById(
-                '_ideogramTooltip'
-            ).innerHTML;
-            this.tooltipDataTwo =
-                this.tooltipData !== this.tooltipDataTwo
-                    ? this.onToolTipHandler()
-                    : document.getElementById('_ideogramTooltip').innerHTML;
-        }
+        this.tooltipData = document.getElementById(
+            '_ideogramTooltip'
+        ).innerHTML;
+        this.tooltipDataTwo =
+            this.tooltipData !== this.tooltipDataTwo
+            ? this.onToolTipHandler()
+            : document.getElementById('_ideogramTooltip').innerHTML;
     }
 
     setConfig() {
