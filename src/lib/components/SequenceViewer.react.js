@@ -108,28 +108,6 @@ export default class SequenceViewer extends Component {
         };
     }
 
-    componentDidUpdate(prevProps, _) {
-        const {coverage} = this.props;
-
-        if (
-            coverage.length !== prevProps.coverage.length ||
-            coverage.some((cov, i) =>
-                Object.keys(cov).some(
-                    propertyName =>
-                        coverage[i][propertyName] !==
-                        prevProps.coverage[i][propertyName]
-                )
-            )
-        ) {
-            for (let i = 0; i < coverage.length; i++) {
-                coverage[i].onclick = this.getOnClick(i);
-            }
-
-            // force update to ensure that all onclick events have registered
-            this.forceUpdate();
-        }
-    }
-
     render() {
         const options = {
             id: this.props.id,
