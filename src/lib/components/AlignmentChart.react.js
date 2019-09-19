@@ -35,19 +35,19 @@ export default class AlignmentChart extends Component {
     render() {
         const {id, eventDatum} = this.props;
 
-        // TODO handle this in react-alignment-viewer instead
-        if (this.props.colorscale === null) {
-            this.props.colorscale = 'clustal2';
-        }
-
         return (
             <div id={id} eventDatum={eventDatum}>
                 <PreAlignementChart
                     onChange={this.handleChange}
                     {...omit(
-                        ['fireEvent', 'dashEvent', 'setProps'],
+                        ['fireEvent', 'dashEvent', 'setProps', 'colorscale'],
                         this.props
                     )}
+                    colorscale={
+                        this.props.colorscale
+                            ? this.props.colorscale
+                            : 'clustal2'
+                    }
                 />
             </div>
         );
