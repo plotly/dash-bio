@@ -112,7 +112,7 @@ jobs:
                     npm i
                     npm run build:all-dev
                     pip install -e .
-                    pytest --webdriver Chrome tests/integration
+                    pytest tests/integration
 
     "python-3.7":
         <<: *test-template
