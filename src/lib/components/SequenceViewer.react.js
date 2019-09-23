@@ -127,7 +127,7 @@ export default class SequenceViewer extends Component {
         };
 
         const coverageWithClicks = this.props.coverage.map((entry, i) => {
-            return Object.assign(this.props.coverage[i], {
+            return Object.assign({}, entry, {
                 onclick: this.getOnClick(i),
             });
         });
