@@ -5,7 +5,4 @@
 chromedriver-binary==2.45.0
 flake8==3.6.0
 ipdb==0.11
-percy==2.0.1
 pylint==2.3.0
-pytest==4.6.4
-selenium==3.141.0
