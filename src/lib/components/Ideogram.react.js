@@ -124,11 +124,9 @@ export default class Ideogram extends Component {
          */
 
         this.tooltipDataTwo = this.tooltipData;
-        if (this.props.setProps) {
-            this.props.setProps({
-                annotationsData: this.tooltipData,
-            });
-        }
+        this.props.setProps({
+            annotationsData: this.tooltipData,
+        });
     }
 
     onBrushHandler() {
@@ -145,9 +143,8 @@ export default class Ideogram extends Component {
             extent = r.extent.toLocaleString();
 
         if (
-            typeof this.props.brush !== 'undefined' &&
-            typeof this.props.setProps !== 'undefined'
-        ) {
+            typeof this.props.brush !== 'undefined'
+         ) {
             this.props.setProps({
                 brushData: {
                     start: start,
@@ -183,11 +180,9 @@ export default class Ideogram extends Component {
 
         this.isRotated = this.isRotated ? false : true;
 
-        if (this.props.setProps) {
-            this.props.setProps({
-                rotated: this.isRotated,
-            });
-        }
+        this.props.setProps({
+            rotated: this.isRotated,
+        });
     }
 
     onMouseOverHandler() {
@@ -197,15 +192,13 @@ export default class Ideogram extends Component {
          * Dash application, that will return the annotation that the mouse hovers over.
          */
 
-        if (this.props.setProps) {
-            this.tooltipData = document.getElementById(
-                '_ideogramTooltip'
-            ).innerHTML;
-            this.tooltipDataTwo =
-                this.tooltipData !== this.tooltipDataTwo
-                    ? this.onToolTipHandler()
-                    : document.getElementById('_ideogramTooltip').innerHTML;
-        }
+        this.tooltipData = document.getElementById(
+            '_ideogramTooltip'
+        ).innerHTML;
+        this.tooltipDataTwo =
+            this.tooltipData !== this.tooltipDataTwo
+            ? this.onToolTipHandler()
+            : document.getElementById('_ideogramTooltip').innerHTML;
     }
 
     setConfig() {
@@ -401,11 +394,9 @@ Ideogram.propTypes = {
     brush: PropTypes.string,
 
     /**
-     * A dash callback that is activated when the 'brush' prop is used in component.
+     * A dash callback that is activated when the 'brush' prop is used.
      * It will return an dictionary like so:
-     *
      * {'start': <value>, 'end': <value>, 'extent': <value>}
-     *
      * where start is the left most edge, end is right most edge, and extent is the total width of
      * the brush.
      * It is read-only, i.e., it cannot be used with dash.dependencies.Output but only with
@@ -477,7 +468,7 @@ Ideogram.propTypes = {
     localOrganism: PropTypes.object,
 
     /**
-     * Used to compare two chromosomes with each other.
+     * Used to compare two chromosomes.
      * The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the taxID or name.
      * Start is an array, containing start one and start two, in this order. Stop is an array,
      * containing stop one, and stop two, in this order.
@@ -579,7 +570,7 @@ Ideogram.propTypes = {
     showChromosomeLabels: PropTypes.bool,
 
     /**
-     * Whether to show cytogenetic band labels, e.g., 1q21
+     * Whether to show cytogenetic band labels, e.g., 1q21.
      **/
     showBandLabels: PropTypes.bool,
 

@@ -40,9 +40,14 @@ export default class AlignmentChart extends Component {
                 <PreAlignementChart
                     onChange={this.handleChange}
                     {...omit(
-                        ['fireEvent', 'dashEvent', 'setProps'],
+                        ['fireEvent', 'dashEvent', 'setProps', 'colorscale'],
                         this.props
                     )}
+                    colorscale={
+                        this.props.colorscale
+                            ? this.props.colorscale
+                            : 'clustal2'
+                    }
                 />
             </div>
         );
@@ -66,7 +71,7 @@ AlignmentChart.propTypes = {
     /**
      * A Dash prop that returns data on clicking, hovering or resizing the viewer.
      */
-    eventDatum: PropTypes.object,
+    eventDatum: PropTypes.string,
 
     /**
      * Input data, either in FASTA or Clustal format.

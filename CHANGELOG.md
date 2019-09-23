@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.1.5]
+
+### Fixed
+
+* Fixed AlignmentChart error in which `colorscale` being undefined
+  caused rendering to fail.
+* Fixed AlignmentChart PropType for `eventDatum` to `string` (which is
+  what gets returned).
+* Fixed Circos error in which `tracks` variable being undefined caused
+  rendering to fail.
+* Fixed Clustergram error in which `display_ratio` (a float or a list)
+  was used as a list instead of `self._display_ratio`, which always
+  has the type `list`.
+* Fixed Molecule2dViewer error in which `modelData` being undefined
+  caused rendering to fail.
+* Fixed Molecule2dViewer PropType for `source` and `target` atoms
+  within the `links` property to also include `PropTypes.shape`.
+* Fixed Molecule3dViewer error in which there was no re-rendering upon
+  a change in the `selectionType` prop.
+* Fixed SequenceViewer error in which the component initially rendered
+  with coverage that had no defined `onClick` behavior.
+
+### Added
+
+* Added re-rendering for Molecule2dViewer and Molecule3dViewer upon
+  the `selectedAtomIds` prop being updated. (This lets the user write
+  to the `selectedAtomIds` prop through a Dash component.)
+* Added re-rendering for SequenceViewer upon the `coverageClicked`
+  prop being updated.
+
+## [0.1.4] - 2019-08-02
+
+### Changed
+* Updated core dependency to `dash>=1.0.0`.
+
 ## [0.1.3] - 2019-07-31
 
 ### Changed

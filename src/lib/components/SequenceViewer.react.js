@@ -46,6 +46,7 @@ export default class SequenceViewer extends Component {
             sequenceMaxHeight,
             badge,
             coverage,
+            coverageClicked,
             selection,
             legend,
         } = this.props;
@@ -59,6 +60,7 @@ export default class SequenceViewer extends Component {
             title !== nextProps.title ||
             sequenceMaxHeight !== nextProps.sequenceMaxHeight ||
             badge !== nextProps.badge ||
+            coverageClicked !== nextProps.coverageClicked ||
             legend !== nextProps.legend ||
             sequence !== nextProps.sequence
         ) {
@@ -106,32 +108,9 @@ export default class SequenceViewer extends Component {
         };
     }
 
-    componentDidUpdate(prevProps, _) {
-        const {coverage} = this.props;
-
-        if (
-            coverage.length !== prevProps.coverage.length ||
-            coverage.some((cov, i) =>
-                Object.keys(cov).some(
-                    propertyName =>
-                        coverage[i][propertyName] !==
-                        prevProps.coverage[i][propertyName]
-                )
-            )
-        ) {
-            for (let i = 0; i < coverage.length; i++) {
-                coverage[i].onclick = this.getOnClick(i);
-            }
-
-            // force update to ensure that all onclick events have registered
-            this.forceUpdate();
-        }
-    }
-
     render() {
         const options = {
             id: this.props.id,
-            coverage: this.props.coverage,
             selection: this.props.selection,
             setProps: this.props.setProps,
             showLineNumbers: this.props.showLineNumbers,
@@ -147,8 +126,18 @@ export default class SequenceViewer extends Component {
             legend: this.props.legend,
         };
 
+        const coverageWithClicks = this.props.coverage.map((entry, i) => {
+            return Object.assign({}, entry, {
+                onclick: this.getOnClick(i),
+            });
+        });
+
         return (
-            <ReactSequenceViewer sequence={this.props.sequence} {...options} />
+            <ReactSequenceViewer
+                sequence={this.props.sequence}
+                coverage={coverageWithClicks}
+                {...options}
+            />
         );
     }
 }
@@ -166,6 +155,8 @@ SequenceViewer.defaultProps = {
     selection: [],
     coverage: [],
 };
+
+/* eslint-disable consistent-return, no-unused-vars */
 
 SequenceViewer.propTypes = {
     /**
@@ -232,13 +223,21 @@ SequenceViewer.propTypes = {
      * and color is a string that defines the highlight color.
      * Cannot be used at the same time as coverage.
      */
-    selection: PropTypes.arrayOf(
-        PropTypes.shape({
-            low: PropTypes.number,
-            high: PropTypes.number,
-            color: PropTypes.string,
-        })
-    ),
+    selection: function(props, propName, componentName) {
+        if (
+            props[propName] !== undefined &&
+            ((typeof props[propName][0] !== 'undefined' &&
+                typeof props[propName][0] !== 'number') ||
+                (typeof props[propName][1] !== 'undefined' &&
+                    typeof props[propName][1] !== 'number') ||
+                (typeof props[propName][2] !== 'undefined' &&
+                    typeof props[propName][2] !== 'string'))
+        ) {
+            return new Error(
+                'Invalid prop value. Selection should be an array with type [number, number, string].'
+            );
+        }
+    },
 
     /**
      * A coverage of the entire sequence; each section of the sequence
