@@ -63,11 +63,9 @@ or GenBank accession (e.g., "GCA_000005005.5")
 chromosome. Useful when ideogram consists of one chromosome and you want to be
 able to focus on a region within that chromosome,
 and create an interactive sliding window to other regions
-- brushData (dict; optional): A dash callback that is activated when the 'brush' prop is used in component.
+- brushData (dict; optional): A dash callback that is activated when the 'brush' prop is used.
 It will return an dictionary like so:
-
 {'start': <value>, 'end': <value>, 'extent': <value>}
-
 where start is the left most edge, end is right most edge, and extent is the total width of
 the brush.
 It is read-only, i.e., it cannot be used with dash.dependencies.Output but only with
@@ -100,7 +98,7 @@ organism, or an array of organisms' names or taxids to display chromosomes from 
 species.
 - localOrganism (dict; optional): Provide local JSON organism into this prop from a local user JSON file.
 DataDir must not be initialized.
-- homology (dict; optional): Used to compare two chromosomes with each other.
+- homology (dict; optional): Used to compare two chromosomes.
 The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the taxID or name.
 Start is an array, containing start one and start two, in this order. Stop is an array,
 containing stop one, and stop two, in this order.
@@ -145,7 +143,7 @@ chromosomes from different ancestors in polyploid genomes.
 - sex (a value equal to: 'male', 'female'; optional): Useful for omitting chromosome Y in female animals.
 Currently only supported for organisms that use XY sex-determination.
 - showChromosomeLabels (boolean; default True): Whether to show chromosome labels, e.g., 1, 2, 3, X, Y.
-- showBandLabels (boolean; default False): Whether to show cytogenetic band labels, e.g., 1q21
+- showBandLabels (boolean; default False): Whether to show cytogenetic band labels, e.g., 1q21.
 - showFullyBanded (boolean; default True): Whether to show fully banded chromosomes for genomes that have sufficient data. Useful for
 showing simpler chromosomes of cytogenetically well-characterized organisms, e.g., human,
 beside chromosomes of less studied organisms, e.g., chimpanzee.

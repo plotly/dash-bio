@@ -15,7 +15,7 @@ Keyword arguments:
 - id (string; optional): The ID used to identify this component in callbacks
 - selectionType (a value equal to: 'atom', 'residue', 'chain'; default 'atom'): The selection type - may be atom, residue or chain
 - backgroundColor (string; default '#FFFFFF'): Property to change the background color of the molecule viewer
-- backgroundOpacity (number; default 0): Property to change the backgroun opacity - ranges from 0 to 1
+- backgroundOpacity (number; default 0): Property to change the background opacity - ranges from 0 to 1
 - styles (dict; optional): Property that can be used to change the representation of
 the molecule. Options include sticks, cartoon and sphere. styles has the following type: list of dicts containing keys 'color', 'visualization_type'.
 Those keys have the following types:

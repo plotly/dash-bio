@@ -33,7 +33,7 @@
       },
       "eventDatum": {
         "type": {
-          "name": "object"
+          "name": "string"
         },
         "required": false,
         "description": "A Dash prop that returns data on clicking, hovering or resizing the viewer."
@@ -1069,7 +1069,7 @@
           "name": "object"
         },
         "required": false,
-        "description": "A dictionary used to choose whether tracks should return\ndata on click, hover, or both, with the dash prop \"eventDatum\".\nThe keys of the dictionary represent the index of the list\nspecified for \"tracks\".\n\nEx:\nselectEvent={\n        \"0\": \"hover\",\n        \"1\": \"click\",\n        \"2\": \"both\"\n    },"
+        "description": "A dictionary used to choose whether tracks should return\ndata on click, hover, or both, with the dash prop \"eventDatum\".\nThe keys of the dictionary represent the index of the list\nspecified for \"tracks\".\nEx:\nselectEvent={\n        \"0\": \"hover\",\n        \"1\": \"click\",\n        \"2\": \"both\"\n    },"
       },
       "setProps": {
         "type": {
@@ -1161,37 +1161,66 @@
                 "required": false
               },
               "tooltipContent": {
-                "name": "enum",
+                "name": "union",
                 "value": [
                   {
-                    "value": "PropTypes.string",
-                    "computed": true
+                    "name": "string"
                   },
                   {
-                    "value": "PropTypes.shape({\n    name: PropTypes.string.isRequired,\n})",
-                    "computed": true
+                    "name": "shape",
+                    "value": {
+                      "name": {
+                        "name": "string",
+                        "required": true
+                      }
+                    }
                   },
                   {
-                    "value": "PropTypes.shape({\n    source: PropTypes.string.isRequired,\n    sourceID: PropTypes.string,\n    target: PropTypes.string.isRequired,\n    targetEnd: PropTypes.string.isRequired,\n    targetID: PropTypes.string,\n})",
-                    "computed": true
+                    "name": "shape",
+                    "value": {
+                      "source": {
+                        "name": "string",
+                        "required": true
+                      },
+                      "sourceID": {
+                        "name": "string",
+                        "required": false
+                      },
+                      "target": {
+                        "name": "string",
+                        "required": true
+                      },
+                      "targetEnd": {
+                        "name": "string",
+                        "required": true
+                      },
+                      "targetID": {
+                        "name": "string",
+                        "required": false
+                      }
+                    }
                   }
                 ],
-                "description": "Specify what data for tooltipContent is\ndisplayed.\n\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks.\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\n\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\n\nEx: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.\n\"tooltipContent\": {\n                \"source\": \"block_id\",\n                \"target\": \"position\",\n                \"targetEnd\": \"value\"\n                        },\nEx: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.\n\"tooltipContent\": {\n                \"source\": \"source\",\n                \"sourceID\": \"id\",\n                \"target\": \"target\",\n                \"targetID\": \"id\",\n                \"targetEnd\": \"end\"\n            }",
+                "description": "Specify what data for tooltipContent is\ndisplayed.\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks.\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\nEx: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.\n\"tooltipContent\": {\n                \"source\": \"block_id\",\n                \"target\": \"position\",\n                \"targetEnd\": \"value\"\n                        },\nEx: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.\n\"tooltipContent\": {\n                \"source\": \"source\",\n                \"sourceID\": \"id\",\n                \"target\": \"target\",\n                \"targetID\": \"id\",\n                \"targetEnd\": \"end\"\n            }",
                 "required": false
               },
               "color": {
-                "name": "enum",
+                "name": "union",
                 "value": [
                   {
-                    "value": "PropTypes.string",
-                    "computed": true
+                    "name": "string"
                   },
                   {
-                    "value": "PropTypes.shape({\n    name: PropTypes.string.isRequired,\n})",
-                    "computed": true
+                    "name": "shape",
+                    "value": {
+                      "name": {
+                        "name": "string",
+                        "required": true
+                      }
+                    }
                   }
                 ],
-                "description": "Specify which dictonary key to grab color values from, in the passed in dataset.\nThis can be a string or an object.\n\nIf using a string, you can specify hex,\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu).\n\nThe key \"name\" is required for this dictionary,\nwhere the input for \"name\" points to some list of\ndictionaries color values.\n\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
+                "description": "Specify which dictonary key to grab color values from, in the passed in dataset.\nThis can be a string or an object.\nIf using a string, you can specify hex,\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu).\nThe key \"name\" is required for this dictionary,\nwhere the input for \"name\" points to some list of\ndictionaries color values.\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
                 "required": false
               }
             }
@@ -1625,7 +1654,7 @@
           }
         },
         "required": false,
-        "description": "A dash callback that is activated when the 'brush' prop is used in component.\nIt will return an dictionary like so:\n\n{'start': <value>, 'end': <value>, 'extent': <value>}\n\nwhere start is the left most edge, end is right most edge, and extent is the total width of\nthe brush.\nIt is read-only, i.e., it cannot be used with dash.dependencies.Output but only with\ndash.dependencies.Input"
+        "description": "A dash callback that is activated when the 'brush' prop is used.\nIt will return an dictionary like so:\n{'start': <value>, 'end': <value>, 'extent': <value>}\nwhere start is the left most edge, end is right most edge, and extent is the total width of\nthe brush.\nIt is read-only, i.e., it cannot be used with dash.dependencies.Output but only with\ndash.dependencies.Input"
       },
       "container": {
         "type": {
@@ -1777,7 +1806,7 @@
           }
         },
         "required": false,
-        "description": "Used to compare two chromosomes with each other.\nThe keys \"chrOne\" and \"chrTwo\" represent one chromosome each. Organism is the taxID or name.\nStart is an array, containing start one and start two, in this order. Stop is an array,\ncontaining stop one, and stop two, in this order.\nEx: homology={\n    \"chrOne\": {\n        organism\": \"9606\",\n        \"start\": [50000, 155701383],\n        \"stop\": [900000, 156030895]\n    },\n    \"chrTwo\": {\n        organism\": \"10090\",\n        \"start\": [10001, 50000000],\n        \"stop\": [2781479, 57217415]\n    }\n}"
+        "description": "Used to compare two chromosomes.\nThe keys \"chrOne\" and \"chrTwo\" represent one chromosome each. Organism is the taxID or name.\nStart is an array, containing start one and start two, in this order. Stop is an array,\ncontaining stop one, and stop two, in this order.\nEx: homology={\n    \"chrOne\": {\n        organism\": \"9606\",\n        \"start\": [50000, 155701383],\n        \"stop\": [900000, 156030895]\n    },\n    \"chrTwo\": {\n        organism\": \"10090\",\n        \"start\": [10001, 50000000],\n        \"stop\": [2781479, 57217415]\n    }\n}"
       },
       "perspective": {
         "type": {
@@ -1919,7 +1948,7 @@
           "name": "bool"
         },
         "required": false,
-        "description": "Whether to show cytogenetic band labels, e.g., 1q21",
+        "description": "Whether to show cytogenetic band labels, e.g., 1q21.",
         "defaultValue": {
           "value": "false",
           "computed": false
@@ -2044,11 +2073,13 @@
                     "required": false
                   },
                   "source": {
-                    "name": "number",
+                    "name": "custom",
+                    "raw": "PropTypes.number | PropTypes.shape",
                     "required": false
                   },
                   "target": {
-                    "name": "number",
+                    "name": "custom",
+                    "raw": "PropTypes.number | PropTypes.shape",
                     "required": false
                   },
                   "bond": {
@@ -2163,7 +2194,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "Property to change the backgroun opacity - ranges from 0 to 1",
+        "description": "Property to change the background opacity - ranges from 0 to 1",
         "defaultValue": {
           "value": "0",
           "computed": false
@@ -2767,24 +2798,8 @@
       },
       "selection": {
         "type": {
-          "name": "arrayOf",
-          "value": {
-            "name": "shape",
-            "value": {
-              "low": {
-                "name": "number",
-                "required": false
-              },
-              "high": {
-                "name": "number",
-                "required": false
-              },
-              "color": {
-                "name": "string",
-                "required": false
-              }
-            }
-          }
+          "name": "custom",
+          "raw": "function(props, propName, componentName) {\n    if (\n        props[propName] !== undefined &&\n        ((typeof props[propName][0] !== 'undefined' &&\n            typeof props[propName][0] !== 'number') ||\n            (typeof props[propName][1] !== 'undefined' &&\n                typeof props[propName][1] !== 'number') ||\n            (typeof props[propName][2] !== 'undefined' &&\n                typeof props[propName][2] !== 'string'))\n    ) {\n        return new Error(\n            'Invalid prop value. Selection should be an array with type [number, number, string].'\n        );\n    }\n}"
         },
         "required": false,
         "description": "A highlighted section of the sequence; the color of the highlight\ncan also be defined. Takes a list of format [min, max, color] where\nmin is a number that represents the starting index of the selection,\nmax is a number that represents the stopping index of the selection,\nand color is a string that defines the highlight color.\nCannot be used at the same time as coverage.",

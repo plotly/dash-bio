@@ -304,9 +304,9 @@ Methods:
         if not isinstance(display_ratio, list):
             self._display_ratio = [display_ratio, display_ratio]
         if self._cluster == 'row':
-            self._display_ratio = [display_ratio[0], 0]
+            self._display_ratio = [self._display_ratio[0], 0]
         elif self._cluster == 'col':
-            self._display_ratio = [0, display_ratio[1]]
+            self._display_ratio = [0, self._display_ratio[1]]
 
         self._hidden_labels = []
 

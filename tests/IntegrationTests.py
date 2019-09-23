@@ -21,7 +21,8 @@ class IntegrationTests(unittest.TestCase):
         if os.environ.get('PERCY_ENABLED', False):
             snapshot_name = '{} - {}'.format(name, sys.version_info)
             self.percy_runner.snapshot(
-                name=snapshot_name
+                name=snapshot_name,
+                enable_javascript=True
             )
 
     @classmethod
@@ -34,9 +35,19 @@ class IntegrationTests(unittest.TestCase):
 
         cls.driver = webdriver.Chrome(chrome_options=options)
 
+        root_static_dir = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                '..',
+                'assets'
+            )
+        )
+
         if os.environ.get('PERCY_ENABLED', False):
             loader = percy.ResourceLoader(
-                webdriver=cls.driver
+                webdriver=cls.driver,
+                base_url='/assets',
+                root_dir=root_static_dir
             )
             cls.percy_runner = percy.Runner(loader=loader)
             cls.percy_runner.initialize_build()

@@ -27,8 +27,8 @@ Those keys have the following types:
   - links (dict; optional): links has the following type: list of dicts containing keys 'id', 'source', 'target', 'bond', 'strength', 'distance'.
 Those keys have the following types:
   - id (number; optional)
-  - source (number; optional)
-  - target (number; optional)
+  - source (optional)
+  - target (optional)
   - bond (number; optional)
   - strength (number; optional)
   - distance (number; optional)"""

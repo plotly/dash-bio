@@ -46,13 +46,24 @@ jobs:
                     pip install dash>=0.40.0
                     npm run build:py
 
+            - run:
+                name: "Run unit tests"
+                command: |
+                    python -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install dash_bio_utils
+                    cd tests/unit
+                    python unit_test_data_setup.py
+                    cd ../../
+                    npm run test
 
     "python-3.6": &test-template
         docker:
-            - image: circleci/python:3.6-stretch-browsers
+            - image: circleci/python:3.6-stretch-node-browsers
 
         environment:
-            PERCY_ENABLED: False
+            PERCY_ENABLED: True
 
         steps:
             - checkout
@@ -71,6 +82,7 @@ jobs:
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install -r tests/requirements.txt --quiet
+                    pip install dash[testing]
 
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}
@@ -92,24 +104,27 @@ jobs:
                 when: always
 
             - run:
-                name: Run Integration Tests
+                name: Run integration tests
                 command: |
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install -r tests/requirements.txt
-                    pytest --webdriver Chrome tests --ignore tests/test_skeleton.py
+                    npm i
+                    npm run build:all-dev
+                    pip install -e .
+                    pytest tests/integration
 
     "python-3.7":
         <<: *test-template
         docker:
-            - image: circleci/python:3.7-stretch-browsers
+            - image: circleci/python:3.7-stretch-node-browsers
 
         environment:
-            PERCY_ENABLED: False
+            PERCY_ENABLED: True
 
     "deploy_to_gallery":
         docker:
-            - image: circleci/python:3.7-stretch-browsers
+            - image: circleci/python:3.7-stretch-node-browsers
         working_directory: ~/dash-bio
         steps:
           - checkout

@@ -24,7 +24,7 @@ Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.
-- eventDatum (dict; optional): A Dash prop that returns data on clicking, hovering or resizing the viewer.
+- eventDatum (string; optional): A Dash prop that returns data on clicking, hovering or resizing the viewer.
 - data (string; optional): Input data, either in FASTA or Clustal format.
 - extension (string; default 'fasta'): Format type of the input data, either in FASTA or Clustal.
 - colorscale (string | dict; default 'clustal2'): Colorscale in 'buried', 'cinema', 'clustal', 'clustal2', 'helix', 'hydrophobicity'
