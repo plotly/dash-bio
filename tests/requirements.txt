@@ -1,4 +1,3 @@
---extra-index-url https://test.pypi.org/simple/
 -r ../requirements.txt
 
 # Additional packages needed to run the tests.
