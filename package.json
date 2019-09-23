@@ -18,7 +18,7 @@
     "lint": "eslint src --fix",
     "build:js-dev": "webpack --mode development",
     "build:js": "npm run lint & npm run format & webpack --mode production",
-    "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && python get_version_info.py && python -c \"import dash; dash.development.component_loader.generate_classes('dash_bio', 'dash_bio/metadata.json')\"",
+    "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && python get_version_info.py && python -c \"import dash; dash.development.component_loader.generate_classes('dash_bio', 'dash_bio/metadata.json')\" && black dash_bio",
     "build:all": "npm run build:js & npm run build:py",
     "build:all-dev": "npm run build:js-dev & npm run build:py"
   },

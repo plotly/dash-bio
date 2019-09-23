@@ -2,6 +2,7 @@
 -r ../requirements.txt
 
 # Additional packages needed to run the tests.
+black==19.3b0
 chromedriver-binary==2.45.0
 flake8==3.6.0
 ipdb==0.11
