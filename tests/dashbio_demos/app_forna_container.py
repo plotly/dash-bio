@@ -22,6 +22,7 @@ def header_colors():
         'font_color': 'white'
     }
 
+
 initial_sequences = [
     {'sequence': 'GGUGCAUGCCGAGGGGCGGUUGGCCUCGUAAAAAGCCGCAAAAAAUAGCAUGUAGUACC',
      'structure': '((((((((((((((.[[[[[[..))))).....]]]]]]........)))))...))))',
@@ -37,6 +38,7 @@ initial_sequences = [
 def description():
     return 'RNA secondary structure analysis.'
 
+
 def layout():
     return html.Div(
         id='forna-body',
@@ -46,204 +48,208 @@ def layout():
                 id='forna-control-tabs',
                 className='control-tabs',
                 children=[
-                    dcc.Tabs(id='forna-tabs', value='what-is',
-                             children=[
-                                 dcc.Tab(
-                                     label='About',
-                                     value='what-is',
-                                     children=html.Div(className='control-tab', children=[
-                                         html.H4(className='what-is', children='What is FornaContainer?'),
-                                         html.P('FornaContainer is an awesome new component.')
-                                     ])
-                                 ),
+                    dcc.Tabs(id='forna-tabs', value='what-is', children=[
+                        dcc.Tab(
+                            label='About',
+                            value='what-is',
+                            children=html.Div(className='control-tab', children=[
+                                html.H4(className='what-is', children='What is FornaContainer?'),
+                                html.P('FornaContainer is an awesome new component.')
+                            ])
+                        ),
 
-                                 dcc.Tab(
-                                     label='Add Sequence',
-                                     value='add-sequence',
-                                     children=html.Div(className='control-tab', children=[
-                                         html.Div(
-                                             title='Enter a dot-bracket string and a nucleotide sequence.',
-                                             className='app-controls-block',
-                                             children=[
-                                                 html.Div(className='fullwidth-app-controls-name',
-                                                          children='Sequence'),
-                                                 html.Div(
-                                                     className='app-controls-desc',
-                                                     children='Specify the nucleotide sequence as a string.'
+                        dcc.Tab(
+                            label='Add Sequence',
+                            value='add-sequence',
+                            children=html.Div(className='control-tab', children=[
+                                html.Div(
+                                    title='Enter a dot-bracket string and a nucleotide sequence.',
+                                    className='app-controls-block',
+                                    children=[
+                                        html.Div(className='fullwidth-app-controls-name',
+                                                 children='Sequence'),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Specify the nucleotide sequence as a string.'
                                                  ),
-                                                 dcc.Input(
-                                                     id='forna-sequence',
-                                                     value='GGUGCAUGCCGAGGGGCGGUUGGCCUCGUAAAAAGCCGCAAAAAAUAGCAUGUAGUACC'
-                                                 ),
+                                        dcc.Input(
+                                            id='forna-sequence',
+                                            value='GGUGCAUGCCGAGGGGCGGUUGGCCUCGUA\
+                                            AAAAGCCGCAAAAAAUAGCAUGUAGUACC'
+                                        ),
 
-                                                 html.Br(),
-                                                 html.Br(),
+                                        html.Br(),
+                                        html.Br(),
 
-                                                 html.Div(className='fullwidth-app-controls-name',
-                                                          children='Structure'),
-                                                 html.Div(
-                                                     className='app-controls-desc',
-                                                     children='Specify the RNA secondary structure with a dot-bracket string.'
-                                                 ),
-                                                 dcc.Input(
-                                                     id='forna-structure',
-                                                     value='((((((((((((((.[[[[[[..))))).....]]]]]]........)))))...))))'
-                                                 ),
+                                        html.Div(className='fullwidth-app-controls-name',
+                                                 children='Structure'),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Specify the RNA secondary structure '
+                                            'with a dot-bracket string.'
+                                        ),
+                                        dcc.Input(
+                                            id='forna-structure',
+                                            value='((((((((((((((.[[[[[[..))))).....]]]]]]'
+                                            '........)))))...))))'
+                                        ),
 
-                                                 html.Br(),
-                                                 html.Br(),
+                                        html.Br(),
+                                        html.Br(),
 
-                                                 html.Div(className='fullwidth-app-controls-name',
-                                                          children='ID'),
-                                                 html.Div(
-                                                     className='app-controls-desc',
-                                                     children='Specify a unique ID for this sequence.'
-                                                 ),
-                                                 dcc.Input(id='forna-id', value='example')
-
-                                             ]
-                                         ),
-
-                                         html.Div(
-                                             title='Change some boolean properties.',
-                                             className='app-controls-block',
-                                             children=[
-                                                 html.Div(className='app-controls-name',
-                                                          children='Apply force'),
-                                                 daq.BooleanSwitch(
-                                                     id='forna-apply-force',
-                                                     on=True,
-                                                     color='#85002D'
-                                                 ),
-                                                 html.Div(
-                                                     className='app-controls-desc',
-                                                     children='Indicate whether the force-directed layout ' +
-                                                     'will be applied to this molecule.'
-                                                 ),
-                                                 html.Br(),
-                                                 html.Div(className='app-controls-name',
-                                                          children='Circularize external'),
-                                                 daq.BooleanSwitch(
-                                                     id='forna-circularize-external',
-                                                     on=True,
-                                                     color='#85002D'
-                                                 ),
-                                                 html.Div(
-                                                     className='app-controls-desc',
-                                                     children='Indicate whether the external loops ' +
-                                                     'should be forced to be arranged in a circle.'
-                                                 ),
-                                                 html.Br(),
-                                                 html.Div(className='app-controls-name',
-                                                          children='Avoid others'),
-                                                 daq.BooleanSwitch(
-                                                     id='forna-avoid-others',
-                                                     on=True,
-                                                     color='#85002D'
-                                                 ),
-                                                 html.Div(
-                                                     className='app-controls-desc',
-                                                     children='Indicate whether this molecule should ' +
-                                                     '"avoid" being close to other molecules.'
-                                                 ),
-                                                 html.Br(),
-                                                 html.Div(className='app-controls-name',
-                                                          children='Label interval'),
-                                                 dcc.Slider(
-                                                     id='forna-label-interval',
-                                                     min=1,
-                                                     max=10,
-                                                     value=5,
-                                                     marks={i+1: str(i+1) for i in range(10)}
-                                                 ),
-                                                 html.Div(
-                                                     className='app-controls-desc',
-                                                     children='Indicate how often nucleotide numbers ' +
-                                                     'are labelled with their number.'
-                                                 )
+                                        html.Div(className='fullwidth-app-controls-name',
+                                                 children='ID'),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Specify a unique ID for this sequence.'
+                                        ),
+                                        dcc.Input(id='forna-id', value='example')
 
                                              ]
-                                         ),
+                                ),
 
-                                         html.Hr(),
-                                         html.Div(id='forna-error-message'),
-                                         html.Button(id='forna-submit-sequence', children='Submit sequence'),
-                                     ])
-                                 ),
-                                 dcc.Tab(
-                                     label='Sequences',
-                                     value='show-sequences',
-                                     children=html.Div(className='control-tab', children=[
-                                         html.Div(
-                                             className='app-controls-block',
-                                             children=[
-                                                 html.Div(
-                                                     className='fullwidth-app-controls-name',
-                                                     children='Sequences to display'
-                                                 ),
-                                                 html.Div(
-                                                     className='app-controls-desc',
-                                                     children='Choose the sequences to display by ID.'
-                                                 ),
-                                                 html.Br(),
-                                                 dcc.Dropdown(
-                                                     id='forna-sequences-display',
-                                                     multi=True,
-                                                     clearable=True,
-                                                     value='example'
-                                                 )
-                                             ]
-                                         ),
-                                         html.Hr(),
-                                         html.Div(
-                                             className='app-controls-block',
-                                             children=[
-                                                 html.Div(
-                                                     className='app-controls-name',
-                                                     children='Color scheme'
-                                                 ),
-                                                 dcc.Dropdown(
-                                                     id='forna-color-scheme',
-                                                     options=[
-                                                         {'label': color_scheme,
-                                                          'value': color_scheme}
-                                                         for color_scheme in ['sequence', 'structure', 'positions']
-                                                     ],
-                                                     value='sequence'
-                                                 ),
-                                                 html.Br(),
-                                                 html.Div(
-                                                     className='app-controls-desc',
-                                                     id='forna-color-scheme-desc',
-                                                     children='Choose the color scheme to use.'
-                                                 ),
-                                             ]
-                                         ),
-                                         html.Hr(),
-                                         html.Div(
-                                             className='app-controls-block',
-                                             children=[
-                                                 html.Div(
-                                                     className='fullwidth-app-controls-name',
-                                                     children='Sequence information by ID'
-                                                 ),
-                                                 html.Div(
-                                                     className='app-controls-desc',
-                                                     children='Search for a sequence by ID ' +
-                                                     'to get more information.'
-                                                 ),
-                                                 html.Br(),
-                                                 dcc.Dropdown(
-                                                     id='forna-sequences-info-search',
-                                                     clearable=True
-                                                 ),
-                                                 html.Br(),
-                                                 html.Div(id='forna-sequence-info')
-                                             ]
-                                         ),
-                                     ])
-                                 )
-                             ])
+                                html.Div(
+                                    title='Change some boolean properties.',
+                                    className='app-controls-block',
+                                    children=[
+                                        html.Div(className='app-controls-name',
+                                                 children='Apply force'),
+                                        daq.BooleanSwitch(
+                                            id='forna-apply-force',
+                                            on=True,
+                                            color='#85002D'
+                                        ),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Indicate whether the force-directed layout ' +
+                                            'will be applied to this molecule.'
+                                        ),
+                                        html.Br(),
+                                        html.Div(className='app-controls-name',
+                                                 children='Circularize external'),
+                                        daq.BooleanSwitch(
+                                            id='forna-circularize-external',
+                                            on=True,
+                                            color='#85002D'
+                                        ),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Indicate whether the external loops ' +
+                                            'should be forced to be arranged in a circle.'
+                                        ),
+                                        html.Br(),
+                                        html.Div(className='app-controls-name',
+                                                 children='Avoid others'),
+                                        daq.BooleanSwitch(
+                                            id='forna-avoid-others',
+                                            on=True,
+                                            color='#85002D'
+                                        ),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Indicate whether this molecule should ' +
+                                            '"avoid" being close to other molecules.'
+                                        ),
+                                        html.Br(),
+                                        html.Div(className='app-controls-name',
+                                                 children='Label interval'),
+                                        dcc.Slider(
+                                            id='forna-label-interval',
+                                            min=1,
+                                            max=10,
+                                            value=5,
+                                            marks={i+1: str(i+1) for i in range(10)}
+                                        ),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Indicate how often nucleotide numbers ' +
+                                            'are labelled with their number.'
+                                        )
+
+                                    ]
+                                ),
+
+                                html.Hr(),
+                                html.Div(id='forna-error-message'),
+                                html.Button(id='forna-submit-sequence', children='Submit sequence'),
+                            ])
+                        ),
+                        dcc.Tab(
+                            label='Sequences',
+                            value='show-sequences',
+                            children=html.Div(className='control-tab', children=[
+                                html.Div(
+                                    className='app-controls-block',
+                                    children=[
+                                        html.Div(
+                                            className='fullwidth-app-controls-name',
+                                            children='Sequences to display'
+                                        ),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Choose the sequences to display by ID.'
+                                        ),
+                                        html.Br(),
+                                        dcc.Dropdown(
+                                            id='forna-sequences-display',
+                                            multi=True,
+                                            clearable=True,
+                                            value='example'
+                                        )
+                                    ]
+                                ),
+                                html.Hr(),
+                                html.Div(
+                                    className='app-controls-block',
+                                    children=[
+                                        html.Div(
+                                            className='app-controls-name',
+                                            children='Color scheme'
+                                        ),
+                                        dcc.Dropdown(
+                                            id='forna-color-scheme',
+                                            options=[
+                                                {'label': color_scheme,
+                                                 'value': color_scheme}
+                                                for color_scheme in [
+                                                        'sequence', 'structure', 'positions'
+                                                ]
+                                            ],
+                                            value='sequence'
+                                        ),
+                                        html.Br(),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            id='forna-color-scheme-desc',
+                                            children='Choose the color scheme to use.'
+                                        ),
+                                    ]
+                                ),
+                                html.Hr(),
+                                html.Div(
+                                    className='app-controls-block',
+                                    children=[
+                                        html.Div(
+                                            className='fullwidth-app-controls-name',
+                                            children='Sequence information by ID'
+                                        ),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Search for a sequence by ID ' +
+                                            'to get more information.'
+                                        ),
+                                        html.Br(),
+                                        dcc.Dropdown(
+                                            id='forna-sequences-info-search',
+                                            clearable=True
+                                        ),
+                                        html.Br(),
+                                        html.Div(id='forna-sequence-info')
+                                    ]
+                                ),
+                            ])
+                        )
+                    ])
                 ]
             ),
             html.Div(id='forna-container', children=[
@@ -280,8 +286,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                      seqid, current):
 
         error_msg = html.P(
-            'You already have a sequence with this ID. ' + \
-            'Please choose a different ID, or check the next tab ' + \
+            'You already have a sequence with this ID. ' +
+            'Please choose a different ID, or check the next tab ' +
             'to see which IDs have already been taken.',
             style={'color': 'red'}
         )
@@ -333,9 +339,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             for sequence_id in data.keys()
         ]
 
-
         return new_options, new_options
-
 
     @app.callback(
         Output('forna-sequence-info', 'children'),
@@ -361,7 +365,6 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 for option in data[sequence_id]['options'].keys()
             ]
         )
-
 
     @app.callback(
         Output('forna', 'sequences'),
