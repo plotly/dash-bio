@@ -340,7 +340,7 @@ Methods:
         if log_transform:
             self._data = np.log2(self._data)
         if standardize in ['row', 'column']:
-            self._data = self._scale(self._data, standardize)
+            self._data = self._scale(standardize)
 
     def figure(
             self,
