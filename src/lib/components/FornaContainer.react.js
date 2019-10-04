@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {FornaContainer as PreFornaContainer} from 'fornac';
+import * as R from 'ramda';
 
 /**
  * This is a FornaContainer component.
@@ -32,53 +33,55 @@ export default class FornaContainer extends Component {
                     seq.options ? seq.options : {},
                     {sequence: seq.sequence, structure: seq.structure}
                 );
-                console.warn(unpackedOptions);
                 this._fornaContainer.addRNA(seq.structure, unpackedOptions);
             });
         }
     }
 
     shouldComponentUpdate(nextProps) {
-        const {sequences, nodeFillColor, colorScheme} = this.props;
+        const {sequences} = this.props;
 
-        // update the component if the actual sequences have changed
+        if (Boolean(sequences) !== Boolean(nextProps.sequences)) {
+            return true;
+        }
+
+        if (sequences.length !== nextProps.sequences.length) {
+            return true;
+        }
+
+        const sequence_compare = R.zip(sequences, nextProps.sequences);
+
         if (
-            (sequences && !nextProps.sequences) ||
-            (!sequences && nextProps.sequences) ||
-            sequences.length !== nextProps.sequences.length ||
-            sequences.some(
-                (seq, i) =>
-                    sequences[i].sequence !== nextProps.sequences[i].sequence ||
-                    sequences[i].structure !==
-                        nextProps.sequences[i].structure ||
-                    (sequences[i].options && !nextProps.sequences[i].options) ||
-                    (!sequences[i].options && nextProps.sequences[i].options) ||
-                    (sequences[i].options &&
-                        nextProps.sequences[i].options &&
-                        Object.keys(seq.options).some(
-                            optionName =>
-                                (sequences[i].options[optionName] &&
-                                    !nextProps.sequences[i].options[
-                                        optionName
-                                    ]) ||
-                                (!sequences[i].options[optionName] &&
-                                    nextProps.sequences[i].options[
-                                        optionName
-                                    ]) ||
-                                sequences[i].options[optionName] !==
-                                    nextProps.sequences[i].options[optionName]
-                        ))
+            sequence_compare.some(
+                seq =>
+                    seq[0].sequence !== seq[1].sequence ||
+                    seq[0].structure !== seq[1].structure
             )
         ) {
             return true;
         }
 
-        // only change node fill color/color scheme if these props have changed
-        if (nodeFillColor !== nextProps.nodeFillColor) {
-            this._fornaContainer.setOutlineColor(nextProps.nodeFillColor);
+        if (
+            sequence_compare.some(
+                seq =>
+                    Boolean(seq[0].options) !== Boolean(seq[1].options) ||
+                    R.symmetricDifference(
+                        Object.keys(seq[0].options),
+                        Object.keys(seq[1].options)
+                    ).length > 0
+            )
+        ) {
+            return true;
         }
-        if (colorScheme !== nextProps.colorScheme) {
-            this._fornaContainer.changeColorScheme(nextProps.colorScheme);
+
+        if (
+            sequence_compare.some(seq =>
+                Object.keys(seq[0].options).some(
+                    _option => seq[0].options._option !== seq[1].options._option
+                )
+            )
+        ) {
+            return true;
         }
 
         return false;
