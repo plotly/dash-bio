@@ -117,7 +117,7 @@ FornaContainer.propTypes = {
      * The molecules that will be displayed.
      */
     sequences: PropTypes.arrayOf(
-        PropTypes.shape({
+        PropTypes.exact({
             /**
              * A string representing the RNA nucleotide sequence of
              * the RNA molecule.
@@ -136,7 +136,7 @@ FornaContainer.propTypes = {
              * Additional options to be applied to the rendering of
              * the RNA molecule.
              */
-            options: PropTypes.shape({
+            options: PropTypes.exact({
                 /**
                  * Indicate whether the force-directed layout will be
                  * applied to the displayed molecule. Enabling this
