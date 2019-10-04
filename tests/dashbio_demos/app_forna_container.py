@@ -193,7 +193,7 @@ def layout():
                                                      value='example'
                                                  )
                                              ]
-                                          ),
+                                         ),
                                          html.Hr(),
                                          html.Div(
                                              className='app-controls-block',
@@ -207,9 +207,7 @@ def layout():
                                                      options=[
                                                          {'label': color_scheme,
                                                           'value': color_scheme}
-                                                         for color_scheme in [
-                                                                 'sequence', 'structure', 'positions'
-                                                         ]
+                                                         for color_scheme in ['sequence', 'structure', 'positions']
                                                      ],
                                                      value='sequence'
                                                  ),
@@ -220,7 +218,7 @@ def layout():
                                                      children='Choose the color scheme to use.'
                                                  ),
                                              ]
-                                          ),
+                                         ),
                                          html.Hr(),
                                          html.Div(
                                              className='app-controls-block',
@@ -242,7 +240,7 @@ def layout():
                                                  html.Br(),
                                                  html.Div(id='forna-sequence-info')
                                              ]
-                                          ),
+                                         ),
                                      ])
                                  )
                              ])
@@ -262,7 +260,7 @@ def layout():
     )
 
 
-def callbacks(app):
+def callbacks(app):  # pylint: disable=redefined-outer-name
 
     @app.callback(
         [Output('forna-sequences', 'data'),
@@ -318,7 +316,7 @@ def callbacks(app):
     )
     def update_color_scheme(color_scheme):
         return color_scheme
-    
+
     @app.callback(
         [Output('forna-sequences-display', 'options'),
          Output('forna-sequences-info-search', 'options')],
