@@ -35,12 +35,14 @@
     margin-bottom: 20px;
 }
 
-#forna-submit-sequence {
+#forna-submit-sequence, #forna-submit-custom-colors {
     width: 100%;
 }
 
 #forna-apply-force, #forna-circularize-external,
-#forna-avoid-others, #forna-label-interval, #forna-color-scheme {
+#forna-avoid-others, #forna-label-interval,
+#forna-color-scheme, #forna-custom-colors-molecule,
+#forna-color-range {
     display: inline-block !important;
     text-align: right;
     position: relative;
@@ -48,17 +50,49 @@
     float: right;
 }
 
-#forna-label-interval, #forna-color-scheme {
+#forna-label-interval, #forna-color-scheme,
+#forna-custom-colors-molecule, #forna-color-range {
     width: 150px;
     position: relative;
     text-align: left;
+}
+
+#forna-color-range {
+    position: relative;
+    top: 10px;
+}
+
+#forna-color-domain-low, #forna-color-domain-high {
+    display: inline-block;
+    width: 48%;
+}
+
+#forna-color-map {
+    width: 100%;
+}
+
+#forna-custom-colorscheme > #forna-color-low, #forna-custom-colorscheme > #forna-color-high {
+    width: 48%;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+#forna-custom-colorscheme > #forna-color-low, #forna-color-domain-low {
+    margin-right: 2%;
+}
+#forna-custom-colorscheme > #forna-color-high, #forna-color-domain-high {
+    margin-left: 2%;
+}
+
+#forna-custom-colorscheme .chrome-picker {
+    width: 100% !important;
+    border: none !important;
 }
 
 #forna-sequence-info {
     font-size: 10pt;
 }
 
-#forna-color-scheme {
+#forna-color-scheme, #forna-custom-colors-molecule {
     position: relative;
     top: 0px;
 }
