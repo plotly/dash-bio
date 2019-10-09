@@ -4,7 +4,7 @@ cython>=0.19
 dash>=1.0.0
 dash-bio==0.1.5rc8
 dash-bio-utils==0.0.3rc3
-dash-daq==0.1.4
+dash-daq==0.2.2
 gunicorn==19.9.0
 jsonschema==2.6.0
 matplotlib==3.0.2
