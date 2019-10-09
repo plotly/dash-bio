@@ -202,12 +202,45 @@ FornaContainer.propTypes = {
     colorScheme: PropTypes.oneOf(['sequence', 'structure', 'positions', 'custom']),
 
     /**
-     * The custom color scheme used to color the nodes if the 'custom'
-     * option is chosen.
+     * The custom colors used to color the nodes if the 'custom'
+     * option is chosen for the `colorScheme` prop.
+     * For example, if the domain is `[0, 20]`, the range is
+     * `['yellow', 'red']`, and the dictionary specified in
+     * 'colorValues' that corresponds to a molecule is `{'6': 10}`,
+     * the sixth nucleotide in that molecule will have a color that is
+     * perfectly in between yellow and red (i.e., orange), since 10 is
+     * perfectly in between 0 and 20.
      */
     customColors: PropTypes.exact({
+	/**
+	 * The limits for the color scale. This is used with the range
+	 * specified in `range` to calculate the color of a given
+	 * nucleotide, based on the number that it is assigned.
+	 */
         domain: PropTypes.arrayOf(PropTypes.number),
+
+	/**
+	 * The range of colors that will be used in conjunction with
+	 * the `domain` prop.
+	 */
         range: PropTypes.arrayOf(PropTypes.string),
+
+	/**
+	 * A dictionary which contains keys, each of which are either
+	 * an empty string (`''`) or the name of a molecule that has
+	 * been defined in the `name` prop in the `options` for a
+	 * sequence in the `sequences` property.
+	 * The value corresponding to the key that is an empty string
+	 * (if that key exists) is a "default" color scheme that will
+	 * be applied first, and can be overridden by the color
+	 * schemes defined for molecule-specific keys. The
+	 * aforementioned color schemes each take the form of a
+	 * dictionary in which the keys are the nucleotide positions
+	 * and the values are either a) numbers to be normalized with
+	 * respect to the scale defined in `domain` (so that their
+	 * color will be calculated), or b) direct string
+	 * representations of colors.
+	 */
         colorValues: PropTypes.objectOf(
             PropTypes.objectOf(
                 PropTypes.oneOfType([PropTypes.string, PropTypes.number])
