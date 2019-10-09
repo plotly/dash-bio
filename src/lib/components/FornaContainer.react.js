@@ -40,7 +40,7 @@ export default class FornaContainer extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        const {sequences} = this.props;
+        const {sequences, customColors, colorScheme, nodeFillColor} = this.props;
 
         if (Boolean(sequences) !== Boolean(nextProps.sequences)) {
             return true;
@@ -83,6 +83,19 @@ export default class FornaContainer extends Component {
             )
         ) {
             return true;
+        }
+
+        this._fornaContainer.addCustomColors(nextProps.customColors);
+
+        if (nodeFillColor !== nextProps.nodeFillColor) {
+            this._fornaContainer.setOutlineColor(nextProps.nodeFillColor);
+        }
+
+        if (colorScheme !== nextProps.colorScheme) {
+            this._fornaContainer.changeColorScheme(nextProps.colorScheme);
+            if (nextProps.colorScheme === 'custom') {
+                return true;
+            }
         }
 
         return false;
@@ -186,7 +199,21 @@ FornaContainer.propTypes = {
     /**
      * The color scheme that is used to color the nodes.
      */
-    colorScheme: PropTypes.oneOf(['sequence', 'structure', 'positions']),
+    colorScheme: PropTypes.oneOf(['sequence', 'structure', 'positions', 'custom']),
+
+    /**
+     * The custom color scheme used to color the nodes if the 'custom'
+     * option is chosen.
+     */
+    customColors: PropTypes.exact({
+        domain: PropTypes.arrayOf(PropTypes.number),
+        range: PropTypes.arrayOf(PropTypes.string),
+        colorValues: PropTypes.objectOf(
+            PropTypes.objectOf(
+                PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+            )
+        )
+    }),
 
     /**
      * Allow users to zoom in and pan the display. If this is enabled,
