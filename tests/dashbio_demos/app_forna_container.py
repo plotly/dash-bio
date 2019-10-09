@@ -48,7 +48,7 @@ def layout():
                 id='forna-control-tabs',
                 className='control-tabs',
                 children=[
-                    dcc.Tabs(id='forna-tabs', value='what-is', children=[
+                    dcc.Tabs(id='forna-tabs', value='colors', children=[
                         dcc.Tab(
                             label='About',
                             value='what-is',
@@ -59,7 +59,7 @@ def layout():
                         ),
 
                         dcc.Tab(
-                            label='Add Sequence',
+                            label='Add New',
                             value='add-sequence',
                             children=html.Div(className='control-tab', children=[
                                 html.Div(
@@ -71,11 +71,11 @@ def layout():
                                         html.Div(
                                             className='app-controls-desc',
                                             children='Specify the nucleotide sequence as a string.'
-                                                 ),
+                                        ),
                                         dcc.Input(
                                             id='forna-sequence',
-                                            value='GGUGCAUGCCGAGGGGCGGUUGGCCUCGUA\
-                                            AAAAGCCGCAAAAAAUAGCAUGUAGUACC'
+                                            value='GGUGCAUGCCGAGGGGCGGUUGGCCUCGUA' +
+                                            'AAAAGCCGCAAAAAAUAGCAUGUAGUACC'
                                         ),
 
                                         html.Br(),
@@ -94,20 +94,8 @@ def layout():
                                             '........)))))...))))'
                                         ),
 
-                                        html.Br(),
-                                        html.Br(),
-
-                                        html.Div(className='fullwidth-app-controls-name',
-                                                 children='ID'),
-                                        html.Div(
-                                            className='app-controls-desc',
-                                            children='Specify a unique ID for this sequence.'
-                                        ),
-                                        dcc.Input(id='forna-id', value='example')
-
-                                             ]
+                                    ]
                                 ),
-
                                 html.Div(
                                     title='Change some boolean properties.',
                                     className='app-controls-block',
@@ -169,7 +157,21 @@ def layout():
                                     ]
                                 ),
 
+                                html.Div(
+                                    className='app-controls-block',
+                                    children=[
+                                        html.Div(className='fullwidth-app-controls-name',
+                                                 children='ID'),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Specify a unique ID for this sequence.'
+                                        ),
+                                        dcc.Input(id='forna-id', value='example')
+                                    ]
+                                ),
+
                                 html.Hr(),
+
                                 html.Div(id='forna-error-message'),
                                 html.Button(id='forna-submit-sequence', children='Submit sequence'),
                             ])
@@ -203,65 +205,161 @@ def layout():
                                     className='app-controls-block',
                                     children=[
                                         html.Div(
-                                            className='app-controls-name',
-                                            children='Color scheme'
-                                        ),
-                                        dcc.Dropdown(
-                                            id='forna-color-scheme',
-                                            options=[
-                                                {'label': color_scheme,
-                                                 'value': color_scheme}
-                                                for color_scheme in [
-                                                        'sequence', 'structure', 'positions'
-                                                ]
-                                            ],
-                                            value='sequence'
-                                        ),
-                                        html.Br(),
-                                        html.Div(
-                                            className='app-controls-desc',
-                                            id='forna-color-scheme-desc',
-                                            children='Choose the color scheme to use.'
-                                        ),
+                                            className='app-controls-block',
+                                            children=[
+                                                html.Div(
+                                                    className='fullwidth-app-controls-name',
+                                                    children='Sequence information by ID'
+                                                ),
+                                                html.Div(
+                                                    className='app-controls-desc',
+                                                    children='Search for a sequence by ID ' +
+                                                    'to get more information.'
+                                                ),
+                                                html.Br(),
+                                                dcc.Dropdown(
+                                                    id='forna-sequences-info-search',
+                                                    clearable=True
+                                                ),
+                                                html.Br(),
+                                                html.Div(id='forna-sequence-info')
+                                            ]
+                                        )
                                     ]
-                                ),
-                                html.Hr(),
+                                )
+                            ])
+                        ),
+                        dcc.Tab(
+                            label='Colors',
+                            value='colors',
+                            children=html.Div(className='control-tab', children=[
                                 html.Div(
+                                    className='app-controls-name',
+                                    children='Color scheme'
+                                ),
+                                dcc.Dropdown(
+                                    id='forna-color-scheme',
+                                    options=[
+                                        {'label': color_scheme,
+                                         'value': color_scheme}
+                                        for color_scheme in [
+                                            'sequence', 'structure', 'positions', 'custom'
+                                        ]
+                                    ],
+                                    value='sequence'
+                                ),
+                                html.Div(
+                                    className='app-controls-desc',
+                                    id='forna-color-scheme-desc',
+                                    children='Choose the color scheme to use.'
+                                ),
+                                html.Div(
+                                    id='forna-custom-colorscheme',
                                     className='app-controls-block',
                                     children=[
+                                        html.Hr(),
                                         html.Div(
-                                            className='fullwidth-app-controls-name',
-                                            children='Sequence information by ID'
+                                            className='app-controls-name',
+                                            children='Molecule name'
+                                        ),
+                                        dcc.Dropdown(
+                                            id='forna-custom-colors-molecule'
                                         ),
                                         html.Div(
                                             className='app-controls-desc',
-                                            children='Search for a sequence by ID ' +
-                                            'to get more information.'
+                                            children='Select the sequence to which the custom ' +
+                                            'color scheme will be applied. If none is selected, ' +
+                                            'the color scheme will be applied to all molecules.'
                                         ),
                                         html.Br(),
-                                        dcc.Dropdown(
-                                            id='forna-sequences-info-search',
-                                            clearable=True
+                                        html.Div(
+                                            className='app-controls-name',
+                                            children='Coloring range'
+                                        ),
+                                        daq.ColorPicker(
+                                            id='forna-color-low',
+                                            label='Low',
+                                            labelPosition='top',
+                                            value={'hex': '#FF0000'}
+                                        ),
+                                        daq.ColorPicker(
+                                            id='forna-color-high',
+                                            label='High',
+                                            labelPosition='top',
+                                            value={'hex': '#FF00FF'}
+                                        ),
+                                        html.Div(
+                                            className='fullwidth-app-controls-name',
+                                            children='Coloring domain'
+                                        ),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Specify a minimum and maximum value ' +
+                                            'which will be used to calculate intermediate ' +
+                                            'colors for nucleotides that have a numerical ' +
+                                            'value specified below.'
                                         ),
                                         html.Br(),
-                                        html.Div(id='forna-sequence-info')
+                                        dcc.Input(
+                                            id='forna-color-domain-low',
+                                            type='number',
+                                            value=1
+                                        ),
+                                        dcc.Input(
+                                            id='forna-color-domain-high',
+                                            type='number',
+                                            value=100
+                                        ),
+                                        html.Br(),
+                                        html.Br(),
+                                        html.Div(
+                                            className='fullwidth-app-controls-name',
+                                            children='Colors map'
+                                        ),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Specify the colors for each ' +
+                                            'nucleotide by entering on each line the ' +
+                                            'position of the nucleotide followed by \':\' ' +
+                                            'and either a) a string representation of a ' +
+                                            'color (surrounded by single-quotes (\'), or ' +
+                                            'b) a number within the range that is ' +
+                                            'specified above.'
+                                        ),
+                                        html.Br(),
+                                        dcc.Textarea(
+                                            id='forna-color-map',
+                                            placeholder='1: \'red\'\n2: 20\n5: \'#ff0000\''
+                                        ),
+                                        html.Hr(),
+                                        html.Div(
+                                            id='forna-custom-colors-error'
+                                        ),
+                                        html.Button(
+                                            id='forna-submit-custom-colors',
+                                            children='Submit'
+                                        )
                                     ]
-                                ),
+                                )
                             ])
                         )
                     ])
-                ]
-            ),
+                ]),
             html.Div(id='forna-container', children=[
                 dash_bio.FornaContainer(
                     id='forna',
                     height=700,
                     width=500,
-                    sequences=initial_sequences
+                    sequences=initial_sequences,
+                    customColors={
+                        'range': ['rgb(255,0,200)', 'rgb(0,0,0)'],
+                        'domain': [0, 100]
+                    }
                 )
             ]),
 
-            dcc.Store(id='forna-sequences')
+            dcc.Store(id='forna-sequences'),
+            dcc.Store(id='forna-custom-colors')
         ]
     )
 
@@ -310,7 +408,8 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                     'applyForce': apply_force,
                     'circularizeExternal': circularize_ext,
                     'avoidOthers': avoid_others,
-                    'labelInterval': label_interval
+                    'labelInterval': label_interval,
+                    'name': seqid
                 }
             }
 
@@ -324,8 +423,79 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return color_scheme
 
     @app.callback(
+        Output('forna-custom-colorscheme', 'style'),
+        [Input('forna-color-scheme', 'value')]
+    )
+    def show_hide_custom_colorscheme(color_scheme):
+        return {'display': 'block' if color_scheme == 'custom' else 'none'}
+
+    @app.callback(
+        Output('forna', 'customColors'),
+        [Input('forna-custom-colors', 'data')]
+    )
+    def update_custom_colors(data):
+        if data is None:
+            raise PreventUpdate
+        return data
+
+    @app.callback(
+        [Output('forna-custom-colors', 'data'),
+         Output('forna-custom-colors-error', 'children')],
+        [Input('forna-submit-custom-colors', 'n_clicks')],
+        [State('forna-color-low', 'value'),
+         State('forna-color-high', 'value'),
+         State('forna-color-domain-low', 'value'),
+         State('forna-color-domain-high', 'value'),
+         State('forna-color-map', 'value'),
+         State('forna-custom-colors-molecule', 'value'),
+         State('forna-custom-colors', 'data')]
+    )
+    def update_custom_colors_storage(nclicks, color_low, color_high,
+                                     color_domain_low, color_domain_high,
+                                     color_map, seq_id, current):
+        if nclicks is None or nclicks == 0:
+            raise PreventUpdate
+        if color_low is None or color_high is None:
+            raise PreventUpdate
+        if color_domain_low is None or color_domain_high is None:
+            raise PreventUpdate
+        if color_map is None or len(color_map) == 0:
+            raise PreventUpdate
+
+        error_message = None
+
+        if seq_id is None:
+            seq_id = ''
+
+        color_map_values = [color.strip().split(':') for color in color_map.split('\n')]
+        color_map_dict = {}
+
+        try:
+            color_map_dict = {
+                str(color_map_value[0]).strip():
+                int(color_map_value[1].strip()) if '\'' not in color_map_value[1]
+                else color_map_value[1].strip().strip('\'')
+                for color_map_value in color_map_values
+            }
+        except ValueError:
+            error_message = 'Please ensure that the correct format is provided.'
+            return current, error_message
+
+        if current is None:
+            current = {}
+
+        current['domain'] = [color_domain_low, color_domain_high]
+        current['range'] = [color_low['hex'], color_high['hex']]
+
+        current['colorValues'] = {
+            seq_id: color_map_dict
+        }
+        return current, None
+
+    @app.callback(
         [Output('forna-sequences-display', 'options'),
-         Output('forna-sequences-info-search', 'options')],
+         Output('forna-sequences-info-search', 'options'),
+         Output('forna-custom-colors-molecule', 'options')],
         [Input('forna-sequences', 'data')]
     )
     def update_sequences(data):
@@ -339,7 +509,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             for sequence_id in data.keys()
         ]
 
-        return new_options, new_options
+        return new_options, new_options, new_options + [{'label': 'Default', 'value': ''}]
 
     @app.callback(
         Output('forna-sequence-info', 'children'),
