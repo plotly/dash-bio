@@ -30,7 +30,8 @@ export default class FornaContainer extends Component {
 
             sequences.forEach(seq => {
                 const unpackedOptions = Object.assign(
-                    seq.options ? seq.options : {},
+                    {},
+                    seq.options,
                     {sequence: seq.sequence, structure: seq.structure}
                 );
                 this._fornaContainer.addRNA(seq.structure, unpackedOptions);
