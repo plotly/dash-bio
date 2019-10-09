@@ -103,7 +103,7 @@ export default class FornaContainer extends Component {
 
     render() {
         this.renderNewSequences();
-        return <div id={this.props.id} />;
+        return <div id={this.props.id} style={{'outline': 'none'}} />;
     }
 }
 
