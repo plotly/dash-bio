@@ -18,7 +18,6 @@ export default class FornaContainer extends Component {
         this._fornaContainer = new PreFornaContainer('#' + id, {
             initialSize: [height, width],
         });
-
         this.renderNewSequences();
     }
 
@@ -29,18 +28,17 @@ export default class FornaContainer extends Component {
             this._fornaContainer.clearNodes();
 
             sequences.forEach(seq => {
-                const unpackedOptions = Object.assign(
-                    {},
-                    seq.options,
-                    {sequence: seq.sequence, structure: seq.structure}
-                );
+                const unpackedOptions = Object.assign({}, seq.options, {
+                    sequence: seq.sequence,
+                    structure: seq.structure,
+                });
                 this._fornaContainer.addRNA(seq.structure, unpackedOptions);
             });
         }
     }
 
     shouldComponentUpdate(nextProps) {
-        const {sequences, customColors, colorScheme, nodeFillColor} = this.props;
+        const {sequences, colorScheme, nodeFillColor} = this.props;
 
         if (Boolean(sequences) !== Boolean(nextProps.sequences)) {
             return true;
@@ -103,7 +101,7 @@ export default class FornaContainer extends Component {
 
     render() {
         this.renderNewSequences();
-        return <div id={this.props.id} style={{'outline': 'none'}} />;
+        return <div id={this.props.id} style={{outline: 'none'}} />;
     }
 }
 
@@ -199,7 +197,12 @@ FornaContainer.propTypes = {
     /**
      * The color scheme that is used to color the nodes.
      */
-    colorScheme: PropTypes.oneOf(['sequence', 'structure', 'positions', 'custom']),
+    colorScheme: PropTypes.oneOf([
+        'sequence',
+        'structure',
+        'positions',
+        'custom',
+    ]),
 
     /**
      * The custom colors used to color the nodes if the 'custom'
@@ -212,40 +215,40 @@ FornaContainer.propTypes = {
      * perfectly in between 0 and 20.
      */
     customColors: PropTypes.exact({
-	/**
-	 * The limits for the color scale. This is used with the range
-	 * specified in `range` to calculate the color of a given
-	 * nucleotide, based on the number that it is assigned.
-	 */
+        /**
+         * The limits for the color scale. This is used with the range
+         * specified in `range` to calculate the color of a given
+         * nucleotide, based on the number that it is assigned.
+         */
         domain: PropTypes.arrayOf(PropTypes.number),
 
-	/**
-	 * The range of colors that will be used in conjunction with
-	 * the `domain` prop.
-	 */
+        /**
+         * The range of colors that will be used in conjunction with
+         * the `domain` prop.
+         */
         range: PropTypes.arrayOf(PropTypes.string),
 
-	/**
-	 * A dictionary which contains keys, each of which are either
-	 * an empty string (`''`) or the name of a molecule that has
-	 * been defined in the `name` prop in the `options` for a
-	 * sequence in the `sequences` property.
-	 * The value corresponding to the key that is an empty string
-	 * (if that key exists) is a "default" color scheme that will
-	 * be applied first, and can be overridden by the color
-	 * schemes defined for molecule-specific keys. The
-	 * aforementioned color schemes each take the form of a
-	 * dictionary in which the keys are the nucleotide positions
-	 * and the values are either a) numbers to be normalized with
-	 * respect to the scale defined in `domain` (so that their
-	 * color will be calculated), or b) direct string
-	 * representations of colors.
-	 */
+        /**
+         * A dictionary which contains keys, each of which are either
+         * an empty string (`''`) or the name of a molecule that has
+         * been defined in the `name` prop in the `options` for a
+         * sequence in the `sequences` property.
+         * The value corresponding to the key that is an empty string
+         * (if that key exists) is a "default" color scheme that will
+         * be applied first, and can be overridden by the color
+         * schemes defined for molecule-specific keys. The
+         * aforementioned color schemes each take the form of a
+         * dictionary in which the keys are the nucleotide positions
+         * and the values are either a) numbers to be normalized with
+         * respect to the scale defined in `domain` (so that their
+         * color will be calculated), or b) direct string
+         * representations of colors.
+         */
         colorValues: PropTypes.objectOf(
             PropTypes.objectOf(
                 PropTypes.oneOfType([PropTypes.string, PropTypes.number])
             )
-        )
+        ),
     }),
 
     /**
