@@ -57,7 +57,30 @@ def layout():
                             value='what-is',
                             children=html.Div(className='control-tab', children=[
                                 html.H4(className='what-is', children='What is FornaContainer?'),
-                                html.P('FornaContainer is an awesome new component.')
+                                html.P('FornaContainer is a force-directed graph that is '
+                                       'used to represent the secondary structure of nucleic '
+                                       'acids (i.e., DNA and RNA).'),
+                                html.P('In the "Add New" tab, you can enter a sequence '
+                                       'by specifying the nucleotide sequence and the '
+                                       'dot-bracket representation of the secondary '
+                                       'structure.'),
+                                html.P('In the "Sequences" tab, you can select which '
+                                       'sequences will be displayed, as well as obtian '
+                                       'information about the sequences that you have '
+                                       'already created.'),
+                                html.P('In the "Colors" tab, you can choose to color each '
+                                       'nucleotide according to its base, the structural '
+                                       'feature to which it belongs, or its position in '
+                                       'the sequence; you can also specify a custom color '
+                                       'scheme.'),
+                                'The example RNA molecule shown has ID ',
+                                html.A('PDB_01019',
+                                       href='http://www.rnasoft.ca/strand/'
+                                       'show_results.php?molecule_ID=PDB_01019'),
+                                ' on the ',
+                                html.A('RNA Strand',
+                                       href='http://www.rnasoft.ca/strand/'),
+                                ' database.'
                             ])
                         ),
 
@@ -282,13 +305,13 @@ def layout():
                                             id='forna-color-low',
                                             label='Low',
                                             labelPosition='top',
-                                            value={'hex': '#FF0000'}
+                                            value={'hex': '#BE0000'}
                                         ),
                                         daq.ColorPicker(
                                             id='forna-color-high',
                                             label='High',
                                             labelPosition='top',
-                                            value={'hex': '#FF00FF'}
+                                            value={'hex': '#336AFF'}
                                         ),
                                         html.Div(
                                             className='fullwidth-app-controls-name',
