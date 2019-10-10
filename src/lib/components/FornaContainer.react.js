@@ -16,7 +16,7 @@ export default class FornaContainer extends Component {
         const {id, height, width} = this.props;
 
         this._fornaContainer = new PreFornaContainer('#' + id, {
-            initialSize: [height, width],
+            initialSize: [width, height],
         });
         this.renderNewSequences();
     }
