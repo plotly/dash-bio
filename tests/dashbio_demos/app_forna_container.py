@@ -246,7 +246,8 @@ def layout():
                                             'sequence', 'structure', 'positions', 'custom'
                                         ]
                                     ],
-                                    value='sequence'
+                                    value='sequence',
+                                    clearable=False
                                 ),
                                 html.Div(
                                     className='app-controls-desc',
@@ -319,22 +320,24 @@ def layout():
                                         html.Div(
                                             className='app-controls-desc',
                                             children='Specify the colors for each ' +
-                                            'nucleotide by entering on each line the ' +
-                                            'position of the nucleotide followed by \':\' ' +
-                                            'and either a) a string representation of a ' +
-                                            'color (surrounded by single-quotes (\'), or ' +
-                                            'b) a number within the range that is ' +
-                                            'specified above.'
+                                            'nucleotide by entering the position of ' +
+                                            'the nucleotide into the left input box, ' +
+                                            'and either a) a string representation ' +
+                                            'of a color or b) a number within the ' +
+                                            'range specified above. Then, press the ' +
+                                            '"Submit" button,'
                                         ),
                                         html.Br(),
-                                        dcc.Textarea(
-                                            id='forna-color-map',
-                                            placeholder='1: \'red\'\n2: 20\n5: \'#ff0000\''
+                                        dcc.Input(
+                                            id='forna-color-map-nucleotide',
+                                            type='number',
+                                            min=1
                                         ),
-                                        html.Hr(),
-                                        html.Div(
-                                            id='forna-custom-colors-error'
+                                        dcc.Input(
+                                            id='forna-color-map-color',
                                         ),
+                                        html.Br(),
+                                        html.Br(),
                                         html.Button(
                                             id='forna-submit-custom-colors',
                                             children='Submit'
@@ -439,58 +442,51 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return data
 
     @app.callback(
-        [Output('forna-custom-colors', 'data'),
-         Output('forna-custom-colors-error', 'children')],
-        [Input('forna-submit-custom-colors', 'n_clicks')],
-        [State('forna-color-low', 'value'),
-         State('forna-color-high', 'value'),
-         State('forna-color-domain-low', 'value'),
+        [Output('forna-custom-colors', 'data')],
+        [Input('forna-submit-custom-colors', 'n_clicks'),
+         Input('forna-color-low', 'value'),
+         Input('forna-color-high', 'value')],
+        [State('forna-color-domain-low', 'value'),
          State('forna-color-domain-high', 'value'),
-         State('forna-color-map', 'value'),
+         State('forna-color-map-nucleotide', 'value'),
+         State('forna-color-map-color', 'value'),
          State('forna-custom-colors-molecule', 'value'),
          State('forna-custom-colors', 'data')]
     )
     def update_custom_colors_storage(nclicks, color_low, color_high,
                                      color_domain_low, color_domain_high,
-                                     color_map, seq_id, current):
+                                     color_map_index, color_map_color,
+                                     seq_id, current):
         if nclicks is None or nclicks == 0:
             raise PreventUpdate
         if color_low is None or color_high is None:
             raise PreventUpdate
         if color_domain_low is None or color_domain_high is None:
             raise PreventUpdate
-        if color_map is None or len(color_map) == 0:
-            raise PreventUpdate
 
-        error_message = None
+        if color_map_index is None or color_map_color is None:
+            raise PreventUpdate
 
         if seq_id is None:
             seq_id = ''
 
-        color_map_values = [color.strip().split(':') for color in color_map.split('\n')]
-        color_map_dict = {}
-
         try:
-            color_map_dict = {
-                str(color_map_value[0]).strip():
-                int(color_map_value[1].strip()) if '\'' not in color_map_value[1]
-                else color_map_value[1].strip().strip('\'')
-                for color_map_value in color_map_values
-            }
+            color = float(color_map_color)
         except ValueError:
-            error_message = 'Please ensure that the correct format is provided.'
-            return current, error_message
+            color = color_map_color
 
         if current is None:
-            current = {}
+            current = {'domain': [], 'range': [], 'colorValues': {}}
 
         current['domain'] = [color_domain_low, color_domain_high]
         current['range'] = [color_low['hex'], color_high['hex']]
 
-        current['colorValues'] = {
-            seq_id: color_map_dict
-        }
-        return current, None
+        if current['colorValues'].get(seq_id) is None:
+            current['colorValues'][seq_id] = {}
+
+        current['colorValues'][seq_id].update({color_map_index: color})
+
+        return current
 
     @app.callback(
         [Output('forna-sequences-display', 'options'),
@@ -509,7 +505,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             for sequence_id in data.keys()
         ]
 
-        return new_options, new_options, new_options + [{'label': 'Default', 'value': ''}]
+        return new_options, new_options, new_options
 
     @app.callback(
         Output('forna-sequence-info', 'children'),

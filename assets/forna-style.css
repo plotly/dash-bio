@@ -20,7 +20,7 @@
     border-color: #85002D !important;
 }
 
-#forna-body input[type="text"] {
+#forna-sequence, #forna-structure, #forna-id {
     width: 100%;
     margin-top: 15px;
 }
@@ -62,24 +62,26 @@
     top: 10px;
 }
 
-#forna-color-domain-low, #forna-color-domain-high {
+#forna-color-domain-low, #forna-color-domain-high,
+#forna-color-map-nucleotide, #forna-color-map-color,
+#forna-custom-colorscheme > #forna-color-low,
+#forna-custom-colorscheme > #forna-color-high {
     display: inline-block;
     width: 48%;
 }
 
-#forna-color-map {
-    width: 100%;
-}
-
-#forna-custom-colorscheme > #forna-color-low, #forna-custom-colorscheme > #forna-color-high {
-    width: 48%;
-    display: inline-block;
+#forna-custom-colorscheme > #forna-color-low,
+#forna-custom-colorscheme > #forna-color-high {
     margin-bottom: 20px;
 }
-#forna-custom-colorscheme > #forna-color-low, #forna-color-domain-low {
+#forna-custom-colorscheme > #forna-color-low,
+#forna-color-domain-low,
+#forna-color-map-nucleotide {
     margin-right: 2%;
 }
-#forna-custom-colorscheme > #forna-color-high, #forna-color-domain-high {
+#forna-custom-colorscheme > #forna-color-high,
+#forna-color-domain-high,
+#forna-color-map-color {
     margin-left: 2%;
 }
 
