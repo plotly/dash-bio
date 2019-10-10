@@ -89,12 +89,7 @@ export default class FornaContainer extends Component {
             this._fornaContainer.setOutlineColor(nextProps.nodeFillColor);
         }
 
-        if (colorScheme !== nextProps.colorScheme) {
-            this._fornaContainer.changeColorScheme(nextProps.colorScheme);
-            if (nextProps.colorScheme === 'custom') {
-                return true;
-            }
-        }
+        this._fornaContainer.changeColorScheme(colorScheme);
 
         return false;
     }
