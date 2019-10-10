@@ -23,16 +23,19 @@ def header_colors():
     }
 
 
-initial_sequences = [
-    {'sequence': 'GGUGCAUGCCGAGGGGCGGUUGGCCUCGUAAAAAGCCGCAAAAAAUAGCAUGUAGUACC',
-     'structure': '((((((((((((((.[[[[[[..))))).....]]]]]]........)))))...))))',
-     'options': {
-         'applyForce': True,
-         'circularizeExternal': True,
-         'avoidOthers': True,
-         'labelInterval': 5
-     }}
-]
+initial_sequences = {
+    'PDB_01019': {
+        'sequence': 'AUGGGCCCGGGCCCAAUGGGCCCGGGCCCA',
+        'structure': '.((((((())))))).((((((()))))))',
+        'options': {
+            'applyForce': True,
+            'circularizeExternal': True,
+            'avoidOthers': True,
+            'labelInterval': 5,
+            'name': 'PDB_01019'
+        }
+    }
+}
 
 
 def description():
@@ -48,7 +51,7 @@ def layout():
                 id='forna-control-tabs',
                 className='control-tabs',
                 children=[
-                    dcc.Tabs(id='forna-tabs', value='colors', children=[
+                    dcc.Tabs(id='forna-tabs', value='what-is', children=[
                         dcc.Tab(
                             label='About',
                             value='what-is',
@@ -74,8 +77,7 @@ def layout():
                                         ),
                                         dcc.Input(
                                             id='forna-sequence',
-                                            value='GGUGCAUGCCGAGGGGCGGUUGGCCUCGUA' +
-                                            'AAAAGCCGCAAAAAAUAGCAUGUAGUACC'
+                                            placeholder=initial_sequences['PDB_01019']['sequence']
                                         ),
 
                                         html.Br(),
@@ -90,8 +92,7 @@ def layout():
                                         ),
                                         dcc.Input(
                                             id='forna-structure',
-                                            value='((((((((((((((.[[[[[[..))))).....]]]]]]'
-                                            '........)))))...))))'
+                                            placeholder=initial_sequences['PDB_01019']['structure']
                                         ),
 
                                     ]
@@ -150,8 +151,8 @@ def layout():
                                         ),
                                         html.Div(
                                             className='app-controls-desc',
-                                            children='Indicate how often nucleotide numbers ' +
-                                            'are labelled with their number.'
+                                            children='Indicate how often nucleotides are ' +
+                                            'labelled with their number.'
                                         )
 
                                     ]
@@ -166,7 +167,7 @@ def layout():
                                             className='app-controls-desc',
                                             children='Specify a unique ID for this sequence.'
                                         ),
-                                        dcc.Input(id='forna-id', value='example')
+                                        dcc.Input(id='forna-id', placeholder='PDB_01019')
                                     ]
                                 ),
 
@@ -196,7 +197,7 @@ def layout():
                                             id='forna-sequences-display',
                                             multi=True,
                                             clearable=True,
-                                            value='example'
+                                            value=['PDB_01019']
                                         )
                                     ]
                                 ),
@@ -331,10 +332,12 @@ def layout():
                                         dcc.Input(
                                             id='forna-color-map-nucleotide',
                                             type='number',
-                                            min=1
+                                            min=1,
+                                            placeholder=1
                                         ),
                                         dcc.Input(
                                             id='forna-color-map-color',
+                                            placeholder='green'
                                         ),
                                         html.Br(),
                                         html.Br(),
@@ -351,17 +354,12 @@ def layout():
             html.Div(id='forna-container', children=[
                 dash_bio.FornaContainer(
                     id='forna',
-                    height=700,
-                    width=500,
-                    sequences=initial_sequences,
-                    customColors={
-                        'range': ['rgb(255,0,200)', 'rgb(0,0,0)'],
-                        'domain': [0, 100]
-                    }
+                    height=500,
+                    width=500
                 )
             ]),
 
-            dcc.Store(id='forna-sequences'),
+            dcc.Store(id='forna-sequences', data=initial_sequences),
             dcc.Store(id='forna-custom-colors')
         ]
     )
@@ -385,6 +383,9 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def add_sequence(nclicks, sequence, structure, apply_force,
                      circularize_ext, avoid_others, label_interval,
                      seqid, current):
+
+        if nclicks is None or nclicks == 0:
+            raise PreventUpdate
 
         error_msg = html.P(
             'You already have a sequence with this ID. ' +
@@ -442,7 +443,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return data
 
     @app.callback(
-        [Output('forna-custom-colors', 'data')],
+        Output('forna-custom-colors', 'data'),
         [Input('forna-submit-custom-colors', 'n_clicks'),
          Input('forna-color-low', 'value'),
          Input('forna-color-high', 'value')],
@@ -513,7 +514,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         [State('forna-sequences', 'data')]
     )
     def update_sequence_info(sequence_id, data):
-        if data is None:
+        if data is None or sequence_id is None:
             raise PreventUpdate
 
         return html.Div(
