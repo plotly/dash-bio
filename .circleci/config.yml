@@ -1,14 +1,14 @@
 version: 2
 
 jobs:
-    "node":
+    node:
         docker:
             - image: circleci/python:3.7-stretch-node
 
         steps:
             - checkout
             - run:
-                name: "Update Node.js and npm"
+                name: Update Node.js and npm
                 command: |
                   curl -sSL "https://nodejs.org/dist/v11.10.1/node-v11.10.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.1-linux-x64/bin/node
                   curl https://www.npmjs.com/install.sh | sudo bash
@@ -34,11 +34,11 @@ jobs:
                 when: always
 
             - run:
-                name: "Build Node.js package"
+                name: Build Node.js package
                 command: npm run build:js-dev
 
             - run:
-                name: "Build Python package"
+                name: Build Python package
                 command: |
                     python -m venv venv
                     . venv/bin/activate
@@ -47,7 +47,7 @@ jobs:
                     npm run build:py
 
             - run:
-                name: "Run unit tests"
+                name: Run unit tests
                 command: |
                     python -m venv venv
                     . venv/bin/activate
@@ -58,7 +58,7 @@ jobs:
                     cd ../../
                     npm run test
 
-    "python-3.6": &test-template
+    python-3.6: &test-template
         docker:
             - image: circleci/python:3.6-stretch-node-browsers
 
@@ -87,7 +87,7 @@ jobs:
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}
                 paths:
-                    - "venv"
+                    - venv
 
             - run:
                 name: Run pylint
@@ -114,7 +114,7 @@ jobs:
                     pip install -e .
                     pytest tests/integration
 
-    "python-3.7":
+    python-3.7:
         <<: *test-template
         docker:
             - image: circleci/python:3.7-stretch-node-browsers
@@ -122,7 +122,7 @@ jobs:
         environment:
             PERCY_ENABLED: True
 
-    "deploy_to_gallery":
+    deploy_to_gallery:
         docker:
             - image: circleci/python:3.7-stretch-node-browsers
         working_directory: ~/dash-bio
@@ -155,10 +155,10 @@ workflows:
     version: 2
     build:
         jobs:
-            - "python-3.6"
-            - "python-3.7"
-            - "node"
-            - "deploy_to_gallery":
+            - python-3.6
+            - python-3.7
+            - node
+            - deploy_to_gallery:
                 filters:
                   branches:
                     only:
