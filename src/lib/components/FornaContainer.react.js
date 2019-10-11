@@ -64,20 +64,26 @@ export default class FornaContainer extends Component {
             sequence_compare.some(
                 seq =>
                     Boolean(seq[0].options) !== Boolean(seq[1].options) ||
-                    R.symmetricDifference(
-                        Object.keys(seq[0].options),
-                        Object.keys(seq[1].options)
-                    ).length > 0
+                    (Boolean(seq[0].options) &&
+                        Boolean(seq[1].options) &&
+                        R.symmetricDifference(
+                            Object.keys(seq[0].options),
+                            Object.keys(seq[1].options)
+                        ).length > 0)
             )
         ) {
             return true;
         }
 
         if (
-            sequence_compare.some(seq =>
-                Object.keys(seq[0].options).some(
-                    _option => seq[0].options._option !== seq[1].options._option
-                )
+            sequence_compare.some(
+                seq =>
+                    Boolean(seq[0].options) &&
+                    Boolean(seq[1].options) &&
+                    Object.keys(seq[0].options).some(
+                        _option =>
+                            seq[0].options._option !== seq[1].options._option
+                    )
             )
         ) {
             return true;
