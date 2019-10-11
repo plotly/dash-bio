@@ -2,7 +2,7 @@
 from random import shuffle
 
 import numpy as np
-import scipy as scp
+import scipy
 import scipy.cluster.hierarchy as sch
 import scipy.spatial as scs
 from sklearn.impute import SimpleImputer
@@ -19,7 +19,7 @@ def Clustergram(
         computed_traces=None,
         row_labels=None,
         column_labels=None,
-        hide_labels=None,
+        hidden_labels=None,
         standardize='none',
         cluster='all',
         row_dist='euclidean',
@@ -31,7 +31,7 @@ def Clustergram(
         color_map=None,
         color_list=None,
         display_range=3,
-        symmetric_value=True,
+        center_values=True,
         log_transform=False,
         display_ratio=0.2,
         imputer_parameters=None,
@@ -59,12 +59,12 @@ Keyword arguments:
     to add, e.g., group markers to the figure without recalculating
     the clustering in the entire figure.)
 - computed_traces (dict; optional): The dendrogram traces from another
-   Clustergram component.
+   (precomputed) Clustergram component.
 - row_labels (list; optional): List of row category labels
    (observation labels).
 - column_labels (list; optional): List of column category labels
    (observation labels).
-- hide_labels (list; optional): List of labels not to display on the
+- hidden_labels (list; optional): List of labels not to display on the
     final plot.
 - standardize (string; default 'none'): The dimension for standardizing
     values, so that the mean is 0 and the standard deviation is 1,
@@ -110,7 +110,7 @@ Keyword arguments:
     values from the dataset that are below the negative of this value
     will be colored with one shade, and the values that are above this
     value will be colored with another.
-- symmetric_value (bool; default True): Whether or not to center the
+- center_values (bool; default True): Whether or not to center the
     values of the heatmap about zero.
 - log_transform (bool; default False): Whether or not to transform
     the data by taking the base-two logarithm of all values in the
@@ -130,7 +130,7 @@ Keyword arguments:
     imputing should happen along columns, while 'axis=1' indicates
     that it should happen along rows (see: https://scikit
     -learn.org/stable/modules/generated/sklearn.preprocessing.Imputer.html).
-- row_group_marker (list; optional) A list containing the annotations
+- row_group_marker (list; optional): A list containing the annotations
     for row clusters in the dendrogram. Each annotation is a
     dictionary with the keys 'group_number' (the cluster number to
     highlight), 'annotation' (a string containing the text of the
@@ -160,8 +160,8 @@ Keyword arguments:
 - width (number; default 500): The width of the graph, in px.
 
     """
-    if hide_labels is None:
-        hide_labels = []
+    if hidden_labels is None:
+        hidden_labels = []
     if color_threshold is None:
         color_threshold = dict(row=0, col=0)
 
@@ -193,13 +193,19 @@ Keyword arguments:
 
 
 class _Clustergram():
+    """A Dash Bio Clustergram class.
+
+Methods:
+
+- figure(computed_traces=None): Return a figure object compatible with plotly.graph_objs.
+    """
 
     def __init__(
             self,
             data=None,
             row_labels=None,
             column_labels=None,
-            hide_labels=None,
+            hidden_labels=None,
             standardize='none',
             cluster='all',
             row_dist='euclidean',
@@ -211,7 +217,7 @@ class _Clustergram():
             color_map=None,
             color_list=None,
             display_range=3,
-            symmetric_value=True,
+            center_values=True,
             log_transform=False,
             display_ratio=0.2,
             imputer_parameters=None,
@@ -225,16 +231,21 @@ class _Clustergram():
             height=500,
             width=500
     ):
-        if hide_labels is None:
-            hide_labels = []
+        """Construct a Dash Bio Clustergram object.
+
+    See docstring of the `Clustergram` function, where the same keyword arguments (and a couple
+    of other ones) are documented.
+        """
+        if hidden_labels is None:
+            hidden_labels = []
         if color_threshold is None:
             color_threshold = dict(row=0, col=0)
         if row_labels is None:
             row_labels = [str(i) for i in range(data.shape[0])]
-            hide_labels.append('row')
+            hidden_labels.append('row')
         if column_labels is None:
             column_labels = [str(i) for i in range(data.shape[1])]
-            hide_labels.append('col')
+            hidden_labels.append('col')
 
         self._data = data
         self._row_labels = row_labels
@@ -254,7 +265,7 @@ class _Clustergram():
             self._color_map = color_map
         self._color_list = color_list
         self._display_range = display_range
-        self._symmetric_value = symmetric_value
+        self._center_values = center_values
         self._display_ratio = display_ratio
         self._imputer_parameters = imputer_parameters
         if row_group_marker is None:
@@ -293,16 +304,16 @@ class _Clustergram():
         if not isinstance(display_ratio, list):
             self._display_ratio = [display_ratio, display_ratio]
         if self._cluster == 'row':
-            self._display_ratio = [display_ratio[0], 0]
+            self._display_ratio = [self._display_ratio[0], 0]
         elif self._cluster == 'col':
-            self._display_ratio = [0, display_ratio[1]]
+            self._display_ratio = [0, self._display_ratio[1]]
 
-        self._hide_labels = []
+        self._hidden_labels = []
 
-        if 'row' in hide_labels:
-            self._hide_labels.append('yaxis5')
-        if 'col' in hide_labels:
-            self._hide_labels.append('xaxis5')
+        if 'row' in hidden_labels:
+            self._hidden_labels.append('yaxis5')
+        if 'col' in hidden_labels:
+            self._hidden_labels.append('xaxis5')
 
         # preprocessing data
         if self._imputer_parameters is not None:
@@ -335,14 +346,21 @@ class _Clustergram():
             self,
             computed_traces=None
     ):
-        # use, if available, the precomputed dendrogram and heatmap
-        # traces (as well as the row and column labels)
+        """Return a figure object compatible with plotly.graph_objs.
+
+    Parameters:
+
+    - computed_traces (dict; optional): The dendrogram traces from another
+        (precomputed) Clustergram component.
+        """
         dt, heatmap = None, None
 
         if computed_traces is None:
             dt, self._data, \
                 self._row_labels, self._column_labels = self._compute_clustered_data()
         else:
+            # use, if available, the precomputed dendrogram and heatmap
+            # traces (as well as the row and column labels)
             dt = computed_traces['dendro_traces']
             heatmap = computed_traces['heatmap']
             self._row_labels = computed_traces['row_labels']
@@ -525,7 +543,7 @@ class _Clustergram():
         )
 
         # hide labels, if necessary
-        for l in self._hide_labels:
+        for l in self._hidden_labels:
             fig['layout'][l].update(
                 ticks='',
                 showticklabels=False
@@ -538,7 +556,7 @@ class _Clustergram():
             heat_data = self._data
 
             # symmetrize the heatmap about zero, if necessary
-            if self._symmetric_value:
+            if self._center_values:
                 heat_data = np.subtract(heat_data, np.mean(heat_data))
 
             heatmap = go.Heatmap(
@@ -700,7 +718,7 @@ class _Clustergram():
     ):
         """Return standardized data based on user parameters.
 
-        Keyword arguments:
+        Parameters:
         - dim (string): The dimension, row or column, to standardize across.
 
         Returns:
@@ -710,19 +728,20 @@ class _Clustergram():
         std = np.zeros(self._data.shape)
 
         if dim == 'row':
-            std = scp.stats.zscore(self._data, axis=1)
+            std = scipy.stats.zscore(self._data, axis=1)
         elif dim == 'column':
-            std = scp.stats.zscore(self._data, axis=0)
+            std = scipy.stats.zscore(self._data, axis=0)
 
         return std
 
     def _get_clusters(
             self
     ):
-        """Clusters the data according to the specified dimensions.
+        """Cluster the data according to the specified dimensions.
 
         Returns:
-        - tuple: The linkage matrices for the columns and/or rows."""
+        - tuple: The linkage matrices for the columns and/or rows.
+        """
 
         Zcol = None
         Zrow = None
@@ -756,7 +775,6 @@ class _Clustergram():
         the ordering of the row dendrogram leaves.
         - list: a list of the column labels that have been reordered to match
         the ordering of the column dendrogram leaves.
-
         """
 
         # initialize return dict
@@ -777,7 +795,7 @@ class _Clustergram():
             Pcol = sch.dendrogram(Zcol, orientation='top',
                                   color_threshold=self._color_threshold['col'],
                                   labels=self._column_labels, no_plot=True)
-            clustered_column_labels = scp.array(Pcol['ivl'])
+            clustered_column_labels = scipy.array(Pcol['ivl'])
             trace_list['col'] = self._color_dendro_clusters(Pcol, 'col')
 
         if Zrow is not None:
@@ -790,7 +808,7 @@ class _Clustergram():
                 'dcoord': Prow['icoord'],
                 'color_list': Prow['color_list']
             }
-            clustered_row_labels = scp.array(Prow['ivl'])
+            clustered_row_labels = scipy.array(Prow['ivl'])
             trace_list['row'] = self._color_dendro_clusters(Prow_tmp, 'row')
 
         # now, we need to rearrange the data array to fit the labels
@@ -813,20 +831,21 @@ class _Clustergram():
             P,
             dim
     ):
-        """Colors each cluster below the color threshold separately.
+        """Color each cluster below the color threshold separately.
 
-        Keyword arguments:
+        Parameters:
         - P (dict): The x and y values of the dendrogram traces, along
             with the list of trace colors returned by sch.dendrogram
         - dim (string): The dimension of the clusters.
 
         Returns:
-        - list: The list of colored traces for the dendrogram."""
+        - list: The list of colored traces for the dendrogram.
+        """
 
         traces = []
 
-        icoord = scp.array(P['icoord'])
-        dcoord = scp.array(P['dcoord'])
+        icoord = scipy.array(P['icoord'])
+        dcoord = scipy.array(P['dcoord'])
 
         color_list = self._cluster_colors(P['color_list'], dim)
 
@@ -877,14 +896,15 @@ class _Clustergram():
             clist,
             dim
     ):
-        """Returns a set of n unique colours for each cluster in the dendrogram.
+        """Return a set of n unique colours for each cluster in the dendrogram.
 
-        Keyword arguments:
+        Parameters:
         - clist (list): The color list returned by dendrogram.
         - dim (string): The dimension of the clusters to color.
 
         Returns:
-        list: A list of RGB strings."""
+        list: A list of RGB strings.
+        """
         # the colors repeat; get how many repetitions there are
 
         # the colors go through cycles of g, r, c, m, y, k
@@ -1002,18 +1022,19 @@ class _Clustergram():
             rdt,
             cdt
     ):
-        """Sorts row dendrogram clusters and column dendrogram clusters
+        """Sort row dendrogram clusters and column dendrogram clusters
         so that the background trace (above threshold) is trace 0
         and all other traces are ordered top-to-bottom (row dendrogram)
         or left-to-right (column dendrogram).
 
-        Keyword arguments:
+        Parameters:
         - rdt (list[dict]): The row dendrogram cluster traces.
         - cdt (list[dict]): The column dendrogram cluster traces.
 
         Returns:
         - tuple: The sorted row dendrogram clusters and column
-                        dendrogram clusters."""
+            dendrogram clusters.
+        """
 
         tmp_rdt = []
         tmp_cdt = []
@@ -1042,10 +1063,10 @@ class _Clustergram():
             row_clusters,
             col_clusters
     ):
-        """Calculates the traces and annotations that correspond to group
+        """Calculate the traces and annotations that correspond to group
         labels.
 
-        Keyword arguments:
+        Parameters:
         - row_clusters (list[dict]): List of all row traces (each
             trace corresponds to a cluster)
         - col_clusters (list[dict]): List of all column traces (each
@@ -1053,7 +1074,8 @@ class _Clustergram():
 
         Returns:
         - tuple: The row label traces, column label traces, row group
-            annotations, and column group annotations."""
+            annotations, and column group annotations.
+        """
 
         row_group_labels = []
         col_group_labels = []

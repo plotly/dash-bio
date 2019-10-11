@@ -21,7 +21,23 @@ export default class Molecule2dViewer extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        if (this.props.modelData !== nextProps.modelData) {
+        if (
+            this.props.modelData !== nextProps.modelData ||
+            (!this.props.selectedAtomIds && nextProps.selectedAtomIds) ||
+            (this.props.selectedAtomIds && !nextProps.selectedAtomIds) ||
+            (this.props.selectedAtomIds &&
+                nextProps.selectedAtomIds &&
+                this.props.selectedAtomIds.length !==
+                    nextProps.selectedAtomIds.length) ||
+            (this.props.selectedAtomIds &&
+                nextProps.selectedAtomIds &&
+                (this.props.selectedAtomIds.some(
+                    atomId => !(atomId in nextProps.selectedAtomIds)
+                ) ||
+                    nextProps.selectedAtomIds.some(
+                        atomId => !(atomId in this.props.selectedAtomIds)
+                    )))
+        ) {
             return true;
         }
         return false;
@@ -31,6 +47,8 @@ export default class Molecule2dViewer extends Component {
         const {modelData} = this.props;
 
         if (
+            modelData &&
+            prevProps.modelData &&
             Object.keys(modelData).some(
                 propertyName =>
                     modelData[propertyName].length !==
@@ -105,8 +123,8 @@ Molecule2dViewer.propTypes = {
         links: PropTypes.arrayOf(
             PropTypes.shape({
                 id: PropTypes.number,
-                source: PropTypes.number,
-                target: PropTypes.number,
+                source: PropTypes.number | PropTypes.shape,
+                target: PropTypes.number | PropTypes.shape,
                 bond: PropTypes.number,
                 strength: PropTypes.number,
                 distance: PropTypes.number,

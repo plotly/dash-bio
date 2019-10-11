@@ -13,16 +13,48 @@ Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.
-- mutationData (optional): The data that are displayed on the plot. mutationData has the following type: dict containing keys 'x', 'y', 'mutationGroups', 'domains'.
+- mutationData (dict; default {
+    x: [],
+    y: [],
+    domains: [],
+    mutationGroups: [],
+}): The data that are displayed on the plot. mutationData has the following type: dict containing keys 'x', 'y', 'mutationGroups', 'domains'.
 Those keys have the following types:
   - x (string | list; optional)
   - y (string | list; optional)
-  - mutationGroups (list; optional)
+  - mutationGroups (list of strings; optional)
   - domains (list; optional)
 - xlabel (string; optional): Title of the x-axis.
 - ylabel (string; optional): Title of the y-axis.
-- rangeSlider (boolean; optional): If true, enables a rangeslider for the x-axis.
-- needleStyle (optional): Options for the needle marking single site mutations. needleStyle has the following type: dict containing keys 'stemColor', 'stemThickness', 'stemConstHeight', 'headSize', 'headColor', 'headSymbol'.
+- rangeSlider (boolean; default False): If true, enables a rangeslider for the x-axis.
+- needleStyle (dict; default {
+    stemColor: '#444',
+    stemThickness: 0.5,
+    stemConstHeight: false,
+    headSize: 5,
+    headColor: [
+        '#e41a1c',
+        '#377eb8',
+        '#4daf4a',
+        '#984ea3',
+        '#ff7f00',
+        '#ffff33',
+        '#a65628',
+        '#f781bf',
+        '#999999',
+        '#e41a1c',
+        '#377eb8',
+        '#4daf4a',
+        '#984ea3',
+        '#ff7f00',
+        '#ffff33',
+        '#a65628',
+        '#f781bf',
+        '#999999',
+        '#e41a1c',
+    ],
+    headSymbol: 'circle',
+}): Options for the needle marking single site mutations. needleStyle has the following type: dict containing keys 'stemColor', 'stemThickness', 'stemConstHeight', 'headSize', 'headColor', 'headSymbol'.
 Those keys have the following types:
   - stemColor (string; optional)
   - stemThickness (number; optional)
@@ -30,7 +62,30 @@ Those keys have the following types:
   - headSize (number; optional)
   - headColor (list | string; optional)
   - headSymbol (list | string; optional)
-- domainStyle (optional): Options for the protein domain coloring. domainStyle has the following type: dict containing keys 'domainColor', 'displayMinorDomains'.
+- domainStyle (dict; default {
+    displayMinorDomains: false,
+    domainColor: [
+        '#8dd3c7',
+        '#ffffb3',
+        '#bebada',
+        '#fb8072',
+        '#80b1d3',
+        '#fdb462',
+        '#b3de69',
+        '#fccde5',
+        '#d9d9d9',
+        '#bc80bd',
+        '#ccebc5',
+        '#ffed6f',
+        '#8dd3c7',
+        '#ffffb3',
+        '#bebada',
+        '#fb8072',
+        '#80b1d3',
+        '#fdb462',
+        '#b3de69',
+    ],
+}): Options for the protein domain coloring. domainStyle has the following type: dict containing keys 'domainColor', 'displayMinorDomains'.
 Those keys have the following types:
   - domainColor (list; optional)
   - displayMinorDomains (boolean; optional)"""

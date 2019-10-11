@@ -1,14 +1,14 @@
 version: 2
 
 jobs:
-    "node":
+    node:
         docker:
             - image: circleci/python:3.7-stretch-node
 
         steps:
             - checkout
             - run:
-                name: "Update Node.js and npm"
+                name: Update Node.js and npm
                 command: |
                   curl -sSL "https://nodejs.org/dist/v11.10.1/node-v11.10.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.1-linux-x64/bin/node
                   curl https://www.npmjs.com/install.sh | sudo bash
@@ -34,11 +34,11 @@ jobs:
                 when: always
 
             - run:
-                name: "Build Node.js package"
+                name: Build Node.js package
                 command: npm run build:js-dev
 
             - run:
-                name: "Build Python package"
+                name: Build Python package
                 command: |
                     python -m venv venv
                     . venv/bin/activate
@@ -46,13 +46,24 @@ jobs:
                     pip install dash>=0.40.0
                     npm run build:py
 
+            - run:
+                name: Run unit tests
+                command: |
+                    python -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install dash_bio_utils
+                    cd tests/unit
+                    python unit_test_data_setup.py
+                    cd ../../
+                    npm run test
 
-    "python-3.6": &test-template
+    python-3.6: &test-template
         docker:
-            - image: circleci/python:3.6-stretch-browsers
+            - image: circleci/python:3.6-stretch-node-browsers
 
         environment:
-            PERCY_ENABLED: False
+            PERCY_ENABLED: True
 
         steps:
             - checkout
@@ -71,11 +82,12 @@ jobs:
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install -r tests/requirements.txt --quiet
+                    pip install dash[testing]
 
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}
                 paths:
-                    - "venv"
+                    - venv
 
             - run:
                 name: Run pylint
@@ -92,27 +104,63 @@ jobs:
                 when: always
 
             - run:
-                name: Run Integration Tests
+                name: Run integration tests
                 command: |
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install -r tests/requirements.txt
-                    pytest --webdriver Chrome tests --ignore tests/test_skeleton.py
+                    npm i
+                    npm run build:all-dev
+                    pip install -e .
+                    pytest tests/integration
 
-    "python-3.7":
+    python-3.7:
         <<: *test-template
         docker:
-            - image: circleci/python:3.7-stretch-browsers
+            - image: circleci/python:3.7-stretch-node-browsers
 
         environment:
-            PERCY_ENABLED: False
+            PERCY_ENABLED: True
 
+    deploy_to_gallery:
+        docker:
+            - image: circleci/python:3.7-stretch-node-browsers
+        working_directory: ~/dash-bio
+        steps:
+          - checkout
+          - run:
+              name: Create helper-script
+              command: printf '#!/bin/bash\necho username=$GALLERY_DEPLOY_USERNAME\necho password=$GALLERY_DEPLOY_PASSWORD' >> /home/circleci/helper-script.sh
+          - run:
+              name: Set up git config
+              command: |
+                git config credential.helper "/bin/bash /home/circleci/helper-script.sh"
+                git config --global user.email '<>'
+                git config --global user.name "Circle Auto-deployment"
+          - run:
+              name: Deploy
+              command: |
+                while IFS='' read -r line || [[ -n "$line" ]]; do
+                    git remote add $line https://dash-gallery.plotly.host/GIT/$line
+                    python tests/dashbio_demos/deployment/generate_procfile.py $line
+                    echo $PLOTLY_GA_CODE > assets/plotly_ga.js
+                    git add Procfile assets/plotly_ga.js
+                    git commit -m "Deployed commit: $CIRCLE_SHA1"
+                    git push --force $line master || echo "Deploy failed. Continuing..."
+                    git reset --hard origin/master
+                done < "tests/dashbio_demos/deployment/app_remotes.txt"
 
 
 workflows:
     version: 2
     build:
         jobs:
-            - "python-3.6"
-            - "python-3.7"
-            - "node"
+            - python-3.6
+            - python-3.7
+            - node
+            - deploy_to_gallery:
+                filters:
+                  branches:
+                    only:
+                    - master
+

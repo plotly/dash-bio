@@ -31,7 +31,7 @@ fig_options = dict(
     data=None, cluster='all',
     display_ratio=[0.3, 0.1],
     column_labels=None, row_labels=None,
-    hide_labels=['row'],
+    hidden_labels=['row'],
     color_threshold=dict(row=9, col=35),
     height=650, width=900,
     color_map=[
@@ -53,7 +53,7 @@ fig_options = dict(
         color='rgb(200,200,200)'
     ),
     optimal_leaf_order=True,
-    symmetric_value=False,
+    center_values=False,
     log_transform=False,
     imputer_parameters={
         'strategy': 'mean',
@@ -549,7 +549,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             cluster_by,
             row_thresh, col_thresh,
             sel_rows, sel_cols,
-            hide_labels,
+            hidden_labels,
             dataset_name, contents,
             metadata
     ):
@@ -579,7 +579,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             'row_labels': sel_rows,
             'column_labels': sel_cols,
             'optimal_leaf_order': True,
-            'hide_labels': hide_labels,
+            'hidden_labels': hidden_labels,
             'display_ratio': [0.3, 0.1],
             'height': 650, 'width': 900,
             'color_map': [
@@ -600,7 +600,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 'color': 'rgb(200,200,200)',
                 'size': 10
             },
-            'symmetric_value': dataset_name is None,
+            'center_values': dataset_name is None,
             'log_transform': False,
             'imputer_parameters': {
                 'strategy': 'median',
