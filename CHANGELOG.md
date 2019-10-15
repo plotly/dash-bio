@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+### Removed
+
+* Removed AlignmentViewer component
+  ([#414](https://github.com/plotly/dash-bio/issues/414))
+
 ## [0.1.5]
 
 ### Fixed
