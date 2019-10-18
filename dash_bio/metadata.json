@@ -1,6 +1,6 @@
 {
   "src/lib/components/AlignmentChart.react.js": {
-    "description": "The Alignment Viewer (MSA) component is used to align multiple genomic\nor proteomic sequences from a FASTA or Clustal file. Among its\nextensive set of features, the multiple sequence alignment viewer\ncan display multiple subplots showing gap and conservation info,\nalongside industry standard colorscale support and consensus sequence.\nNo matter what size your alignment is, Aligment Viewer is able to display\nyour genes or proteins snappily thanks to the underlying WebGL architecture\npowering the component. You can quickly scroll through your long sequence\nwith a slider or a heatmap overview.\nNote that the AlignmentChart only returns a chart of the sequence, while\nAlignmentViewer has integrated controls for colorscale, heatmaps, and subplots\nallowing the user to interactively control their sequences.\nRead more about the component here:\nhttps://github.com/plotly/react-alignment-viewer",
+    "description": "The Alignment Chart (MSA) component is used to align multiple genomic\nor proteomic sequences from a FASTA or Clustal file. Among its\nextensive set of features, the multiple sequence alignment chart\ncan display multiple subplots showing gap and conservation info,\nalongside industry standard colorscale support and consensus sequence.\nNo matter what size your alignment is, Alignment Chart is able to display\nyour genes or proteins snappily thanks to the underlying WebGL architecture\npowering the component. You can quickly scroll through your long sequence\nwith a slider or a heatmap overview.\nRead more about the component here:\nhttps://github.com/plotly/react-alignment-viewer",
     "displayName": "AlignmentChart",
     "methods": [
       {
@@ -325,7 +325,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "Sets how many pixels each nucleotide/amino acid on the Alignment Viewer\ntakes up horizontally. The total number of tiles (numtiles) seen\nhorizontally is automatically determined by rounding\nthe Viewer width divided by the tile width.\nthe Viewwer width divided by the tile witdth.",
+        "description": "Sets how many pixels each nucleotide/amino acid on the Alignment Chart\ntakes up horizontally. The total number of tiles (numtiles) seen\nhorizontally is automatically determined by rounding\nthe Viewer width divided by the tile width.\nthe Viewwer width divided by the tile witdth.",
         "defaultValue": {
           "value": "16",
           "computed": false
@@ -336,7 +336,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "Sets how many pixels each nucleotide/amino acid on the Alignment Viewer\ntakes up vertically.\nIf enabled, set height dynamically.",
+        "description": "Sets how many pixels each nucleotide/amino acid on the Alignment Chart\ntakes up vertically.\nIf enabled, set height dynamically.",
         "defaultValue": {
           "value": "16",
           "computed": false
