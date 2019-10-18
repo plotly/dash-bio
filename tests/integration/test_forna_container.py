@@ -275,3 +275,25 @@ def test_dbfc006_custom_colors(dash_duo):
                     seq, key
                 )
             ).get_attribute('style')
+
+
+def test_dbfc007_color_scheme_initial_load(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        dash_bio.FornaContainer(
+            id=_COMPONENT_ID,
+            sequences=[{'sequence': 'AUGAU', 'structure': '.....'}],
+            colorScheme='positions'
+        )
+    )
+
+    dash_duo.start_server(app)
+    dash_duo.wait_for_element('#' + _COMPONENT_ID)
+
+    check_color(dash_duo, 1, 'rgb(152, 223, 138)')
+    check_color(dash_duo, 2, 'rgb(187, 221, 139)')
+    check_color(dash_duo, 3, 'rgb(219, 219, 141)')
+    check_color(dash_duo, 4, 'rgb(239, 187, 146)')
+    check_color(dash_duo, 5, 'rgb(255, 152, 150)')
