@@ -13,12 +13,12 @@ export default class FornaContainer extends Component {
     }
 
     componentDidMount() {
-        const {id, height, width} = this.props;
+        const {height, width} = this.props;
 
-        this._fornaContainer = new PreFornaContainer('#' + id, {
+        this._fornaContainer = new PreFornaContainer(this.ref, {
             initialSize: [width, height],
         });
-	this.renderNewSequences();
+        this.renderNewSequences();
     }
 
     componentDidUpdate() {
@@ -59,7 +59,15 @@ export default class FornaContainer extends Component {
     }
 
     render() {
-        return <div id={this.props.id} style={{outline: 'none'}} />;
+        return (
+            <div
+                id={this.props.id}
+                ref={ref => {
+                    this.ref = ref;
+                }}
+                style={{outline: 'none'}}
+            />
+        );
     }
 }
 
@@ -69,7 +77,7 @@ FornaContainer.propTypes = {
      * callbacks. The ID needs to be unique across all of the
      * components in an app.
      */
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
 
     /**
      * The height (in px) of the container in which the molecules will
