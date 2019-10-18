@@ -4,7 +4,9 @@ import {FornaContainer as PreFornaContainer} from 'fornac';
 import * as R from 'ramda';
 
 /**
- * This is a FornaContainer component.
+ * FornaContainer is a force-directed graph that is used to visualize
+ * the secondary structure of biomolecules. It is based on the fornac
+ * library (https://github.com/ViennaRNA/fornac).
  */
 export default class FornaContainer extends Component {
     constructor(props) {

@@ -5,7 +5,9 @@ from dash.development.base_component import Component, _explicitize_args
 
 class FornaContainer(Component):
     """A FornaContainer component.
-This is a FornaContainer component.
+FornaContainer is a force-directed graph that is used to visualize
+the secondary structure of biomolecules. It is based on the fornac
+library (https://github.com/ViennaRNA/fornac).
 
 Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components in
