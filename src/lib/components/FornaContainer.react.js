@@ -10,14 +10,18 @@ export default class FornaContainer extends Component {
     constructor(props) {
         super(props);
         this.renderNewSequences = this.renderNewSequences.bind(this);
+        this.containerRef = React.createRef();
     }
 
     componentDidMount() {
         const {height, width} = this.props;
 
-        this._fornaContainer = new PreFornaContainer(this.ref, {
-            initialSize: [width, height],
-        });
+        this._fornaContainer = new PreFornaContainer(
+            this.containerRef.current,
+            {
+                initialSize: [width, height],
+            }
+        );
         this.renderNewSequences();
     }
 
@@ -62,9 +66,7 @@ export default class FornaContainer extends Component {
         return (
             <div
                 id={this.props.id}
-                ref={ref => {
-                    this.ref = ref;
-                }}
+                ref={this.containerRef}
                 style={{outline: 'none'}}
             />
         );
