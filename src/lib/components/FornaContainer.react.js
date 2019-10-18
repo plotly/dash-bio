@@ -40,55 +40,9 @@ export default class FornaContainer extends Component {
     shouldComponentUpdate(nextProps) {
         const {sequences, colorScheme, nodeFillColor} = this.props;
 
-        if (Boolean(sequences) !== Boolean(nextProps.sequences)) {
+        if (!R.equals(sequences, nextProps.sequences)) {
             return true;
         }
-
-        if (sequences.length !== nextProps.sequences.length) {
-            return true;
-        }
-
-        const sequence_compare = R.zip(sequences, nextProps.sequences);
-
-        if (
-            sequence_compare.some(
-                seq =>
-                    seq[0].sequence !== seq[1].sequence ||
-                    seq[0].structure !== seq[1].structure
-            )
-        ) {
-            return true;
-        }
-
-        if (
-            sequence_compare.some(
-                seq =>
-                    Boolean(seq[0].options) !== Boolean(seq[1].options) ||
-                    (Boolean(seq[0].options) &&
-                        Boolean(seq[1].options) &&
-                        R.symmetricDifference(
-                            Object.keys(seq[0].options),
-                            Object.keys(seq[1].options)
-                        ).length > 0)
-            )
-        ) {
-            return true;
-        }
-
-        if (
-            sequence_compare.some(
-                seq =>
-                    Boolean(seq[0].options) &&
-                    Boolean(seq[1].options) &&
-                    Object.keys(seq[0].options).some(
-                        _option =>
-                            seq[0].options._option !== seq[1].options._option
-                    )
-            )
-        ) {
-            return true;
-        }
-
         this._fornaContainer.addCustomColors(nextProps.customColors);
 
         if (nodeFillColor !== nextProps.nodeFillColor) {
@@ -270,5 +224,5 @@ FornaContainer.defaultProps = {
     sequences: [],
     allowPanningandZooming: true,
     labelInterval: 10,
-    colorScheme: 'sequence'
+    colorScheme: 'sequence',
 };
