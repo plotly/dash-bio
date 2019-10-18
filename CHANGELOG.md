@@ -6,7 +6,7 @@
 
 * Added FornaContainer component for RNA secondary structure analysis.
 
-## [0.1.5] - 2019-10-18
+## [0.2.0] - 2019-10-18
 
 ### Fixed
 
