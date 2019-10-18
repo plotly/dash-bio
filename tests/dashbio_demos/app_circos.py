@@ -1128,8 +1128,8 @@ def layout():
                                 'marginTop': '5px',
                                 'marginBottom': '10px',
                             },
-                            fixed_rows=1,
-                            fixed_columns=1
+                            fixed_rows={'headers': True},
+                            fixed_columns={'headers': True}
                         )]),
                         html.Div(
                             id="expected-index"),
