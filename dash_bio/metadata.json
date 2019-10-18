@@ -2,20 +2,7 @@
   "src/lib/components/AlignmentChart.react.js": {
     "description": "The Alignment Viewer (MSA) component is used to align multiple genomic\nor proteomic sequences from a FASTA or Clustal file. Among its\nextensive set of features, the multiple sequence alignment viewer\ncan display multiple subplots showing gap and conservation info,\nalongside industry standard colorscale support and consensus sequence.\nNo matter what size your alignment is, Aligment Viewer is able to display\nyour genes or proteins snappily thanks to the underlying WebGL architecture\npowering the component. You can quickly scroll through your long sequence\nwith a slider or a heatmap overview.\nNote that the AlignmentChart only returns a chart of the sequence, while\nAlignmentViewer has integrated controls for colorscale, heatmaps, and subplots\nallowing the user to interactively control their sequences.\nRead more about the component here:\nhttps://github.com/plotly/react-alignment-viewer",
     "displayName": "AlignmentChart",
-    "methods": [
-      {
-        "name": "handleChange",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "event",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -470,20 +457,7 @@
   "src/lib/components/AlignmentViewer.react.js": {
     "description": "The Alignment Viewer (MSA) component is used to align multiple genomic\nor proteomic sequences from a FASTA or Clustal file. Among its\nextensive set of features, the multiple sequence alignment viewer\ncan display multiple subplots showing gap and conservation info,\nalongside industry standard colorscale support and consensus sequence.\nNo matter what size your alignment is, Aligment Viewer is able to display\nyour genes or proteins snappily thanks to the underlying WebGL architecture\npowering the component. You can quickly scroll through your long sequence\nwith a slider or a heatmap overview.\nNote that the AlignmentChart only returns a chart of the sequence, while\nAlignmentViewer has integrated controls for colorscale, heatmaps, and subplots\nallowing the user to interactively control their sequences.\nRead more about the component here:\nhttps://github.com/plotly/react-alignment-viewer",
     "displayName": "AlignmentViewer",
-    "methods": [
-      {
-        "name": "handleChange",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "event",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -938,96 +912,7 @@
   "src/lib/components/Circos.react.js": {
     "description": "Dash Circos is a library used to analyze and interpret\ndata using a circular layout, based on the popular\n'Circos' graph. This Dash Bio component is a useful tool\nfor showcasing relationships bewtween data/datasets in a\nbeautiful way. Please checkout the Dash Bio repository\non github to learn more about this API.",
     "displayName": "Circos",
-    "methods": [
-      {
-        "name": "stopScroll",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "e",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "setStopScroll",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "stop",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "setEvent",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "setProps",
-            "type": null
-          },
-          {
-            "name": "index",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "setColor",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "configApply",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "setToolTip",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "configApply",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "configCircos",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "layout",
-            "type": null
-          },
-          {
-            "name": "config",
-            "type": null
-          },
-          {
-            "name": "tracks",
-            "type": null
-          },
-          {
-            "name": "setProps",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "enableDownloadSVG": {
         "type": {
@@ -1238,64 +1123,7 @@
   "src/lib/components/Ideogram.react.js": {
     "description": "The Ideogram component is used to draw and animate genome-wide\ndatasets for organisms such as human, mouse, and any other\neukaryote. The Ideogram component can be used to compare\nhomologous features between chromosomes, and depict\nhaploid, diploid, aneuploid genomes. It can also display\nannotations on genomic data using histograms and overlays.\n\nReference: https://eweitz.github.io/ideogram/\nComponent's props: https://github.com/eweitz/ideogram/blob/master/api.md",
     "displayName": "Ideogram",
-    "methods": [
-      {
-        "name": "onHomologyHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "onToolTipHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "onBrushHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "onLoadHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "onRotateHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "onMouseOverHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "setConfig",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "initIdeogram",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -1819,20 +1647,7 @@
   "src/lib/components/Molecule2dViewer.react.js": {
     "description": "The Molecule2dViewer component is used to render structural\nformulae of molecules.\nRead more about the component here:\nhttps://github.com/Autodesk/molecule-2d-for-react",
     "displayName": "Molecule2dViewer",
-    "methods": [
-      {
-        "name": "onChangeSelection",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "selectedAtomIds",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -1950,32 +1765,7 @@
   "src/lib/components/Molecule3dViewer.js": {
     "description": "The Molecule3dViewer component is used to render schematic diagrams\nof biomolecules. It can display ribbon-structure diagrams, or\nrender atoms in the molecule as sticks or spheres.\nRead more about the component here:\nhttps://github.com/Autodesk/molecule-3d-for-react",
     "displayName": "Molecule3dViewer",
-    "methods": [
-      {
-        "name": "onChangeSelection",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "selectedAtomIds",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "onRenderNewData",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "glviewer",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -2129,39 +1919,7 @@
   "src/lib/components/NeedlePlot.react.js": {
     "description": "The Needle Plot component is used to visualize large datasets\ncontaining categorical or numerical data. The lines and markers in\nthe plot correspond to bars in a histogram.",
     "displayName": "NeedlePlot",
-    "methods": [
-      {
-        "name": "handleChange",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "event",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "prepareTraces",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "prepareLayout",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "vars",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -2329,20 +2087,7 @@
   "src/lib/components/OncoPrint.react.js": {
     "description": "The OncoPrint component is used to view multiple genetic alteration events\nthrough an interactive and zoomable heatmap. It is a React/Dash port of the\npopular oncoPrint() function from the BioConductor R package.\nUnder the hood, the rendering is done using Plotly.js built upon D3.\nPlotly's interactivity allows the user to bind clicks and hovers to genetic\nevents, allowing the user to create complex bioinformatic apps or workflows\nthat rely on crossfiltering.\nRead more about the component here:\nhttps://github.com/plotly/react-oncoprint",
     "displayName": "OncoPrint",
-    "methods": [
-      {
-        "name": "handleChange",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "event",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -2489,44 +2234,7 @@
   "src/lib/components/SequenceViewer.react.js": {
     "description": "The sequence viewer component is used to display sequences\nthat represent proteins, strands of genomic information, and\nmore. It can apply a coverage to the sequence supplied (with\nclickable coverage sections that can display specific information,\nand an optional legend to describe the color codes used),\nsearch through the sequence for specific regex, capture\nmouse selection events of subparts of the sequence, display a\ncount of the number of nucleotides or amino acids in the\nsequence,\nRead more about the component here:\nhttps://github.com/FlyBase/react-sequence-viewer",
     "displayName": "SequenceViewer",
-    "methods": [
-      {
-        "name": "onMouseSelection",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "e",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "onSubpartSelected",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "e",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "getOnClick",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "i",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -2636,24 +2344,8 @@
       },
       "selection": {
         "type": {
-          "name": "arrayOf",
-          "value": {
-            "name": "shape",
-            "value": {
-              "low": {
-                "name": "number",
-                "required": false
-              },
-              "high": {
-                "name": "number",
-                "required": false
-              },
-              "color": {
-                "name": "string",
-                "required": false
-              }
-            }
-          }
+          "name": "custom",
+          "raw": "function(props, propName, componentName) {\n    if (\n        props[propName] !== undefined &&\n        ((typeof props[propName][0] !== 'undefined' &&\n            typeof props[propName][0] !== 'number') ||\n            (typeof props[propName][1] !== 'undefined' &&\n                typeof props[propName][1] !== 'number') ||\n            (typeof props[propName][2] !== 'undefined' &&\n                typeof props[propName][2] !== 'string'))\n    ) {\n        return new Error(\n            'Invalid prop value. Selection should be an array with type [number, number, string].'\n        );\n    }\n}"
         },
         "required": false,
         "description": "A highlighted section of the sequence; the color of the highlight\ncan also be defined. Takes a list of format [min, max, color] where\nmin is a number that represents the starting index of the selection,\nmax is a number that represents the stopping index of the selection,\nand color is a string that defines the highlight color.\nCannot be used at the same time as coverage.",
@@ -2794,36 +2486,7 @@
   "src/lib/components/Speck.react.js": {
     "description": "The Speck component is a WebGL-based 3D molecule renderer.\nRead more about the component here:\nhttps://github.com/wwwtyro/speck",
     "displayName": "Speck",
-    "methods": [
-      {
-        "name": "propsReconcile",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "propsReconcileSchedule",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "loadStructure",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "loop",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {

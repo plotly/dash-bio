@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {omit} from 'ramda';
+import React, {Component, lazy, Suspense} from 'react';
+import LazyLoader from '../LazyLoader';
 
-import {AlignmentChart as PreAlignementChart} from 'react-alignment-viewer';
+const RealAlignmentChart = lazy(LazyLoader.alignmentChart);
 
 /**
  * The Alignment Viewer (MSA) component is used to align multiple genomic
@@ -21,35 +21,11 @@ import {AlignmentChart as PreAlignementChart} from 'react-alignment-viewer';
  * https://github.com/plotly/react-alignment-viewer
  */
 export default class AlignmentChart extends Component {
-    constructor(props) {
-        super(props);
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    // Bind to Dash event handler that puts event back into props
-    handleChange(event) {
-        const eventObj = JSON.stringify(event);
-        this.props.setProps({eventDatum: eventObj});
-    }
-
     render() {
-        const {id, eventDatum} = this.props;
-
         return (
-            <div id={id} eventDatum={eventDatum}>
-                <PreAlignementChart
-                    onChange={this.handleChange}
-                    {...omit(
-                        ['fireEvent', 'dashEvent', 'setProps', 'colorscale'],
-                        this.props
-                    )}
-                    colorscale={
-                        this.props.colorscale
-                            ? this.props.colorscale
-                            : 'clustal2'
-                    }
-                />
-            </div>
+            <Suspense fallback={null}>
+                <RealAlignmentChart {...this.props} />
+            </Suspense>
         );
     }
 }
@@ -297,3 +273,6 @@ AlignmentChart.defaultProps = {
     width: null,
     height: 900,
 };
+
+export const propTypes = AlignmentChart.propTypes;
+export const defaultProps = AlignmentChart.defaultProps;
