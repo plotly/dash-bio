@@ -16,7 +16,13 @@ export default class FornaContainer extends Component {
     }
 
     componentDidMount() {
-        const {height, width} = this.props;
+        const {
+            height,
+            width,
+            nodeFillColor,
+            colorScheme,
+            customColors,
+        } = this.props;
 
         this._fornaContainer = new PreFornaContainer(
             this.containerRef.current,
@@ -25,6 +31,11 @@ export default class FornaContainer extends Component {
             }
         );
         this.renderNewSequences();
+
+        // initialize the correct colors
+        this._fornaContainer.setOutlineColor(nodeFillColor);
+        this._fornaContainer.changeColorScheme(colorScheme);
+        this._fornaContainer.addCustomColors(customColors);
     }
 
     componentDidUpdate() {
