@@ -282,9 +282,9 @@ def layout():
     ])
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
+def callbacks(_app):
 
-    @app.callback(
+    @_app.callback(
         Output('speck-controls-detailed', 'style'),
         [Input('speck-enable-presets', 'value')]
     )
@@ -293,7 +293,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return {'display': 'none'}
         return {'display': 'inline-block'}
 
-    @app.callback(
+    @_app.callback(
         Output('speck-controls-preset', 'style'),
         [Input('speck-enable-presets', 'value')]
     )
@@ -302,7 +302,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return {'display': 'none'}
         return {'display': 'inline-block'}
 
-    @app.callback(
+    @_app.callback(
         Output('speck-molecule-dropdown', 'value'),
         [Input('speck-file-upload', 'contents')],
         state=[State('speck-molecule-dropdown', 'value')]
@@ -312,7 +312,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return None
         return current
 
-    @app.callback(
+    @_app.callback(
         Output('speck-preloaded-uploaded-alert', 'children'),
         [Input('speck-molecule-dropdown', 'value'),
          Input('speck-file-upload', 'contents')],
@@ -325,7 +325,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             been cleared.'.format(upload_fname)
         return ''
 
-    @app.callback(
+    @_app.callback(
         Output('speck', 'data'),
         [Input('speck-molecule-dropdown', 'value'),
          Input('speck-file-upload', 'contents')]
@@ -343,7 +343,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             data = read_xyz(molecule_fname)
         return data
 
-    @app.callback(
+    @_app.callback(
         Output('speck', 'view'),
         [Input('speck-enable-presets', 'value'),
          Input('speck-atom-radius', 'value'),
@@ -374,21 +374,21 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             'outline': outline
         }
 
-    @app.callback(
+    @_app.callback(
         Output('speck-store-preset-rendering', 'data'),
         [Input('speck-preset-rendering-dropdown', 'value')]
     )
     def update_rendering_option(render):
         return render
 
-    @app.callback(
+    @_app.callback(
         Output('speck-store-preset-atom-style', 'data'),
         [Input('speck-preset-atom-style-dropdown', 'value')]
     )
     def update_atomstyle_option(atomstyle):
         return atomstyle
 
-    @app.callback(
+    @_app.callback(
         Output('speck', 'presetView'),
         [Input('speck-store-preset-atom-style', 'modified_timestamp'),
          Input('speck-store-preset-rendering', 'modified_timestamp')],
@@ -413,7 +413,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 preset = atomstyle
         return preset
 
-    @app.callback(
+    @_app.callback(
         Output('speck-preset-atom-style-dropdown', 'value'),
         [Input('speck-preset-rendering-dropdown', 'value')],
         state=[State('speck-preset-atom-style-dropdown', 'value')]

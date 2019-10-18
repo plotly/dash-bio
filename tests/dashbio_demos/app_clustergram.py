@@ -440,9 +440,9 @@ def layout():
     ])
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
+def callbacks(_app):
 
-    @app.callback(
+    @_app.callback(
         Output('data-meta-storage', 'data'),
         [Input('file-upload', 'contents'),
          Input('file-upload', 'filename'),
@@ -491,7 +491,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             'col_options': col_options
         }
 
-    @app.callback(
+    @_app.callback(
         Output('row-threshold', 'value'),
         [Input('clustergram-datasets', 'value'),
          Input('file-upload', 'contents')]
@@ -501,7 +501,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return 0
         return datasets[dataset_name]['color_threshold']['row']
 
-    @app.callback(
+    @_app.callback(
         Output('column-threshold', 'value'),
         [Input('clustergram-datasets', 'value'),
          Input('file-upload', 'contents')]
@@ -511,7 +511,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return 0
         return datasets[dataset_name]['color_threshold']['col']
 
-    @app.callback(
+    @_app.callback(
         Output('row-threshold', 'max'),
         [Input('clustergram-datasets', 'value'),
          Input('file-upload', 'contents')]
@@ -521,7 +521,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return 20
         return datasets[dataset_name]['color_threshold']['max_row']
 
-    @app.callback(
+    @_app.callback(
         Output('column-threshold', 'max'),
         [Input('clustergram-datasets', 'value'),
          Input('file-upload', 'contents')]
@@ -533,7 +533,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # store figure options
 
-    @app.callback(
+    @_app.callback(
         Output('fig-options-storage', 'data'),
         [Input('cluster-checklist', 'value'),
          Input('row-threshold', 'value'),
@@ -610,7 +610,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         }
 
     # add group marker
-    @app.callback(
+    @_app.callback(
         Output('group-markers', 'data'),
         [Input('clustergram', 'clickData'),
          Input('remove-all-group-markers', 'n_clicks')],
@@ -664,7 +664,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # description information
 
-    @app.callback(
+    @_app.callback(
         Output('clustergram-info', 'children'),
         [Input('data-meta-storage', 'modified_timestamp')],
         state=[State('data-meta-storage', 'data')]
@@ -688,7 +688,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # calculate and display clustergram
 
-    @app.callback(
+    @_app.callback(
         [Output('clustergram-wrapper', 'children'),
          Output('curves-dict', 'data'),
          Output('computed-traces', 'data')],
@@ -814,7 +814,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # update row and column options
 
-    @app.callback(
+    @_app.callback(
         Output('selected-rows', 'options'),
         [Input('data-meta-storage', 'modified_timestamp')],
         state=[State('data-meta-storage', 'data')]
@@ -824,7 +824,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return [{'label': r, 'value': r} for r in data['row_options']]
         return []
 
-    @app.callback(
+    @_app.callback(
         Output('selected-columns', 'options'),
         [Input('data-meta-storage', 'modified_timestamp')],
         state=[State('data-meta-storage', 'data')]
@@ -836,7 +836,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # update row and column selections
 
-    @app.callback(
+    @_app.callback(
         Output('selected-rows', 'value'),
         [Input('data-meta-storage', 'modified_timestamp'),
          Input('selected-rows', 'options')],
@@ -850,7 +850,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         row_options = [r['value'] for r in row_options]
         return row_options[:datasets[dataset_name]['default_rows']]
 
-    @app.callback(
+    @_app.callback(
         Output('selected-columns', 'value'),
         [Input('data-meta-storage', 'modified_timestamp'),
          Input('selected-columns', 'options')],
@@ -865,7 +865,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # show filename that was uploaded
 
-    @app.callback(
+    @_app.callback(
         Output('file-upload-name', 'children'),
         [Input('file-upload', 'contents'),
          Input('file-upload', 'filename'),
@@ -884,7 +884,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # clear preloaded dataset if there is a file upload(
 
-    @app.callback(
+    @_app.callback(
         Output('clustergram-datasets', 'value'),
         [Input('file-upload', 'contents'),
          Input('file-upload', 'filename')],

@@ -389,9 +389,9 @@ def layout():
     )
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
+def callbacks(_app):
 
-    @app.callback(
+    @_app.callback(
         [Output('forna-sequences', 'data'),
          Output('forna-error-message', 'children')],
         [Input('forna-submit-sequence', 'n_clicks')],
@@ -443,21 +443,21 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return current, error_msg
 
-    @app.callback(
+    @_app.callback(
         Output('forna', 'colorScheme'),
         [Input('forna-color-scheme', 'value')]
     )
     def update_color_scheme(color_scheme):
         return color_scheme
 
-    @app.callback(
+    @_app.callback(
         Output('forna-custom-colorscheme', 'style'),
         [Input('forna-color-scheme', 'value')]
     )
     def show_hide_custom_colorscheme(color_scheme):
         return {'display': 'block' if color_scheme == 'custom' else 'none'}
 
-    @app.callback(
+    @_app.callback(
         Output('forna', 'customColors'),
         [Input('forna-custom-colors', 'data')]
     )
@@ -466,7 +466,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             raise PreventUpdate
         return data
 
-    @app.callback(
+    @_app.callback(
         Output('forna-custom-colors', 'data'),
         [Input('forna-submit-custom-colors', 'n_clicks'),
          Input('forna-color-low', 'value'),
@@ -513,7 +513,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return current
 
-    @app.callback(
+    @_app.callback(
         [Output('forna-sequences-display', 'options'),
          Output('forna-sequences-info-search', 'options'),
          Output('forna-custom-colors-molecule', 'options')],
@@ -532,7 +532,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return new_options, new_options, new_options
 
-    @app.callback(
+    @_app.callback(
         Output('forna-sequence-info', 'children'),
         [Input('forna-sequences-info-search', 'value')],
         [State('forna-sequences', 'data')]
@@ -557,7 +557,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             ]
         )
 
-    @app.callback(
+    @_app.callback(
         Output('forna', 'sequences'),
         [Input('forna-sequences-display', 'value')],
         [State('forna-sequences', 'data')]

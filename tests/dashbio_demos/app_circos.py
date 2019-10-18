@@ -1150,9 +1150,9 @@ def layout():
     ])
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
+def callbacks(_app):
 
-    @app.callback(
+    @_app.callback(
         Output('circos-uploaded-data', 'style'),
         [Input('circos-preloaded-uploaded', 'value')]
     )
@@ -1160,7 +1160,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return {'display': 'none' if pre_up == 'preloaded' else 'inline-block'}
 
     # Dynamically update circos-view-dataset drop down on graph change
-    @app.callback(
+    @_app.callback(
         Output("circos-view-dataset", "options"),
         [Input("circos-hold", "children"),
          Input("circos-graph-type", "value"),
@@ -1197,7 +1197,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return answer
 
     # Take in and return uploaded .CSV data
-    @app.callback(
+    @_app.callback(
         Output("output-data-upload", "children"),
         [Input("upload-data", "contents")],
         [
@@ -1235,7 +1235,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return answer
 
     # Return Circos Graph with specified layout & dataset
-    @app.callback(
+    @_app.callback(
         Output("circos-hold", "children"),
         [Input('circos-preloaded-uploaded', 'value'),
          Input('circos-graph-type', 'value'),
@@ -1325,7 +1325,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return answer
 
     # If chords graph selected, output text blurb to let user know of highlight feature
-    @app.callback(
+    @_app.callback(
         Output("chords-text", "children"),
         [Input("circos-graph-type", "value")]
     )
@@ -1335,7 +1335,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return ''
 
     # Return dataset to data table
-    @app.callback(
+    @_app.callback(
         Output('data-table', 'data'),
         [
             Input('circos-view-dataset', 'value'),
@@ -1359,7 +1359,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return update_dash_table(data_selector, a_layout, tracks, 'row')
 
     # Return dataset to columns of data table
-    @app.callback(
+    @_app.callback(
         Output('data-table', 'columns'),
         [
             Input('circos-view-dataset', 'value'),
@@ -1383,7 +1383,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return update_dash_table(data_selector, a_layout, tracks, 'column')
 
     # Hover/click event handler data for preset graph
-    @app.callback(
+    @_app.callback(
         Output('event-data-select', 'children'),
         [Input('main-circos', 'eventDatum'),
          Input('render-button', 'n_clicks')]
