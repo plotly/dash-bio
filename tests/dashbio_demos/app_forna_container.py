@@ -65,7 +65,7 @@ def layout():
                                        'dot-bracket representation of the secondary '
                                        'structure.'),
                                 html.P('In the "Sequences" tab, you can select which '
-                                       'sequences will be displayed, as well as obtian '
+                                       'sequences will be displayed, as well as obtain '
                                        'information about the sequences that you have '
                                        'already created.'),
                                 html.P('In the "Colors" tab, you can choose to color each '
