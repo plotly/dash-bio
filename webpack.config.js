@@ -1,6 +1,5 @@
 const path = require('path');
 const WebpackDashDynamicImport = require('@plotly/webpack-dash-dynamic-import');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const packagejson = require('./package.json');
 
@@ -57,7 +56,6 @@ module.exports = {
         }
     },
     plugins: [
-        new WebpackDashDynamicImport(),
-        new BundleAnalyzerPlugin()
+        new WebpackDashDynamicImport()
     ]
 };
