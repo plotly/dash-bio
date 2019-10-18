@@ -8,7 +8,7 @@ class FornaContainer(Component):
 This is a FornaContainer component.
 
 Keyword arguments:
-- id (string; required): The ID of this component, used to identify dash components in
+- id (string; optional): The ID of this component, used to identify dash components in
 callbacks. The ID needs to be unique across all of the
 components in an app.
 - height (number; default 500): The height (in px) of the container in which the molecules will
@@ -30,7 +30,7 @@ perfectly in between 0 and 20.
 - allowPanningAndZooming (boolean; optional): Allow users to zoom in and pan the display. If this is enabled,
 then pressing the 'c' key on the keyboard will center the view."""
     @_explicitize_args
-    def __init__(self, id=Component.REQUIRED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, allowPanningandZooming=Component.UNDEFINED, labelInterval=Component.UNDEFINED, **kwargs):
+    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, allowPanningandZooming=Component.UNDEFINED, labelInterval=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'height', 'width', 'sequences', 'nodeFillColor', 'colorScheme', 'customColors', 'allowPanningAndZooming']
         self._type = 'FornaContainer'
         self._namespace = 'dash_bio'
@@ -43,7 +43,7 @@ then pressing the 'c' key on the keyboard will center the view."""
         _locals.update(kwargs)  # For wildcard attrs
         args = {k: _locals[k] for k in _explicit_args if k != 'children'}
 
-        for k in ['id']:
+        for k in []:
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
