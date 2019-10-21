@@ -33,16 +33,12 @@ the header. This supports regex.
 - sequenceMaxHeight (string; default '400px'): The maximum height of the sequence.
 - badge (boolean; default True): The option of whether or not to display a badge showing the
 amino acid count at the top of the component beside the title.
-- selection (dict; optional): A highlighted section of the sequence; the color of the highlight
+- selection (optional): A highlighted section of the sequence; the color of the highlight
 can also be defined. Takes a list of format [min, max, color] where
 min is a number that represents the starting index of the selection,
 max is a number that represents the stopping index of the selection,
 and color is a string that defines the highlight color.
-Cannot be used at the same time as coverage. selection has the following type: list of dicts containing keys 'low', 'high', 'color'.
-Those keys have the following types:
-  - low (number; optional)
-  - high (number; optional)
-  - color (string; optional)
+Cannot be used at the same time as coverage.
 - coverage (dict; optional): A coverage of the entire sequence; each section of the sequence
 can have its own text color, background color, tooltip (on hover),
 and an optional underscore. The props start and end represent the

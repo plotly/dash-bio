@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.5]
+## [0.2.0] - 2019-10-18
 
 ### Fixed
 
@@ -29,6 +29,11 @@
   to the `selectedAtomIds` prop through a Dash component.)
 * Added re-rendering for SequenceViewer upon the `coverageClicked`
   prop being updated.
+
+### Removed
+
+* Removed AlignmentViewer component
+  ([#414](https://github.com/plotly/dash-bio/issues/414))
 
 ## [0.1.4] - 2019-08-02
 

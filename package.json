@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.1.5-rc6",
+  "version": "0.2.0",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
