@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.2.1-rc2",
+  "version": "0.2.1-rc3",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
@@ -64,7 +64,7 @@
     "jest-canvas-mock": "^2.1.0",
     "jest-raw-loader": "^1.0.1",
     "prettier": "^1.16.1",
-    "react-docgen": "^2.21.0",
+    "react-docgen": "^3.0.0",
     "react-test-renderer": "^16.8.6",
     "style-loader": "^0.23.0",
     "webpack": "^4.20.2",
