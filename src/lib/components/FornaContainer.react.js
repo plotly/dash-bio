@@ -30,12 +30,14 @@ export default class FornaContainer extends Component {
                 initialSize: [width, height],
             }
         );
-        this.renderNewSequences();
-
         // initialize the correct colors
-        this._fornaContainer.setOutlineColor(nodeFillColor);
-        this._fornaContainer.changeColorScheme(colorScheme);
         this._fornaContainer.addCustomColors(customColors);
+        this._fornaContainer.changeColorScheme(colorScheme);
+        if (nodeFillColor !== undefined) {
+            this._fornaContainer.setOutlineColor(nodeFillColor);
+        }
+
+        this.renderNewSequences();
     }
 
     componentDidUpdate() {
@@ -65,12 +67,14 @@ export default class FornaContainer extends Component {
             return true;
         }
         this._fornaContainer.addCustomColors(nextProps.customColors);
+        this._fornaContainer.changeColorScheme(colorScheme);
 
-        if (nodeFillColor !== nextProps.nodeFillColor) {
+        if (
+            nodeFillColor !== nextProps.nodeFillColor &&
+            nextProps.nodeFillColor !== undefined
+        ) {
             this._fornaContainer.setOutlineColor(nextProps.nodeFillColor);
         }
-
-        this._fornaContainer.changeColorScheme(colorScheme);
 
         return false;
     }
