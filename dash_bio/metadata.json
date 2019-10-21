@@ -873,7 +873,11 @@
           "name": "bool"
         },
         "required": false,
-        "description": "Allow users to zoom in and pan the display. If this is enabled,\nthen pressing the 'c' key on the keyboard will center the view."
+        "description": "Allow users to zoom in and pan the display. If this is enabled,\nthen pressing the 'c' key on the keyboard will center the view.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
       },
       "setProps": {
         "type": {
@@ -881,13 +885,6 @@
         },
         "required": false,
         "description": "Dash-assigned callback that gets fired when the value changes."
-      },
-      "allowPanningandZooming": {
-        "defaultValue": {
-          "value": "true",
-          "computed": false
-        },
-        "required": false
       },
       "labelInterval": {
         "defaultValue": {

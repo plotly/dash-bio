@@ -29,10 +29,10 @@ For example, if the domain is `[0, 20]`, the range is
 the sixth nucleotide in that molecule will have a color that is
 perfectly in between yellow and red (i.e., orange), since 10 is
 perfectly in between 0 and 20.
-- allowPanningAndZooming (boolean; optional): Allow users to zoom in and pan the display. If this is enabled,
+- allowPanningAndZooming (boolean; default True): Allow users to zoom in and pan the display. If this is enabled,
 then pressing the 'c' key on the keyboard will center the view."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, allowPanningandZooming=Component.UNDEFINED, labelInterval=Component.UNDEFINED, **kwargs):
+    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, labelInterval=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'height', 'width', 'sequences', 'nodeFillColor', 'colorScheme', 'customColors', 'allowPanningAndZooming']
         self._type = 'FornaContainer'
         self._namespace = 'dash_bio'
