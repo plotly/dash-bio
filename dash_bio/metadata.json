@@ -813,8 +813,51 @@
         "type": {
           "name": "arrayOf",
           "value": {
-            "name": "custom",
-            "raw": "PropTypes.exact({\n    /**\n     * A string representing the RNA nucleotide sequence of\n     * the RNA molecule.\n     */\n    sequence: PropTypes.string.isRequired,\n\n    /**\n     * A dot-bracket string\n     * (https://software.broadinstitute.org/software/igv/RNAsecStructure)\n     * that specifies the secondary structure of the RNA\n     * molecule.\n     */\n    structure: PropTypes.string.isRequired,\n\n    /**\n     * Additional options to be applied to the rendering of\n     * the RNA molecule.\n     */\n    options: PropTypes.exact({\n        /**\n         * Indicate whether the force-directed layout will be\n         * applied to the displayed molecule. Enabling this\n         * option allows users to change the layout of the\n         * molecule by selecting and dragging the individual\n         * nucleotide nodes. True by default.\n         */\n        applyForce: PropTypes.bool,\n\n        /**\n         * This only makes sense in connection with the\n         * applyForce argument. If it's true, the external\n         * loops will be arranged in a nice circle. If false,\n         * they will be allowed to flop around as the force\n         * layout dictates. True by default.\n         */\n        circularizeExternal: PropTypes.bool,\n\n        /**\n         * Change how often nucleotide numbers are labelled\n         * with their number. 10 by default.\n         */\n        labelInterval: PropTypes.number,\n\n        /**\n         * The molecule name; this is used in custom color\n         * scales.\n         */\n        name: PropTypes.string,\n\n        /**\n         * Whether or not this molecule should \"avoid\" other\n         * molecules in the map.\n         */\n        avoidOthers: PropTypes.bool,\n    }),\n})"
+            "name": "exact",
+            "value": {
+              "sequence": {
+                "name": "string",
+                "description": "A string representing the RNA nucleotide sequence of\nthe RNA molecule.",
+                "required": true
+              },
+              "structure": {
+                "name": "string",
+                "description": "A dot-bracket string\n(https://software.broadinstitute.org/software/igv/RNAsecStructure)\nthat specifies the secondary structure of the RNA\nmolecule.",
+                "required": true
+              },
+              "options": {
+                "name": "exact",
+                "value": {
+                  "applyForce": {
+                    "name": "bool",
+                    "description": "Indicate whether the force-directed layout will be\napplied to the displayed molecule. Enabling this\noption allows users to change the layout of the\nmolecule by selecting and dragging the individual\nnucleotide nodes. True by default.",
+                    "required": false
+                  },
+                  "circularizeExternal": {
+                    "name": "bool",
+                    "description": "This only makes sense in connection with the\napplyForce argument. If it's true, the external\nloops will be arranged in a nice circle. If false,\nthey will be allowed to flop around as the force\nlayout dictates. True by default.",
+                    "required": false
+                  },
+                  "labelInterval": {
+                    "name": "number",
+                    "description": "Change how often nucleotide numbers are labelled\nwith their number. 10 by default.",
+                    "required": false
+                  },
+                  "name": {
+                    "name": "string",
+                    "description": "The molecule name; this is used in custom color\nscales.",
+                    "required": false
+                  },
+                  "avoidOthers": {
+                    "name": "bool",
+                    "description": "Whether or not this molecule should \"avoid\" other\nmolecules in the map.",
+                    "required": false
+                  }
+                },
+                "description": "Additional options to be applied to the rendering of\nthe RNA molecule.",
+                "required": false
+              }
+            }
           }
         },
         "required": false,
@@ -862,8 +905,44 @@
       },
       "customColors": {
         "type": {
-          "name": "custom",
-          "raw": "PropTypes.exact({\n    /**\n     * The limits for the color scale. This is used with the range\n     * specified in `range` to calculate the color of a given\n     * nucleotide, based on the number that it is assigned.\n     */\n    domain: PropTypes.arrayOf(PropTypes.number),\n\n    /**\n     * The range of colors that will be used in conjunction with\n     * the `domain` prop.\n     */\n    range: PropTypes.arrayOf(PropTypes.string),\n\n    /**\n     * A dictionary which contains keys, each of which are either\n     * an empty string (`''`) or the name of a molecule that has\n     * been defined in the `name` prop in the `options` for a\n     * sequence in the `sequences` property.\n     * The value corresponding to the key that is an empty string\n     * (if that key exists) is a \"default\" color scheme that will\n     * be applied first, and can be overridden by the color\n     * schemes defined for molecule-specific keys. The\n     * aforementioned color schemes each take the form of a\n     * dictionary in which the keys are the nucleotide positions\n     * and the values are either a) numbers to be normalized with\n     * respect to the scale defined in `domain` (so that their\n     * color will be calculated), or b) direct string\n     * representations of colors.\n     */\n    colorValues: PropTypes.objectOf(\n        PropTypes.objectOf(\n            PropTypes.oneOfType([PropTypes.string, PropTypes.number])\n        )\n    ),\n})"
+          "name": "exact",
+          "value": {
+            "domain": {
+              "name": "arrayOf",
+              "value": {
+                "name": "number"
+              },
+              "description": "The limits for the color scale. This is used with the range\nspecified in `range` to calculate the color of a given\nnucleotide, based on the number that it is assigned.",
+              "required": false
+            },
+            "range": {
+              "name": "arrayOf",
+              "value": {
+                "name": "string"
+              },
+              "description": "The range of colors that will be used in conjunction with\nthe `domain` prop.",
+              "required": false
+            },
+            "colorValues": {
+              "name": "objectOf",
+              "value": {
+                "name": "objectOf",
+                "value": {
+                  "name": "union",
+                  "value": [
+                    {
+                      "name": "string"
+                    },
+                    {
+                      "name": "number"
+                    }
+                  ]
+                }
+              },
+              "description": "A dictionary which contains keys, each of which are either\nan empty string (`''`) or the name of a molecule that has\nbeen defined in the `name` prop in the `options` for a\nsequence in the `sequences` property.\nThe value corresponding to the key that is an empty string\n(if that key exists) is a \"default\" color scheme that will\nbe applied first, and can be overridden by the color\nschemes defined for molecule-specific keys. The\naforementioned color schemes each take the form of a\ndictionary in which the keys are the nucleotide positions\nand the values are either a) numbers to be normalized with\nrespect to the scale defined in `domain` (so that their\ncolor will be calculated), or b) direct string\nrepresentations of colors.",
+              "required": false
+            }
+          }
         },
         "required": false,
         "description": "The custom colors used to color the nodes if the 'custom'\noption is chosen for the `colorScheme` prop.\nFor example, if the domain is `[0, 20]`, the range is\n`['yellow', 'red']`, and the dictionary specified in\n'colorValues' that corresponds to a molecule is `{'6': 10}`,\nthe sixth nucleotide in that molecule will have a color that is\nperfectly in between yellow and red (i.e., orange), since 10 is\nperfectly in between 0 and 20."
