@@ -22,12 +22,14 @@ export default class FornaContainer extends Component {
             nodeFillColor,
             colorScheme,
             customColors,
+            allowPanningAndZooming,
         } = this.props;
 
         this._fornaContainer = new PreFornaContainer(
             this.containerRef.current,
             {
                 initialSize: [width, height],
+                allowPanningAndZooming: allowPanningAndZooming,
             }
         );
         // initialize the correct colors
@@ -252,7 +254,7 @@ FornaContainer.defaultProps = {
     height: 500,
     width: 300,
     sequences: [],
-    allowPanningandZooming: true,
+    allowPanningAndZooming: true,
     labelInterval: 10,
     colorScheme: 'sequence',
 };
