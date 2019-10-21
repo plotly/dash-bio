@@ -35,11 +35,12 @@ export default class FornaContainer extends Component {
         // initialize the correct colors
         this._fornaContainer.addCustomColors(customColors);
         this._fornaContainer.changeColorScheme(colorScheme);
+
+        this.renderNewSequences();
+
         if (nodeFillColor !== undefined) {
             this._fornaContainer.setOutlineColor(nodeFillColor);
         }
-
-        this.renderNewSequences();
     }
 
     componentDidUpdate() {
@@ -63,7 +64,7 @@ export default class FornaContainer extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        const {sequences, colorScheme, nodeFillColor} = this.props;
+        const {sequences, colorScheme} = this.props;
 
         if (!R.equals(sequences, nextProps.sequences)) {
             return true;
@@ -71,10 +72,7 @@ export default class FornaContainer extends Component {
         this._fornaContainer.addCustomColors(nextProps.customColors);
         this._fornaContainer.changeColorScheme(colorScheme);
 
-        if (
-            nodeFillColor !== nextProps.nodeFillColor &&
-            nextProps.nodeFillColor !== undefined
-        ) {
+        if (nextProps.nodeFillColor !== undefined) {
             this._fornaContainer.setOutlineColor(nextProps.nodeFillColor);
         }
 
