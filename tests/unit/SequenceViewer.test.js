@@ -1,6 +1,6 @@
-import SequenceViewer from '../../src/lib/components/SequenceViewer.react.js';
+import SequenceViewer from '../../src/lib/fragments/SequenceViewer.react.js';
 import React from 'react';
-import {mount, render} from 'enzyme';
+import { mount, render } from 'enzyme';
 import seq from './sequence_viewer_data.json';
 
 
