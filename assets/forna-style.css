@@ -1,0 +1,108 @@
+#forna-container {
+    display: inline-block;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+#forna-body ::-webkit-scrollbar-thumb {
+    background-color: #85002D !important;
+}
+
+#forna-control-tabs .tab--selected {
+    color: #85002D !important;
+}
+
+#forna-body .rc-slider-track {
+    background-color: #85002D !important;
+}
+
+#forna-body .rc-slider-handle, #forna-body .rc-slider-dot-active {
+    border-color: #85002D !important;
+}
+
+#forna-sequence, #forna-structure, #forna-id {
+    width: 100%;
+    margin-top: 15px;
+}
+
+#forna-body #forna-bond-length {
+    display: inline-block;
+    width: 150px;
+    margin-top: 10px;
+}
+
+#forna-control-tabs .app-controls-block {
+    margin-bottom: 20px;
+}
+
+#forna-submit-sequence, #forna-submit-custom-colors {
+    width: 100%;
+}
+
+#forna-apply-force, #forna-circularize-external,
+#forna-avoid-others, #forna-label-interval,
+#forna-color-scheme, #forna-custom-colors-molecule,
+#forna-color-range {
+    display: inline-block !important;
+    text-align: right;
+    position: relative;
+    top: 5px;
+    float: right;
+}
+
+#forna-label-interval, #forna-color-scheme,
+#forna-custom-colors-molecule, #forna-color-range {
+    width: 150px;
+    position: relative;
+    text-align: left;
+}
+
+#forna-color-range {
+    position: relative;
+    top: 10px;
+}
+
+#forna-color-domain-low, #forna-color-domain-high,
+#forna-color-map-nucleotide, #forna-color-map-color,
+#forna-custom-colorscheme > #forna-color-low,
+#forna-custom-colorscheme > #forna-color-high {
+    display: inline-block;
+    width: 48%;
+}
+
+#forna-custom-colorscheme > #forna-color-low,
+#forna-custom-colorscheme > #forna-color-high {
+    margin-bottom: 20px;
+}
+#forna-custom-colorscheme > #forna-color-low,
+#forna-color-domain-low,
+#forna-color-map-nucleotide {
+    margin-right: 2%;
+}
+#forna-custom-colorscheme > #forna-color-high,
+#forna-color-domain-high,
+#forna-color-map-color {
+    margin-left: 2%;
+}
+
+#forna-custom-colorscheme .chrome-picker {
+    width: 100% !important;
+    border: none !important;
+}
+
+#forna-sequence-info {
+    font-size: 10pt;
+}
+
+#forna-color-scheme, #forna-custom-colors-molecule {
+    position: relative;
+    top: 0px;
+}
+
+#forna-error-message {
+    text-align: center;
+}
+
+#forna-color-scheme-desc {
+    margin-top: 20px;
+}

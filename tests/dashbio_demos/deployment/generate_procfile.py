@@ -4,6 +4,7 @@ APP_REMOTE_MAPPING = {
     'dash-alignment-chart': 'app_alignment_viewer',
     'dash-circos': 'app_circos',
     'dash-clustergram': 'app_clustergram',
+    'dash-forna-container': 'app_forna_container',
     'dash-ideogram': 'app_ideogram',
     'dash-manhattan-plot': 'app_manhattan_plot',
     'dash-molecule2d-viewer': 'app_molecule2d',

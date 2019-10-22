@@ -142,9 +142,7 @@ export default class Ideogram extends Component {
             end = r.to.toLocaleString(),
             extent = r.extent.toLocaleString();
 
-        if (
-            typeof this.props.brush !== 'undefined'
-         ) {
+        if (typeof this.props.brush !== 'undefined') {
             this.props.setProps({
                 brushData: {
                     start: start,
@@ -197,8 +195,8 @@ export default class Ideogram extends Component {
         ).innerHTML;
         this.tooltipDataTwo =
             this.tooltipData !== this.tooltipDataTwo
-            ? this.onToolTipHandler()
-            : document.getElementById('_ideogramTooltip').innerHTML;
+                ? this.onToolTipHandler()
+                : document.getElementById('_ideogramTooltip').innerHTML;
     }
 
     setConfig() {

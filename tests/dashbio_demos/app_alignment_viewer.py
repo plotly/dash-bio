@@ -562,10 +562,10 @@ def layout():
     ])
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
+def callbacks(_app):
 
     # Handle file upload/selection into data store
-    @app.callback(
+    @_app.callback(
         Output('alignment-data-store', 'data'),
         [Input('alignment-dropdown', 'value'),
          Input('alignment-file-upload', 'contents'),
@@ -582,7 +582,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return content
 
     # Handle event data
-    @app.callback(
+    @_app.callback(
         Output("alignment-events", "children"),
         [Input("alignment-chart", "eventDatum")]
     )
@@ -601,7 +601,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         ]
 
     # Render main chart
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'data'),
         [Input('alignment-data-store', 'data')]
     )
@@ -609,91 +609,91 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return input_data
 
     # Customization callbacks
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'colorscale'),
         [Input('alignment-colorscale-dropdown', 'value')],
     )
     def customize_colorscale(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'overview'),
         [Input('alignment-overview-dropdown', 'value')],
     )
     def customize_overview(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'showconsensus'),
         [Input('alignment-showconsensus-radio', 'value')],
     )
     def customize_showconsensus(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'textsize'),
         [Input('alignment-textsize-slider', 'value')],
     )
     def customize_textsize(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'showconservation'),
         [Input('alignment-showconservation-radio', 'value')],
     )
     def customize_showconservation(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'conservationcolorscale'),
         [Input('alignment-conservationcolorscale-dropdown', 'value')],
     )
     def customize_conservationcolorscale(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'conservationmethod'),
         [Input('alignment-conservationmethod-dropdown', 'value')],
     )
     def customize_conservationmethod(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'correctgap'),
         [Input('alignment-correctgap-radio', 'value')],
     )
     def customize_correctgap(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'showgap'),
         [Input('alignment-showgap-radio', 'value')],
     )
     def customize_showgap(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'gapcolor'),
         [Input('alignment-gapcolor-dropdown', 'value')],
     )
     def customize_gapcolor(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'groupbars'),
         [Input('alignment-groupbars-radio', 'value')],
     )
     def customize_groupbars(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'showlabel'),
         [Input('alignment-showlabel-radio', 'value')],
     )
     def customize_showlabel(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('alignment-chart', 'showid'),
         [Input('alignment-showid-radio', 'value')],
     )

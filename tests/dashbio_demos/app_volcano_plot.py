@@ -209,8 +209,8 @@ def layout():
     ])
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
-    @app.callback(
+def callbacks(_app):
+    @_app.callback(
         Output('vp-event-data', 'children'),
         [Input('vp-graph', 'hoverData'),
          Input('vp-graph', 'clickData')]
@@ -263,7 +263,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             html.Div(click_data_div)
         ])
 
-    @app.callback(
+    @_app.callback(
         Output('vp-graph', 'figure'),
         [
             Input('vp-bound-val', 'value'),
@@ -286,7 +286,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             **DATASETS[datadset_id]['dataprops']
         )
 
-    @app.callback(
+    @_app.callback(
         Output('vp-dataset-div', 'title'),
         [
             Input('vp-dataset-dropdown', 'value')
@@ -296,7 +296,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         """Update the dataset of interest."""
         return DATASETS[dataset_id]['datasource']
 
-    @app.callback(
+    @_app.callback(
         Output('vp-upper-right', 'value'),
         [Input('vp-graph', 'figure')],
         [State('vp-bound-val', 'value')]
@@ -311,7 +311,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             number = len(x[idx])
         return number
 
-    @app.callback(
+    @_app.callback(
         Output('vp-upper-left', 'value'),
         [Input('vp-graph', 'figure')],
         [State('vp-bound-val', 'value')]
@@ -327,7 +327,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return number
 
     # Callbacks for integration test purposes
-    @app.callback(
+    @_app.callback(
         Output('vp-upper-left-val', 'children'),
         [Input('vp-graph', 'figure')],
         [State('vp-bound-val', 'value')]
@@ -344,7 +344,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             number = len(x[idx])
         return str(number)
 
-    @app.callback(
+    @_app.callback(
         Output('vp-upper-bound-val', 'value'),
         [Input('vp-bound-val', 'value')],
     )
@@ -352,7 +352,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         """For selenium tests."""
         return bounds[1]
 
-    @app.callback(
+    @_app.callback(
         Output('vp-upper-right-val', 'children'),
         [Input('vp-graph', 'figure')],
         [State('vp-bound-val', 'value')]
@@ -369,7 +369,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             number = len(x[idx])
         return str(number)
 
-    @app.callback(
+    @_app.callback(
         Output('vp-lower-bound-val', 'value'),
         [Input('vp-bound-val', 'value')],
     )
@@ -378,7 +378,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         l_lim = bounds[0]
         return l_lim
 
-    @app.callback(
+    @_app.callback(
         Output('vp-genomic-line-val', 'value'),
         [Input('vp-genomic-line', 'value')],
     )
