@@ -32,9 +32,10 @@ The Dash Bio components each fall into one of three categories:
 
 ### Sequence analysis tools
 
-- Dash Alignment Viewer
+- Dash Alignment Chart
 - Dash Onco Print
 - Dash Sequence Viewer
+- Dash Forna Container
 
 ### Visualization tools
 
