@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+### Removed
+
+* Temporary removal of FornaContainer component due to issues with
+  stylesheet.
+
 ## [0.3.0] - 2019-10-22
 
 ### Added
