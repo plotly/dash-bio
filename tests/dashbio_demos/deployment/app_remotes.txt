@@ -1,7 +1,6 @@
 dash-alignment-chart
 dash-circos
 dash-clustergram
-dash-forna-container
 dash-ideogram
 dash-manhattan-plot
 dash-molecule2d-viewer
