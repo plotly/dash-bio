@@ -231,7 +231,7 @@ def layout():
                                             'value': UNIPROT_DOMS_KEY
                                         }
                                     ],
-                                    values=[]
+                                    value=[]
                                 )
                             ]
                         ),
@@ -559,9 +559,9 @@ def layout():
     ])
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
+def callbacks(_app):
 
-    @app.callback(
+    @_app.callback(
         Output('needle-%s-div' % DATABASE_KEY, 'style'),
         [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % DATABASE_KEY, 'style')]
@@ -579,7 +579,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return div_style
 
-    @app.callback(
+    @_app.callback(
         Output('needle-%s-div' % DEMO_KEY, 'style'),
         [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % DEMO_KEY, 'style')]
@@ -594,7 +594,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             div_style['display'] = 'none'
         return div_style
 
-    @app.callback(
+    @_app.callback(
         Output('needle-%s-div' % FILE_KEY, 'style'),
         [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-%s-div' % FILE_KEY, 'style')]
@@ -611,7 +611,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return div_style
 
-    @app.callback(
+    @_app.callback(
         Output('needle-uniprot-div', 'style'),
         [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-uniprot-div', 'style')]
@@ -628,7 +628,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return div_style
 
-    @app.callback(
+    @_app.callback(
         Output('needle-uniprot-div', 'children'),
         [Input('needle-store', 'data')],
         [State('needle-dataset-select-dropdown', 'value')]
@@ -652,7 +652,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 )
         return div
 
-    @app.callback(
+    @_app.callback(
         Output('needle-sequence-input', 'value'),
         [Input('needle-store', 'data')],
         [State('needle-dataset-select-dropdown', 'value')]
@@ -665,7 +665,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             answer = ""
         return answer
 
-    @app.callback(
+    @_app.callback(
         Output('needle-domain-file-div', 'style'),
         [Input('needle-protein-domains-select-checklist', 'values')],
         [State('needle-domain-file-div', 'value')]
@@ -683,7 +683,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return div_style
 
-    @app.callback(
+    @_app.callback(
         Output('needle-domain-query-info-div', 'style'),
         [Input('needle-protein-domains-select-checklist', 'values')],
         [
@@ -708,7 +708,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return div_style
 
-    @app.callback(
+    @_app.callback(
         Output('needle-protein-domains-select-div', 'style'),
         [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-protein-domains-select-div', 'style')]
@@ -729,7 +729,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return div_style
 
     # UPLOAD RELATED CALLBACKS========
-    @app.callback(
+    @_app.callback(
         Output('needle-mutdata-file-upload', 'contents'),
         [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-mutdata-file-upload', 'contents')]
@@ -742,7 +742,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             answer = mut_contents
         return answer
 
-    @app.callback(
+    @_app.callback(
         Output('needle-domains-file-upload', 'contents'),
         [Input('needle-dataset-select-dropdown', 'value')],
         [State('needle-domains-file-upload', 'contents')]
@@ -755,7 +755,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             answer = dom_contents
         return answer
 
-    @app.callback(
+    @_app.callback(
         Output('needle-mutdata-file-info-div', 'children'),
         [
             Input('needle-mutdata-file-upload', 'contents'),
@@ -770,7 +770,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             answer = []
         return answer
 
-    @app.callback(
+    @_app.callback(
         Output('needle-domains-file-info-div', 'children'),
         [
             Input('needle-domains-file-upload', 'contents'),
@@ -785,7 +785,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             answer = []
         return answer
 
-    @app.callback(
+    @_app.callback(
         Output('needle-domain-query-info-div', 'children'),
         [Input('needle-store', 'data')],
         [State('needle-protein-domains-select-checklist', 'values')]
@@ -811,7 +811,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return div
 
     # DATA RELATED CALLBACKS==========
-    @app.callback(
+    @_app.callback(
         Output('needle-download-data-button-link', 'download'),
         [
             Input('needle-plot', 'mutationData'),
@@ -823,7 +823,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
            the user choice"""
         return "%s_data.json" % dl_data_choice
 
-    @app.callback(
+    @_app.callback(
         Output('needle-download-data-button-link', 'href'),
         [
             Input('needle-plot', 'mutationData'),
@@ -837,7 +837,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         fpath = "%s%s" % (stored_data['info']['dl_data_path'], fname)
         return fpath
 
-    @app.callback(
+    @_app.callback(
         Output('needle-download-data-div', 'style'),
         [Input('needle-plot', 'mutationData')],
         [State('needle-download-data-div', 'style')]
@@ -855,7 +855,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return div_style
 
-    @app.callback(
+    @_app.callback(
         Output('needle-plot', 'mutationData'),
         [Input('needle-store', 'data')],
         [State('needle-download-data-dropdown', 'value')]
@@ -870,7 +870,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             json.dump(stored_data['plot'], fp)
         return stored_data['plot']
 
-    @app.callback(
+    @_app.callback(
         Output('needle-store', 'data'),
         [
             Input('needle-search-sequence-button', 'n_clicks'),
@@ -1023,14 +1023,14 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return stored_data
 
     # GRAPH OPTIONS CALLBACKS=========
-    @app.callback(
+    @_app.callback(
         Output('needle-plot', 'rangeSlider'),
         [Input('needle-rangeslider-radioitems', 'value')]
     )
     def toggle_rangeslider(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('needle-plot', 'needleStyle'),
         [
             Input('needle-stem-height-radioitems', 'value'),
@@ -1061,7 +1061,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         needle_sty['headSymbol'] = head_symbols
         return needle_sty
 
-    @app.callback(
+    @_app.callback(
         Output('needle-plot', 'domainStyle'),
         [Input('needle-domains-color-dropdown', 'value')],
         [State('needle-plot', 'domainStyle')]

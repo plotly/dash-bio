@@ -289,9 +289,9 @@ def layout():
     ]),
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
+def callbacks(_app):
 
-    @app.callback(
+    @_app.callback(
         Output('oncoprint-store', 'data'),
         [
             Input('oncoprint-padding-input', 'value'),
@@ -332,7 +332,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return stored_data
 
     # Handle event data
-    @app.callback(
+    @_app.callback(
         Output("oncoprint-events", "children"),
         [Input("oncoprint-chart", "eventDatum")],
     )
@@ -350,7 +350,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         to see it here.'
 
     # Render main chart
-    @app.callback(
+    @_app.callback(
         Output('oncoprint-chart', 'data'),
         [Input('oncoprint-dropdown', 'value')],
     )
@@ -358,21 +358,21 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return DATASETS[dropdown]
 
     # Customization callbacks
-    @app.callback(
+    @_app.callback(
         Output('oncoprint-chart', 'showlegend'),
         [Input('oncoprint-show-legend', 'value')],
     )
     def toggle_legend(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('oncoprint-chart', 'showoverview'),
         [Input('oncoprint-show-overview', 'value')],
     )
     def toggle_overview(val):
         return val
 
-    @app.callback(
+    @_app.callback(
         Output('oncoprint-chart', 'backgroundcolor'),
         [Input('oncoprint-tracks-color', 'value')],
     )
@@ -381,14 +381,14 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return val['hex']
         return '#AAAAAA'
 
-    @app.callback(
+    @_app.callback(
         Output('oncoprint-chart', 'padding'),
         [Input('oncoprint-store', 'data')],
     )
     def change_padding(data):
         return data[PADDING_KEY]
 
-    @app.callback(
+    @_app.callback(
         Output('oncoprint-chart', 'colorscale'),
         [Input('oncoprint-store', 'data')],
     )

@@ -367,7 +367,7 @@ def layout():
                                         {'label': '',
                                          'value': 'underscore'}
                                     ],
-                                    values=[]
+                                    value=[]
                                 )
                             ]),
                             html.Div(className='app-controls-block', children=[
@@ -492,10 +492,10 @@ def layout():
     ])
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
+def callbacks(_app):
 
     # upload or preloaded
-    @app.callback(
+    @_app.callback(
         Output('preloaded-sequences', 'value'),
         [Input('upload-fasta-data', 'contents')],
         state=[State('preloaded-sequences', 'value')]
@@ -505,7 +505,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return None
         return current
 
-    @app.callback(
+    @_app.callback(
         Output('preloaded-and-uploaded-alert', 'style'),
         [Input('preloaded-sequences', 'value')],
         state=[State('upload-fasta-data', 'contents')]
@@ -518,7 +518,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # sequence viewer sequence
 
-    @app.callback(
+    @_app.callback(
         Output('sequence-viewer', 'sequence'),
         [Input('upload-fasta-data', 'contents'),
          Input('fasta-entry-dropdown', 'value'),
@@ -561,7 +561,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return False
 
     # a way of getting the timestamp for a dropdown change
-    @app.callback(
+    @_app.callback(
         Output('current-sequence', 'data'),
         [Input('sequence-viewer', 'sequence')],
         state=[State('current-sequence', 'data')]
@@ -573,7 +573,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # whether or not to clear the coverage, based on a
     # change in the dropdown
-    @app.callback(
+    @_app.callback(
         Output('clear-coverage', 'data'),
         [Input('current-sequence', 'modified_timestamp'),
          Input('coverage-submit', 'n_clicks_timestamp')],
@@ -594,14 +594,14 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return answer
 
     # clear the subpart selected
-    @app.callback(
+    @_app.callback(
         Output('sequence-viewer', 'subpartSelected'),
         [Input('sequence-viewer', 'sequence')]
     )
     def clear_subpart_sel(_):
         return []
 
-    @app.callback(
+    @_app.callback(
         Output('coverage-storage', 'data'),
         [Input('coverage-submit', 'n_clicks'),
          Input('coverage-reset', 'n_clicks'),
@@ -680,7 +680,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return current_cov
 
-    @app.callback(
+    @_app.callback(
         Output('sequence-viewer', 'coverage'),
         [Input('coverage-storage', 'data'),
          Input('selection-or-coverage', 'value')]
@@ -694,28 +694,28 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # selection
 
-    @app.callback(
+    @_app.callback(
         Output('sel-slider', 'value'),
         [Input('sequence-viewer', 'sequence')]
     )
     def reset_selection(_):
         return [0, 0]
 
-    @app.callback(
+    @_app.callback(
         Output('sel-region-low', 'value'),
         [Input('sequence-viewer', 'sequence')]
     )
     def reset_selection_low(*_):
         return 0
 
-    @app.callback(
+    @_app.callback(
         Output('sel-region-high', 'value'),
         [Input('sequence-viewer', 'sequence')]
     )
     def reset_selection_high(*_):
         return 0
 
-    @app.callback(
+    @_app.callback(
         Output('sequence-viewer', 'selection'),
         [Input('sel-slider', 'value'),
          Input('sel-region-low', 'value'),
@@ -749,7 +749,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # clear mouse selection
 
-    @app.callback(
+    @_app.callback(
         Output('sequence-viewer', 'mouseSelection'),
         [Input('sequence-viewer', 'sequence')]
     )
@@ -758,7 +758,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
     # controls
 
-    @app.callback(
+    @_app.callback(
         Output('sel-slider', 'style'),
         [Input('sel-slider-or-input', 'value')]
     )
@@ -766,7 +766,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return {'display': 'block'} if slider_input == 'slider' \
             else {'display': 'none'}
 
-    @app.callback(
+    @_app.callback(
         Output('sel-region-inputs', 'style'),
         [Input('sel-slider-or-input', 'value')]
     )
@@ -774,7 +774,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return {'display': 'block'} if slider_input == 'input' \
             else {'display': 'none'}
 
-    @app.callback(
+    @_app.callback(
         Output('cov-options', 'style'),
         [Input('selection-or-coverage', 'value')]
     )
@@ -784,7 +784,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             answer = {'display': 'inline-block'}
         return answer
 
-    @app.callback(
+    @_app.callback(
         Output('seq-view-sel-slider-container', 'style'),
         [Input('selection-or-coverage', 'value')]
     )
@@ -794,7 +794,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             answer = {'display': 'inline-block'}
         return answer
 
-    @app.callback(
+    @_app.callback(
         Output('seq-view-number-entries', 'children'),
         [Input('fasta-entry-dropdown', 'options')]
     )
@@ -803,7 +803,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             len(entries)
         )
 
-    @app.callback(
+    @_app.callback(
         Output('fasta-entry-dropdown', 'options'),
         [Input('upload-fasta-data', 'contents'),
          Input('preloaded-sequences', 'value')]
@@ -836,7 +836,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                 ))
         return dropdown_options
 
-    @app.callback(
+    @_app.callback(
         Output('sel-slider', 'max'),
         [Input('sequence-viewer', 'sequence')]
     )
@@ -845,7 +845,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             seq = ''
         return len(seq)
 
-    @app.callback(
+    @_app.callback(
         Output('sel-region-high', 'max'),
         [Input('sequence-viewer', 'sequence')]
     )
@@ -854,7 +854,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             seq = ''
         return len(seq)
 
-    @app.callback(
+    @_app.callback(
         Output('sel-region-low', 'max'),
         [Input('sequence-viewer', 'sequence')]
     )
@@ -863,7 +863,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             seq = ''
         return len(seq)
 
-    @app.callback(
+    @_app.callback(
         Output('sequence-viewer', 'title'),
         [Input('sequence-viewer', 'sequence'),
          Input('fasta-entry-dropdown', 'value'),
@@ -901,7 +901,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return ''
 
     # info display
-    @app.callback(
+    @_app.callback(
         Output('test-selection', 'children'),
         [Input('sequence-viewer', 'selection'),
          Input('translation-alphabet', 'value'),
@@ -981,7 +981,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
                         answer = html.Table(summary)
         return answer
 
-    @app.callback(
+    @_app.callback(
         Output('test-coverage-clicked', 'children'),
         [Input('sequence-viewer', 'coverageClicked')],
         state=[State('coverage-storage', 'data')]
@@ -995,7 +995,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             current_cov[index]['tooltip']
         )
 
-    @app.callback(
+    @_app.callback(
         Output('test-mouse-selection', 'children'),
         [Input('sequence-viewer', 'mouseSelection')]
     )
@@ -1004,7 +1004,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return v['selection']
         return ''
 
-    @app.callback(
+    @_app.callback(
         Output('fasta-entry-dropdown', 'value'),
         [Input('preloaded-sequences', 'value'),
          Input('upload-fasta-data', 'contents')]
@@ -1012,7 +1012,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
     def update_dropdown_value(v, c):
         return 0
 
-    @app.callback(
+    @_app.callback(
         Output('desc-info', 'children'),
         [Input('upload-fasta-data', 'contents'),
          Input('fasta-entry-dropdown', 'value'),
@@ -1052,7 +1052,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             desc.append(html.Br())
         return desc
 
-    @app.callback(
+    @_app.callback(
         Output('test-subpart-selection', 'children'),
         [Input('sequence-viewer', 'subpartSelected')]
     )

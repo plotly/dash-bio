@@ -5,18 +5,15 @@ from dash.development.base_component import Component, _explicitize_args
 
 class AlignmentChart(Component):
     """An AlignmentChart component.
-The Alignment Viewer (MSA) component is used to align multiple genomic
+The Alignment Chart (MSA) component is used to align multiple genomic
 or proteomic sequences from a FASTA or Clustal file. Among its
-extensive set of features, the multiple sequence alignment viewer
+extensive set of features, the multiple sequence alignment chart
 can display multiple subplots showing gap and conservation info,
 alongside industry standard colorscale support and consensus sequence.
-No matter what size your alignment is, Aligment Viewer is able to display
+No matter what size your alignment is, Alignment Chart is able to display
 your genes or proteins snappily thanks to the underlying WebGL architecture
 powering the component. You can quickly scroll through your long sequence
 with a slider or a heatmap overview.
-Note that the AlignmentChart only returns a chart of the sequence, while
-AlignmentViewer has integrated controls for colorscale, heatmaps, and subplots
-allowing the user to interactively control their sequences.
 Read more about the component here:
 https://github.com/plotly/react-alignment-viewer
 
@@ -64,12 +61,12 @@ toggles whether to group bars or to stack them as separate subplots.
 No effect if not both gap and conservation are shown.
 - showconsensus (boolean; default True): Displays toggling the consensus sequence, where each nucleotide in the
 consensus sequence is the argmax of its distribution at a set nucleotide.
-- tilewidth (number; default 16): Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
+- tilewidth (number; default 16): Sets how many pixels each nucleotide/amino acid on the Alignment Chart
 takes up horizontally. The total number of tiles (numtiles) seen
 horizontally is automatically determined by rounding
 the Viewer width divided by the tile width.
 the Viewwer width divided by the tile witdth.
-- tileheight (number; default 16): Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
+- tileheight (number; default 16): Sets how many pixels each nucleotide/amino acid on the Alignment Chart
 takes up vertically.
 If enabled, set height dynamically.
 - overview (a value equal to: 'heatmap', 'slider', 'none'; default 'heatmap'): Toggles whether the overview should be a heatmap, a slider, or none.

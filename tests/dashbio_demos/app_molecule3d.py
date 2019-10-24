@@ -352,9 +352,9 @@ def files_data_style(content):
     return dataFile
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
+def callbacks(_app):
 
-    @app.callback(
+    @_app.callback(
         Output('mol3d-data-info', 'children'),
         [Input('dropdown-demostr', 'value')]
     )
@@ -371,7 +371,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             ]
         return ''
 
-    @app.callback(
+    @_app.callback(
         Output('dropdown-demostr', 'value'),
         [Input('mol3d-upload-data', 'contents')],
         [State('dropdown-demostr', 'value')]
@@ -382,7 +382,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return dem
 
     # Callback for updating dropdown options
-    @app.callback(
+    @_app.callback(
         Output('mol3d-coloring-key', 'options'),
         [Input('dropdown-style-color', 'value')]
     )
@@ -399,7 +399,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return options
 
-    @app.callback(
+    @_app.callback(
         Output('mol3d-color-storage', 'data'),
         [Input('mol3d-coloring-value', 'value'),
          Input('dropdown-style-color', 'value')],
@@ -425,7 +425,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return current
 
     # Callback for molecule visualization based on uploaded PDB file
-    @app.callback(
+    @_app.callback(
         Output('mol3d-biomolecule-viewer', 'children'),
         [Input('mol3d-upload-data', 'contents'),
          Input('dropdown-demostr', 'value'),
@@ -495,7 +495,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         )
     # Callback to print details of each selected atom of the biomolecule
 
-    @app.callback(
+    @_app.callback(
         Output("mol3d-selection-output", "children"),
         [Input("mol-3d", "selectedAtomIds"),
          Input("mol-3d", "modelData")]

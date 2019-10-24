@@ -1,5 +1,6 @@
 # Dash Bio
 [![CircleCI](https://circleci.com/gh/plotly/dash-bio/tree/master.svg?style=svg)](https://circleci.com/gh/plotly/dash-bio)
+[![PyPI version](https://badge.fury.io/py/dash-bio.svg)](https://badge.fury.io/py/dash-bio)
 
 Dash Bio is a suite of bioinformatics components built to work with
 [Dash](https://github.com/plotly/dash/).
@@ -31,8 +32,9 @@ The Dash Bio components each fall into one of three categories:
 
 ### Sequence analysis tools
 
-- Dash Alignment Viewer
+- Dash Alignment Chart
 - Dash Onco Print
+- Dash Forna Container
 - Dash Sequence Viewer
 
 ### Visualization tools

@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.1.5-rc6",
+  "version": "0.3.0",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   "dependencies": {
     "circos": "git+https://github.com/matthewchan15/circosJS.git#matthewchan15-zoom-pan-svg",
     "fast-memoize": "^2.5.1",
+    "fornac": "^1.1.8",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
     "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
@@ -65,7 +66,7 @@
     "jest-canvas-mock": "^2.1.0",
     "jest-raw-loader": "^1.0.1",
     "prettier": "^1.16.1",
-    "react-docgen": "^2.21.0",
+    "react-docgen": "^3.0.0",
     "react-test-renderer": "^16.8.6",
     "style-loader": "^0.23.0",
     "webpack": "^4.20.2",
