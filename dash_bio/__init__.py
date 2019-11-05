@@ -32,17 +32,50 @@ _components = _dash.development.component_loader.load_components(
 
 _this_module = _sys.modules[__name__]
 
+async_resources = [
+    'alignment',
+    'circos',
+    'ideogram',
+    'moleculeviewer2',
+    'moleculeviewer3',
+    'needle',
+    'onco',
+    'sequence',
+    'speck'
+]
 
-_js_dist = [
+_js_dist = []
+
+_js_dist.extend([{
+        'relative_package_path': 'async~{}.js'.format(async_resource),
+        'external_url': (
+            'https://unpkg.com/dash-bio@{}'
+            '/dash_bio/async~{}.js'
+        ).format(__version__, async_resource),
+        'namespace': 'dash_bio',
+        'async': True
+    } for async_resource in async_resources])
+
+_js_dist.extend([{
+        'relative_package_path': 'async~{}.js.map'.format(async_resource),
+        'external_url': (
+            'https://unpkg.com/dash-bio@{}'
+            '/dash_bio/async~{}.js.map'
+        ).format(__version__, async_resource),
+        'namespace': 'dash_bio',
+        'dynamic': True
+    } for async_resource in async_resources])
+
+_js_dist.extend([
     {
         'relative_package_path': 'bundle.js',
         'external_url': (
-            'https://unpkg.com/dash-bio'
+            'https://unpkg.com/dash-bio{}'
             '/' + package_name + '/bundle.js'
         ).format(__version__),
         'namespace': package_name
     }
-]
+])
 
 _css_dist = []
 

@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
@@ -16,13 +16,13 @@
     "format": "prettier --config .prettierrc --write \"{src/**/, src/lib/components/}*.js\"",
     "lint:test": "eslint src",
     "lint": "eslint src --fix",
-    "test": "npm run lint:test & npm run format:test & npm run test-unit",
+    "test": "npm run lint:test && npm run format:test && npm run test-unit",
     "test-unit": "jest",
     "build:js-dev": "webpack --mode development",
-    "build:js": "npm run lint & npm run format & webpack --mode production",
+    "build:js": "npm run lint && npm run format && webpack --mode production",
     "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && python get_version_info.py && python -c \"import dash; dash.development.component_loader.generate_classes('dash_bio', 'dash_bio/metadata.json')\"",
-    "build:all": "npm run build:js & npm run build:py",
-    "build:all-dev": "npm run build:js-dev & npm run build:py"
+    "build:all": "npm run build:js && npm run build:py",
+    "build:all-dev": "npm run build:js-dev && npm run build:py"
   },
   "author": "The Plotly Team <dashbio@plot.ly>",
   "maintainer": "Ryan Patrick Kyle <ryan@plot.ly>",
@@ -45,9 +45,11 @@
     "speck": "git://github.com/plotly/speck.git"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.1",
     "@babel/preset-react": "^7.0.0",
+    "@plotly/webpack-dash-dynamic-import": "^1.1.1",
     "babel-eslint": "^10.0.0",
     "babel-jest": "^24.5.0",
     "babel-loader": "^8.0.0",
