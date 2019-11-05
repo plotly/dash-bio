@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.0] - 2019-11-05
+### Added
+* [#430](https://github.com/plotly/dash-bio/pull/430) Async AlignmentChart, Circos, Ideogram, Molecule2dViewer, Molecule3dViewer, NeedlePlot, OncoPrint, SequenceViewwer and Speck components
+
 ## [0.3.0] - 2019-10-22
 
 ### Added
