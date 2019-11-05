@@ -78,7 +78,8 @@
     "react-dom": ">=0.14"
   },
   "files": [
-    "dash_bio/bundle.js"
+    "dash_bio/bundle.js",
+    "dash_bio/async~*.js"
   ],
   "engines": {
     "node": ">=8.11.0",
