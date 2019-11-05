@@ -1,4 +1,6 @@
 include dash_bio/bundle.js
+include dash_bio/async~*.js
+include dash_bio/async~*.js.map
 include dash_bio/metadata.json
 include dash_bio/package-info.json
 include README.md
