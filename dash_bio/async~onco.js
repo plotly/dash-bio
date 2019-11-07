@@ -1,1 +1,1013 @@
-(window.webpackJsonpdash_bio=window.webpackJsonpdash_bio||[]).push([[6],{163:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),Object.defineProperty(t,"OncoPrint",{enumerable:!0,get:function(){return o.default}});var r,o=(r=n(164))&&r.__esModule?r:{default:r}},164:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0;var r=function(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var n in e)if(Object.prototype.hasOwnProperty.call(e,n)){var r=Object.defineProperty&&Object.getOwnPropertyDescriptor?Object.getOwnPropertyDescriptor(e,n):{};r.get||r.set?Object.defineProperty(t,n,r):t[n]=e[n]}return t.default=e,t}(n(1)),o=s(n(0)),a=s(n(50)),i=s(n(64)),u=n(165);function s(e){return e&&e.__esModule?e:{default:e}}function l(e){return(l="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function c(){return(c=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e}).apply(this,arguments)}function f(e){return function(e){if(Array.isArray(e)){for(var t=0,n=new Array(e.length);t<e.length;t++)n[t]=e[t];return n}}(e)||function(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}()}function p(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function d(e){return(d=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}function h(e,t){return(h=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function y(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}var g=function(e){function t(e){var n,r,o;return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,t),r=this,(n=!(o=d(t).call(this,e))||"object"!==l(o)&&"function"!=typeof o?y(r):o).state={xStart:null,xEnd:null},n.resetWindowing=n.resetWindowing.bind(y(y(n))),n.handleChange=a.default.debounce(n.handleChange.bind(y(y(n))),250),n}var n,o,s;return function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&h(e,t)}(t,r.PureComponent),n=t,(o=[{key:"resetWindowing",value:function(e){var t,n,r=e.range;return 2===r.length?(t=r[0],n=r[1]):(t=null,n=null),{xStart:t,xEnd:n}}},{key:"handleChange",value:function(e){var t;this.props.onChange&&(e.points?(t="mousedown"===e.event.type?"Click":"mousemove"===e.event.type?"Hover":"Other",this.props.onChange({eventType:t,name:e.points[0].data.name,text:e.points[0].text,curveNumber:e.points[0].curveNumber,x:e.points[0].x,y:e.points[0].y})):e["xaxis.range[0]"]||e["xaxis.range"]?(this.setState({xStart:e["xaxis.range[0]"]||e["xaxis.range"][0],xEnd:e["xaxis.range[1]"]||e["xaxis.range"][1]}),this.props.onChange({eventType:"Zoom",xStart:e["xaxis.range[0]"]||e["xaxis.range"][0],xEnd:e["xaxis.range[1]"]||e["xaxis.range"][1]})):!0===e["xaxis.autorange"]?(this.setState({xStart:null,xEnd:null}),this.props.onChange({eventType:"Autoscale"})):this.props.onChange(e))}},{key:"getData",value:function(){var e=this.props,t=e.data,n=e.padding,r=e.colorscale,o=e.backgroundcolor,a=(0,u.aggregate)(t),i=(0,u.getSortedGenes)(t),s=(0,u.getSortedSamples)(t),l=(0,u.getEventRatiosPerGene)(t,s.length),c=function(e){return e.map(function(e){return"".concat(e," (").concat(l[e],"%)")})},p=0,d=[],h=[],y=[],g=[];s.forEach(function(e){d.push.apply(d,f(Array(i.length).fill(p))),h.push.apply(h,f(Array(i.length).fill(e))),y.push.apply(y,f(Array(i.length).fill(1))),g.push.apply(g,f(c(i))),p+=1});var v=[{base:d.map(function(e){return e+n}),hoverinfo:"text",marker:{color:o},name:"No alteration",text:h,orientation:"h",type:"bar",x:y.map(function(e){return e-2*n}),y:g}];return Object.keys(a).forEach(function(e){var t=a[e],o=.4;"CNA"===t.type?o=.8:"EXP"===t.type&&(o=.6);var i=t.events.map(function(e){return"".concat(e.sample,"<br>").concat((0,u.getDisplayName)(e))}),l=t.events.map(function(e){return e.sample}).map(function(e){return s.findIndex(function(t){return t===e})});v.push({base:l.map(function(e){return e+n}),hoverinfo:"text",marker:{color:(0,u.getColor)(t.events[0],r)},name:(0,u.getDisplayName)(t.events[0]),text:i,orientation:"h",type:"bar",width:o,x:Array(t.events.length).fill(1).map(function(e){return e-2*n}),y:c((0,u.getGeneNames)(t.events))})}),v}},{key:"getLayout",value:function(){var e=this.props,t=e.showlegend,n=e.showoverview,r=e.width,o=e.height,a=this.state,i={barmode:"stack",hovermode:"closest",showlegend:t,xaxis:{showgrid:!1,showticklabels:!1,zeroline:!1,range:[a.xStart,a.xEnd],automargin:!0},yaxis:{showgrid:!1,zeroline:!1,fixedrange:!0,automargin:!0},margin:{t:20,r:20,b:20}};return n&&(i.xaxis.rangeslider={autorange:!0}),{layout:i,width:r,height:o}}},{key:"componentDidMount",value:function(){var e=this.resetWindowing(this.props),t=e.xStart,n=e.xEnd;this.setState({xStart:t,xEnd:n})}},{key:"componentDidUpdate",value:function(e,t){if(this.props.data!==e.data){var n=this.resetWindowing(this.props),r=n.xStart,o=n.xEnd;this.setState({xStart:r,xEnd:o})}}},{key:"render",value:function(){var e=this.getData(),t=this.getLayout(),n=t.layout,o={style:{width:t.width,height:t.height},useResizeHandler:!0};return r.default.createElement("div",null,r.default.createElement(i.default,c({data:e,layout:n,onClick:this.handleChange,onHover:this.handleChange,onRelayout:this.handleChange},o)))}}])&&p(n.prototype,o),s&&p(n,s),t}();t.default=g,g.propTypes={data:o.default.array,padding:o.default.number,colorscale:o.default.oneOfType([o.default.bool,o.default.object]),backgroundcolor:o.default.string,range:o.default.array,showlegend:o.default.bool,showoverview:o.default.bool,width:o.default.oneOfType([o.default.number,o.default.string]),height:o.default.oneOfType([o.default.number,o.default.string])},g.defaultProps={padding:.05,colorscale:null,backgroundcolor:"rgb(190, 190, 190)",range:[null,null],showlegend:!0,showoverview:!0,width:null,height:500}},165:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.getColor=t.getDisplayName=t.aggregate=t.getSortedSamples=t.createSortEventsForGeneComparator=t.createSamplesMap=t.isMutation=t.getEventRatiosPerGene=t.getSortedGenes=t.getGeneNames=t.SupportedEvents=void 0;var r=a(n(50)),o=a(n(166));function a(e){return e&&e.__esModule?e:{default:e}}function i(e){return function(e){if(Array.isArray(e)){for(var t=0,n=new Array(e.length);t<e.length;t++)n[t]=e[t];return n}}(e)||function(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}()}var u=["INFRAME","TRUNC","MISSENSE"],s={MISSENSE:{colorHTML:"#008000",displayName:"Missense mutation"},INFRAME:{colorHTML:"#993404",displayName:"Inframe mutation"},TRUNC:{colorHTML:"#000000",displayName:"Truncation mutation"},FUSION:{colorHTML:"#8b00c9",displayName:"Fusion"},AMP:{colorHTML:"#ff0000",displayName:"Amplification"},GAIN:{colorHTML:"#ffb6c1",displayName:"Gain"},HETLOSS:{colorHTML:"#8fd8d8",displayName:"Shallow deletion"},HOMDEL:{colorHTML:"#0000ff",displayName:"Deep deletion"},UP:{colorHTML:"#ff9999",displayName:"mRNA Upregulation"},DOWN:{colorHTML:"#6699cc",displayName:"mRNA Downregulation"}};t.SupportedEvents=s;var l={AMP:0,GAIN:2,HETLOSS:3,HOMDEL:1,undefined:4},c={INFRAME:1,MISSENSE:3,TRUNC:0,undefined:4},f={UP:0,DOWN:1,undefined:2},p=function(e){return e.map(function(e){return e.gene}).filter(function(e){return null!==e})};t.getGeneNames=p;t.getSortedGenes=function(e){return i(new Set(p(e))).reverse()};t.getEventRatiosPerGene=function(e,t){var n=e.reduce(function(e,t){return t.type&&(e[t.gene]?e[t.gene]+=1:e[t.gene]=1),e},{});return Object.keys(n).forEach(function(e){n[e]=Math.floor(n[e]/t*100)}),n};var d=function(e){return u.includes(e.type)};t.isMutation=d;var h=function(e){return e>0?1:e<0?-1:0},y=function(e){var t={};return e.forEach(function(e){var n,r,o,a=(t[e.sample]||{})[e.gene]||{};d(e)?a.MUT=e.type:a[e.type]=e.alteration,t[e.sample]=Object.assign({},t[e.sample],(n={},r=e.gene,o=a,r in n?Object.defineProperty(n,r,{value:o,enumerable:!0,configurable:!0,writable:!0}):n[r]=o,n))}),t};t.createSamplesMap=y;var g=function(e,t){return function(n,r){return function(e,t,n,r){var o=r[e][n]||{},a=r[t][n]||{};if(o.FUSION&&!a.FUSION)return-1;if(!o.FUSION&&a.FUSION)return 1;var i=h(l[o.CNA]-l[a.CNA]);if(0!==i)return i;var u=h(c[o.MUT]-c[a.MUT]);if(0!==u)return u;var s=h(f[o.EXP]-f[a.EXP]);return 0!==s?s:0}(n,r,e,t)}};t.createSortEventsForGeneComparator=g;t.getSortedSamples=function(e){var t=y(e),n=i(new Set(p(e))),r=i(new Set(e.map(function(e){return e.sample}))).sort(),a=[];n.forEach(function(e){a.push(new o.default(i(r),g(e,t)))});var u={};r.forEach(function(e,t){u[e]=t});var s=i(r);return s.sort(function(e,t,n){return function(r,o){for(var a=0,i=0,u=0;u<e.length;u+=1){var s=n[u].compare(r,o),l=Math.abs(s);if(l>i&&(a=s,i=l),1===i)break}return 0===a&&(a=t[r]<t[o]?-1:1),a>0?1:-1}}(n,u,a)),s};t.aggregate=function(e){var t={};return e.forEach(function(e){if(e.type&&"NONE"!==e.type){var n=d(e)?e.type:e.alteration,r=t[n]||{type:e.type,alteration:e.alteration,events:[]};r.events.push(e),t[n]=r}}),t};t.getDisplayName=function(e){var t=d(e)?e.type:e.alteration;return s[t].displayName};t.getColor=function(e,t){var n,o=d(e)?e.type:e.alteration;return t&&r.default.isObject(t)&&(n=t[o])||(n=s[o].colorHTML),n}},166:function(e,t,n){"use strict";function r(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}Object.defineProperty(t,"__esModule",{value:!0}),t.default=t.hasElementsInInterval=void 0;var o=function(e,t,n,r){for(var o,a,i=0,u=e.length;;){if(i>=u)return!1;if((a=t(e[o=Math.floor((i+u)/2)]))>=r)u=o;else{if(!(a<n))return!0;i=o+1}}};t.hasElementsInInterval=o;var a=function(){function e(t,n){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),this.comparator=n,this.data=t,this.sort()}var t,n,a;return t=e,(n=[{key:"sort",value:function(){this.sortedData=this.data.sort(this.comparator),this.changePoints=[];for(var e=0;e<this.sortedData.length&&e!==this.sortedData.length-1;e+=1)0!==this.comparator(this.sortedData[e],this.sortedData[e+1])&&this.changePoints.push(e);this.samplesToIndex={};for(var t=0;t<this.sortedData.length;t+=1)this.samplesToIndex[this.sortedData[t]]=t}},{key:"compare",value:function(e,t){var n=this.samplesToIndex[e],r=this.samplesToIndex[t];if(void 0===n&&void 0===r)return 0;if(void 0===n)return 1;if(void 0===r)return-1;var a=!1;if(n===r)return 0;if(n>r){var i=n;n=r,r=i,a=!0}var u=0;return o(this.changePoints,function(e){return e},n,r)&&(u=-1),a&&(u*=-1),u}}])&&r(t.prototype,n),a&&r(t,a),e}();t.default=a},38:function(e,t,n){"use strict";n.r(t),n.d(t,"default",function(){return h});var r=n(1),o=n.n(r),a=n(181),i=n(163),u=n(15);function s(e){return(s="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function l(){return(l=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e}).apply(this,arguments)}function c(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function f(e){return(f=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}function p(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function d(e,t){return(d=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}var h=function(e){function t(e){var n,r,o;return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,t),r=this,(n=!(o=f(t).call(this,e))||"object"!==s(o)&&"function"!=typeof o?p(r):o).handleChange=n.handleChange.bind(p(n)),n}var n,u,h;return function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&d(e,t)}(t,r["Component"]),n=t,(u=[{key:"handleChange",value:function(e){var t=JSON.stringify(e);this.props.setProps({eventDatum:t})}},{key:"render",value:function(){var e=this.props,t=e.id,n=e.eventDatum;return o.a.createElement("div",{id:t,eventDatum:n},o.a.createElement(i.OncoPrint,l({onChange:this.handleChange},Object(a.a)(["setProps"],this.props))))}}])&&c(n.prototype,u),h&&c(n,h),t}();h.defaultProps=u.b,h.propTypes=u.c}}]);
+(window["webpackJsonpdash_bio"] = window["webpackJsonpdash_bio"] || []).push([[6],{
+
+/***/ 142:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "OncoPrint", {
+  enumerable: true,
+  get: function get() {
+    return _OncoPrint.default;
+  }
+});
+
+var _OncoPrint = _interopRequireDefault(__webpack_require__(143));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+
+/***/ 143:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(__webpack_require__(1));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(0));
+
+var _lodash = _interopRequireDefault(__webpack_require__(44));
+
+var _reactPlotly = _interopRequireDefault(__webpack_require__(47));
+
+var _utils = __webpack_require__(144);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+/**
+ * The OncoPrint component is used to view multiple genetic alteration events
+ * through an interactive and zoomable heatmap. It is a React/Dash port of the
+ * popular oncoPrint() function from the BioConductor R package.
+ * Under the hood, the rendering is done using Plotly.js built upon D3.
+ * Plotly's interactivity allows the user to bind clicks and hovers to genetic
+ * events, allowing the user to create complex bioinformatic apps or workflows
+ * that rely on crossfiltering.
+ * Read more about the component here:
+ * https://github.com/plotly/react-oncoprint
+ */
+var OncoPrint =
+/*#__PURE__*/
+function (_PureComponent) {
+  _inherits(OncoPrint, _PureComponent);
+
+  // Constructor
+  function OncoPrint(props) {
+    var _this;
+
+    _classCallCheck(this, OncoPrint);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(OncoPrint).call(this, props));
+    _this.state = {
+      xStart: null,
+      xEnd: null
+    };
+    _this.resetWindowing = _this.resetWindowing.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleChange = _lodash.default.debounce(_this.handleChange.bind(_assertThisInitialized(_assertThisInitialized(_this))), 250);
+    return _this;
+  } // Reset windowing to user preset on init or data change
+
+
+  _createClass(OncoPrint, [{
+    key: "resetWindowing",
+    value: function resetWindowing(props) {
+      var range = props.range;
+      var xStart, xEnd;
+
+      if (range.length === 2) {
+        xStart = range[0];
+        xEnd = range[1];
+      } else {
+        xStart = null;
+        xEnd = null;
+      }
+
+      return {
+        xStart: xStart,
+        xEnd: xEnd
+      };
+    } // Handle plot events
+
+  }, {
+    key: "handleChange",
+    value: function handleChange(event) {
+      if (!this.props.onChange) {
+        return;
+      } // CLick (mousedown) or hover (mousemove)
+
+
+      if (event.points) {
+        var eventType;
+
+        if (event.event.type === "mousedown") {
+          eventType = 'Click';
+        } else if (event.event.type === "mousemove") {
+          eventType = 'Hover';
+        } else {
+          eventType = 'Other';
+        }
+
+        this.props.onChange({
+          eventType: eventType,
+          name: event.points[0].data.name,
+          text: event.points[0].text,
+          curveNumber: event.points[0].curveNumber,
+          x: event.points[0].x,
+          y: event.points[0].y
+        });
+      } // Zoom
+      else if (event['xaxis.range[0]'] || event['xaxis.range']) {
+          this.setState({
+            xStart: event['xaxis.range[0]'] || event['xaxis.range'][0],
+            xEnd: event['xaxis.range[1]'] || event['xaxis.range'][1]
+          });
+          this.props.onChange({
+            eventType: 'Zoom',
+            xStart: event['xaxis.range[0]'] || event['xaxis.range'][0],
+            xEnd: event['xaxis.range[1]'] || event['xaxis.range'][1]
+          });
+        } // Autozoom
+        else if (event['xaxis.autorange'] === true) {
+            this.setState({
+              xStart: null,
+              xEnd: null
+            });
+            this.props.onChange({
+              eventType: 'Autoscale'
+            });
+          } // Guard
+          else {
+              this.props.onChange(event);
+            }
+    }
+  }, {
+    key: "getData",
+    // Fetch data
+    value: function getData() {
+      var _this$props = this.props,
+          inputData = _this$props.data,
+          padding = _this$props.padding,
+          colorscale = _this$props.colorscale,
+          backgroundcolor = _this$props.backgroundcolor; // OncoPrint equivalent of x, y
+
+      var events = (0, _utils.aggregate)(inputData);
+      var genes = (0, _utils.getSortedGenes)(inputData);
+      var samples = (0, _utils.getSortedSamples)(inputData);
+      var ratios = (0, _utils.getEventRatiosPerGene)(inputData, samples.length);
+
+      var formatGenes = function formatGenes(list) {
+        return list.map(function (gene) {
+          return "".concat(gene, " (").concat(ratios[gene], "%)");
+        });
+      };
+
+      var base = 0;
+      var bBackground = [];
+      var tBackground = [];
+      var xBackground = [];
+      var yBackground = []; // Background is used to draw the matrix (genes * samples)
+
+      samples.forEach(function (s) {
+        bBackground.push.apply(bBackground, _toConsumableArray(Array(genes.length).fill(base)));
+        tBackground.push.apply(tBackground, _toConsumableArray(Array(genes.length).fill(s)));
+        xBackground.push.apply(xBackground, _toConsumableArray(Array(genes.length).fill(1)));
+        yBackground.push.apply(yBackground, _toConsumableArray(formatGenes(genes)));
+        base += 1;
+      });
+      var background = {
+        base: bBackground.map(function (i) {
+          return i + padding;
+        }),
+        hoverinfo: 'text',
+        marker: {
+          color: backgroundcolor
+        },
+        name: 'No alteration',
+        text: tBackground,
+        orientation: 'h',
+        type: 'bar',
+        x: xBackground.map(function (i) {
+          return i - padding * 2;
+        }),
+        y: yBackground
+      };
+      var data = [background];
+      Object.keys(events).forEach(function (key) {
+        var aggr = events[key]; // Resize width depending on the mutation type
+
+        var width = 0.4;
+
+        if (aggr.type === 'CNA') {
+          width = 0.8;
+        } else if (aggr.type === 'EXP') {
+          width = 0.6;
+        } // Mutations should have the original text on it, not the type of mutation
+
+
+        var text_arr = aggr.events.map(function (event) {
+          return "".concat(event.sample, "<br>").concat((0, _utils.getDisplayName)(event));
+        }); // where to draw a bar for this entry
+
+        var indexes = aggr.events.map(function (e) {
+          return e.sample;
+        }).map(function (s) {
+          return samples.findIndex(function (sample) {
+            return sample === s;
+          });
+        });
+        data.push({
+          base: indexes.map(function (i) {
+            return i + padding;
+          }),
+          hoverinfo: 'text',
+          marker: {
+            color: (0, _utils.getColor)(aggr.events[0], colorscale)
+          },
+          name: (0, _utils.getDisplayName)(aggr.events[0]),
+          text: text_arr,
+          orientation: 'h',
+          type: 'bar',
+          width: width,
+          x: Array(aggr.events.length).fill(1).map(function (i) {
+            return i - padding * 2;
+          }),
+          y: formatGenes((0, _utils.getGeneNames)(aggr.events))
+        });
+      });
+      return data;
+    } // Fetch layout
+
+  }, {
+    key: "getLayout",
+    value: function getLayout() {
+      var _this$props2 = this.props,
+          showlegend = _this$props2.showlegend,
+          showoverview = _this$props2.showoverview,
+          width = _this$props2.width,
+          height = _this$props2.height;
+      var _this$state = this.state,
+          xStart = _this$state.xStart,
+          xEnd = _this$state.xEnd; // Get initial range
+
+      var initialRange = [xStart, xEnd];
+      var layout = {
+        barmode: 'stack',
+        hovermode: 'closest',
+        showlegend: showlegend,
+        xaxis: {
+          showgrid: false,
+          showticklabels: false,
+          zeroline: false,
+          range: initialRange,
+          automargin: true
+        },
+        yaxis: {
+          showgrid: false,
+          zeroline: false,
+          fixedrange: true,
+          automargin: true
+        },
+        margin: {
+          t: 20,
+          r: 20,
+          b: 20
+        }
+      };
+
+      if (showoverview) {
+        layout.xaxis.rangeslider = {
+          autorange: true
+        };
+      }
+
+      return {
+        layout: layout,
+        width: width,
+        height: height
+      };
+    } // Set xStart and xEnd on load
+
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this$resetWindowing = this.resetWindowing(this.props),
+          xStart = _this$resetWindowing.xStart,
+          xEnd = _this$resetWindowing.xEnd;
+
+      this.setState({
+        xStart: xStart,
+        xEnd: xEnd
+      });
+    } // Reset xStart and xEnd on data change
+
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (this.props.data !== prevProps.data) {
+        var _this$resetWindowing2 = this.resetWindowing(this.props),
+            xStart = _this$resetWindowing2.xStart,
+            xEnd = _this$resetWindowing2.xEnd;
+
+        this.setState({
+          xStart: xStart,
+          xEnd: xEnd
+        });
+      }
+    } // Main
+
+  }, {
+    key: "render",
+    value: function render() {
+      var data = this.getData();
+
+      var _this$getLayout = this.getLayout(),
+          layout = _this$getLayout.layout,
+          width = _this$getLayout.width,
+          height = _this$getLayout.height;
+
+      var other = {
+        style: {
+          width: width,
+          height: height
+        },
+        useResizeHandler: true
+      };
+      return _react.default.createElement("div", null, _react.default.createElement(_reactPlotly.default, _extends({
+        data: data,
+        layout: layout,
+        onClick: this.handleChange,
+        onHover: this.handleChange,
+        onRelayout: this.handleChange
+      }, other)));
+    }
+  }]);
+
+  return OncoPrint;
+}(_react.PureComponent);
+
+exports.default = OncoPrint;
+OncoPrint.propTypes = {
+  /**
+   * Input data, in CBioPortal format where each list entry is a dict
+   * consisting of 'sample', 'gene', 'alteration', and 'type'
+   */
+  data: _propTypes.default.array,
+  // TODO: Add remove empty columns prop
+
+  /**
+   * Adjusts the padding (as a proportion of whitespace) between two tracks.
+   * Value is a ratio between 0 and 1.
+   * Defaults to 0.05 (e.g. 5%). If set to 0, plot will look like a heatmap.
+   */
+  padding: _propTypes.default.number,
+
+  /**
+   * If not null, will override the default OncoPrint colorscale.
+   * Default OncoPrint colorscale same as CBioPortal implementation.
+   * Make your own colrscale as a {'mutation': COLOR} dict.
+   * Supported mutation keys are ['MISSENSE, 'INFRAME', 'FUSION',
+   * 'AMP', 'GAIN', 'HETLOSS', 'HMODEL', 'UP', 'DOWN']
+   * Note that this is NOT a standard plotly colorscale.
+   */
+  colorscale: _propTypes.default.oneOfType([_propTypes.default.bool, _propTypes.default.object]),
+
+  /**
+   * Default color for the tracks, in common name, hex, rgb or rgba format.
+   * If left blank, will default to a light grey rgb(190, 190, 190).
+   */
+  backgroundcolor: _propTypes.default.string,
+
+  /**
+   *.Toogles whether or not to show a legend on the right side of the plot,
+   * with mutation information.
+   */
+  range: _propTypes.default.array,
+
+  /**
+   *.Toogles whether or not to show a legend on the right side of the plot,
+   * with mutation information.
+   */
+  showlegend: _propTypes.default.bool,
+
+  /**
+   *.Toogles whether or not to show a heatmap overview of the tracks.
+   */
+  showoverview: _propTypes.default.bool,
+
+  /**
+   * Width of the OncoPrint.
+   * Will disable auto-resizing of plots if set.
+   */
+  width: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
+
+  /**
+   * Height of the OncoPrint.
+   * Will disable auto-resizing of plots if set.
+   */
+  height: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string])
+};
+OncoPrint.defaultProps = {
+  // Data
+  padding: 0.05,
+  colorscale: null,
+  backgroundcolor: 'rgb(190, 190, 190)',
+  // Layout
+  range: [null, null],
+  showlegend: true,
+  showoverview: true,
+  // Other
+  width: null,
+  height: 500
+};
+
+/***/ }),
+
+/***/ 144:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getColor = exports.getDisplayName = exports.aggregate = exports.getSortedSamples = exports.createSortEventsForGeneComparator = exports.createSamplesMap = exports.isMutation = exports.getEventRatiosPerGene = exports.getSortedGenes = exports.getGeneNames = exports.SupportedEvents = void 0;
+
+var _lodash = _interopRequireDefault(__webpack_require__(44));
+
+var _PrecomputedComparator = _interopRequireDefault(__webpack_require__(145));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+var MutationEventTypes = ['INFRAME', 'TRUNC', 'MISSENSE'];
+var SupportedEvents = {
+  // Mutations
+  MISSENSE: {
+    colorHTML: '#008000',
+    displayName: 'Missense mutation'
+  },
+  INFRAME: {
+    colorHTML: '#993404',
+    displayName: 'Inframe mutation'
+  },
+  TRUNC: {
+    colorHTML: '#000000',
+    displayName: 'Truncation mutation'
+  },
+  // Fusion
+  FUSION: {
+    colorHTML: '#8b00c9',
+    displayName: 'Fusion'
+  },
+  // Copy number alterations
+  AMP: {
+    colorHTML: '#ff0000',
+    displayName: 'Amplification'
+  },
+  GAIN: {
+    colorHTML: '#ffb6c1',
+    displayName: 'Gain'
+  },
+  HETLOSS: {
+    colorHTML: '#8fd8d8',
+    displayName: 'Shallow deletion'
+  },
+  HOMDEL: {
+    colorHTML: '#0000ff',
+    displayName: 'Deep deletion'
+  },
+  // mRNA expressions
+  UP: {
+    colorHTML: '#ff9999',
+    displayName: 'mRNA Upregulation'
+  },
+  DOWN: {
+    colorHTML: '#6699cc',
+    displayName: 'mRNA Downregulation'
+  }
+}; // Describes the order of importance for CNA events.
+
+exports.SupportedEvents = SupportedEvents;
+var AlterationsOrder = {
+  AMP: 0,
+  GAIN: 2,
+  HETLOSS: 3,
+  HOMDEL: 1,
+  undefined: 4
+}; // Describes the order of importance for mutation events.
+
+var MutationsOrder = {
+  INFRAME: 1,
+  MISSENSE: 3,
+  TRUNC: 0,
+  undefined: 4
+}; // Describes the order of importance for mRNA expression events.
+
+var ExpressionsOrder = {
+  UP: 0,
+  DOWN: 1,
+  undefined: 2
+}; // Retrieves the gene names in a set of events.
+
+var getGeneNames = function getGeneNames(events) {
+  return events.map(function (e) {
+    return e.gene;
+  }).filter(function (gene) {
+    return gene !== null;
+  });
+}; // Returns the set of genes (unique) reversed to display on the Y axis.
+
+
+exports.getGeneNames = getGeneNames;
+
+var getSortedGenes = function getSortedGenes(events) {
+  return _toConsumableArray(new Set(getGeneNames(events))).reverse();
+}; // Returns a hash map with the percentage of events (value) per gene (key).
+
+
+exports.getSortedGenes = getSortedGenes;
+
+var getEventRatiosPerGene = function getEventRatiosPerGene(events, nbSamples) {
+  var map = events.reduce(function (acc, event) {
+    if (event.type) {
+      if (acc[event.gene]) {
+        acc[event.gene] += 1;
+      } else {
+        acc[event.gene] = 1;
+      }
+    }
+
+    return acc;
+  }, {});
+  Object.keys(map).forEach(function (gene) {
+    map[gene] = Math.floor(map[gene] / nbSamples * 100);
+  });
+  return map;
+}; // Returns true if an event is a mutation, false otherwise.
+
+
+exports.getEventRatiosPerGene = getEventRatiosPerGene;
+
+var isMutation = function isMutation(event) {
+  return MutationEventTypes.includes(event.type);
+}; // Returns a comparator result value given an integer that may not be -1, 0 or
+// 1 (which are the only allowed sorting return values).
+
+
+exports.isMutation = isMutation;
+
+var sign = function sign(x) {
+  if (x > 0) {
+    return 1;
+  } else if (x < 0) {
+    return -1;
+  }
+
+  return 0;
+}; // Returns a comparator for the samples (matrix column), combining all the
+// precomputed comparators created for each gene (i.e. matrix row).
+
+
+var samplesComparator = function samplesComparator(genes, samplesToIndex, perGeneComparators) {
+  return function (s1, s2) {
+    var result = 0;
+    var absoluteResult = 0;
+
+    for (var i = 0; i < genes.length; i += 1) {
+      var nextResult = perGeneComparators[i].compare(s1, s2);
+      var nextAbsoluteResult = Math.abs(nextResult);
+
+      if (nextAbsoluteResult > absoluteResult) {
+        result = nextResult;
+        absoluteResult = nextAbsoluteResult;
+      }
+
+      if (absoluteResult === 1) {
+        break;
+      }
+    }
+
+    if (result === 0) {
+      result = samplesToIndex[s1] < samplesToIndex[s2] ? -1 : 1;
+    }
+
+    return result > 0 ? 1 : -1;
+  };
+}; // Returns a comparator to sort the samples given a gene .
+
+
+var sortEventsForGene = function sortEventsForGene(s1, s2, gene, samplesMap) {
+  var d1 = samplesMap[s1][gene] || {};
+  var d2 = samplesMap[s2][gene] || {};
+
+  if (d1.FUSION && !d2.FUSION) {
+    return -1;
+  } else if (!d1.FUSION && d2.FUSION) {
+    return 1;
+  }
+
+  var cna = sign(AlterationsOrder[d1.CNA] - AlterationsOrder[d2.CNA]);
+
+  if (cna !== 0) {
+    return cna;
+  }
+
+  var mut = sign(MutationsOrder[d1.MUT] - MutationsOrder[d2.MUT]);
+
+  if (mut !== 0) {
+    return mut;
+  }
+
+  var exp = sign(ExpressionsOrder[d1.EXP] - ExpressionsOrder[d2.EXP]);
+
+  if (exp !== 0) {
+    return exp;
+  }
+
+  return 0;
+}; // Returns a map to gather information on each sample, per gene, per event.
+
+
+var createSamplesMap = function createSamplesMap(events) {
+  var samplesMap = {};
+  events.forEach(function (e) {
+    var s = samplesMap[e.sample] || {};
+    var v = s[e.gene] || {};
+
+    if (isMutation(e)) {
+      v.MUT = e.type;
+    } else {
+      v[e.type] = e.alteration;
+    }
+
+    samplesMap[e.sample] = Object.assign({}, samplesMap[e.sample], _defineProperty({}, e.gene, v));
+  });
+  return samplesMap;
+}; // Helper function to create a comparator for each gene.
+
+
+exports.createSamplesMap = createSamplesMap;
+
+var createSortEventsForGeneComparator = function createSortEventsForGeneComparator(gene, map) {
+  return function (s1, s2) {
+    return sortEventsForGene(s1, s2, gene, map);
+  };
+}; // Returns the list of samples sorted with mutual exclusion. The sorting
+// algorithm is similar to the one used on cBioPortal and takes both the rows
+// (genes) and columns (samples) into account. We returns the sorted set of
+// samples to display on X axix.
+
+
+exports.createSortEventsForGeneComparator = createSortEventsForGeneComparator;
+
+var getSortedSamples = function getSortedSamples(events) {
+  // Get a map with samples sorted by gene and events.
+  var samplesMap = createSamplesMap(events); // Get a unique list of genes, sorted by the natural order in the events.
+
+  var genes = _toConsumableArray(new Set(getGeneNames(events))); // Sort the samples alphabetically.
+
+
+  var samples = _toConsumableArray(new Set(events.map(function (e) {
+    return e.sample;
+  }))).sort(); // Build one comparator per gene.
+
+
+  var perGeneComparators = [];
+  genes.forEach(function (gene) {
+    perGeneComparators.push( // This actually sorts the samples, but for each gene only.
+    new _PrecomputedComparator.default(_toConsumableArray(samples), createSortEventsForGeneComparator(gene, samplesMap)));
+  }); // Create a map with the current order of the samples.
+
+  var samplesToIndex = {};
+  samples.forEach(function (s, i) {
+    samplesToIndex[s] = i;
+  }); // Finally, sort the samples taking into account both the columns and rows.
+
+  var sortedSamples = _toConsumableArray(samples);
+
+  sortedSamples.sort(samplesComparator(genes, samplesToIndex, perGeneComparators));
+  return sortedSamples;
+}; // Returns the events aggregated by type (if mutation) or alteration.
+
+
+exports.getSortedSamples = getSortedSamples;
+
+var aggregate = function aggregate(events) {
+  var out = {};
+  events.forEach(function (e) {
+    if (!e.type || e.type === 'NONE') {
+      return;
+    }
+
+    var k = isMutation(e) ? e.type : e.alteration;
+    var v = out[k] || {
+      type: e.type,
+      alteration: e.alteration,
+      events: []
+    };
+    v.events.push(e);
+    out[k] = v;
+  });
+  return out;
+}; // Returns the display name of an event.
+
+
+exports.aggregate = aggregate;
+
+var getDisplayName = function getDisplayName(event) {
+  var eventName = isMutation(event) ? event.type : event.alteration;
+  return SupportedEvents[eventName].displayName;
+}; // Returns the color of an event.
+
+
+exports.getDisplayName = getDisplayName;
+
+var getColor = function getColor(event, colorscale) {
+  var eventName = isMutation(event) ? event.type : event.alteration;
+  var color;
+
+  if (colorscale && _lodash.default.isObject(colorscale)) {
+    color = colorscale[eventName]; // Revert back to default scale if not found
+
+    if (!color) {
+      color = SupportedEvents[eventName].colorHTML;
+    }
+  } else {
+    color = SupportedEvents[eventName].colorHTML;
+  }
+
+  return color;
+};
+
+exports.getColor = getColor;
+
+/***/ }),
+
+/***/ 145:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.hasElementsInInterval = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var hasElementsInInterval = function hasElementsInInterval(arr, func, lowerBound, upperBound) {
+  // in: arr, an array sorted in increasing order of func
+  //     func, a function that takes an element of sorted_list and returns a number
+  //     lowerBound and upperBound: define a half-open interval [lowerBound, upperBound)
+  // out: boolean, true iff there are any elements whose image under func is in [lowerBound, upperBound)
+  var lowerCounter = 0;
+  var upperCounter = arr.length;
+  var middle, middle_val;
+
+  while (true) {
+    if (lowerCounter >= upperCounter) {
+      return false;
+    }
+
+    middle = Math.floor((lowerCounter + upperCounter) / 2);
+    middle_val = func(arr[middle]);
+
+    if (middle_val >= upperBound) {
+      upperCounter = middle;
+    } else if (middle_val < lowerBound) {
+      lowerCounter = middle + 1;
+    } else {
+      // otherwise, the middle value is inside the interval,
+      // so there's at least one value inside the interval
+      return true;
+    }
+  }
+}; // PrecomputedComparator is similar to the OncoPrintJs implementation with
+// three notable changes: rewritten with Flow/ES next and as a class, the input
+// data structure is different, and no direction.
+
+
+exports.hasElementsInInterval = hasElementsInInterval;
+
+var PrecomputedComparator =
+/*#__PURE__*/
+function () {
+  function PrecomputedComparator(data, comparator) {
+    _classCallCheck(this, PrecomputedComparator);
+
+    this.comparator = comparator;
+    this.data = data;
+    this.sort();
+  }
+
+  _createClass(PrecomputedComparator, [{
+    key: "sort",
+    value: function sort() {
+      this.sortedData = this.data.sort(this.comparator);
+      this.changePoints = [];
+
+      for (var i = 0; i < this.sortedData.length; i += 1) {
+        if (i === this.sortedData.length - 1) {
+          break;
+        }
+
+        if (this.comparator(this.sortedData[i], this.sortedData[i + 1]) !== 0) {
+          this.changePoints.push(i);
+        }
+      }
+
+      this.samplesToIndex = {};
+
+      for (var _i = 0; _i < this.sortedData.length; _i += 1) {
+        this.samplesToIndex[this.sortedData[_i]] = _i;
+      }
+    }
+  }, {
+    key: "compare",
+    value: function compare(s1, s2) {
+      var i1 = this.samplesToIndex[s1];
+      var i2 = this.samplesToIndex[s2];
+
+      if (typeof i1 === 'undefined' && typeof i2 === 'undefined') {
+        return 0;
+      } else if (typeof i1 === 'undefined') {
+        return 1;
+      } else if (typeof i2 === 'undefined') {
+        return -1;
+      }
+
+      var shouldNegateResult = false;
+
+      if (i1 === i2) {
+        return 0;
+      } else if (i1 > i2) {
+        var tmp = i1;
+        i1 = i2;
+        i2 = tmp;
+        shouldNegateResult = true;
+      }
+
+      var res = 0;
+
+      if (hasElementsInInterval(this.changePoints, function (x) {
+        return x;
+      }, i1, i2)) {
+        res = -1;
+      }
+
+      if (shouldNegateResult) {
+        res *= -1;
+      }
+
+      return res;
+    }
+  }]);
+
+  return PrecomputedComparator;
+}();
+
+exports.default = PrecomputedComparator;
+
+/***/ }),
+
+/***/ 39:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OncoPrint; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var ramda__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(160);
+/* harmony import */ var react_oncoprint__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(142);
+/* harmony import */ var react_oncoprint__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_oncoprint__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_OncoPrint_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+
+var OncoPrint =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(OncoPrint, _Component);
+
+  function OncoPrint(props) {
+    var _this;
+
+    _classCallCheck(this, OncoPrint);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(OncoPrint).call(this, props));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    return _this;
+  } // Bind to Dash event handler that puts event back into props
+
+
+  _createClass(OncoPrint, [{
+    key: "handleChange",
+    value: function handleChange(event) {
+      var eventObj = JSON.stringify(event);
+      this.props.setProps({
+        eventDatum: eventObj
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          id = _this$props.id,
+          eventDatum = _this$props.eventDatum;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: id,
+        eventDatum: eventDatum
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_oncoprint__WEBPACK_IMPORTED_MODULE_2__["OncoPrint"], _extends({
+        onChange: this.handleChange
+      }, Object(ramda__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(['setProps'], this.props))));
+    }
+  }]);
+
+  return OncoPrint;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
+OncoPrint.defaultProps = _components_OncoPrint_react__WEBPACK_IMPORTED_MODULE_3__[/* defaultProps */ "b"];
+OncoPrint.propTypes = _components_OncoPrint_react__WEBPACK_IMPORTED_MODULE_3__[/* propTypes */ "c"];
+
+/***/ })
+
+}]);

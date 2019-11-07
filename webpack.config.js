@@ -23,7 +23,7 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                exclude: /node_modules\/(?!speck\/|ideogram\/|react-alignment-viewer\/)/,
                 use: {
                     loader: 'babel-loader',
                 },
@@ -42,6 +42,7 @@ module.exports = {
         ],
     },
     optimization: {
+        minimize: false,
         splitChunks: {
             name: true,
             cacheGroups: {
@@ -57,5 +58,10 @@ module.exports = {
     },
     plugins: [
         new WebpackDashDynamicImport()
-    ]
+    ],
+    resolve: {
+        alias: {
+            'ideogram': 'ideogram/dist/js/ideogram.min.js'
+        }
+    }
 };
