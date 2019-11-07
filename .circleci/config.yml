@@ -15,9 +15,9 @@ jobs:
             - run:
                 name: Check current version of node
                 command: node -v
-
+            - run: echo $PYVERSION > ver.txt
             - restore_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
+                key: deps1-{{ .Branch }}-{{ checksum "package.json" }}-{{ checksum "ver.txt" }}
 
             - run:
                 name: Install package.json
@@ -67,9 +67,10 @@ jobs:
 
         steps:
             - checkout
+            - run: echo $PYVERSION > ver.txt
 
             - restore_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}
+                key: deps1-{{ .Branch }}-{{ checksum "package.json" }}-{{ checksum "ver.txt" }}
 
             - run:
                 name: Create virtualenv
