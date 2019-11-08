@@ -26,7 +26,6 @@ setup(
     install_requires=[
         'dash>=1.6.0',
         'pandas',
-        'plotly',
         'scipy',
         'scikit-learn>=0.20.1'
     ],
