@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
   "dependencies": {
     "circos": "git+https://github.com/matthewchan15/circosJS.git#matthewchan15-zoom-pan-svg",
     "fast-memoize": "^2.5.1",
-    "fornac": "^1.1.8",
+    "fornac": "git://github.com/plotly/fornac.git#9868d6943344199761ba94341d3ef01961a01f7c",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
     "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
