@@ -15,9 +15,8 @@ jobs:
             - run:
                 name: Check current version of node
                 command: node -v
-            - run: echo $PYVERSION > ver.txt
             - restore_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "package.json" }}-{{ checksum "ver.txt" }}
+                key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
 
             - run:
                 name: Install package.json
