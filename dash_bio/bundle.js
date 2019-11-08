@@ -227,7 +227,7 @@ window["dash_bio"] =
 /******/ 	    var srcFragments = src.split('/');
 /******/ 	    var fileFragments = srcFragments.slice(-1)[0].split('.');
 /******/
-/******/ 	    fileFragments.splice(1, 0, "v0_4_1m1573165964");
+/******/ 	    fileFragments.splice(1, 0, "v0_4_1m1573231598");
 /******/ 	    srcFragments.splice(-1, 1, fileFragments.join('.'))
 /******/
 /******/ 	    return srcFragments.join('/');
