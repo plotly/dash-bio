@@ -85,7 +85,7 @@ jobs:
                     pip install dash[testing]
 
             - save_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}
+                key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
                 paths:
                     - venv
 
