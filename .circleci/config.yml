@@ -69,7 +69,7 @@ jobs:
             - run: echo $PYVERSION > ver.txt
 
             - restore_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "package.json" }}-{{ checksum "ver.txt" }}
+                key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
 
             - run:
                 name: Create virtualenv
