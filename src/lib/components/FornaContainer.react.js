@@ -83,7 +83,6 @@ export default class FornaContainer extends Component {
         return (
             <div
                 id={this.props.id}
-                className="forna-container"
                 ref={this.containerRef}
                 style={{outline: 'none'}}
             />
