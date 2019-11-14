@@ -110,7 +110,7 @@ jobs:
                     pip install --upgrade pip
                     pip install -r tests/requirements.txt
                     npm ci
-                    npm run build:all-dev
+                    npm run build:dev
                     pip install -e .
                     pytest tests/integration
 
