@@ -20,7 +20,7 @@ jobs:
 
             - run:
                 name: Install package.json
-                command: npm i
+                command: npm ci
 
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
@@ -109,7 +109,7 @@ jobs:
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install -r tests/requirements.txt
-                    npm i
+                    npm ci
                     npm run build:all-dev
                     pip install -e .
                     pytest tests/integration
