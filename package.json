@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
@@ -21,8 +21,9 @@
     "build:js-dev": "webpack --mode development",
     "build:js": "npm run lint && npm run format && webpack --mode production",
     "build:py": "node ./extract-meta src/lib/components > dash_bio/metadata.json && python get_version_info.py && python -c \"import dash; dash.development.component_loader.generate_classes('dash_bio', 'dash_bio/metadata.json')\"",
-    "build:all": "npm run build:js && npm run build:py",
-    "build:all-dev": "npm run build:js-dev && npm run build:py"
+    "build": "npm run build:js && npm run build:py",
+    "postbuild": "es-check es5 dash_bio/*.js",
+    "build:dev": "npm run build:js-dev && npm run build:py"
   },
   "author": "The Plotly Team <dashbio@plot.ly>",
   "maintainer": "Ryan Patrick Kyle <ryan@plot.ly>",
@@ -49,7 +50,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.1",
     "@babel/preset-react": "^7.0.0",
-    "@plotly/webpack-dash-dynamic-import": "^1.1.1",
+    "@plotly/webpack-dash-dynamic-import": "^1.1.4",
     "babel-eslint": "^10.0.0",
     "babel-jest": "^24.5.0",
     "babel-loader": "^8.0.0",
@@ -57,6 +58,7 @@
     "css-loader": "^3.0.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
+    "es-check": "^5.0.0",
     "eslint": "^5.12.1",
     "eslint-config-prettier": "^5.0.0",
     "eslint-plugin-import": "^2.15.0",
