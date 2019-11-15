@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.4.2] - 2019-11-15
 ### Fixed
 * [#437](https://github.com/plotly/dash-bio/pull/437) Fix IE11 compatibility issues and ES5 compatibility and validation
 
