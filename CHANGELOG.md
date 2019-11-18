@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.2] - 2019-11-18
+## [0.4.3] - 2019-11-18
 ### Changed
 * [#438](https://github.com/plotly/dash-bio/pull/438/) Updated FornaContainer dependency to a version without extraneous `console.log` calls.
 
