@@ -144,18 +144,24 @@ Each commit is small; a pull request typically consists of a few commits.
 
 To run integration tests locally on, say, Google Chrome:
 ```bash
+python -m venv venv
+. venv/bin/activate
 pip install -r tests/requirements.txt
-pytest tests --webdriver Chrome --ignore tests/test_skeleton.py
+pytest tests/integration
 ```
 Do not worry if you get errors running this last command. You will have to
 download a Chrome driver, install it, and add its path. Follow what the error
 messages point to (this will be platform-specific).
 
-We want more integration tests.
+To write more integration tests, please read this
+[tutorial](https://dash.plot.ly/testing).
 
-We do not have a suite of unit tests yet.
-
-TODO Include at least one unit test per component.
+To run the suite of unit tests:
+```bash
+pip install dash_bio_utils
+python tests/unit/unit_test_data_setup.py
+npm run test
+```
 
 #### Step 4: Rebuild the package if necessary
 
