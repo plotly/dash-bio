@@ -147,6 +147,7 @@ To run integration tests locally on, say, Google Chrome:
 python -m venv venv
 . venv/bin/activate
 pip install -r tests/requirements.txt
+pip install dash[testing]
 pytest tests/integration
 ```
 Do not worry if you get errors running this last command. You will have to
