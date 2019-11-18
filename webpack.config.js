@@ -1,12 +1,15 @@
 const path = require('path');
+const WebpackDashDynamicImport = require('@plotly/webpack-dash-dynamic-import');
+
 const packagejson = require('./package.json');
 
 const dashLibraryName = packagejson.name.replace(/-/g, '_');
 
 module.exports = {
-    entry: {main: './src/lib/index.js'},
+    entry: { main: './src/lib/index.js' },
     output: {
         path: path.resolve(__dirname, dashLibraryName),
+        chunkFilename: '[name].js',
         filename: 'bundle.js',
         library: dashLibraryName,
         libraryTarget: 'window',
@@ -20,7 +23,7 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                exclude: /node_modules\/(?!speck\/|ideogram\/|react-alignment-viewer\/)/,
                 use: {
                     loader: 'babel-loader',
                 },
@@ -37,5 +40,27 @@ module.exports = {
                 ],
             },
         ],
-    },  
+    },
+    optimization: {
+        splitChunks: {
+            name: true,
+            cacheGroups: {
+                async: {
+                    chunks: 'async',
+                    minSize: 0,
+                    name(module, chunks, cacheGroupKey) {
+                        return `${cacheGroupKey}~${chunks[0].name}`;
+                    }
+                }
+            }
+        }
+    },
+    plugins: [
+        new WebpackDashDynamicImport()
+    ],
+    resolve: {
+        alias: {
+            'ideogram': 'ideogram/dist/js/ideogram.min.js'
+        }
+    }
 };

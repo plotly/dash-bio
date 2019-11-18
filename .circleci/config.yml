@@ -15,13 +15,12 @@ jobs:
             - run:
                 name: Check current version of node
                 command: node -v
-
             - restore_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
 
             - run:
                 name: Install package.json
-                command: npm i
+                command: npm ci
 
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
@@ -43,7 +42,7 @@ jobs:
                     python -m venv venv
                     . venv/bin/activate
                     pip install --upgrade pip
-                    pip install dash>=0.40.0
+                    pip install dash>=1.6.1
                     npm run build:py
 
             - run:
@@ -67,9 +66,10 @@ jobs:
 
         steps:
             - checkout
+            - run: echo $PYVERSION > ver.txt
 
             - restore_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}
+                key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
 
             - run:
                 name: Create virtualenv
@@ -85,7 +85,7 @@ jobs:
                     pip install dash[testing]
 
             - save_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "tests/requirements.txt" }}
+                key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
                 paths:
                     - venv
 
@@ -109,8 +109,8 @@ jobs:
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install -r tests/requirements.txt
-                    npm i
-                    npm run build:all-dev
+                    npm ci
+                    npm run build:dev
                     pip install -e .
                     pytest tests/integration
 

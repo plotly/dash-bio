@@ -524,16 +524,16 @@ def layout():
     ])
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
+def callbacks(_app):
 
-    @app.callback(
+    @_app.callback(
         Output('ideogram-feature-view-options', 'children'),
         [Input('ideogram-feature-dropdown', 'value')]
     )
     def show_options(feature):
         return options[feature]
 
-    @app.callback(
+    @_app.callback(
         Output('ideogram-container', 'children'),
         [Input('ideo-custom-data', 'data'),
          Input('ideo-homology-data', 'data'),
@@ -557,14 +557,14 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return dash_bio.Ideogram(**ideograms[selected_ideo])
 
-    @app.callback(
+    @_app.callback(
         Output('ideogram-resolution-option', 'style'),
         [Input('organism-change', 'value')]
     )
     def show_hide_resolution(organism):
         return {'display': 'none' if organism != 'human' else 'block'}
 
-    @app.callback(
+    @_app.callback(
         Output('ideogram-histo-options', 'style'),
         [Input('annotation-select', 'value')]
     )
@@ -572,7 +572,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return {'display': 'none' if annot_type != 'histogram' else 'block'}
 
     # Custom callbacks
-    @app.callback(
+    @_app.callback(
         Output('ideo-custom-data', 'data'),
         [Input('organism-change', 'value'),
          Input('bandlabel-switch', 'value'),
@@ -617,7 +617,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         )
         return current
 
-    @app.callback(
+    @_app.callback(
         Output('chr-select-2', 'options'),
         [Input('chr-select-1', 'value')],
         state=[State('chr-select-1', 'options')]
@@ -626,7 +626,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return [option for option in all_chromosomes
                 if option['label'] != chr_1]
 
-    @app.callback(
+    @_app.callback(
         Output('ideo-homology-data', 'data'),
         [Input('chr-select-1', 'value'),
          Input('chr-select-2', 'value'),
@@ -673,7 +673,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return current
 
-    @app.callback(
+    @_app.callback(
         Output('brush-ideo-data', 'data'),
         [Input('chr-brush', 'value')],
         state=[State('brush-ideo-data', 'data')]
@@ -689,7 +689,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         )
         return current
 
-    @app.callback(
+    @_app.callback(
         Output('ideo-annotations-data', 'data'),
         [Input('annotation-select', 'value'),
          Input('bar-input', 'value'),
@@ -763,7 +763,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return current
 
-    @app.callback(
+    @_app.callback(
         Output('brush-print-start', 'children'),
         [Input('brush-ideo', 'brushData')]
     )
@@ -773,7 +773,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             answer = brush_data['start']
         return answer
 
-    @app.callback(
+    @_app.callback(
         Output('brush-print-end', 'children'),
         [Input('brush-ideo', 'brushData')]
     )
@@ -783,7 +783,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             answer = brush_data['end']
         return answer
 
-    @app.callback(
+    @_app.callback(
         Output('brush-print-extent', 'children'),
         [Input('brush-ideo', 'brushData')]
     )
@@ -794,7 +794,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
         return answer
 
     # Event Call Annotation
-    @app.callback(
+    @_app.callback(
         Output('annote-data', 'children'),
         [Input('ideo-annotations', 'annotationsData')],
     )

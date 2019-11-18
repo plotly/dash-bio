@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.4.3] - 2019-11-18
+### Changed
+* [#438](https://github.com/plotly/dash-bio/pull/438/) Updated FornaContainer dependency to a version without extraneous `console.log` calls.
+
+## [0.4.2] - 2019-11-15
+### Fixed
+* [#437](https://github.com/plotly/dash-bio/pull/437) Fix IE11 compatibility issues and ES5 compatibility and validation
+
+## [0.4.1] - 2019-11-08
+### Fixed
+* [#434](https://github.com/plotly/dash-bio/pull/434) Fixed FornaContainer selector issue, in which FornaContainer styles were being applied to all svg elements on the page.
+
+## [0.4.0] - 2019-11-05
+### Added
+* [#430](https://github.com/plotly/dash-bio/pull/430) Async AlignmentChart, Circos, Ideogram, Molecule2dViewer, Molecule3dViewer, NeedlePlot, OncoPrint, SequenceViewwer and Speck components
+
+## [0.3.0] - 2019-10-22
+
+### Added
+
+* Added FornaContainer component for RNA secondary structure analysis.
+
 ## [0.2.0] - 2019-10-18
 
 ### Fixed

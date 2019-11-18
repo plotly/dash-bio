@@ -127,8 +127,8 @@ def layout():
     )
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
-    @app.callback(
+def callbacks(_app):
+    @_app.callback(
         Output('mol2d-sel-atoms-output', 'children'),
         [Input('mol2d', 'selectedAtomIds')]
     )
@@ -137,7 +137,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
             return ''
         return str(ids)
 
-    @app.callback(
+    @_app.callback(
         [Output('mol2d-search-results-wrapper', 'style'),
          Output('mol2d-compound-options-store', 'data'),
          Output('mol2d-search-results-store', 'data')],
@@ -169,14 +169,14 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return results_dropdown, options, compounds
 
-    @app.callback(
+    @_app.callback(
         Output('search-results', 'value'),
         [Input('compound-options-store', 'data')]
     )
     def update_dropdown_options(compounds):
         return compounds
 
-    @app.callback(
+    @_app.callback(
         [Output('mol2d', 'modelData'),
          Output('error-wrapper', 'children')],
         [Input('mol2d-search-results-store', 'modified_timestamp'),
@@ -213,7 +213,7 @@ def callbacks(app):  # pylint: disable=redefined-outer-name
 
         return model_data, error_message
 
-    @app.callback(
+    @_app.callback(
         Output('mol2d', 'selectedAtomIds'),
         [Input('mol2d-search', 'n_submit')]
     )

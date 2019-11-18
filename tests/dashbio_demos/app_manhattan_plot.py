@@ -135,8 +135,8 @@ def layout():
     ])
 
 
-def callbacks(app):  # pylint: disable=redefined-outer-name
-    @app.callback(
+def callbacks(_app):
+    @_app.callback(
         Output('mhp-graph', 'figure'),
         [
             Input('mhp-slider-genome', 'value'),

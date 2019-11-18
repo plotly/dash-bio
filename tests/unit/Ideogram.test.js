@@ -1,6 +1,6 @@
-import Ideogram from '../../src/lib/components/Ideogram.react.js';
+import Ideogram from '../../src/lib/fragments/Ideogram.react.js';
 import React from 'react';
-import {mount, render} from 'enzyme';
+import { mount, render } from 'enzyme';
 
 
 test('Ideogram renders', () => {
