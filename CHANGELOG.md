@@ -1,10 +1,12 @@
 # Changelog
 
-## [0.0.3] -
+## [0.0.4] - 2019-11-19
 
 ### Removed
 
 * Removed unused Ideogram parser.
+
+## [0.0.3] - 2019-07-07
 
 ### Changed
 
