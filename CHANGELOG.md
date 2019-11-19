@@ -2,6 +2,10 @@
 
 ## [0.0.3] -
 
+### Removed
+
+* Removed unused Ideogram parser.
+
 ### Changed
 
 * Standardized data parsers.
@@ -11,5 +15,5 @@
 ### Added
 
 * Added `chem_structure_reader` to allow for parsing PubChem files for
-  molecular structural data for the `dash_bio` `Molecule2dViewer` 
+  molecular structural data for the `dash_bio` Molecule2dViewer
   component.
