@@ -169,7 +169,7 @@ npm run test
 If you have made changes to the JS code, then you need to rebuild the package:
 
 ```bash
-npm run build:all
+npm run build
 ```
 
 The auto-generated Python files will reflect your updates to the logic.
