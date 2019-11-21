@@ -44,7 +44,7 @@ before being compiled into Python components that are in the
 If developing a new component based on a React library, please ensure
 that you have already installed the correct versions of the
 preexisting dependencies by running `npm ci`. Then, add the package to
-`package.json` and run `npm i` to add it to the `package-lock` file.
+`package.json` and run `npm i` to add it to the `package-lock.json` file.
 
 ###### Naming components
 Components, regardless of whether they are written using React or
