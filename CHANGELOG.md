@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.4.4] -
+### Fixed
+* [#423](https://github.com/plotly/dash-bio/pull/423) Fixed internal method
+  call in Clustergram component.
+
 ## [0.4.3] - 2019-11-18
 ### Changed
 * [#438](https://github.com/plotly/dash-bio/pull/438/) Updated FornaContainer dependency to a version without extraneous `console.log` calls.
