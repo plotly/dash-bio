@@ -33,17 +33,13 @@ jobs:
                 when: always
 
             - run:
-                name: Build Node.js package
-                command: npm run build:js-dev
-
-            - run:
-                name: Build Python package
+                name: Install Dash for package build and build package
                 command: |
                     python -m venv venv
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install dash>=1.6.1
-                    npm run build:py
+                    npm run build
 
             - run:
                 name: Run unit tests
@@ -110,7 +106,7 @@ jobs:
                     pip install --upgrade pip
                     pip install -r tests/requirements.txt
                     npm ci
-                    npm run build:dev
+                    npm run build
                     pip install -e .
                     pytest tests/integration
 
@@ -163,4 +159,3 @@ workflows:
                   branches:
                     only:
                     - master
-
