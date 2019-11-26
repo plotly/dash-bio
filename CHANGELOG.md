@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.4.5] - 2019-11-26
+* [#452](https://github.com/plotly/dash-bio/pull/452) Fix issue finding CDN resources when using `serve_locally=False`
+
 ## [0.4.4] - 2019-11-21
 ### Fixed
 * [#423](https://github.com/plotly/dash-bio/pull/423) Fixed internal method
