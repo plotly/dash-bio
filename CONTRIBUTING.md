@@ -22,7 +22,7 @@
 ```bash
 git clone https://github.com/plotly/dash-bio.git
 cd dash-bio
-npm install
+npm ci
 ```
 
 #### Step 2: Develop
@@ -38,6 +38,13 @@ before being compiled into Python components that are in the
 `dash_bio` folder. Python components are written in
 `dash_bio/component_factory/` and must be imported in
 `dash_bio/__init__.py`.
+
+##### Installing new npm packages
+
+If developing a new component based on a React library, please ensure
+that you have already installed the correct versions of the
+preexisting dependencies by running `npm ci`. Then, add the package to
+`package.json` and run `npm i` to add it to the `package-lock.json` file.
 
 ###### Naming components
 Components, regardless of whether they are written using React or

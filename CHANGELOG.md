@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.4] -
+## [0.4.4] - 2019-11-21
 ### Fixed
 * [#423](https://github.com/plotly/dash-bio/pull/423) Fixed internal method
   call in Clustergram component.
