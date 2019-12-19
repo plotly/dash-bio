@@ -253,6 +253,5 @@ FornaContainer.defaultProps = {
     width: 300,
     sequences: [],
     allowPanningAndZooming: true,
-    labelInterval: 10,
     colorScheme: 'sequence',
 };
