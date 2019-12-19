@@ -4,8 +4,8 @@ dash-clustergram
 dash-forna-container
 dash-ideogram
 dash-manhattan-plot
-dash-molecule2d-viewer
-dash-molecule3d-viewer
+dash-molecule-2d-viewer
+dash-molecule-3d-viewer
 dash-needle-plot
 dash-onco-print
 dash-sequence-viewer
