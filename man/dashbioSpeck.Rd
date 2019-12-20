@@ -60,7 +60,6 @@ related to how the molecule is displayed.}
 \item{presetView}{A value equal to: 'default', 'stickball', 'toon', 'licorice'. One of several pre-loaded views: default, stick-ball, toon,
 and licorice}
 }
-
 \examples{
 \dontrun{
 library(dash)
@@ -146,5 +145,4 @@ app$callback(output=list(id='speck', property='data'),
 )
 
 app$run_server()
-}
-}
+}}

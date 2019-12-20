@@ -45,6 +45,7 @@
     "react-oncoprint": "^1.2.3",
     "react-plotly.js": "^2.2.0",
     "react-sequence-viewer": "git://github.com/plotly/react-sequence-viewer.git",
+    "scipy": "^0.1.4",
     "speck": "git://github.com/plotly/speck.git"
   },
   "devDependencies": {

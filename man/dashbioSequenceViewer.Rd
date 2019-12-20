@@ -42,11 +42,7 @@ the header. This supports regex.}
 \item{badge}{Logical. The option of whether or not to display a badge showing the
 amino acid count at the top of the component beside the title.}
 
-\item{selection}{List of lists containing elements 'low', 'high', 'color'.
-those elements have the following types:
-  - low (numeric; optional)
-  - high (numeric; optional)
-  - color (character; optional)s. A highlighted section of the sequence; the color of the highlight
+\item{selection}{A highlighted section of the sequence; the color of the highlight
 can also be defined. Takes a list of format [min, max, color] where
 min is a number that represents the starting index of the selection,
 max is a number that represents the stopping index of the selection,
@@ -92,7 +88,6 @@ those elements have the following types:
   - sequence (character; optional)s. A list of the subparts selected using the
 "search" function or the "selection" property.}
 }
-
 \examples{
 \dontrun{
 library(dash)
@@ -112,7 +107,4 @@ app$layout(htmlDiv(list(
 )
 
 app$run_server(showcase = TRUE)
-}
-}
-
-
+}}
