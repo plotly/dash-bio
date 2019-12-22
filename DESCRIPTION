@@ -13,3 +13,4 @@ LazyData: true
 KeepSource: true
 Author: The Plotly Team [aut]
 Maintainer: Ryan Patrick Kyle <ryan@plot.ly>
+RoxygenNote: 6.1.1

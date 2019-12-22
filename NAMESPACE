@@ -1,4 +1,4 @@
-# AUTO GENERATED FILE - DO NOT EDIT
+#AUTO GENERATED FILE - DO NOT EDIT
 
 export(dashbioAlignmentChart)
 export(dashbioCircos)
@@ -11,6 +11,5 @@ export(dashbioOncoPrint)
 export(dashbioSequenceViewer)
 export(dashbioSpeck)
 export(dashbioManhattan)
-export(dashbioAlignmentViewer)
 export(dashbioVolcano)
 import(manhattanly)
