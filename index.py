@@ -1,13 +1,19 @@
-import os
-from config import DASH_APP_NAME
 import base64
+import importlib
+import logging
+import os
+
 import dash
-from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
-import logging
 
-from tests.dashbio_demos.utils.app_wrapper import app_page_layout
+from dash.dependencies import Input, Output
+
+from config import DASH_APP_NAME
+from utils.app_wrapper import app_page_layout
+
+
+os.environ['DEMO_STANDALONE'] = 'false'
 
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
@@ -20,17 +26,13 @@ server = app.server
 appList = os.listdir(os.path.join("tests", "dashbio_demos"))
 appList.sort()
 
-apps = {
-    filename.replace(".py", "").replace("app_", ""): getattr(
-        getattr(
-            __import__(".".join(
-                ["tests", "dashbio_demos", filename.replace(".py", "")])), "dashbio_demos"
-        ),
-        filename.replace(".py", ""),
-    )
-    for filename in appList
-    if filename.startswith("app_") and filename.endswith(".py")
-}
+apps = {}
+for filename in appList:
+    if not filename.startswith("dash-"):
+        continue
+
+    path = ".".join(["tests", "dashbio_demos", filename, "app"])
+    apps[filename] = importlib.import_module(path)
 
 
 for key in apps:
@@ -56,15 +58,15 @@ app.layout = html.Div(
 
 def get_demo_app_img(name):
     """Get path to image corresponding to given app."""
-    pic_fname = './tests/dashbio_demos/images/pic_{}.png'.format(
-        name.replace('app_', '')
+    pic_fname = './tests/dashbio_demos/{}/assets/demo-image.png'.format(
+        name
     )
     return pic_fname
 
 
 def demo_app_name(name):
     """ Returns a capitalized title for the app """
-    return name.replace('app_', '').replace('_', ' ').title()
+    return name.replace('dash-', '').replace('-', ' ').title()
 
 
 def demo_app_desc(name):
@@ -118,7 +120,7 @@ def display_app(pathname):
                         id=demo_app_link_id(name),
                         href="/{}/{}".format(
                             DASH_APP_NAME,
-                            name.replace("app_", "").replace("_", "-")
+                            name.replace("dash-", "").replace("_", "-")
                         )
                     )
                 ]) for name in apps
@@ -127,7 +129,8 @@ def display_app(pathname):
     app_name = \
         pathname.replace(
             '/{}/'.format(DASH_APP_NAME), '/').replace(
-                "/", "").replace("-", "_")
+                "/", "")
+    app_name = 'dash-{}'.format(app_name)
 
     if app_name in apps:
         return html.Div(id="waitfor",

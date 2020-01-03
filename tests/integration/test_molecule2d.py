@@ -10,7 +10,7 @@ _data = None
 _COMPONENT_ID = 'test-mol2d'
 
 with open(
-        'tests/dashbio_demos/sample_data/molecule2d_acetylene.json', 'r'
+        'tests/dashbio_demos/dash-molecule-2d-viewer/data/acetylene.json', 'r'
 ) as f:
     _data = json.loads(f.read())
 
