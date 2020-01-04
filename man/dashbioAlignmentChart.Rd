@@ -6,7 +6,7 @@
 \title{AlignmentChart component}
 
 \description{
-The Alignment Viewer (MSA) component is used to align multiple genomic or proteomic sequences from a FASTA or Clustal file. Among its extensive set of features, the multiple sequence alignment viewer can display multiple subplots showing gap and conservation info, alongside industry standard colorscale support and consensus sequence. No matter what size your alignment is, Aligment Viewer is able to display your genes or proteins snappily thanks to the underlying WebGL architecture powering the component. You can quickly scroll through your long sequence with a slider or a heatmap overview. Note that the AlignmentChart only returns a chart of the sequence, while AlignmentViewer has integrated controls for colorscale, heatmaps, and subplots allowing the user to interactively control their sequences. Read more about the component here: https://github.com/plotly/react-alignment-viewer
+The Alignment Chart (MSA) component is used to align multiple genomic or proteomic sequences from a FASTA or Clustal file. Among its extensive set of features, the multiple sequence alignment chart can display multiple subplots showing gap and conservation info, alongside industry standard colorscale support and consensus sequence. No matter what size your alignment is, Alignment Chart is able to display your genes or proteins snappily thanks to the underlying WebGL architecture powering the component. You can quickly scroll through your long sequence with a slider or a heatmap overview. Read more about the component here: https://github.com/plotly/react-alignment-viewer
 }
 
 \usage{
@@ -25,7 +25,7 @@ width=NULL, height=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{eventDatum}{Named list. A Dash prop that returns data on clicking, hovering or resizing the viewer.}
+\item{eventDatum}{Character. A Dash prop that returns data on clicking, hovering or resizing the viewer.}
 
 \item{data}{Character. Input data, either in FASTA or Clustal format.}
 
@@ -86,13 +86,13 @@ No effect if not both gap and conservation are shown.}
 \item{showconsensus}{Logical. Displays toggling the consensus sequence, where each nucleotide in the
 consensus sequence is the argmax of its distribution at a set nucleotide.}
 
-\item{tilewidth}{Numeric. Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
+\item{tilewidth}{Numeric. Sets how many pixels each nucleotide/amino acid on the Alignment Chart
 takes up horizontally. The total number of tiles (numtiles) seen
 horizontally is automatically determined by rounding
 the Viewer width divided by the tile width.
 the Viewwer width divided by the tile witdth.}
 
-\item{tileheight}{Numeric. Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
+\item{tileheight}{Numeric. Sets how many pixels each nucleotide/amino acid on the Alignment Chart
 takes up vertically.
 If enabled, set height dynamically.}
 
@@ -124,7 +124,6 @@ if either of them is set.}
 Property takes precedence over tilesheight if both
 are set.}
 }
-
 \examples{
 \dontrun{
 library(dash)
@@ -146,6 +145,4 @@ app$layout(htmlDiv(list(
 )
 
 app$run_server(showcase = TRUE)
-}
-
-}
+}}

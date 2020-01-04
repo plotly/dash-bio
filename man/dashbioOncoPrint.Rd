@@ -52,7 +52,6 @@ Will disable auto-resizing of plots if set.}
 \item{height}{Numeric | character. Height of the OncoPrint.
 Will disable auto-resizing of plots if set.}
 }
-
 \examples{
 \dontrun{
 library(dash)
@@ -76,5 +75,4 @@ app$layout(htmlDiv(list(
 )
 
 app$run_server(showcase = TRUE)
-}
-}
+}}

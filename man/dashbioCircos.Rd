@@ -31,12 +31,11 @@ Depending on what is specified for prop "selectEvent".}
 data on click, hover, or both, with the dash prop "eventDatum".
 The keys of the dictionary represent the index of the list
 specified for "tracks".
-
 Ex:
 selectEvent={
-    "0": "hover",
-    "1": "click",
-    "2": "both"
+        "0": "hover",
+        "1": "click",
+        "2": "both"
     },}
 
 \item{layout}{List of lists containing elements 'len', 'color', 'label', 'id'.
@@ -66,52 +65,45 @@ please check the docs for a list of tracks you can use,
 and ensure the name is typed in all capitals.
   - tooltipcontent (optional): specify what data for tooltipcontent is
 displayed.
-
 the entry for the "name" key, is any of the keys used in the data loaded into tracks.
 ex: "tooltipcontent": {"name": "block_id"},
-
 to display all data in the dataset use "all" as the entry for the key "name".
 ex: "tooltipcontent": {"name": "all"}
-
 ex: this will return (source) + ' > ' + (target) + ': ' + (targetend)'.
 "tooltipcontent": {
-        "source": "block_id",
-        "target": "position",
-        "targetend": "value"
-                },
+                "source": "block_id",
+                "target": "position",
+                "targetend": "value"
+                        },
 ex: this will return (source)(sourceid) + ' > ' + (target)(targetid) + ': ' (target)(targetend)'.
 "tooltipcontent": {
-        "source": "source",
-        "sourceid": "id",
-        "target": "target",
-        "targetid": "id",
-        "targetend": "end"
-    }. tooltipcontent has the following type: a value equal to: proptypes.string, proptypes.shape({
-    name: proptypes.string.isrequired,
-}), proptypes.shape({
-    source: proptypes.string.isrequired,
-    sourceid: proptypes.string,
-    target: proptypes.string.isrequired,
-    targetend: proptypes.string.isrequired,
-    targetid: proptypes.string,
-})
+                "source": "source",
+                "sourceid": "id",
+                "target": "target",
+                "targetid": "id",
+                "targetend": "end"
+            }. tooltipcontent has the following type: character | lists containing elements 'name'.
+those elements have the following types:
+  - name (character; required) | lists containing elements 'source', 'sourceid', 'target', 'targetend', 'targetid'.
+those elements have the following types:
+  - source (character; required)
+  - sourceid (character; optional)
+  - target (character; required)
+  - targetend (character; required)
+  - targetid (character; optional)
   - color (optional): specify which dictonary key to grab color values from, in the passed in dataset.
 this can be a string or an object.
-
 if using a string, you can specify hex,
 rgb, and colors from d3 scale chromatic (ex: rdylbu).
-
 the key "name" is required for this dictionary,
 where the input for "name" points to some list of
 dictionaries color values.
-
-ex: "color": {"name": "some key that refers to color in a data set"}. color has the following type: a value equal to: proptypes.string, proptypes.shape({
-    name: proptypes.string.isrequired,
-})s. Tracks that specify specific layouts.
+ex: "color": {"name": "some key that refers to color in a data set"}. color has the following type: character | lists containing elements 'name'.
+those elements have the following types:
+  - name (character; required)s. Tracks that specify specific layouts.
 For a complete list of tracks and usage,
 please check the docs.}
 }
-
 \examples{
 \dontrun{
 library(dash)
@@ -150,5 +142,4 @@ dashbioCircos(
 )
 
 app$run_server(showcase = TRUE)
-}
-}
+}}
