@@ -795,7 +795,7 @@ Methods:
             Pcol = sch.dendrogram(Zcol, orientation='top',
                                   color_threshold=self._color_threshold['col'],
                                   labels=self._column_labels, no_plot=True)
-            clustered_column_labels = scipy.array(Pcol['ivl'])
+            clustered_column_labels = Pcol['ivl']
             trace_list['col'] = self._color_dendro_clusters(Pcol, 'col')
 
         if Zrow is not None:
@@ -808,16 +808,14 @@ Methods:
                 'dcoord': Prow['icoord'],
                 'color_list': Prow['color_list']
             }
-            clustered_row_labels = scipy.array(Prow['ivl'])
+            clustered_row_labels = Prow['ivl']
             trace_list['row'] = self._color_dendro_clusters(Prow_tmp, 'row')
 
         # now, we need to rearrange the data array to fit the labels
 
-        # first find the order in which to shuffle the data
-        rl_indices = [list(clustered_row_labels).index(r)
-                      for r in list(self._row_labels)]
-        cl_indices = [list(clustered_column_labels).index(c)
-                      for c in list(self._column_labels)]
+        # first get reordered indices
+        rl_indices = [self._row_labels.index(r) for r in clustered_row_labels]
+        cl_indices = [self._column_labels.index(c) for c in clustered_column_labels]
 
         # modify the data here; first shuffle rows,
         # then transpose and shuffle columns,
