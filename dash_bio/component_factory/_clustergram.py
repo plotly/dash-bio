@@ -842,8 +842,8 @@ Methods:
 
         traces = []
 
-        icoord = scipy.array(P['icoord'])
-        dcoord = scipy.array(P['dcoord'])
+        icoord = np.array(P['icoord'])
+        dcoord = np.array(P['dcoord'])
 
         color_list = self._cluster_colors(P['color_list'], dim)
 
