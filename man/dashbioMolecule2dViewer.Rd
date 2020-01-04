@@ -31,13 +31,12 @@ those elements have the following types:
   - links (optional): . links has the following type: list of lists containing elements 'id', 'source', 'target', 'bond', 'strength', 'distance'.
 those elements have the following types:
   - id (numeric; optional)
-  - source (numeric; optional)
-  - target (numeric; optional)
+  - source (optional)
+  - target (optional)
   - bond (numeric; optional)
   - strength (numeric; optional)
   - distance (numeric; optional)s. Description of the molecule to display.}
 }
-
 \examples{
 \dontrun{
 library(dash)
@@ -68,5 +67,4 @@ app$layout(
 )
   
 app$run_server()
-}
-}
+}}
