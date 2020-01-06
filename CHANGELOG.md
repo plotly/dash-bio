@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.4.6] - 2020-01-06
+### Fixed
+* [#458](https://github.com/plotly/dash-bio/pull/458) Fixed reordering bug of
+  row and column indices following clustering in Clustergram component.
+
 ## [0.4.5] - 2019-11-26
 * [#452](https://github.com/plotly/dash-bio/pull/452) Fix issue finding CDN resources when using `serve_locally=False`
 
