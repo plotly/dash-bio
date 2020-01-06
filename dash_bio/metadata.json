@@ -862,13 +862,6 @@
         },
         "required": false,
         "description": "Dash-assigned callback that gets fired when the value changes."
-      },
-      "labelInterval": {
-        "defaultValue": {
-          "value": "10",
-          "computed": false
-        },
-        "required": false
       }
     }
   },
