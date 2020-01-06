@@ -1,7 +1,7 @@
 import AlignmentChart from '../../src/lib/fragments/AlignmentChart.react.js';
 import React from 'react';
 import { mount, render } from 'enzyme';
-import dataset from '../dashbio_demos/dash-alignment-viewer/data/sample.fasta';
+import dataset from '../dashbio_demos/dash-alignment-chart/data/sample.fasta';
 
 
 test('AlignmentChart renders', () => {

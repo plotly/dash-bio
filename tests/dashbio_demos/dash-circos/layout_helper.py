@@ -19,7 +19,10 @@ def run_standalone_app(
     app.config['suppress_callback_exceptions'] = True
 
     # Get all information from filename
-    app_name = os.path.basename(os.path.dirname(filename)).replace('dash-', '')
+    app_name = os.getenv('DASH_APP_NAME')
+    if os.getenv('DASH_APP_NAME') == '':
+        app_name = os.path.basename(os.path.dirname(filename))
+    app_name = app_name.replace('dash-', '')
 
     app_title = "{}".format(app_name.replace('-', ' ').title())
 

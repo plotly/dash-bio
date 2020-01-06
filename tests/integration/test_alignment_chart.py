@@ -9,11 +9,11 @@ from common_features import simple_app_layout, simple_app_callback
 _data = None
 
 with open(
-        'tests/dashbio_demos/dash-alignment-viewer/data/p53.fasta', 'r'
+        'tests/dashbio_demos/dash-alignment-chart/data/p53.fasta', 'r'
 ) as f:
     _data = f.read()
 
-_COMPONENT_ID = 'test-alignment-viewer'
+_COMPONENT_ID = 'test-alignment-chart'
 
 
 def test_dbav001_hide_conservation(dash_duo):

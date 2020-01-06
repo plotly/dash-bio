@@ -28,14 +28,14 @@
 #alignment-control-tabs .tab-content {
     padding: 20px;
 }
-#alignment-viewer {
+#alignment-chart {
     width: calc(100vw - 650px);
     margin-left: 50px;
     margin-right: 50px;
     margin-top: 50px;
     display: inline-block;
 }
-#alignment-viewer svg {
+#alignment-chart svg {
     background-color: rgba(0,0,0,0) !important;
 }
 #alignment-body .control-upload {

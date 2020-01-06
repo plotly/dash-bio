@@ -549,7 +549,7 @@ def layout():
         ]),
         dcc.Loading(className='dashbio-loading', children=html.Div([
             dash_bio.AlignmentChart(
-                id='alignment-viewer',
+                id='alignment-chart',
                 height=725,
                 data=dataset3,
             ),
@@ -581,7 +581,7 @@ def callbacks(_app):
     # Handle event data
     @_app.callback(
         Output("alignment-events", "children"),
-        [Input("alignment-viewer", "eventDatum")]
+        [Input("alignment-chart", "eventDatum")]
     )
     def event_data_select(data):
         if data is None:
@@ -599,7 +599,7 @@ def callbacks(_app):
 
     # Render main chart
     @_app.callback(
-        Output('alignment-viewer', 'data'),
+        Output('alignment-chart', 'data'),
         [Input('alignment-data-store', 'data')]
     )
     def update_chart(input_data):
@@ -607,91 +607,91 @@ def callbacks(_app):
 
     # Customization callbacks
     @_app.callback(
-        Output('alignment-viewer', 'colorscale'),
+        Output('alignment-chart', 'colorscale'),
         [Input('alignment-colorscale-dropdown', 'value')],
     )
     def customize_colorscale(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'overview'),
+        Output('alignment-chart', 'overview'),
         [Input('alignment-overview-dropdown', 'value')],
     )
     def customize_overview(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'showconsensus'),
+        Output('alignment-chart', 'showconsensus'),
         [Input('alignment-showconsensus-radio', 'value')],
     )
     def customize_showconsensus(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'textsize'),
+        Output('alignment-chart', 'textsize'),
         [Input('alignment-textsize-slider', 'value')],
     )
     def customize_textsize(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'showconservation'),
+        Output('alignment-chart', 'showconservation'),
         [Input('alignment-showconservation-radio', 'value')],
     )
     def customize_showconservation(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'conservationcolorscale'),
+        Output('alignment-chart', 'conservationcolorscale'),
         [Input('alignment-conservationcolorscale-dropdown', 'value')],
     )
     def customize_conservationcolorscale(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'conservationmethod'),
+        Output('alignment-chart', 'conservationmethod'),
         [Input('alignment-conservationmethod-dropdown', 'value')],
     )
     def customize_conservationmethod(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'correctgap'),
+        Output('alignment-chart', 'correctgap'),
         [Input('alignment-correctgap-radio', 'value')],
     )
     def customize_correctgap(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'showgap'),
+        Output('alignment-chart', 'showgap'),
         [Input('alignment-showgap-radio', 'value')],
     )
     def customize_showgap(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'gapcolor'),
+        Output('alignment-chart', 'gapcolor'),
         [Input('alignment-gapcolor-dropdown', 'value')],
     )
     def customize_gapcolor(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'groupbars'),
+        Output('alignment-chart', 'groupbars'),
         [Input('alignment-groupbars-radio', 'value')],
     )
     def customize_groupbars(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'showlabel'),
+        Output('alignment-chart', 'showlabel'),
         [Input('alignment-showlabel-radio', 'value')],
     )
     def customize_showlabel(val):
         return val
 
     @_app.callback(
-        Output('alignment-viewer', 'showid'),
+        Output('alignment-chart', 'showid'),
         [Input('alignment-showid-radio', 'value')],
     )
     def customize_showid(val):
