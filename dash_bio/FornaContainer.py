@@ -78,7 +78,7 @@ representations of colors.
 - allowPanningAndZooming (boolean; default True): Allow users to zoom in and pan the display. If this is enabled,
 then pressing the 'c' key on the keyboard will center the view."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, labelInterval=Component.UNDEFINED, **kwargs):
+    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'height', 'width', 'sequences', 'nodeFillColor', 'colorScheme', 'customColors', 'allowPanningAndZooming']
         self._type = 'FornaContainer'
         self._namespace = 'dash_bio'
