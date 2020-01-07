@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.6] - 2020-01-06
+## [0.4.6] - 2020-01-07
 ### Fixed
 * [#458](https://github.com/plotly/dash-bio/pull/458) Fixed reordering bug of
   row and column indices following clustering in Clustergram component.
