@@ -89,11 +89,9 @@ and create an interactive sliding window to other regions}
 those elements have the following types:
   - start (character; optional)
   - end (character; optional)
-  - extent (character; optional). A dash callback that is activated when the 'brush' prop is used in component.
+  - extent (character; optional). A dash callback that is activated when the 'brush' prop is used.
 It will return an dictionary like so:
-
 {'start': <value>, 'end': <value>, 'extent': <value>}
-
 where start is the left most edge, end is right most edge, and extent is the total width of
 the brush.
 It is read-only, i.e., it cannot be used with dash.dependencies.Output but only with
@@ -142,7 +140,7 @@ those elements have the following types:
 those elements have the following types:
   - organism (character; required)
   - start (list of numerics; optional)
-  - stop (list of numerics; optional). Used to compare two chromosomes with each other.
+  - stop (list of numerics; optional). Used to compare two chromosomes.
 The keys "chrOne" and "chrTwo" represent one chromosome each. Organism is the taxID or name.
 Start is an array, containing start one and start two, in this order. Stop is an array,
 containing stop one, and stop two, in this order.
@@ -190,7 +188,7 @@ Currently only supported for organisms that use XY sex-determination.}
 
 \item{showChromosomeLabels}{Logical. Whether to show chromosome labels, e.g., 1, 2, 3, X, Y.}
 
-\item{showBandLabels}{Logical. Whether to show cytogenetic band labels, e.g., 1q21}
+\item{showBandLabels}{Logical. Whether to show cytogenetic band labels, e.g., 1q21.}
 
 \item{showFullyBanded}{Logical. Whether to show fully banded chromosomes for genomes that have sufficient data. Useful for
 showing simpler chromosomes of cytogenetically well-characterized organisms, e.g., human,
@@ -199,7 +197,6 @@ beside chromosomes of less studied organisms, e.g., chimpanzee.}
 \item{showNonNuclearChromosomes}{Logical. Whether to show non-nuclear chromosomes,
 e.g., for mitochondrial (MT) and chloroplast (CP) DNA.}
 }
-
 \examples{
 \dontrun{
 library(dash)
@@ -223,5 +220,4 @@ app$layout(
 )  
   
 app$run_server()
-}
-}
+}}

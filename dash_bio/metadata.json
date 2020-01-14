@@ -1,21 +1,8 @@
 {
   "src/lib/components/AlignmentChart.react.js": {
-    "description": "The Alignment Viewer (MSA) component is used to align multiple genomic\nor proteomic sequences from a FASTA or Clustal file. Among its\nextensive set of features, the multiple sequence alignment viewer\ncan display multiple subplots showing gap and conservation info,\nalongside industry standard colorscale support and consensus sequence.\nNo matter what size your alignment is, Aligment Viewer is able to display\nyour genes or proteins snappily thanks to the underlying WebGL architecture\npowering the component. You can quickly scroll through your long sequence\nwith a slider or a heatmap overview.\nNote that the AlignmentChart only returns a chart of the sequence, while\nAlignmentViewer has integrated controls for colorscale, heatmaps, and subplots\nallowing the user to interactively control their sequences.\nRead more about the component here:\nhttps://github.com/plotly/react-alignment-viewer",
+    "description": "The Alignment Chart (MSA) component is used to align multiple genomic\nor proteomic sequences from a FASTA or Clustal file. Among its\nextensive set of features, the multiple sequence alignment chart\ncan display multiple subplots showing gap and conservation info,\nalongside industry standard colorscale support and consensus sequence.\nNo matter what size your alignment is, Alignment Chart is able to display\nyour genes or proteins snappily thanks to the underlying WebGL architecture\npowering the component. You can quickly scroll through your long sequence\nwith a slider or a heatmap overview.\nRead more about the component here:\nhttps://github.com/plotly/react-alignment-viewer",
     "displayName": "AlignmentChart",
-    "methods": [
-      {
-        "name": "handleChange",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "event",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -325,7 +312,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "Sets how many pixels each nucleotide/amino acid on the Alignment Viewer\ntakes up horizontally. The total number of tiles (numtiles) seen\nhorizontally is automatically determined by rounding\nthe Viewer width divided by the tile width.\nthe Viewwer width divided by the tile witdth.",
+        "description": "Sets how many pixels each nucleotide/amino acid on the Alignment Chart\ntakes up horizontally. The total number of tiles (numtiles) seen\nhorizontally is automatically determined by rounding\nthe Viewer width divided by the tile width.\nthe Viewwer width divided by the tile witdth.",
         "defaultValue": {
           "value": "16",
           "computed": false
@@ -336,475 +323,7 @@
           "name": "number"
         },
         "required": false,
-        "description": "Sets how many pixels each nucleotide/amino acid on the Alignment Viewer\ntakes up vertically.\nIf enabled, set height dynamically.",
-        "defaultValue": {
-          "value": "16",
-          "computed": false
-        }
-      },
-      "overview": {
-        "type": {
-          "name": "enum",
-          "value": [
-            {
-              "value": "'heatmap'",
-              "computed": false
-            },
-            {
-              "value": "'slider'",
-              "computed": false
-            },
-            {
-              "value": "'none'",
-              "computed": false
-            }
-          ]
-        },
-        "required": false,
-        "description": "Toggles whether the overview should be a heatmap, a slider, or none.",
-        "defaultValue": {
-          "value": "'heatmap'",
-          "computed": false
-        }
-      },
-      "numtiles": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "Sets how many tiles to display across horitontally. If enabled,\noverrides tilewidth and sets the amount of tiles directly based off\nthat value.",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "scrollskip": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "If overview is set to 'scroll', determines how many tiles to skip\nwith each slider movement.\nHas no effect if scroll is not enabled (such as with overview or none).",
-        "defaultValue": {
-          "value": "10",
-          "computed": false
-        }
-      },
-      "tickstart": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "number"
-            },
-            {
-              "name": "string"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Determines where to start annotating the first tile.\nIf let blank will be automatically determined by Plotly.\nEquivalent to Plotly's tick0 property.\nDoes not function if overview mode 'slider' is applied. (Current bug)",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "ticksteps": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "number"
-            },
-            {
-              "name": "string"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Determines at what interval to keep annotating the tiles.\nIf left blank will be automatially determined by Plotly.\nEquivalent to Plotly's dtick property.\nDoes not function if overview mode 'slider' is applied. (Current bug)",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "width": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "number"
-            },
-            {
-              "name": "string"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Width of the Viewer.\nProperty takes precedence over tileswidth and numtiles\nif either of them is set.",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "height": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "number"
-            },
-            {
-              "name": "string"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Width of the Viewer.\nProperty takes precedence over tilesheight if both\nare set.",
-        "defaultValue": {
-          "value": "900",
-          "computed": false
-        }
-      }
-    }
-  },
-  "src/lib/components/AlignmentViewer.react.js": {
-    "description": "The Alignment Viewer (MSA) component is used to align multiple genomic\nor proteomic sequences from a FASTA or Clustal file. Among its\nextensive set of features, the multiple sequence alignment viewer\ncan display multiple subplots showing gap and conservation info,\nalongside industry standard colorscale support and consensus sequence.\nNo matter what size your alignment is, Aligment Viewer is able to display\nyour genes or proteins snappily thanks to the underlying WebGL architecture\npowering the component. You can quickly scroll through your long sequence\nwith a slider or a heatmap overview.\nNote that the AlignmentChart only returns a chart of the sequence, while\nAlignmentViewer has integrated controls for colorscale, heatmaps, and subplots\nallowing the user to interactively control their sequences.\nRead more about the component here:\nhttps://github.com/plotly/react-alignment-viewer",
-    "displayName": "AlignmentViewer",
-    "methods": [
-      {
-        "name": "handleChange",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "event",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
-    "props": {
-      "id": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The ID of this component, used to identify dash components\nin callbacks. The ID needs to be unique across all of the\ncomponents in an app."
-      },
-      "setProps": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
-      },
-      "eventDatum": {
-        "type": {
-          "name": "object"
-        },
-        "required": false,
-        "description": "A Dash prop that returns data on clicking, hovering or resizing the viewer."
-      },
-      "data": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Input data, either in FASTA or Clustal format."
-      },
-      "extension": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Format type of the input data, either in FASTA or Clustal.",
-        "defaultValue": {
-          "value": "'fasta'",
-          "computed": false
-        }
-      },
-      "colorscale": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "string"
-            },
-            {
-              "name": "object"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Colorscale in 'buried', 'cinema', 'clustal', 'clustal2', 'helix', 'hydrophobicity'\n'lesk', 'mae', 'nucleotide', 'purine', 'strand', 'taylor', 'turn', 'zappo',\nor your own colorscale as a {'nucleotide': COLOR} dict.\nNote that this is NOT a standard plotly colorscale.",
-        "defaultValue": {
-          "value": "'clustal2'",
-          "computed": false
-        }
-      },
-      "opacity": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "number"
-            },
-            {
-              "name": "string"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Opacity of the main plot as a value between 0 and 1.",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "textcolor": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Color of the nucleotide labels, in common name, hex, rgb or rgba format.\nIf left blank, handled by the colorscale automatically.",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "textsize": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "number"
-            },
-            {
-              "name": "string"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Size of the nucleotide labels, as a number.",
-        "defaultValue": {
-          "value": "10",
-          "computed": false
-        }
-      },
-      "showlabel": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Toggles displaying sequence labels at left of alignment",
-        "defaultValue": {
-          "value": "true",
-          "computed": false
-        }
-      },
-      "showid": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Toggles displaying sequence IDs at left of alignment.",
-        "defaultValue": {
-          "value": "true",
-          "computed": false
-        }
-      },
-      "showconservation": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Enables the display of conservation secondary barplot where the most conserved\nnucleotides or amino acids get greater bars.",
-        "defaultValue": {
-          "value": "true",
-          "computed": false
-        }
-      },
-      "conservationcolor": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Color of the conservation secondary barplot, in common name, hex, rgb or rgba format.",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "conservationcolorscale": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "string"
-            },
-            {
-              "name": "array"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Colorscale of the conservation barplot, in Plotly colorscales (e.g. 'Viridis')\nor as custom Plotly colorscale under a list format.\nNote that this conservationcolorscale argument\ndoes NOT follow the same format as the colorscale argument.",
-        "defaultValue": {
-          "value": "'Viridis'",
-          "computed": false
-        }
-      },
-      "conservationopacity": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "number"
-            },
-            {
-              "name": "string"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Opacity of the conservation secondary barplot as a value between 0 and 1.",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "conservationmethod": {
-        "type": {
-          "name": "enum",
-          "value": [
-            {
-              "value": "'conservation'",
-              "computed": false
-            },
-            {
-              "value": "'entropy'",
-              "computed": false
-            }
-          ]
-        },
-        "required": false,
-        "description": "Whether to use most conserved ratio (MLE) 'conservation'\nor normalized entropy 'entropy' to determine conservation,\nwhich is a value between 0 and 1 where 1 is most conserved.",
-        "defaultValue": {
-          "value": "'entropy'",
-          "computed": false
-        }
-      },
-      "correctgap": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Whether to normalize the conservation barchart\nBy multiplying it elementwise with the gap barchart, as to\nlower the conservation values across sequences regions with many gaps.",
-        "defaultValue": {
-          "value": "true",
-          "computed": false
-        }
-      },
-      "showgap": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Enables the display of gap secondary barplot where the sequence regions\nwith the fewest gaps get the greatest bars.",
-        "defaultValue": {
-          "value": "true",
-          "computed": false
-        }
-      },
-      "gapcolor": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Color of the gap secondary barplot, in common name, hex, rgb or rgba format.",
-        "defaultValue": {
-          "value": "'grey'",
-          "computed": false
-        }
-      },
-      "gapcolorscale": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "string"
-            },
-            {
-              "name": "array"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Colorscale of the gap barplot, in Plotly colorscales (e.g. 'Viridis')\nor as custom Plotly colorscale under a list format.\nNote that this conservationcolorscale argument\ndoes NOT follow the same format as the colorscale argument.",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "gapopacity": {
-        "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "number"
-            },
-            {
-              "name": "string"
-            }
-          ]
-        },
-        "required": false,
-        "description": "Opacity of the gap secondary barplot as a value between 0 and 1.",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "groupbars": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "If both conservation and gap are enabled,\ntoggles whether to group bars or to stack them as separate subplots.\nNo effect if not both gap and conservation are shown.",
-        "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
-      },
-      "showconsensus": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "Displays toggling the consensus sequence, where each nucleotide in the\nconsensus sequence is the argmax of its distribution at a set nucleotide.",
-        "defaultValue": {
-          "value": "true",
-          "computed": false
-        }
-      },
-      "tilewidth": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "Sets how many pixels each nucleotide/amino acid on the Alignment Viewer\ntakes up horizontally. The total number of tiles (numtiles) seen\nhorizontally is automatically determined by rounding\nthe Viewer width divided by the tile width.\nthe Viewwer width divided by the tile witdth.",
-        "defaultValue": {
-          "value": "16",
-          "computed": false
-        }
-      },
-      "tileheight": {
-        "type": {
-          "name": "number"
-        },
-        "required": false,
-        "description": "Sets how many pixels each nucleotide/amino acid on the Alignment Viewer\ntakes up vertically.\nIf enabled, set height dynamically.",
+        "description": "Sets how many pixels each nucleotide/amino acid on the Alignment Chart\ntakes up vertically.\nIf enabled, set height dynamically.",
         "defaultValue": {
           "value": "16",
           "computed": false
@@ -938,96 +457,7 @@
   "src/lib/components/Circos.react.js": {
     "description": "Dash Circos is a library used to analyze and interpret\ndata using a circular layout, based on the popular\n'Circos' graph. This Dash Bio component is a useful tool\nfor showcasing relationships bewtween data/datasets in a\nbeautiful way. Please checkout the Dash Bio repository\non github to learn more about this API.",
     "displayName": "Circos",
-    "methods": [
-      {
-        "name": "stopScroll",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "e",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "setStopScroll",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "stop",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "setEvent",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "setProps",
-            "type": null
-          },
-          {
-            "name": "index",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "setColor",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "configApply",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "setToolTip",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "configApply",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "configCircos",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "layout",
-            "type": null
-          },
-          {
-            "name": "config",
-            "type": null
-          },
-          {
-            "name": "tracks",
-            "type": null
-          },
-          {
-            "name": "setProps",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "enableDownloadSVG": {
         "type": {
@@ -1235,67 +665,210 @@
       }
     }
   },
-  "src/lib/components/Ideogram.react.js": {
-    "description": "The Ideogram component is used to draw and animate genome-wide\ndatasets for organisms such as human, mouse, and any other\neukaryote. The Ideogram component can be used to compare\nhomologous features between chromosomes, and depict\nhaploid, diploid, aneuploid genomes. It can also display\nannotations on genomic data using histograms and overlays.\n\nReference: https://eweitz.github.io/ideogram/\nComponent's props: https://github.com/eweitz/ideogram/blob/master/api.md",
-    "displayName": "Ideogram",
+  "src/lib/components/FornaContainer.react.js": {
+    "description": "FornaContainer is a force-directed graph that is used to visualize\nthe secondary structure of biomolecules. It is based on the fornac\nlibrary (https://github.com/ViennaRNA/fornac).",
+    "displayName": "FornaContainer",
     "methods": [
       {
-        "name": "onHomologyHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "onToolTipHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "onBrushHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "onLoadHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "onRotateHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "onMouseOverHandler",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "setConfig",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "initIdeogram",
+        "name": "renderNewSequences",
         "docblock": null,
         "modifiers": [],
         "params": [],
         "returns": null
       }
     ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of this component, used to identify dash components in\ncallbacks. The ID needs to be unique across all of the\ncomponents in an app."
+      },
+      "height": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The height (in px) of the container in which the molecules will\nbe displayed.",
+        "defaultValue": {
+          "value": "500",
+          "computed": false
+        }
+      },
+      "width": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The width (in px) of the container in which the molecules will\nbe displayed.",
+        "defaultValue": {
+          "value": "300",
+          "computed": false
+        }
+      },
+      "sequences": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "exact",
+            "value": {
+              "sequence": {
+                "name": "string",
+                "description": "A string representing the RNA nucleotide sequence of\nthe RNA molecule.",
+                "required": true
+              },
+              "structure": {
+                "name": "string",
+                "description": "A dot-bracket string\n(https://software.broadinstitute.org/software/igv/RNAsecStructure)\nthat specifies the secondary structure of the RNA\nmolecule.",
+                "required": true
+              },
+              "options": {
+                "name": "exact",
+                "value": {
+                  "applyForce": {
+                    "name": "bool",
+                    "description": "Indicate whether the force-directed layout will be\napplied to the displayed molecule. Enabling this\noption allows users to change the layout of the\nmolecule by selecting and dragging the individual\nnucleotide nodes. True by default.",
+                    "required": false
+                  },
+                  "circularizeExternal": {
+                    "name": "bool",
+                    "description": "This only makes sense in connection with the\napplyForce argument. If it's true, the external\nloops will be arranged in a nice circle. If false,\nthey will be allowed to flop around as the force\nlayout dictates. True by default.",
+                    "required": false
+                  },
+                  "labelInterval": {
+                    "name": "number",
+                    "description": "Change how often nucleotide numbers are labelled\nwith their number. 10 by default.",
+                    "required": false
+                  },
+                  "name": {
+                    "name": "string",
+                    "description": "The molecule name; this is used in custom color\nscales.",
+                    "required": false
+                  },
+                  "avoidOthers": {
+                    "name": "bool",
+                    "description": "Whether or not this molecule should \"avoid\" other\nmolecules in the map.",
+                    "required": false
+                  }
+                },
+                "description": "Additional options to be applied to the rendering of\nthe RNA molecule.",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "The molecules that will be displayed.",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "nodeFillColor": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The fill color for all of the nodes. This will override any\ncolor scheme defined in colorScheme."
+      },
+      "colorScheme": {
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'sequence'",
+              "computed": false
+            },
+            {
+              "value": "'structure'",
+              "computed": false
+            },
+            {
+              "value": "'positions'",
+              "computed": false
+            },
+            {
+              "value": "'custom'",
+              "computed": false
+            }
+          ]
+        },
+        "required": false,
+        "description": "The color scheme that is used to color the nodes.",
+        "defaultValue": {
+          "value": "'sequence'",
+          "computed": false
+        }
+      },
+      "customColors": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "domain": {
+              "name": "arrayOf",
+              "value": {
+                "name": "number"
+              },
+              "description": "The limits for the color scale. This is used with the range\nspecified in `range` to calculate the color of a given\nnucleotide, based on the number that it is assigned.",
+              "required": false
+            },
+            "range": {
+              "name": "arrayOf",
+              "value": {
+                "name": "string"
+              },
+              "description": "The range of colors that will be used in conjunction with\nthe `domain` prop.",
+              "required": false
+            },
+            "colorValues": {
+              "name": "objectOf",
+              "value": {
+                "name": "objectOf",
+                "value": {
+                  "name": "union",
+                  "value": [
+                    {
+                      "name": "string"
+                    },
+                    {
+                      "name": "number"
+                    }
+                  ]
+                }
+              },
+              "description": "A dictionary which contains keys, each of which are either\nan empty string (`''`) or the name of a molecule that has\nbeen defined in the `name` prop in the `options` for a\nsequence in the `sequences` property.\nThe value corresponding to the key that is an empty string\n(if that key exists) is a \"default\" color scheme that will\nbe applied first, and can be overridden by the color\nschemes defined for molecule-specific keys. The\naforementioned color schemes each take the form of a\ndictionary in which the keys are the nucleotide positions\nand the values are either a) numbers to be normalized with\nrespect to the scale defined in `domain` (so that their\ncolor will be calculated), or b) direct string\nrepresentations of colors.",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "The custom colors used to color the nodes if the 'custom'\noption is chosen for the `colorScheme` prop.\nFor example, if the domain is `[0, 20]`, the range is\n`['yellow', 'red']`, and the dictionary specified in\n'colorValues' that corresponds to a molecule is `{'6': 10}`,\nthe sixth nucleotide in that molecule will have a color that is\nperfectly in between yellow and red (i.e., orange), since 10 is\nperfectly in between 0 and 20."
+      },
+      "allowPanningAndZooming": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "Allow users to zoom in and pan the display. If this is enabled,\nthen pressing the 'c' key on the keyboard will center the view.",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that gets fired when the value changes."
+      }
+    }
+  },
+  "src/lib/components/Ideogram.react.js": {
+    "description": "The Ideogram component is used to draw and animate genome-wide\ndatasets for organisms such as human, mouse, and any other\neukaryote. The Ideogram component can be used to compare\nhomologous features between chromosomes, and depict\nhaploid, diploid, aneuploid genomes. It can also display\nannotations on genomic data using histograms and overlays.\n\nReference: https://eweitz.github.io/ideogram/\nComponent's props: https://github.com/eweitz/ideogram/blob/master/api.md",
+    "displayName": "Ideogram",
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -1819,20 +1392,7 @@
   "src/lib/components/Molecule2dViewer.react.js": {
     "description": "The Molecule2dViewer component is used to render structural\nformulae of molecules.\nRead more about the component here:\nhttps://github.com/Autodesk/molecule-2d-for-react",
     "displayName": "Molecule2dViewer",
-    "methods": [
-      {
-        "name": "onChangeSelection",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "selectedAtomIds",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -1950,32 +1510,7 @@
   "src/lib/components/Molecule3dViewer.js": {
     "description": "The Molecule3dViewer component is used to render schematic diagrams\nof biomolecules. It can display ribbon-structure diagrams, or\nrender atoms in the molecule as sticks or spheres.\nRead more about the component here:\nhttps://github.com/Autodesk/molecule-3d-for-react",
     "displayName": "Molecule3dViewer",
-    "methods": [
-      {
-        "name": "onChangeSelection",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "selectedAtomIds",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "onRenderNewData",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "glviewer",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -2129,39 +1664,7 @@
   "src/lib/components/NeedlePlot.react.js": {
     "description": "The Needle Plot component is used to visualize large datasets\ncontaining categorical or numerical data. The lines and markers in\nthe plot correspond to bars in a histogram.",
     "displayName": "NeedlePlot",
-    "methods": [
-      {
-        "name": "handleChange",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "event",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "prepareTraces",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "prepareLayout",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "vars",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -2329,20 +1832,7 @@
   "src/lib/components/OncoPrint.react.js": {
     "description": "The OncoPrint component is used to view multiple genetic alteration events\nthrough an interactive and zoomable heatmap. It is a React/Dash port of the\npopular oncoPrint() function from the BioConductor R package.\nUnder the hood, the rendering is done using Plotly.js built upon D3.\nPlotly's interactivity allows the user to bind clicks and hovers to genetic\nevents, allowing the user to create complex bioinformatic apps or workflows\nthat rely on crossfiltering.\nRead more about the component here:\nhttps://github.com/plotly/react-oncoprint",
     "displayName": "OncoPrint",
-    "methods": [
-      {
-        "name": "handleChange",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "event",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -2489,44 +1979,7 @@
   "src/lib/components/SequenceViewer.react.js": {
     "description": "The sequence viewer component is used to display sequences\nthat represent proteins, strands of genomic information, and\nmore. It can apply a coverage to the sequence supplied (with\nclickable coverage sections that can display specific information,\nand an optional legend to describe the color codes used),\nsearch through the sequence for specific regex, capture\nmouse selection events of subparts of the sequence, display a\ncount of the number of nucleotides or amino acids in the\nsequence,\nRead more about the component here:\nhttps://github.com/FlyBase/react-sequence-viewer",
     "displayName": "SequenceViewer",
-    "methods": [
-      {
-        "name": "onMouseSelection",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "e",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "onSubpartSelected",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "e",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "getOnClick",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "i",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
@@ -2636,24 +2089,8 @@
       },
       "selection": {
         "type": {
-          "name": "arrayOf",
-          "value": {
-            "name": "shape",
-            "value": {
-              "low": {
-                "name": "number",
-                "required": false
-              },
-              "high": {
-                "name": "number",
-                "required": false
-              },
-              "color": {
-                "name": "string",
-                "required": false
-              }
-            }
-          }
+          "name": "custom",
+          "raw": "function(props, propName, componentName) {\n    if (\n        props[propName] !== undefined &&\n        ((typeof props[propName][0] !== 'undefined' &&\n            typeof props[propName][0] !== 'number') ||\n            (typeof props[propName][1] !== 'undefined' &&\n                typeof props[propName][1] !== 'number') ||\n            (typeof props[propName][2] !== 'undefined' &&\n                typeof props[propName][2] !== 'string'))\n    ) {\n        return new Error(\n            'Invalid prop value. Selection should be an array with type [number, number, string].'\n        );\n    }\n}"
         },
         "required": false,
         "description": "A highlighted section of the sequence; the color of the highlight\ncan also be defined. Takes a list of format [min, max, color] where\nmin is a number that represents the starting index of the selection,\nmax is a number that represents the stopping index of the selection,\nand color is a string that defines the highlight color.\nCannot be used at the same time as coverage.",
@@ -2794,36 +2231,7 @@
   "src/lib/components/Speck.react.js": {
     "description": "The Speck component is a WebGL-based 3D molecule renderer.\nRead more about the component here:\nhttps://github.com/wwwtyro/speck",
     "displayName": "Speck",
-    "methods": [
-      {
-        "name": "propsReconcile",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "propsReconcileSchedule",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "loadStructure",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      },
-      {
-        "name": "loop",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {

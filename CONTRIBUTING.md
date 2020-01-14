@@ -22,7 +22,7 @@
 ```bash
 git clone https://github.com/plotly/dash-bio.git
 cd dash-bio
-npm install
+npm ci
 ```
 
 #### Step 2: Develop
@@ -38,6 +38,13 @@ before being compiled into Python components that are in the
 `dash_bio` folder. Python components are written in
 `dash_bio/component_factory/` and must be imported in
 `dash_bio/__init__.py`.
+
+##### Installing new npm packages
+
+If developing a new component based on a React library, please ensure
+that you have already installed the correct versions of the
+preexisting dependencies by running `npm ci`. Then, add the package to
+`package.json` and run `npm i` to add it to the `package-lock.json` file.
 
 ###### Naming components
 Components, regardless of whether they are written using React or
@@ -144,25 +151,32 @@ Each commit is small; a pull request typically consists of a few commits.
 
 To run integration tests locally on, say, Google Chrome:
 ```bash
+python -m venv venv
+. venv/bin/activate
 pip install -r tests/requirements.txt
-pytest tests --webdriver Chrome --ignore tests/test_skeleton.py
+pip install dash[testing]
+pytest tests/integration
 ```
 Do not worry if you get errors running this last command. You will have to
 download a Chrome driver, install it, and add its path. Follow what the error
 messages point to (this will be platform-specific).
 
-We want more integration tests.
+To write more integration tests, please read this
+[tutorial](https://dash.plot.ly/testing).
 
-We do not have a suite of unit tests yet.
-
-TODO Include at least one unit test per component.
+To run the suite of unit tests:
+```bash
+pip install dash_bio_utils
+python tests/unit/unit_test_data_setup.py
+npm run test
+```
 
 #### Step 4: Rebuild the package if necessary
 
 If you have made changes to the JS code, then you need to rebuild the package:
 
 ```bash
-npm run build:all
+npm run build
 ```
 
 The auto-generated Python files will reflect your updates to the logic.

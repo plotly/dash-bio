@@ -1,55 +1,28 @@
-import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {omit} from 'ramda';
+import React, {Component, lazy, Suspense} from 'react';
+import LazyLoader from '../LazyLoader';
 
-import {AlignmentChart as PreAlignementChart} from 'react-alignment-viewer';
+const RealAlignmentChart = lazy(LazyLoader.alignmentChart);
 
 /**
- * The Alignment Viewer (MSA) component is used to align multiple genomic
+ * The Alignment Chart (MSA) component is used to align multiple genomic
  * or proteomic sequences from a FASTA or Clustal file. Among its
- * extensive set of features, the multiple sequence alignment viewer
+ * extensive set of features, the multiple sequence alignment chart
  * can display multiple subplots showing gap and conservation info,
  * alongside industry standard colorscale support and consensus sequence.
- * No matter what size your alignment is, Aligment Viewer is able to display
+ * No matter what size your alignment is, Alignment Chart is able to display
  * your genes or proteins snappily thanks to the underlying WebGL architecture
  * powering the component. You can quickly scroll through your long sequence
  * with a slider or a heatmap overview.
- * Note that the AlignmentChart only returns a chart of the sequence, while
- * AlignmentViewer has integrated controls for colorscale, heatmaps, and subplots
- * allowing the user to interactively control their sequences.
  * Read more about the component here:
  * https://github.com/plotly/react-alignment-viewer
  */
 export default class AlignmentChart extends Component {
-    constructor(props) {
-        super(props);
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    // Bind to Dash event handler that puts event back into props
-    handleChange(event) {
-        const eventObj = JSON.stringify(event);
-        this.props.setProps({eventDatum: eventObj});
-    }
-
     render() {
-        const {id, eventDatum} = this.props;
-
         return (
-            <div id={id} eventDatum={eventDatum}>
-                <PreAlignementChart
-                    onChange={this.handleChange}
-                    {...omit(
-                        ['fireEvent', 'dashEvent', 'setProps', 'colorscale'],
-                        this.props
-                    )}
-                    colorscale={
-                        this.props.colorscale
-                            ? this.props.colorscale
-                            : 'clustal2'
-                    }
-                />
-            </div>
+            <Suspense fallback={null}>
+                <RealAlignmentChart {...this.props} />
+            </Suspense>
         );
     }
 }
@@ -199,7 +172,7 @@ AlignmentChart.propTypes = {
     showconsensus: PropTypes.bool,
 
     /**
-     * Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
+     * Sets how many pixels each nucleotide/amino acid on the Alignment Chart
      * takes up horizontally. The total number of tiles (numtiles) seen
      * horizontally is automatically determined by rounding
      * the Viewer width divided by the tile width.
@@ -208,7 +181,7 @@ AlignmentChart.propTypes = {
     tilewidth: PropTypes.number,
 
     /**
-     * Sets how many pixels each nucleotide/amino acid on the Alignment Viewer
+     * Sets how many pixels each nucleotide/amino acid on the Alignment Chart
      * takes up vertically.
      * If enabled, set height dynamically.
      */
@@ -297,3 +270,6 @@ AlignmentChart.defaultProps = {
     width: null,
     height: 900,
 };
+
+export const propTypes = AlignmentChart.propTypes;
+export const defaultProps = AlignmentChart.defaultProps;

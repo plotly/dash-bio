@@ -1,6 +1,6 @@
-import Molecule2dViewer from '../../src/lib/components/Molecule2dViewer.react.js';
+import Molecule2dViewer from '../../src/lib/fragments/Molecule2dViewer.react.js';
 import React from 'react';
-import {mount, render} from 'enzyme';
+import { mount, render } from 'enzyme';
 import data from '../dashbio_demos/sample_data/molecule2d_acetylene.json';
 
 

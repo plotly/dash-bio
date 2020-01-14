@@ -22,7 +22,7 @@ labels=NULL, onRenderNewData=NULL, onChangeSelection=NULL)
 
 \item{backgroundColor}{Character. Property to change the background color of the molecule viewer}
 
-\item{backgroundOpacity}{Numeric. Property to change the backgroun opacity - ranges from 0 to 1}
+\item{backgroundOpacity}{Numeric. Property to change the background opacity - ranges from 0 to 1}
 
 \item{styles}{List of lists containing elements 'color', 'visualization_type'.
 those elements have the following types:
@@ -49,7 +49,6 @@ when modelData is changed}
 \item{onChangeSelection}{Callback to change append selectedAtomIds
 when a selection is made}
 }
-
 \examples{
 \dontrun{
 library(dash)
@@ -86,5 +85,4 @@ app$layout(
 )
 
 app$run_server()
-}
-}
+}}

@@ -1,6 +1,6 @@
 from .AlignmentChart import AlignmentChart
-from .AlignmentViewer import AlignmentViewer
 from .Circos import Circos
+from .FornaContainer import FornaContainer
 from .Ideogram import Ideogram
 from .Molecule2dViewer import Molecule2dViewer
 from .Molecule3dViewer import Molecule3dViewer
@@ -11,8 +11,8 @@ from .Speck import Speck
 
 __all__ = [
     "AlignmentChart",
-    "AlignmentViewer",
     "Circos",
+    "FornaContainer",
     "Ideogram",
     "Molecule2dViewer",
     "Molecule3dViewer",

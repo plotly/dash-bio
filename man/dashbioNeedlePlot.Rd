@@ -46,7 +46,6 @@ those elements have the following types:
   - domaincolor (unnamed list; optional)
   - displayminordomains (logical; optional). Options for the protein domain coloring}
 }
-
 \examples{
 \dontrun{
 library(dash)
@@ -72,5 +71,4 @@ app$layout(
 )  
 
 app$run_server()
-}
-}
+}}

@@ -1,6 +1,6 @@
-import Circos from '../../src/lib/components/Circos.react.js';
+import Circos from '../../src/lib/fragments/Circos.react.js';
 import React from 'react';
-import {mount, render} from 'enzyme';
+import { mount, render } from 'enzyme';
 import data from '../dashbio_demos/sample_data/circos_graph_data.json';
 
 

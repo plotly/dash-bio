@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import AlignmentChart from './components/AlignmentChart.react';
-import AlignmentViewer from './components/AlignmentViewer.react';
 import Circos from './components/Circos.react';
+import FornaContainer from './components/FornaContainer.react';
 import Ideogram from './components/Ideogram.react';
 import Molecule2dViewer from './components/Molecule2dViewer.react';
 import Molecule3dViewer from './components/Molecule3dViewer';
@@ -12,8 +12,8 @@ import Speck from './components/Speck.react';
 
 export {
     AlignmentChart,
-    AlignmentViewer,
     Circos,
+    FornaContainer,
     Ideogram,
     Molecule2dViewer,
     Molecule3dViewer,
