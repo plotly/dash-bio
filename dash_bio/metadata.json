@@ -1132,7 +1132,7 @@
         "required": false,
         "description": "Absolute or relative URL of the directory containing data needed to draw banded chromosomes.\nYou will need to set up your own database to grab data from a custom database.",
         "defaultValue": {
-          "value": "'https://unpkg.com/ideogram/dist/data/bands/native/'",
+          "value": "'https://unpkg.com/ideogram@1.5.0/dist/data/bands/native/'",
           "computed": false
         }
       },
