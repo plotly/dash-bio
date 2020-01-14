@@ -34,7 +34,7 @@ def test_dbid001_displayed_chromosomes(dash_duo):
 
     WebDriverWait(dash_duo.driver, 1).until(
         lambda _:
-        len(dash_duo.find_elements('g.chromosome-set')) == 5
+        len(dash_duo.find_elements('g.chromosome-set-container')) == 5
     )
 
 
