@@ -242,7 +242,6 @@ export default class Ideogram extends Component {
                 style={this.props.style}
             >
                 <div
-                    {...omit(['setProps'], this.props)}
                     id={'ideogram-container-' + this.props.id}
                     onMouseOver={this.onMouseOverHandler}
                 />
