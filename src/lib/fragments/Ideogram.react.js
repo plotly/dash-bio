@@ -217,10 +217,6 @@ export default class Ideogram extends Component {
 
     initIdeogram() {
         // Used to pass in a local dataset
-        if (this.props.localOrganism) {
-            this.props.dataDir = null;
-            window.chrBands = this.props.localOrganism;
-        }
         this.ideogram = new IdeogramJS(this.setConfig());
     }
 
@@ -235,13 +231,7 @@ export default class Ideogram extends Component {
     }
 
     componentDidUpdate() {
-        // Have to remove old data, because it breaks new instances
-        delete window.chrBands;
         this.initIdeogram();
-    }
-
-    componentWillUnmount() {
-        delete window.chrBands;
     }
 
     render() {
