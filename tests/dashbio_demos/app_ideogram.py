@@ -286,7 +286,7 @@ options = {
                     {'label': str(i), 'value': str(i)}
                     for i in range(1, 22)] +
                 [{'label': 'X', 'value': 'X'},
-                 {'lahel': 'Y', 'value': 'Y'}],
+                 {'label': 'Y', 'value': 'Y'}],
                 value='X'
             )
         ]),
