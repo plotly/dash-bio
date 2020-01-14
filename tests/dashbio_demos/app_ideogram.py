@@ -414,7 +414,7 @@ options = {
 ideograms_initial = {
     'custom': dict(
         id='ideo-custom',
-        dataDir='https://unpkg.com/ideogram@1.3.0/'
+        dataDir='https://unpkg.com/ideogram/'
         'dist/data/bands/native/',
         orientation='horizontal',
         organism='human',
@@ -437,7 +437,7 @@ ideograms_initial = {
     ),
     'brush': dict(
         id='brush-ideo',
-        dataDir='https://unpkg.com/ideogram@1.3.0/'
+        dataDir='https://unpkg.com/ideogram/'
         'dist/data/bands/native/',
         organism='human',
         chromosomes=['1'],
@@ -448,7 +448,7 @@ ideograms_initial = {
     ),
     'annotations': dict(
         id='ideo-annotations',
-        dataDir='https://unpkg.com/ideogram@1.3.0/'
+        dataDir='https://unpkg.com/ideogram/'
         'dist/data/bands/native/',
         organism='human',
         assembly='GRCh37',
