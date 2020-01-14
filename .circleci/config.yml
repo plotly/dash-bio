@@ -8,18 +8,18 @@ jobs:
         steps:
             - checkout
             - run:
-                name: Update Node.js and npm
+                name: 🏗️ Update Node.js and npm
                 command: |
                   curl -sSL "https://nodejs.org/dist/v11.10.1/node-v11.10.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.1-linux-x64/bin/node
                   curl https://www.npmjs.com/install.sh | sudo bash
             - run:
-                name: Check current version of node
+                name: ☑️ Check current version of node
                 command: node -v
             - restore_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
 
             - run:
-                name: Install package.json
+                name: 🏗️ Install package.json
                 command: npm ci
 
             - save_cache:
@@ -28,12 +28,12 @@ jobs:
                     - node_modules
 
             - run:
-                name: Run eslint
+                name: 🧪 Run eslint
                 command: ./node_modules/.bin/eslint src
                 when: always
 
             - run:
-                name: Install Dash for package build and build package
+                name: 🏗 Install Dash for package build and build package
                 command: |
                     python -m venv venv
                     . venv/bin/activate
@@ -42,7 +42,7 @@ jobs:
                     npm run build
 
             - run:
-                name: Run unit tests
+                name: 🧪 Run unit tests
                 command: |
                     python -m venv venv
                     . venv/bin/activate
@@ -68,12 +68,12 @@ jobs:
                 key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
 
             - run:
-                name: Create virtualenv
+                name: 🔧 Create virtualenv
                 command: |
                     python3 -m venv venv
 
             - run:
-                name: Install requirements
+                name: 🏗 Install requirements
                 command: |
                     . venv/bin/activate
                     pip install --upgrade pip
@@ -86,21 +86,21 @@ jobs:
                     - venv
 
             - run:
-                name: Run pylint
+                name: 🧪 Run pylint
                 command: |
                     . venv/bin/activate
                     pylint tests/ dash_bio/component_factory/
                 when: always
 
             - run:
-                name: Run flake8
+                name: 🧪 Run flake8
                 command: |
                     . venv/bin/activate
                     flake8 --max-line-length=100 tests/ dash_bio/component_factory/
                 when: always
 
             - run:
-                name: Run integration tests
+                name: 🧪 Run integration tests
                 command: |
                     . venv/bin/activate
                     pip install --upgrade pip
@@ -125,16 +125,16 @@ jobs:
         steps:
           - checkout
           - run:
-              name: Create helper-script
+              name: 🔧 Create helper-script
               command: printf '#!/bin/bash\necho username=$GALLERY_DEPLOY_USERNAME\necho password=$GALLERY_DEPLOY_PASSWORD' >> /home/circleci/helper-script.sh
           - run:
-              name: Set up git config
+              name: 🔧 Set up git config
               command: |
                 git config credential.helper "/bin/bash /home/circleci/helper-script.sh"
                 git config --global user.email '<>'
                 git config --global user.name "Circle Auto-deployment"
           - run:
-              name: Deploy
+              name: 🖥️ Deploy
               command: |
                 while IFS='' read -r line || [[ -n "$line" ]]; do
                     git remote add $line https://dash-gallery.plotly.host/GIT/$line
