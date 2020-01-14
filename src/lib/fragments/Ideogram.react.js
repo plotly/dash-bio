@@ -190,7 +190,7 @@ export default class Ideogram extends Component {
     onMouseOverHandler() {
         /**
          * Event handler that activates when you hover the mouse over an annotation.
-         * This event handler allows the user to add an prop `onMouseOver` into their
+         * This event handler allows the user to add a prop `onMouseOver` into their
          * Dash application, that will return the annotation that the mouse hovers over.
          */
 
