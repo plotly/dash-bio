@@ -90,7 +90,7 @@ Ex: chromosomes={
 
 General case to specify specific chromosomes:
 Ex: chromosomes=['1', '2']
-- dataDir (string; default 'https://unpkg.com/ideogram@1.5.0/dist/data/bands/native/'): Absolute or relative URL of the directory containing data needed to draw banded chromosomes.
+- dataDir (string; default 'https://unpkg.com/ideogram/dist/data/bands/native/'): Absolute or relative URL of the directory containing data needed to draw banded chromosomes.
 You will need to set up your own database to grab data from a custom database.
 - organism (string | number; default 'human'): Organism(s) to show chromosomes for. Supply organism's name as a string (e.g., "human") or
 organism's NCBI Taxonomy ID (taxid, e.g., 9606) to display chromosomes from a single
