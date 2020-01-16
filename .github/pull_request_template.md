@@ -7,6 +7,8 @@ Closes #[issue number; if this PR doesn't address an issue, delete this line]
 
 ## Description of changes
 
+<!-- If you are changing any of the demo apps, please specify the URL(s) of the app(s) in question. -->
+
 ## Before merging
 - [ ] I have gone through the [code review checklist](https://github.com/plotly/dash-component-boilerplate/blob/master/%7B%7Bcookiecutter.project_shortname%7D%7D/review_checklist.md)
 - [ ] I have completed all of the [steps to take before merging](https://github.com/plotly/dash-bio/blob/master/.github/before_merging.md)
