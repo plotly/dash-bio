@@ -54,7 +54,7 @@ with open(full_app_path, "r") as f:
     lines = f.readlines()
     name_main_index = 0
     for line in lines:
-        if '__name__ == "__main__"' in line:
+        if "__name__ == '__main__'" in line:
             name_main_index = lines.index(line)
             break
 
