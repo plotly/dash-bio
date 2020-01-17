@@ -11,7 +11,7 @@ from common_features import nested_component_layout, \
 _data = None
 
 _data = pandas.read_csv(
-    'tests/dashbio_demos/sample_data/volcano_data1.csv',
+    'tests/dashbio_demos/dash-volcano-plot/data/data1.csv',
     comment='#'
 )
 

@@ -1,7 +1,7 @@
 import NeedlePlot from '../../src/lib/fragments/NeedlePlot.react.js';
 import React from 'react';
 import { mount, render } from 'enzyme';
-import data from '../dashbio_demos/sample_data/needle_PIK3CA.json';
+import data from '../dashbio_demos/dash-needle-plot/data/PIK3CA.json';
 
 
 test('NeedlePlot renders', () => {

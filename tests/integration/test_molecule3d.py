@@ -14,10 +14,10 @@ _model_data = None
 _styles_data = None
 
 _model_data = json.loads(parser.create_data(
-    'tests/dashbio_demos/sample_data/molecule3d_1bna.pdb'
+    'tests/dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb'
 ))
 _styles_data = json.loads(sparser.create_style(
-    'tests/dashbio_demos/sample_data/molecule3d_1bna.pdb',
+    'tests/dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb',
     'cartoon',
     'atom'
 ))

@@ -1,7 +1,7 @@
 import OncoPrint from '../../src/lib/fragments/OncoPrint.react.js';
 import React from 'react';
 import { mount, render } from 'enzyme';
-import data from '../dashbio_demos/sample_data/oncoprint_dataset3.json';
+import data from '../dashbio_demos/dash-onco-print/data/dataset3.json';
 
 
 test('OncoPrint renders', () => {

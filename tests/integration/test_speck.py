@@ -12,7 +12,7 @@ from common_features import simple_app_layout, simple_app_callback
 
 _data = None
 
-with open('tests/dashbio_demos/sample_data/speck_methane.xyz', 'r') as f:
+with open('tests/dashbio_demos/dash-speck/data/methane.xyz', 'r') as f:
     _data = xyz_reader.read_xyz(datapath_or_datastring=f.read(),
                                 is_datafile=False)
 

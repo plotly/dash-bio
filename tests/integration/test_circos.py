@@ -11,7 +11,7 @@ _data = None
 _COMPONENT_ID = 'test-circos'
 
 with open(
-        'tests/dashbio_demos/sample_data/circos_graph_data.json', 'r'
+        'tests/dashbio_demos/dash-circos/data/graph_data.json', 'r'
 ) as f:
     _data = json.loads(f.read())
 

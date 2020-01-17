@@ -12,7 +12,7 @@ _data = None
 _COMPONENT_ID = 'test-needle-plot'
 
 with open(
-    'tests/dashbio_demos/sample_data/needle_PIK3CA.json'
+    'tests/dashbio_demos/dash-needle-plot/data/PIK3CA.json'
 ) as f:
     _data = json.loads(f.read())
 

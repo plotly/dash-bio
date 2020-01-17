@@ -125,44 +125,113 @@ jobs:
         environment:
             PERCY_ENABLED: True
 
+    deploy_to_playground:
+      docker:
+        - image: circleci/python:3.6-stretch
+      working_directory: ~/dash-sample-apps
+      steps:
+        - checkout
+        - run:
+            name: Add plotly remote
+            command: git remote add playground https://dash-playground.plotly.host/GIT/$CIRCLE_BRANCH
+        - run:
+            name: Create helper-script
+            command: printf '#!/bin/bash\necho username=$PLAYGROUND_DEPLOY_USERNAME\necho password=$PLAYGROUND_DEPLOY_PASSWORD' >> /home/circleci/helper-script.sh
+        - run:
+            name: Set up git config
+            command: |
+              git config --global credential.helper "/bin/bash /home/circleci/helper-script.sh"
+              git config --global user.email '<>' # Leave email blank
+              git config --global user.name "Circle MonoRepo Automatic Deployer"
+        - run:
+            name: Install curl
+            command: |
+              sudo apt update
+              sudo apt install -y -qq curl
+        - run:
+            name: Install dds-client
+            command: |
+              curl -sSL -o dds-client.tgz https://github.com/plotly/dds-client/releases/download/v0.1.0/dds-client_0.1.0_linux_x86_64.tgz
+              mkdir $HOME/bin
+              tar xzf dds-client.tgz -C $HOME/bin
+              chmod +x $HOME/bin/dds-client
+        - run:
+            name: Deploy
+            command: |
+              APPS_MODIFIED=$(git diff origin/master origin/$CIRCLE_BRANCH --dirstat=files,1 tests/dashbio_demos/ | awk '{ split($2,a,"/"); if (length(a[3]) != 0) { print a[3]} } ' | grep dash- |sort -u)
+              if [ -z "$APPS_MODIFIED" ]
+              then
+                    echo "No app change detected. Skipping the deploy.."
+                    exit 0
+              fi
+
+              export APPS_DIR_RELATIVE="/tests/dashbio_demos"
+              for APP in $APPS_MODIFIED
+              do
+                CREATE_APP=true DASH_ENTERPRISE_URL="$DASH_PLAYGROUND_ENTERPRISE_URL" DASH_ENTERPRISE_API_KEY="$DASH_PLAYGROUND_ENTERPRISE_API_KEY" PATH="$HOME/bin:$PATH" ./deploy "$APP"
+              done
+
     deploy_to_gallery:
-        docker:
-            - image: circleci/python:3.7-stretch-node-browsers
-        working_directory: ~/dash-bio
-        steps:
-          - checkout
-          - run:
-              name: Create helper-script
-              command: printf '#!/bin/bash\necho username=$GALLERY_DEPLOY_USERNAME\necho password=$GALLERY_DEPLOY_PASSWORD' >> /home/circleci/helper-script.sh
-          - run:
-              name: Set up git config
-              command: |
-                git config credential.helper "/bin/bash /home/circleci/helper-script.sh"
-                git config --global user.email '<>'
-                git config --global user.name "Circle Auto-deployment"
-          - run:
-              name: Deploy
-              command: |
-                while IFS='' read -r line || [[ -n "$line" ]]; do
-                    git remote add $line https://dash-gallery.plotly.host/GIT/$line
-                    python tests/dashbio_demos/deployment/generate_procfile.py $line
-                    echo $PLOTLY_GA_CODE > assets/plotly_ga.js
-                    git add Procfile assets/plotly_ga.js
-                    git commit -m "Deployed commit: $CIRCLE_SHA1"
-                    git push --force $line master || echo "Deploy failed. Continuing..."
-                    git reset --hard origin/master
-                done < "tests/dashbio_demos/deployment/app_remotes.txt"
+      docker:
+        - image: circleci/python:3.6-stretch
+      working_directory: ~/dash-sample-apps
+      steps:
+        - checkout
+        - run:
+            name: Add plotly remote
+            command: git remote add gallery https://dash-playground.plotly.host/GIT/$CIRCLE_BRANCH
+        - run:
+            name: Create helper-script
+            command: printf '#!/bin/bash\necho username=$GALLERY_DEPLOY_USERNAME\necho password=$GALLERY_DEPLOY_PASSWORD' >> /home/circleci/helper-script.sh
+        - run:
+            name: Set up git config
+            command: |
+              git config --global credential.helper "/bin/bash /home/circleci/helper-script.sh"
+              git config --global user.email '<>' # Leave email blank
+              git config --global user.name "Circle MonoRepo Automatic Deployer"
+        - run:
+            name: Install curl
+            command: |
+              sudo apt update
+              sudo apt install -y -qq curl
+        - run:
+            name: Install dds-client
+            command: |
+              curl -sSL -o dds-client.tgz https://github.com/plotly/dds-client/releases/download/v0.1.0/dds-client_0.1.0_linux_x86_64.tgz
+              mkdir $HOME/bin
+              tar xzf dds-client.tgz -C $HOME/bin
+              chmod +x $HOME/bin/dds-client
+        - run:
+            name: Deploy
+            command: |
+              APPS_MODIFIED=$(ls apps | grep dash- | sort -u)
+              if [ -z "$APPS_MODIFIED" ]
+              then
+                    echo "No app change detected. Skipping the deploy.."
+                    exit 0
+              fi
+
+              export APPS_DIR_RELATIVE="/tests/dashbio_demos"
+              for APP in $APPS_MODIFIED
+              do
+                DASH_ENTERPRISE_URL="$DASH_GALLERY_ENTERPRISE_URL" DASH_ENTERPRISE_API_KEY="$DASH_GALLERY_ENTERPRISE_API_KEY" PATH="$HOME/bin:$PATH" ./deploy "$APP"
+              done
 
 
 workflows:
-    version: 2
-    build:
-        jobs:
-            - python-3.6
-            - python-3.7
-            - node
-            - deploy_to_gallery:
-                filters:
-                  branches:
-                    only:
-                    - master
+  version: 2
+  build:
+    jobs:
+      - python-3.6
+      - python-3.7
+      - node
+      - deploy_to_playground:
+          filters:
+            branches:
+              ignore:
+              - master
+      - deploy_to_gallery:
+          filters:
+            branches:
+              only:
+              - master
