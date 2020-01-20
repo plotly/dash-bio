@@ -164,6 +164,7 @@ main() {
     cp -p "$SOURCE_DIR/app.json" "$tmp_full_clone/app.json"
     cp -p "$SOURCE_DIR/predeploy.py" "$tmp_full_clone/predeploy.py"
     cp -p "$SOURCE_DIR/runtime.txt" "$tmp_full_clone/runtime.txt"
+    cp -p "$APPS_DIR/common/layout_helper.py" "$tmp_full_clone/layout_helper.py"
     pushd "$APPS_DIR/common/assets" >/dev/null
     cp -p * "$tmp_full_clone/assets"
     popd >/dev/null
