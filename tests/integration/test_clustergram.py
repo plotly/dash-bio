@@ -11,7 +11,7 @@ from common_features import nested_component_layout, \
 _data = None
 
 _mtcars_data = pandas.read_csv(
-    'tests/dashbio_demos/sample_data/clustergram_mtcars.tsv',
+    'tests/dashbio_demos/dash-clustergram/data/mtcars.tsv',
     delimiter='\t',
     skiprows=4
 ).set_index('model')

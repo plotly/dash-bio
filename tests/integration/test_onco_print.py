@@ -12,7 +12,7 @@ _data = None
 _COMPONENT_ID = 'test-onco-print'
 
 with open(
-        'tests/dashbio_demos/sample_data/oncoprint_dataset1.json'
+        'tests/dashbio_demos/dash-onco-print/data/dataset1.json'
 ) as f:
     _data = json.loads(f.read())
 
