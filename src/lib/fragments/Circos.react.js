@@ -148,6 +148,13 @@ export default class Circos extends Component {
                             d[tooltipData.target][tooltipData.targetID] +
                             ': ' +
                             d[tooltipData.target][tooltipData.targetEnd] +
+                            '</h3>' +
+                            '<h3>' +
+                            d[tooltipData.target][tooltipData.targetID] +
+                            ' ➤ ' +
+                            d[tooltipData.source][tooltipData.sourceID] +
+                            ': ' +
+                            d[tooltipData.source][tooltipData.sourceEnd] +
                             '</h3>'
                         );
                     };

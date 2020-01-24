@@ -228,6 +228,8 @@ def get_circos_graph(
                             'target': 'target',
                             'targetID': 'id',
                             'targetEnd': 'end',
+                            'sourceEnd': 'end',
+                            #'name': 'all'
                         },
                     },
                 },
