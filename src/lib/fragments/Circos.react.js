@@ -21,6 +21,9 @@ export default class Circos extends Component {
 
         this.stopScroll = this.stopScroll.bind(this);
         this.setStopScroll = this.setStopScroll.bind(this);
+
+        this.formatChordToolTip = this.formatChordToolTip.bind(this);
+        this.generateH3Block = this.generateH3Block.bind(this);
     }
 
     stopScroll(e) {
@@ -104,6 +107,37 @@ export default class Circos extends Component {
         }
     }
 
+    generateH3Block(source, target, label, diff) {
+        const value = diff ? source.end - source.start : source.end;
+
+        return (
+            '<h3>' +
+            source[label] +
+            ' ➤ ' +
+            target[label] +
+            ': ' +
+            value +
+            '</h3>'
+        );
+    }
+
+    formatChordToolTip(bidirectional, diff, label) {
+        return d => {
+            let partialToolTip = this.generateH3Block(
+                d.source,
+                d.target,
+                label,
+                diff
+            );
+            if (bidirectional === true) {
+                partialToolTip =
+                    partialToolTip +
+                    this.generateH3Block(d.target, d.source, label, diff);
+            }
+            return partialToolTip;
+        };
+    }
+
     setToolTip(configApply) {
         /**
          * Set the tool tip event handler. It allows the user to specify what data they want
@@ -134,7 +168,7 @@ export default class Circos extends Component {
             } else if (
                 typeof configApply.tooltipContent.source !== 'undefined'
             ) {
-                var tooltipData = configApply.tooltipContent;
+                const tooltipData = configApply.tooltipContent;
 
                 if (
                     typeof tooltipData.sourceID !== 'undefined' &&
@@ -148,13 +182,6 @@ export default class Circos extends Component {
                             d[tooltipData.target][tooltipData.targetID] +
                             ': ' +
                             d[tooltipData.target][tooltipData.targetEnd] +
-                            '</h3>' +
-                            '<h3>' +
-                            d[tooltipData.target][tooltipData.targetID] +
-                            ' ➤ ' +
-                            d[tooltipData.source][tooltipData.sourceID] +
-                            ': ' +
-                            d[tooltipData.source][tooltipData.sourceEnd] +
                             '</h3>'
                         );
                     };
@@ -171,6 +198,14 @@ export default class Circos extends Component {
                         );
                     };
                 }
+            } else if (configApply.tooltipContent.chord === true) {
+                const tooltipData = configApply.tooltipContent;
+
+                configApply.tooltipContent = this.formatChordToolTip(
+                    tooltipData.bidirectional,
+                    tooltipData.diff,
+                    tooltipData.label
+                );
             }
         } else {
             configApply.tooltipContent = null;

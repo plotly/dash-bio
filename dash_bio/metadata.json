@@ -629,6 +629,27 @@
                         "required": false
                       }
                     }
+                  },
+                  {
+                    "name": "shape",
+                    "value": {
+                      "chord": {
+                        "name": "bool",
+                        "required": true
+                      },
+                      "bidirectional": {
+                        "name": "bool",
+                        "required": true
+                      },
+                      "diff": {
+                        "name": "bool",
+                        "required": true
+                      },
+                      "label": {
+                        "name": "string",
+                        "required": true
+                      }
+                    }
                   }
                 ],
                 "description": "Specify what data for tooltipContent is\ndisplayed.\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks.\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\nEx: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.\n\"tooltipContent\": {\n                \"source\": \"block_id\",\n                \"target\": \"position\",\n                \"targetEnd\": \"value\"\n                        },\nEx: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.\n\"tooltipContent\": {\n                \"source\": \"source\",\n                \"sourceID\": \"id\",\n                \"target\": \"target\",\n                \"targetID\": \"id\",\n                \"targetEnd\": \"end\"\n            }",

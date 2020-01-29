@@ -3699,7 +3699,7 @@
       "value": "0.00342"
     }
   ],
-  
+
   "snp1m": [
     {
       "block_id": "chr1",
@@ -7037,7 +7037,7 @@
       "value": "0.001863"
     }
   ],
-  
+
   "snp": [
     {
       "block_id": "chr1",
@@ -10345,7 +10345,7 @@
       "value": "0.00456"
     }
   ],
-  
+
   "histogram": [
     {
       "block_id": "chr1",
@@ -12280,7 +12280,7 @@
       "value": 8
     }
   ],
-  
+
   "highlights": [
     {
       "block_id": "chr1",
@@ -17455,7 +17455,7 @@
       "gieStain": "rgb(255,255,255)"
     }
   ],
-  
+
   "cytobands": [
     {
       "name": "p36.33",
@@ -23492,7 +23492,7 @@
       "color": "rgb(255,255,255)"
     }
   ],
-  
+
   "chords": [
     {
       "color": "#ff5722",
@@ -23794,7 +23794,7 @@
       }
     }
   ],
-  
+
   "GRCh37": [
     {
       "id": "chr1",
@@ -23941,7 +23941,7 @@
       "len": 59373566
     }
   ],
-  
+
   "month_layout": [
     {
       "len": 31,
@@ -24016,7 +24016,7 @@
       "id": "december"
     }
   ],
-  
+
   "heatmap": [
     {
       "block_id": "january",

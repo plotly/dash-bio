@@ -223,13 +223,10 @@ def get_circos_graph(
                         'opacity': 0.7,
                         'color': {'name': 'color'},
                         'tooltipContent': {
-                            'source': 'source',
-                            'sourceID': 'id',
-                            'target': 'target',
-                            'targetID': 'id',
-                            'targetEnd': 'end',
-                            'sourceEnd': 'end',
-                            #'name': 'all'
+                            'chord': True,
+                            'bidirectional': True,
+                            'diff': False,
+                            'label': 'id'
                         },
                     },
                 },
