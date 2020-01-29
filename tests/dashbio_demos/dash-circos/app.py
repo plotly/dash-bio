@@ -914,6 +914,7 @@ def layout():
         )),
 
         html.Div(id='circos-control-tabs', className='control-tabs', children=[
+            dt.DataTable(),
             dcc.Tabs(id='circos-tabs', value='what-is', children=[
                 dcc.Tab(
                     label='About',
