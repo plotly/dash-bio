@@ -194,7 +194,7 @@ def get_circos_graph(
             config={
                 'innerRadius': size / 2 - 80,
                 'outerRadius': size / 2 - 40,
-                'ticks': {'display': False, 'labelDenominator': 1000000},
+                'ticks': {'display': True, 'labelDenominator': 1000000},
                 'labels': {
                     'position': 'center',
                     'display': True,
@@ -226,6 +226,7 @@ def get_circos_graph(
                             'chord': True,
                             'bidirectional': True,
                             'diff': False,
+                            'selectDiff': 'source',
                             'label': 'id'
                         },
                     },

@@ -645,6 +645,10 @@
                         "name": "bool",
                         "required": true
                       },
+                      "selectDiff": {
+                        "name": "string",
+                        "required": true
+                      },
                       "label": {
                         "name": "string",
                         "required": true

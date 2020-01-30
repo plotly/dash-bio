@@ -107,8 +107,18 @@ export default class Circos extends Component {
         }
     }
 
-    generateH3Block(source, target, label, diff) {
-        const value = diff ? source.end - source.start : source.end;
+    generateH3Block(source, target, diff, selectDiff, label) {
+        let value = 0;
+
+        if (diff && selectDiff === 'source') {
+            value = source.end - source.start;
+        } else if (diff && selectDiff === 'target') {
+            value = target.end - target.start;
+        } else if (diff === false && selectDiff === 'target') {
+            value = target.end;
+        } else if (diff === false && selectDiff === 'source') {
+            value = source.end;
+        }
 
         return (
             '<h3>' +
@@ -121,18 +131,25 @@ export default class Circos extends Component {
         );
     }
 
-    formatChordToolTip(bidirectional, diff, label) {
+    formatChordToolTip(bidirectional, diff, selectDiff, label) {
         return d => {
             let partialToolTip = this.generateH3Block(
                 d.source,
                 d.target,
-                label,
-                diff
+                diff,
+                selectDiff,
+                label
             );
             if (bidirectional === true) {
                 partialToolTip =
                     partialToolTip +
-                    this.generateH3Block(d.target, d.source, label, diff);
+                    this.generateH3Block(
+                        d.target,
+                        d.source,
+                        diff,
+                        selectDiff,
+                        label
+                    );
             }
             return partialToolTip;
         };
@@ -204,6 +221,7 @@ export default class Circos extends Component {
                 configApply.tooltipContent = this.formatChordToolTip(
                     tooltipData.bidirectional,
                     tooltipData.diff,
+                    tooltipData.selectDiff,
                     tooltipData.label
                 );
             }

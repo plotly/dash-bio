@@ -80,11 +80,12 @@ Those keys have the following types:
   - sourceID (string; optional)
   - target (string; required)
   - targetEnd (string; required)
-  - targetID (string; optional) | dict containing keys 'chord', 'bidirectional', 'diff', 'label'.
+  - targetID (string; optional) | dict containing keys 'chord', 'bidirectional', 'diff', 'selectDiff', 'label'.
 Those keys have the following types:
   - chord (boolean; required)
   - bidirectional (boolean; required)
   - diff (boolean; required)
+  - selectDiff (string; required)
   - label (string; required)
   - color (dict; optional): Specify which dictonary key to grab color values from, in the passed in dataset.
 This can be a string or an object.
