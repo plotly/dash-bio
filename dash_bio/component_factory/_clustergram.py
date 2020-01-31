@@ -2,6 +2,7 @@
 from random import shuffle
 
 import numpy as np
+import pandas as pd
 import scipy
 import scipy.cluster.hierarchy as sch
 import scipy.spatial as scs
@@ -13,7 +14,7 @@ from plotly import tools
 
 # pylint: disable=assignment-from-no-return, no-self-use
 def Clustergram(
-        data=None,
+        data,
         generate_curves_dict=False,
         return_computed_traces=False,
         computed_traces=None,
@@ -49,7 +50,8 @@ def Clustergram(
 
 Keyword arguments:
 
-- data (ndarray; required): Matrix of observations as array of arrays
+- data (2D array-like; required): Matrix or table of observations (dropping
+    columns of non-numeric dtype).
 - generate_curves_dict (bool; default False): Whether or not to return a
     dictionary containing information about the cluster number
     associated with each curve number in the graph. (May be useful
@@ -200,7 +202,7 @@ Methods:
 
     def __init__(
             self,
-            data=None,
+            data,
             row_labels=None,
             column_labels=None,
             hidden_labels=None,
@@ -234,6 +236,9 @@ Methods:
     See docstring of the `Clustergram` function, where the same keyword arguments (and a couple
     of other ones) are documented.
         """
+        if isinstance(data, pd.DataFrame):
+            data = data.select_dtypes('number')
+            data = data.values
         if hidden_labels is None:
             hidden_labels = []
         if color_threshold is None:
