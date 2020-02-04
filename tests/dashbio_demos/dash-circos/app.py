@@ -226,7 +226,7 @@ def get_circos_graph(
                             'chord': True,
                             'bidirectional': True,
                             'label': 'id',
-                            'value': 'value'
+                            'directionalValue': 'source'
                         },
                     },
                 },

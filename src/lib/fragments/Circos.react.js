@@ -23,7 +23,7 @@ export default class Circos extends Component {
         this.setStopScroll = this.setStopScroll.bind(this);
 
         this.formatChordToolTip = this.formatChordToolTip.bind(this);
-        this.generateH3Block = this.generateH3Block.bind(this);
+        this.generateHoverDataBlock = this.generateHoverDataBlock.bind(this);
     }
 
     stopScroll(e) {
@@ -107,8 +107,15 @@ export default class Circos extends Component {
         }
     }
 
-    generateH3Block(source, target, label, value) {
-      const final_val = target[value] ? target[value] : target[end]
+    generateHoverDataBlock(source, target, label, direction) {
+        let final_val = 0;
+
+        // it's confusing here but source represents target in this case
+        if (direction === 'default') {
+            final_val = source.value;
+        } else if (direction === 'reverse') {
+            final_val = target.value;
+        }
 
         return (
             '<h3>' +
@@ -121,23 +128,24 @@ export default class Circos extends Component {
         );
     }
 
-    formatChordToolTip(bidirectional, label, value) {
+    formatChordToolTip(bidirectional, label, directionalValue) {
         return d => {
-            let partialToolTip = this.generateH3Block(
-                d.source,
-                d.target,
-                label,
-                value
-            );
-            if (bidirectional === true) {
+            let partialToolTip, source, target;
+            if (directionalValue === 'source' && bidirectional === true) {
+                source = d.source;
+                target = d.target;
                 partialToolTip =
-                    partialToolTip +
-                    this.generateH3Block(
-                        d.target,
-                        d.source,
-                        label,
-                        value
-                    );
+                    this.generateHoverDataBlock(d.source, d.target, label, 'default') +
+                    this.generateHoverDataBlock(target, source, label, 'default');
+            } else if (
+                directionalValue === 'target' &&
+                bidirectional === true
+            ) {
+                source = d.target;
+                target = d.source;
+                partialToolTip =
+                    this.generateHoverDataBlock(d.target, d.source, label, 'reverse') +
+                    this.generateHoverDataBlock(source, target, label, 'reverse');
             }
             return partialToolTip;
         };
@@ -209,7 +217,7 @@ export default class Circos extends Component {
                 configApply.tooltipContent = this.formatChordToolTip(
                     tooltipData.bidirectional,
                     tooltipData.label,
-                    tooltipData.value
+                    tooltipData.directionalValue
                 );
             }
         } else {

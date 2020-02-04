@@ -641,15 +641,11 @@
                         "name": "bool",
                         "required": true
                       },
-                      "diff": {
-                        "name": "bool",
-                        "required": true
-                      },
-                      "selectDiff": {
+                      "label": {
                         "name": "string",
                         "required": true
                       },
-                      "label": {
+                      "directionalValue": {
                         "name": "string",
                         "required": true
                       }

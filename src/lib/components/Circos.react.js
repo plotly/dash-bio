@@ -185,7 +185,7 @@ Circos.propTypes = {
                     chord: PropTypes.bool.isRequired,
                     bidirectional: PropTypes.bool.isRequired,
                     label: PropTypes.string.isRequired,
-                    value: PropTypes.string.isRequired
+                    directionalValue: PropTypes.string.isRequired,
                 }),
             ]),
             /**
