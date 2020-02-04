@@ -184,9 +184,8 @@ Circos.propTypes = {
                 PropTypes.shape({
                     chord: PropTypes.bool.isRequired,
                     bidirectional: PropTypes.bool.isRequired,
-                    diff: PropTypes.bool.isRequired,
-                    selectDiff: PropTypes.string.isRequired,
                     label: PropTypes.string.isRequired,
+                    value: PropTypes.string.isRequired
                 }),
             ]),
             /**

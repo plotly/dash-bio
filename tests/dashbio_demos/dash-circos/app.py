@@ -225,9 +225,8 @@ def get_circos_graph(
                         'tooltipContent': {
                             'chord': True,
                             'bidirectional': True,
-                            'diff': False,
-                            'selectDiff': 'source',
-                            'label': 'id'
+                            'label': 'id',
+                            'value': 'value'
                         },
                     },
                 },

@@ -107,18 +107,8 @@ export default class Circos extends Component {
         }
     }
 
-    generateH3Block(source, target, diff, selectDiff, label) {
-        let value = 0;
-
-        if (diff && selectDiff === 'source') {
-            value = source.end - source.start;
-        } else if (diff && selectDiff === 'target') {
-            value = target.end - target.start;
-        } else if (diff === false && selectDiff === 'target') {
-            value = target.end;
-        } else if (diff === false && selectDiff === 'source') {
-            value = source.end;
-        }
+    generateH3Block(source, target, label, value) {
+      const final_val = target[value] ? target[value] : target[end]
 
         return (
             '<h3>' +
@@ -126,19 +116,18 @@ export default class Circos extends Component {
             ' ➤ ' +
             target[label] +
             ': ' +
-            value +
+            final_val +
             '</h3>'
         );
     }
 
-    formatChordToolTip(bidirectional, diff, selectDiff, label) {
+    formatChordToolTip(bidirectional, label, value) {
         return d => {
             let partialToolTip = this.generateH3Block(
                 d.source,
                 d.target,
-                diff,
-                selectDiff,
-                label
+                label,
+                value
             );
             if (bidirectional === true) {
                 partialToolTip =
@@ -146,9 +135,8 @@ export default class Circos extends Component {
                     this.generateH3Block(
                         d.target,
                         d.source,
-                        diff,
-                        selectDiff,
-                        label
+                        label,
+                        value
                     );
             }
             return partialToolTip;
@@ -220,9 +208,8 @@ export default class Circos extends Component {
 
                 configApply.tooltipContent = this.formatChordToolTip(
                     tooltipData.bidirectional,
-                    tooltipData.diff,
-                    tooltipData.selectDiff,
-                    tooltipData.label
+                    tooltipData.label,
+                    tooltipData.value
                 );
             }
         } else {
