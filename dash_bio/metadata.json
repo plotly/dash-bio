@@ -645,8 +645,8 @@
                         "name": "string",
                         "required": true
                       },
-                      "directionalValue": {
-                        "name": "string",
+                      "displayValue": {
+                        "name": "bool",
                         "required": true
                       }
                     }
