@@ -185,3 +185,30 @@ def test_dbcl005_row_annotations(dash_duo):
     # the annotation is the correct color
     dash_duo.wait_for_style_to_equal(
         'g.subplot.x6y6 g.plot g.lines > path', 'stroke', 'rgb(248, 62, 199)')
+
+
+def test_dbcl006_df_input_row_cluster(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    # run the same test as dbcl002 (row clustering) where table of
+    # observations (data argument) is left as a DataFrame
+    assert isinstance(_mtcars_data, pandas.DataFrame)
+    app.layout = html.Div(nested_component_layout(
+        dash_bio.Clustergram(
+            data=_mtcars_data
+        )
+    ))
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        test_prop_name='cluster',
+        test_prop_value='row',
+        prop_value_type='string'
+    )
+
+    assert len(dash_duo.find_elements('g.subplot.x2y2')) == 0
+    assert len(dash_duo.find_elements('g.subplot.x4y4')) == 1
