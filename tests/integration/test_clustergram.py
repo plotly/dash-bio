@@ -1,16 +1,16 @@
-import pandas
 import json
+import pandas as pd
 
 import dash
-import dash_bio
 import dash_html_components as html
+import dash_bio
 
 from common_features import nested_component_layout, \
     nested_component_app_callback
 
 _data = None
 
-_mtcars_data = pandas.read_csv(
+_mtcars_data = pd.read_csv(
     'tests/dashbio_demos/dash-clustergram/data/mtcars.tsv',
     delimiter='\t',
     skiprows=4
@@ -193,7 +193,7 @@ def test_dbcl006_df_input_row_cluster(dash_duo):
 
     # run the same test as dbcl002 (row clustering) where table of
     # observations (data argument) is left as a DataFrame
-    assert isinstance(_mtcars_data, pandas.DataFrame)
+    assert isinstance(_mtcars_data, pd.DataFrame)
     app.layout = html.Div(nested_component_layout(
         dash_bio.Clustergram(
             data=_mtcars_data
