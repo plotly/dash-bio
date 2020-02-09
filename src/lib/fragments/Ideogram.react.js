@@ -99,7 +99,10 @@ export default class Ideogram extends Component {
             stop: homology.chrTwo.stop[1],
         };
 
-        const regions = [{r1: par1X, r2: par1Y}, {r1: par2X, r2: par2Y}];
+        const regions = [
+            {r1: par1X, r2: par1Y},
+            {r1: par2X, r2: par2Y},
+        ];
 
         this.ideogram.drawSynteny(regions);
     }
