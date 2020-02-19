@@ -12,5 +12,5 @@ Encoding: UTF-8
 LazyData: true
 KeepSource: true
 Author: The Plotly Team [aut]
-Maintainer: Ryan Patrick Kyle <ryan@plot.ly>
+Maintainer: Ryan Patrick Kyle <ryan@plotly.com>
 RoxygenNote: 6.1.1

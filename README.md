@@ -11,7 +11,7 @@ Demo:
 [https://dash-gallery.plotly.host/Portal/?search=Bioinformatics](https://dash-gallery.plotly.host/Portal/?search=Bioinformatics)
 
 Documentation:
-[https://dash.plot.ly/dash-bio](https://dash.plot.ly/dash-bio)
+[https://dash.plotly.com/dash-bio](https://dash.plotly.com/dash-bio)
 
 ## Components
 
@@ -46,7 +46,7 @@ The Dash Bio components each fall into one of three categories:
 ## Dash
 
 Learn more about Dash at
-[https://plot.ly/products/dash/](https://plot.ly/products/dash/).
+[https://plotly.com/products/dash/](https://plotly.com/products/dash/).
 
 ## Consulting and OEM
 

@@ -7,5 +7,5 @@
 A suite of components that makes it simpler to analyze and visualize bioinformatics data and interact with them in a Dash application.
 }
 \author{
-\strong{Maintainer}: Ryan Patrick Kyle <ryan@plot.ly>
+\strong{Maintainer}: Ryan Patrick Kyle <ryan@plotly.com>
 }
