@@ -3,7 +3,7 @@ version: 2
 jobs:
     node:
         docker:
-            - image: circleci/python:3.7-stretch-node
+            - image: circleci/python:3.7.5-stretch-node
 
         steps:
             - checkout
@@ -55,7 +55,7 @@ jobs:
 
     python-3.6: &test-template
         docker:
-            - image: circleci/python:3.6-stretch-node-browsers
+            - image: circleci/python:3.6.9-stretch-node-browsers
 
         environment:
             PERCY_ENABLED: True
@@ -120,14 +120,14 @@ jobs:
     python-3.7:
         <<: *test-template
         docker:
-            - image: circleci/python:3.7-stretch-node-browsers
+            - image: circleci/python:3.7.5-stretch-node-browsers
 
         environment:
             PERCY_ENABLED: True
 
     deploy_to_playground:
       docker:
-        - image: circleci/python:3.6-stretch
+        - image: circleci/python:3.6.9-stretch
       working_directory: ~/dash-sample-apps
       steps:
         - checkout
@@ -173,7 +173,7 @@ jobs:
 
     deploy_to_gallery:
       docker:
-        - image: circleci/python:3.6-stretch
+        - image: circleci/python:3.6.9-stretch
       working_directory: ~/dash-sample-apps
       steps:
         - checkout
