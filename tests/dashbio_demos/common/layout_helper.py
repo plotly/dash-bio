@@ -79,7 +79,7 @@ def app_page_layout(page_layout,
                             'View on GitHub'
                         ],
                         href="http://github.com/plotly/dash-bio/"
-                        "blob/master/tests/dashbio_demos/{}/app.py".format(
+                        "blob/master/tests/dashbio_demos/dash-{}/app.py".format(
                             app_name
                         ),
                         style={'color': 'white' if light_logo else 'black',
