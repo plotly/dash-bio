@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.4.7] - 2020-02-21
+### Added
+* [#478](https://github.com/plotly/dash-bio/pull/478) Added support of
+  DataFrame as Clustergram input.
+
 ## [0.4.6] - 2020-01-07
 ### Fixed
 * [#458](https://github.com/plotly/dash-bio/pull/458) Fixed reordering bug of
