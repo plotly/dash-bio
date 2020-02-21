@@ -194,12 +194,15 @@ def get_circos_graph(
             config={
                 'innerRadius': size / 2 - 80,
                 'outerRadius': size / 2 - 40,
-                'ticks': {'display': True, 'labelDenominator': 1000000},
+                'ticks': {
+                    'display': True,
+                    'labelDenominator': 1000000,
+                    'labels': True
+                },
                 'labels': {
-                    'position': 'center',
+                    'position': 'horizontal',
                     'display': True,
                     'size': 11,
-                    'color': '#fff',
                     'radialOffset': 75,
                 },
             },
