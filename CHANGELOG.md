@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.7] -
+## [0.4.7] - 2020-02-21
 ### Added
 * [#478](https://github.com/plotly/dash-bio/pull/478) Added support of
   DataFrame as Clustergram input.
