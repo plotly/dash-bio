@@ -24,7 +24,7 @@
     "build:r": "dash-generate-components ./src/lib/components dash_bio -p package-info.json --r-prefix='dashbio' --r-imports='dash' --r-depends='manhattanly'",
     "build": "npm run build:js && npm run build:py",
     "build:all": "npm run build && npm run build:r",
-    "postbuild": "es-check es6 dash_bio/*.js",
+    "postbuild": "es-check es5 dash_bio/*.js",
     "build:dev": "npm run build:js-dev && npm run build:py"
   },
   "author": "The Plotly Team <dashbio@plot.ly>",
