@@ -107,7 +107,9 @@ jobs:
                     pip install -r tests/requirements.txt
                     npm ci
                     npm run build
-                    pip install -e .
+                    python setup.py sdist
+                    cd dist
+                    find . -name "*.gz" | xargs pip install --no-cache-dir --ignore-installed && cd ..
                     pytest tests/integration
 
             - run:
