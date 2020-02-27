@@ -37,7 +37,6 @@ jobs:
                 command: |
                     python -m venv venv
                     . venv/bin/activate
-                    pip install --upgrade pip
                     pip install dash>=1.6.1
                     npm run build
 
@@ -46,7 +45,6 @@ jobs:
                 command: |
                     python -m venv venv
                     . venv/bin/activate
-                    pip install --upgrade pip
                     pip install dash_bio_utils
                     cd tests/unit
                     python unit_test_data_setup.py
@@ -76,9 +74,8 @@ jobs:
                 name: Install requirements
                 command: |
                     . venv/bin/activate
-                    pip install --upgrade pip
-                    pip install -r tests/requirements.txt --quiet
-                    pip install dash[testing]
+                    pip install --progress-bar off -r tests/requirements.txt --quiet
+                    pip install --progress-bar off dash[testing]
 
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
@@ -103,11 +100,11 @@ jobs:
                 name: Run integration tests
                 command: |
                     . venv/bin/activate
-                    pip install --upgrade pip
-                    pip install -r tests/requirements.txt
                     npm ci
                     npm run build
-                    pip install -e .
+                    python setup.py sdist
+                    cd dist
+                    find . -name "*.gz" | xargs pip install --no-cache-dir --ignore-installed && cd ..
                     pytest tests/integration
 
             - run:
