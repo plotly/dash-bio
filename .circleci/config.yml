@@ -75,7 +75,7 @@ jobs:
                 command: |
                     . venv/bin/activate
                     pip install --progress-bar off -r tests/requirements.txt --quiet
-                    pip install dash[testing]
+                    pip install --progress-bar off dash[testing]
 
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
@@ -100,7 +100,6 @@ jobs:
                 name: Run integration tests
                 command: |
                     . venv/bin/activate
-                    pip install --progress-bar off -r tests/requirements.txt
                     npm ci
                     npm run build
                     python setup.py sdist
