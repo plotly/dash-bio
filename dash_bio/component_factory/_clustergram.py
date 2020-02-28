@@ -244,14 +244,16 @@ Methods:
         if color_threshold is None:
             color_threshold = dict(row=0, col=0)
         if row_labels is None:
-            row_labels = [str(i) for i in range(data.shape[0])]
             hidden_labels.append("row")
+        # Always keep unique identifiers for rows
+        row_ids = list(range(data.shape[0]))
         if column_labels is None:
             column_labels = [str(i) for i in range(data.shape[1])]
             hidden_labels.append("col")
 
         self._data = data
         self._row_labels = row_labels
+        self._row_ids = row_ids
         self._column_labels = column_labels
         self._cluster = cluster
         self._row_dist = row_dist
@@ -359,7 +361,7 @@ Methods:
             (
                 dt,
                 self._data,
-                self._row_labels,
+                self._row_ids,
                 self._column_labels,
             ) = self._compute_clustered_data()
         else:
@@ -367,8 +369,12 @@ Methods:
             # traces (as well as the row and column labels)
             dt = computed_traces["dendro_traces"]
             heatmap = computed_traces["heatmap"]
-            self._row_labels = computed_traces["row_labels"]
+            self._row_ids = computed_traces["row_ids"]
             self._column_labels = computed_traces["column_labels"]
+
+        # Match reordered rows with their labels
+        if self._row_labels:
+            self._row_labels = [self._row_labels[r] for r in self._row_ids]
 
         # this dictionary relates curve numbers (accessible from the
         # hoverData/clickData props) to cluster numbers
@@ -518,7 +524,7 @@ Methods:
         )
 
         if len(tickvals_row) == 0:
-            tickvals_row = [10 * i + 5 for i in range(len(self._row_labels))]
+            tickvals_row = [10 * i + 5 for i in range(len(self._row_ids))]
 
         fig["layout"]["yaxis5"].update(  # pylint: disable=invalid-sequence-index
             tickmode="array",
@@ -676,7 +682,7 @@ Methods:
         computed_traces = {
             "dendro_traces": dt,
             "heatmap": heatmap,
-            "row_labels": self._row_labels,
+            "row_ids": self._row_ids,
             "column_labels": self._column_labels,
         }
 
@@ -747,7 +753,7 @@ Methods:
         (Zcol, Zrow) = self._get_clusters()
 
         clustered_column_labels = self._column_labels
-        clustered_row_labels = self._row_labels
+        clustered_row_ids = self._row_ids
 
         # calculate dendrogram from clusters; sch.dendrogram returns sets
         # of four coordinates that make up the 'u' shapes in the dendrogram
@@ -767,7 +773,7 @@ Methods:
                 Zrow,
                 orientation="left",
                 color_threshold=self._color_threshold["row"],
-                labels=self._row_labels,
+                labels=self._row_ids,
                 no_plot=True,
             )
             # need to flip the coordinates for the row dendrogram
@@ -776,13 +782,13 @@ Methods:
                 "dcoord": Prow["icoord"],
                 "color_list": Prow["color_list"],
             }
-            clustered_row_labels = Prow["ivl"]
+            clustered_row_ids = Prow["ivl"]
             trace_list["row"] = self._color_dendro_clusters(Prow_tmp, "row")
 
         # now, we need to rearrange the data array to fit the labels
 
         # first get reordered indices
-        rl_indices = [self._row_labels.index(r) for r in clustered_row_labels]
+        rl_indices = [self._row_ids.index(r) for r in clustered_row_ids]
         cl_indices = [self._column_labels.index(c) for c in clustered_column_labels]
 
         # modify the data here; first shuffle rows,
@@ -790,7 +796,7 @@ Methods:
         # then transpose again
         clustered_data = self._data[rl_indices].T[cl_indices].T
 
-        return trace_list, clustered_data, clustered_row_labels, clustered_column_labels
+        return trace_list, clustered_data, clustered_row_ids, clustered_column_labels
 
     def _color_dendro_clusters(self, P, dim):
         """Color each cluster below the color threshold separately.
