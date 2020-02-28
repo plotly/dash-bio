@@ -23,7 +23,7 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules\/(?!speck\/|ideogram\/|react-alignment-viewer\/)/,
+                exclude: /node_modules\/(?!3dmol\/|speck\/|ideogram\/|react-alignment-viewer\/)/,
                 use: {
                     loader: 'babel-loader',
                 },
