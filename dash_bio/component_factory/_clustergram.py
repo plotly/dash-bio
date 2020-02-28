@@ -248,13 +248,15 @@ Methods:
         # Always keep unique identifiers for rows
         row_ids = list(range(data.shape[0]))
         if column_labels is None:
-            column_labels = [str(i) for i in range(data.shape[1])]
             hidden_labels.append("col")
+        # Always keep unique identifiers for columns
+        column_ids = list(range(data.shape[1]))
 
         self._data = data
         self._row_labels = row_labels
         self._row_ids = row_ids
         self._column_labels = column_labels
+        self._column_ids = column_ids
         self._cluster = cluster
         self._row_dist = row_dist
         self._col_dist = col_dist
@@ -362,7 +364,7 @@ Methods:
                 dt,
                 self._data,
                 self._row_ids,
-                self._column_labels,
+                self._column_ids,
             ) = self._compute_clustered_data()
         else:
             # use, if available, the precomputed dendrogram and heatmap
@@ -370,11 +372,14 @@ Methods:
             dt = computed_traces["dendro_traces"]
             heatmap = computed_traces["heatmap"]
             self._row_ids = computed_traces["row_ids"]
-            self._column_labels = computed_traces["column_labels"]
+            self._column_ids = computed_traces["column_ids"]
 
-        # Match reordered rows with their labels
+        # Match reordered rows and columns with their respective labels
         if self._row_labels:
             self._row_labels = [self._row_labels[r] for r in self._row_ids]
+        if self._column_labels:
+            self._column_labels = [self._column_labels[r]
+                                   for r in self._column_ids]
 
         # this dictionary relates curve numbers (accessible from the
         # hoverData/clickData props) to cluster numbers
@@ -507,7 +512,7 @@ Methods:
         xaxis2.update(scaleanchor="x5")
 
         if len(tickvals_col) == 0:
-            tickvals_col = [10 * i + 5 for i in range(len(self._column_labels))]
+            tickvals_col = [10 * i + 5 for i in range(len(self._column_ids))]
 
         # add in all of the labels
         fig["layout"]["xaxis5"].update(  # pylint: disable=invalid-sequence-index
@@ -683,7 +688,7 @@ Methods:
             "dendro_traces": dt,
             "heatmap": heatmap,
             "row_ids": self._row_ids,
-            "column_labels": self._column_labels,
+            "column_ids": self._column_ids,
         }
 
         return (fig, computed_traces, cluster_curve_numbers)
@@ -752,7 +757,7 @@ Methods:
         # first, compute the clusters
         (Zcol, Zrow) = self._get_clusters()
 
-        clustered_column_labels = self._column_labels
+        clustered_column_ids = self._column_ids
         clustered_row_ids = self._row_ids
 
         # calculate dendrogram from clusters; sch.dendrogram returns sets
@@ -762,10 +767,10 @@ Methods:
                 Zcol,
                 orientation="top",
                 color_threshold=self._color_threshold["col"],
-                labels=self._column_labels,
+                labels=self._column_ids,
                 no_plot=True,
             )
-            clustered_column_labels = Pcol["ivl"]
+            clustered_column_ids = Pcol["ivl"]
             trace_list["col"] = self._color_dendro_clusters(Pcol, "col")
 
         if Zrow is not None:
@@ -789,14 +794,14 @@ Methods:
 
         # first get reordered indices
         rl_indices = [self._row_ids.index(r) for r in clustered_row_ids]
-        cl_indices = [self._column_labels.index(c) for c in clustered_column_labels]
+        cl_indices = [self._column_ids.index(c) for c in clustered_column_ids]
 
         # modify the data here; first shuffle rows,
         # then transpose and shuffle columns,
         # then transpose again
         clustered_data = self._data[rl_indices].T[cl_indices].T
 
-        return trace_list, clustered_data, clustered_row_ids, clustered_column_labels
+        return trace_list, clustered_data, clustered_row_ids, clustered_column_ids
 
     def _color_dendro_clusters(self, P, dim):
         """Color each cluster below the color threshold separately.
