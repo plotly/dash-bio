@@ -156,6 +156,11 @@ jobs:
             name: Deploy
             command: |
               APPS_MODIFIED=$(git diff origin/master origin/$CIRCLE_BRANCH --dirstat=files,1 tests/dashbio_demos/ | awk '{ split($2,a,"/"); if (length(a[3]) != 0) { print a[3]} } ' | grep dash- | sort -u || true)
+              COMMON_MODIFIED=$(git diff origin/master origin/$CIRCLE_BRANCH --dirstat=files,1 tests/dashbio_demos/common/ | awk '{ split($2,a,"/"); if (length(a[3]) != 0) { print a[3]} } ' | sort -u || true)
+              if [ -n "$COMMON_MODIFIED" ]
+              then
+                APPS_MODIFIED=$(ls tests/dashbio_demos | grep dash- | sort -u)
+              fi
               if [ -z "$APPS_MODIFIED" ]
               then
                     echo "No app change detected. Skipping the deploy.."
