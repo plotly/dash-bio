@@ -66,8 +66,8 @@ Keyword arguments:
    (observation labels).
 - column_labels (list; optional): List of column category labels
    (observation labels).
-- hidden_labels (list; optional): List of labels not to display on the
-    final plot.
+- hidden_labels (list; optional): List containing strings 'row' and/or 'col'
+    if row and/or column labels should be hidden on the final plot.
 - standardize (string; default 'none'): The dimension for standardizing
     values, so that the mean is 0 and the standard deviation is 1,
     along the specified dimension: 'row', 'column', or 'none'.
@@ -162,8 +162,6 @@ Keyword arguments:
 - width (number; default 500): The width of the graph, in px.
 
     """
-    if hidden_labels is None:
-        hidden_labels = []
     if color_threshold is None:
         color_threshold = dict(row=0, col=0)
 
@@ -243,12 +241,8 @@ Methods:
             hidden_labels = []
         if color_threshold is None:
             color_threshold = dict(row=0, col=0)
-        if row_labels is None:
-            hidden_labels.append("row")
         # Always keep unique identifiers for rows
         row_ids = list(range(data.shape[0]))
-        if column_labels is None:
-            hidden_labels.append("col")
         # Always keep unique identifiers for columns
         column_ids = list(range(data.shape[1]))
 
