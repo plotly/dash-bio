@@ -23,7 +23,7 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules\/(?!speck\/|ideogram\/|react-alignment-viewer\/)/,
+                exclude: /node_modules\/(?!3dmol\/|speck\/|ideogram\/|react-alignment-viewer\/)/,
                 use: {
                     loader: 'babel-loader',
                 },
@@ -49,7 +49,7 @@ module.exports = {
                     chunks: 'async',
                     minSize: 0,
                     name(module, chunks, cacheGroupKey) {
-                        return `${cacheGroupKey}~${chunks[0].name}`;
+                        return `${cacheGroupKey}-${chunks[0].name}`;
                     }
                 }
             }
