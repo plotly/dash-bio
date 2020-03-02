@@ -200,7 +200,7 @@ def get_circos_graph(
                     'labels': True
                 },
                 'labels': {
-                    'position': 'horizontal',
+                    'position': 'center',
                     'display': True,
                     'size': 11,
                     'radialOffset': 75,
@@ -232,7 +232,7 @@ def get_circos_graph(
                             'displayValue': True
                         },
                     },
-                },
+                }
             ],
             size=700,
         ),
@@ -810,10 +810,10 @@ def get_circos_graph(
                                 'value': d['name'],
                                 'block_id': d['block_id'],
                             },
-                            filter(
-                                lambda d: d['block_id'] ==
-                                circos_graph_data['GRCh37'][0]['id'],
-                                circos_graph_data['cytobands'],
+                        filter(
+                            lambda d: d['block_id'] ==
+                            circos_graph_data['GRCh37'][0]['id'],
+                            circos_graph_data['cytobands'],
                             ),
                         )
                     ),

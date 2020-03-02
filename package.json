@@ -31,7 +31,7 @@
   "maintainer": "Ryan Patrick Kyle <ryan@plot.ly>",
   "license": "MIT",
   "dependencies": {
-    "circos": "git+https://github.com/matthewchan15/circosJS.git#matthewchan15-zoom-pan-svg",
+    "circos": "file:../circosJS",
     "fast-memoize": "^2.5.1",
     "fornac": "git://github.com/plotly/fornac.git#6b1b84740d35bf37ca7d251e665039a87b4c2ea9",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
