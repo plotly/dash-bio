@@ -8,22 +8,17 @@ jobs:
         steps:
             - checkout
             - run:
-                name: Update Node.js and npm
-                command: |
-                  curl -sSL "https://nodejs.org/dist/v11.10.1/node-v11.10.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v11.10.1-linux-x64/bin/node
-                  curl https://www.npmjs.com/install.sh | sudo bash
-            - run:
                 name: Check current version of node
                 command: node -v
             - restore_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
+                key: deps1-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
             - run:
                 name: Install package.json
                 command: npm ci
 
             - save_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "package.json" }}
+                key: deps1-{{ .Branch }}-{{ checksum "package-lock.json" }}
                 paths:
                     - node_modules
 
@@ -37,7 +32,8 @@ jobs:
                 command: |
                     python -m venv venv
                     . venv/bin/activate
-                    pip install dash>=1.6.1
+                    pip install --upgrade pip
+                    pip install dash[dev]>=1.6.1
                     npm run build
 
             - run:
