@@ -1,5 +1,6 @@
 from .AlignmentChart import AlignmentChart
 from .Circos import Circos
+from .DashNgl import DashNgl
 from .FornaContainer import FornaContainer
 from .Ideogram import Ideogram
 from .Molecule2dViewer import Molecule2dViewer
@@ -12,6 +13,7 @@ from .Speck import Speck
 __all__ = [
     "AlignmentChart",
     "Circos",
+    "DashNgl",
     "FornaContainer",
     "Ideogram",
     "Molecule2dViewer",

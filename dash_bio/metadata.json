@@ -665,6 +665,259 @@
       }
     }
   },
+  "src/lib/components/DashNgl.react.js": {
+    "description": "Dash ngl component",
+    "displayName": "DashNgl",
+    "methods": [
+      {
+        "name": "showStructure",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "stageObj",
+            "type": null
+          },
+          {
+            "name": "chain",
+            "type": null
+          },
+          {
+            "name": "color",
+            "type": null
+          },
+          {
+            "name": "xOffset",
+            "type": null
+          },
+          {
+            "name": "stage",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "loadStructure",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "stage",
+            "type": null
+          },
+          {
+            "name": "filename",
+            "type": null
+          },
+          {
+            "name": "chain",
+            "type": null
+          },
+          {
+            "name": "color",
+            "type": null
+          },
+          {
+            "name": "xOffset",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "processDataFromBackend",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "data",
+            "type": null
+          },
+          {
+            "name": "stage",
+            "type": null
+          },
+          {
+            "name": "structuresList",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "loadData",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "data",
+            "type": null
+          },
+          {
+            "name": "stage",
+            "type": null
+          },
+          {
+            "name": "structuresList",
+            "type": null
+          },
+          {
+            "name": "xOffset",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID used to identify this component in Dash callbacks.",
+        "defaultValue": {
+          "value": "'viewport'",
+          "computed": false
+        }
+      },
+      "viewportStyle": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "CSS styling for viewport container",
+        "defaultValue": {
+          "value": "{\n    width: '100%',\n    height: '500px',\n}",
+          "computed": false
+        }
+      },
+      "stageParameters": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Parameters for the stage",
+        "defaultValue": {
+          "value": "{\n    quality: 'medium',\n    backgroundColor: 'white',\n}",
+          "computed": false
+        }
+      },
+      "data": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "shape",
+                "value": {
+                  "selectedValue": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "chain": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "color": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "filename": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "ext": {
+                    "name": "string",
+                    "required": false
+                  },
+                  "config": {
+                    "name": "shape",
+                    "value": {
+                      "type": {
+                        "name": "string",
+                        "required": true
+                      },
+                      "input": {
+                        "name": "union",
+                        "value": [
+                          {
+                            "name": "array"
+                          },
+                          {
+                            "name": "object"
+                          },
+                          {
+                            "name": "string"
+                          }
+                        ],
+                        "required": false
+                      }
+                    },
+                    "required": false
+                  }
+                }
+              }
+            },
+            {
+              "name": "shape",
+              "value": {
+                "selectedValue": {
+                  "name": "string",
+                  "required": true
+                },
+                "chain": {
+                  "name": "string",
+                  "required": true
+                },
+                "color": {
+                  "name": "string",
+                  "required": true
+                },
+                "filename": {
+                  "name": "string",
+                  "required": true
+                },
+                "ext": {
+                  "name": "string",
+                  "required": false
+                },
+                "config": {
+                  "name": "shape",
+                  "value": {
+                    "type": {
+                      "name": "string",
+                      "required": true
+                    },
+                    "input": {
+                      "name": "union",
+                      "value": [
+                        {
+                          "name": "array"
+                        },
+                        {
+                          "name": "object"
+                        },
+                        {
+                          "name": "string"
+                        }
+                      ],
+                      "required": false
+                    }
+                  },
+                  "required": false
+                }
+              }
+            }
+          ]
+        },
+        "required": false,
+        "description": "Custom property"
+      }
+    }
+  },
   "src/lib/components/FornaContainer.react.js": {
     "description": "FornaContainer is a force-directed graph that is used to visualize\nthe secondary structure of biomolecules. It is based on the fornac\nlibrary (https://github.com/ViennaRNA/fornac).",
     "displayName": "FornaContainer",

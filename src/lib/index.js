@@ -9,6 +9,7 @@ import NeedlePlot from './components/NeedlePlot.react';
 import OncoPrint from './components/OncoPrint.react';
 import SequenceViewer from './components/SequenceViewer.react';
 import Speck from './components/Speck.react';
+import DashNgl from './components/DashNgl.react';
 
 export {
     AlignmentChart,
@@ -21,4 +22,5 @@ export {
     OncoPrint,
     SequenceViewer,
     Speck,
+    DashNgl,
 };
