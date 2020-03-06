@@ -70,7 +70,7 @@ jobs:
                 name: Install requirements
                 command: |
                     . venv/bin/activate
-                    pip install --progress-bar off -r tests/requirements.txt --quiet
+                    pip install --progress-bar off -r tests/requirements.txt
                     pip install --progress-bar off dash[testing]
 
             - save_cache:
