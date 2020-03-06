@@ -88,9 +88,7 @@ def layout():
                 children=[html.H1("NGL Protein Structure Viewer")],
                 style={"backgroundColor": "#3aaab2", "height": "7vh"},
             ),
-            viewer,
-            # if you use dcc.Loading viewer the app goes into a mount loop!
-            # dcc.Loading(viewer),
+            dcc.Loading(viewer),
             dcc.Tabs(
                 id="tabs",
                 children=[
@@ -189,7 +187,6 @@ def callbacks(_app):
     def display_output(selection):
 
         data = []
-        print(selection)
 
         if selection is None:
             data.append(data_dict)
