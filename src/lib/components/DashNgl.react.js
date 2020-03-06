@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {Stage, Selection} from 'ngl';
 
 /**
- * The Molecule3dViewer component is used to render schematic diagrams
- * of biomolecules. It displays them in ribbon-structure diagrams
+ * The NGL component is used to render schematic diagrams
+ * of biomolecules in ribbon-structure representations.
  * Read more about the component here:
  * https://github.com/IvoLeist/dash_ngl
  * Read more about the used WebGL protein viewer here:
@@ -209,7 +209,7 @@ DashNgl.propTypes = {
      * The data that will be used to display the molecule in 3D
      * The data will be in JSON format
      */
-    data: PropTypes.exact([
+    data: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.shape(dataPropShape)),
         PropTypes.shape(dataPropShape),
     ]),
