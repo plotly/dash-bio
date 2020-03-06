@@ -666,7 +666,7 @@
     }
   },
   "src/lib/components/DashNgl.react.js": {
-    "description": "Dash ngl component",
+    "description": "The Molecule3dViewer component is used to render schematic diagrams\nof biomolecules. It displays them in ribbon-structure diagrams\nRead more about the component here:\nhttps://github.com/IvoLeist/dash_ngl\nRead more about the used WebGL protein viewer here:\nhttps://github.com/arose/ngl",
     "displayName": "DashNgl",
     "methods": [
       {
@@ -759,10 +759,6 @@
             "type": null
           },
           {
-            "name": "structuresList",
-            "type": null
-          },
-          {
             "name": "xOffset",
             "type": null
           }
@@ -776,7 +772,7 @@
           "name": "string"
         },
         "required": false,
-        "description": "The ID used to identify this component in Dash callbacks.",
+        "description": "The ID of this component, used to identify dash components in\ncallbacks. The ID needs to be unique across all of the\ncomponents in an app.",
         "defaultValue": {
           "value": "'viewport'",
           "computed": false
@@ -787,7 +783,7 @@
           "name": "object"
         },
         "required": false,
-        "description": "CSS styling for viewport container",
+        "description": "The height (in px) and the width (in %) of the container\nin which the molecules will be displayed.\nIt should be in JSON format",
         "defaultValue": {
           "value": "{\n    width: '100%',\n    height: '500px',\n}",
           "computed": false
@@ -798,7 +794,7 @@
           "name": "object"
         },
         "required": false,
-        "description": "Parameters for the stage",
+        "description": "Parameters for the stage object of ngl.\nCurrently implemented are the quality of the visualisation\nand the background color.For a full list see:\nhttp://nglviewer.org/ngl/api/file/src/stage/stage.js.html",
         "defaultValue": {
           "value": "{\n    quality: 'medium',\n    backgroundColor: 'white',\n}",
           "computed": false
@@ -806,115 +802,12 @@
       },
       "data": {
         "type": {
-          "name": "union",
-          "value": [
-            {
-              "name": "arrayOf",
-              "value": {
-                "name": "shape",
-                "value": {
-                  "selectedValue": {
-                    "name": "string",
-                    "required": true
-                  },
-                  "chain": {
-                    "name": "string",
-                    "required": true
-                  },
-                  "color": {
-                    "name": "string",
-                    "required": true
-                  },
-                  "filename": {
-                    "name": "string",
-                    "required": true
-                  },
-                  "ext": {
-                    "name": "string",
-                    "required": false
-                  },
-                  "config": {
-                    "name": "shape",
-                    "value": {
-                      "type": {
-                        "name": "string",
-                        "required": true
-                      },
-                      "input": {
-                        "name": "union",
-                        "value": [
-                          {
-                            "name": "array"
-                          },
-                          {
-                            "name": "object"
-                          },
-                          {
-                            "name": "string"
-                          }
-                        ],
-                        "required": false
-                      }
-                    },
-                    "required": false
-                  }
-                }
-              }
-            },
-            {
-              "name": "shape",
-              "value": {
-                "selectedValue": {
-                  "name": "string",
-                  "required": true
-                },
-                "chain": {
-                  "name": "string",
-                  "required": true
-                },
-                "color": {
-                  "name": "string",
-                  "required": true
-                },
-                "filename": {
-                  "name": "string",
-                  "required": true
-                },
-                "ext": {
-                  "name": "string",
-                  "required": false
-                },
-                "config": {
-                  "name": "shape",
-                  "value": {
-                    "type": {
-                      "name": "string",
-                      "required": true
-                    },
-                    "input": {
-                      "name": "union",
-                      "value": [
-                        {
-                          "name": "array"
-                        },
-                        {
-                          "name": "object"
-                        },
-                        {
-                          "name": "string"
-                        }
-                      ],
-                      "required": false
-                    }
-                  },
-                  "required": false
-                }
-              }
-            }
-          ]
+          "name": "exact",
+          "value": "[\n    PropTypes.arrayOf(PropTypes.shape(dataPropShape)),\n    PropTypes.shape(dataPropShape),\n]",
+          "computed": true
         },
         "required": false,
-        "description": "Custom property"
+        "description": "The data that will be used to display the molecule in 3D\nThe data will be in JSON format"
       }
     }
   },

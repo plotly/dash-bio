@@ -1,17 +1,17 @@
-import os,glob
+import os
+import glob
 
-import dash
 from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_core_components as dcc
-import dash_daq as daq
-import dashbio
+import dash_bio
 
 try:
     from layout_helper import run_standalone_app
 except ModuleNotFoundError:
     from .layout_helper import run_standalone_app
 
+# Preset colors for the shown molecules
 color_list = [
     "#e41a1c",
     "#377eb8",
@@ -24,6 +24,7 @@ color_list = [
     "#999999",
 ]
 
+# Placeholder which is loaded if no molecule is selected
 data_dict = {
     "selectedValue": "placeholder",
     "chain": "ALL",
@@ -33,6 +34,9 @@ data_dict = {
     "config": {"type": "", "input": ""},
 }
 
+# PDB examples
+# . indicates that only one chain should be shown
+# _ indicates that more than one protein should be shown
 dropdown_options = [
     "1PNK",
     "5L73",
@@ -48,48 +52,11 @@ dropdown_options = [
     "2MRU_1BNA",
 ]
 
-# custom functions
-def getData(selection, pdb_id, color):
-
-    chain = "ALL"
-
-    # check if only one chain should be displayed
-    if "." in pdb_id:
-        pdb_id, chain = pdb_id.split(".")
-
-    # get path to protein structure
-    fname = [f for f in glob.glob("data/" + pdb_id + ".*")][0]
-
-    ext = fname.split(".")[-1]
-    with open(fname, "r") as f:
-        contents = f.read()
-
-    return {
-        "selectedValue": selection,
-        "chain": chain,
-        "color": color,
-        "filename": fname.split("/")[-1],
-        "ext": ext,
-        "config": {"type": "text/plain", "input": contents},
-    }
-
-
-###Define app layout
-label_width = 4
-col_width = 8
-
 styles = {"tab": {"height": "calc(98vh - 115px)"}}
 
-theme = {
-    "dark": True,
-    "detail": "#007439",
-    "primary": "#00EA64",
-    "secondary": "#6E6E6E",
-}
-
-##NGL viewer
+# Canvas container to display the structures
 viewer = html.Div(
-    [dashbio.DashNgl(id="viewport", data=data_dict)],
+    [dash_bio.DashNgl(id="viewport", data=data_dict)],
     style={
         "display": "inline-block",
         "width": "calc(100% - 500px)",
@@ -98,6 +65,7 @@ viewer = html.Div(
         "marginRight": "50px",
     },
 )
+
 
 def header_colors():
     return {
@@ -111,10 +79,11 @@ def description():
            'biomolecules such as proteins, DNA and RNA. Includes ' \
            'stick, cartoon, and sphere representations.'
 
+
 def layout():
+
     return html.Div(
-        [
-            # header
+        children=[
             html.Div(
                 children=[html.H1("NGL Protein Structure Viewer")],
                 style={"backgroundColor": "#3aaab2", "height": "7vh"},
@@ -128,12 +97,7 @@ def layout():
                     dcc.Tab(
                         label="Data",
                         children=[
-                            # daq.ToggleSwitch(
-                            #     id='toggle-theme',
-                            #     label=['Light', 'Dark'],
-                            #     style={'width': '250px', 'margin': 'auto'},
-                            #     value=False
-                            # ),
+                            # Dropdown to select the molecule
                             html.Div(
                                 [
                                     dcc.Dropdown(
@@ -146,7 +110,8 @@ def layout():
                                         placeholder="Select a molecule",
                                     )
                                 ],
-                                style={"width": "100%", "display": "inline-block"},
+                                style={"width": "100%",
+                                       "display": "inline-block"},
                             ),
                         ],
                     ),
@@ -154,18 +119,24 @@ def layout():
                         label="View",
                         children=[
                             html.Div(
-                                style=styles["tab"],
+                                style={"height": "calc(98vh - 115px)"},
                                 children=[
+                                    # Dropdown to select the camera settings
+                                    # (perspective, orthographic
                                     html.Div(["Camera settings"]),
                                     dcc.Dropdown(
                                         id="stage-camera-type",
                                         options=[
-                                            {"label": k.capitalize(), "value": k}
-                                            for k in ["perspective", "orthographic"]
+                                            {"label": k.capitalize(),
+                                             "value": k}
+                                            for k in ["perspective",
+                                                      "orthographic"]
                                         ],
                                         value="perspective",
                                     ),
                                     html.Div(["Background"]),
+                                    # Dropdown to select the background
+                                    # (white, black)
                                     dcc.Dropdown(
                                         id="stage-bg-color",
                                         options=[
@@ -183,20 +154,35 @@ def layout():
         ]
     )
 
-# ################################# APP LAYOUT ################################
-app.layout = html.Div(
-    id="dark-theme-container",
-    children=[
-        html.Div(
-            id="dark-theme-components",
-            children=[daq.DarkThemeProvider(theme=theme, children=rootLayout)],
-        )
-    ],
-)
 
-def callbacks(app):
-##CB viewport
-    @app.callback(
+# Function to load the data from the folder data/
+def get_data(selection, pdb_id, color):
+    chain = "ALL"
+
+    # Check if only one chain should be shown
+    if "." in pdb_id:
+        pdb_id, chain = pdb_id.split(".")
+
+    fname = [f for f in glob.glob("data/" + pdb_id + ".*")][0]
+
+    ext = fname.split(".")[-1]
+    with open(fname, "r") as f:
+        contents = f.read()
+
+    return {
+        "selectedValue": selection,
+        "chain": chain,
+        "color": color,
+        "filename": fname.split("/")[-1],
+        "ext": ext,
+        "config": {"type": "text/plain", "input": contents},
+    }
+
+
+def callbacks(_app):
+
+    # Callback for molecule visualization based on the dropdown selection
+    @_app.callback(
         [Output("viewport", "data")],
         [Input("pdb-dropdown", "value")]
     )
@@ -205,29 +191,31 @@ def callbacks(app):
         data = []
         print(selection)
 
-        if selection == None:
+        if selection is None:
             data.append(data_dict)
         else:
+            # Check if more than one molecule should be shown
             if "_" in selection:
                 for i, pdb_id in enumerate(selection.split("_")):
-                    data.append(getData(selection, pdb_id, color_list[i]))
+                    data.append(get_data(selection, pdb_id, color_list[i]))
             else:
                 pdb_id = selection
-                data.append(getData(selection, pdb_id, color_list[0]))
+                data.append(get_data(selection, pdb_id, color_list[0]))
 
         return data
 
-
-    # CB stage
-    @app.callback(
+    # Callback for updating bg-color and camera-type
+    @_app.callback(
         Output("viewport", "stageParameters"),
-        [Input("stage-bg-color", "value"), Input("stage-camera-type", "value")],
+        [Input("stage-bg-color", "value"),
+         Input("stage-camera-type", "value")],
     )
     def update_stage(bgcolor, camera_type):
         return {
             "backgroundColor": bgcolor,
             "cameraType": camera_type,
         }
+
 
 # only declare app/server if the file is being run directly
 if 'DEMO_STANDALONE' not in os.environ:

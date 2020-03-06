@@ -3,31 +3,28 @@ import PropTypes from 'prop-types';
 import {Stage, Selection} from 'ngl';
 
 /**
- * Dash ngl component
+ * The Molecule3dViewer component is used to render schematic diagrams
+ * of biomolecules. It displays them in ribbon-structure diagrams
+ * Read more about the component here:
+ * https://github.com/IvoLeist/dash_ngl
+ * Read more about the used WebGL protein viewer here:
+ * https://github.com/arose/ngl
  */
 export default class DashNgl extends Component {
-    // constructor might not be needed anylonger:
-    // https://hackernoon.com/the-constructor-is-dead-long-live-the-constructor-c10871bea599
     constructor(props) {
         super(props);
         this.state = {stage: null, structuresList: []};
-        console.log(this.props);
-        console.log(this.state);
     }
 
-    // called after the component is rendered
     componentDidMount() {
         const {id, stageParameters} = this.props;
         const params = {...stageParameters};
-        console.log(params);
 
         const stage = new Stage(id, params);
 
         this.setState({stage});
-        console.log('component did mount');
     }
 
-    // triggered by any update of the DOM (e.g. new dropdown selection)
     shouldComponentUpdate(nextProps) {
         const {stageParameters} = this.props;
 
@@ -39,23 +36,17 @@ export default class DashNgl extends Component {
         const oldSelection = this.props.data[0].selectedValue;
         const newSelection = nextProps.data[0].selectedValue;
 
-        // check for stage params changed
         if (stageParameters !== nextProps.stageParameters) {
-            // console.log("stage params changed")
-            // this.stage.setParameters(stageParameters)
             return true;
         }
 
-        // check if pdb selection has changed
         if (oldSelection !== newSelection) {
             return true;
         }
         return false;
     }
 
-    // called only if shouldComponentUpdate evaluates to true
     componentDidUpdate() {
-        console.log('updated');
         const {data, stageParameters} = this.props;
         const {stage, structuresList} = this.state;
 
@@ -63,10 +54,7 @@ export default class DashNgl extends Component {
 
         const newSelection = data[0].selectedValue;
 
-        console.log(structuresList);
-
         if (newSelection !== 'placeholder') {
-            // console.log(newSelection)
             stage.eachComponent(function(comp) {
                 comp.removeAllRepresentations();
             });
@@ -75,24 +63,12 @@ export default class DashNgl extends Component {
         }
     }
 
-    // helper functions which styles the output of loadStructure/loadData
+    // styles the output of loadStructure/loadData
     showStructure(stageObj, chain, color, xOffset, stage) {
-        // console.log(chain)
-
         if (chain !== 'ALL') {
             const selection = new Selection(':' + chain);
             const pa = stageObj.structure.getPrincipalAxes(selection);
 
-            console.log(stageObj.getBox());
-            console.log(stageObj.getBox(':' + chain));
-            // delete the invisble elements ?
-
-            console.log(selection);
-            console.log(pa);
-            console.log(pa.getRotationQuaternion());
-
-            // stageObj.addRepresentation("cartoon",{color:'grey'})
-            console.log(color);
             stageObj.addRepresentation('cartoon', {
                 sele: ':' + chain,
                 color: color,
@@ -101,36 +77,28 @@ export default class DashNgl extends Component {
 
             // translate by x angstrom along chosen axis
             stageObj.setPosition([xOffset, 0, 0]);
-            // stage.animationControls.rotate(pa.getRotationQuaternion(),1500)
         } else {
             stageObj.addRepresentation('cartoon');
         }
         stage.animationControls.moveComponent(stageObj, stageObj.getCenter());
-        // stage.autoView()
     }
 
-    // If user has selected structure already just add the new Representation
+    // If user has selected structure load it from the browser
     loadStructure(stage, filename, chain, color, xOffset) {
-        console.log('load from browser');
-        // console.log(filename)
         const stageObj = stage.getComponentsByName(filename).list[0];
         this.showStructure(stageObj, chain, color, xOffset, stage);
     }
 
     // If not load the structure from the backend
     processDataFromBackend(data, stage, structuresList) {
-        // console.log('processDataFromBackend')
-
         const xval1 = 0;
         const xval2 = 100;
         const xval3 = 200;
         const xval4 = 300;
 
         const xOffsetArr = [xval1, xval2, xval3, xval4];
-        // loop over list of structures:
         for (var i = 0; i < data.length; i++) {
             const filename = data[i].filename;
-            // check if already loaded
             if (structuresList.includes(filename)) {
                 this.loadStructure(
                     stage,
@@ -140,24 +108,16 @@ export default class DashNgl extends Component {
                     xOffsetArr[i]
                 );
             } else {
-                // load from backend
-                this.loadData(data[i], stage, structuresList, xOffsetArr[i]);
+                this.loadData(data[i], stage, xOffsetArr[i]);
             }
         }
         const center = stage.getCenter();
-        const zoom = stage.getZoom();
-        // https://www.youtube.com/watch?v=L8CDt1J3DAw beyond console.log in 100sec
-        console.log({center}, {zoom});
-
-        // stage.autoView()
-        // change zoom depending on sub units
         const newZoom = -500;
         const duration = 1000;
         stage.animationControls.zoomMove(center, newZoom, duration);
     }
 
-    loadData(data, stage, structuresList, xOffset) {
-        console.log('load from backend');
+    loadData(data, stage, xOffset) {
         const stringBlob = new Blob([data.config.input], {
             type: data.config.type,
         });
@@ -178,7 +138,6 @@ export default class DashNgl extends Component {
                         data.filename,
                     ]),
                 }));
-                console.log(this.state);
             });
     }
 
@@ -225,25 +184,32 @@ DashNgl.defaultProps = {
 
 DashNgl.propTypes = {
     /**
-     * The ID used to identify this component in Dash callbacks.
+     * The ID of this component, used to identify dash components in
+     * callbacks. The ID needs to be unique across all of the
+     * components in an app.
      */
     id: PropTypes.string,
 
     /**
-     * CSS styling for viewport container
+     * The height (in px) and the width (in %) of the container
+     * in which the molecules will be displayed.
+     * It should be in JSON format
      */
     viewportStyle: PropTypes.object,
 
     /**
-     * Parameters for the stage
+     * Parameters for the stage object of ngl.
+     * Currently implemented are the quality of the visualisation
+     * and the background color.For a full list see:
+     * http://nglviewer.org/ngl/api/file/src/stage/stage.js.html
      */
     stageParameters: PropTypes.object,
 
     /**
-     * Custom property
+     * The data that will be used to display the molecule in 3D
+     * The data will be in JSON format
      */
-    data: PropTypes.oneOfType([
-        // enumerating the types of values the component can accept
+    data: PropTypes.exact([
         PropTypes.arrayOf(PropTypes.shape(dataPropShape)),
         PropTypes.shape(dataPropShape),
     ]),
