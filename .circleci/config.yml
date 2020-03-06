@@ -59,7 +59,7 @@ jobs:
             - run: echo $PYVERSION > ver.txt
 
             - restore_cache:
-                key: deps3-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
+                key: deps4-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
 
             - run:
                 name: Create virtualenv
@@ -71,10 +71,10 @@ jobs:
                 command: |
                     . venv/bin/activate
                     pip install --progress-bar off -r tests/requirements.txt
-                    pip install --progress-bar off dash[testing]
+                    pip install --progress-bar off dash[dev,testing]
 
             - save_cache:
-                key: deps3-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
+                key: deps4-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}
                 paths:
                     - venv
 
