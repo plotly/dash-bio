@@ -4,4 +4,3 @@
 chromedriver-binary==2.45.0
 flake8==3.6.0
 ipdb==0.11
-pylint==2.3.0
