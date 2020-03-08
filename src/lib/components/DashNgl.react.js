@@ -27,19 +27,14 @@ export default class DashNgl extends Component {
     shouldComponentUpdate(nextProps) {
         const {stageParameters} = this.props;
 
-        console.log('should comp update');
-        console.log(this.props.data);
-
         // when the app is starting data is not correctly interpreted as an array
         // but after a few seconds it is therefore this if-else statement
         if (Array.isArray(this.props.data) === false) {
-            console.log('not an array');
             return false;
         }
         const oldSelection = this.props.data[0].selectedValue;
         const newSelection = nextProps.data[0].selectedValue;
 
-        console.log({oldSelection, newSelection});
         if (oldSelection !== newSelection) {
             return true;
         }

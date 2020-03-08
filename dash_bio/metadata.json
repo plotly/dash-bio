@@ -666,7 +666,7 @@
     }
   },
   "src/lib/components/DashNgl.react.js": {
-    "description": "The Molecule3dViewer component is used to render schematic diagrams\nof biomolecules. It displays them in ribbon-structure diagrams\nRead more about the component here:\nhttps://github.com/IvoLeist/dash_ngl\nRead more about the used WebGL protein viewer here:\nhttps://github.com/arose/ngl",
+    "description": "The NGL component is used to render schematic diagrams\nof biomolecules in ribbon-structure representations.\nRead more about the component here:\nhttps://github.com/IvoLeist/dash_ngl\nRead more about the used WebGL protein viewer here:\nhttps://github.com/arose/ngl",
     "displayName": "DashNgl",
     "methods": [
       {
@@ -798,9 +798,94 @@
       },
       "data": {
         "type": {
-          "name": "exact",
-          "value": "[\n    PropTypes.arrayOf(PropTypes.shape(dataPropShape)),\n    PropTypes.shape(dataPropShape),\n]",
-          "computed": true
+          "name": "union",
+          "value": [
+            {
+              "name": "arrayOf",
+              "value": {
+                "name": "shape",
+                "value": {
+                  "selectedValue": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "chain": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "color": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "filename": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "ext": {
+                    "name": "string",
+                    "required": false
+                  },
+                  "config": {
+                    "name": "shape",
+                    "value": {
+                      "type": {
+                        "name": "string",
+                        "required": true
+                      },
+                      "input": {
+                        "name": "exact",
+                        "value": "[\n    PropTypes.array,\n    PropTypes.object,\n    PropTypes.string,\n]",
+                        "computed": true,
+                        "required": false
+                      }
+                    },
+                    "required": false
+                  }
+                }
+              }
+            },
+            {
+              "name": "shape",
+              "value": {
+                "selectedValue": {
+                  "name": "string",
+                  "required": true
+                },
+                "chain": {
+                  "name": "string",
+                  "required": true
+                },
+                "color": {
+                  "name": "string",
+                  "required": true
+                },
+                "filename": {
+                  "name": "string",
+                  "required": true
+                },
+                "ext": {
+                  "name": "string",
+                  "required": false
+                },
+                "config": {
+                  "name": "shape",
+                  "value": {
+                    "type": {
+                      "name": "string",
+                      "required": true
+                    },
+                    "input": {
+                      "name": "exact",
+                      "value": "[\n    PropTypes.array,\n    PropTypes.object,\n    PropTypes.string,\n]",
+                      "computed": true,
+                      "required": false
+                    }
+                  },
+                  "required": false
+                }
+              }
+            }
+          ]
         },
         "required": false,
         "description": "The data that will be used to display the molecule in 3D\nThe data will be in JSON format"

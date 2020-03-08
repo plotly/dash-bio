@@ -193,15 +193,10 @@ def callbacks(_app):
 
     # Callback for molecule visualization based on the dropdown selection
     @_app.callback(
-<<<<<<< HEAD
         Output('viewport', 'data'),
         [Input('pdb-dropdown', 'value'),
          Input('button', 'n_clicks')],
         [State('pdb-string', 'value')]
-=======
-        Output("viewport", "data"),
-        [Input("pdb-dropdown", "value")]
->>>>>>> a7e8b95c14517a4eb0e4aad09f6c0036136d29d8
     )
     def display_output(selection, n_clicks, value):
 
