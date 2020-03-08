@@ -5,7 +5,7 @@ from dash.development.base_component import Component, _explicitize_args
 
 class DashNgl(Component):
     """A DashNgl component.
-The NGL component is used to render schematic diagrams
+The Molecule3dViewer is used to render schematic diagrams
 of biomolecules in ribbon-structure representations.
 Read more about the component here:
 https://github.com/IvoLeist/dash_ngl
@@ -29,28 +29,8 @@ It should be in JSON format
 Currently implemented are the quality of the visualisation
 and the background color.For a full list see:
 http://nglviewer.org/ngl/api/file/src/stage/stage.js.html
-- data (dict; optional): The data that will be used to display the molecule in 3D
-The data will be in JSON format. data has the following type: list of dicts containing keys 'selectedValue', 'chain', 'color', 'filename', 'ext', 'config'.
-Those keys have the following types:
-  - selectedValue (string; required)
-  - chain (string; required)
-  - color (string; required)
-  - filename (string; required)
-  - ext (string; optional)
-  - config (dict; optional): config has the following type: dict containing keys 'type', 'input'.
-Those keys have the following types:
-  - type (string; required)
-  - input (optional) | dict containing keys 'selectedValue', 'chain', 'color', 'filename', 'ext', 'config'.
-Those keys have the following types:
-  - selectedValue (string; required)
-  - chain (string; required)
-  - color (string; required)
-  - filename (string; required)
-  - ext (string; optional)
-  - config (dict; optional): config has the following type: dict containing keys 'type', 'input'.
-Those keys have the following types:
-  - type (string; required)
-  - input (optional)
+- data (optional): The data that will be used to display the molecule in 3D
+The data will be in JSON format
 - pdbString (string; optional): Variable which defines how many molecules should be shown and/or which chain
 The following format needs to be used:
 pdbID1.chain_pdbID2.chain

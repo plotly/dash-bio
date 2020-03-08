@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Stage, Selection} from 'ngl';
 
 /**
- * The NGL component is used to render schematic diagrams
+ * The Molecule3dViewer is used to render schematic diagrams
  * of biomolecules in ribbon-structure representations.
  * Read more about the component here:
  * https://github.com/IvoLeist/dash_ngl
@@ -83,7 +83,7 @@ export default class DashNgl extends Component {
         stage.animationControls.moveComponent(stageObj, stageObj.getCenter());
     }
 
-    // If user has selected structure load it from the browser
+    // If user has selected structure already used before load it from the browser
     loadStructure(stage, filename, chain, color, xOffset) {
         const stageObj = stage.getComponentsByName(filename).list[0];
         this.showStructure(stageObj, chain, color, xOffset, stage);
@@ -209,7 +209,7 @@ DashNgl.propTypes = {
      * The data that will be used to display the molecule in 3D
      * The data will be in JSON format
      */
-    data: PropTypes.oneOfType([
+    data: PropTypes.exact([
         PropTypes.arrayOf(PropTypes.shape(dataPropShape)),
         PropTypes.shape(dataPropShape),
     ]),
