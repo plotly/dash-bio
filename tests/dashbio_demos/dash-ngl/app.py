@@ -1,7 +1,7 @@
 import os
 import glob
 
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bio
@@ -24,6 +24,20 @@ color_list = [
     "#999999",
 ]
 
+# PDB examples
+# . indicates that only one chain should be shown
+# _ indicates that more than one protein should be shown
+dropdown_options = [
+    "1PNK",
+    "5L73",
+    "4GWM",
+    "3L9P",
+    "6CHG",
+    "3K8P",
+    "2MRU",
+    "1BNA",
+]
+
 # Placeholder which is loaded if no molecule is selected
 data_dict = {
     "selectedValue": "placeholder",
@@ -34,29 +48,15 @@ data_dict = {
     "config": {"type": "", "input": ""},
 }
 
-# PDB examples
-# . indicates that only one chain should be shown
-# _ indicates that more than one protein should be shown
-dropdown_options = [
-    "1PNK",
-    "5L73",
-    "4GWM",
-    "3L9P",
-    "5L73.A_4GWM.A_3L9P.A",
-    "6CHG",
-    "6CHG.A",
-    "3K8P",
-    "6CHG.A_3K8P.D",
-    "2MRU",
-    "1BNA",
-    "2MRU_1BNA",
-]
-
-styles = {"tab": {"height": "calc(98vh - 115px)"}}
-
 # Canvas container to display the structures
 viewer = html.Div(
-    [dash_bio.DashNgl(id="viewport", data=data_dict)],
+    id='ngl-viewer-stage',
+    children=[
+        dash_bio.DashNgl(
+            id="viewport",
+            data=data_dict
+            )
+        ],
     style={
         "display": "inline-block",
         "width": "calc(100% - 500px)",
@@ -83,14 +83,18 @@ def description():
 def layout():
 
     return html.Div(
+        id='ngl-body',
+        className='app-body',
         children=[
             html.Div(
+                id='ngl-viewer-container',
                 children=[html.H1("NGL Protein Structure Viewer")],
                 style={"backgroundColor": "#3aaab2", "height": "7vh"},
             ),
             dcc.Loading(viewer),
             dcc.Tabs(
-                id="tabs",
+                id="ngl-control-tabs",
+                classname='control-tabs',
                 children=[
                     dcc.Tab(
                         label="Data",
@@ -106,7 +110,12 @@ def layout():
                                             for k in dropdown_options
                                         ],
                                         placeholder="Select a molecule",
-                                    )
+                                    ),
+                                    dcc.Input(
+                                        id="pdb-string",
+                                        placeholder="pdbID1.chain_pdbID2.chain"
+                                    ),
+                                    html.Button('Submit', id='button')
                                 ],
                                 style={"width": "100%",
                                        "display": "inline-block"},
@@ -155,50 +164,61 @@ def layout():
 
 # Function to load the data from the folder data/
 def get_data(selection, pdb_id, color):
+
     chain = "ALL"
+
+    # Initialize the dictionary with placeholder values
+    data = data_dict
 
     # Check if only one chain should be shown
     if "." in pdb_id:
         pdb_id, chain = pdb_id.split(".")
 
-    fname = [f for f in glob.glob("data/" + pdb_id + ".*")][0]
+    if pdb_id in dropdown_options:
+        fname = [f for f in glob.glob("data/" + pdb_id + ".*")][0]
 
-    ext = fname.split(".")[-1]
-    with open(fname, "r") as f:
-        contents = f.read()
+        data["selectedValue"] = selection
+        data["chain"] = chain
+        data["color"] = color
+        data["filename"] = fname.split("/")[-1]
+        data["ext"] = fname.split(".")[-1]
 
-    return {
-        "selectedValue": selection,
-        "chain": chain,
-        "color": color,
-        "filename": fname.split("/")[-1],
-        "ext": ext,
-        "config": {"type": "text/plain", "input": contents},
-    }
+        with open(fname, "r") as f:
+            data["config"]["input"] = f.read()
+
+    return data
 
 
 def callbacks(_app):
 
     # Callback for molecule visualization based on the dropdown selection
     @_app.callback(
-        [Output("viewport", "data")],
-        [Input("pdb-dropdown", "value")]
+        Output('viewport', 'data'),
+        [Input('pdb-dropdown', 'value'),
+         Input('button', 'n_clicks')],
+        [State('pdb-string', 'value')]
     )
-    def display_output(selection):
+    def display_output(selection, n_clicks, value):
 
         data = []
 
-        if selection is None:
+        if selection is None and value is None:
             data.append(data_dict)
-        else:
-            # Check if more than one molecule should be shown
-            if "_" in selection:
-                for i, pdb_id in enumerate(selection.split("_")):
-                    data.append(get_data(selection, pdb_id, color_list[i]))
-            else:
-                pdb_id = selection
-                data.append(get_data(selection, pdb_id, color_list[0]))
 
+        elif selection is not None and value is None:
+            pdb_id = selection
+            data.append(get_data(selection, pdb_id, color_list[0]))
+
+        elif value is not None and n_clicks > 0:
+            if len(value) > 4:
+                pdb_id = value
+                if "_" in value:
+                    for i, pdb_id in enumerate(value.split("_")):
+                        data.append(get_data(value, pdb_id, color_list[i]))
+                else:
+                    data.append(get_data(value, pdb_id, color_list[0]))
+            else:
+                data.append(data_dict)
         return data
 
     # Callback for updating bg-color and camera-type

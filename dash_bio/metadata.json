@@ -772,11 +772,7 @@
           "name": "string"
         },
         "required": false,
-        "description": "The ID of this component, used to identify dash components in\ncallbacks. The ID needs to be unique across all of the\ncomponents in an app.",
-        "defaultValue": {
-          "value": "'viewport'",
-          "computed": false
-        }
+        "description": "The ID of this component, used to identify dash components in\ncallbacks. The ID needs to be unique across all of the\ncomponents in an app."
       },
       "viewportStyle": {
         "type": {
@@ -785,7 +781,7 @@
         "required": false,
         "description": "The height (in px) and the width (in %) of the container\nin which the molecules will be displayed.\nIt should be in JSON format",
         "defaultValue": {
-          "value": "{\n    width: '100%',\n    height: '500px',\n}",
+          "value": "{\n    width: '500px',\n    height: '500px',\n}",
           "computed": false
         }
       },
@@ -808,6 +804,13 @@
         },
         "required": false,
         "description": "The data that will be used to display the molecule in 3D\nThe data will be in JSON format"
+      },
+      "pdbString": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Variable which defines how many molecules should be shown and/or which chain\nThe following format needs to be used:\npdbID1.chain_pdbID2.chain\n. indicates that only one chain should be shown\n _ indicates that more than one protein should be shown"
       }
     }
   },

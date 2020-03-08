@@ -1,101 +1,215 @@
-##To be updated##
-
-import json
-
-from selenium.webdriver.common.action_chains import ActionChains
+import glob
+import time
 
 import dash
-import dash_bio
+from dash.dependencies import Input, Output, State
 import dash_html_components as html
-from dash_bio_utils import pdb_parser as parser, styles_parser as sparser
+import dash_bio
 
-from common_features import simple_app_layout, simple_app_callback
+from common_features import simple_app_layout
+
+_COMPONENT_ID = "test-ngl"
+data_path = "tests/dashbio_demos/dash-ngl/data/"
+
+color_list = ["red", "blue"]
+
+# PDB examples
+dropdown_options = [
+    "1PNK",
+    "6CHG",
+    "3K8P",
+]
+
+# Placeholder which is loaded if no molecule is selected
+data_dict = {
+    "selectedValue": "placeholder",
+    "chain": "ALL",
+    "color": "#e41a1c",
+    "filename": "placeholder",
+    "ext": "",
+    "config": {"type": "text/plain", "input": ""},
+}
 
 
-_model_data = None
-_styles_data = None
+# Helper function to load the data
+def get_data(selection, pdb_id, color):
 
-_model_data = json.loads(parser.create_data(
-    'tests/dashbio_demos/dash-ngl/data/1bna.pdb'
-))
-_styles_data = json.loads(sparser.create_style(
-    'tests/dashbio_demos/dash-ngl/data/1bna.pdb',
-    'cartoon',
-    'atom'
-))
+    chain = "ALL"
 
-_COMPONENT_ID = 'test-mol3d'
+    # Check if only one chain should be shown
+    if "." in pdb_id:
+        pdb_id, chain = pdb_id.split(".")
 
-def test_dbm3001_selection_type(dash_duo):
+    if pdb_id not in dropdown_options:
+        return data_dict
+    else:
+        fname = [f for f in glob.glob(data_path + pdb_id + ".*")][0]
 
-    app = dash.Dash(__name__)
+        with open(fname, "r") as f:
+            contents = f.read()
 
-    app.layout = html.Div(simple_app_layout(
-        dash_bio.Molecule3dViewer(
-            id=_COMPONENT_ID,
-            modelData=_model_data,
-            styles=_styles_data
-        )
-    ))
+        return {
+            "selectedValue": selection,
+            "chain": chain,
+            "color": color,
+            "filename": fname.split("/")[-1],
+            "ext": fname.split(".")[-1],
+            "config": {"type": "text/plain", "input": contents},
+        }
 
-    simple_app_callback(
+
+viewer = html.Div(
+    [dash_bio.DashNgl(
+        id=_COMPONENT_ID,
+        data=data_dict)],
+    style={
+        "display": "inline-block",
+        "width": "calc(100% - 500px)",
+        "float": "left",
+        "marginTop": "50px",
+        "marginRight": "50px",
+    },
+)
+
+
+# Based on simple_app_callback
+# simple_app_callback does not work because:
+# 1.DashNgl does not accept the output as a string
+# 2.Two submissions are needed to pass shouldComponentUpdate in DashNgl
+def callback_getData(
         app,
         dash_duo,
-        component_id=_COMPONENT_ID,
-        test_prop_name='selectionType',
-        test_prop_value='chain',
-        prop_value_type='string'
+        component_id,
+        test_prop_name,
+        test_prop_value,
+        take_snapshot=True
+):
+    @app.callback(
+        Output(component_id, test_prop_name),
+        [Input("submit-prop-button", "n_clicks")],
+        [State("prop-value", "value")],
     )
+    def setup_click_callback(nclicks, value):
 
-    # find and click on one of the DNA strands
-    mol3d = dash_duo.find_element('#test-mol3d canvas')
-    ac = ActionChains(dash_duo.driver)
-    ac.move_to_element(mol3d).move_by_offset(0, -50).click().perform()
+        data_list = []
 
-    dash_duo.percy_snapshot('test-mol3d_selectionType_chain')
+        if nclicks is not None and nclicks > 0:
+            if "_" in test_prop_value:
+                for i, pdb_id in enumerate(test_prop_value.split("_")):
+                    data_list.append(get_data(
+                        test_prop_value, pdb_id, color_list[i]))
+            else:
+                pdb_id = test_prop_value
+                data_list.append(get_data(
+                    test_prop_value, pdb_id, color_list[0]))
 
+            return data_list
+        else:
+            data_list.append(data_dict)
+            return data_list
 
-def test_dbm3002_rotate(dash_duo):
-
-    app = dash.Dash(__name__)
-
-    app.layout = html.Div([
-        dash_bio.Molecule3dViewer(
-            id=_COMPONENT_ID,
-            modelData=_model_data,
-            styles=_styles_data
-        )
-    ])
+        raise dash.exceptions.PreventUpdate()
 
     dash_duo.start_server(app)
-    dash_duo.wait_for_element('#' + _COMPONENT_ID)
+    dash_duo.wait_for_element("#" + component_id)
 
-    mol3d = dash_duo.find_element('#' + _COMPONENT_ID + ' canvas')
-    ac = ActionChains(dash_duo.driver)
-    ac.drag_and_drop_by_offset(mol3d, 100, 50).perform()
+    input_prop_name = dash_duo.find_element("#prop-name")
+    input_prop_value = dash_duo.find_element("#prop-value")
 
-    dash_duo.percy_snapshot('test-mol3d_rotate')
+    input_send_button = dash_duo.find_element("#submit-prop-button")
+
+    input_prop_name.send_keys(test_prop_name)
+    input_prop_value.send_keys(test_prop_value)
+    input_send_button.click()
+
+    # The molecule has an apearing animation therefore
+    # It is better to wait some seconds before snapshotting it
+    time.sleep(5)
+
+    if take_snapshot:
+        dash_duo.percy_snapshot(
+            f"{component_id}_{test_prop_name}_{test_prop_value}")
 
 
-def test_dbm3003_selected_atom_ids(dash_duo):
+def test_dbdn001_viewer_loaded(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(simple_app_layout(
-        dash_bio.Molecule3dViewer(
-            id=_COMPONENT_ID,
-            modelData=_model_data,
-            styles=_styles_data
-        )
-    ))
+    app.layout = html.Div([viewer])
 
-    simple_app_callback(
+    dash_duo.start_server(app)
+
+    dash_duo.wait_for_element("#" + _COMPONENT_ID + " canvas")
+    assert dash_duo.find_element("#" + _COMPONENT_ID + " canvas")
+
+
+def test_dbdn_002_show_oneMolecule_pdb(dash_duo):
+
+    selection = "6CHG"
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(viewer,))
+
+    callback_getData(
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='selectedAtomIds',
-        test_prop_value=json.dumps([1306, 1371, 1339, 1404]),
-        prop_value_type='list',
-        validation_fn=lambda x: json.dumps(x) == json.dumps([1306, 1371, 1339, 1404]),
-        take_snapshot=True
+        test_prop_name="data",
+        test_prop_value=selection,
+        take_snapshot=True,
+    )
+
+
+def test_dbdn_003_show_oneMolecule_cif(dash_duo):
+
+    selection = "1PNK"
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(viewer,))
+
+    callback_getData(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="data",
+        test_prop_value=selection,
+        take_snapshot=True,
+    )
+
+
+def test_dbdn_004_show_oneChain(dash_duo):
+
+    selection = "6CHG.A"
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(viewer,))
+
+    callback_getData(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="data",
+        test_prop_value=selection,
+        take_snapshot=True,
+    )
+
+
+def test_dbdn_005_show_multipleMolecules(dash_duo):
+
+    selection = "6CHG.A_3K8P.D"
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(viewer,))
+
+    callback_getData(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="data",
+        test_prop_value=selection,
+        take_snapshot=True,
     )

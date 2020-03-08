@@ -17,32 +17,37 @@ export default class DashNgl extends Component {
     }
 
     componentDidMount() {
-        const {id, stageParameters} = this.props;
+        const {id, stageParameters, viewportStyle} = this.props;
         const params = {...stageParameters};
-
         const stage = new Stage(id, params);
-
+        stage.setSize(viewportStyle.width, viewportStyle.height);
         this.setState({stage});
     }
 
     shouldComponentUpdate(nextProps) {
         const {stageParameters} = this.props;
 
+        console.log('should comp update');
+        console.log(this.props.data);
+
         // when the app is starting data is not correctly interpreted as an array
         // but after a few seconds it is therefore this if-else statement
         if (Array.isArray(this.props.data) === false) {
+            console.log('not an array');
             return false;
         }
         const oldSelection = this.props.data[0].selectedValue;
         const newSelection = nextProps.data[0].selectedValue;
 
+        console.log({oldSelection, newSelection});
+        if (oldSelection !== newSelection) {
+            return true;
+        }
+
         if (stageParameters !== nextProps.stageParameters) {
             return true;
         }
 
-        if (oldSelection !== newSelection) {
-            return true;
-        }
         return false;
     }
 
@@ -142,16 +147,17 @@ export default class DashNgl extends Component {
     }
 
     render() {
+        const {id} = this.props;
         return (
             <div>
-                <div id="viewport" style={{width: '100%', height: '500px'}} />
+                <div id={id} />
             </div>
         );
     }
 }
 
 const defaultViewportStyle = {
-    width: '100%',
+    width: '500px',
     height: '500px',
 };
 
@@ -168,7 +174,7 @@ const dataPropShape = {
     ext: PropTypes.string,
     config: PropTypes.shape({
         type: PropTypes.string.isRequired,
-        input: PropTypes.oneOfType([
+        input: PropTypes.exact([
             PropTypes.array,
             PropTypes.object,
             PropTypes.string,
@@ -177,7 +183,6 @@ const dataPropShape = {
 };
 
 DashNgl.defaultProps = {
-    id: 'viewport',
     viewportStyle: defaultViewportStyle,
     stageParameters: defaultStageParameters,
 };
@@ -213,6 +218,15 @@ DashNgl.propTypes = {
         PropTypes.arrayOf(PropTypes.shape(dataPropShape)),
         PropTypes.shape(dataPropShape),
     ]),
+
+    /**
+     * Variable which defines how many molecules should be shown and/or which chain
+     * The following format needs to be used:
+     * pdbID1.chain_pdbID2.chain
+     * . indicates that only one chain should be shown
+     *  _ indicates that more than one protein should be shown
+     */
+    pdbString: PropTypes.string,
 };
 
 export const defaultProps = DashNgl.defaultProps;
