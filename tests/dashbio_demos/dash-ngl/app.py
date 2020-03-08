@@ -181,7 +181,7 @@ def callbacks(_app):
 
     # Callback for molecule visualization based on the dropdown selection
     @_app.callback(
-        [Output("viewport", "data")],
+        Output("viewport", "data"),
         [Input("pdb-dropdown", "value")]
     )
     def display_output(selection):
