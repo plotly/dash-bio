@@ -8,7 +8,7 @@ import scipy.cluster.hierarchy as sch
 import scipy.spatial as scs
 from sklearn.impute import SimpleImputer
 
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 from plotly import tools
 
 
@@ -145,10 +145,10 @@ Keyword arguments:
     'color' (a string representation of the color of the
     annotation).
 - tick_font (dict; optional): The font options for ticks, as specified
-    in the Plotly graph_objs documentation (see:
+    in the Plotly graph_objects documentation (see:
     https://plot.ly/python/reference/#bar-marker-colorbar-tickfont).
 - annotation_font (dict; optional): The font options for annotations,
-    as specified in the Plotly graph_objs documentation (see:
+    as specified in the Plotly graph_objects documentation (see:
     https://plot.ly/python/reference/#layout-scene-annotations-items-annotation-font).
 - line_width (list | number; default 0.5): The line width for the
     dendrograms. If in list format, the first element corresponds to
@@ -197,7 +197,7 @@ class _Clustergram:
 
 Methods:
 
-- figure(computed_traces=None): Return a figure object compatible with plotly.graph_objs.
+- figure(computed_traces=None): Return a figure object compatible with plotly.graph_objects.
     """
 
     def __init__(
@@ -346,7 +346,7 @@ Methods:
             self._data = self._scale(standardize)
 
     def figure(self, computed_traces=None):
-        """Return a figure object compatible with plotly.graph_objs.
+        """Return a figure object compatible with plotly.graph_objects.
 
     Parameters:
 
