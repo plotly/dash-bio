@@ -3,9 +3,9 @@ import json
 from selenium.webdriver.common.action_chains import ActionChains
 
 import dash
-import dash_bio
 import dash_html_components as html
 from dash_bio_utils import pdb_parser as parser, styles_parser as sparser
+import dash_bio
 
 from common_features import simple_app_layout, simple_app_callback
 
@@ -16,8 +16,6 @@ _styles_data = None
 _model_data = json.loads(parser.create_data(
     'tests/dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb'
 ))
-
-print (_model_data)
 
 _styles_data = json.loads(sparser.create_style(
     'tests/dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb',
