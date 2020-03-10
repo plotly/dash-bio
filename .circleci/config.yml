@@ -71,15 +71,19 @@ jobs:
                 command: |
                     . venv/bin/activate
                     pip install --progress-bar off -r tests/requirements.txt --quiet
-                    pip uninstall dash dash-renderer -y
-                    git clone --depth 1 https://github.com/plotly/dash.git dash-main
-                    cd dash-main && pip install -e .[dev,testing]
-                    cd dash-renderer && npm run build && pip install -e . && cd ../..
 
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}-{{ checksum ".circleci/config.yml" }}
                 paths:
                     - venv
+
+            - run:
+                name: Install Dash
+                command: |
+                    . venv/bin/activate
+                    git clone --depth 1 https://github.com/plotly/dash.git dash-main
+                    cd dash-main && pip install -e .[dev,testing]
+                    cd dash-renderer && npm run build && pip install -e . && cd ../..
 
             - run:
                 name: Run pylint
