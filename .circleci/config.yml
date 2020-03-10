@@ -72,7 +72,7 @@ jobs:
                     . venv/bin/activate
                     pip install --progress-bar off -r tests/requirements.txt --quiet
                     pip uninstall dash dash-renderer -y
-                    git clone --depth 1 -b react-16.13 https://github.com/plotly/dash.git dash-main
+                    git clone --depth 1 https://github.com/plotly/dash.git dash-main
                     cd dash-main && pip install -e .[dev,testing]
                     cd dash-renderer && npm run build && pip install -e . && cd ../..
 
