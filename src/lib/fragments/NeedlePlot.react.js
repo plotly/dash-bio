@@ -107,7 +107,7 @@ export default class NeedlePlot extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         // For default argument of taken from defaultProps deeply nested
         this.props = mergeDeepRight(NeedlePlot.defaultProps, this.props);
     }
