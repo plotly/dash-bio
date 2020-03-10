@@ -1,4 +1,5 @@
 import glob
+import json
 import time
 
 import dash
@@ -6,19 +7,17 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_bio
 
-from common_features import simple_app_layout
+# from dash_bio_utils import pdb_parser as parser
+
+from common_features import simple_app_layout, simple_app_callback
 
 _COMPONENT_ID = "test-ngl"
-data_path = "tests/dashbio_demos/dash-ngl/data/"
+data_path = "tests/dashbio_demos/dash-ngl-moleculeviewer/data/"
 
 color_list = ["red", "blue"]
 
 # PDB examples
-dropdown_options = [
-    "1PNK",
-    "6CHG",
-    "3K8P",
-]
+dropdown_options = ["1PNK", "6CHG", "3K8P", "1BNA"]
 
 # Placeholder which is loaded if no molecule is selected
 data_dict = {
@@ -40,28 +39,23 @@ def get_data(selection, pdb_id, color):
     if "." in pdb_id:
         pdb_id, chain = pdb_id.split(".")
 
-    if pdb_id not in dropdown_options:
-        return data_dict
-    else:
-        fname = [f for f in glob.glob(data_path + pdb_id + ".*")][0]
+    fname = [f for f in glob.glob(data_path + pdb_id + ".*")][0]
 
-        with open(fname, "r") as f:
-            contents = f.read()
+    with open(fname, "r") as f:
+        contents = f.read()
 
-        return {
-            "selectedValue": selection,
-            "chain": chain,
-            "color": color,
-            "filename": fname.split("/")[-1],
-            "ext": fname.split(".")[-1],
-            "config": {"type": "text/plain", "input": contents},
-        }
+    return {
+        "selectedValue": selection,
+        "chain": chain,
+        "color": color,
+        "filename": fname.split("/")[-1],
+        "ext": fname.split(".")[-1],
+        "config": {"type": "text/plain", "input": contents},
+    }
 
 
 viewer = html.Div(
-    [dash_bio.DashNgl(
-        id=_COMPONENT_ID,
-        data=data_dict)],
+    [dash_bio.NglMoleculeViewer(id=_COMPONENT_ID, data=[data_dict])],
     style={
         "display": "inline-block",
         "width": "calc(100% - 500px)",
@@ -74,8 +68,7 @@ viewer = html.Div(
 
 # Based on simple_app_callback
 # simple_app_callback does not work because:
-# 1.DashNgl does not accept the output as a string
-# 2.Two submissions are needed to pass shouldComponentUpdate in DashNgl
+# NglMoleculeViewer does not accept the output as a string
 def callback_getData(
         app,
         dash_duo,
@@ -102,10 +95,6 @@ def callback_getData(
                 pdb_id = test_prop_value
                 data_list.append(get_data(
                     test_prop_value, pdb_id, color_list[0]))
-
-            return data_list
-        else:
-            data_list.append(data_dict)
             return data_list
 
         raise dash.exceptions.PreventUpdate()
@@ -135,7 +124,7 @@ def test_dbdn001_viewer_loaded(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div([viewer])
+    app.layout = html.Div(simple_app_layout(viewer,))
 
     dash_duo.start_server(app)
 
@@ -143,7 +132,34 @@ def test_dbdn001_viewer_loaded(dash_duo):
     assert dash_duo.find_element("#" + _COMPONENT_ID + " canvas")
 
 
-def test_dbdn_002_show_oneMolecule_pdb(dash_duo):
+# This test is still buggy because the background is not changed
+def test_dbdn002_change_background(dash_duo):
+
+    stage_config = {
+        "stageParameters": {
+            "backgroundColor": "black",
+            "quality": "medium",
+            "cameraType": "perspective",
+        }
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(viewer,))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="stageParameters",
+        test_prop_value=json.dumps(stage_config),
+        prop_value_type="dict",
+        validation_fn=lambda x: json.dumps(x) == json.dumps(stage_config),
+        take_snapshot=True,
+    )
+
+
+def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
 
     selection = "6CHG"
 
@@ -161,7 +177,37 @@ def test_dbdn_002_show_oneMolecule_pdb(dash_duo):
     )
 
 
-def test_dbdn_003_show_oneMolecule_cif(dash_duo):
+# tried to implement the test bases on shammamah's
+# suggestions did not work (see comment in PR)
+# def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
+
+#     fname = '1BNA.pdb'
+
+#     d = data_dict.copy() #shallow copy
+#     d['fname'] = fname
+#     d['selectedValue'] = fname.split('.')[0]
+#     d['ext'] = fname.split('.')[1]
+
+#     with open(data_path+fname, "r") as f:
+#         d['config']['input'] = f.read()
+
+#     app = dash.Dash(__name__)
+
+#     app.layout = html.Div(simple_app_layout(
+#         viewer,
+#     ))
+
+#     simple_app_callback(
+#         app,
+#         dash_duo,
+#         component_id=_COMPONENT_ID,
+#         test_prop_name='data',
+#         test_prop_value=json.dumps(d),
+#         prop_value_type='dict'
+#     )
+
+
+def test_dbdn_004_show_oneMolecule_cif(dash_duo):
 
     selection = "1PNK"
 
@@ -179,7 +225,7 @@ def test_dbdn_003_show_oneMolecule_cif(dash_duo):
     )
 
 
-def test_dbdn_004_show_oneChain(dash_duo):
+def test_dbdn_005_show_oneChain(dash_duo):
 
     selection = "6CHG.A"
 
@@ -197,7 +243,7 @@ def test_dbdn_004_show_oneChain(dash_duo):
     )
 
 
-def test_dbdn_005_show_multipleMolecules(dash_duo):
+def test_dbdn_006_show_multipleMolecules(dash_duo):
 
     selection = "6CHG.A_3K8P.D"
 

@@ -3,9 +3,9 @@
 from dash.development.base_component import Component, _explicitize_args
 
 
-class DashNgl(Component):
-    """A DashNgl component.
-The Molecule3dViewer is used to render schematic diagrams
+class NglMoleculeViewer(Component):
+    """A NglMoleculeViewer component.
+The NglMoleculeViewer is used to render schematic diagrams
 of biomolecules in ribbon-structure representations.
 Read more about the component here:
 https://github.com/IvoLeist/dash_ngl
@@ -28,29 +28,55 @@ Those keys have the following types:
     quality: 'medium',
     backgroundColor: 'white',
     cameraType: 'perspective',
-}): Parameters for the stage object of ngl.
+}): Parameters (in JSON format) for the stage object of ngl.
 Currently implemented are the quality of the visualisation
 and the background colorFor a full list see:
-http://nglviewer.org/ngl/api/file/src/stage/stage.js.html
-It should be in JSON format. stageParameters has the following type: dict containing keys 'quality', 'backgroundColor', 'cameraType'.
+http://nglviewer.org/ngl/api/file/src/stage/stage.js.html. stageParameters has the following type: dict containing keys 'quality', 'backgroundColor', 'cameraType'.
 Those keys have the following types:
   - quality (string; optional)
   - backgroundColor (string; optional)
   - cameraType (string; optional)
-- data (optional): The data that will be used to display the molecule in 3D
-The data will be in JSON format
 - pdbString (string; optional): Variable which defines how many molecules should be shown and/or which chain
 The following format needs to be used:
 pdbID1.chain_pdbID2.chain
 . indicates that only one chain should be shown
- _ indicates that more than one protein should be shown"""
+ _ indicates that more than one protein should be shown
+- data (dict; default [
+    {
+        selectedValue: 'placeholder',
+        chain: 'ALL',
+        color: 'red',
+        filename: 'placeholder',
+        ext: '',
+        config: {
+            input: '',
+            type: 'text/plain',
+        },
+    },
+]): The data (in JSON format) that will be used to display the molecule
+selectedValue: pdbString
+color: color in hex format
+filename: name of the used pdb/cif file
+ext: file extensions (pdb or cif)
+config.input: content of the pdb file
+config.type: format of config.input. data has the following type: list of dicts containing keys 'selectedValue', 'chain', 'color', 'filename', 'ext', 'config'.
+Those keys have the following types:
+  - selectedValue (string; required)
+  - chain (string; required)
+  - color (string; required)
+  - filename (string; required)
+  - ext (string; optional)
+  - config (dict; optional): config has the following type: dict containing keys 'input', 'type'.
+Those keys have the following types:
+  - input (string; required)
+  - type (string; required)"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, viewportStyle=Component.UNDEFINED, stageParameters=Component.UNDEFINED, data=Component.UNDEFINED, pdbString=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'viewportStyle', 'stageParameters', 'data', 'pdbString']
-        self._type = 'DashNgl'
+    def __init__(self, id=Component.UNDEFINED, viewportStyle=Component.UNDEFINED, stageParameters=Component.UNDEFINED, pdbString=Component.UNDEFINED, data=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'viewportStyle', 'stageParameters', 'pdbString', 'data']
+        self._type = 'NglMoleculeViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'viewportStyle', 'stageParameters', 'data', 'pdbString']
+        self.available_properties = ['id', 'viewportStyle', 'stageParameters', 'pdbString', 'data']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')
@@ -62,4 +88,4 @@ pdbID1.chain_pdbID2.chain
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
-        super(DashNgl, self).__init__(**args)
+        super(NglMoleculeViewer, self).__init__(**args)

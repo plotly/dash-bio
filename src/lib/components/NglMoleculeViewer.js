@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import {Stage, Selection} from 'ngl';
 
 /**
- * The Molecule3dViewer is used to render schematic diagrams
+ * The NglMoleculeViewer is used to render schematic diagrams
  * of biomolecules in ribbon-structure representations.
  * Read more about the component here:
  * https://github.com/IvoLeist/dash_ngl
  * Read more about the used WebGL protein viewer here:
  * https://github.com/arose/ngl
  */
-export default class DashNgl extends Component {
+export default class NglMoleculeViewer extends Component {
     constructor(props) {
         super(props);
         this.state = {stage: null, structuresList: []};
@@ -25,24 +25,50 @@ export default class DashNgl extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        const {stageParameters} = this.props;
+        const {data, stageParameters} = this.props;
 
-        // when the app is starting data is not correctly interpreted as an array
-        // but after a few seconds it is therefore this if-else statement
-        if (Array.isArray(this.props.data) === false) {
+        if ((data === null) & (nextProps.data === null)) {
             return false;
         }
-        const oldSelection = this.props.data[0].selectedValue;
-        const newSelection = nextProps.data[0].selectedValue;
 
-        if (oldSelection !== newSelection) {
+        if ((data === null) & (nextProps.data !== null)) {
             return true;
         }
 
-        if (stageParameters !== nextProps.stageParameters) {
-            return true;
-        }
+        if ((data !== null) & (nextProps.data !== null)) {
+            const oldSelection = data[0].selectedValue;
+            const newSelection = nextProps.data[0].selectedValue;
 
+            // check if pdb selection has changed
+            if (oldSelection !== newSelection) {
+                return true;
+            }
+
+            const oldStage = stageParameters;
+            const newStage = nextProps.stageParameters;
+
+            // check for stage params changed
+            // should I put this function in a extra file (e.g. NglMoleculeViewer_utils.js)
+            const isEqual = (obj1, obj2) => {
+                const obj1Keys = Object.keys(obj1);
+                const obj2Keys = Object.keys(obj2);
+
+                if (obj1Keys.length !== obj2Keys.length) {
+                    return false;
+                }
+
+                for (const objKey of obj1Keys) {
+                    if (obj1[objKey] !== obj2[objKey]) {
+                        return false;
+                    }
+                }
+                return true;
+            };
+
+            if (isEqual(oldStage, newStage) === false) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -159,60 +185,57 @@ const defaultViewportStyle = {
 const defaultStageParameters = {
     quality: 'medium',
     backgroundColor: 'white',
+    cameraType: 'perspective',
 };
 
-const dataPropShape = {
-    selectedValue: PropTypes.string.isRequired,
-    chain: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
-    filename: PropTypes.string.isRequired,
-    ext: PropTypes.string,
-    config: PropTypes.shape({
-        type: PropTypes.string.isRequired,
-        input: PropTypes.exact([
-            PropTypes.array,
-            PropTypes.object,
-            PropTypes.string,
-        ]),
-    }),
-};
+const defaultData = [
+    {
+        selectedValue: 'placeholder',
+        chain: 'ALL',
+        color: 'red',
+        filename: 'placeholder',
+        ext: '',
+        config: {
+            input: '',
+            type: 'text/plain',
+        },
+    },
+];
 
-DashNgl.defaultProps = {
+NglMoleculeViewer.defaultProps = {
+    data: defaultData,
     viewportStyle: defaultViewportStyle,
     stageParameters: defaultStageParameters,
 };
 
-DashNgl.propTypes = {
+NglMoleculeViewer.propTypes = {
     /**
-     * The ID of this component, used to identify dash components in
-     * callbacks. The ID needs to be unique across all of the
-     * components in an app.
+     * The ID of this component, used to identify dash components in callbacks.
+     * The ID needs to be unique across all of the components in an app.
      */
     id: PropTypes.string,
 
     /**
-     * The height (in px) and the width (in %) of the container
+     * The height and the width (in px) of the container
      * in which the molecules will be displayed.
-     * It should be in JSON format
+     * It should be in JSON format.
      */
-    viewportStyle: PropTypes.object,
+    viewportStyle: PropTypes.exact({
+        width: PropTypes.string,
+        height: PropTypes.string,
+    }),
 
     /**
-     * Parameters for the stage object of ngl.
+     * Parameters (in JSON format) for the stage object of ngl.
      * Currently implemented are the quality of the visualisation
-     * and the background color.For a full list see:
+     * and the background colorFor a full list see:
      * http://nglviewer.org/ngl/api/file/src/stage/stage.js.html
      */
-    stageParameters: PropTypes.object,
-
-    /**
-     * The data that will be used to display the molecule in 3D
-     * The data will be in JSON format
-     */
-    data: PropTypes.exact([
-        PropTypes.arrayOf(PropTypes.shape(dataPropShape)),
-        PropTypes.shape(dataPropShape),
-    ]),
+    stageParameters: PropTypes.exact({
+        quality: PropTypes.string,
+        backgroundColor: PropTypes.string,
+        cameraType: PropTypes.string,
+    }),
 
     /**
      * Variable which defines how many molecules should be shown and/or which chain
@@ -222,7 +245,30 @@ DashNgl.propTypes = {
      *  _ indicates that more than one protein should be shown
      */
     pdbString: PropTypes.string,
+
+    /**
+     * The data (in JSON format) that will be used to display the molecule
+     * selectedValue: pdbString
+     * color: color in hex format
+     * filename: name of the used pdb/cif file
+     * ext: file extensions (pdb or cif)
+     * config.input: content of the pdb file
+     * config.type: format of config.input
+     */
+    data: PropTypes.arrayOf(
+        PropTypes.exact({
+            selectedValue: PropTypes.string.isRequired,
+            chain: PropTypes.string.isRequired,
+            color: PropTypes.string.isRequired,
+            filename: PropTypes.string.isRequired,
+            ext: PropTypes.string,
+            config: PropTypes.exact({
+                input: PropTypes.string.isRequired,
+                type: PropTypes.string.isRequired,
+            }),
+        })
+    ),
 };
 
-export const defaultProps = DashNgl.defaultProps;
-export const propTypes = DashNgl.propTypes;
+export const defaultProps = NglMoleculeViewer.defaultProps;
+export const propTypes = NglMoleculeViewer.propTypes;

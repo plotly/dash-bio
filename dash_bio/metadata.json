@@ -665,155 +665,6 @@
       }
     }
   },
-  "src/lib/components/DashNgl.react.js": {
-    "description": "The Molecule3dViewer is used to render schematic diagrams\nof biomolecules in ribbon-structure representations.\nRead more about the component here:\nhttps://github.com/IvoLeist/dash_ngl\nRead more about the used WebGL protein viewer here:\nhttps://github.com/arose/ngl",
-    "displayName": "DashNgl",
-    "methods": [
-      {
-        "name": "showStructure",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "stageObj",
-            "type": null
-          },
-          {
-            "name": "chain",
-            "type": null
-          },
-          {
-            "name": "color",
-            "type": null
-          },
-          {
-            "name": "xOffset",
-            "type": null
-          },
-          {
-            "name": "stage",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "loadStructure",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "stage",
-            "type": null
-          },
-          {
-            "name": "filename",
-            "type": null
-          },
-          {
-            "name": "chain",
-            "type": null
-          },
-          {
-            "name": "color",
-            "type": null
-          },
-          {
-            "name": "xOffset",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "processDataFromBackend",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "data",
-            "type": null
-          },
-          {
-            "name": "stage",
-            "type": null
-          },
-          {
-            "name": "structuresList",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "loadData",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "data",
-            "type": null
-          },
-          {
-            "name": "stage",
-            "type": null
-          },
-          {
-            "name": "xOffset",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
-    "props": {
-      "id": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The ID of this component, used to identify dash components in\ncallbacks. The ID needs to be unique across all of the\ncomponents in an app."
-      },
-      "viewportStyle": {
-        "type": {
-          "name": "object"
-        },
-        "required": false,
-        "description": "The height (in px) and the width (in %) of the container\nin which the molecules will be displayed.\nIt should be in JSON format",
-        "defaultValue": {
-          "value": "{\n    width: '500px',\n    height: '500px',\n}",
-          "computed": false
-        }
-      },
-      "stageParameters": {
-        "type": {
-          "name": "object"
-        },
-        "required": false,
-        "description": "Parameters for the stage object of ngl.\nCurrently implemented are the quality of the visualisation\nand the background color.For a full list see:\nhttp://nglviewer.org/ngl/api/file/src/stage/stage.js.html",
-        "defaultValue": {
-          "value": "{\n    quality: 'medium',\n    backgroundColor: 'white',\n}",
-          "computed": false
-        }
-      },
-      "data": {
-        "type": {
-          "name": "exact",
-          "value": "[\n    PropTypes.arrayOf(PropTypes.shape(dataPropShape)),\n    PropTypes.shape(dataPropShape),\n]",
-          "computed": true
-        },
-        "required": false,
-        "description": "The data that will be used to display the molecule in 3D\nThe data will be in JSON format"
-      },
-      "pdbString": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "Variable which defines how many molecules should be shown and/or which chain\nThe following format needs to be used:\npdbID1.chain_pdbID2.chain\n. indicates that only one chain should be shown\n _ indicates that more than one protein should be shown"
-      }
-    }
-  },
   "src/lib/components/FornaContainer.react.js": {
     "description": "FornaContainer is a force-directed graph that is used to visualize\nthe secondary structure of biomolecules. It is based on the fornac\nlibrary (https://github.com/ViennaRNA/fornac).",
     "displayName": "FornaContainer",
@@ -1975,6 +1826,220 @@
         },
         "required": false,
         "description": "Dash-assigned callback that should be called whenever any of the\nproperties change"
+      }
+    }
+  },
+  "src/lib/components/NglMoleculeViewer.js": {
+    "description": "The NglMoleculeViewer is used to render schematic diagrams\nof biomolecules in ribbon-structure representations.\nRead more about the component here:\nhttps://github.com/IvoLeist/dash_ngl\nRead more about the used WebGL protein viewer here:\nhttps://github.com/arose/ngl",
+    "displayName": "NglMoleculeViewer",
+    "methods": [
+      {
+        "name": "showStructure",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "stageObj",
+            "type": null
+          },
+          {
+            "name": "chain",
+            "type": null
+          },
+          {
+            "name": "color",
+            "type": null
+          },
+          {
+            "name": "xOffset",
+            "type": null
+          },
+          {
+            "name": "stage",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "loadStructure",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "stage",
+            "type": null
+          },
+          {
+            "name": "filename",
+            "type": null
+          },
+          {
+            "name": "chain",
+            "type": null
+          },
+          {
+            "name": "color",
+            "type": null
+          },
+          {
+            "name": "xOffset",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "processDataFromBackend",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "data",
+            "type": null
+          },
+          {
+            "name": "stage",
+            "type": null
+          },
+          {
+            "name": "structuresList",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "loadData",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "data",
+            "type": null
+          },
+          {
+            "name": "stage",
+            "type": null
+          },
+          {
+            "name": "xOffset",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of this component, used to identify dash components in callbacks.\nThe ID needs to be unique across all of the components in an app."
+      },
+      "viewportStyle": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "width": {
+              "name": "string",
+              "required": false
+            },
+            "height": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "The height and the width (in px) of the container\nin which the molecules will be displayed.\nIt should be in JSON format.",
+        "defaultValue": {
+          "value": "{\n    width: '500px',\n    height: '500px',\n}",
+          "computed": false
+        }
+      },
+      "stageParameters": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "quality": {
+              "name": "string",
+              "required": false
+            },
+            "backgroundColor": {
+              "name": "string",
+              "required": false
+            },
+            "cameraType": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Parameters (in JSON format) for the stage object of ngl.\nCurrently implemented are the quality of the visualisation\nand the background colorFor a full list see:\nhttp://nglviewer.org/ngl/api/file/src/stage/stage.js.html",
+        "defaultValue": {
+          "value": "{\n    quality: 'medium',\n    backgroundColor: 'white',\n    cameraType: 'perspective',\n}",
+          "computed": false
+        }
+      },
+      "pdbString": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Variable which defines how many molecules should be shown and/or which chain\nThe following format needs to be used:\npdbID1.chain_pdbID2.chain\n. indicates that only one chain should be shown\n _ indicates that more than one protein should be shown"
+      },
+      "data": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "exact",
+            "value": {
+              "selectedValue": {
+                "name": "string",
+                "required": true
+              },
+              "chain": {
+                "name": "string",
+                "required": true
+              },
+              "color": {
+                "name": "string",
+                "required": true
+              },
+              "filename": {
+                "name": "string",
+                "required": true
+              },
+              "ext": {
+                "name": "string",
+                "required": false
+              },
+              "config": {
+                "name": "exact",
+                "value": {
+                  "input": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "type": {
+                    "name": "string",
+                    "required": true
+                  }
+                },
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "The data (in JSON format) that will be used to display the molecule\nselectedValue: pdbString\ncolor: color in hex format\nfilename: name of the used pdb/cif file\next: file extensions (pdb or cif)\nconfig.input: content of the pdb file\nconfig.type: format of config.input",
+        "defaultValue": {
+          "value": "[\n    {\n        selectedValue: 'placeholder',\n        chain: 'ALL',\n        color: 'red',\n        filename: 'placeholder',\n        ext: '',\n        config: {\n            input: '',\n            type: 'text/plain',\n        },\n    },\n]",
+          "computed": false
+        }
       }
     }
   },

@@ -6,10 +6,10 @@ import Ideogram from './components/Ideogram.react';
 import Molecule2dViewer from './components/Molecule2dViewer.react';
 import Molecule3dViewer from './components/Molecule3dViewer';
 import NeedlePlot from './components/NeedlePlot.react';
+import NglMoleculeViewer from './components/NglMoleculeViewer';
 import OncoPrint from './components/OncoPrint.react';
 import SequenceViewer from './components/SequenceViewer.react';
 import Speck from './components/Speck.react';
-import DashNgl from './components/DashNgl.react';
 
 export {
     AlignmentChart,
@@ -19,8 +19,8 @@ export {
     Molecule2dViewer,
     Molecule3dViewer,
     NeedlePlot,
+    NglMoleculeViewer,
     OncoPrint,
     SequenceViewer,
     Speck,
-    DashNgl,
 };

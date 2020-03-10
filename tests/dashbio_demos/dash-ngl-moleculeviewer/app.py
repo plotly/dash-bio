@@ -52,7 +52,7 @@ data_dict = {
 viewer = html.Div(
     id='ngl-viewer-stage',
     children=[
-        dash_bio.DashNgl(
+        dash_bio.NglMoleculeViewer(
             id="viewport",
             data=data_dict
             )

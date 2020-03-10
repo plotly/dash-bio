@@ -16,6 +16,9 @@ _styles_data = None
 _model_data = json.loads(parser.create_data(
     'tests/dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb'
 ))
+
+print (_model_data)
+
 _styles_data = json.loads(sparser.create_style(
     'tests/dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb',
     'cartoon',
