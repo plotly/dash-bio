@@ -1829,7 +1829,7 @@
       }
     }
   },
-  "src/lib/components/NglMoleculeViewer.js": {
+  "src/lib/components/NglMoleculeViewer.react.js": {
     "description": "The NglMoleculeViewer is used to render schematic diagrams\nof biomolecules in ribbon-structure representations.\nRead more about the component here:\nhttps://github.com/IvoLeist/dash_ngl\nRead more about the used WebGL protein viewer here:\nhttps://github.com/arose/ngl",
     "displayName": "NglMoleculeViewer",
     "methods": [
