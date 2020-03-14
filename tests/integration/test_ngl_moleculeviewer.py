@@ -54,8 +54,17 @@ def get_data(selection, pdb_id, color):
     }
 
 
+# Get sample data for starting the app
+_model_data = get_data(selection='1BNA',
+                       pdb_id='1BNA',
+                       color='red')
+
+
 viewer = html.Div(
-    [dash_bio.NglMoleculeViewer(id=_COMPONENT_ID, data=[data_dict])],
+    [dash_bio.NglMoleculeViewer(
+        id=_COMPONENT_ID,
+        data=[_model_data]
+        )],
     style={
         "display": "inline-block",
         "width": "calc(100% - 500px)",
@@ -136,11 +145,9 @@ def test_dbdn001_viewer_loaded(dash_duo):
 def test_dbdn002_change_background(dash_duo):
 
     stage_config = {
-        "stageParameters": {
-            "backgroundColor": "black",
-            "quality": "medium",
-            "cameraType": "perspective",
-        }
+        "backgroundColor": "black",
+        "quality": "medium",
+        "cameraType": "perspective",
     }
 
     app = dash.Dash(__name__)

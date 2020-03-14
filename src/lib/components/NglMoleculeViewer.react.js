@@ -24,51 +24,51 @@ export default class NglMoleculeViewer extends Component {
         this.setState({stage});
     }
 
-    shouldComponentUpdate(nextProps) {
-        const {data, stageParameters} = this.props;
+    // triggered by any update of the DOM (e.g. new dropdown selection)
+    shouldComponentUpdate(prevProps, nextProps) {
+        const {stageParameters, data} = this.props;
 
-        if ((data === null) & (nextProps.data === null)) {
-            return false;
-        }
-
-        if ((data === null) & (nextProps.data !== null)) {
-            return true;
-        }
-
-        if ((data !== null) & (nextProps.data !== null)) {
-            const oldSelection = data[0].selectedValue;
-            const newSelection = nextProps.data[0].selectedValue;
+        // check if data has changed
+        if ((data !== null) & (prevProps.data !== null)) {
+            // wait for the first pdb selection after startup
+            if (nextProps.data === undefined) {
+                return true;
+            }
 
             // check if pdb selection has changed
+            const oldSelection = prevProps.data[0].selectedValue;
+            const newSelection = data[0].selectedValue;
             if (oldSelection !== newSelection) {
                 return true;
             }
+        }
 
-            const oldStage = stageParameters;
-            const newStage = nextProps.stageParameters;
+        // check for stage params changed
+        const oldStage = prevProps.stageParameters;
+        const newStage = stageParameters;
 
-            // check for stage params changed
-            // should I put this function in a extra file (e.g. NglMoleculeViewer_utils.js)
-            const isEqual = (obj1, obj2) => {
-                const obj1Keys = Object.keys(obj1);
-                const obj2Keys = Object.keys(obj2);
+        // save it as a helper function in an extra script?
+        const isEqual = (obj1, obj2) => {
+            const obj1Keys = Object.keys(obj1);
+            const obj2Keys = Object.keys(obj2);
 
-                if (obj1Keys.length !== obj2Keys.length) {
+            if (obj1Keys.length !== obj2Keys.length) {
+                return false;
+            }
+
+            for (const objKey of obj1Keys) {
+                if (obj1[objKey] !== obj2[objKey]) {
                     return false;
                 }
-
-                for (const objKey of obj1Keys) {
-                    if (obj1[objKey] !== obj2[objKey]) {
-                        return false;
-                    }
-                }
-                return true;
-            };
-
-            if (isEqual(oldStage, newStage) === false) {
-                return true;
             }
+            return true;
+        };
+
+        if (isEqual(oldStage, newStage) === false) {
+            return true;
         }
+
+        // no update since neither the data nor the stage paramas have changed
         return false;
     }
 
