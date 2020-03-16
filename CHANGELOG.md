@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.8] - 2020-03-13
+## [0.4.8] - 2020-03-16
 ### Changed
 * [#489](https://github.com/plotly/dash-bio/pull/489) Renamed async modules with hyphen `-` instead of tilde `~`
 * [#494](https://github.com/plotly/dash-bio/pull/494) Update from React 16.8.6 to 16.13.0
