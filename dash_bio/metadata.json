@@ -1978,7 +1978,7 @@
           }
         },
         "required": false,
-        "description": "Parameters (in JSON format) for the stage object of ngl.\nCurrently implemented are the quality of the visualisation\nand the background colorFor a full list see:\nhttp://nglviewer.org/ngl/api/file/src/stage/stage.js.html",
+        "description": "Parameters (in JSON format) for the stage object of ngl.\nCurrently implemented are render quality, background color and camera type\nquality: auto, low, medium, high (default: auto)\nbackgroundColor: white / black (default: white)\ncameraType: perspective / orthographic (default: perspective)",
         "defaultValue": {
           "value": "{\n    quality: 'medium',\n    backgroundColor: 'white',\n    cameraType: 'perspective',\n}",
           "computed": false

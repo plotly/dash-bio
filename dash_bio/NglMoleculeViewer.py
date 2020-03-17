@@ -29,9 +29,10 @@ Those keys have the following types:
     backgroundColor: 'white',
     cameraType: 'perspective',
 }): Parameters (in JSON format) for the stage object of ngl.
-Currently implemented are the quality of the visualisation
-and the background colorFor a full list see:
-http://nglviewer.org/ngl/api/file/src/stage/stage.js.html. stageParameters has the following type: dict containing keys 'quality', 'backgroundColor', 'cameraType'.
+Currently implemented are render quality, background color and camera type
+quality: auto, low, medium, high (default: auto)
+backgroundColor: white / black (default: white)
+cameraType: perspective / orthographic (default: perspective). stageParameters has the following type: dict containing keys 'quality', 'backgroundColor', 'cameraType'.
 Those keys have the following types:
   - quality (string; optional)
   - backgroundColor (string; optional)

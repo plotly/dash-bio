@@ -24,7 +24,6 @@ export default class NglMoleculeViewer extends Component {
         this.setState({stage});
     }
 
-    // triggered by any update of the DOM (e.g. new dropdown selection)
     shouldComponentUpdate(prevProps, nextProps) {
         const {stageParameters, data} = this.props;
 
@@ -227,9 +226,10 @@ NglMoleculeViewer.propTypes = {
 
     /**
      * Parameters (in JSON format) for the stage object of ngl.
-     * Currently implemented are the quality of the visualisation
-     * and the background colorFor a full list see:
-     * http://nglviewer.org/ngl/api/file/src/stage/stage.js.html
+     * Currently implemented are render quality, background color and camera type
+     * quality: auto, low, medium, high (default: auto)
+     * backgroundColor: white / black (default: white)
+     * cameraType: perspective / orthographic (default: perspective)
      */
     stageParameters: PropTypes.exact({
         quality: PropTypes.string,
