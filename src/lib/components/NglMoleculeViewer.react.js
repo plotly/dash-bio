@@ -30,7 +30,7 @@ export default class NglMoleculeViewer extends Component {
         // check if data has changed
         if ((data !== null) & (prevProps.data !== null)) {
             // wait for the first pdb selection after startup
-            if (nextProps.data === undefined) {
+            if (nextProps.data !== undefined) {
                 return true;
             }
 

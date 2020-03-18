@@ -93,7 +93,9 @@ def layout():
                 children=[html.H1('NGL Protein Structure Viewer')],
                 style={'backgroundColor': '#3aaab2', 'height': '7vh'},
             ),
-            dcc.Loading(viewer),
+            # using dcc.Loading leads to remounting with every selection change
+            #dcc.Loading(viewer),
+            viewer,
             dcc.Tabs(
                 id='ngl-control-tabs',
                 classname='control-tabs',
