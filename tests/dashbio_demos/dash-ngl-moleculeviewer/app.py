@@ -94,7 +94,7 @@ def layout():
                 style={'backgroundColor': '#3aaab2', 'height': '7vh'},
             ),
             # using dcc.Loading leads to remounting with every selection change
-            #dcc.Loading(viewer),
+            # dcc.Loading(viewer),
             viewer,
             dcc.Tabs(
                 id='ngl-control-tabs',
