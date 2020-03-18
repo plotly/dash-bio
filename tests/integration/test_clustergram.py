@@ -212,3 +212,64 @@ def test_dbcl006_df_input_row_cluster(dash_duo):
 
     assert len(dash_duo.find_elements('g.subplot.x2y2')) == 0
     assert len(dash_duo.find_elements('g.subplot.x4y4')) == 1
+
+
+def test_dbcl007_hidden_labels(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    data = _mtcars_data
+    row_labels = list(_mtcars_data.index)
+    col_labels = list(_mtcars_data.columns)
+
+    app.layout = html.Div(nested_component_layout(
+        dash_bio.Clustergram(
+            data=data,
+            row_labels=row_labels,
+            column_labels=col_labels
+        )
+    ))
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=data,
+        test_prop_name='hidden_labels',
+        test_prop_value='row',
+        prop_value_type='string'
+    )
+
+    # ensure that row labels are hidden
+    assert len(dash_duo.find_elements('g.yaxislayer-above g.y5tick')) == 0
+    # ensure that column labels are displayed
+    assert len(dash_duo.find_elements('g.xaxislayer-above g.x5tick')) == \
+        len(col_labels)
+
+    # create a new instance of the app to test hiding of column labels
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(nested_component_layout(
+        dash_bio.Clustergram(
+            data=data,
+            row_labels=row_labels,
+            column_labels=col_labels
+        )
+    ))
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=data,
+        test_prop_name='hidden_labels',
+        test_prop_value='col',
+        prop_value_type='string'
+    )
+
+    # ensure that column labels are hidden
+    assert len(dash_duo.find_elements('g.xaxislayer-above g.x5tick')) == 0
+    # ensure that row labels are displayed
+    assert len(dash_duo.find_elements('g.yaxislayer-above g.y5tick')) == \
+        len(row_labels)
