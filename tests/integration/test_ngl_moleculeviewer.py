@@ -21,6 +21,7 @@ dropdown_options = ["1PNK", "6CHG", "3K8P", "1BNA"]
 
 # Placeholder which is loaded if no molecule is selected
 data_dict = {
+    "uploaed": False,
     "selectedValue": "placeholder",
     "chain": "ALL",
     "color": "#e41a1c",

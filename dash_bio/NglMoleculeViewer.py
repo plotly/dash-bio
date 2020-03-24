@@ -44,6 +44,7 @@ pdbID1.chain_pdbID2.chain
  _ indicates that more than one protein should be shown
 - data (dict; default [
     {
+        uploaded: false,
         selectedValue: 'placeholder',
         chain: 'ALL',
         color: 'red',
@@ -55,13 +56,15 @@ pdbID1.chain_pdbID2.chain
         },
     },
 ]): The data (in JSON format) that will be used to display the molecule
+uploaded: indicator if file from local storage (false) or uploaded by user (true)
 selectedValue: pdbString
 color: color in hex format
 filename: name of the used pdb/cif file
 ext: file extensions (pdb or cif)
 config.input: content of the pdb file
-config.type: format of config.input. data has the following type: list of dicts containing keys 'selectedValue', 'chain', 'color', 'filename', 'ext', 'config'.
+config.type: format of config.input. data has the following type: list of dicts containing keys 'uploaded', 'selectedValue', 'chain', 'color', 'filename', 'ext', 'config'.
 Those keys have the following types:
+  - uploaded (boolean; required)
   - selectedValue (string; required)
   - chain (string; required)
   - color (string; required)

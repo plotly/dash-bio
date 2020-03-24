@@ -40,6 +40,10 @@ export default class NglMoleculeViewer extends Component {
             if (oldSelection !== newSelection) {
                 return true;
             }
+            // check if structure has been uploaded
+            if (data[0].uploaded === true) {
+                return true;
+            }
         }
 
         // check for stage params changed
@@ -189,6 +193,7 @@ const defaultStageParameters = {
 
 const defaultData = [
     {
+        uploaded: false,
         selectedValue: 'placeholder',
         chain: 'ALL',
         color: 'red',
@@ -248,6 +253,7 @@ NglMoleculeViewer.propTypes = {
 
     /**
      * The data (in JSON format) that will be used to display the molecule
+     * uploaded: indicator if file from local storage (false) or uploaded by user (true)
      * selectedValue: pdbString
      * color: color in hex format
      * filename: name of the used pdb/cif file
@@ -257,6 +263,7 @@ NglMoleculeViewer.propTypes = {
      */
     data: PropTypes.arrayOf(
         PropTypes.exact({
+            uploaded: PropTypes.bool.isRequired,
             selectedValue: PropTypes.string.isRequired,
             chain: PropTypes.string.isRequired,
             color: PropTypes.string.isRequired,
