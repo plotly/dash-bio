@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Stage, Selection} from 'ngl';
-import * as R from 'ramda';
+import {equals} from 'ramda';
 
 /**
  * The NglMoleculeViewer is used to render schematic diagrams
@@ -51,30 +51,9 @@ export default class NglMoleculeViewer extends Component {
         const oldStage = prevProps.stageParameters;
         const newStage = stageParameters;
 
-        // save it as a helper function in an extra script?
-        // const isEqual = (obj1, obj2) => {
-        //     const obj1Keys = Object.keys(obj1);
-        //     const obj2Keys = Object.keys(obj2);
-
-        //     if (obj1Keys.length !== obj2Keys.length) {
-        //         return false;
-        //     }
-
-        //     for (const objKey of obj1Keys) {
-        //         if (obj1[objKey] !== obj2[objKey]) {
-        //             return false;
-        //         }
-        //     }
-        //     return true;
-        // };
-
-        if (!R.equals(oldStage, newStage) === false) {
+        if (!equals(oldStage, newStage)) {
             return true;
         }
-
-        // if (isEqual(oldStage, newStage) === false) {
-        //     return true;
-        // }
 
         // no update since neither the data nor the stage paramas have changed
         return false;
@@ -177,11 +156,7 @@ export default class NglMoleculeViewer extends Component {
 
     render() {
         const {id} = this.props;
-        return (
-            <div>
-                <div id={id} />
-            </div>
-        );
+        return <div id={id} />;
     }
 }
 
