@@ -1,16 +1,15 @@
 # Switch into a virtual environment
 # pip install -r requirements.txt
--e .
+
 cython>=0.19
-dash>=1.6.1
 dash-bio-utils==0.0.4
 dash-daq==0.2.2
 gunicorn==19.9.0
 jsonschema==2.6.0
 matplotlib==3.0.2
-numpy==1.15.4
+numpy
 pandas>=0.24.2
-plotly>=3.5.0
+plotly>=4.1.0
 PubChemPy==1.0.4
 requests==2.21.0
 scikit-learn==0.20.2

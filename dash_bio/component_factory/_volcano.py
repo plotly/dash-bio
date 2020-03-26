@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 
 from .utils import _get_hover_text
 
@@ -78,7 +78,7 @@ Keyword arguments:
 - point_size (number; default 5): Size of the points of the Scatter
     plot.
 - col (string; optional): Color of the points of the Scatter plot. Can
-    be in any color format accepted by plotly.graph_objs.
+    be in any color format accepted by plotly.graph_objects.
 - effect_size_line (bool | list; default [-1, 1]): A boolean which
     must be either False to deactivate the option, or a list/array containing
     the upper and lower bounds of the effect size values. Significant
@@ -95,14 +95,14 @@ Keyword arguments:
     points are considered significant.
 - genomewideline_color (string; default 'red'): Color of the
     genome-wide line. Can be in any color format accepted by
-    plotly.graph_objs.
+    plotly.graph_objects.
 - genomewideline_width (number; default 1): Width of the genome-wide
     line.
 - highlight (bool; default True): Whether the data points considered
     significant should be highlighted or not.
 - highlight_color (string; default 'red'): Color of the data points
     highlighted because considered significant. Can be in any color
-    format accepted by plotly.graph_objs.
+    format accepted by plotly.graph_objects.
 
     # ...
     Example 1: Random Volcano Plot
@@ -288,7 +288,7 @@ class _VolcanoPlot():
             highlight=True,
             highlight_color='red',
     ):
-        """Return a figure object compatible with plotly.graph_objs.
+        """Return a figure object compatible with plotly.graph_objects.
 
         Keyword arguments:
     - title (string; default 'Volcano Plot'): Title of the
@@ -298,7 +298,7 @@ class _VolcanoPlot():
     - point_size (number; default 5): Size of the points of the scatter
       plot.
     - col (string; optional): Color of the points of the Scatter plot. Can
-        be in any color format accepted by plotly.graph_objs.
+        be in any color format accepted by plotly.graph_objects.
     - effect_size_line (bool | list; default [-1, 1]): A boolean which must be
         either False to deactivate the option, or a list/array containing the
         upper and lower bounds of the effect size values. Significant data
@@ -314,14 +314,14 @@ class _VolcanoPlot():
         numerical value corresponding to the p-value above which the
         data points are considered significant.
     - genomewideline_color (string; default 'red'): Color of the genome-wide
-        line. Can be in any color format accepted by plotly.graph_objs.
+        line. Can be in any color format accepted by plotly.graph_objects.
     - genomewideline_width (number; default 1): Width of the genome-wide
         line.
     - highlight (bool; default True): Whether the data points considered
       significant should be highlighted or not.
     - highlight_color (string; default 'red'): Color of the data points
         highlighted because considered significant. Can be in any color
-        format accepted by plotly.graph_objs.
+        format accepted by plotly.graph_objects.
         """
 
         if xlabel is None:
