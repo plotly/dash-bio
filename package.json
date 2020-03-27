@@ -27,8 +27,8 @@
     "postbuild": "es-check es5 dash_bio/*.js",
     "build:dev": "npm run build:js-dev && npm run build:py"
   },
-  "author": "The Plotly Team <dashbio@plot.ly>",
-  "maintainer": "Ryan Patrick Kyle <ryan@plot.ly>",
+  "author": "The Plotly Team <dashbio@plotly.com>",
+  "maintainer": "Ryan Patrick Kyle <ryan@plotly.com>",
   "license": "MIT",
   "dependencies": {
     "circos": "git+https://github.com/matthewchan15/circosJS.git#matthewchan15-zoom-pan-svg",
