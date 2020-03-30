@@ -80,7 +80,7 @@ export default class NglMoleculeViewer extends Component {
     showStructure(stageObj, chain, color, xOffset, stage) {
         if (chain !== 'ALL') {
             const selection = new Selection(':' + chain);
-            const pa = stageObj.structure.getPrincipalAxes(selection);
+            const pa = stageObj.structure.getView(selection).getPrincipalAxes();
 
             stageObj.addRepresentation('cartoon', {
                 sele: ':' + chain,
@@ -104,24 +104,19 @@ export default class NglMoleculeViewer extends Component {
 
     // If not load the structure from the backend
     processDataFromBackend(data, stage, structuresList) {
-        const xval1 = 0;
-        const xval2 = 100;
-        const xval3 = 200;
-        const xval4 = 300;
-
-        const xOffsetArr = [xval1, xval2, xval3, xval4];
         for (var i = 0; i < data.length; i++) {
             const filename = data[i].filename;
+            const xOffset = i * 100;
             if (structuresList.includes(filename)) {
                 this.loadStructure(
                     stage,
                     filename,
                     data[i].chain,
                     data[i].color,
-                    xOffsetArr[i]
+                    xOffset
                 );
             } else {
-                this.loadData(data[i], stage, xOffsetArr[i]);
+                this.loadData(data[i], stage, xOffset);
             }
         }
         const center = stage.getCenter();
