@@ -33,7 +33,7 @@ os.environ['PLOTLY_USERNAME'] = 'developers'
 # Fill in with your Plotly On-Premise API key
 # See <your-plotly-server>/settings/api to generate a key
 # If you have already created a key and saved it on your own machine
-# (from the Plotly-Python library instructions at https://plot.ly/python/getting-started)
+# (from the Plotly-Python library instructions at https://plotly.com/python/getting-started)
 # then you can view that key in your ~/.plotly/.config file
 # or inside a Python session with these commands:
 # import plotly

@@ -164,7 +164,7 @@ download a Chrome driver (Linux:chromium), install it, and add its path.
 Follow what the error messages point to (this will be platform-specific).
 
 To write more integration tests, please read this
-[tutorial](https://dash.plot.ly/testing).
+[tutorial](https://dash.plotly.com/testing).
 
 To run the suite of unit tests:
 ```bash
