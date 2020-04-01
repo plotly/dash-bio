@@ -44,36 +44,40 @@ pdbID1.chain_pdbID2.chain
  _ indicates that more than one protein should be shown
 - data (dict; default [
     {
-        uploaded: false,
+        filename: 'placeholder',
+        ext: '',
         selectedValue: 'placeholder',
         chain: 'ALL',
         color: 'red',
-        filename: 'placeholder',
-        ext: '',
         config: {
             input: '',
             type: 'text/plain',
         },
+        uploaded: false,
+        resetView: false,
     },
 ]): The data (in JSON format) that will be used to display the molecule
-uploaded: indicator if file from local storage (false) or uploaded by user (true)
-selectedValue: pdbString
-color: color in hex format
 filename: name of the used pdb/cif file
 ext: file extensions (pdb or cif)
+selectedValue: pdbString
+chain: ALL if the whole molecule shoud be displayed, e.g. A for showing onyl chain A
+color: color in hex format
 config.input: content of the pdb file
-config.type: format of config.input. data has the following type: list of dicts containing keys 'uploaded', 'selectedValue', 'chain', 'color', 'filename', 'ext', 'config'.
+config.type: format of config.input
+uploaded: flag if file from local storage (false) or uploaded by user (true)
+resetView: flag if the selection did not change but the view should be resettet (true). data has the following type: list of dicts containing keys 'filename', 'ext', 'selectedValue', 'chain', 'color', 'config', 'uploaded', 'resetView'.
 Those keys have the following types:
-  - uploaded (boolean; required)
+  - filename (string; required)
+  - ext (string; optional)
   - selectedValue (string; required)
   - chain (string; required)
   - color (string; required)
-  - filename (string; required)
-  - ext (string; optional)
   - config (dict; optional): config has the following type: dict containing keys 'input', 'type'.
 Those keys have the following types:
   - input (string; required)
-  - type (string; required)"""
+  - type (string; required)
+  - uploaded (boolean; required)
+  - resetView (boolean; required)"""
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, viewportStyle=Component.UNDEFINED, stageParameters=Component.UNDEFINED, pdbString=Component.UNDEFINED, data=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'viewportStyle', 'stageParameters', 'pdbString', 'data']

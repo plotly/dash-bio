@@ -1,10 +1,13 @@
 import glob
-import json
 import time
+import json
+from selenium.webdriver.common.action_chains import ActionChains
 
 import dash
+from dash.dash import no_update
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
+import dash_core_components as dcc
 import dash_bio
 
 # from dash_bio_utils import pdb_parser as parser
@@ -32,7 +35,7 @@ data_dict = {
 
 
 # Helper function to load the data
-def get_data(selection, pdb_id, color):
+def get_data(selection, pdb_id, color, resetView=False):
 
     chain = "ALL"
 
@@ -46,26 +49,27 @@ def get_data(selection, pdb_id, color):
         contents = f.read()
 
     return {
+        "filename": fname.split("/")[-1],
+        "ext": fname.split(".")[-1],
         "selectedValue": selection,
         "chain": chain,
         "color": color,
-        "filename": fname.split("/")[-1],
-        "ext": fname.split(".")[-1],
         "config": {"type": "text/plain", "input": contents},
+        "resetView": resetView,
+        "uploaded": False,
     }
 
 
 # Get sample data for starting the app
-_model_data = get_data(selection='1BNA',
-                       pdb_id='1BNA',
-                       color='red')
+_model_data = get_data(selection="1BNA",
+                       pdb_id="1BNA",
+                       color="red", resetView=False)
 
 
 viewer = html.Div(
     [dash_bio.NglMoleculeViewer(
         id=_COMPONENT_ID,
-        data=[_model_data]
-        )],
+        data=[_model_data])],
     style={
         "display": "inline-block",
         "width": "calc(100% - 500px)",
@@ -76,38 +80,87 @@ viewer = html.Div(
 )
 
 
+# additional functions
+def rotate_stage(dash_duo):
+    # The previous function (get_data) needs some time therefore
+    # it is better to wait some seconds before rotating the molecule
+    time.sleep(5)
+
+    stage = dash_duo.find_element("#" + _COMPONENT_ID + " canvas")
+    ac = ActionChains(dash_duo.driver)
+    ac.drag_and_drop_by_offset(stage, 100, 50).perform()
+
+
+def reset_stageView(dash_duo):
+    dash_duo.find_element("#reset-view-button").click()
+
+
+# Based on simple_app_layout
+# simple_app_layout does not work because:
+# There needs to be an additional reset button
+def modified_simple_app_layout(component):
+    return [
+        dcc.Input(id="prop-name"),
+        dcc.Input(id="prop-value"),
+        html.Div(id="pass-fail-div"),
+        html.Button("Submit", id="submit-prop-button"),
+        html.Button("Reset", id="reset-view-button"),
+        component,
+    ]
+
+
 # Based on simple_app_callback
 # simple_app_callback does not work because:
 # NglMoleculeViewer does not accept the output as a string
-def callback_getData(
+def modified_simple_app_callback(
         app,
         dash_duo,
         component_id,
         test_prop_name,
         test_prop_value,
-        take_snapshot=True
+        take_snapshot=True,
+        additional_functions=[],
 ):
     @app.callback(
         Output(component_id, test_prop_name),
-        [Input("submit-prop-button", "n_clicks")],
+        [
+            Input("submit-prop-button", "n_clicks"),
+            Input("reset-view-button", "n_clicks"),
+        ],
         [State("prop-value", "value")],
     )
-    def setup_click_callback(nclicks, value):
+    def setup_click_callback(submit_nclicks, reset_nclicks, value):
+
+        ctx = dash.callback_context
+        if ctx.triggered:
+            input_id = ctx.triggered[0]["prop_id"].split(".")[0]
+            print("triggred", input_id)
+
+        if value is None:
+            return no_update
+
+        reset_view = False
+        if input_id == "reset-view-button":
+            reset_view = True
 
         data_list = []
-
-        if nclicks is not None and nclicks > 0:
-            if "_" in test_prop_value:
-                for i, pdb_id in enumerate(test_prop_value.split("_")):
-                    data_list.append(get_data(
-                        test_prop_value, pdb_id, color_list[i]))
-            else:
-                pdb_id = test_prop_value
-                data_list.append(get_data(
-                    test_prop_value, pdb_id, color_list[0]))
-            return data_list
-
-        raise dash.exceptions.PreventUpdate()
+        if "_" in test_prop_value:
+            for i, pdb_id in enumerate(test_prop_value.split("_")):
+                data_list.append(
+                    get_data(
+                        test_prop_value, pdb_id,
+                        color_list[i], resetView=reset_view
+                    )
+                )
+        else:
+            pdb_id = test_prop_value
+            data_list.append(
+                get_data(
+                    pdb_id, pdb_id,
+                    color_list[0], resetView=reset_view
+                )
+            )
+        return data_list
 
     dash_duo.start_server(app)
     dash_duo.wait_for_element("#" + component_id)
@@ -120,6 +173,12 @@ def callback_getData(
     input_prop_name.send_keys(test_prop_name)
     input_prop_value.send_keys(test_prop_value)
     input_send_button.click()
+
+    for function in additional_functions:
+        if function == "rotate":
+            rotate_stage(dash_duo)
+        if function == "reset":
+            reset_stageView(dash_duo)
 
     # The molecule has an apearing animation therefore
     # It is better to wait some seconds before snapshotting it
@@ -142,7 +201,6 @@ def test_dbdn001_viewer_loaded(dash_duo):
     assert dash_duo.find_element("#" + _COMPONENT_ID + " canvas")
 
 
-# This test is still buggy because the background is not changed
 def test_dbdn002_change_background(dash_duo):
 
     stage_config = {
@@ -173,9 +231,9 @@ def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(simple_app_layout(viewer,))
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
 
-    callback_getData(
+    modified_simple_app_callback(
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
@@ -221,9 +279,9 @@ def test_dbdn_004_show_oneMolecule_cif(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(simple_app_layout(viewer,))
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
 
-    callback_getData(
+    modified_simple_app_callback(
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
@@ -239,9 +297,9 @@ def test_dbdn_005_show_oneChain(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(simple_app_layout(viewer,))
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
 
-    callback_getData(
+    modified_simple_app_callback(
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
@@ -257,13 +315,51 @@ def test_dbdn_006_show_multipleMolecules(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(simple_app_layout(viewer,))
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
 
-    callback_getData(
+    modified_simple_app_callback(
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
         test_prop_name="data",
         test_prop_value=selection,
         take_snapshot=True,
+    )
+
+
+def test_dbn_007_rotate_stage(dash_duo):
+
+    selection = "6CHG.A_3K8P.D"
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
+
+    modified_simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="data",
+        test_prop_value=selection,
+        take_snapshot=True,
+        additional_functions=["rotate"],
+    )
+
+
+def test_dbn_008_reset_stageView(dash_duo):
+
+    selection = "6CHG.A_3K8P.D"
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
+
+    modified_simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="data",
+        test_prop_value=selection,
+        take_snapshot=True,
+        additional_functions=["rotate", "reset"],
     )

@@ -1997,9 +1997,13 @@
           "value": {
             "name": "exact",
             "value": {
-              "uploaded": {
-                "name": "bool",
+              "filename": {
+                "name": "string",
                 "required": true
+              },
+              "ext": {
+                "name": "string",
+                "required": false
               },
               "selectedValue": {
                 "name": "string",
@@ -2012,14 +2016,6 @@
               "color": {
                 "name": "string",
                 "required": true
-              },
-              "filename": {
-                "name": "string",
-                "required": true
-              },
-              "ext": {
-                "name": "string",
-                "required": false
               },
               "config": {
                 "name": "exact",
@@ -2034,14 +2030,22 @@
                   }
                 },
                 "required": false
+              },
+              "uploaded": {
+                "name": "bool",
+                "required": true
+              },
+              "resetView": {
+                "name": "bool",
+                "required": true
               }
             }
           }
         },
         "required": false,
-        "description": "The data (in JSON format) that will be used to display the molecule\nuploaded: indicator if file from local storage (false) or uploaded by user (true)\nselectedValue: pdbString\ncolor: color in hex format\nfilename: name of the used pdb/cif file\next: file extensions (pdb or cif)\nconfig.input: content of the pdb file\nconfig.type: format of config.input",
+        "description": "The data (in JSON format) that will be used to display the molecule\nfilename: name of the used pdb/cif file\next: file extensions (pdb or cif)\nselectedValue: pdbString\nchain: ALL if the whole molecule shoud be displayed, e.g. A for showing onyl chain A\ncolor: color in hex format\nconfig.input: content of the pdb file\nconfig.type: format of config.input\nuploaded: flag if file from local storage (false) or uploaded by user (true)\nresetView: flag if the selection did not change but the view should be resettet (true)",
         "defaultValue": {
-          "value": "[\n    {\n        uploaded: false,\n        selectedValue: 'placeholder',\n        chain: 'ALL',\n        color: 'red',\n        filename: 'placeholder',\n        ext: '',\n        config: {\n            input: '',\n            type: 'text/plain',\n        },\n    },\n]",
+          "value": "[\n    {\n        filename: 'placeholder',\n        ext: '',\n        selectedValue: 'placeholder',\n        chain: 'ALL',\n        color: 'red',\n        config: {\n            input: '',\n            type: 'text/plain',\n        },\n        uploaded: false,\n        resetView: false,\n    },\n]",
           "computed": false
         }
       }

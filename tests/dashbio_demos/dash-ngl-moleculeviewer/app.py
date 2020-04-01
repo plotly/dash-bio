@@ -43,13 +43,14 @@ pdbs_list = [
 
 # Placeholder which is loaded if no molecule is selected
 data_dict = {
-    "uploaded": False,
+    "filename": "placeholder",
+    "ext": "",
     "selectedValue": "placeholder",
     "chain": "ALL",
     "color": "#e41a1c",
-    "filename": "placeholder",
-    "ext": "",
     "config": {"type": "", "input": ""},
+    "uploaded": False,
+    "resetView": False,
 }
 
 # Canvas container to display the structures
@@ -100,7 +101,8 @@ data_tab = [
         children="Show multiple structures & specify a chain",
     ),
     dcc.Input(id="pdb-string", placeholder="pdbID1.chain_pdbID2.chain",),
-    html.Button("Submit", id="button"),
+    html.Button("Submit", id="btn-pdbString"),
+    html.Button("Reset View", id="btn-resetView"),
     html.Div(
         title="Upload biomolecule to view here",
         className="app-controls-block",
@@ -133,9 +135,7 @@ view_tab = [
             ),
             dcc.Dropdown(
                 id="stage-bg-color",
-                options=[
-                    {"label": c, "value": c.lower()} for c in ["black", "white"]
-                ],
+                options=[{"label": c, "value": c.lower()} for c in ["black", "white"]],
                 value="white",
             ),
         ],
@@ -237,20 +237,23 @@ def layout():
     )
 
 
-def createDict(selection, chain, color, filename, ext, contents, uploaded=False):
+def createDict(
+        selection, chain, color, filename, ext, contents, resetView=False, uploaded=False
+):
     return {
-        "uploaded": uploaded,
+        "filename": filename,
+        "ext": ext,
         "selectedValue": selection,
         "chain": chain,
         "color": color,
-        "filename": filename,
-        "ext": ext,
         "config": {"type": "text/plain", "input": contents},
+        "uploaded": uploaded,
+        "resetView": resetView,
     }
 
 
 # Helper function to load structures from local storage
-def getLocalData(selection, pdb_id, color, uploadedFiles):
+def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
 
     chain = "ALL"
 
@@ -273,24 +276,23 @@ def getLocalData(selection, pdb_id, color, uploadedFiles):
                 fname,
                 fname.split(".")[1],
                 content,
+                resetView,
                 uploaded=False,
             )
+        return data_dict
 
-        else:
-            return data_dict
-    else:
-        # get path to protein structure
-        fname = [f for f in glob.glob("data/" + pdb_id + ".*")][0]
+    # get path to protein structure
+    fname = [f for f in glob.glob("data/" + pdb_id + ".*")][0]
 
-        with open(fname, "r") as f:
-            contents = f.read()
+    with open(fname, "r") as f:
+        contents = f.read()
 
-        filename = fname.split("/")[-1]
-        ext = fname.split(".")[-1]
+    filename = fname.split("/")[-1]
+    ext = fname.split(".")[-1]
 
-        return createDict(
-            selection, chain, color, filename, ext, contents, uploaded=False
-        )
+    return createDict(
+        selection, chain, color, filename, ext, contents, resetView, uploaded=False
+    )
 
 
 # Helper function to load structures from uploaded content
@@ -322,6 +324,7 @@ def getUploadedData(uploaded_content):
                 filename,
                 ext,
                 decoded_contents,
+                resetView=False,
                 uploaded=True,
             )
         )
@@ -342,7 +345,8 @@ def callbacks(_app):
         [
             Input("pdb-dropdown", "value"),
             Input("ngl-upload-data", "contents"),
-            Input("button", "n_clicks"),
+            Input("btn-pdbString", "n_clicks"),
+            Input("btn-resetView", "n_clicks"),
         ],
         [
             State("pdb-string", "value"),
@@ -351,15 +355,19 @@ def callbacks(_app):
         ],
     )
     def display_output(
-        selection, uploaded_content, n_clicks, value, dropdown_options, files
+            selection,
+            uploaded_content,
+            pdbString_clicks,
+            resetView_clicks,
+            pdbString,
+            dropdown_options,
+            files,
     ):
-        print("selection,n_clicks,value,type uploaded_content", "files")
-        print(selection, n_clicks, value, type(uploaded_content), type(files))
-
         input_id = None
         options = dropdown_options
-        files = files["props"]["children"] if type(files) is dict else "".join(files)
-        print(files)
+        files = (
+            files["props"]["children"] if isinstance(files, dict) else "".join(files)
+        )
 
         ctx = callback_context
         if ctx.triggered:
@@ -383,44 +391,62 @@ def callbacks(_app):
 
                 content = ""
                 chain = "ALL"
-                return (
-                    [
-                        createDict(
-                            pdb_id,
-                            chain,
-                            color_list[0],
-                            fname,
-                            fname.split(".")[1],
-                            content,
-                            uploaded=False,
-                        )
-                    ],
-                    options,
-                    files,
-                )
+                data = [
+                    createDict(
+                        pdb_id,
+                        chain,
+                        color_list[0],
+                        fname,
+                        fname.split(".")[1],
+                        content,
+                        resetView=False,
+                        uploaded=False,
+                    )
+                ]
+                return (data, options, files, no_update)
 
-            data = [getLocalData(selection, pdb_id, color_list[0], files)]
+            data = [
+                getLocalData(selection, pdb_id, color_list[0], files, resetView=False)
+            ]
             return data, options, files, no_update
 
-        if input_id == "button":
-            if value is None:
+        # TODO submit and reset view in one button
+        if input_id in ["btn-pdbString", "btn-resetView"]:
+            if pdbString is None:
                 return no_update, no_update, no_update, no_update
-            else:
-                print("textbox submitted")
-                data = []
-                if len(value) > 4:
-                    pdb_id = value
-                    if "_" in value:
-                        for i, pdb_id in enumerate(value.split("_")):
-                            data.append(
-                                getLocalData(value, pdb_id, color_list[i], files)
-                            )
-                    else:
-                        data.append(getLocalData(value, pdb_id, color_list[0], files))
-                else:
-                    data.append(data_dict)
 
-                return data, options, files, "Select a molecule"
+            reset_view = False
+            if input_id == "btn-resetView":
+                reset_view = True
+
+            data = []
+            if len(pdbString) > 4:
+                pdb_id = pdbString
+                if "_" in pdbString:
+                    for i, pdb_id in enumerate(pdbString.split("_")):
+                        data.append(
+                            getLocalData(
+                                pdbString,
+                                pdb_id,
+                                color_list[i],
+                                files,
+                                resetView=reset_view,
+                            )
+                        )
+                else:
+                    data.append(
+                        getLocalData(
+                            pdbString,
+                            pdb_id,
+                            color_list[0],
+                            files,
+                            resetView=reset_view,
+                        )
+                    )
+            else:
+                data.append(data_dict)
+
+            return data, options, files, "Select a molecule"
 
         if input_id == "ngl-upload-data":
             data, uploads = getUploadedData(uploaded_content)

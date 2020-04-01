@@ -14,15 +14,22 @@ import {equals} from 'ramda';
 export default class NglMoleculeViewer extends Component {
     constructor(props) {
         super(props);
-        this.state = {stage: null, structuresList: []};
+        this.state = {
+            stage: null,
+            orientationMatrix: null,
+            structuresList: [],
+        };
     }
 
     componentDidMount() {
         const {id, stageParameters, viewportStyle} = this.props;
         const params = {...stageParameters};
         const stage = new Stage(id, params);
+        const orientationMatrix = stage.viewerControls.getOrientation();
+
         stage.setSize(viewportStyle.width, viewportStyle.height);
         this.setState({stage});
+        this.setState({orientationMatrix});
     }
 
     shouldComponentUpdate(prevProps, nextProps) {
@@ -41,16 +48,22 @@ export default class NglMoleculeViewer extends Component {
             if (oldSelection !== newSelection) {
                 return true;
             }
+
+            // check if view should be resettet
+            const resetView = data[0].resetView;
+            if (oldSelection === newSelection && resetView === true) {
+                return true;
+            }
+
             // check if structure has been uploaded
             if (data[0].uploaded === true) {
                 return true;
             }
         }
 
-        // check for stage params changed
+        // check if stage params changed
         const oldStage = prevProps.stageParameters;
         const newStage = stageParameters;
-
         if (!equals(oldStage, newStage)) {
             return true;
         }
@@ -62,25 +75,32 @@ export default class NglMoleculeViewer extends Component {
     componentDidUpdate() {
         const {data, stageParameters} = this.props;
         const {stage, structuresList} = this.state;
-
-        stage.setParameters(stageParameters);
-
         const newSelection = data[0].selectedValue;
+
+        // update the stage with the new stage params
+        stage.setParameters(stageParameters);
 
         if (newSelection !== 'placeholder') {
             stage.eachComponent(function(comp) {
                 comp.removeAllRepresentations();
             });
-
             this.processDataFromBackend(data, stage, structuresList);
         }
     }
 
     // styles the output of loadStructure/loadData
     showStructure(stageObj, chain, color, xOffset, stage) {
+        const center = stage.getCenter();
+        const newZoom = -500;
+        const duration = 1000;
+
         if (chain !== 'ALL') {
+            const {orientationMatrix} = this.state;
             const selection = new Selection(':' + chain);
             const pa = stageObj.structure.getView(selection).getPrincipalAxes();
+
+            // reset stage orientation
+            stage.viewerControls.orient(orientationMatrix);
 
             stageObj.addRepresentation('cartoon', {
                 sele: ':' + chain,
@@ -93,7 +113,7 @@ export default class NglMoleculeViewer extends Component {
         } else {
             stageObj.addRepresentation('cartoon');
         }
-        stage.animationControls.moveComponent(stageObj, stageObj.getCenter());
+        stage.animationControls.zoomMove(center, newZoom, duration);
     }
 
     // If user has selected structure already used before load it from the browser
@@ -119,10 +139,6 @@ export default class NglMoleculeViewer extends Component {
                 this.loadData(data[i], stage, xOffset);
             }
         }
-        const center = stage.getCenter();
-        const newZoom = -500;
-        const duration = 1000;
-        stage.animationControls.zoomMove(center, newZoom, duration);
     }
 
     loadData(data, stage, xOffset) {
@@ -168,16 +184,17 @@ const defaultStageParameters = {
 
 const defaultData = [
     {
-        uploaded: false,
+        filename: 'placeholder',
+        ext: '',
         selectedValue: 'placeholder',
         chain: 'ALL',
         color: 'red',
-        filename: 'placeholder',
-        ext: '',
         config: {
             input: '',
             type: 'text/plain',
         },
+        uploaded: false,
+        resetView: false,
     },
 ];
 
@@ -228,26 +245,29 @@ NglMoleculeViewer.propTypes = {
 
     /**
      * The data (in JSON format) that will be used to display the molecule
-     * uploaded: indicator if file from local storage (false) or uploaded by user (true)
-     * selectedValue: pdbString
-     * color: color in hex format
      * filename: name of the used pdb/cif file
      * ext: file extensions (pdb or cif)
+     * selectedValue: pdbString
+     * chain: ALL if the whole molecule shoud be displayed, e.g. A for showing onyl chain A
+     * color: color in hex format
      * config.input: content of the pdb file
      * config.type: format of config.input
+     * uploaded: flag if file from local storage (false) or uploaded by user (true)
+     * resetView: flag if the selection did not change but the view should be resettet (true)
      */
     data: PropTypes.arrayOf(
         PropTypes.exact({
-            uploaded: PropTypes.bool.isRequired,
+            filename: PropTypes.string.isRequired,
+            ext: PropTypes.string,
             selectedValue: PropTypes.string.isRequired,
             chain: PropTypes.string.isRequired,
             color: PropTypes.string.isRequired,
-            filename: PropTypes.string.isRequired,
-            ext: PropTypes.string,
             config: PropTypes.exact({
                 input: PropTypes.string.isRequired,
                 type: PropTypes.string.isRequired,
             }),
+            uploaded: PropTypes.bool.isRequired,
+            resetView: PropTypes.bool.isRequired,
         })
     ),
 };
