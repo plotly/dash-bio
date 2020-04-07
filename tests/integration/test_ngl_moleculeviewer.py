@@ -1,6 +1,8 @@
 import glob
 import time
 import json
+import gzip
+
 from selenium.webdriver.common.action_chains import ActionChains
 
 import dash
@@ -45,16 +47,22 @@ def get_data(selection, pdb_id, color, resetView=False):
 
     fname = [f for f in glob.glob(data_path + pdb_id + ".*")][0]
 
-    with open(fname, "r") as f:
-        contents = f.read()
+    if "gz" in fname:
+        ext = fname.split('.')[-2]
+        with gzip.open(fname, 'r') as f:
+            content = f.read().decode('UTF-8')
+    else:
+        ext = fname.split('.')[-1]
+        with open(fname, 'r') as f:
+            content = f.read()
 
     return {
         "filename": fname.split("/")[-1],
-        "ext": fname.split(".")[-1],
+        "ext": ext,
         "selectedValue": selection,
         "chain": chain,
         "color": color,
-        "config": {"type": "text/plain", "input": contents},
+        "config": {"type": "text/plain", "input": content},
         "resetView": resetView,
         "uploaded": False,
     }
@@ -291,7 +299,25 @@ def test_dbdn_004_show_oneMolecule_cif(dash_duo):
     )
 
 
-def test_dbdn_005_show_oneChain(dash_duo):
+def test_dbdn_005_show_oneMolecule_cif_gzipped(dash_duo):
+
+    selection = "1KMQ"
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
+
+    modified_simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="data",
+        test_prop_value=selection,
+        take_snapshot=True,
+    )
+
+
+def test_dbdn_006_show_oneChain(dash_duo):
 
     selection = "6CHG.A"
 
@@ -309,7 +335,7 @@ def test_dbdn_005_show_oneChain(dash_duo):
     )
 
 
-def test_dbdn_006_show_multipleMolecules(dash_duo):
+def test_dbdn_007_show_multipleMolecules(dash_duo):
 
     selection = "6CHG.A_3K8P.D"
 
@@ -327,7 +353,7 @@ def test_dbdn_006_show_multipleMolecules(dash_duo):
     )
 
 
-def test_dbn_007_rotate_stage(dash_duo):
+def test_dbn_008_rotate_stage(dash_duo):
 
     selection = "6CHG.A_3K8P.D"
 
@@ -346,7 +372,7 @@ def test_dbn_007_rotate_stage(dash_duo):
     )
 
 
-def test_dbn_008_reset_stageView(dash_duo):
+def test_dbn_009_reset_stageView(dash_duo):
 
     selection = "6CHG.A_3K8P.D"
 

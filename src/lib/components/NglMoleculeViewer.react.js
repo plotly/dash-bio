@@ -90,29 +90,31 @@ export default class NglMoleculeViewer extends Component {
 
     // styles the output of loadStructure/loadData
     showStructure(stageObj, chain, color, xOffset, stage) {
-        const center = stage.getCenter();
-        const newZoom = -500;
-        const duration = 1000;
-
+        
+        // reset stage
+        const {orientationMatrix} = this.state;
+        stage.viewerControls.orient(orientationMatrix);
+        
         if (chain !== 'ALL') {
-            const {orientationMatrix} = this.state;
             const selection = new Selection(':' + chain);
             const pa = stageObj.structure.getView(selection).getPrincipalAxes();
-
-            // reset stage orientation
-            stage.viewerControls.orient(orientationMatrix);
-
+            
+            
             stageObj.addRepresentation('cartoon', {
                 sele: ':' + chain,
                 color: color,
             });
             stageObj.setRotation(pa.getRotationQuaternion());
-
+            
             // translate by x angstrom along chosen axis
             stageObj.setPosition([xOffset, 0, 0]);
         } else {
             stageObj.addRepresentation('cartoon');
         }
+        const center = stage.getCenter();
+        const newZoom = -500;
+        const duration = 1000;
+
         stage.animationControls.zoomMove(center, newZoom, duration);
     }
 
