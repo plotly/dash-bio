@@ -74,7 +74,9 @@ about_html = [
         'You can select a preloaded structure, or upload your own,'
         'in the "Data" tab. Supported formats: .pdb(.gz) / .cif(.gz) '
     ),
-    html.P('Additionally you can show multiple structures and/or ' 'specify a chain'),
+    html.P(
+        'Additionally you can show multiple structures and/or specify a chain'
+        'and/or specify a amino acid range'),
     html.P('In the "View" tab, you can change the style of the viewer'),
     html.P('Like the background color, the chain colors, the render quality etc.')
 ]
@@ -202,6 +204,56 @@ view_tab = [
     ),
 ]
 
+download_tab = [
+    html.Button("Download Image", id="btn-downloadImage"),
+    html.Div(
+        title="antialias",
+        className="app-controls-block",
+        id="ngl-image-antialias",
+        children=[
+            html.P(
+                "antialias", style={"font-weight": "bold", "margin-bottom": "10px"}
+            ),
+            dcc.Dropdown(
+                id="image-antialias",
+                options=[{"label": c, "value": c} for c in ["Yes", "No"]],
+                value="Yes",
+            ),
+        ],
+    ),
+    html.Div(
+        title="trim",
+        className="app-controls-block",
+        id="ngl-image-trim",
+        children=[
+            html.P(
+                "trim",
+                style={"font-weight": "bold", "margin-bottom": "10px"}),
+            dcc.Dropdown(
+                id="image-trim",
+                options=[{"label": c, "value": c} for c in ["Yes", "No"]],
+                value="Yes",
+            ),
+        ],
+    ),
+    html.Div(
+        title="transparent",
+        className="app-controls-block",
+        id="ngl-image-transparent",
+        children=[
+            html.P(
+                "transparent background",
+                style={"font-weight": "bold", "margin-bottom": "10px"},
+            ),
+            dcc.Dropdown(
+                id="image-transparent",
+                options=[{"label": c, "value": c} for c in ["Yes", "No"]],
+                value="Yes",
+            ),
+        ],
+    ),
+]
+
 tabs = html.Div(
     id='ngl-control-tabs',
     className='control-tabs',
@@ -224,6 +276,11 @@ tabs = html.Div(
                     label='View',
                     value='view-options',
                     children=[html.Div(className='control-tab', children=view_tab)],
+                ),
+                dcc.Tab(
+                    label="Download",
+                    value="download-options",
+                    children=[html.Div(className="control-tab", children=download_tab)],
                 ),
             ],
         ),
@@ -260,13 +317,14 @@ def layout():
 
 
 def createDict(
-        filename, ext, selection, chain, color, content, resetView=False, uploaded=False
+        filename, ext, selection, chain, aa_range, color, content, resetView=False, uploaded=False
 ):
     return {
         'filename': filename,
         'ext': ext,
         'selectedValue': selection,
         'chain': chain,
+        'range': aa_range,
         'color': color,
         'config': {'type': 'text/plain', 'input': content},
         'resetView': resetView,
@@ -278,10 +336,15 @@ def createDict(
 def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
 
     chain = 'ALL'
+    aa_range = 'ALL'
 
     # Check if only one chain should be shown
     if '.' in pdb_id:
         pdb_id, chain = pdb_id.split('.')
+
+        # Check if only a specified amino acids range should be shown:
+        if ":" in chain:
+            chain, aa_range = chain.split(":")
 
     if pdb_id not in pdbs_list:
         if pdb_id in uploadedFiles:
@@ -293,6 +356,7 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
                 fname.split('.')[1],
                 selection,
                 chain,
+                aa_range,
                 color,
                 content,
                 resetView,
@@ -315,7 +379,7 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
     filename = fname.split('/')[-1]
 
     return createDict(
-        filename, ext, selection, chain, color, content, resetView, uploaded=False
+        filename, ext, selection, chain, aa_range, color, content, resetView, uploaded=False
     )
 
 
@@ -326,6 +390,7 @@ def getUploadedData(uploaded_content):
 
     ext = 'pdb'
     chain = 'ALL'
+    aa_range = 'ALL'
 
     for i, content in enumerate(uploaded_content):
         content_type, content = str(content).split(',')
@@ -354,6 +419,7 @@ def getUploadedData(uploaded_content):
                 ext,
                 pdb_id,
                 chain,
+                aa_range,
                 color_list[i],
                 content,
                 resetView=False,
@@ -408,7 +474,7 @@ def callbacks(_app):
             input_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
         if input_id is None:
-            return [data_dict], options, files, no_update
+            return [data_dict], options, files, no_update, no_update
 
         if input_id == 'pdb-dropdown':
             pdb_id = selection
@@ -418,12 +484,14 @@ def callbacks(_app):
 
                 content = ''
                 chain = 'ALL'
+                aa_range = 'ALL'
                 data = [
                     createDict(
                         fname,
                         fname.split('.')[1],
                         pdb_id,
                         chain,
+                        aa_range,
                         color_list[0],
                         content,
                         resetView=False,
@@ -509,6 +577,35 @@ def callbacks(_app):
             'cameraType': camera_type,
             'quality': quality,
         }
+
+    # Callback download Image
+    bool_dict = {"Yes": True, "No": False}
+
+    @_app.callback(
+        [
+            Output(component_id, "downloadImage"),
+            Output(component_id, "imageParameters")
+        ],
+        [Input("btn-downloadImage", "n_clicks")],
+        [
+            State("image-antialias", "value"),
+            State("image-trim", "value"),
+            State("image-transparent", "value"),
+        ],
+    )
+    def download_image(n_clicks, antialias, trim, transparent):
+        if n_clicks is None:
+            return False, no_update
+
+        ctx = callback_context
+        return (
+            bool(ctx.triggered),
+            {
+                "antialias": bool_dict[antialias],
+                "trim": bool_dict[trim],
+                "transparent": bool_dict[transparent],
+            },
+        )
 
 
 # only declare app/server if the file is being run directly

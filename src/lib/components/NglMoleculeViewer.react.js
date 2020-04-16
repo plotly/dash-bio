@@ -84,11 +84,13 @@ export default class NglMoleculeViewer extends Component {
         // update the stage with the new stage params
         stage.setParameters(stageParameters);
 
-        if (downloadImage === false && newSelection !== 'placeholder') {
+        if (
+            downloadImage === undefined ||
+            (downloadImage === false && newSelection !== 'placeholder')
+        ) {
             stage.eachComponent(function(comp) {
                 comp.removeAllRepresentations();
             });
-
             this.processDataFromBackend(data, stage, structuresList);
         }
 
@@ -133,7 +135,7 @@ export default class NglMoleculeViewer extends Component {
         }
         const newZoom = -500;
         const duration = 1000;
-        stage.animationControls.move(newZoom, duration);
+        stage.animationControls.zoom(newZoom, duration);
     }
 
     // If user has selected structure already used before load it from the browser

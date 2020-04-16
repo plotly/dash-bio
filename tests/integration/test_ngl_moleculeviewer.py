@@ -27,8 +27,10 @@ dropdown_options = ["1PNK", "6CHG", "3K8P", "1BNA"]
 # Placeholder which is loaded if no molecule is selected
 data_dict = {
     "uploaed": False,
+    "resetView": False,
     "selectedValue": "placeholder",
     "chain": "ALL",
+    "range": "ALL",
     "color": "#e41a1c",
     "filename": "placeholder",
     "ext": "",
@@ -38,12 +40,16 @@ data_dict = {
 
 # Helper function to load the data
 def get_data(selection, pdb_id, color, resetView=False):
-
     chain = "ALL"
+    aa_range = "ALL"
 
     # Check if only one chain should be shown
     if "." in pdb_id:
         pdb_id, chain = pdb_id.split(".")
+
+        # Check if only a specified amino acids range should be shown:
+        if ":" in chain:
+            chain, aa_range = chain.split(":")
 
     fname = [f for f in glob.glob(data_path + pdb_id + ".*")][0]
 
@@ -61,6 +67,7 @@ def get_data(selection, pdb_id, color, resetView=False):
         "ext": ext,
         "selectedValue": selection,
         "chain": chain,
+        "range": aa_range,
         "color": color,
         "config": {"type": "text/plain", "input": content},
         "resetView": resetView,
@@ -250,7 +257,6 @@ def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
         take_snapshot=True,
     )
 
-
 # tried to implement the test bases on shammamah's
 # suggestions did not work (see comment in PR)
 # def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
@@ -335,7 +341,25 @@ def test_dbdn_006_show_oneChain(dash_duo):
     )
 
 
-def test_dbdn_007_show_multipleMolecules(dash_duo):
+def test_dbdn_007_show_aaRange(dash_duo):
+
+    selection = "6CHG.A:1-50"
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
+
+    modified_simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="data",
+        test_prop_value=selection,
+        take_snapshot=True,
+    )
+
+
+def test_dbdn_008_show_multipleMolecules(dash_duo):
 
     selection = "6CHG.A_3K8P.D"
 
@@ -353,7 +377,7 @@ def test_dbdn_007_show_multipleMolecules(dash_duo):
     )
 
 
-def test_dbn_008_rotate_stage(dash_duo):
+def test_dbn_009_rotate_stage(dash_duo):
 
     selection = "6CHG.A_3K8P.D"
 
@@ -372,7 +396,7 @@ def test_dbn_008_rotate_stage(dash_duo):
     )
 
 
-def test_dbn_009_reset_stageView(dash_duo):
+def test_dbn_010_reset_stageView(dash_duo):
 
     selection = "6CHG.A_3K8P.D"
 
