@@ -105,9 +105,9 @@ data_tab = [
     ),
     html.Div(
         className='app-controls-name',
-        children='Show multiple structures & specify a chain',
+        children='Show multiple structures and/or specify a chain and/or a aminoacid range ',
     ),
-    dcc.Input(id='pdb-string', placeholder='pdbID1.chain_pdbID2.chain',),
+    dcc.Input(id='pdb-string', placeholder='pdbID1.chain:start-end_pdbID2.chain:start-end',),
     html.Button('Submit', id='btn-pdbString'),
     html.Button('Reset View', id='btn-resetView'),
     html.Div(
