@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Stage, Selection} from 'ngl';
+import {Stage, Selection, download} from 'ngl';
 import {equals} from 'ramda';
 
 /**
@@ -28,12 +28,13 @@ export default class NglMoleculeViewer extends Component {
         const orientationMatrix = stage.viewerControls.getOrientation();
 
         stage.setSize(viewportStyle.width, viewportStyle.height);
-        this.setState({stage});
-        this.setState({orientationMatrix});
+        this.setState({stage, orientationMatrix});
     }
 
     shouldComponentUpdate(prevProps, nextProps) {
-        const {stageParameters, data} = this.props;
+        const {stageParameters, data, downloadImage} = this.props;
+        const oldStage = prevProps.stageParameters;
+        const newStage = stageParameters;
 
         // check if data has changed
         if (data !== null && prevProps.data !== null) {
@@ -62,9 +63,12 @@ export default class NglMoleculeViewer extends Component {
         }
 
         // check if stage params changed
-        const oldStage = prevProps.stageParameters;
-        const newStage = stageParameters;
         if (!equals(oldStage, newStage)) {
+            return true;
+        }
+
+        // check if download image has been selected
+        if (prevProps.downloadImage !== downloadImage) {
             return true;
         }
 
@@ -73,55 +77,69 @@ export default class NglMoleculeViewer extends Component {
     }
 
     componentDidUpdate() {
-        const {data, stageParameters} = this.props;
+        const {data, stageParameters, downloadImage} = this.props;
         const {stage, structuresList} = this.state;
         const newSelection = data[0].selectedValue;
 
         // update the stage with the new stage params
         stage.setParameters(stageParameters);
 
-        if (newSelection !== 'placeholder') {
+        if (downloadImage === false && newSelection !== 'placeholder') {
             stage.eachComponent(function(comp) {
                 comp.removeAllRepresentations();
             });
+
             this.processDataFromBackend(data, stage, structuresList);
+        }
+
+        if (downloadImage === true) {
+            this.generateImage(stage);
         }
     }
 
     // styles the output of loadStructure/loadData
-    showStructure(stageObj, chain, color, xOffset, stage) {
-        
-        // reset stage
+    showStructure(stageObj, chain, range, color, xOffset, stage) {
         const {orientationMatrix} = this.state;
+
+        // reset stage
         stage.viewerControls.orient(orientationMatrix);
-        
+
         if (chain !== 'ALL') {
-            const selection = new Selection(':' + chain);
-            const pa = stageObj.structure.getView(selection).getPrincipalAxes();
-            
-            
-            stageObj.addRepresentation('cartoon', {
-                sele: ':' + chain,
+            let sele = ':' + chain;
+            if (range !== 'ALL') {
+                sele = sele + ' and ' + range;
+            }
+
+            const selection = new Selection(sele);
+            const pa = stageObj.structure.getPrincipalAxes(selection);
+            const struc = stage.addComponentFromObject(
+                stageObj.structure.getView(selection)
+            );
+            const struc_centre = struc.getCenter();
+            struc.setPosition([
+                0 - struc_centre.x - xOffset,
+                0 - struc_centre.y,
+                0 - struc_centre.z,
+            ]);
+
+            struc.setRotation(pa.getRotationQuaternion());
+
+            struc.addRepresentation('cartoon', {
+                sele: sele,
                 color: color,
             });
-            stageObj.setRotation(pa.getRotationQuaternion());
-            
-            // translate by x angstrom along chosen axis
-            stageObj.setPosition([xOffset, 0, 0]);
         } else {
             stageObj.addRepresentation('cartoon');
         }
-        const center = stage.getCenter();
         const newZoom = -500;
         const duration = 1000;
-
-        stage.animationControls.zoomMove(center, newZoom, duration);
+        stage.animationControls.move(newZoom, duration);
     }
 
     // If user has selected structure already used before load it from the browser
-    loadStructure(stage, filename, chain, color, xOffset) {
+    loadStructure(stage, filename, chain, range, color, xOffset) {
         const stageObj = stage.getComponentsByName(filename).list[0];
-        this.showStructure(stageObj, chain, color, xOffset, stage);
+        this.showStructure(stageObj, chain, range, color, xOffset, stage);
     }
 
     // If not load the structure from the backend
@@ -134,6 +152,7 @@ export default class NglMoleculeViewer extends Component {
                     stage,
                     filename,
                     data[i].chain,
+                    data[i].range,
                     data[i].color,
                     xOffset
                 );
@@ -143,6 +162,7 @@ export default class NglMoleculeViewer extends Component {
         }
     }
 
+    // load data from the backend into the browser
     loadData(data, stage, xOffset) {
         const stringBlob = new Blob([data.config.input], {
             type: data.config.type,
@@ -154,6 +174,7 @@ export default class NglMoleculeViewer extends Component {
                 this.showStructure(
                     stageObj,
                     data.chain,
+                    data.range,
                     data.color,
                     xOffset,
                     stage
@@ -164,6 +185,22 @@ export default class NglMoleculeViewer extends Component {
                         data.filename,
                     ]),
                 }));
+            });
+    }
+
+    // helper function
+    generateImage(stage) {
+        const {imageParameters} = this.props;
+
+        stage
+            .makeImage({
+                factor: 1,
+                antialias: imageParameters.antialias,
+                trim: imageParameters.trim,
+                transparent: imageParameters.transparent,
+            })
+            .then(function(blob) {
+                download(blob, 'nglMoleculeViewer_output.png');
             });
     }
 
@@ -184,12 +221,19 @@ const defaultStageParameters = {
     cameraType: 'perspective',
 };
 
+const defaultImageParameters = {
+    antialias: true,
+    transparent: true,
+    trim: true,
+};
+
 const defaultData = [
     {
         filename: 'placeholder',
         ext: '',
         selectedValue: 'placeholder',
         chain: 'ALL',
+        range: 'ALL',
         color: 'red',
         config: {
             input: '',
@@ -204,6 +248,7 @@ NglMoleculeViewer.defaultProps = {
     data: defaultData,
     viewportStyle: defaultViewportStyle,
     stageParameters: defaultStageParameters,
+    imageParameters: defaultImageParameters,
 };
 
 NglMoleculeViewer.propTypes = {
@@ -237,10 +282,25 @@ NglMoleculeViewer.propTypes = {
     }),
 
     /**
+     * Parameters (in JSON format) for exporting the image
+     */
+    imageParameters: PropTypes.exact({
+        antialias: PropTypes.bool,
+        transparent: PropTypes.bool,
+        trim: PropTypes.bool,
+    }),
+
+    /**
+     * flag if download image was selected
+     */
+    downloadImage: PropTypes.bool,
+
+    /**
      * Variable which defines how many molecules should be shown and/or which chain
      * The following format needs to be used:
-     * pdbID1.chain_pdbID2.chain
+     * pdbID1.chain:start-end_pdbID2.chain:start-end
      * . indicates that only one chain should be shown
+     * : indicates that a specific range should be shown (e.g. 1-50)
      *  _ indicates that more than one protein should be shown
      */
     pdbString: PropTypes.string,
@@ -250,7 +310,8 @@ NglMoleculeViewer.propTypes = {
      * filename: name of the used pdb/cif file
      * ext: file extensions (pdb or cif)
      * selectedValue: pdbString
-     * chain: ALL if the whole molecule shoud be displayed, e.g. A for showing onyl chain A
+     * chain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A
+     * range: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only a part
      * color: color in hex format
      * config.input: content of the pdb file
      * config.type: format of config.input
@@ -263,6 +324,7 @@ NglMoleculeViewer.propTypes = {
             ext: PropTypes.string,
             selectedValue: PropTypes.string.isRequired,
             chain: PropTypes.string.isRequired,
+            range: PropTypes.string.isRequired,
             color: PropTypes.string.isRequired,
             config: PropTypes.exact({
                 input: PropTypes.string.isRequired,

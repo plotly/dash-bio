@@ -1847,6 +1847,10 @@
             "type": null
           },
           {
+            "name": "range",
+            "type": null
+          },
+          {
             "name": "color",
             "type": null
           },
@@ -1876,6 +1880,10 @@
           },
           {
             "name": "chain",
+            "type": null
+          },
+          {
+            "name": "range",
             "type": null
           },
           {
@@ -1924,6 +1932,18 @@
           },
           {
             "name": "xOffset",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "generateImage",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "stage",
             "type": null
           }
         ],
@@ -1984,12 +2004,44 @@
           "computed": false
         }
       },
+      "imageParameters": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "antialias": {
+              "name": "bool",
+              "required": false
+            },
+            "transparent": {
+              "name": "bool",
+              "required": false
+            },
+            "trim": {
+              "name": "bool",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Parameters (in JSON format) for exporting the image",
+        "defaultValue": {
+          "value": "{\n    antialias: true,\n    transparent: true,\n    trim: true,\n}",
+          "computed": false
+        }
+      },
+      "downloadImage": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "flag if download image was selected"
+      },
       "pdbString": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": "Variable which defines how many molecules should be shown and/or which chain\nThe following format needs to be used:\npdbID1.chain_pdbID2.chain\n. indicates that only one chain should be shown\n _ indicates that more than one protein should be shown"
+        "description": "Variable which defines how many molecules should be shown and/or which chain\nThe following format needs to be used:\npdbID1.chain:start-end_pdbID2.chain:start-end\n. indicates that only one chain should be shown\n: indicates that a specific range should be shown (e.g. 1-50)\n _ indicates that more than one protein should be shown"
       },
       "data": {
         "type": {
@@ -2010,6 +2062,10 @@
                 "required": true
               },
               "chain": {
+                "name": "string",
+                "required": true
+              },
+              "range": {
                 "name": "string",
                 "required": true
               },
@@ -2043,9 +2099,9 @@
           }
         },
         "required": false,
-        "description": "The data (in JSON format) that will be used to display the molecule\nfilename: name of the used pdb/cif file\next: file extensions (pdb or cif)\nselectedValue: pdbString\nchain: ALL if the whole molecule shoud be displayed, e.g. A for showing onyl chain A\ncolor: color in hex format\nconfig.input: content of the pdb file\nconfig.type: format of config.input\nuploaded: flag if file from local storage (false) or uploaded by user (true)\nresetView: flag if the selection did not change but the view should be resettet (true)",
+        "description": "The data (in JSON format) that will be used to display the molecule\nfilename: name of the used pdb/cif file\next: file extensions (pdb or cif)\nselectedValue: pdbString\nchain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A\nrange: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only a part\ncolor: color in hex format\nconfig.input: content of the pdb file\nconfig.type: format of config.input\nuploaded: flag if file from local storage (false) or uploaded by user (true)\nresetView: flag if the selection did not change but the view should be resettet (true)",
         "defaultValue": {
-          "value": "[\n    {\n        filename: 'placeholder',\n        ext: '',\n        selectedValue: 'placeholder',\n        chain: 'ALL',\n        color: 'red',\n        config: {\n            input: '',\n            type: 'text/plain',\n        },\n        uploaded: false,\n        resetView: false,\n    },\n]",
+          "value": "[\n    {\n        filename: 'placeholder',\n        ext: '',\n        selectedValue: 'placeholder',\n        chain: 'ALL',\n        range: 'ALL',\n        color: 'red',\n        config: {\n            input: '',\n            type: 'text/plain',\n        },\n        uploaded: false,\n        resetView: false,\n    },\n]",
           "computed": false
         }
       }
