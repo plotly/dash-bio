@@ -29,6 +29,27 @@ color_list = [
     '#999999',
 ]
 
+# Possible molecular representations
+representations = [
+    'axes',
+    'axes+box',
+    'backbone',
+    'box',
+    'ball+stick',
+    'cartoon',
+    'helixorient',
+    'hyperball',
+    'licorice',
+    'line',
+    'ribbon',
+    'rope',
+    'spacefill',
+    'surface',
+    'trace',
+    'tube',
+    'unitcell',
+]
+
 # PDB examples
 pdbs_list = [
     '1PNK',
@@ -65,7 +86,7 @@ viewer = html.Div(
 )
 
 about_html = [
-    html.H4(className='what-is', children='What is Ngl Molecule Viewer?',),
+    html.H4(className='what-is', children='What is Ngl Molecule Viewer?'),
     html.P(
         'Ngl Molecule Viewer is a visualizer that allows you'
         'to view biomolecules as cartoons.'
@@ -78,7 +99,8 @@ about_html = [
         'Additionally you can show multiple structures and/or specify a chain'
         'and/or specify a amino acid range'),
     html.P('In the "View" tab, you can change the style of the viewer'),
-    html.P('Like the background color, the chain colors, the render quality etc.')
+    html.P('Like the background color, the chain colors, the render quality etc.'),
+    html.P('On top you can change the molecular representation')
 ]
 
 
@@ -132,6 +154,24 @@ data_tab = [
 ]
 
 view_tab = [
+    html.Div(
+        title="select molecule style",
+        className="app-controls-block",
+        id="ngl-mols-style",
+        children=[
+            html.P(
+                "Style",
+                style={"font-weight": "bold", "margin-bottom": "10px"},
+            ),
+            dcc.Dropdown(
+                id="molecules-represetation-style",
+                options=[{"label": e, "value": e.lower()} for e in representations],
+                placeholder="select molecule style",
+                value=['cartoon', 'axes+box'],
+                multi=True
+            ),
+        ],
+    ),
     html.Div(
         title='select chain color',
         className='app-controls-block',
@@ -343,8 +383,8 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
         pdb_id, chain = pdb_id.split('.')
 
         # Check if only a specified amino acids range should be shown:
-        if ":" in chain:
-            chain, aa_range = chain.split(":")
+        if ':' in chain:
+            chain, aa_range = chain.split(':')
 
     if pdb_id not in pdbs_list:
         if pdb_id in uploadedFiles:
@@ -436,6 +476,7 @@ def callbacks(_app):
     @_app.callback(
         [
             Output(component_id, 'data'),
+            Output(component_id, "molStyles"),
             Output('pdb-dropdown', 'options'),
             Output('uploaded-files', 'children'),
             Output('pdb-dropdown', 'placeholder'),
@@ -459,6 +500,7 @@ def callbacks(_app):
             uploaded_content,
             pdbString_clicks,
             resetView_clicks,
+            molStyles_list,
             pdbString,
             dropdown_options,
             files,
@@ -485,8 +527,8 @@ def callbacks(_app):
                 content = ''
                 chain = 'ALL'
                 aa_range = 'ALL'
-                data = [
-                    createDict(
+                return (
+                    [createDict(
                         fname,
                         fname.split('.')[1],
                         pdb_id,
@@ -496,21 +538,32 @@ def callbacks(_app):
                         content,
                         resetView=False,
                         uploaded=False,
-                    )
-                ]
-                return (data, options, files, no_update)
+                    )],
+                    molStyles_list,
+                    options,
+                    files,
+                    no_update,
+                    no_update
+                )
 
-            data = [
-                getLocalData(selection, pdb_id, color_list[0], files, resetView=False)
-            ]
-            return data, options, files, no_update, no_update
+            return ([getLocalData(selection,
+                                  pdb_id,
+                                  color_list[0],
+                                  files,
+                                  resetView=False)],
+                    molStyles_list,
+                    options,
+                    files,
+                    no_update,
+                    no_update
+                    )
 
         # TODO submit and reset view in one button
         if input_id in ['btn-pdbString', 'btn-resetView']:
             warning = ''
 
             if pdbString is None:
-                return no_update, no_update, no_update, no_update, no_update
+                return no_update, no_update, no_update, no_update, no_update, no_update
 
             reset_view = False
             if input_id == 'btn-resetView':
@@ -536,7 +589,7 @@ def callbacks(_app):
                             warning = 'more molecules selected as chain colors defined either \
                                        remove one molecule or add a extra color in the view tab \
                                        and reset view before submitting it again.'
-                            return data, options, files, no_update, warning
+                            return data, no_update, options, files, no_update, warning
                 else:
                     data.append(
                         getLocalData(
@@ -550,7 +603,7 @@ def callbacks(_app):
             else:
                 data.append(data_dict)
 
-            return data, options, files, 'Select a molecule', warning
+            return data, no_update, options, files, 'Select a molecule', warning
 
         if input_id == 'ngl-upload-data':
             data, uploads = getUploadedData(uploaded_content)
@@ -560,7 +613,10 @@ def callbacks(_app):
                     options.append({'label': pdb_id, 'value': pdb_id})
                     files += pdb_id + '.' + ext + ','
 
-            return data, options, files, pdb_id, no_update
+            return data, no_update, options, files, pdb_id, no_update
+
+        if input_id == "molecules-represetation-style":
+            return no_update, molStyles_list, no_update, no_update, no_update, no_update
 
     # Callback for updating bg-color, camera-type and render quality
     @_app.callback(

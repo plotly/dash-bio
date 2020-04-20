@@ -29,12 +29,11 @@ export default class NglMoleculeViewer extends Component {
 
         stage.setSize(viewportStyle.width, viewportStyle.height);
         this.setState({stage, orientationMatrix});
+        console.log('did mount');
     }
 
     shouldComponentUpdate(prevProps, nextProps) {
-        const {stageParameters, data, downloadImage} = this.props;
-        const oldStage = prevProps.stageParameters;
-        const newStage = stageParameters;
+        const {stageParameters, data, downloadImage, molStyles} = this.props;
 
         // check if data has changed
         if (data !== null && prevProps.data !== null) {
@@ -62,8 +61,13 @@ export default class NglMoleculeViewer extends Component {
             }
         }
 
+        // check if molStyles has been changed
+        if (!equals(prevProps.molStyles, molStyles)) {
+            return true;
+        }
+
         // check if stage params changed
-        if (!equals(oldStage, newStage)) {
+        if (!equals(prevProps.stageParameters, stageParameters)) {
             return true;
         }
 
@@ -77,21 +81,22 @@ export default class NglMoleculeViewer extends Component {
     }
 
     componentDidUpdate() {
-        const {data, stageParameters, downloadImage} = this.props;
+        const {data, stageParameters, downloadImage, molStyles} = this.props;
         const {stage, structuresList} = this.state;
-        const newSelection = data[0].selectedValue;
+
+        console.log('did update');
 
         // update the stage with the new stage params
         stage.setParameters(stageParameters);
 
         if (
             downloadImage === undefined ||
-            (downloadImage === false && newSelection !== 'placeholder')
+            (downloadImage === false && data[0].selectedValue !== 'placeholder')
         ) {
-            stage.eachComponent(function(comp) {
-                comp.removeAllRepresentations();
+            stage.eachComponent(function(e) {
+                e.removeAllRepresentations();
             });
-            this.processDataFromBackend(data, stage, structuresList);
+            this.processDataFromBackend(data, molStyles, stage, structuresList);
         }
 
         if (downloadImage === true) {
@@ -99,17 +104,48 @@ export default class NglMoleculeViewer extends Component {
         }
     }
 
-    // styles the output of loadStructure/loadData
-    showStructure(stageObj, chain, range, color, xOffset, stage) {
-        const {orientationMatrix} = this.state;
+    // adds one or multiple molecular representaions
+    addMolStyle(struc, molStyles, sele, color) {
+        const args = {
+            sele: sele,
+            showBox: molStyles.includes('axes+box'),
+        };
 
-        // reset stage
+        if (sele !== ':') {
+            args.color = color;
+        }
+
+        molStyles.forEach(molStyle => {
+            let repr = molStyle;
+            if (molStyle === 'axes+box') {
+                // This is not a ngl provided moleculuar representation
+                // but a combination of repr: 'axes' and showBox = true
+                repr = 'axes';
+            }
+            struc.addRepresentation(repr, args);
+        });
+    }
+
+    // helper functions which styles the output of loadStructure/loadData
+    showStructure(stageObj, molStyles, chain, range, color, xOffset, stage) {
+        const {orientationMatrix} = this.state;
+        const newZoom = -500;
+        const duration = 1000;
+        let sele = ':';
+
+        console.log('orientation Matrix');
+        console.log(orientationMatrix);
         stage.viewerControls.orient(orientationMatrix);
 
-        if (chain !== 'ALL') {
-            let sele = ':' + chain;
+        console.log(molStyles);
+
+        if (chain === 'ALL') {
+            this.addMolStyle(stageObj, molStyles, sele, color);
+        } else {
+            sele += chain;
             if (range !== 'ALL') {
-                sele = sele + ' and ' + range;
+                sele += ' and ' + range;
+                console.log(sele);
             }
 
             const selection = new Selection(sele);
@@ -125,27 +161,34 @@ export default class NglMoleculeViewer extends Component {
             ]);
 
             struc.setRotation(pa.getRotationQuaternion());
-
-            struc.addRepresentation('cartoon', {
-                sele: sele,
-                color: color,
-            });
-        } else {
-            stageObj.addRepresentation('cartoon');
+            this.addMolStyle(struc, molStyles, sele, color);
         }
-        const newZoom = -500;
-        const duration = 1000;
+
+        // stage.animationControls.moveComponent(stageObj, stageObj.getCenter(), 1000)
+        // const center = stage.getCenter()
         stage.animationControls.zoom(newZoom, duration);
+        // stage.animationControls.zoomMove(center, newZoom, duration)
+
+        // stage.autoView()
     }
 
     // If user has selected structure already used before load it from the browser
-    loadStructure(stage, filename, chain, range, color, xOffset) {
+    loadStructure(stage, filename, molStyles, chain, range, color, xOffset) {
         const stageObj = stage.getComponentsByName(filename).list[0];
-        this.showStructure(stageObj, chain, range, color, xOffset, stage);
+        this.showStructure(
+            stageObj,
+            molStyles,
+            chain,
+            range,
+            color,
+            xOffset,
+            stage
+        );
     }
 
     // If not load the structure from the backend
-    processDataFromBackend(data, stage, structuresList) {
+    processDataFromBackend(data, molStyles, stage, structuresList) {
+        console.log('processDataFromBackend');
         for (var i = 0; i < data.length; i++) {
             const filename = data[i].filename;
             const xOffset = i * 100;
@@ -153,19 +196,20 @@ export default class NglMoleculeViewer extends Component {
                 this.loadStructure(
                     stage,
                     filename,
+                    molStyles,
                     data[i].chain,
                     data[i].range,
                     data[i].color,
                     xOffset
                 );
             } else {
-                this.loadData(data[i], stage, xOffset);
+                this.loadData(data[i], molStyles, stage, xOffset);
             }
         }
     }
 
     // load data from the backend into the browser
-    loadData(data, stage, xOffset) {
+    loadData(data, molStyles, stage, xOffset) {
         const stringBlob = new Blob([data.config.input], {
             type: data.config.type,
         });
@@ -175,6 +219,7 @@ export default class NglMoleculeViewer extends Component {
                 stageObj.name = data.filename;
                 this.showStructure(
                     stageObj,
+                    molStyles,
                     data.chain,
                     data.range,
                     data.color,
@@ -190,7 +235,7 @@ export default class NglMoleculeViewer extends Component {
             });
     }
 
-    // helper function
+    // generates a image and serves it to the client
     generateImage(stage) {
         const {imageParameters} = this.props;
 
@@ -251,6 +296,8 @@ NglMoleculeViewer.defaultProps = {
     viewportStyle: defaultViewportStyle,
     stageParameters: defaultStageParameters,
     imageParameters: defaultImageParameters,
+    downloadImage: false,
+    molStyles: ['cartoon'],
 };
 
 NglMoleculeViewer.propTypes = {
@@ -336,6 +383,16 @@ NglMoleculeViewer.propTypes = {
             resetView: PropTypes.bool.isRequired,
         })
     ),
+    /**
+     * Variable for changing the molecule representation
+     * Possible molecule styles:
+     * 'backbone,'ball+stick','cartoon', 'hyperball'
+     * 'licorice','line','ribbon','rope','spacefill',
+     * 'surface','trace','tube'
+     * Possible additional representations:
+     * 'axes','axes+box','helixorient','unitcell'
+     */
+    molStyles: PropTypes.arrayOf(PropTypes.string),
 };
 
 export const defaultProps = NglMoleculeViewer.defaultProps;

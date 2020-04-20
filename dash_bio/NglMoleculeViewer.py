@@ -46,7 +46,7 @@ Those keys have the following types:
   - antialias (boolean; optional)
   - transparent (boolean; optional)
   - trim (boolean; optional)
-- downloadImage (boolean; optional): flag if download image was selected
+- downloadImage (boolean; default False): flag if download image was selected
 - pdbString (string; optional): Variable which defines how many molecules should be shown and/or which chain
 The following format needs to be used:
 pdbID1.chain:start-end_pdbID2.chain:start-end
@@ -91,14 +91,21 @@ Those keys have the following types:
   - input (string; required)
   - type (string; required)
   - uploaded (boolean; required)
-  - resetView (boolean; required)"""
+  - resetView (boolean; required)
+- molStyles (list of strings; default ['cartoon']): Variable for changing the molecule representation
+Possible molecule styles:
+'backbone,'ball+stick','cartoon', 'hyperball'
+'licorice','line','ribbon','rope','spacefill',
+'surface','trace','tube'
+Possible additional representations:
+'axes','axes+box','helixorient','unitcell'"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, viewportStyle=Component.UNDEFINED, stageParameters=Component.UNDEFINED, imageParameters=Component.UNDEFINED, downloadImage=Component.UNDEFINED, pdbString=Component.UNDEFINED, data=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'viewportStyle', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data']
+    def __init__(self, id=Component.UNDEFINED, viewportStyle=Component.UNDEFINED, stageParameters=Component.UNDEFINED, imageParameters=Component.UNDEFINED, downloadImage=Component.UNDEFINED, pdbString=Component.UNDEFINED, data=Component.UNDEFINED, molStyles=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'viewportStyle', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
         self._type = 'NglMoleculeViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'viewportStyle', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data']
+        self.available_properties = ['id', 'viewportStyle', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')
