@@ -41,7 +41,8 @@ data_dict = {
 # Helper function to load the data
 def get_data(test_value, pdb_id, color, resetView=False):
     chain = 'ALL'
-    aa_range = 'ALL'
+    atoms_range = 'ALL'
+    atoms_string = ''
 
     # Check if only one chain should be shown
     if '.' in pdb_id:
@@ -49,7 +50,15 @@ def get_data(test_value, pdb_id, color, resetView=False):
 
         # Check if only a specified amino acids range should be shown:
         if ':' in chain:
-            chain, aa_range = chain.split(':')
+            chain, atoms_range = chain.split(':')
+
+            # Check if amino acids should be highlighted
+            if '@' in atoms_range:
+                atoms_range, atoms_string = atoms_range.split('@')
+
+        else:
+            if '@' in chain:
+                chain, atoms_string = chain.split('@')
 
     fname = [f for f in glob.glob(data_path + pdb_id + '.*')][0]
 
@@ -67,7 +76,8 @@ def get_data(test_value, pdb_id, color, resetView=False):
         'ext': ext,
         'selectedValue': test_value,
         'chain': chain,
-        'range': aa_range,
+        'range': atoms_range,
+        'chosenAtoms': atoms_string,
         'color': color,
         'config': {'type': 'text/plain', 'input': content},
         'resetView': resetView,
@@ -149,7 +159,10 @@ def modified_simple_app_callback(
     )
     def setup_click_callback(submit_nclicks, reset_nclicks, value):
 
-        molstyles_list = ['cartoon']
+        molstyles_dict = {
+            'representations': ['cartoon', 'axes+box'],
+            'chosenAtomsColor': 'white'
+        }
 
         ctx = dash.callback_context
         if ctx.triggered:
@@ -167,7 +180,12 @@ def modified_simple_app_callback(
         if ';' in value:
             value, molstyles = value.split(';')
             if ',' in molstyles:
-                molstyles_list = molstyles.split(',')
+                molstyles_dict['representations'] = molstyles.split(',')
+
+        # test if chosen atoms colors should be changed:
+        if '|' in value:
+            value, color = value.split('|')
+            molstyles_dict['chosenAtomsColor'] = color
 
         data_list = []
         if '_' in value:
@@ -186,7 +204,7 @@ def modified_simple_app_callback(
                     color_list[0], resetView=reset_view
                 )
             )
-        return data_list, molstyles_list
+        return data_list, molstyles_dict
 
     dash_duo.start_server(app)
     dash_duo.wait_for_element('#' + component_id)
@@ -373,7 +391,7 @@ def test_dbdn_007_show_oneChain(dash_duo):
     )
 
 
-def test_dbdn_008_show_aaRange(dash_duo):
+def test_dbdn_008_show_atomRange(dash_duo):
 
     test_value = '6CHG.A:1-50'
 
@@ -391,9 +409,29 @@ def test_dbdn_008_show_aaRange(dash_duo):
     )
 
 
-def test_dbdn_009_show_multipleMolecules(dash_duo):
+def test_dbdn_009_show_selectedAtoms(dash_duo):
 
-    test_mol_value = '6CHG.A_3K8P.D'
+    test_value = '6CHG.A@50,100,150'
+    test_color_value = 'black'
+    test_value = test_value + '|' + test_color_value
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
+
+    modified_simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='data',
+        test_prop_value=test_value,
+        take_snapshot=True,
+    )
+
+
+def test_dbdn_010_show_multipleMolecules(dash_duo):
+
+    test_mol_value = '6CHG.A:1-450@50,100,150_3K8P.D'
     test_repr_value = 'cartoon,axes+box'
     test_value = test_mol_value + ';' + test_repr_value
 
@@ -411,7 +449,7 @@ def test_dbdn_009_show_multipleMolecules(dash_duo):
     )
 
 
-def test_dbn_010_rotate_stage(dash_duo):
+def test_dbn_011_rotate_stage(dash_duo):
 
     test_value = '6CHG.A_3K8P.D'
 
@@ -430,7 +468,7 @@ def test_dbn_010_rotate_stage(dash_duo):
     )
 
 
-def test_dbn_011_reset_stageView(dash_duo):
+def test_dbn_012_reset_stageView(dash_duo):
 
     test_value = '6CHG.A_3K8P.D'
 

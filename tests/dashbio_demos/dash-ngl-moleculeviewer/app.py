@@ -17,7 +17,7 @@ except ModuleNotFoundError:
     from .layout_helper import run_standalone_app
 
 # Preset colors for the shown molecules
-color_list = [
+COLORS = [
     '#e41a1c',
     '#377eb8',
     '#4daf4a',
@@ -30,11 +30,10 @@ color_list = [
 ]
 
 # Possible molecular representations
-representations = [
+REPRESENTATIONS = [
     'axes',
     'axes+box',
     'backbone',
-    'box',
     'ball+stick',
     'cartoon',
     'helixorient',
@@ -51,7 +50,7 @@ representations = [
 ]
 
 # PDB examples
-pdbs_list = [
+PDBS = [
     '1PNK',
     '5L73',
     '4GWM',
@@ -70,6 +69,8 @@ data_dict = {
     'ext': '',
     'selectedValue': 'placeholder',
     'chain': 'ALL',
+    'range': 'ALL',
+    'chosenAtoms': '',
     'color': '#e41a1c',
     'config': {'type': '', 'input': ''},
     'uploaded': False,
@@ -86,21 +87,27 @@ viewer = html.Div(
 )
 
 about_html = [
-    html.H4(className='what-is', children='What is Ngl Molecule Viewer?'),
+    html.H4(
+        className='what-is',
+        children='What is Ngl Molecule Viewer?'
+    ),
     html.P(
         'Ngl Molecule Viewer is a visualizer that allows you'
-        'to view biomolecules as cartoons.'
+        ' to view biomolecules in multiple representations.'
     ),
     html.P(
         'You can select a preloaded structure, or upload your own,'
-        'in the "Data" tab. Supported formats: .pdb(.gz) / .cif(.gz) '
+        ' in the "Data" tab. Supported formats: .pdb(.gz) / .cif(.gz) '
     ),
     html.P(
-        'Additionally you can show multiple structures and/or specify a chain'
-        'and/or specify a amino acid range'),
-    html.P('In the "View" tab, you can change the style of the viewer'),
-    html.P('Like the background color, the chain colors, the render quality etc.'),
-    html.P('On top you can change the molecular representation')
+        'Additionally you can show multiple structures and (or) specify a chain/'
+        ' atom range/ highlight chosen atoms.'
+    ),
+    html.P(
+        'In the "View" tab, you can change the style of the viewer.'
+        ' Like the background color, the chain colors, the render quality etc.'
+        ' On top you can change the molecular representations.'
+    )
 ]
 
 
@@ -112,7 +119,7 @@ def description():
     return (
         'Molecule visualization in 3D - perfect for viewing '
         'biomolecules such as proteins, DNA and RNA. Includes '
-        'stick, cartoon, and sphere representations.'
+        'stick, cartoon, and sphere representation.'
     )
 
 
@@ -121,17 +128,28 @@ data_tab = [
     dcc.Dropdown(
         id='pdb-dropdown',
         clearable=False,
-        options=[{'label': k, 'value': k} for k in pdbs_list],
-        value='1BNA',
+        options=[{'label': k, 'value': k} for k in PDBS],
         placeholder='placeholder',
     ),
     html.Div(
-        className='app-controls-name',
-        children='Show multiple structures and/or specify a chain and/or a aminoacid range ',
+        children=[
+            html.P(
+                'Show multiple structures and (or) \
+                specify a chain/ atom range/ \
+                highlight chosen atoms',
+                style={'fontSize': '10pt'},
+            )
+        ]
     ),
-    dcc.Input(id='pdb-string', placeholder='pdbID1.chain:start-end_pdbID2.chain:start-end',),
+    dcc.Input(
+        id='pdb-string',
+        placeholder='pdbID1.chain:start-end@atom1,atom2_pdbID2.chain:start-end',
+        value='6CHG.A:1-450@50,100,150_3K8P.D',
+        style={'width': '100%'}),
+    html.Br(),
     html.Button('Submit', id='btn-pdbString'),
     html.Button('Reset View', id='btn-resetView'),
+    html.Br(),
     html.Div(
         title='Upload biomolecule to view here',
         className='app-controls-block',
@@ -150,7 +168,6 @@ data_tab = [
             html.Div(id='warning_div', children=html.Div(['']))
         ],
     ),
-    html.Div(id='ngl-data-info'),
 ]
 
 view_tab = [
@@ -161,11 +178,11 @@ view_tab = [
         children=[
             html.P(
                 "Style",
-                style={"font-weight": "bold", "margin-bottom": "10px"},
+                style={"fontWeight": "bold", "marginBottom": "10px"},
             ),
             dcc.Dropdown(
                 id="molecules-represetation-style",
-                options=[{"label": e, "value": e.lower()} for e in representations],
+                options=[{"label": e, "value": e.lower()} for e in REPRESENTATIONS],
                 placeholder="select molecule style",
                 value=['cartoon', 'axes+box'],
                 multi=True
@@ -179,12 +196,27 @@ view_tab = [
         children=[
             html.P(
                 'Chain colors',
-                style={'font-weight': 'bold',
-                       'margin-bottom': '10px'},
+                style={'fontWeight': 'bold',
+                       'marginBottom': '10px'},
             ),
             dcc.Input(
                 id='molecules-chain-color',
-                value=','.join(color_list),
+                value=','.join(COLORS),
+            ),
+        ],
+    ),
+    html.Div(
+        title='select chosen atoms color',
+        className='app-controls-block',
+        id='ngl-atom-color',
+        children=[
+            html.P(
+                'Chosen atoms Color',
+                style={'fontWeight': 'bold', 'marginBottom': '10px'},
+            ),
+            dcc.Input(
+                id='chosen-atoms-color',
+                value='#ffffff'
             ),
         ],
     ),
@@ -195,7 +227,7 @@ view_tab = [
         children=[
             html.P(
                 'Background color',
-                style={'font-weight': 'bold', 'margin-bottom': '10px'},
+                style={'fontWeight': 'bold', 'marginBottom': '10px'},
             ),
             dcc.Dropdown(
                 id='stage-bg-color',
@@ -211,7 +243,7 @@ view_tab = [
         children=[
             html.P(
                 'Camera settings',
-                style={'font-weight': 'bold', 'margin-bottom': '10px'},
+                style={'fontWeight': 'bold', 'marginBottom': '10px'},
             ),
             dcc.Dropdown(
                 id='stage-camera-type',
@@ -230,7 +262,7 @@ view_tab = [
         children=[
             html.P(
                 'Render quality',
-                style={'font-weight': 'bold', 'margin-bottom': '10px'},
+                style={'fontWeight': 'bold', 'marginBottom': '10px'},
             ),
             dcc.Dropdown(
                 id='stage-render-quality',
@@ -252,7 +284,7 @@ download_tab = [
         id="ngl-image-antialias",
         children=[
             html.P(
-                "antialias", style={"font-weight": "bold", "margin-bottom": "10px"}
+                "antialias", style={"fontWeight": "bold", "marginBottom": "10px"}
             ),
             dcc.Dropdown(
                 id="image-antialias",
@@ -268,7 +300,7 @@ download_tab = [
         children=[
             html.P(
                 "trim",
-                style={"font-weight": "bold", "margin-bottom": "10px"}),
+                style={"fontWeight": "bold", "marginBottom": "10px"}),
             dcc.Dropdown(
                 id="image-trim",
                 options=[{"label": c, "value": c} for c in ["Yes", "No"]],
@@ -283,7 +315,7 @@ download_tab = [
         children=[
             html.P(
                 "transparent background",
-                style={"font-weight": "bold", "margin-bottom": "10px"},
+                style={"fontWeight": "bold", "marginBottom": "10px"},
             ),
             dcc.Dropdown(
                 id="image-transparent",
@@ -357,14 +389,24 @@ def layout():
 
 
 def createDict(
-        filename, ext, selection, chain, aa_range, color, content, resetView=False, uploaded=False
+        filename,
+        ext,
+        selection,
+        chain,
+        atoms_range,
+        atoms_string,
+        color,
+        content,
+        resetView=False,
+        uploaded=False
 ):
     return {
         'filename': filename,
         'ext': ext,
         'selectedValue': selection,
         'chain': chain,
-        'range': aa_range,
+        'range': atoms_range,
+        'chosenAtoms': atoms_string,
         'color': color,
         'config': {'type': 'text/plain', 'input': content},
         'resetView': resetView,
@@ -376,7 +418,8 @@ def createDict(
 def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
 
     chain = 'ALL'
-    aa_range = 'ALL'
+    atoms_range = 'ALL'
+    atoms_string = ''
 
     # Check if only one chain should be shown
     if '.' in pdb_id:
@@ -384,9 +427,17 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
 
         # Check if only a specified amino acids range should be shown:
         if ':' in chain:
-            chain, aa_range = chain.split(':')
+            chain, atoms_range = chain.split(':')
 
-    if pdb_id not in pdbs_list:
+            # Check if amino acids should be highlighted
+            if '@' in atoms_range:
+                atoms_range, atoms_string = atoms_range.split('@')
+
+        else:
+            if '@' in chain:
+                chain, atoms_string = chain.split('@')
+
+    if pdb_id not in PDBS:
         if pdb_id in uploadedFiles:
             fname = [i for i in uploadedFiles[:-1].split(',') if pdb_id in i][0]
 
@@ -396,7 +447,8 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
                 fname.split('.')[1],
                 selection,
                 chain,
-                aa_range,
+                atoms_range,
+                atoms_string,
                 color,
                 content,
                 resetView,
@@ -409,17 +461,17 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
 
     if "gz" in fname:
         ext = fname.split('.')[-2]
-        with gzip.open(fname, 'r') as f:
-            content = f.read().decode('UTF-8')
+        with gzip.open(fname, 'r') as fh:
+            content = fh.read().decode('UTF-8')
     else:
         ext = fname.split('.')[-1]
-        with open(fname, 'r') as f:
-            content = f.read()
+        with open(fname, 'r') as fh:
+            content = fh.read()
 
     filename = fname.split('/')[-1]
 
     return createDict(
-        filename, ext, selection, chain, aa_range, color, content, resetView, uploaded=False
+        filename, ext, selection, chain, atoms_range, color, content, resetView, uploaded=False
     )
 
 
@@ -430,7 +482,8 @@ def getUploadedData(uploaded_content):
 
     ext = 'pdb'
     chain = 'ALL'
-    aa_range = 'ALL'
+    atoms_range = 'ALL'
+    atoms_string = ''
 
     for i, content in enumerate(uploaded_content):
         content_type, content = str(content).split(',')
@@ -459,8 +512,9 @@ def getUploadedData(uploaded_content):
                 ext,
                 pdb_id,
                 chain,
-                aa_range,
-                color_list[i],
+                atoms_range,
+                atoms_string,
+                COLORS[i],
                 content,
                 resetView=False,
                 uploaded=True,
@@ -487,12 +541,14 @@ def callbacks(_app):
             Input('ngl-upload-data', 'contents'),
             Input('btn-pdbString', 'n_clicks'),
             Input('btn-resetView', 'n_clicks'),
+            Input('molecules-represetation-style', 'value'),
         ],
         [
             State('pdb-string', 'value'),
             State('pdb-dropdown', 'options'),
             State('uploaded-files', 'children'),
             State('molecules-chain-color', 'value'),
+            State('chosen-atoms-color', 'value')
         ],
     )
     def display_output(
@@ -504,19 +560,27 @@ def callbacks(_app):
             pdbString,
             dropdown_options,
             files,
+            colors,
+            chosenAtomsColor
     ):
         input_id = None
         options = dropdown_options
+        colors_list = colors.split(',')
         files = (
             files['props']['children'] if isinstance(files, dict) else ''.join(files)
         )
+
+        molStyles_dict = {
+            'representations': molStyles_list,
+            'chosenAtomsColor': chosenAtomsColor
+        }
 
         ctx = callback_context
         if ctx.triggered:
             input_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
         if input_id is None:
-            return [data_dict], options, files, no_update, no_update
+            return [data_dict], molStyles_dict, options, files, no_update, no_update
 
         if input_id == 'pdb-dropdown':
             pdb_id = selection
@@ -526,15 +590,17 @@ def callbacks(_app):
 
                 content = ''
                 chain = 'ALL'
-                aa_range = 'ALL'
+                atoms_range = 'ALL'
+                atoms_string = ''
                 return (
                     [createDict(
                         fname,
                         fname.split('.')[1],
                         pdb_id,
                         chain,
-                        aa_range,
-                        color_list[0],
+                        atoms_range,
+                        atoms_string,
+                        colors_list[0],
                         content,
                         resetView=False,
                         uploaded=False,
@@ -548,10 +614,10 @@ def callbacks(_app):
 
             return ([getLocalData(selection,
                                   pdb_id,
-                                  color_list[0],
+                                  colors_list[0],
                                   files,
                                   resetView=False)],
-                    molStyles_list,
+                    molStyles_dict,
                     options,
                     files,
                     no_update,
@@ -574,28 +640,29 @@ def callbacks(_app):
                 pdb_id = pdbString
                 if '_' in pdbString:
                     for i, pdb_id in enumerate(pdbString.split('_')):
-                        if i <= len(color_list)-1:
+                        if i <= len(colors_list)-1:
                             data.append(
                                 getLocalData(
                                     pdbString,
                                     pdb_id,
-                                    color_list[i],
+                                    colors_list[i],
                                     files,
                                     resetView=reset_view,
                                 )
                             )
                         else:
                             data.append(data_dict)
-                            warning = 'more molecules selected as chain colors defined either \
-                                       remove one molecule or add a extra color in the view tab \
-                                       and reset view before submitting it again.'
+                            warning = (
+                                'more molecules selected as chain colors defined either \
+                                  remove one molecule or add an extra color in the view tab \
+                                  and reset view before submitting it again.')
                             return data, no_update, options, files, no_update, warning
                 else:
                     data.append(
                         getLocalData(
                             pdbString,
                             pdb_id,
-                            color_list[0],
+                            colors_list[0],
                             files,
                             resetView=reset_view,
                         )
@@ -603,7 +670,7 @@ def callbacks(_app):
             else:
                 data.append(data_dict)
 
-            return data, no_update, options, files, 'Select a molecule', warning
+            return data, molStyles_dict, options, files, 'Select a molecule', warning
 
         if input_id == 'ngl-upload-data':
             data, uploads = getUploadedData(uploaded_content)
@@ -613,10 +680,10 @@ def callbacks(_app):
                     options.append({'label': pdb_id, 'value': pdb_id})
                     files += pdb_id + '.' + ext + ','
 
-            return data, no_update, options, files, pdb_id, no_update
+            return data, molStyles_dict, options, files, pdb_id, no_update
 
         if input_id == "molecules-represetation-style":
-            return no_update, molStyles_list, no_update, no_update, no_update, no_update
+            return no_update, molStyles_dict, no_update, no_update, no_update, no_update
 
     # Callback for updating bg-color, camera-type and render quality
     @_app.callback(

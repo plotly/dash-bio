@@ -1851,6 +1851,10 @@
             "type": null
           },
           {
+            "name": "chosenAtoms",
+            "type": null
+          },
+          {
             "name": "color",
             "type": null
           }
@@ -1879,43 +1883,7 @@
             "type": null
           },
           {
-            "name": "color",
-            "type": null
-          },
-          {
-            "name": "xOffset",
-            "type": null
-          },
-          {
-            "name": "stage",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "loadStructure",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "stage",
-            "type": null
-          },
-          {
-            "name": "filename",
-            "type": null
-          },
-          {
-            "name": "molStyles",
-            "type": null
-          },
-          {
-            "name": "chain",
-            "type": null
-          },
-          {
-            "name": "range",
+            "name": "chosenAtoms",
             "type": null
           },
           {
@@ -1943,10 +1911,6 @@
             "type": null
           },
           {
-            "name": "stage",
-            "type": null
-          },
-          {
             "name": "structuresList",
             "type": null
           }
@@ -1967,10 +1931,6 @@
             "type": null
           },
           {
-            "name": "stage",
-            "type": null
-          },
-          {
             "name": "xOffset",
             "type": null
           }
@@ -1981,12 +1941,7 @@
         "name": "generateImage",
         "docblock": null,
         "modifiers": [],
-        "params": [
-          {
-            "name": "stage",
-            "type": null
-          }
-        ],
+        "params": [],
         "returns": null
       }
     ],
@@ -2085,7 +2040,7 @@
           "name": "string"
         },
         "required": false,
-        "description": "Variable which defines how many molecules should be shown and/or which chain\nThe following format needs to be used:\npdbID1.chain:start-end_pdbID2.chain:start-end\n. indicates that only one chain should be shown\n: indicates that a specific range should be shown (e.g. 1-50)\n _ indicates that more than one protein should be shown"
+        "description": "Variable which defines how many molecules should be shown and/or which chain\nThe following format needs to be used:\npdbID1.chain:start-end@atom1,atom2_pdbID2.chain:start-end\n. indicates that only one chain should be shown\n: indicates that a specific range should be shown (e.g. 1-50)\n@ indicates that chosen atoms should be highlighted (e.g. @50,100,150)\n _ indicates that more than one protein should be shown"
       },
       "data": {
         "type": {
@@ -2110,6 +2065,10 @@
                 "required": true
               },
               "range": {
+                "name": "string",
+                "required": true
+              },
+              "chosenAtoms": {
                 "name": "string",
                 "required": true
               },
@@ -2143,23 +2102,33 @@
           }
         },
         "required": false,
-        "description": "The data (in JSON format) that will be used to display the molecule\nfilename: name of the used pdb/cif file\next: file extensions (pdb or cif)\nselectedValue: pdbString\nchain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A\nrange: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only a part\ncolor: color in hex format\nconfig.input: content of the pdb file\nconfig.type: format of config.input\nuploaded: flag if file from local storage (false) or uploaded by user (true)\nresetView: flag if the selection did not change but the view should be resettet (true)",
+        "description": "The data (in JSON format) that will be used to display the molecule\nfilename: name of the used pdb/cif file\next: file extensions (pdb or cif)\nselectedValue: pdbString\nchain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A\nrange: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only a part\ncolor: color in hex format\nconfig.input: content of the pdb file\nconfig.type: format of config.input\nuploaded: bool if file from local storage (false) or uploaded by user (true)\nresetView: bool if the selection did not change but the view should be resettet (true)",
         "defaultValue": {
-          "value": "[\n    {\n        filename: 'placeholder',\n        ext: '',\n        selectedValue: 'placeholder',\n        chain: 'ALL',\n        range: 'ALL',\n        color: 'red',\n        config: {\n            input: '',\n            type: 'text/plain',\n        },\n        uploaded: false,\n        resetView: false,\n    },\n]",
+          "value": "[\n    {\n        filename: 'placeholder',\n        ext: '',\n        selectedValue: 'placeholder',\n        chain: 'ALL',\n        range: 'ALL',\n        chosenAtoms: '',\n        color: 'red',\n        config: {\n            input: '',\n            type: 'text/plain',\n        },\n        uploaded: false,\n        resetView: false,\n    },\n]",
           "computed": false
         }
       },
       "molStyles": {
         "type": {
-          "name": "arrayOf",
+          "name": "exact",
           "value": {
-            "name": "string"
+            "representations": {
+              "name": "arrayOf",
+              "value": {
+                "name": "string"
+              },
+              "required": false
+            },
+            "chosenAtomsColor": {
+              "name": "string",
+              "required": true
+            }
           }
         },
         "required": false,
-        "description": "Variable for changing the molecule representation\nPossible molecule styles:\n'backbone,'ball+stick','cartoon', 'hyperball'\n'licorice','line','ribbon','rope','spacefill',\n'surface','trace','tube'\nPossible additional representations:\n'axes','axes+box','helixorient','unitcell'",
+        "description": "The data (in JSON format) that will be used to style the displayed molecule\nrepresentations: one or multiple selected molecule representation\n - Possible molecule styles:\n   'backbone,'ball+stick','cartoon', 'hyperball','licorice','line',\n   'ribbon',''rope','spacefill','surface','trace','tube'\n - Possible additional representations:\n   'axes','axes+box','helixorient','unitcell'\nchosenAtomsColor: color of the 'ball+stick' representation of the chosen atoms",
         "defaultValue": {
-          "value": "['cartoon']",
+          "value": "{\n    representations: ['cartoon', 'axes+box'],\n    chosenAtomsColor: '#ffffff',\n}",
           "computed": false
         }
       }
