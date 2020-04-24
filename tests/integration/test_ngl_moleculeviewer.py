@@ -50,8 +50,6 @@ def get_highlights(string, sep, atom_indicator):
         else:
             residues_list.append(e)
 
-    print(atoms_list)
-    print(residues_list)
     return (
         str_, {
             'atoms': ','.join(atoms_list),

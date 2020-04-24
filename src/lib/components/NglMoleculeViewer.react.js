@@ -29,7 +29,6 @@ export default class NglMoleculeViewer extends Component {
 
         stage.setSize(viewportStyle.width, viewportStyle.height);
         this.setState({stage, orientationMatrix});
-        console.log('did mount');
     }
 
     shouldComponentUpdate(prevProps, nextProps) {
@@ -84,8 +83,6 @@ export default class NglMoleculeViewer extends Component {
         const {data, stageParameters, downloadImage, molStyles} = this.props;
         const {stage, structuresList} = this.state;
 
-        console.log('did update');
-
         // update the stage with the new stage params
         stage.setParameters(stageParameters);
 
@@ -123,11 +120,8 @@ export default class NglMoleculeViewer extends Component {
     addMolStyle(struc, molStyles, sele, chosen, color) {
         const temp = molStyles.representations;
         const reprs = [...temp];
-        console.log(reprs);
         const chosenAtoms = chosen.atoms;
         const chosenResidues = chosen.residues;
-        console.log(chosen);
-        console.log({chosenAtoms, chosenResidues});
 
         const args = {
             sele: sele,
@@ -138,7 +132,6 @@ export default class NglMoleculeViewer extends Component {
             args.color = color;
         }
 
-        console.log(reprs);
         reprs.forEach(e => {
             let repr = e;
             if (repr === 'axes+box') {
@@ -172,11 +165,7 @@ export default class NglMoleculeViewer extends Component {
         const duration = 1000;
         let sele = ':';
 
-        console.log('orientation Matrix');
-        console.log(orientationMatrix);
         stage.viewerControls.orient(orientationMatrix);
-
-        console.log(molStyles);
 
         if (chain === 'ALL') {
             this.addMolStyle(stageObj, molStyles, sele, chosenAtoms, color);
@@ -184,7 +173,6 @@ export default class NglMoleculeViewer extends Component {
             sele += chain;
             if (range !== 'ALL') {
                 sele += ' and ' + range;
-                console.log(sele);
             }
 
             const selection = new Selection(sele);
@@ -207,7 +195,6 @@ export default class NglMoleculeViewer extends Component {
 
     // If not load the structure from the backend
     processDataFromBackend(data, molStyles, structuresList) {
-        console.log('processDataFromBackend');
         const {stage} = this.state;
 
         for (var i = 0; i < data.length; i++) {
