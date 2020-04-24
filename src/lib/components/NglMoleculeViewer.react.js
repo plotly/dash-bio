@@ -104,10 +104,31 @@ export default class NglMoleculeViewer extends Component {
         }
     }
 
+    highlightAtoms(args, sele, struc, chosenAtoms, chosenResidues) {
+        const repr = 'ball+stick';
+        // adds a colored ball for the chosen atom
+        if (chosenAtoms !== '') {
+            args.sele = sele + ' and @' + chosenAtoms;
+            struc.addRepresentation(repr, args);
+        }
+        // adds a colored ball for the c alpha of the chosen residue
+        if (chosenResidues !== '') {
+            args.sele =
+                sele + '.CA and (' + chosenResidues.replace(/,/g, ' or ') + ')';
+            struc.addRepresentation(repr, args);
+        }
+    }
+
     // adds one or multiple molecular representaions
-    addMolStyle(struc, molStyles, sele, chosenAtoms, color) {
-        console.log(chosenAtoms);
-        const reprs = molStyles.representations;
+    addMolStyle(struc, molStyles, sele, chosen, color) {
+        const temp = molStyles.representations;
+        const reprs = [...temp];
+        console.log(reprs);
+        const chosenAtoms = chosen.atoms;
+        const chosenResidues = chosen.residues;
+        console.log(chosen);
+        console.log({chosenAtoms, chosenResidues});
+
         const args = {
             sele: sele,
             showBox: reprs.includes('axes+box'),
@@ -115,10 +136,6 @@ export default class NglMoleculeViewer extends Component {
 
         if (sele !== ':') {
             args.color = color;
-        }
-
-        if (chosenAtoms !== '') {
-            reprs.push(chosenAtoms);
         }
 
         console.log(reprs);
@@ -129,16 +146,15 @@ export default class NglMoleculeViewer extends Component {
                 // but a combination of repr: 'axes' and showBox = true
                 repr = 'axes';
             }
-
-            if (repr === chosenAtoms) {
-                repr = 'ball+stick';
-                args.sele += ' and @' + chosenAtoms;
-                args.radius = 1;
-                args.color = molStyles.chosenAtomsColor;
-                console.log(args);
-            }
             struc.addRepresentation(repr, args);
         });
+
+        // check if atoms should be selected
+        if (chosenAtoms !== '' || chosenResidues !== '') {
+            args.radius = molStyles.chosenAtomsRadius;
+            args.color = molStyles.chosenAtomsColor;
+            this.highlightAtoms(args, sele, struc, chosenAtoms, chosenResidues);
+        }
     }
 
     // helper functions which styles the output of loadStructure/loadData
@@ -204,7 +220,7 @@ export default class NglMoleculeViewer extends Component {
                     molStyles,
                     data[i].chain,
                     data[i].range,
-                    data[i].chosenAtoms,
+                    data[i].chosen,
                     data[i].color,
                     xOffset
                 );
@@ -229,7 +245,7 @@ export default class NglMoleculeViewer extends Component {
                     molStyles,
                     data.chain,
                     data.range,
-                    data.chosenAtoms,
+                    data.chosen,
                     data.color,
                     xOffset
                 );
@@ -289,7 +305,10 @@ const defaultData = [
         selectedValue: 'placeholder',
         chain: 'ALL',
         range: 'ALL',
-        chosenAtoms: '',
+        chosen: {
+            chosenAtoms: '',
+            chosenResidues: '',
+        },
         color: 'red',
         config: {
             input: '',
@@ -309,6 +328,7 @@ NglMoleculeViewer.defaultProps = {
     molStyles: {
         representations: ['cartoon', 'axes+box'],
         chosenAtomsColor: '#ffffff',
+        chosenAtomsRadius: 1,
     },
 };
 
@@ -373,8 +393,12 @@ NglMoleculeViewer.propTypes = {
      * ext: file extensions (pdb or cif)
      * selectedValue: pdbString
      * chain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A
-     * range: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only a part
-     * color: color in hex format
+     * range: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only 50 atoms
+     * color: chain color
+     * chosen.atoms: string of the chosen Atoms, e.g. 50,100,150
+     *               --> chosen eatoms changed to colored 'ball'
+     * chosen.residues: string of the chosen residues, e.g. 50,100,150
+     *                  --> C alpha of chosen residue changed to colored 'ball'
      * config.input: content of the pdb file
      * config.type: format of config.input
      * uploaded: bool if file from local storage (false) or uploaded by user (true)
@@ -387,8 +411,11 @@ NglMoleculeViewer.propTypes = {
             selectedValue: PropTypes.string.isRequired,
             chain: PropTypes.string.isRequired,
             range: PropTypes.string.isRequired,
-            chosenAtoms: PropTypes.string.isRequired,
             color: PropTypes.string.isRequired,
+            chosen: PropTypes.exact({
+                residues: PropTypes.string.isRequired,
+                atoms: PropTypes.string.isRequired,
+            }),
             config: PropTypes.exact({
                 input: PropTypes.string.isRequired,
                 type: PropTypes.string.isRequired,
@@ -406,10 +433,12 @@ NglMoleculeViewer.propTypes = {
      *  - Possible additional representations:
      *    'axes','axes+box','helixorient','unitcell'
      * chosenAtomsColor: color of the 'ball+stick' representation of the chosen atoms
+     * chosenAtomsRadius: radius of the 'ball+stick' representation of the chosen atoms
      */
     molStyles: PropTypes.exact({
         representations: PropTypes.arrayOf(PropTypes.string),
         chosenAtomsColor: PropTypes.string.isRequired,
+        chosenAtomsRadius: PropTypes.number.isRequired,
     }),
 };
 

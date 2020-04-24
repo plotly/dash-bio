@@ -31,6 +31,7 @@ data_dict = {
     'selectedValue': 'placeholder',
     'chain': 'ALL',
     'range': 'ALL',
+    'chose': {'atoms': '', 'residues': ''},
     'color': '#e41a1c',
     'filename': 'placeholder',
     'ext': '',
@@ -38,27 +39,54 @@ data_dict = {
 }
 
 
+def get_highlights(string, sep, atom_indicator):
+    residues_list = []
+    atoms_list = []
+
+    str_, _str = string.split(sep)
+    for e in _str.split(','):
+        if atom_indicator in e:
+            atoms_list.append(e.replace(atom_indicator, ''))
+        else:
+            residues_list.append(e)
+
+    print(atoms_list)
+    print(residues_list)
+    return (
+        str_, {
+            'atoms': ','.join(atoms_list),
+            'residues': ','.join(residues_list),
+        })
+
+
 # Helper function to load the data
 def get_data(test_value, pdb_id, color, resetView=False):
     chain = 'ALL'
-    atoms_range = 'ALL'
-    atoms_string = ''
+    aa_range = 'ALL'
+    highlight_dic = {
+        'atoms': '',
+        'residues': ''
+        }
 
     # Check if only one chain should be shown
     if '.' in pdb_id:
         pdb_id, chain = pdb_id.split('.')
 
+        highlights_sep = '@'
+        atom_indicator = 'a'
         # Check if only a specified amino acids range should be shown:
         if ':' in chain:
-            chain, atoms_range = chain.split(':')
+            chain, aa_range = chain.split(':')
 
-            # Check if amino acids should be highlighted
-            if '@' in atoms_range:
-                atoms_range, atoms_string = atoms_range.split('@')
+            # Check if atoms should be highlighted
+            if highlights_sep in aa_range:
+                aa_range, highlight_dic = get_highlights(
+                    aa_range, highlights_sep, atom_indicator)
 
         else:
-            if '@' in chain:
-                chain, atoms_string = chain.split('@')
+            if highlights_sep in chain:
+                chain, highlight_dic = get_highlights(
+                    chain, highlights_sep, atom_indicator)
 
     fname = [f for f in glob.glob(data_path + pdb_id + '.*')][0]
 
@@ -76,8 +104,8 @@ def get_data(test_value, pdb_id, color, resetView=False):
         'ext': ext,
         'selectedValue': test_value,
         'chain': chain,
-        'range': atoms_range,
-        'chosenAtoms': atoms_string,
+        'range': aa_range,
+        'chosen': highlight_dic,
         'color': color,
         'config': {'type': 'text/plain', 'input': content},
         'resetView': resetView,
@@ -161,7 +189,8 @@ def modified_simple_app_callback(
 
         molstyles_dict = {
             'representations': ['cartoon', 'axes+box'],
-            'chosenAtomsColor': 'white'
+            'chosenAtomsColor': 'white',
+            'chosenAtomsRadius': 1
         }
 
         ctx = dash.callback_context
@@ -184,8 +213,9 @@ def modified_simple_app_callback(
 
         # test if chosen atoms colors should be changed:
         if '|' in value:
-            value, color = value.split('|')
-            molstyles_dict['chosenAtomsColor'] = color
+            value, molstyles = value.split('|')
+            molstyles_dict['chosenAtomsColor'] = molstyles.split(',')[0]
+            molstyles_dict['chosenAtomsRadius'] = molstyles.split(',')[1]
 
         data_list = []
         if '_' in value:
@@ -409,10 +439,10 @@ def test_dbdn_008_show_atomRange(dash_duo):
     )
 
 
-def test_dbdn_009_show_selectedAtoms(dash_duo):
+def test_dbdn_009_show_chosenAtoms(dash_duo):
 
-    test_value = '6CHG.A@50,100,150'
-    test_color_value = 'black'
+    test_value = '6CHG.A@a50,a100,a150'
+    test_color_value = 'black,1'
     test_value = test_value + '|' + test_color_value
 
     app = dash.Dash(__name__)
@@ -429,7 +459,51 @@ def test_dbdn_009_show_selectedAtoms(dash_duo):
     )
 
 
-def test_dbdn_010_show_multipleMolecules(dash_duo):
+def test_dbdn_010_show_chosenResidues(dash_duo):
+
+    test_value = '6CHG.A@50,100,150'
+    test_color_value = 'grey,1.5'
+    test_value = test_value + '|' + test_color_value
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
+
+    modified_simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='data',
+        test_prop_value=test_value,
+        take_snapshot=True,
+    )
+
+
+def test_dbdn_011_show_chosenAtomsResidues(dash_duo):
+
+    # not yet working
+    test_atoms_value = 'a50,a100,a150'
+    test_residues_value = '50,100,150'
+
+    test_value = '6CHG.A@'+test_atoms_value+','+test_residues_value
+    test_color_value = 'blue,0.8'
+    test_value = test_value + '|' + test_color_value
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
+
+    modified_simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='data',
+        test_prop_value=test_value,
+        take_snapshot=True,
+    )
+
+
+def test_dbdn_012_show_multipleMolecules(dash_duo):
 
     test_mol_value = '6CHG.A:1-450@50,100,150_3K8P.D'
     test_repr_value = 'cartoon,axes+box'
@@ -449,7 +523,7 @@ def test_dbdn_010_show_multipleMolecules(dash_duo):
     )
 
 
-def test_dbn_011_rotate_stage(dash_duo):
+def test_dbn_013_rotate_stage(dash_duo):
 
     test_value = '6CHG.A_3K8P.D'
 
@@ -468,7 +542,7 @@ def test_dbn_011_rotate_stage(dash_duo):
     )
 
 
-def test_dbn_012_reset_stageView(dash_duo):
+def test_dbn_014_reset_stageView(dash_duo):
 
     test_value = '6CHG.A_3K8P.D'
 

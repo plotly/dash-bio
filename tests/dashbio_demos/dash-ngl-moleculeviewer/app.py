@@ -101,7 +101,7 @@ about_html = [
     ),
     html.P(
         'Additionally you can show multiple structures and (or) specify a chain/'
-        ' atom range/ highlight chosen atoms.'
+        ' residue range/ highlight chosen atoms.'
     ),
     html.P(
         'In the "View" tab, you can change the style of the viewer.'
@@ -135,7 +135,7 @@ data_tab = [
         children=[
             html.P(
                 'Show multiple structures and (or) \
-                specify a chain/ atom range/ \
+                specify a chain/ resiudes range/ \
                 highlight chosen atoms',
                 style={'fontSize': '10pt'},
             )
@@ -393,7 +393,7 @@ def createDict(
         ext,
         selection,
         chain,
-        atoms_range,
+        aa_range,
         atoms_string,
         color,
         content,
@@ -405,7 +405,7 @@ def createDict(
         'ext': ext,
         'selectedValue': selection,
         'chain': chain,
-        'range': atoms_range,
+        'range': aa_range,
         'chosenAtoms': atoms_string,
         'color': color,
         'config': {'type': 'text/plain', 'input': content},
@@ -418,7 +418,7 @@ def createDict(
 def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
 
     chain = 'ALL'
-    atoms_range = 'ALL'
+    aa_range = 'ALL'
     atoms_string = ''
 
     # Check if only one chain should be shown
@@ -427,11 +427,11 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
 
         # Check if only a specified amino acids range should be shown:
         if ':' in chain:
-            chain, atoms_range = chain.split(':')
+            chain, aa_range = chain.split(':')
 
             # Check if amino acids should be highlighted
-            if '@' in atoms_range:
-                atoms_range, atoms_string = atoms_range.split('@')
+            if '@' in aa_range:
+                aa_range, atoms_string = aa_range.split('@')
 
         else:
             if '@' in chain:
@@ -447,7 +447,7 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
                 fname.split('.')[1],
                 selection,
                 chain,
-                atoms_range,
+                aa_range,
                 atoms_string,
                 color,
                 content,
@@ -471,7 +471,7 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
     filename = fname.split('/')[-1]
 
     return createDict(
-        filename, ext, selection, chain, atoms_range, color, content, resetView, uploaded=False
+        filename, ext, selection, chain, aa_range, color, content, resetView, uploaded=False
     )
 
 
@@ -482,7 +482,7 @@ def getUploadedData(uploaded_content):
 
     ext = 'pdb'
     chain = 'ALL'
-    atoms_range = 'ALL'
+    aa_range = 'ALL'
     atoms_string = ''
 
     for i, content in enumerate(uploaded_content):
@@ -512,7 +512,7 @@ def getUploadedData(uploaded_content):
                 ext,
                 pdb_id,
                 chain,
-                atoms_range,
+                aa_range,
                 atoms_string,
                 COLORS[i],
                 content,
@@ -590,7 +590,7 @@ def callbacks(_app):
 
                 content = ''
                 chain = 'ALL'
-                atoms_range = 'ALL'
+                aa_range = 'ALL'
                 atoms_string = ''
                 return (
                     [createDict(
@@ -598,7 +598,7 @@ def callbacks(_app):
                         fname.split('.')[1],
                         pdb_id,
                         chain,
-                        atoms_range,
+                        aa_range,
                         atoms_string,
                         colors_list[0],
                         content,
