@@ -164,7 +164,6 @@ data_tab = [
                 # Allow multiple files to be uploaded
                 multiple=True,
             ),
-            html.Div(id='uploaded-files', children=html.Div([''])),
             html.Div(id='warning_div', children=html.Div(['']))
         ],
     ),
@@ -221,6 +220,21 @@ view_tab = [
         ],
     ),
     html.Div(
+        title='select chosen atoms radius',
+        className='app-controls-block',
+        id='ngl-atom-radius',
+        children=[
+            html.P(
+                'Chosen atoms radius',
+                style={'fontWeight': 'bold', 'marginBottom': '10px'},
+            ),
+            dcc.Input(
+                id='chosen-atoms-radius',
+                value='1.1'
+            ),
+        ],
+    ),
+    html.Div(
         title='select background color',
         className='app-controls-block',
         id='ngl-style-color',
@@ -231,7 +245,9 @@ view_tab = [
             ),
             dcc.Dropdown(
                 id='stage-bg-color',
-                options=[{'label': c, 'value': c.lower()} for c in ['black', 'white']],
+                options=[
+                    {'label': c, 'value': c.lower()}
+                    for c in ['black', 'white']],
                 value='white',
             ),
         ],
@@ -364,6 +380,11 @@ def layout():
     return html.Div(
         id='main-page',
         children=[
+            # keeps the data till the browser/tab closes.
+            dcc.Store(
+                id='uploaded-files',
+                storage_type='session'
+            ),
             html.Div(
                 id='app-page-header',
                 children=[html.H1('Ngl Molecule Viewer')],
@@ -394,7 +415,7 @@ def createDict(
         selection,
         chain,
         aa_range,
-        atoms_string,
+        highlight_dic,
         color,
         content,
         resetView=False,
@@ -406,7 +427,7 @@ def createDict(
         'selectedValue': selection,
         'chain': chain,
         'range': aa_range,
-        'chosenAtoms': atoms_string,
+        'chosen': highlight_dic,
         'color': color,
         'config': {'type': 'text/plain', 'input': content},
         'resetView': resetView,
@@ -414,28 +435,54 @@ def createDict(
     }
 
 
+def get_highlights(string, sep, atom_indicator):
+
+    residues_list = []
+    atoms_list = []
+
+    str_, _str = string.split(sep)
+    for e in _str.split(','):
+        if atom_indicator in e:
+            atoms_list.append(e.replace(atom_indicator, ''))
+        else:
+            residues_list.append(e)
+
+    return (
+        str_, {
+            'atoms': ','.join(atoms_list),
+            'residues': ','.join(residues_list),
+        })
+
+
 # Helper function to load structures from local storage
 def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
 
     chain = 'ALL'
     aa_range = 'ALL'
-    atoms_string = ''
+    highlight_dic = {
+        'atoms': '',
+        'residues': ''
+    }
 
     # Check if only one chain should be shown
     if '.' in pdb_id:
         pdb_id, chain = pdb_id.split('.')
 
+        highlights_sep = '@'
+        atom_indicator = 'a'
         # Check if only a specified amino acids range should be shown:
         if ':' in chain:
             chain, aa_range = chain.split(':')
 
-            # Check if amino acids should be highlighted
-            if '@' in aa_range:
-                aa_range, atoms_string = aa_range.split('@')
+            # Check if atoms should be highlighted
+            if highlights_sep in aa_range:
+                aa_range, highlight_dic = get_highlights(
+                    aa_range, highlights_sep, atom_indicator)
 
         else:
-            if '@' in chain:
-                chain, atoms_string = chain.split('@')
+            if highlights_sep in chain:
+                chain, highlight_dic = get_highlights(
+                    chain, highlights_sep, atom_indicator)
 
     if pdb_id not in PDBS:
         if pdb_id in uploadedFiles:
@@ -448,7 +495,7 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
                 selection,
                 chain,
                 aa_range,
-                atoms_string,
+                highlight_dic,
                 color,
                 content,
                 resetView,
@@ -471,7 +518,15 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
     filename = fname.split('/')[-1]
 
     return createDict(
-        filename, ext, selection, chain, aa_range, color, content, resetView, uploaded=False
+        filename,
+        ext,
+        selection,
+        chain,
+        aa_range,
+        highlight_dic,
+        color, content,
+        resetView,
+        uploaded=False
     )
 
 
@@ -483,7 +538,10 @@ def getUploadedData(uploaded_content):
     ext = 'pdb'
     chain = 'ALL'
     aa_range = 'ALL'
-    atoms_string = ''
+    highlight_dic = {
+        'atoms': '',
+        'residues': ''
+        }
 
     for i, content in enumerate(uploaded_content):
         content_type, content = str(content).split(',')
@@ -513,7 +571,7 @@ def getUploadedData(uploaded_content):
                 pdb_id,
                 chain,
                 aa_range,
-                atoms_string,
+                highlight_dic,
                 COLORS[i],
                 content,
                 resetView=False,
@@ -532,7 +590,7 @@ def callbacks(_app):
             Output(component_id, 'data'),
             Output(component_id, "molStyles"),
             Output('pdb-dropdown', 'options'),
-            Output('uploaded-files', 'children'),
+            Output('uploaded-files', 'data'),
             Output('pdb-dropdown', 'placeholder'),
             Output('warning_div', 'children')
         ],
@@ -546,9 +604,10 @@ def callbacks(_app):
         [
             State('pdb-string', 'value'),
             State('pdb-dropdown', 'options'),
-            State('uploaded-files', 'children'),
+            State('uploaded-files', 'data'),
             State('molecules-chain-color', 'value'),
-            State('chosen-atoms-color', 'value')
+            State('chosen-atoms-color', 'value'),
+            State('chosen-atoms-radius', 'value')
         ],
     )
     def display_output(
@@ -561,14 +620,15 @@ def callbacks(_app):
             dropdown_options,
             files,
             colors,
-            chosenAtomsColor
+            chosenAtomsColor,
+            chosenAtomsRadius
     ):
         input_id = None
         options = dropdown_options
         colors_list = colors.split(',')
-        files = (
-            files['props']['children'] if isinstance(files, dict) else ''.join(files)
-        )
+
+        # Give a default data dict if no files are uploaded
+        files = files or {'uploaded': []}
 
         molStyles_dict = {
             'representations': molStyles_list,
@@ -591,7 +651,10 @@ def callbacks(_app):
                 content = ''
                 chain = 'ALL'
                 aa_range = 'ALL'
-                atoms_string = ''
+                highlight_dic = {
+                    'atoms': '',
+                    'residues': ''
+                }
                 return (
                     [createDict(
                         fname,
@@ -599,7 +662,7 @@ def callbacks(_app):
                         pdb_id,
                         chain,
                         aa_range,
-                        atoms_string,
+                        highlight_dic,
                         colors_list[0],
                         content,
                         resetView=False,
@@ -678,7 +741,10 @@ def callbacks(_app):
             for pdb_id, ext in [e.split('.') for e in uploads]:
                 if pdb_id not in [e['label'] for e in options]:
                     options.append({'label': pdb_id, 'value': pdb_id})
-                    files += pdb_id + '.' + ext + ','
+                    fname = pdb_id + "." + ext
+
+                    if fname not in files["uploaded"]:
+                        files["uploaded"].append(fname)
 
             return data, molStyles_dict, options, files, pdb_id, no_update
 
