@@ -151,46 +151,35 @@ export default class NglMoleculeViewer extends Component {
     }
 
     // helper functions which styles the output of loadStructure/loadData
-    showStructure(
-        stageObj,
-        molStyles,
-        chain,
-        range,
-        chosenAtoms,
-        color,
-        xOffset
-    ) {
+    showStructure(stageObj, molStyles, chain, range, chosen, color, xOffset) {
         const {stage, orientationMatrix} = this.state;
-        const newZoom = -500;
-        const duration = 1000;
         let sele = ':';
 
         stage.viewerControls.orient(orientationMatrix);
 
         if (chain === 'ALL') {
-            this.addMolStyle(stageObj, molStyles, sele, chosenAtoms, color);
+            this.addMolStyle(stageObj, molStyles, sele, chosen, color);
         } else {
             sele += chain;
             if (range !== 'ALL') {
-                sele += ' and ' + range;
+                sele += '/0 and ' + range;
             }
 
             const selection = new Selection(sele);
-            const pa = stageObj.structure.getPrincipalAxes(selection);
-            const struc = stage.addComponentFromObject(
-                stageObj.structure.getView(selection)
-            );
+            const structure = stageObj.structure.getView(selection);
+            const pa = structure.getPrincipalAxes();
+            const struc = stage.addComponentFromObject(structure);
             const struc_centre = struc.getCenter();
+
+            struc.setRotation(pa.getRotationQuaternion());
             struc.setPosition([
                 0 - struc_centre.x - xOffset,
                 0 - struc_centre.y,
                 0 - struc_centre.z,
             ]);
-
-            struc.setRotation(pa.getRotationQuaternion());
-            this.addMolStyle(struc, molStyles, sele, chosenAtoms, color);
+            this.addMolStyle(struc, molStyles, sele, chosen, color);
         }
-        stage.animationControls.zoom(newZoom, duration);
+        stage.autoView();
     }
 
     // If not load the structure from the backend
