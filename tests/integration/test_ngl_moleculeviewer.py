@@ -188,7 +188,8 @@ def modified_simple_app_callback(
         molstyles_dict = {
             'representations': ['cartoon', 'axes+box'],
             'chosenAtomsColor': 'white',
-            'chosenAtomsRadius': 1
+            'chosenAtomsRadius': 1,
+            'molSpacing_xAxis': 100
         }
 
         ctx = dash.callback_context
@@ -207,7 +208,14 @@ def modified_simple_app_callback(
         if ';' in value:
             value, molstyles = value.split(';')
             if ',' in molstyles:
-                molstyles_dict['representations'] = molstyles.split(',')
+                reprs_list = []
+                for e in molstyles.split(','):
+                    if e.isnumeric():
+                        molstyles_dict['molSpacing_xAxis'] = float(e)
+                    else:
+                        reprs_list.append(e)
+
+                molstyles_dict['representations'] = reprs_list
 
         # test if chosen atoms colors should be changed:
         if '|' in value:
@@ -521,7 +529,27 @@ def test_dbdn_012_show_multipleMolecules(dash_duo):
     )
 
 
-def test_dbn_013_rotate_stage(dash_duo):
+def test_dbdn_013_modified_molSpacing(dash_duo):
+
+    test_mol_value = '6CHG.A:_3K8P.D'
+    test_repr_value = 'cartoon,axes+box,0'
+    test_value = test_mol_value + ';' + test_repr_value
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
+
+    modified_simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='data',
+        test_prop_value=test_value,
+        take_snapshot=True,
+    )
+
+
+def test_dbn_015_rotate_stage(dash_duo):
 
     test_value = '6CHG.A_3K8P.D'
 
@@ -540,7 +568,7 @@ def test_dbn_013_rotate_stage(dash_duo):
     )
 
 
-def test_dbn_014_reset_stageView(dash_duo):
+def test_dbn_016_reset_stageView(dash_duo):
 
     test_value = '6CHG.A_3K8P.D'
 

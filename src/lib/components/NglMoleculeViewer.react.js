@@ -80,7 +80,7 @@ export default class NglMoleculeViewer extends Component {
     }
 
     componentDidUpdate() {
-        const {data, stageParameters, downloadImage, molStyles} = this.props;
+        const {data, stageParameters, downloadImage} = this.props;
         const {stage, structuresList} = this.state;
 
         // update the stage with the new stage params
@@ -93,7 +93,7 @@ export default class NglMoleculeViewer extends Component {
             stage.eachComponent(function(e) {
                 e.removeAllRepresentations();
             });
-            this.processDataFromBackend(data, molStyles, structuresList);
+            this.processDataFromBackend(data, structuresList);
         }
 
         if (downloadImage === true) {
@@ -103,12 +103,12 @@ export default class NglMoleculeViewer extends Component {
 
     highlightAtoms(args, sele, struc, chosenAtoms, chosenResidues) {
         const repr = 'ball+stick';
-        // adds a colored ball for the chosen atom
+        // adds a colored ball for the chosen atoms
         if (chosenAtoms !== '') {
             args.sele = sele + ' and @' + chosenAtoms;
             struc.addRepresentation(repr, args);
         }
-        // adds a colored ball for the c alpha of the chosen residue
+        // adds a colored ball for the c alpha of the chosen residues
         if (chosenResidues !== '') {
             args.sele =
                 sele + '.CA and (' + chosenResidues.replace(/,/g, ' or ') + ')';
@@ -117,7 +117,8 @@ export default class NglMoleculeViewer extends Component {
     }
 
     // adds one or multiple molecular representaions
-    addMolStyle(struc, molStyles, sele, chosen, color) {
+    addMolStyle(struc, sele, chosen, color) {
+        const {molStyles} = this.props;
         const temp = molStyles.representations;
         const reprs = [...temp];
         const chosenAtoms = chosen.atoms;
@@ -151,14 +152,14 @@ export default class NglMoleculeViewer extends Component {
     }
 
     // helper functions which styles the output of loadStructure/loadData
-    showStructure(stageObj, molStyles, chain, range, chosen, color, xOffset) {
+    showStructure(stageObj, chain, range, chosen, color, xOffset) {
         const {stage, orientationMatrix} = this.state;
         let sele = ':';
 
         stage.viewerControls.orient(orientationMatrix);
 
         if (chain === 'ALL') {
-            this.addMolStyle(stageObj, molStyles, sele, chosen, color);
+            this.addMolStyle(stageObj, sele, chosen, color);
         } else {
             sele += chain;
             if (range !== 'ALL') {
@@ -177,23 +178,24 @@ export default class NglMoleculeViewer extends Component {
                 0 - struc_centre.y,
                 0 - struc_centre.z,
             ]);
-            this.addMolStyle(struc, molStyles, sele, chosen, color);
+            this.addMolStyle(struc, sele, chosen, color);
         }
         stage.autoView();
     }
 
     // If not load the structure from the backend
-    processDataFromBackend(data, molStyles, structuresList) {
+    processDataFromBackend(data, structuresList) {
+        const {molStyles} = this.props;
         const {stage} = this.state;
 
         for (var i = 0; i < data.length; i++) {
             const filename = data[i].filename;
-            const xOffset = i * 100;
+            const xOffset = i * molStyles.molSpacing_xAxis;
+            console.log(xOffset);
             if (structuresList.includes(filename)) {
                 // If user has selected structure already just add the new representation
                 this.showStructure(
                     stage.getComponentsByName(filename).list[0],
-                    molStyles,
                     data[i].chain,
                     data[i].range,
                     data[i].chosen,
@@ -201,24 +203,24 @@ export default class NglMoleculeViewer extends Component {
                     xOffset
                 );
             } else {
-                this.loadData(data[i], molStyles, xOffset);
+                this.loadData(data[i], xOffset);
             }
         }
     }
 
     // load data from the backend into the browser
-    loadData(data, molStyles, xOffset) {
+    loadData(data, xOffset) {
         const {stage} = this.state;
         const stringBlob = new Blob([data.config.input], {
             type: data.config.type,
         });
+
         stage
             .loadFile(stringBlob, {ext: data.ext, defaultRepresentation: false})
             .then(stageObj => {
                 stageObj.name = data.filename;
                 this.showStructure(
                     stageObj,
-                    molStyles,
                     data.chain,
                     data.range,
                     data.chosen,
@@ -247,7 +249,7 @@ export default class NglMoleculeViewer extends Component {
                 transparent: imageParameters.transparent,
             })
             .then(function(blob) {
-                download(blob, 'nglMoleculeViewer_output.png');
+                download(blob, imageParameters.defaultFilename + '.png');
             });
     }
 
@@ -272,6 +274,7 @@ const defaultImageParameters = {
     antialias: true,
     transparent: true,
     trim: true,
+    defaultFilename: 'dash-bio_ngl_output',
 };
 
 const defaultData = [
@@ -305,6 +308,7 @@ NglMoleculeViewer.defaultProps = {
         representations: ['cartoon', 'axes+box'],
         chosenAtomsColor: '#ffffff',
         chosenAtomsRadius: 1,
+        molSpacing_xAxis: 100,
     },
 };
 
@@ -345,6 +349,7 @@ NglMoleculeViewer.propTypes = {
         antialias: PropTypes.bool,
         transparent: PropTypes.bool,
         trim: PropTypes.bool,
+        defaultFilename: PropTypes.string,
     }),
 
     /**
@@ -410,11 +415,13 @@ NglMoleculeViewer.propTypes = {
      *    'axes','axes+box','helixorient','unitcell'
      * chosenAtomsColor: color of the 'ball+stick' representation of the chosen atoms
      * chosenAtomsRadius: radius of the 'ball+stick' representation of the chosen atoms
+     * molSpacing_xAxis: distance on the xAxis between each molecule
      */
     molStyles: PropTypes.exact({
         representations: PropTypes.arrayOf(PropTypes.string),
         chosenAtomsColor: PropTypes.string.isRequired,
         chosenAtomsRadius: PropTypes.number.isRequired,
+        molSpacing_xAxis: PropTypes.number.isRequired,
     }),
 };
 

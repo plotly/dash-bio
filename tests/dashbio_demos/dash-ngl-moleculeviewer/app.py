@@ -101,7 +101,7 @@ about_html = [
     ),
     html.P(
         'Additionally you can show multiple structures and (or) specify a chain/'
-        ' residue range/ highlight chosen atoms.'
+        ' residues range / highlight Cα of chosen residues or single atoms.'
     ),
     html.P(
         'In the "View" tab, you can change the style of the viewer.'
@@ -136,7 +136,7 @@ data_tab = [
             html.P(
                 'Show multiple structures and (or) \
                 specify a chain/ resiudes range/ \
-                highlight chosen atoms',
+                highlight chosen residues/ atoms',
                 style={'fontSize': '10pt'},
             )
         ]
@@ -189,7 +189,23 @@ view_tab = [
         ],
     ),
     html.Div(
-        title='select chain color',
+        title='set molecules x-axis spacing',
+        className='app-controls-block',
+        id='ngl-mols-spacing',
+        children=[
+            html.P(
+                'x-axis spacing',
+                style={'fontWeight': 'bold', 'marginBottom': '10px'},
+            ),
+            dcc.Input(
+                id='molecules-xaxis-spacing',
+                placeholder='set x-axis spacing',
+                value=100,
+            )
+        ],
+    ),
+    html.Div(
+        title='set chain color',
         className='app-controls-block',
         id='ngl-mols-color',
         children=[
@@ -205,7 +221,7 @@ view_tab = [
         ],
     ),
     html.Div(
-        title='select chosen atoms color',
+        title='set chosen atoms color',
         className='app-controls-block',
         id='ngl-atom-color',
         children=[
@@ -220,7 +236,7 @@ view_tab = [
         ],
     ),
     html.Div(
-        title='select chosen atoms radius',
+        title='set chosen atoms radius',
         className='app-controls-block',
         id='ngl-atom-radius',
         children=[
@@ -235,7 +251,7 @@ view_tab = [
         ],
     ),
     html.Div(
-        title='select background color',
+        title='set background color',
         className='app-controls-block',
         id='ngl-style-color',
         children=[
@@ -607,7 +623,8 @@ def callbacks(_app):
             State('uploaded-files', 'data'),
             State('molecules-chain-color', 'value'),
             State('chosen-atoms-color', 'value'),
-            State('chosen-atoms-radius', 'value')
+            State('chosen-atoms-radius', 'value'),
+            State('molecules-xaxis-spacing', 'value')
         ],
     )
     def display_output(
@@ -621,7 +638,8 @@ def callbacks(_app):
             files,
             colors,
             chosenAtomsColor,
-            chosenAtomsRadius
+            chosenAtomsRadius,
+            molSpacing_xAxis
     ):
         input_id = None
         options = dropdown_options
@@ -630,9 +648,11 @@ def callbacks(_app):
         # Give a default data dict if no files are uploaded
         files = files or {'uploaded': []}
 
-        molStyles_dict = {
+        molstyles_dict = {
             'representations': molStyles_list,
-            'chosenAtomsColor': chosenAtomsColor
+            'chosenAtomsColor': chosenAtomsColor,
+            'chosenAtomsRadius': float(chosenAtomsRadius),
+            'molSpacing_xAxis': float(molSpacing_xAxis)
         }
 
         ctx = callback_context
@@ -640,7 +660,7 @@ def callbacks(_app):
             input_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
         if input_id is None:
-            return [data_dict], molStyles_dict, options, files, no_update, no_update
+            return [data_dict], molstyles_dict, options, files, no_update, no_update
 
         if input_id == 'pdb-dropdown':
             pdb_id = selection
@@ -668,7 +688,7 @@ def callbacks(_app):
                         resetView=False,
                         uploaded=False,
                     )],
-                    molStyles_list,
+                    molstyles_dict,
                     options,
                     files,
                     no_update,
@@ -680,7 +700,7 @@ def callbacks(_app):
                                   colors_list[0],
                                   files,
                                   resetView=False)],
-                    molStyles_dict,
+                    molstyles_dict,
                     options,
                     files,
                     no_update,
@@ -733,7 +753,7 @@ def callbacks(_app):
             else:
                 data.append(data_dict)
 
-            return data, molStyles_dict, options, files, 'Select a molecule', warning
+            return data, molstyles_dict, options, files, 'Select a molecule', warning
 
         if input_id == 'ngl-upload-data':
             data, uploads = getUploadedData(uploaded_content)
@@ -746,10 +766,10 @@ def callbacks(_app):
                     if fname not in files["uploaded"]:
                         files["uploaded"].append(fname)
 
-            return data, molStyles_dict, options, files, pdb_id, no_update
+            return data, molstyles_dict, options, files, pdb_id, no_update
 
         if input_id == "molecules-represetation-style":
-            return no_update, molStyles_dict, no_update, no_update, no_update, no_update
+            return no_update, molstyles_dict, no_update, no_update, no_update, no_update
 
     # Callback for updating bg-color, camera-type and render quality
     @_app.callback(
@@ -768,18 +788,18 @@ def callbacks(_app):
         }
 
     # Callback download Image
-    bool_dict = {"Yes": True, "No": False}
+    bool_dict = {'Yes': True, 'No': False}
 
     @_app.callback(
         [
-            Output(component_id, "downloadImage"),
-            Output(component_id, "imageParameters")
+            Output(component_id, 'downloadImage'),
+            Output(component_id, 'imageParameters')
         ],
-        [Input("btn-downloadImage", "n_clicks")],
+        [Input('btn-downloadImage', 'n_clicks')],
         [
-            State("image-antialias", "value"),
-            State("image-trim", "value"),
-            State("image-transparent", "value"),
+            State('image-antialias', 'value'),
+            State('image-trim', 'value'),
+            State('image-transparent', 'value'),
         ],
     )
     def download_image(n_clicks, antialias, trim, transparent):
@@ -790,9 +810,10 @@ def callbacks(_app):
         return (
             bool(ctx.triggered),
             {
-                "antialias": bool_dict[antialias],
-                "trim": bool_dict[trim],
-                "transparent": bool_dict[transparent],
+                'antialias': bool_dict[antialias],
+                'trim': bool_dict[trim],
+                'transparent': bool_dict[transparent],
+                'defaultFilename': 'dash-bio_ngl_output'
             },
         )
 

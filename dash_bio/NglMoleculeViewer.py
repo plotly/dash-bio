@@ -41,11 +41,13 @@ Those keys have the following types:
     antialias: true,
     transparent: true,
     trim: true,
-}): Parameters (in JSON format) for exporting the image. imageParameters has the following type: dict containing keys 'antialias', 'transparent', 'trim'.
+    defaultFilename: 'dash-bio_ngl_output',
+}): Parameters (in JSON format) for exporting the image. imageParameters has the following type: dict containing keys 'antialias', 'transparent', 'trim', 'defaultFilename'.
 Those keys have the following types:
   - antialias (boolean; optional)
   - transparent (boolean; optional)
   - trim (boolean; optional)
+  - defaultFilename (string; optional)
 - downloadImage (boolean; default False): flag if download image was selected
 - pdbString (string; optional): Variable which defines how many molecules should be shown and/or which chain
 The following format needs to be used:
@@ -109,6 +111,7 @@ Those keys have the following types:
     representations: ['cartoon', 'axes+box'],
     chosenAtomsColor: '#ffffff',
     chosenAtomsRadius: 1,
+    molSpacing_xAxis: 100,
 }): The data (in JSON format) that will be used to style the displayed molecule
 representations: one or multiple selected molecule representation
  - Possible molecule styles:
@@ -117,11 +120,13 @@ representations: one or multiple selected molecule representation
  - Possible additional representations:
    'axes','axes+box','helixorient','unitcell'
 chosenAtomsColor: color of the 'ball+stick' representation of the chosen atoms
-chosenAtomsRadius: radius of the 'ball+stick' representation of the chosen atoms. molStyles has the following type: dict containing keys 'representations', 'chosenAtomsColor', 'chosenAtomsRadius'.
+chosenAtomsRadius: radius of the 'ball+stick' representation of the chosen atoms
+molSpacing_xAxis: distance on the xAxis between each molecule. molStyles has the following type: dict containing keys 'representations', 'chosenAtomsColor', 'chosenAtomsRadius', 'molSpacing_xAxis'.
 Those keys have the following types:
   - representations (list of strings; optional)
   - chosenAtomsColor (string; required)
-  - chosenAtomsRadius (number; required)"""
+  - chosenAtomsRadius (number; required)
+  - molSpacing_xAxis (number; required)"""
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, viewportStyle=Component.UNDEFINED, stageParameters=Component.UNDEFINED, imageParameters=Component.UNDEFINED, downloadImage=Component.UNDEFINED, pdbString=Component.UNDEFINED, data=Component.UNDEFINED, molStyles=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'viewportStyle', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
