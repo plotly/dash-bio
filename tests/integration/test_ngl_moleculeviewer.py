@@ -8,6 +8,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import dash
 from dash.dash import no_update
 from dash.dependencies import Input, Output, State
+from dash.exceptions import PreventUpdate
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bio
@@ -16,26 +17,26 @@ import dash_bio
 
 from common_features import simple_app_layout, simple_app_callback
 
-_COMPONENT_ID = 'test-ngl'
-data_path = 'tests/dashbio_demos/dash-ngl-moleculeviewer/data/'
+_COMPONENT_ID = "test-ngl"
+data_path = "tests/dashbio_demos/dash-ngl-moleculeviewer/data/"
 
-color_list = ['red', 'blue']
+color_list = ["red", "blue"]
 
 # PDB examples
-dropdown_options = ['1PNK', '6CHG', '3K8P', '1BNA']
+dropdown_options = ["1PNK", "6CHG", "3K8P", "1BNA"]
 
 # Placeholder which is loaded if no molecule is selected
 data_dict = {
-    'uploaed': False,
-    'resetView': False,
-    'selectedValue': 'placeholder',
-    'chain': 'ALL',
-    'range': 'ALL',
-    'chose': {'atoms': '', 'residues': ''},
-    'color': '#e41a1c',
-    'filename': 'placeholder',
-    'ext': '',
-    'config': {'type': 'text/plain', 'input': ''},
+    "uploaed": False,
+    "resetView": False,
+    "selectedValue": "placeholder",
+    "chain": "ALL",
+    "range": "ALL",
+    "chose": {"atoms": "", "residues": ""},
+    "color": "#e41a1c",
+    "filename": "placeholder",
+    "ext": "",
+    "config": {"type": "text/plain", "input": ""},
 }
 
 
@@ -44,106 +45,82 @@ def get_highlights(string, sep, atom_indicator):
     atoms_list = []
 
     str_, _str = string.split(sep)
-    for e in _str.split(','):
+    for e in _str.split(","):
         if atom_indicator in e:
-            atoms_list.append(e.replace(atom_indicator, ''))
+            atoms_list.append(e.replace(atom_indicator, ""))
         else:
             residues_list.append(e)
 
-    return (
-        str_, {
-            'atoms': ','.join(atoms_list),
-            'residues': ','.join(residues_list),
-        })
+    return (str_, {"atoms": ",".join(atoms_list), "residues": ",".join(residues_list)})
 
 
 # Helper function to load the data
 def get_data(test_value, pdb_id, color, resetView=False):
-    chain = 'ALL'
-    aa_range = 'ALL'
-    highlight_dic = {
-        'atoms': '',
-        'residues': ''
-        }
+    chain = "ALL"
+    aa_range = "ALL"
+    highlight_dic = {"atoms": "", "residues": ""}
 
     # Check if only one chain should be shown
-    if '.' in pdb_id:
-        pdb_id, chain = pdb_id.split('.')
+    if "." in pdb_id:
+        pdb_id, chain = pdb_id.split(".")
 
-        highlights_sep = '@'
-        atom_indicator = 'a'
+        highlights_sep = "@"
+        atom_indicator = "a"
         # Check if only a specified amino acids range should be shown:
-        if ':' in chain:
-            chain, aa_range = chain.split(':')
+        if ":" in chain:
+            chain, aa_range = chain.split(":")
 
             # Check if atoms should be highlighted
             if highlights_sep in aa_range:
                 aa_range, highlight_dic = get_highlights(
-                    aa_range, highlights_sep, atom_indicator)
+                    aa_range, highlights_sep, atom_indicator
+                )
 
         else:
             if highlights_sep in chain:
                 chain, highlight_dic = get_highlights(
-                    chain, highlights_sep, atom_indicator)
+                    chain, highlights_sep, atom_indicator
+                )
 
-    fname = [f for f in glob.glob(data_path + pdb_id + '.*')][0]
+    fname = [f for f in glob.glob(data_path + pdb_id + ".*")][0]
 
-    if 'gz' in fname:
-        ext = fname.split('.')[-2]
-        with gzip.open(fname, 'r') as f:
-            content = f.read().decode('UTF-8')
+    if "gz" in fname:
+        ext = fname.split(".")[-2]
+        with gzip.open(fname, "r") as f:
+            content = f.read().decode("UTF-8")
     else:
-        ext = fname.split('.')[-1]
-        with open(fname, 'r') as f:
+        ext = fname.split(".")[-1]
+        with open(fname, "r") as f:
             content = f.read()
 
     return {
-        'filename': fname.split('/')[-1],
-        'ext': ext,
-        'selectedValue': test_value,
-        'chain': chain,
-        'range': aa_range,
-        'chosen': highlight_dic,
-        'color': color,
-        'config': {'type': 'text/plain', 'input': content},
-        'resetView': resetView,
-        'uploaded': False,
+        "filename": fname.split("/")[-1],
+        "ext": ext,
+        "selectedValue": test_value,
+        "chain": chain,
+        "range": aa_range,
+        "chosen": highlight_dic,
+        "color": color,
+        "config": {"type": "text/plain", "input": content},
+        "resetView": resetView,
+        "uploaded": False,
     }
 
 
 # Get sample data for starting the app
-_model_data = get_data(test_value='1BNA',
-                       pdb_id='1BNA',
-                       color='red', resetView=False)
+_model_data = get_data(test_value="1BNA", pdb_id="1BNA", color="red", resetView=False)
 
 
 viewer = html.Div(
-    [dash_bio.NglMoleculeViewer(
-        id=_COMPONENT_ID,
-        data=[_model_data])],
+    [dash_bio.NglMoleculeViewer(id=_COMPONENT_ID, data=[_model_data])],
     style={
-        'display': 'inline-block',
-        'width': 'calc(100% - 500px)',
-        'float': 'left',
-        'marginTop': '50px',
-        'marginRight': '50px',
+        "display": "inline-block",
+        "width": "calc(100% - 500px)",
+        "float": "left",
+        "marginTop": "50px",
+        "marginRight": "50px",
     },
 )
-
-
-# additional functions
-def rotate_stage(dash_duo):
-    # The previous function (get_data) needs some time therefore
-    # it is better to wait some seconds before rotating the molecule
-    time.sleep(5)
-
-    stage = dash_duo.find_element('#' + _COMPONENT_ID + ' canvas')
-    ac = ActionChains(dash_duo.driver)
-    ac.drag_and_drop_by_offset(stage, 100, 50).perform()
-
-
-def reset_stageView(dash_duo):
-    dash_duo.find_element('#reset-view-button').click()
 
 
 # Based on simple_app_layout
@@ -151,12 +128,13 @@ def reset_stageView(dash_duo):
 # There needs to be an additional reset button
 def modified_simple_app_layout(component):
     return [
-        dcc.Input(id='prop-name'),
-        dcc.Input(id='prop-value'),
-        html.Div(id='pass-fail-div'),
-        html.Button('Submit', id='submit-prop-button'),
-        html.Button('Reset', id='reset-view-button'),
-        component
+        dcc.Input(id="prop-name"),
+        dcc.Input(id="prop-value"),
+        html.Div(id="pass-fail-div"),
+        html.Button("Submit", id="submit-prop-button"),
+        html.Button("Reset", id="reset-view-button"),
+        html.Button("Download", id="download-button"),
+        component,
     ]
 
 
@@ -175,99 +153,117 @@ def modified_simple_app_callback(
     @app.callback(
         [
             Output(component_id, test_prop_name),
-            Output(component_id, 'molStyles')
+            Output(component_id, "molStyles"),
+            Output(component_id, "downloadImage"),
+            Output(component_id, "imageParameters"),
         ],
         [
-            Input('submit-prop-button', 'n_clicks'),
-            Input('reset-view-button', 'n_clicks')
+            Input("submit-prop-button", "n_clicks"),
+            Input("reset-view-button", "n_clicks"),
+            Input("download-button", "n_clicks"),
         ],
-        [State('prop-value', 'value')],
+        [State("prop-value", "value")],
     )
-    def setup_click_callback(submit_nclicks, reset_nclicks, value):
+    def setup_click_callback(submit_nclicks, reset_nclicks, download_nclicks, value):
+
+        if (
+                submit_nclicks is None
+                and reset_nclicks is None
+                and download_nclicks is None
+        ):
+            raise PreventUpdate
 
         molstyles_dict = {
-            'representations': ['cartoon', 'axes+box'],
-            'chosenAtomsColor': 'white',
-            'chosenAtomsRadius': 1,
-            'molSpacing_xAxis': 100
+            "representations": ["cartoon", "axes+box"],
+            "chosenAtomsColor": "white",
+            "chosenAtomsRadius": 1,
+            "molSpacing_xAxis": 100,
         }
 
         ctx = dash.callback_context
         if ctx.triggered:
-            input_id = ctx.triggered[0]['prop_id'].split('.')[0]
-            print('triggred', input_id)
-
-        if value is None:
-            return no_update, no_update
+            input_id = ctx.triggered[0]["prop_id"].split(".")[0]
+            print("triggred", input_id)
 
         reset_view = False
-        if input_id == 'reset-view-button':
+        if input_id == "reset-view-button":
             reset_view = True
 
+        if input_id == "download-button":
+            return (
+                no_update,
+                no_update,
+                True,
+                {
+                    "antialias": True,
+                    "trim": True,
+                    "transparent": True,
+                    "defaultFilename": "test_download",
+                },
+            )
+
         # test if the molecular representation should be changed:
-        if ';' in value:
-            value, molstyles = value.split(';')
-            if ',' in molstyles:
+        if ";" in value:
+            value, molstyles = value.split(";")
+            if "," in molstyles:
                 reprs_list = []
-                for e in molstyles.split(','):
+                for e in molstyles.split(","):
                     if e.isnumeric():
-                        molstyles_dict['molSpacing_xAxis'] = float(e)
+                        molstyles_dict["molSpacing_xAxis"] = float(e)
                     else:
                         reprs_list.append(e)
 
-                molstyles_dict['representations'] = reprs_list
+                molstyles_dict["representations"] = reprs_list
 
         # test if chosen atoms colors should be changed:
-        if '|' in value:
-            value, molstyles = value.split('|')
-            molstyles_dict['chosenAtomsColor'] = molstyles.split(',')[0]
-            molstyles_dict['chosenAtomsRadius'] = molstyles.split(',')[1]
+        if "|" in value:
+            value, molstyles = value.split("|")
+            molstyles_dict["chosenAtomsColor"] = molstyles.split(",")[0]
+            molstyles_dict["chosenAtomsRadius"] = molstyles.split(",")[1]
 
         data_list = []
-        if '_' in value:
-            for i, pdb_id in enumerate(value.split('_')):
+        if "_" in value:
+            for i, pdb_id in enumerate(value.split("_")):
                 data_list.append(
-                    get_data(
-                        value, pdb_id,
-                        color_list[i], resetView=reset_view
-                    )
+                    get_data(value, pdb_id, color_list[i], resetView=reset_view)
                 )
         else:
             pdb_id = value
             data_list.append(
-                get_data(
-                    pdb_id, pdb_id,
-                    color_list[0], resetView=reset_view
-                )
+                get_data(pdb_id, pdb_id, color_list[0], resetView=reset_view)
             )
-        return data_list, molstyles_dict
+        return data_list, molstyles_dict, no_update, no_update
 
     dash_duo.start_server(app)
-    dash_duo.wait_for_element('#' + component_id)
+    dash_duo.wait_for_element("#" + component_id)
 
-    input_prop_name = dash_duo.find_element('#prop-name')
-    input_prop_value = dash_duo.find_element('#prop-value')
+    input_prop_name = dash_duo.find_element("#prop-name")
+    input_prop_value = dash_duo.find_element("#prop-value")
 
-    input_send_button = dash_duo.find_element('#submit-prop-button')
+    input_send_button = dash_duo.find_element("#submit-prop-button")
 
     input_prop_name.send_keys(test_prop_name)
     input_prop_value.send_keys(test_prop_value)
     input_send_button.click()
 
     for function in additional_functions:
-        if function == 'rotate':
-            rotate_stage(dash_duo)
+        # The previous function (get_data) needs some time therefore
+        # it is better to wait some seconds before executing any other function
+        time.sleep(5)
+        if function == "rotate":
+            stage = dash_duo.find_element("#" + _COMPONENT_ID + " canvas")
+            ac = ActionChains(dash_duo.driver)
+            ac.drag_and_drop_by_offset(stage, 100, 50).perform()
 
-        if function == 'reset':
-            reset_stageView(dash_duo)
+        if function == "reset":
+            dash_duo.find_element("#reset-view-button").click()
 
-    # The molecule has an apearing animation therefore
-    # It is better to wait some seconds before snapshotting it
+        if function == "download":
+            dash_duo.find_element("#download-button").click()
+
     time.sleep(5)
-
     if take_snapshot:
-        dash_duo.percy_snapshot(
-            f'{component_id}_{test_prop_name}_{test_prop_value}')
+        dash_duo.percy_snapshot(f"{component_id}_{test_prop_name}_{test_prop_value}")
 
 
 def test_dbdn001_viewer_loaded(dash_duo):
@@ -278,16 +274,16 @@ def test_dbdn001_viewer_loaded(dash_duo):
 
     dash_duo.start_server(app)
 
-    dash_duo.wait_for_element('#' + _COMPONENT_ID + ' canvas')
-    assert dash_duo.find_element('#' + _COMPONENT_ID + ' canvas')
+    dash_duo.wait_for_element("#" + _COMPONENT_ID + " canvas")
+    assert dash_duo.find_element("#" + _COMPONENT_ID + " canvas")
 
 
 def test_dbdn002_change_background(dash_duo):
 
     stage_config = {
-        'backgroundColor': 'black',
-        'quality': 'medium',
-        'cameraType': 'perspective',
+        "backgroundColor": "black",
+        "quality": "medium",
+        "cameraType": "perspective",
     }
 
     app = dash.Dash(__name__)
@@ -298,9 +294,9 @@ def test_dbdn002_change_background(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='stageParameters',
+        test_prop_name="stageParameters",
         test_prop_value=json.dumps(stage_config),
-        prop_value_type='dict',
+        prop_value_type="dict",
         validation_fn=lambda x: json.dumps(x) == json.dumps(stage_config),
         take_snapshot=True,
     )
@@ -308,7 +304,7 @@ def test_dbdn002_change_background(dash_duo):
 
 def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
 
-    test_value = '6CHG'
+    test_value = "6CHG"
 
     app = dash.Dash(__name__)
 
@@ -318,10 +314,11 @@ def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
+
 
 # tried to implement the test bases on shammamah's
 # suggestions did not work (see comment in PR)
@@ -355,9 +352,9 @@ def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
 
 def test_dbdn_004_change_molRepresentation(dash_duo):
 
-    test_mol_value = '6CHG'
-    test_repr_value = 'ball+stick,axes+box'
-    test_value = test_mol_value + ';' + test_repr_value
+    test_mol_value = "6CHG"
+    test_repr_value = "ball+stick,axes+box"
+    test_value = test_mol_value + ";" + test_repr_value
 
     app = dash.Dash(__name__)
 
@@ -367,7 +364,7 @@ def test_dbdn_004_change_molRepresentation(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
@@ -375,7 +372,7 @@ def test_dbdn_004_change_molRepresentation(dash_duo):
 
 def test_dbdn_005_show_oneMolecule_cif(dash_duo):
 
-    test_value = '1PNK'
+    test_value = "1PNK"
 
     app = dash.Dash(__name__)
 
@@ -385,7 +382,7 @@ def test_dbdn_005_show_oneMolecule_cif(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
@@ -393,7 +390,7 @@ def test_dbdn_005_show_oneMolecule_cif(dash_duo):
 
 def test_dbdn_006_show_oneMolecule_cif_gzipped(dash_duo):
 
-    test_value = '1KMQ'
+    test_value = "1KMQ"
 
     app = dash.Dash(__name__)
 
@@ -403,7 +400,7 @@ def test_dbdn_006_show_oneMolecule_cif_gzipped(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
@@ -411,7 +408,7 @@ def test_dbdn_006_show_oneMolecule_cif_gzipped(dash_duo):
 
 def test_dbdn_007_show_oneChain(dash_duo):
 
-    test_value = '6CHG.A'
+    test_value = "6CHG.A"
 
     app = dash.Dash(__name__)
 
@@ -421,7 +418,7 @@ def test_dbdn_007_show_oneChain(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
@@ -429,7 +426,7 @@ def test_dbdn_007_show_oneChain(dash_duo):
 
 def test_dbdn_008_show_atomRange(dash_duo):
 
-    test_value = '6CHG.A:1-50'
+    test_value = "6CHG.A:1-50"
 
     app = dash.Dash(__name__)
 
@@ -439,7 +436,7 @@ def test_dbdn_008_show_atomRange(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
@@ -447,9 +444,9 @@ def test_dbdn_008_show_atomRange(dash_duo):
 
 def test_dbdn_009_show_chosenAtoms(dash_duo):
 
-    test_value = '6CHG.A@a50,a100,a150'
-    test_color_value = 'black,1'
-    test_value = test_value + '|' + test_color_value
+    test_value = "6CHG.A@a50,a100,a150"
+    test_color_value = "black,1"
+    test_value = test_value + "|" + test_color_value
 
     app = dash.Dash(__name__)
 
@@ -459,7 +456,7 @@ def test_dbdn_009_show_chosenAtoms(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
@@ -467,9 +464,9 @@ def test_dbdn_009_show_chosenAtoms(dash_duo):
 
 def test_dbdn_010_show_chosenResidues(dash_duo):
 
-    test_value = '6CHG.A@50,100,150'
-    test_color_value = 'grey,1.5'
-    test_value = test_value + '|' + test_color_value
+    test_value = "6CHG.A@50,100,150"
+    test_color_value = "grey,1.5"
+    test_value = test_value + "|" + test_color_value
 
     app = dash.Dash(__name__)
 
@@ -479,7 +476,7 @@ def test_dbdn_010_show_chosenResidues(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
@@ -488,12 +485,12 @@ def test_dbdn_010_show_chosenResidues(dash_duo):
 def test_dbdn_011_show_chosenAtomsResidues(dash_duo):
 
     # not yet working
-    test_atoms_value = 'a50,a100,a150'
-    test_residues_value = '50,100,150'
+    test_atoms_value = "a50,a100,a150"
+    test_residues_value = "50,100,150"
 
-    test_value = '6CHG.A@'+test_atoms_value+','+test_residues_value
-    test_color_value = 'blue,0.8'
-    test_value = test_value + '|' + test_color_value
+    test_value = "6CHG.A@" + test_atoms_value + "," + test_residues_value
+    test_color_value = "blue,0.8"
+    test_value = test_value + "|" + test_color_value
 
     app = dash.Dash(__name__)
 
@@ -503,7 +500,7 @@ def test_dbdn_011_show_chosenAtomsResidues(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
@@ -511,9 +508,9 @@ def test_dbdn_011_show_chosenAtomsResidues(dash_duo):
 
 def test_dbdn_012_show_multipleMolecules(dash_duo):
 
-    test_mol_value = '6CHG.A:1-450@50,100,150_3K8P.D'
-    test_repr_value = 'cartoon,axes+box'
-    test_value = test_mol_value + ';' + test_repr_value
+    test_mol_value = "6CHG.A:1-450@50,100,150_3K8P.D"
+    test_repr_value = "cartoon,axes+box"
+    test_value = test_mol_value + ";" + test_repr_value
 
     app = dash.Dash(__name__)
 
@@ -523,7 +520,7 @@ def test_dbdn_012_show_multipleMolecules(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
@@ -531,9 +528,9 @@ def test_dbdn_012_show_multipleMolecules(dash_duo):
 
 def test_dbdn_013_modified_molSpacing(dash_duo):
 
-    test_mol_value = '6CHG.A:_3K8P.D'
-    test_repr_value = 'cartoon,axes+box,0'
-    test_value = test_mol_value + ';' + test_repr_value
+    test_mol_value = "6CHG.A:_3K8P.D"
+    test_repr_value = "cartoon,axes+box,0"
+    test_value = test_mol_value + ";" + test_repr_value
 
     app = dash.Dash(__name__)
 
@@ -543,7 +540,7 @@ def test_dbdn_013_modified_molSpacing(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
     )
@@ -551,7 +548,7 @@ def test_dbdn_013_modified_molSpacing(dash_duo):
 
 def test_dbn_015_rotate_stage(dash_duo):
 
-    test_value = '6CHG.A_3K8P.D'
+    test_value = "6CHG.A_3K8P.D"
 
     app = dash.Dash(__name__)
 
@@ -561,16 +558,16 @@ def test_dbn_015_rotate_stage(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
-        additional_functions=['rotate'],
+        additional_functions=["rotate"],
     )
 
 
 def test_dbn_016_reset_stageView(dash_duo):
 
-    test_value = '6CHG.A_3K8P.D'
+    test_value = "6CHG.A_3K8P.D"
 
     app = dash.Dash(__name__)
 
@@ -580,8 +577,27 @@ def test_dbn_016_reset_stageView(dash_duo):
         app,
         dash_duo,
         component_id=_COMPONENT_ID,
-        test_prop_name='data',
+        test_prop_name="data",
         test_prop_value=test_value,
         take_snapshot=True,
-        additional_functions=['rotate', 'reset'],
+        additional_functions=["rotate", "reset"],
+    )
+
+
+def test_dbn_017_download_image(dash_duo):
+
+    test_value = "6CHG.A_3K8P.D"
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(modified_simple_app_layout(viewer,))
+
+    modified_simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="data",
+        test_prop_value=test_value,
+        take_snapshot=True,
+        additional_functions=["download"],
     )

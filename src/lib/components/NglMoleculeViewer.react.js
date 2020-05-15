@@ -99,6 +99,8 @@ export default class NglMoleculeViewer extends Component {
         if (downloadImage === true) {
             this.generateImage();
         }
+        // set downloadImage to false to prevent retriggering of the download handler
+        this.props.setProps({downloadImage: false});
     }
 
     highlightAtoms(args, sele, struc, chosenAtoms, chosenResidues) {
@@ -191,7 +193,6 @@ export default class NglMoleculeViewer extends Component {
         for (var i = 0; i < data.length; i++) {
             const filename = data[i].filename;
             const xOffset = i * molStyles.molSpacing_xAxis;
-            console.log(xOffset);
             if (structuresList.includes(filename)) {
                 // If user has selected structure already just add the new representation
                 this.showStructure(
