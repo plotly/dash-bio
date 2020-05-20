@@ -82,7 +82,7 @@ export default class NglMoleculeViewer extends Component {
     componentDidUpdate() {
         const {data, stageParameters, downloadImage} = this.props;
         const {stage, structuresList} = this.state;
-        
+
         // update the stage with the new stage params
         stage.setParameters(stageParameters);
 
@@ -157,8 +157,8 @@ export default class NglMoleculeViewer extends Component {
     showStructure(stageObj, chain, aaRange, chosen, color, xOffset) {
         const {stage, orientationMatrix} = this.state;
         let sele = ':';
-        
-        //reset the stage to the default orientationMatrix
+
+        // reset the stage to the default orientationMatrix
         stage.viewerControls.orient(orientationMatrix);
 
         if (chain === 'ALL') {
