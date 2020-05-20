@@ -69,7 +69,7 @@ data_dict = {
     'ext': '',
     'selectedValue': 'placeholder',
     'chain': 'ALL',
-    'range': 'ALL',
+    'aaRange': 'ALL',
     'chosenAtoms': '',
     'color': '#e41a1c',
     'config': {'type': '', 'input': ''},
@@ -442,7 +442,7 @@ def createDict(
         'ext': ext,
         'selectedValue': selection,
         'chain': chain,
-        'range': aa_range,
+        'aaRange': aa_range,
         'chosen': highlight_dic,
         'color': color,
         'config': {'type': 'text/plain', 'input': content},
@@ -652,7 +652,7 @@ def callbacks(_app):
             'representations': molStyles_list,
             'chosenAtomsColor': chosenAtomsColor,
             'chosenAtomsRadius': float(chosenAtomsRadius),
-            'molSpacing_xAxis': float(molSpacing_xAxis)
+            'molSpacingXaxis': float(molSpacing_xAxis)
         }
 
         ctx = callback_context

@@ -53,7 +53,7 @@ Those keys have the following types:
 The following format needs to be used:
 pdbID1.chain:start-end@atom1,atom2_pdbID2.chain:start-end
 . indicates that only one chain should be shown
-: indicates that a specific range should be shown (e.g. 1-50)
+: indicates that a specific amino acids range should be shown (e.g. 1-50)
 @ indicates that chosen atoms should be highlighted (e.g. @50,100,150)
  _ indicates that more than one protein should be shown
 - data (dict; default [
@@ -62,7 +62,7 @@ pdbID1.chain:start-end@atom1,atom2_pdbID2.chain:start-end
         ext: '',
         selectedValue: 'placeholder',
         chain: 'ALL',
-        range: 'ALL',
+        aaRange: 'ALL',
         chosen: {
             chosenAtoms: '',
             chosenResidues: '',
@@ -80,7 +80,7 @@ filename: name of the used pdb/cif file
 ext: file extensions (pdb or cif)
 selectedValue: pdbString
 chain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A
-range: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only 50 atoms
+aaRange: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only 50 atoms
 color: chain color
 chosen.atoms: string of the chosen Atoms, e.g. 50,100,150
               --> chosen eatoms changed to colored 'ball'
@@ -89,13 +89,13 @@ chosen.residues: string of the chosen residues, e.g. 50,100,150
 config.input: content of the pdb file
 config.type: format of config.input
 uploaded: bool if file from local storage (false) or uploaded by user (true)
-resetView: bool if the selection did not change but the view should be resettet (true). data has the following type: list of dicts containing keys 'filename', 'ext', 'selectedValue', 'chain', 'range', 'color', 'chosen', 'config', 'uploaded', 'resetView'.
+resetView: bool if the selection did not change but the view should be resettet (true). data has the following type: list of dicts containing keys 'filename', 'ext', 'selectedValue', 'chain', 'aaRange', 'color', 'chosen', 'config', 'uploaded', 'resetView'.
 Those keys have the following types:
   - filename (string; required)
   - ext (string; optional)
   - selectedValue (string; required)
   - chain (string; required)
-  - range (string; required)
+  - aaRange (string; required)
   - color (string; required)
   - chosen (dict; optional): chosen has the following type: dict containing keys 'residues', 'atoms'.
 Those keys have the following types:
@@ -111,7 +111,7 @@ Those keys have the following types:
     representations: ['cartoon', 'axes+box'],
     chosenAtomsColor: '#ffffff',
     chosenAtomsRadius: 1,
-    molSpacing_xAxis: 100,
+    molSpacingXaxis: 100,
 }): The data (in JSON format) that will be used to style the displayed molecule
 representations: one or multiple selected molecule representation
  - Possible molecule styles:
@@ -121,12 +121,12 @@ representations: one or multiple selected molecule representation
    'axes','axes+box','helixorient','unitcell'
 chosenAtomsColor: color of the 'ball+stick' representation of the chosen atoms
 chosenAtomsRadius: radius of the 'ball+stick' representation of the chosen atoms
-molSpacing_xAxis: distance on the xAxis between each molecule. molStyles has the following type: dict containing keys 'representations', 'chosenAtomsColor', 'chosenAtomsRadius', 'molSpacing_xAxis'.
+molSpacingXaxis: distance on the xAxis between each molecule. molStyles has the following type: dict containing keys 'representations', 'chosenAtomsColor', 'chosenAtomsRadius', 'molSpacingXaxis'.
 Those keys have the following types:
   - representations (list of strings; optional)
   - chosenAtomsColor (string; required)
   - chosenAtomsRadius (number; required)
-  - molSpacing_xAxis (number; required)"""
+  - molSpacingXaxis (number; required)"""
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, viewportStyle=Component.UNDEFINED, stageParameters=Component.UNDEFINED, imageParameters=Component.UNDEFINED, downloadImage=Component.UNDEFINED, pdbString=Component.UNDEFINED, data=Component.UNDEFINED, molStyles=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'viewportStyle', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']

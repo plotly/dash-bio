@@ -31,7 +31,7 @@ data_dict = {
     "resetView": False,
     "selectedValue": "placeholder",
     "chain": "ALL",
-    "range": "ALL",
+    "aaRange": "ALL",
     "chose": {"atoms": "", "residues": ""},
     "color": "#e41a1c",
     "filename": "placeholder",
@@ -98,7 +98,7 @@ def get_data(test_value, pdb_id, color, resetView=False):
         "ext": ext,
         "selectedValue": test_value,
         "chain": chain,
-        "range": aa_range,
+        "aaRange": aa_range,
         "chosen": highlight_dic,
         "color": color,
         "config": {"type": "text/plain", "input": content},
@@ -148,7 +148,7 @@ def modified_simple_app_callback(
         test_prop_name,
         test_prop_value,
         take_snapshot=True,
-        additional_functions=[],
+        additional_functions=None,
 ):
     @app.callback(
         [
@@ -177,7 +177,7 @@ def modified_simple_app_callback(
             "representations": ["cartoon", "axes+box"],
             "chosenAtomsColor": "white",
             "chosenAtomsRadius": 1,
-            "molSpacing_xAxis": 100,
+            "molSpacingXaxis": 100,
         }
 
         ctx = dash.callback_context
@@ -209,7 +209,7 @@ def modified_simple_app_callback(
                 reprs_list = []
                 for e in molstyles.split(","):
                     if e.isnumeric():
-                        molstyles_dict["molSpacing_xAxis"] = float(e)
+                        molstyles_dict["molSpacingXaxis"] = float(e)
                     else:
                         reprs_list.append(e)
 
@@ -246,20 +246,21 @@ def modified_simple_app_callback(
     input_prop_value.send_keys(test_prop_value)
     input_send_button.click()
 
-    for function in additional_functions:
-        # The previous function (get_data) needs some time therefore
-        # it is better to wait some seconds before executing any other function
-        time.sleep(5)
-        if function == "rotate":
-            stage = dash_duo.find_element("#" + _COMPONENT_ID + " canvas")
-            ac = ActionChains(dash_duo.driver)
-            ac.drag_and_drop_by_offset(stage, 100, 50).perform()
+    if additional_functions is not None:
+        for function in additional_functions:
+            # The previous function (get_data) needs some time therefore
+            # it is better to wait some seconds before executing any other function
+            time.sleep(5)
+            if function == "rotate":
+                stage = dash_duo.find_element("#" + _COMPONENT_ID + " canvas")
+                ac = ActionChains(dash_duo.driver)
+                ac.drag_and_drop_by_offset(stage, 100, 50).perform()
 
-        if function == "reset":
-            dash_duo.find_element("#reset-view-button").click()
+            if function == "reset":
+                dash_duo.find_element("#reset-view-button").click()
 
-        if function == "download":
-            dash_duo.find_element("#download-button").click()
+            if function == "download":
+                dash_duo.find_element("#download-button").click()
 
     time.sleep(5)
     if take_snapshot:

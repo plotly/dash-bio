@@ -82,7 +82,7 @@ export default class NglMoleculeViewer extends Component {
     componentDidUpdate() {
         const {data, stageParameters, downloadImage} = this.props;
         const {stage, structuresList} = this.state;
-
+        
         // update the stage with the new stage params
         stage.setParameters(stageParameters);
 
@@ -154,31 +154,32 @@ export default class NglMoleculeViewer extends Component {
     }
 
     // helper functions which styles the output of loadStructure/loadData
-    showStructure(stageObj, chain, range, chosen, color, xOffset) {
+    showStructure(stageObj, chain, aaRange, chosen, color, xOffset) {
         const {stage, orientationMatrix} = this.state;
         let sele = ':';
-
+        
+        //reset the stage to the default orientationMatrix
         stage.viewerControls.orient(orientationMatrix);
 
         if (chain === 'ALL') {
             this.addMolStyle(stageObj, sele, chosen, color);
         } else {
             sele += chain;
-            if (range !== 'ALL') {
-                sele += '/0 and ' + range;
+            if (aaRange !== 'ALL') {
+                sele += '/0 and ' + aaRange;
             }
 
             const selection = new Selection(sele);
             const structure = stageObj.structure.getView(selection);
             const pa = structure.getPrincipalAxes();
             const struc = stage.addComponentFromObject(structure);
-            const struc_centre = struc.getCenter();
+            const strucCenter = struc.getCenter();
 
             struc.setRotation(pa.getRotationQuaternion());
             struc.setPosition([
-                0 - struc_centre.x - xOffset,
-                0 - struc_centre.y,
-                0 - struc_centre.z,
+                0 - strucCenter.x - xOffset,
+                0 - strucCenter.y,
+                0 - strucCenter.z,
             ]);
             this.addMolStyle(struc, sele, chosen, color);
         }
@@ -192,13 +193,13 @@ export default class NglMoleculeViewer extends Component {
 
         for (var i = 0; i < data.length; i++) {
             const filename = data[i].filename;
-            const xOffset = i * molStyles.molSpacing_xAxis;
+            const xOffset = i * molStyles.molSpacingXaxis;
             if (structuresList.includes(filename)) {
                 // If user has selected structure already just add the new representation
                 this.showStructure(
                     stage.getComponentsByName(filename).list[0],
                     data[i].chain,
-                    data[i].range,
+                    data[i].aaRange,
                     data[i].chosen,
                     data[i].color,
                     xOffset
@@ -223,7 +224,7 @@ export default class NglMoleculeViewer extends Component {
                 this.showStructure(
                     stageObj,
                     data.chain,
-                    data.range,
+                    data.aaRange,
                     data.chosen,
                     data.color,
                     xOffset
@@ -284,7 +285,7 @@ const defaultData = [
         ext: '',
         selectedValue: 'placeholder',
         chain: 'ALL',
-        range: 'ALL',
+        aaRange: 'ALL',
         chosen: {
             chosenAtoms: '',
             chosenResidues: '',
@@ -309,7 +310,7 @@ NglMoleculeViewer.defaultProps = {
         representations: ['cartoon', 'axes+box'],
         chosenAtomsColor: '#ffffff',
         chosenAtomsRadius: 1,
-        molSpacing_xAxis: 100,
+        molSpacingXaxis: 100,
     },
 };
 
@@ -363,7 +364,7 @@ NglMoleculeViewer.propTypes = {
      * The following format needs to be used:
      * pdbID1.chain:start-end@atom1,atom2_pdbID2.chain:start-end
      * . indicates that only one chain should be shown
-     * : indicates that a specific range should be shown (e.g. 1-50)
+     * : indicates that a specific amino acids range should be shown (e.g. 1-50)
      * @ indicates that chosen atoms should be highlighted (e.g. @50,100,150)
      *  _ indicates that more than one protein should be shown
      */
@@ -375,7 +376,7 @@ NglMoleculeViewer.propTypes = {
      * ext: file extensions (pdb or cif)
      * selectedValue: pdbString
      * chain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A
-     * range: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only 50 atoms
+     * aaRange: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only 50 atoms
      * color: chain color
      * chosen.atoms: string of the chosen Atoms, e.g. 50,100,150
      *               --> chosen eatoms changed to colored 'ball'
@@ -392,7 +393,7 @@ NglMoleculeViewer.propTypes = {
             ext: PropTypes.string,
             selectedValue: PropTypes.string.isRequired,
             chain: PropTypes.string.isRequired,
-            range: PropTypes.string.isRequired,
+            aaRange: PropTypes.string.isRequired,
             color: PropTypes.string.isRequired,
             chosen: PropTypes.exact({
                 residues: PropTypes.string.isRequired,
@@ -416,13 +417,13 @@ NglMoleculeViewer.propTypes = {
      *    'axes','axes+box','helixorient','unitcell'
      * chosenAtomsColor: color of the 'ball+stick' representation of the chosen atoms
      * chosenAtomsRadius: radius of the 'ball+stick' representation of the chosen atoms
-     * molSpacing_xAxis: distance on the xAxis between each molecule
+     * molSpacingXaxis: distance on the xAxis between each molecule
      */
     molStyles: PropTypes.exact({
         representations: PropTypes.arrayOf(PropTypes.string),
         chosenAtomsColor: PropTypes.string.isRequired,
         chosenAtomsRadius: PropTypes.number.isRequired,
-        molSpacing_xAxis: PropTypes.number.isRequired,
+        molSpacingXaxis: PropTypes.number.isRequired,
     }),
 };
 
