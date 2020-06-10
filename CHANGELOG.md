@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.5] - 2020-06-10
+
+### Changed
+
+* Locked biopython version for Py2 to last supported version
+
 ## [0.0.4] - 2019-11-19
 
 ### Removed
