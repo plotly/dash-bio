@@ -14,20 +14,20 @@ import plotly.graph_objects as go
 
 
 def VariantMap(
-        dataframe,
-        entries_per_batch=2500,
-        batch_no=1,
-        annotation=None,
-        filter_sample=None,
-        filter_file=None,
-        sample_order=None,
-        title='',
-        sample_names=None,
-        color_list=None,
-        colorbar_thick=25,
-        rangeslider=True,
-        height=500,
-        width=600
+    dataframe,
+    entries_per_batch=2500,
+    batch_no=1,
+    annotation=None,
+    filter_sample=None,
+    filter_file=None,
+    sample_order=None,
+    title="",
+    sample_names=None,
+    color_list=None,
+    colorbar_thick=25,
+    rangeslider=True,
+    height=500,
+    width=600,
 ):
     """Returns a Dash Bio VariantMap figure.
 
@@ -97,19 +97,22 @@ fig = dash_bio.VariantMap(df)
 
     # Get labels of samples to display
     if sample_order is None:
-        samples = dataframe.metadata['sample_names']  # All samples to be displayed and default order
+        # All samples to be displayed and default order
+        samples = dataframe.metadata["sample_names"]
     else:
         samples = sample_order
 
-    sv_classes = ['NIL', 'DEL', 'INV', 'INS', 'BND', 'DUP', 'UKN']
+    sv_classes = ["NIL", "DEL", "INV", "INS", "BND", "DUP", "UKN"]
 
-    color_dict = {'DEL': '#4daf4a',
-                  'INV': '#377eb8',
-                  'INS': '#e41a1c',
-                  'BND': '#984ea3',
-                  'DUP': '#ff7f00',
-                  'UKN': '#000000',
-                  'NIL': '#d1d9e0'}
+    color_dict = {
+        "DEL": "#4daf4a",
+        "INV": "#377eb8",
+        "INS": "#e41a1c",
+        "BND": "#984ea3",
+        "DUP": "#ff7f00",
+        "UKN": "#000000",
+        "NIL": "#d1d9e0",
+    }
 
     colors = []
 
@@ -138,7 +141,7 @@ fig = dash_bio.VariantMap(df)
         colorbar_thick,
         rangeslider,
         height,
-        width
+        width,
     )
 
     return vm.figure()
@@ -154,21 +157,21 @@ Methods:
     """
 
     def __init__(
-            self,
-            df,
-            entries_per_batch,
-            batch_no_for_display,
-            annotation,
-            filter_sample,
-            filter_file,
-            title,
-            samples,
-            sample_names,
-            colors,
-            colorbar_thick,
-            rangeslider,
-            height,
-            width
+        self,
+        df,
+        entries_per_batch,
+        batch_no_for_display,
+        annotation,
+        filter_sample,
+        filter_file,
+        title,
+        samples,
+        sample_names,
+        colors,
+        colorbar_thick,
+        rangeslider,
+        height,
+        width,
     ):
         self.title = title
         self.colorbar_thick = colorbar_thick
@@ -180,36 +183,48 @@ Methods:
         markers = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4]
         self.dcolorsc = discrete_colorscale(markers, colors)
         self.tickvals = [0.071, 0.214, 0.357, 0.500, 0.643, 0.786, 0.929]
-        self.ticktext = ['NIL', 'DEL', 'INV', 'INS', 'BND', 'DUP', 'UKN']
+        self.ticktext = ["NIL", "DEL", "INV", "INS", "BND", "DUP", "UKN"]
 
         # Subset dataframe by gene name and SV index
         if annotation:
-            if 'Gene_name' in annotation and 'index_list' in annotation:
-                if annotation['Gene_name'] and annotation['index_list']:
-                    df_genes = df[df['Gene_name'].str.contains('|'.join([x + ';' for x in annotation['Gene_name']]))].copy()
-                    df_indexes = df.loc[annotation['index_list'], :].copy()
+            if "Gene_name" in annotation and "index_list" in annotation:
+                if annotation["Gene_name"] and annotation["index_list"]:
+                    df_genes = df[
+                        df["Gene_name"].str.contains(
+                            "|".join([x + ";" for x in annotation["Gene_name"]])
+                        )
+                    ].copy()
+                    df_indexes = df.loc[annotation["index_list"], :].copy()
                     df = pd.concat([df_genes, df_indexes])
                 else:
-                    if annotation['Gene_name']:
-                        df = df[df['Gene_name'].str.contains('|'.join([x + ';' for x in annotation['Gene_name']]))]
-                    if annotation['index_list']:
-                        df = df.loc[annotation['index_list'], :]
+                    if annotation["Gene_name"]:
+                        df = df[
+                            df["Gene_name"].str.contains(
+                                "|".join([x + ";" for x in annotation["Gene_name"]])
+                            )
+                        ]
+                    if annotation["index_list"]:
+                        df = df.loc[annotation["index_list"], :]
             else:
-                if 'Gene_name' in annotation:
-                    if annotation['Gene_name']:
-                        df = df[df['Gene_name'].str.contains('|'.join([x + ';' for x in annotation['Gene_name']]))]
-                if 'index_list' in annotation:
-                    if annotation['index_list']:
-                        df = df.loc[annotation['index_list'], :]
+                if "Gene_name" in annotation:
+                    if annotation["Gene_name"]:
+                        df = df[
+                            df["Gene_name"].str.contains(
+                                "|".join([x + ";" for x in annotation["Gene_name"]])
+                            )
+                        ]
+                if "index_list" in annotation:
+                    if annotation["index_list"]:
+                        df = df.loc[annotation["index_list"], :]
 
         # Subset dataframe by annotation
         if annotation:
             for _key in annotation:
                 if annotation[_key]:
-                    if _key in ['Gene_name', 'index_list']:
+                    if _key in ["Gene_name", "index_list"]:
                         pass
                     else:
-                        df = df[df[_key].str.contains('|'.join(annotation[_key]))]
+                        df = df[df[_key].str.contains("|".join(annotation[_key]))]
 
         # Subset dataframe by sample filter
         if filter_sample:
@@ -219,7 +234,7 @@ Methods:
         # Subtset dataframe by filter file
         if filter_file:
             for _filter in filter_file:
-                df = df[df[_filter] != '1']
+                df = df[df[_filter] != "1"]
 
         # Make a copy of dataframe
         df_new = df.copy()
@@ -234,10 +249,12 @@ Methods:
         self.batch_size = math.ceil(len(df_new) / div)
 
         # Add batch number to dataframe
-        df_new.loc[:, 'Group'] = np.divmod(np.arange(len(df_new)), self.batch_size)[0] + 1
+        df_new.loc[:, "Group"] = (
+            np.divmod(np.arange(len(df_new)), self.batch_size)[0] + 1
+        )
 
         # Subset dataframe by batch label
-        df_new = df_new[df_new['Group'].isin([int(batch_no_for_display)])]
+        df_new = df_new[df_new["Group"].isin([int(batch_no_for_display)])]
 
         # Transpose dataframe
         df_new = df_new.T
@@ -249,7 +266,7 @@ Methods:
         self.z = z[::-1]
 
         # Subset hover-text row from dataframe and convert to list of lists
-        hover_list = ['Hover_' + x for x in sample_order]
+        hover_list = ["Hover_" + x for x in sample_order]
         hover_text = df_new.loc[hover_list, :].values.tolist()
 
         # Reverse list
@@ -280,78 +297,51 @@ Methods:
             colorscale=self.dcolorsc,
             colorbar=dict(
                 title=dict(
-                    text='SV classes',
-                    font=dict(
-                        family='Open Sans',
-                        size=14,
-                        color='#ffffff'
-                    )
+                    text="SV classes",
+                    font=dict(family="Open Sans", size=14, color="#ffffff"),
                 ),
                 thickness=self.colorbar_thick,
                 tickvals=self.tickvals,
                 ticktext=self.ticktext,
-                tickfont=dict(
-                    family='Open Sans',
-                    size=14,
-                    color='#ffffff'
-                )
+                tickfont=dict(family="Open Sans", size=14, color="#ffffff"),
             ),
             zmin=0.0,
             zmax=1.0,
             hovertext=self.hover,
-            hoverinfo='text',
+            hoverinfo="text",
             xgap=2,
-            ygap=2
-
+            ygap=2,
         )
 
         layout = go.Layout(
             title=dict(
-                text='<b>' + self.title + '<b>',
-                font=dict(
-                    family='Open Sans',
-                    size=18,
-                    color='#ffffff'
-                ),
-                x=0.48
+                text="<b>" + self.title + "<b>",
+                font=dict(family="Open Sans", size=18, color="#ffffff"),
+                x=0.48,
             ),
             xaxis=dict(
                 title=dict(
-                    text='Variants',
-                    font=dict(
-                        family='Open Sans',
-                        size=16,
-                        color='#ffffff'
-                    ),
-                    standoff=3
+                    text="Variants",
+                    font=dict(family="Open Sans", size=16, color="#ffffff"),
+                    standoff=3,
                 ),
-                rangeslider=dict(
-                    visible=self.rangeslider
-                ),
+                rangeslider=dict(visible=self.rangeslider),
                 showticklabels=False,
-                side='top',
-                type='-',
+                side="top",
+                type="-",
             ),
             yaxis=dict(
                 title=dict(
-                    text='Samples',
-                    font=dict(
-                        family='Open Sans',
-                        size=16,
-                        color='#ffffff'
-                    ),
-                    standoff=3
+                    text="Samples",
+                    font=dict(family="Open Sans", size=16, color="#ffffff"),
+                    standoff=3,
                 ),
-                tickfont=dict(
-                    family='Open Sans',
-                    size=14,
-                    color='#ffffff'
-                )
+                tickfont=dict(family="Open Sans", size=14, color="#ffffff"),
             ),
             height=self.height,
             width=self.width,
-            paper_bgcolor='rgba(10,43,77,255)',
-            plot_bgcolor='rgba(255,255,255,255)'
+            paper_bgcolor="rgba(10,43,77,255)",
+            plot_bgcolor="rgba(255,255,255,255)",
         )
 
         return go.Figure(data=[trace1], layout=layout)
@@ -364,8 +354,12 @@ def discrete_colorscale(markers, colors):
     :return: color scale
     """
     markers = sorted(markers)
-    norm_mark = [round((v - markers[0]) / (markers[-1] - markers[0]), 3) for v in markers]
+    norm_mark = [
+        round((v - markers[0]) / (markers[-1] - markers[0]), 3) for v in markers
+    ]
     dcolorscale = []
     for k in enumerate(colors):
-        dcolorscale.extend([[norm_mark[k[0]], colors[k[0]]], [norm_mark[k[0] + 1], colors[k[0]]]])
+        dcolorscale.extend(
+            [[norm_mark[k[0]], colors[k[0]]], [norm_mark[k[0] + 1], colors[k[0]]]]
+        )
     return dcolorscale
