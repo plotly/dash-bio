@@ -88,7 +88,7 @@ with pd.HDFStore(file_path, mode="r") as store:
 
 # Add metadata to dataframe
 df.metadata = ''
-df.metadata = metadata['metadata']
+df.metadata = metadata
 
 # Plot VariantMap
 fig = dash_bio.VariantMap(df)
