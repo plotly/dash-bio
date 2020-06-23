@@ -14,20 +14,20 @@ import plotly.graph_objects as go
 
 
 def VariantMap(
-    dataframe,
-    entries_per_batch=2500,
-    batch_no=1,
-    annotation=None,
-    filter_sample=None,
-    filter_file=None,
-    sample_order=None,
-    title="",
-    sample_names=None,
-    color_list=None,
-    colorbar_thick=25,
-    rangeslider=True,
-    height=500,
-    width=600,
+        dataframe,
+        entries_per_batch=2500,
+        batch_no=1,
+        annotation=None,
+        filter_sample=None,
+        filter_file=None,
+        sample_order=None,
+        title="",
+        sample_names=None,
+        color_list=None,
+        colorbar_thick=25,
+        rangeslider=True,
+        height=500,
+        width=600,
 ):
     """Returns a Dash Bio VariantMap figure.
 
@@ -157,21 +157,21 @@ Methods:
     """
 
     def __init__(
-        self,
-        df,
-        entries_per_batch,
-        batch_no_for_display,
-        annotation,
-        filter_sample,
-        filter_file,
-        title,
-        samples,
-        sample_names,
-        colors,
-        colorbar_thick,
-        rangeslider,
-        height,
-        width,
+            self,
+            df,
+            entries_per_batch,
+            batch_no_for_display,
+            annotation,
+            filter_sample,
+            filter_file,
+            title,
+            samples,
+            sample_names,
+            colors,
+            colorbar_thick,
+            rangeslider,
+            height,
+            width,
     ):
         self.title = title
         self.colorbar_thick = colorbar_thick
