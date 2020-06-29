@@ -24,7 +24,7 @@
     "build:r": "dash-generate-components ./src/lib/components dash_bio -p package-info.json --r-prefix='dashbio' --r-imports='dash' --r-depends='manhattanly'",
     "build": "npm run build:js && npm run build:py",
     "build:all": "npm run build && npm run build:r",
-    "postbuild": "es-check es5 dash_bio/*.js",
+    "postbuild_": "es-check es5 dash_bio/*.js",
     "build:dev": "npm run build:js-dev && npm run build:py"
   },
   "author": "The Plotly Team <dashbio@plotly.com>",
@@ -35,6 +35,7 @@
     "fast-memoize": "^2.5.1",
     "fornac": "git://github.com/plotly/fornac.git#6b1b84740d35bf37ca7d251e665039a87b4c2ea9",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
+    "igv.js-react": "github:eweitz/igv.js-react",
     "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
     "plotly.js": "^1.52.2",
