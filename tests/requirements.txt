@@ -2,3 +2,4 @@
 
 # Additional packages needed to run the tests.
 ipdb==0.11
+tables>=3.6.1
