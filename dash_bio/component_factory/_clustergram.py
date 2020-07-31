@@ -9,7 +9,8 @@ import scipy.spatial as scs
 from sklearn.impute import SimpleImputer
 
 import plotly.graph_objects as go
-from plotly import tools
+from plotly import subplots
+import plotly.figure_factory as ff
 
 
 # pylint: disable=assignment-from-no-return, no-self-use
@@ -384,7 +385,7 @@ Methods:
         # [row dendro] [heatmap]     [heatmap]     [row GM]
         # [row dendro] [heatmap]     [heatmap]     [row GM]
         # [empty]      [col. GM]     [col. GM]     [empty]
-        fig = tools.make_subplots(
+        fig = subplots.make_subplots(
             rows=4,
             cols=4,
             specs=[
@@ -493,10 +494,6 @@ Methods:
             rdt["hoverinfo"] = "x+name"
             cluster_curve_numbers[len(fig.data)] = ["row", i]
             fig.append_trace(rdt, 2, 1)
-
-        # display row dendrogram sideways
-        xaxis4 = fig["layout"]["xaxis4"]  # pylint: disable=invalid-sequence-index
-        xaxis4.update(autorange="reversed")
 
         # ensure that everything is aligned properly
         # with the heatmap
@@ -748,41 +745,42 @@ Methods:
         # initialize return dict
         trace_list = {"col": [], "row": []}
 
-        # first, compute the clusters
-        (Zcol, Zrow) = self._get_clusters()
-
         clustered_column_ids = self._column_ids
         clustered_row_ids = self._row_ids
 
-        # calculate dendrogram from clusters; sch.dendrogram returns sets
-        # of four coordinates that make up the 'u' shapes in the dendrogram
-        if Zcol is not None:
-            Pcol = sch.dendrogram(
-                Zcol,
-                orientation="top",
-                color_threshold=self._color_threshold["col"],
-                labels=self._column_ids,
-                no_plot=True,
-            )
-            clustered_column_ids = Pcol["ivl"]
-            trace_list["col"] = self._color_dendro_clusters(Pcol, "col")
+        # cluster the data and calculate dendrogram
 
-        if Zrow is not None:
-            Prow = sch.dendrogram(
-                Zrow,
-                orientation="left",
-                color_threshold=self._color_threshold["row"],
-                labels=self._row_ids,
-                no_plot=True,
-            )
-            # need to flip the coordinates for the row dendrogram
-            Prow_tmp = {
-                "icoord": Prow["dcoord"],
-                "dcoord": Prow["icoord"],
-                "color_list": Prow["color_list"],
-            }
-            clustered_row_ids = Prow["ivl"]
-            trace_list["row"] = self._color_dendro_clusters(Prow_tmp, "row")
+        # columns
+        if self._cluster in ["col", "all"]:
+            cols_dendro=ff._dendrogram._Dendrogram(
+            np.transpose(self._data),
+            orientation="bottom",
+            labels=self._column_ids,
+            # TODO: How does colormap work?
+            #colorscale=self._color_map["cols"],
+            distfun=lambda X: self._dist_fun(X, metric=self._col_dist),
+            linkagefun=lambda d: self._link_fun(d,
+                optimal_ordering=self._optimal_leaf_order),
+            color_threshold=self._color_threshold["col"])
+            clustered_column_ids=cols_dendro.labels
+            trace_list["col"]=cols_dendro.data
+
+        # rows
+        if self._cluster in ["row", "all"]:
+            rows_dendro=ff._dendrogram._Dendrogram(
+            self._data,
+            orientation="right",
+            labels=self._row_ids,
+            # TODO: How does colormap work?
+            # colorscale=self._color_map,
+            distfun=lambda X: self._dist_fun(X, metric=self._row_dist),
+            linkagefun=lambda d: self._link_fun(d,
+                optimal_ordering=self._optimal_leaf_order),
+            color_threshold=self._color_threshold["row"])
+            # TODO: The labels need to be reversed to match? A test should be
+            # made to see if this is correct.
+            clustered_row_ids=rows_dendro.labels
+            trace_list["row"]=rows_dendro.data
 
         # now, we need to rearrange the data array to fit the labels
 
