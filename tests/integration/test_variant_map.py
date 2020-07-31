@@ -6,7 +6,7 @@ import dash_core_components as dcc
 
 
 # Load dataframe and metadata
-_data_file = 'test/dashbio_demos/dash-variant-map/data/sample_data.h5'
+_data_file = 'tests/dashbio_demos/dash-variant-map/data/sample_data.h5'
 with pd.HDFStore(_data_file, mode="r") as store:
     _data = store['dataset']
     metadata = store.get_storer('dataset').attrs.metadata
