@@ -12,6 +12,7 @@ import plotly.graph_objects as go
 from plotly import subplots
 import plotly.figure_factory as ff
 
+import pdb
 
 # pylint: disable=assignment-from-no-return, no-self-use
 def Clustergram(
@@ -495,6 +496,9 @@ Methods:
             cluster_curve_numbers[len(fig.data)] = ["row", i]
             fig.append_trace(rdt, 2, 1)
 
+        col_dendro_traces_min_y=np.concatenate([r['y'] for r in col_dendro_traces]).min()
+        col_dendro_traces_max_y=np.concatenate([r['y'] for r in col_dendro_traces]).max()
+
         # ensure that everything is aligned properly
         # with the heatmap
         yaxis4 = fig["layout"]["yaxis4"]  # pylint: disable=invalid-sequence-index
@@ -530,7 +534,6 @@ Methods:
             showticklabels=True,
             side="right",
             showline=False,
-            range=[min(tickvals_row), max(tickvals_row)],
         )
 
         # hide labels, if necessary
@@ -552,10 +555,18 @@ Methods:
                 y=tickvals_row,
                 z=heat_data,
                 colorscale=self._color_map,
-                colorbar={"xpad": 50},
+                # TODO: This should be based on the text width of the labels, or
+                # at least passable by the user, so they can adjust it
+                colorbar={"xpad": 100},
             )
 
         fig.append_trace(heatmap, 2, 2)
+
+        # it seems the range must be set after heatmap is appended to the
+        # traces, otherwise the range gets overwritten
+        fig["layout"]["yaxis4"].update(  # pylint: disable=invalid-sequence-index
+            range=[min(tickvals_row), max(tickvals_row)],
+        )
 
         # hide all legends
         fig["layout"].update(showlegend=False,)
@@ -596,13 +607,14 @@ Methods:
             domain=[1 - col_ratio, 1]
         )
         fig["layout"]["yaxis2"].update(  # pylint: disable=invalid-sequence-index
-            domain=[1 - col_ratio, 1]
+            domain=[1 - col_ratio, 1],
+            range=[col_dendro_traces_min_y,col_dendro_traces_max_y]
         )
         fig["layout"]["yaxis4"].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, 0.95 - col_ratio]
+            domain=[0, 1 - col_ratio]
         )
         fig["layout"]["yaxis5"].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, 0.95 - col_ratio]
+            domain=[0, 1 - col_ratio]
         )
 
         fig["layout"][
@@ -777,8 +789,6 @@ Methods:
             linkagefun=lambda d: self._link_fun(d,
                 optimal_ordering=self._optimal_leaf_order),
             color_threshold=self._color_threshold["row"])
-            # TODO: The labels need to be reversed to match? A test should be
-            # made to see if this is correct.
             clustered_row_ids=rows_dendro.labels
             trace_list["row"]=rows_dendro.data
 
