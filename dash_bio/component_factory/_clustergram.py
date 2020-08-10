@@ -12,41 +12,39 @@ import plotly.graph_objects as go
 from plotly import subplots
 import plotly.figure_factory as ff
 
-import pdb
-
 # pylint: disable=assignment-from-no-return, no-self-use
 def Clustergram(
-        data,
-        generate_curves_dict=False,
-        return_computed_traces=False,
-        computed_traces=None,
-        row_labels=None,
-        column_labels=None,
-        hidden_labels=None,
-        standardize="none",
-        cluster="all",
-        row_dist="euclidean",
-        col_dist="euclidean",
-        dist_fun=scs.distance.pdist,
-        link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
-        color_threshold=None,
-        optimal_leaf_order=False,
-        color_map=None,
-        color_list=None,
-        display_range=3,
-        center_values=True,
-        log_transform=False,
-        display_ratio=0.2,
-        imputer_parameters=None,
-        row_group_marker=None,  # group number, annotation, color
-        col_group_marker=None,  # same as above
-        tick_font=None,
-        annotation_font=None,
-        line_width=0.5,
-        paper_bg_color="rgba(0,0,0,0)",
-        plot_bg_color="rgba(0,0,0,0)",
-        height=500,
-        width=500,
+    data,
+    generate_curves_dict=False,
+    return_computed_traces=False,
+    computed_traces=None,
+    row_labels=None,
+    column_labels=None,
+    hidden_labels=None,
+    standardize="none",
+    cluster="all",
+    row_dist="euclidean",
+    col_dist="euclidean",
+    dist_fun=scs.distance.pdist,
+    link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
+    color_threshold=None,
+    optimal_leaf_order=False,
+    color_map=None,
+    color_list=None,
+    display_range=3,
+    center_values=True,
+    log_transform=False,
+    display_ratio=0.2,
+    imputer_parameters=None,
+    row_group_marker=None,  # group number, annotation, color
+    col_group_marker=None,  # same as above
+    tick_font=None,
+    annotation_font=None,
+    line_width=0.5,
+    paper_bg_color="rgba(0,0,0,0)",
+    plot_bg_color="rgba(0,0,0,0)",
+    height=500,
+    width=500,
 ):
     """Return a Dash Bio Clustergram object.
 
@@ -201,35 +199,35 @@ Methods:
     """
 
     def __init__(
-            self,
-            data,
-            row_labels=None,
-            column_labels=None,
-            hidden_labels=None,
-            standardize="none",
-            cluster="all",
-            row_dist="euclidean",
-            col_dist="euclidean",
-            dist_fun=scs.distance.pdist,
-            link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
-            color_threshold=None,
-            optimal_leaf_order=False,
-            color_map=None,
-            color_list=None,
-            display_range=3,
-            center_values=True,
-            log_transform=False,
-            display_ratio=0.2,
-            imputer_parameters=None,
-            row_group_marker=None,  # group number, annotation, color
-            col_group_marker=None,  # same as above
-            tick_font=None,
-            annotation_font=None,
-            line_width=0.5,
-            paper_bg_color="rgba(0,0,0,0)",
-            plot_bg_color="rgba(0,0,0,0)",
-            height=500,
-            width=500,
+        self,
+        data,
+        row_labels=None,
+        column_labels=None,
+        hidden_labels=None,
+        standardize="none",
+        cluster="all",
+        row_dist="euclidean",
+        col_dist="euclidean",
+        dist_fun=scs.distance.pdist,
+        link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
+        color_threshold=None,
+        optimal_leaf_order=False,
+        color_map=None,
+        color_list=None,
+        display_range=3,
+        center_values=True,
+        log_transform=False,
+        display_ratio=0.2,
+        imputer_parameters=None,
+        row_group_marker=None,  # group number, annotation, color
+        col_group_marker=None,  # same as above
+        tick_font=None,
+        annotation_font=None,
+        line_width=0.5,
+        paper_bg_color="rgba(0,0,0,0)",
+        plot_bg_color="rgba(0,0,0,0)",
+        height=500,
+        width=500,
     ):
         """Construct a Dash Bio Clustergram object.
 
@@ -237,7 +235,7 @@ Methods:
     of other ones) are documented.
         """
         if isinstance(data, pd.DataFrame):
-            data = data.select_dtypes('number')
+            data = data.select_dtypes("number")
             data = data.values
         if hidden_labels is None:
             hidden_labels = []
@@ -374,8 +372,7 @@ Methods:
         if self._row_labels:
             self._row_labels = [self._row_labels[r] for r in self._row_ids]
         if self._column_labels:
-            self._column_labels = [self._column_labels[r]
-                                   for r in self._column_ids]
+            self._column_labels = [self._column_labels[r] for r in self._column_ids]
 
         # this dictionary relates curve numbers (accessible from the
         # hoverData/clickData props) to cluster numbers
@@ -496,8 +493,12 @@ Methods:
             cluster_curve_numbers[len(fig.data)] = ["row", i]
             fig.append_trace(rdt, 2, 1)
 
-        col_dendro_traces_min_y=np.concatenate([r['y'] for r in col_dendro_traces]).min()
-        col_dendro_traces_max_y=np.concatenate([r['y'] for r in col_dendro_traces]).max()
+        col_dendro_traces_min_y = np.concatenate(
+            [r["y"] for r in col_dendro_traces]
+        ).min()
+        col_dendro_traces_max_y = np.concatenate(
+            [r["y"] for r in col_dendro_traces]
+        ).max()
 
         # ensure that everything is aligned properly
         # with the heatmap
@@ -608,7 +609,7 @@ Methods:
         )
         fig["layout"]["yaxis2"].update(  # pylint: disable=invalid-sequence-index
             domain=[1 - col_ratio, 1],
-            range=[col_dendro_traces_min_y,col_dendro_traces_max_y]
+            range=[col_dendro_traces_min_y, col_dendro_traces_max_y],
         )
         fig["layout"]["yaxis4"].update(  # pylint: disable=invalid-sequence-index
             domain=[0, 1 - col_ratio]
@@ -764,33 +765,37 @@ Methods:
 
         # columns
         if self._cluster in ["col", "all"]:
-            cols_dendro=ff._dendrogram._Dendrogram(
-            np.transpose(self._data),
-            orientation="bottom",
-            labels=self._column_ids,
-            # TODO: How does colormap work?
-            #colorscale=self._color_map["cols"],
-            distfun=lambda X: self._dist_fun(X, metric=self._col_dist),
-            linkagefun=lambda d: self._link_fun(d,
-                optimal_ordering=self._optimal_leaf_order),
-            color_threshold=self._color_threshold["col"])
-            clustered_column_ids=cols_dendro.labels
-            trace_list["col"]=cols_dendro.data
+            cols_dendro = ff._dendrogram._Dendrogram(
+                np.transpose(self._data),
+                orientation="bottom",
+                labels=self._column_ids,
+                # TODO: How does colormap work?
+                # colorscale=self._color_map["cols"],
+                distfun=lambda X: self._dist_fun(X, metric=self._col_dist),
+                linkagefun=lambda d: self._link_fun(
+                    d, optimal_ordering=self._optimal_leaf_order
+                ),
+                color_threshold=self._color_threshold["col"],
+            )
+            clustered_column_ids = cols_dendro.labels
+            trace_list["col"] = cols_dendro.data
 
         # rows
         if self._cluster in ["row", "all"]:
-            rows_dendro=ff._dendrogram._Dendrogram(
-            self._data,
-            orientation="right",
-            labels=self._row_ids,
-            # TODO: How does colormap work?
-            # colorscale=self._color_map,
-            distfun=lambda X: self._dist_fun(X, metric=self._row_dist),
-            linkagefun=lambda d: self._link_fun(d,
-                optimal_ordering=self._optimal_leaf_order),
-            color_threshold=self._color_threshold["row"])
-            clustered_row_ids=rows_dendro.labels
-            trace_list["row"]=rows_dendro.data
+            rows_dendro = ff._dendrogram._Dendrogram(
+                self._data,
+                orientation="right",
+                labels=self._row_ids,
+                # TODO: How does colormap work?
+                # colorscale=self._color_map,
+                distfun=lambda X: self._dist_fun(X, metric=self._row_dist),
+                linkagefun=lambda d: self._link_fun(
+                    d, optimal_ordering=self._optimal_leaf_order
+                ),
+                color_threshold=self._color_threshold["row"],
+            )
+            clustered_row_ids = rows_dendro.labels
+            trace_list["row"] = rows_dendro.data
 
         # now, we need to rearrange the data array to fit the labels
 
