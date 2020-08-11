@@ -39,7 +39,7 @@ def test_dbcl001_colorscale(dash_duo):
             [[0, 'blue'], [0.5, 'yellow'], [1, 'pink']]
         ),
         prop_value_type='list',
-        path_to_test_prop='["data"][2]["colorscale"]',
+        path_to_test_prop='["data"][41]["colorscale"]',
         take_snapshot=True
     )
 
