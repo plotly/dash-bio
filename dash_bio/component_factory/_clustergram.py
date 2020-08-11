@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from random import shuffle
 
 import numpy as np
 import pandas as pd
@@ -764,6 +763,8 @@ Methods:
 
         # cluster the data and calculate dendrogram
 
+        # allow referring to protected member
+        # pylint: disable=W0212
         # columns
         if self._cluster in ["col", "all"]:
             cols_dendro = ff._dendrogram._Dendrogram(
@@ -797,6 +798,7 @@ Methods:
             )
             clustered_row_ids = rows_dendro.labels
             trace_list["row"] = rows_dendro.data
+        # pylint: enable=W0212
 
         # now, we need to rearrange the data array to fit the labels
 
