@@ -14,37 +14,37 @@ import plotly.figure_factory as ff
 
 # pylint: disable=assignment-from-no-return, no-self-use
 def Clustergram(
-        data,
-        generate_curves_dict=False,
-        return_computed_traces=False,
-        computed_traces=None,
-        row_labels=None,
-        column_labels=None,
-        hidden_labels=None,
-        standardize="none",
-        cluster="all",
-        row_dist="euclidean",
-        col_dist="euclidean",
-        dist_fun=scs.distance.pdist,
-        link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
-        color_threshold=None,
-        optimal_leaf_order=False,
-        color_map=None,
-        color_list=None,
-        display_range=3,
-        center_values=True,
-        log_transform=False,
-        display_ratio=0.2,
-        imputer_parameters=None,
-        row_group_marker=None,  # group number, annotation, color
-        col_group_marker=None,  # same as above
-        tick_font=None,
-        annotation_font=None,
-        line_width=0.5,
-        paper_bg_color="rgba(0,0,0,0)",
-        plot_bg_color="rgba(0,0,0,0)",
-        height=500,
-        width=500,
+    data,
+    generate_curves_dict=False,
+    return_computed_traces=False,
+    computed_traces=None,
+    row_labels=None,
+    column_labels=None,
+    hidden_labels=None,
+    standardize="none",
+    cluster="all",
+    row_dist="euclidean",
+    col_dist="euclidean",
+    dist_fun=scs.distance.pdist,
+    link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
+    color_threshold=None,
+    optimal_leaf_order=False,
+    color_map=None,
+    color_list=None,
+    display_range=3,
+    center_values=True,
+    log_transform=False,
+    display_ratio=0.2,
+    imputer_parameters=None,
+    row_group_marker=None,  # group number, annotation, color
+    col_group_marker=None,  # same as above
+    tick_font=None,
+    annotation_font=None,
+    line_width=0.5,
+    paper_bg_color="rgba(0,0,0,0)",
+    plot_bg_color="rgba(0,0,0,0)",
+    height=500,
+    width=500,
 ):
     """Return a Dash Bio Clustergram object.
 
@@ -199,35 +199,35 @@ Methods:
     """
 
     def __init__(
-            self,
-            data,
-            row_labels=None,
-            column_labels=None,
-            hidden_labels=None,
-            standardize="none",
-            cluster="all",
-            row_dist="euclidean",
-            col_dist="euclidean",
-            dist_fun=scs.distance.pdist,
-            link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
-            color_threshold=None,
-            optimal_leaf_order=False,
-            color_map=None,
-            color_list=None,
-            display_range=3,
-            center_values=True,
-            log_transform=False,
-            display_ratio=0.2,
-            imputer_parameters=None,
-            row_group_marker=None,  # group number, annotation, color
-            col_group_marker=None,  # same as above
-            tick_font=None,
-            annotation_font=None,
-            line_width=0.5,
-            paper_bg_color="rgba(0,0,0,0)",
-            plot_bg_color="rgba(0,0,0,0)",
-            height=500,
-            width=500,
+        self,
+        data,
+        row_labels=None,
+        column_labels=None,
+        hidden_labels=None,
+        standardize="none",
+        cluster="all",
+        row_dist="euclidean",
+        col_dist="euclidean",
+        dist_fun=scs.distance.pdist,
+        link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
+        color_threshold=None,
+        optimal_leaf_order=False,
+        color_map=None,
+        color_list=None,
+        display_range=3,
+        center_values=True,
+        log_transform=False,
+        display_ratio=0.2,
+        imputer_parameters=None,
+        row_group_marker=None,  # group number, annotation, color
+        col_group_marker=None,  # same as above
+        tick_font=None,
+        annotation_font=None,
+        line_width=0.5,
+        paper_bg_color="rgba(0,0,0,0)",
+        plot_bg_color="rgba(0,0,0,0)",
+        height=500,
+        width=500,
     ):
         """Construct a Dash Bio Clustergram object.
 
@@ -493,12 +493,13 @@ Methods:
             cluster_curve_numbers[len(fig.data)] = ["row", i]
             fig.append_trace(rdt, 2, 1)
 
-        col_dendro_traces_min_y = np.concatenate(
-            [r["y"] for r in col_dendro_traces]
-        ).min()
-        col_dendro_traces_max_y = np.concatenate(
-            [r["y"] for r in col_dendro_traces]
-        ).max()
+        col_dendro_traces_y = [r["y"] for r in col_dendro_traces]
+        # arbitrary extrema if col_dendro_traces_y is empty
+        col_dendro_traces_min_y = 0
+        col_dendro_traces_max_y = 1
+        if len(col_dendro_traces_y):
+            col_dendro_traces_min_y = np.concatenate(col_dendro_traces_y).min()
+            col_dendro_traces_max_y = np.concatenate(col_dendro_traces_y).max()
 
         # ensure that everything is aligned properly
         # with the heatmap
