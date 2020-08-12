@@ -17,13 +17,10 @@ from selenium.webdriver.chrome.options import Options
 
 
 class IntegrationTests(unittest.TestCase):
-    def percy_snapshot(self, name=''):
-        if os.environ.get('PERCY_ENABLED', False):
-            snapshot_name = '{} - {}'.format(name, sys.version_info)
-            self.percy_runner.snapshot(
-                name=snapshot_name,
-                enable_javascript=True
-            )
+    def percy_snapshot(self, name=""):
+        snapshot_name = '{} - {}'.format(name, sys.version_info)
+        print(snapshot_name)
+        self.percy_runner.snapshot(name=snapshot_name)
 
     @classmethod
     def setUpClass(cls):
