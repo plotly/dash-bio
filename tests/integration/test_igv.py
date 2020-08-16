@@ -2,10 +2,6 @@ import dash
 import dash_bio
 import dash_html_components as html
 
-#from selenium.webdriver.common.action_chains import ActionChains
-#from selenium.webdriver.common.keys import Keys
-#from selenium.webdriver.support.ui import WebDriverWait
-
 from common_features import simple_app_layout, simple_app_callback, \
     user_interactions_layout, user_interactions_callback
 
@@ -19,9 +15,46 @@ igvStyle = dict(
 )
 
 
-# Basic test for the component rendering.
-def test_it(dash_duo):
+def test_ASM985889v3(dash_duo):
+    app = dash.Dash(__name__)
 
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Igv(
+            id=_COMPONENT_ID,
+            reference={
+                "id": "ASM985889v3",
+                "name": "Sars-CoV-2 (ASM985889v3)",
+                "fastaURL": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna",
+                "indexURL": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
+                "order": 1000000,
+                "tracks": [
+                    {
+                        "name": "Annotations",
+                        "url": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                        "displayMode": "EXPANDED",
+                        "nameField": "gene",
+                        "height": 150
+                    }
+                ]
+
+            },
+            minimumBases=100,
+            style=igvStyle
+        ),
+    ))
+
+    dash_duo.start_server(app)
+
+    # Check that the genome loaded
+    dash_duo.wait_for_text_to_equal('#igv-current_genome', 'ASM985889v3')
+
+    # Check that track(s) loaded
+    tracks = dash_duo.find_elements('.igv-track-label')
+    assert len(tracks) == 1
+    assert tracks[0].text == 'Annotations'
+
+
+def test_ASM985889v3_tracks(dash_duo):
     app = dash.Dash(__name__)
 
     app.layout = html.Div(simple_app_layout(
@@ -48,7 +81,7 @@ def test_it(dash_duo):
 
                 "name": "Genes",
                 "type": "annotation",
-                "url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/858/895/GCF_009858895.2_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                "url": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
                 "displayMode": "EXPANDED"
 
             }],
@@ -57,23 +90,51 @@ def test_it(dash_duo):
         ),
     ))
 
-    simple_app_callback(
-        app,
-        dash_duo,
-        component_id=_COMPONENT_ID,
-        test_prop_name='minimumBases',
-        test_prop_value=100,
-        prop_value_type='int',
-        validation_fn=None,
-        take_snapshot=False
-    )
+    dash_duo.start_server(app)
 
     # Check that the genome loaded
     dash_duo.wait_for_text_to_equal('#igv-current_genome', 'ASM985889v3')
 
-    # Check that both tracks leaded
+    # Check that track(s) loaded
     tracks = dash_duo.find_elements('.igv-track-label')
-
-    assert tracks[0].text == 'Annotationss'
+    assert tracks[0].text == 'Annotations'
     assert tracks[1].text == 'Genes'
 
+
+def test_sacCer3(dash_duo):
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Igv(
+            id=_COMPONENT_ID,
+            reference={
+                "id": "sacCer3",
+                "name": "S. cerevisiae (sacCer3)",
+                "fastaURL": "https://s3.dualstack.us-east-1.amazonaws.com/igv.org.genomes/sacCer3/sacCer3.fa",
+                "indexURL": "https://s3.dualstack.us-east-1.amazonaws.com/igv.org.genomes/sacCer3/sacCer3.fa.fai",
+                "tracks": [
+                    {
+                        "name": "Ensembl Genes",
+                        "type": "annotation",
+                        "format": "ensgene",
+                        "displayMode": "EXPANDED",
+                        "url": "https://s3.dualstack.us-east-1.amazonaws.com/igv.org.genomes/sacCer3/ensGene.txt.gz",
+                        "indexed": False,
+                        "supportsWholeGenome": False
+                    }
+                ]
+            },
+            minimumBases=100,
+            style=igvStyle
+        ),
+    ))
+
+    dash_duo.start_server(app)
+
+    # Check that the genome loaded
+    dash_duo.wait_for_text_to_equal('#igv-current_genome', 'sacCer3')
+
+    # Check that track(s) loaded
+    tracks = dash_duo.find_elements('.igv-track-label')
+    assert len(tracks) == 1
+    assert tracks[0].text == 'Ensembl Genes'
