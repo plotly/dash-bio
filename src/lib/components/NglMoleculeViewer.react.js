@@ -80,7 +80,7 @@ export default class NglMoleculeViewer extends Component {
     }
 
     componentDidUpdate() {
-        const {data, stageParameters, downloadImage} = this.props;
+        const {data, stageParameters, downloadImage, sideByside} = this.props;
         const {stage, structuresList} = this.state;
 
         // update the stage with the new stage params
@@ -93,7 +93,7 @@ export default class NglMoleculeViewer extends Component {
             stage.eachComponent(function(e) {
                 e.removeAllRepresentations();
             });
-            this.processDataFromBackend(data, structuresList);
+            this.processDataFromBackend(data, structuresList, sideByside);
         }
 
         if (downloadImage === true) {
@@ -154,8 +154,17 @@ export default class NglMoleculeViewer extends Component {
     }
 
     // helper functions which styles the output of loadStructure/loadData
-    showStructure(stageObj, chain, aaRange, chosen, color, xOffset) {
+    showStructure(
+        stageObj,
+        chain,
+        aaRange,
+        chosen,
+        color,
+        xOffset,
+        sideByside
+    ) {
         const {stage, orientationMatrix} = this.state;
+        let struc = stageObj;
         let sele = ':';
 
         // reset the stage to the default orientationMatrix
@@ -169,18 +178,23 @@ export default class NglMoleculeViewer extends Component {
                 sele += '/0 and ' + aaRange;
             }
 
-            const selection = new Selection(sele);
-            const structure = stageObj.structure.getView(selection);
-            const pa = structure.getPrincipalAxes();
-            const struc = stage.addComponentFromObject(structure);
-            const strucCenter = struc.getCenter();
+            if (sideByside === true) {
+                const selection = new Selection(sele);
+                const structure = stageObj.structure.getView(selection);
+                struc = stage.addComponentFromObject(structure);
 
-            struc.setRotation(pa.getRotationQuaternion());
-            struc.setPosition([
-                0 - strucCenter.x - xOffset,
-                0 - strucCenter.y,
-                0 - strucCenter.z,
-            ]);
+                const strucCenter = struc.getCenter();
+                const pa = structure.getPrincipalAxes();
+
+                struc.setRotation(pa.getRotationQuaternion());
+                struc.setPosition([
+                    0 - strucCenter.x - xOffset,
+                    0 - strucCenter.y,
+                    0 - strucCenter.z,
+                ]);
+            }
+
+            // const struc=stageObj
             this.addMolStyle(struc, sele, chosen, color);
         }
         stage.autoView();
@@ -194,6 +208,9 @@ export default class NglMoleculeViewer extends Component {
         for (var i = 0; i < data.length; i++) {
             const filename = data[i].filename;
             const xOffset = i * molStyles.molSpacingXaxis;
+            const sideByside = molStyles.sideByside;
+
+            // check if already loaded
             if (structuresList.includes(filename)) {
                 // If user has selected structure already just add the new representation
                 this.showStructure(
@@ -202,16 +219,17 @@ export default class NglMoleculeViewer extends Component {
                     data[i].aaRange,
                     data[i].chosen,
                     data[i].color,
-                    xOffset
+                    xOffset,
+                    sideByside
                 );
             } else {
-                this.loadData(data[i], xOffset);
+                this.loadData(data[i], xOffset, sideByside);
             }
         }
     }
 
     // load data from the backend into the browser
-    loadData(data, xOffset) {
+    loadData(data, xOffset, sideByside) {
         const {stage} = this.state;
         const stringBlob = new Blob([data.config.input], {
             type: data.config.type,
@@ -227,7 +245,8 @@ export default class NglMoleculeViewer extends Component {
                     data.aaRange,
                     data.chosen,
                     data.color,
-                    xOffset
+                    xOffset,
+                    sideByside
                 );
 
                 this.setState(state => ({
@@ -311,6 +330,7 @@ NglMoleculeViewer.defaultProps = {
         chosenAtomsColor: '#ffffff',
         chosenAtomsRadius: 1,
         molSpacingXaxis: 100,
+        sideByside: false,
     },
 };
 
@@ -424,6 +444,7 @@ NglMoleculeViewer.propTypes = {
         chosenAtomsColor: PropTypes.string.isRequired,
         chosenAtomsRadius: PropTypes.number.isRequired,
         molSpacingXaxis: PropTypes.number.isRequired,
+        sideByside: PropTypes.bool.isRequired,
     }),
 };
 
