@@ -61,6 +61,12 @@ PDBS = [
     '1BNA',
     '6NZK',
     '6OHW',
+    '108D',
+    'NSP2',
+    'NSP4',
+    'NSP6',
+    'MPRO',
+    'PLPR',
 ]
 
 # Placeholder which is loaded if no molecule is selected
@@ -81,7 +87,7 @@ data_dict = {
 component_id = 'nglViewer'
 viewer = html.Div(
     id='ngl-biomolecule-viewer',
-    children=[dash_bio.DashNgl(
+    children=[dash_bio.NglMoleculeViewer(
         id=component_id,
         data=[data_dict])],
 )
@@ -89,10 +95,10 @@ viewer = html.Div(
 about_html = [
     html.H4(
         className='what-is',
-        children='What is Ngl Molecule Viewer?'
+        children='What is NGL Molecule Viewer?'
     ),
     html.P(
-        'Ngl Molecule Viewer is a visualizer that allows you'
+        'NGL Molecule Viewer is a visualizer that allows you'
         ' to view biomolecules in multiple representations.'
     ),
     html.P(
@@ -135,7 +141,7 @@ data_tab = [
         children=[
             html.P(
                 'Show multiple structures and (or) \
-                specify a chain/ resiudes range/ \
+                specify a chain/ residues range/ \
                 highlight chosen residues/ atoms',
                 style={'fontSize': '10pt'},
             )
@@ -402,12 +408,7 @@ def layout():
                 storage_type='session'
             ),
             html.Div(
-                id='app-page-header',
-                children=[html.H1('Ngl Molecule Viewer')],
-                style={'background': '#e7625f', 'color': 'white'},
-            ),
-            html.Div(
-                id='app-page-content',
+                id='app-content',
                 children=[
                     html.Div(
                         id='ngl-body',
@@ -425,7 +426,7 @@ def layout():
     )
 
 
-def createDict(
+def create_dict(
         filename,
         ext,
         selection,
@@ -505,7 +506,7 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
             fname = [i for i in uploadedFiles[:-1].split(',') if pdb_id in i][0]
 
             content = ''
-            return createDict(
+            return create_dict(
                 fname,
                 fname.split('.')[1],
                 selection,
@@ -533,7 +534,7 @@ def getLocalData(selection, pdb_id, color, uploadedFiles, resetView=False):
 
     filename = fname.split('/')[-1]
 
-    return createDict(
+    return create_dict(
         filename,
         ext,
         selection,
@@ -581,7 +582,7 @@ def getUploadedData(uploaded_content):
         uploads.append(filename)
 
         data.append(
-            createDict(
+            create_dict(
                 filename,
                 ext,
                 pdb_id,
@@ -625,7 +626,7 @@ def callbacks(_app):
             State('chosen-atoms-color', 'value'),
             State('chosen-atoms-radius', 'value'),
             State('molecules-xaxis-spacing', 'value')
-        ],
+        ]
     )
     def display_output(
             selection,
@@ -676,7 +677,7 @@ def callbacks(_app):
                     'residues': ''
                 }
                 return (
-                    [createDict(
+                    [create_dict(
                         fname,
                         fname.split('.')[1],
                         pdb_id,
