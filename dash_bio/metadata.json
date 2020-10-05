@@ -1913,6 +1913,10 @@
           {
             "name": "xOffset",
             "type": null
+          },
+          {
+            "name": "sideByside",
+            "type": null
           }
         ],
         "returns": null
@@ -1944,6 +1948,10 @@
           },
           {
             "name": "xOffset",
+            "type": null
+          },
+          {
+            "name": "sideByside",
             "type": null
           }
         ],
@@ -2156,13 +2164,17 @@
             "molSpacingXaxis": {
               "name": "number",
               "required": true
+            },
+            "sideByside": {
+              "name": "bool",
+              "required": true
             }
           }
         },
         "required": false,
         "description": "The data (in JSON format) that will be used to style the displayed molecule\nrepresentations: one or multiple selected molecule representation\n - Possible molecule styles:\n   'backbone,'ball+stick','cartoon', 'hyperball','licorice','line',\n   'ribbon',''rope','spacefill','surface','trace','tube'\n - Possible additional representations:\n   'axes','axes+box','helixorient','unitcell'\nchosenAtomsColor: color of the 'ball+stick' representation of the chosen atoms\nchosenAtomsRadius: radius of the 'ball+stick' representation of the chosen atoms\nmolSpacingXaxis: distance on the xAxis between each molecule",
         "defaultValue": {
-          "value": "{\n    representations: ['cartoon', 'axes+box'],\n    chosenAtomsColor: '#ffffff',\n    chosenAtomsRadius: 1,\n    molSpacingXaxis: 100,\n}",
+          "value": "{\n    representations: ['cartoon', 'axes+box'],\n    chosenAtomsColor: '#ffffff',\n    chosenAtomsRadius: 1,\n    molSpacingXaxis: 100,\n    sideByside: false,\n}",
           "computed": false
         }
       }
