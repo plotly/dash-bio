@@ -128,7 +128,8 @@ def description():
         'stick, cartoon, and sphere representation.'
     )
 
-placeholder = html.Div(id = 'ngl-placeholder', style = {'align-text' : 'center'})
+placeholder = html.Div(id='ngl-placeholder', style={'align-text': 'center'})
+
 
 data_tab = [
     html.Div(className='app-controls-name', children='Select structure',),
@@ -824,7 +825,8 @@ def callbacks(_app):
     )
     def update_viewer(data):
         if data[0]['filename'] == "placeholder":
-            return "Use the data tab to view the biomolecular structure of one or multiple molecules."
+            return "Use the data tab to view the biomolecular " \
+                   "structure of one or multiple molecules."
 
     # Callback download Image
     bool_dict = {'Yes': True, 'No': False}
