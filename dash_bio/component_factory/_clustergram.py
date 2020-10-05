@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from random import shuffle
 
 import numpy as np
 import pandas as pd
@@ -9,42 +8,43 @@ import scipy.spatial as scs
 from sklearn.impute import SimpleImputer
 
 import plotly.graph_objects as go
-from plotly import tools
+from plotly import subplots
+import plotly.figure_factory as ff
 
 
 # pylint: disable=assignment-from-no-return, no-self-use
 def Clustergram(
-        data,
-        generate_curves_dict=False,
-        return_computed_traces=False,
-        computed_traces=None,
-        row_labels=None,
-        column_labels=None,
-        hidden_labels=None,
-        standardize="none",
-        cluster="all",
-        row_dist="euclidean",
-        col_dist="euclidean",
-        dist_fun=scs.distance.pdist,
-        link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
-        color_threshold=None,
-        optimal_leaf_order=False,
-        color_map=None,
-        color_list=None,
-        display_range=3,
-        center_values=True,
-        log_transform=False,
-        display_ratio=0.2,
-        imputer_parameters=None,
-        row_group_marker=None,  # group number, annotation, color
-        col_group_marker=None,  # same as above
-        tick_font=None,
-        annotation_font=None,
-        line_width=0.5,
-        paper_bg_color="rgba(0,0,0,0)",
-        plot_bg_color="rgba(0,0,0,0)",
-        height=500,
-        width=500,
+    data,
+    generate_curves_dict=False,
+    return_computed_traces=False,
+    computed_traces=None,
+    row_labels=None,
+    column_labels=None,
+    hidden_labels=None,
+    standardize="none",
+    cluster="all",
+    row_dist="euclidean",
+    col_dist="euclidean",
+    dist_fun=scs.distance.pdist,
+    link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
+    color_threshold=None,
+    optimal_leaf_order=False,
+    color_map=None,
+    color_list=None,
+    display_range=3,
+    center_values=True,
+    log_transform=False,
+    display_ratio=0.2,
+    imputer_parameters=None,
+    row_group_marker=None,  # group number, annotation, color
+    col_group_marker=None,  # same as above
+    tick_font=None,
+    annotation_font=None,
+    line_width=0.5,
+    paper_bg_color="rgba(0,0,0,0)",
+    plot_bg_color="rgba(0,0,0,0)",
+    height=500,
+    width=500,
 ):
     """Return a Dash Bio Clustergram object.
 
@@ -199,35 +199,35 @@ Methods:
     """
 
     def __init__(
-            self,
-            data,
-            row_labels=None,
-            column_labels=None,
-            hidden_labels=None,
-            standardize="none",
-            cluster="all",
-            row_dist="euclidean",
-            col_dist="euclidean",
-            dist_fun=scs.distance.pdist,
-            link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
-            color_threshold=None,
-            optimal_leaf_order=False,
-            color_map=None,
-            color_list=None,
-            display_range=3,
-            center_values=True,
-            log_transform=False,
-            display_ratio=0.2,
-            imputer_parameters=None,
-            row_group_marker=None,  # group number, annotation, color
-            col_group_marker=None,  # same as above
-            tick_font=None,
-            annotation_font=None,
-            line_width=0.5,
-            paper_bg_color="rgba(0,0,0,0)",
-            plot_bg_color="rgba(0,0,0,0)",
-            height=500,
-            width=500,
+        self,
+        data,
+        row_labels=None,
+        column_labels=None,
+        hidden_labels=None,
+        standardize="none",
+        cluster="all",
+        row_dist="euclidean",
+        col_dist="euclidean",
+        dist_fun=scs.distance.pdist,
+        link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
+        color_threshold=None,
+        optimal_leaf_order=False,
+        color_map=None,
+        color_list=None,
+        display_range=3,
+        center_values=True,
+        log_transform=False,
+        display_ratio=0.2,
+        imputer_parameters=None,
+        row_group_marker=None,  # group number, annotation, color
+        col_group_marker=None,  # same as above
+        tick_font=None,
+        annotation_font=None,
+        line_width=0.5,
+        paper_bg_color="rgba(0,0,0,0)",
+        plot_bg_color="rgba(0,0,0,0)",
+        height=500,
+        width=500,
     ):
         """Construct a Dash Bio Clustergram object.
 
@@ -235,7 +235,7 @@ Methods:
     of other ones) are documented.
         """
         if isinstance(data, pd.DataFrame):
-            data = data.select_dtypes('number')
+            data = data.select_dtypes("number")
             data = data.values
         if hidden_labels is None:
             hidden_labels = []
@@ -372,8 +372,7 @@ Methods:
         if self._row_labels:
             self._row_labels = [self._row_labels[r] for r in self._row_ids]
         if self._column_labels:
-            self._column_labels = [self._column_labels[r]
-                                   for r in self._column_ids]
+            self._column_labels = [self._column_labels[r] for r in self._column_ids]
 
         # this dictionary relates curve numbers (accessible from the
         # hoverData/clickData props) to cluster numbers
@@ -384,7 +383,7 @@ Methods:
         # [row dendro] [heatmap]     [heatmap]     [row GM]
         # [row dendro] [heatmap]     [heatmap]     [row GM]
         # [empty]      [col. GM]     [col. GM]     [empty]
-        fig = tools.make_subplots(
+        fig = subplots.make_subplots(
             rows=4,
             cols=4,
             specs=[
@@ -494,9 +493,13 @@ Methods:
             cluster_curve_numbers[len(fig.data)] = ["row", i]
             fig.append_trace(rdt, 2, 1)
 
-        # display row dendrogram sideways
-        xaxis4 = fig["layout"]["xaxis4"]  # pylint: disable=invalid-sequence-index
-        xaxis4.update(autorange="reversed")
+        col_dendro_traces_y = [r["y"] for r in col_dendro_traces]
+        # arbitrary extrema if col_dendro_traces_y is empty
+        col_dendro_traces_min_y = 0
+        col_dendro_traces_max_y = 1
+        if len(col_dendro_traces_y):
+            col_dendro_traces_min_y = np.concatenate(col_dendro_traces_y).min()
+            col_dendro_traces_max_y = np.concatenate(col_dendro_traces_y).max()
 
         # ensure that everything is aligned properly
         # with the heatmap
@@ -533,7 +536,6 @@ Methods:
             showticklabels=True,
             side="right",
             showline=False,
-            range=[min(tickvals_row), max(tickvals_row)],
         )
 
         # hide labels, if necessary
@@ -555,10 +557,18 @@ Methods:
                 y=tickvals_row,
                 z=heat_data,
                 colorscale=self._color_map,
-                colorbar={"xpad": 50},
+                # TODO: This should be based on the text width of the labels, or
+                # at least passable by the user, so they can adjust it
+                colorbar={"xpad": 100},
             )
 
         fig.append_trace(heatmap, 2, 2)
+
+        # it seems the range must be set after heatmap is appended to the
+        # traces, otherwise the range gets overwritten
+        fig["layout"]["yaxis4"].update(  # pylint: disable=invalid-sequence-index
+            range=[min(tickvals_row), max(tickvals_row)],
+        )
 
         # hide all legends
         fig["layout"].update(showlegend=False,)
@@ -599,13 +609,14 @@ Methods:
             domain=[1 - col_ratio, 1]
         )
         fig["layout"]["yaxis2"].update(  # pylint: disable=invalid-sequence-index
-            domain=[1 - col_ratio, 1]
+            domain=[1 - col_ratio, 1],
+            range=[col_dendro_traces_min_y, col_dendro_traces_max_y],
         )
         fig["layout"]["yaxis4"].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, 0.95 - col_ratio]
+            domain=[0, 1 - col_ratio]
         )
         fig["layout"]["yaxis5"].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, 0.95 - col_ratio]
+            domain=[0, 1 - col_ratio]
         )
 
         fig["layout"][
@@ -748,41 +759,47 @@ Methods:
         # initialize return dict
         trace_list = {"col": [], "row": []}
 
-        # first, compute the clusters
-        (Zcol, Zrow) = self._get_clusters()
-
         clustered_column_ids = self._column_ids
         clustered_row_ids = self._row_ids
 
-        # calculate dendrogram from clusters; sch.dendrogram returns sets
-        # of four coordinates that make up the 'u' shapes in the dendrogram
-        if Zcol is not None:
-            Pcol = sch.dendrogram(
-                Zcol,
-                orientation="top",
-                color_threshold=self._color_threshold["col"],
-                labels=self._column_ids,
-                no_plot=True,
-            )
-            clustered_column_ids = Pcol["ivl"]
-            trace_list["col"] = self._color_dendro_clusters(Pcol, "col")
+        # cluster the data and calculate dendrogram
 
-        if Zrow is not None:
-            Prow = sch.dendrogram(
-                Zrow,
-                orientation="left",
-                color_threshold=self._color_threshold["row"],
-                labels=self._row_ids,
-                no_plot=True,
+        # allow referring to protected member
+        # pylint: disable=W0212
+        # columns
+        if self._cluster in ["col", "all"]:
+            cols_dendro = ff._dendrogram._Dendrogram(
+                np.transpose(self._data),
+                orientation="bottom",
+                labels=self._column_ids,
+                # TODO: How does colormap work?
+                # colorscale=self._color_map["cols"],
+                distfun=lambda X: self._dist_fun(X, metric=self._col_dist),
+                linkagefun=lambda d: self._link_fun(
+                    d, optimal_ordering=self._optimal_leaf_order
+                ),
+                color_threshold=self._color_threshold["col"],
             )
-            # need to flip the coordinates for the row dendrogram
-            Prow_tmp = {
-                "icoord": Prow["dcoord"],
-                "dcoord": Prow["icoord"],
-                "color_list": Prow["color_list"],
-            }
-            clustered_row_ids = Prow["ivl"]
-            trace_list["row"] = self._color_dendro_clusters(Prow_tmp, "row")
+            clustered_column_ids = cols_dendro.labels
+            trace_list["col"] = cols_dendro.data
+
+        # rows
+        if self._cluster in ["row", "all"]:
+            rows_dendro = ff._dendrogram._Dendrogram(
+                self._data,
+                orientation="right",
+                labels=self._row_ids,
+                # TODO: How does colormap work?
+                # colorscale=self._color_map,
+                distfun=lambda X: self._dist_fun(X, metric=self._row_dist),
+                linkagefun=lambda d: self._link_fun(
+                    d, optimal_ordering=self._optimal_leaf_order
+                ),
+                color_threshold=self._color_threshold["row"],
+            )
+            clustered_row_ids = rows_dendro.labels
+            trace_list["row"] = rows_dendro.data
+        # pylint: enable=W0212
 
         # now, we need to rearrange the data array to fit the labels
 
@@ -796,199 +813,6 @@ Methods:
         clustered_data = self._data[rl_indices].T[cl_indices].T
 
         return trace_list, clustered_data, clustered_row_ids, clustered_column_ids
-
-    def _color_dendro_clusters(self, P, dim):
-        """Color each cluster below the color threshold separately.
-
-        Parameters:
-        - P (dict): The x and y values of the dendrogram traces, along
-            with the list of trace colors returned by sch.dendrogram
-        - dim (string): The dimension of the clusters.
-
-        Returns:
-        - list: The list of colored traces for the dendrogram.
-        """
-
-        traces = []
-
-        icoord = np.array(P["icoord"])
-        dcoord = np.array(P["dcoord"])
-
-        color_list = self._cluster_colors(P["color_list"], dim)
-
-        # dict w/ keys being the color code and values being another dict
-        # specifying icoords and dcoords for that cluster
-        clusters = {}
-
-        for c in color_list:
-            # the current trace
-            clusters[str(c["cluster"])] = {
-                "color": c["color"],
-                "icoords": [
-                    icoord[j]
-                    for j in range(len(icoord))
-                    if color_list[j]["cluster"] == c["cluster"]
-                ],
-                "dcoords": [
-                    dcoord[j]
-                    for j in range(len(dcoord))
-                    if color_list[j]["cluster"] == c["cluster"]
-                ],
-            }
-
-        for c in clusters:
-
-            # all of the coordinates
-            icoords = clusters[c]["icoords"]
-            dcoords = clusters[c]["dcoords"]
-
-            # initialize all x and y values for this cluster trace
-            x = np.array([])
-            y = np.array([])
-
-            for j in range(len(icoords)):
-                x = np.append(x, icoords[j])
-                y = np.append(y, dcoords[j])
-
-                # append nan to prevent links
-                x = np.append(x, np.nan)
-                y = np.append(y, np.nan)
-
-            traces.append(
-                dict(
-                    x=x,
-                    y=y,
-                    type="scatter",
-                    mode="lines",
-                    marker=dict(color=clusters[c]["color"]),
-                )
-            )
-
-        return traces
-
-    def _cluster_colors(self, clist, dim):
-        """Return a set of n unique colours for each cluster in the dendrogram.
-
-        Parameters:
-        - clist (list): The color list returned by dendrogram.
-        - dim (string): The dimension of the clusters to color.
-
-        Returns:
-        list: A list of RGB strings.
-        """
-        # the colors repeat; get how many repetitions there are
-
-        # the colors go through cycles of g, r, c, m, y, k
-        cycles = []
-        # store a string representing the current cycle
-        curr_cycle = ""
-
-        # iterate through the list of colors
-        i = 0
-        while i < len(clist):
-            # add the color to the current cycle
-            curr_cycle += clist[i]
-            # treat the end of the list as the end of a cycle
-            if i == len(clist) - 1:
-                cycles.append(curr_cycle)
-                break
-            # otherwise, the end of a cycle is signified by
-            # a sequence k, g - however, we also have b for
-            # the links above the color threshold; so we
-            # include this as well
-            if clist[i] in ["k", "b"] and clist[i + 1] == "g":
-                cycles.append(curr_cycle)
-                curr_cycle = ""
-            # finally, increment the counter
-            i += 1
-
-        color_list = []
-        bg_color = "rgb(0,0,0)"
-
-        # each element in 'cycles' contains a full cycle of 6 colors
-        # (at most)
-        # so, we need 6 times the number of cycles
-        n = 6 * len(cycles)
-
-        # fill in the user-provided color list if possible
-        if self._color_list is not None and dim in self._color_list:
-            color_list = self._color_list[dim]
-            # if there aren't enough colors, repeat the list
-            if len(color_list) < n and len(color_list) > 0:
-                color_list = color_list * (int(n / len(color_list)) + 1)
-
-        else:
-            # first, get the number of divisions
-            # take cube root of n, since we will need to make
-            # at least n^3 unique colors (filling 3 spots)
-            base = int(np.cbrt(n)) + 1
-            # rgb values to use
-            vals = np.linspace(0, 255, base).astype(int)
-
-            # pure rgb, including black
-            pure = []
-            # mixes of 2 pure rgb values
-            mixed = []
-            # other colors
-            other = []
-
-            for i in range(np.power(base, 3) - 1):
-
-                # the color represented in n-ary
-                c = str(np.base_repr(i, base=base, padding=3))[-3:]
-
-                r = int(vals[int(c[0])])
-                g = int(vals[int(c[1])])
-                b = int(vals[int(c[2])])
-
-                # color, represented as a string
-                color = "rgb(%d,%d,%d)" % (r, g, b)
-
-                # priority is all of the pure colors
-                if (r == 255 or g == 255 or b == 255) and r + g + b == 255:
-                    pure.append(color)
-                    # then, all of the mixtures of pure colors
-                elif (r == 0 or g == 0 or b == 0) and r + g + b == 510:
-                    mixed.append(color)
-                    # all of the intermediate colors that are created
-                else:
-                    other.append(color)
-
-            # avoid similarity of colors
-            shuffle(other)
-
-            color_list = pure + mixed + other
-
-        # this will be returned
-        colors = []
-
-        # get the color for the background trace, if one is supplied
-        if self._color_list is not None and "bg" in self._color_list:
-            bg_color = self._color_list["bg"]
-
-        # the sequence
-        seq = ["g", "r", "c", "m", "y", "k"]
-
-        for i in range(len(cycles)):
-            tmp = []
-            for s in seq:
-                for j in range(cycles[i].count(s)):
-                    tmp.append(
-                        {
-                            "color": color_list[i * 6 + seq.index(s)],
-                            "cluster": i * 6 + seq.index(s),
-                        }
-                    )
-            # get all indices of 'b', the links above threshold
-            bs = [j for j in range(len(cycles[i])) if cycles[i][j] == "b"]
-            for index in bs:
-                # may need to change this color
-                # depending on which are generated
-                tmp.insert(index, {"color": bg_color, "cluster": -1})
-
-            colors = colors + tmp
-
-        return colors
 
     def _sort_traces(self, rdt, cdt):
         """Sort row dendrogram clusters and column dendrogram clusters
