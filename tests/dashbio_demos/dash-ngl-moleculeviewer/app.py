@@ -128,6 +128,7 @@ def description():
         'stick, cartoon, and sphere representation.'
     )
 
+placeholder = html.Div(id = 'ngl-placeholder', style = {'align-text' : 'center'})
 
 data_tab = [
     html.Div(className='app-controls-name', children='Select structure',),
@@ -195,7 +196,24 @@ view_tab = [
         ],
     ),
     html.Div(
-        title='set molecules x-axis spacing',
+        title='show molecules side by side',
+        className='app-controls-block',
+        id='ngl-mols-sideByside',
+        children=[
+            html.P('if multiple molecules show them side by side?',
+                   style={'fontWeight': 'bold', 'marginBottom': '10px'}),
+            dcc.RadioItems(
+                id='sideByside-selector',
+                options=[
+                    {'label': 'Yes (mols cannot be moved/rotated independently)', 'value': 'True'},
+                    {'label': 'No (move/rotate mols independently with `ctrl`)', 'value': 'False'},
+                ],
+                value='False'
+            ),
+        ],
+    ),
+    html.Div(
+        title='set molecules x-axis spacing (if side by side is enabled)',
         className='app-controls-block',
         id='ngl-mols-spacing',
         children=[
@@ -415,6 +433,7 @@ def layout():
                         className='app-body',
                         children=[
                             tabs,
+                            placeholder,
                             viewer,
                             # using dcc.Loading leads to remounting with every selection change
                             # dcc.Loading(viewer),
@@ -625,7 +644,8 @@ def callbacks(_app):
             State('molecules-chain-color', 'value'),
             State('chosen-atoms-color', 'value'),
             State('chosen-atoms-radius', 'value'),
-            State('molecules-xaxis-spacing', 'value')
+            State('molecules-xaxis-spacing', 'value'),
+            State('sideByside-selector', 'value')
         ]
     )
     def display_output(
@@ -640,11 +660,17 @@ def callbacks(_app):
             colors,
             chosenAtomsColor,
             chosenAtomsRadius,
-            molSpacing_xAxis
+            molSpacing_xAxis,
+            sideByside_text
     ):
         input_id = None
         options = dropdown_options
         colors_list = colors.split(',')
+
+        sideByside_bool = False
+
+        if sideByside_text == 'True':
+            sideByside_bool = True
 
         # Give a default data dict if no files are uploaded
         files = files or {'uploaded': []}
@@ -653,7 +679,8 @@ def callbacks(_app):
             'representations': molStyles_list,
             'chosenAtomsColor': chosenAtomsColor,
             'chosenAtomsRadius': float(chosenAtomsRadius),
-            'molSpacingXaxis': float(molSpacing_xAxis)
+            'molSpacingXaxis': float(molSpacing_xAxis),
+            'sideByside': sideByside_bool
         }
 
         ctx = callback_context
@@ -787,6 +814,17 @@ def callbacks(_app):
             'cameraType': camera_type,
             'quality': quality,
         }
+
+    # Callback for displaying placeholder for a blank stage.
+    @_app.callback(
+        Output('ngl-placeholder', 'children'),
+        [
+            Input(component_id, 'data'),
+        ],
+    )
+    def update_viewer(data):
+        if data[0]['filename'] == "placeholder":
+            return "Use the data tab to view the biomolecular structure of one or multiple molecules."
 
     # Callback download Image
     bool_dict = {'Yes': True, 'No': False}
