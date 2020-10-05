@@ -10,9 +10,10 @@ The Molecule3dViewer component is used to render schematic diagrams of biomolecu
 }
 
 \usage{
-dashbioMolecule3dViewer(id=NULL, selectionType=NULL, backgroundColor=NULL, backgroundOpacity=NULL,
-styles=NULL, modelData=NULL, atomLabelsShown=NULL, selectedAtomIds=NULL,
-labels=NULL, onRenderNewData=NULL, onChangeSelection=NULL)
+dashbioMolecule3dViewer(id=NULL, selectionType=NULL, backgroundColor=NULL,
+backgroundOpacity=NULL, styles=NULL, modelData=NULL,
+atomLabelsShown=NULL, selectedAtomIds=NULL, labels=NULL,
+onRenderNewData=NULL, onChangeSelection=NULL)
 }
 
 \arguments{
@@ -49,6 +50,9 @@ when modelData is changed}
 \item{onChangeSelection}{Callback to change append selectedAtomIds
 when a selection is made}
 }
+
+\value{named list of JSON elements corresponding to React.js properties and their values}
+
 \examples{
 \dontrun{
 library(dash)

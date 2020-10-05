@@ -10,16 +10,20 @@ The Ideogram component is used to draw and animate genome-wide datasets for orga
 }
 
 \usage{
-dashbioIdeogram(id=NULL, style=NULL, className=NULL, annotationsLayout=NULL, annotations=NULL,
-annotationsPath=NULL, annotationsData=NULL, annotationTracks=NULL,
-annotationHeight=NULL, annotationsColor=NULL, histogramScaling=NULL,
-barWidth=NULL, showAnnotTooltip=NULL, assembly=NULL, brush=NULL, brushData=NULL,
-container=NULL, chrHeight=NULL, chrMargin=NULL, chrWidth=NULL, chromosomes=NULL,
-dataDir=NULL, organism=NULL, localOrganism=NULL, homology=NULL,
-perspective=NULL, fullChromosomeLabels=NULL, resolution=NULL, filterable=NULL,
-orientation=NULL, ploidy=NULL, ploidyDesc=NULL, ancestors=NULL, rangeSet=NULL,
-rotatable=NULL, rotated=NULL, sex=NULL, showChromosomeLabels=NULL,
-showBandLabels=NULL, showFullyBanded=NULL, showNonNuclearChromosomes=NULL)
+dashbioIdeogram(id=NULL, style=NULL, className=NULL, annotationsLayout=NULL,
+annotations=NULL, annotationsPath=NULL,
+annotationsData=NULL, annotationTracks=NULL,
+annotationHeight=NULL, annotationsColor=NULL,
+histogramScaling=NULL, barWidth=NULL, showAnnotTooltip=NULL,
+assembly=NULL, brush=NULL, brushData=NULL, container=NULL,
+chrHeight=NULL, chrMargin=NULL, chrWidth=NULL,
+chromosomes=NULL, dataDir=NULL, organism=NULL,
+localOrganism=NULL, homology=NULL, perspective=NULL,
+fullChromosomeLabels=NULL, resolution=NULL, filterable=NULL,
+orientation=NULL, ploidy=NULL, ploidyDesc=NULL,
+ancestors=NULL, rangeSet=NULL, rotatable=NULL, rotated=NULL,
+sex=NULL, showChromosomeLabels=NULL, showBandLabels=NULL,
+showFullyBanded=NULL, showNonNuclearChromosomes=NULL)
 }
 
 \arguments{
@@ -197,6 +201,9 @@ beside chromosomes of less studied organisms, e.g., chimpanzee.}
 \item{showNonNuclearChromosomes}{Logical. Whether to show non-nuclear chromosomes,
 e.g., for mitochondrial (MT) and chloroplast (CP) DNA.}
 }
+
+\value{named list of JSON elements corresponding to React.js properties and their values}
+
 \examples{
 \dontrun{
 library(dash)

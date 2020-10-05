@@ -10,10 +10,12 @@ The sequence viewer component is used to display sequences that represent protei
 }
 
 \usage{
-dashbioSequenceViewer(id=NULL, sequence=NULL, showLineNumbers=NULL, wrapAminoAcids=NULL,
-charsPerLine=NULL, toolbar=NULL, search=NULL, title=NULL,
-sequenceMaxHeight=NULL, badge=NULL, selection=NULL, coverage=NULL, legend=NULL,
-coverageClicked=NULL, mouseSelection=NULL, subpartSelected=NULL)
+dashbioSequenceViewer(id=NULL, sequence=NULL, showLineNumbers=NULL,
+wrapAminoAcids=NULL, charsPerLine=NULL, toolbar=NULL,
+search=NULL, title=NULL, sequenceMaxHeight=NULL, badge=NULL,
+selection=NULL, coverage=NULL, legend=NULL,
+coverageClicked=NULL, mouseSelection=NULL,
+subpartSelected=NULL)
 }
 
 \arguments{
@@ -88,6 +90,9 @@ those elements have the following types:
   - sequence (character; optional)s. A list of the subparts selected using the
 "search" function or the "selection" property.}
 }
+
+\value{named list of JSON elements corresponding to React.js properties and their values}
+
 \examples{
 \dontrun{
 library(dash)
