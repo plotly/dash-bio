@@ -128,6 +128,7 @@ def description():
         'stick, cartoon, and sphere representation.'
     )
 
+
 placeholder = html.Div(id='ngl-placeholder', style={'align-text': 'center'})
 
 
