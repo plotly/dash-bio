@@ -4,7 +4,6 @@
 ### Changed
 * [#496](https://github.com/plotly/dash-bio/pull/496) Added Dash-NGL-Moleculeviewer component.
 
-
 ## [0.4.8] - 2020-03-16
 ### Changed
 * [#489](https://github.com/plotly/dash-bio/pull/489) Renamed async modules with hyphen `-` instead of tilde `~`
