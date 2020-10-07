@@ -5,6 +5,8 @@ import dash
 import dash_bio
 import dash_html_components as html
 
+from dash.testing import wait
+
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -223,13 +225,13 @@ def test_dbsv004_coverage_clicked(dash_duo):
         '.sequenceBody .fastaSeq span:nth-child(1)'
     )
     coverage_1.click()
-    assert output_div.get_attribute('innerHTML') == str(0)
+    wait.until(lambda: output_div.get_attribute('innerHTML') == str(0), 3)
 
     coverage_2 = dash_duo.find_element(
         '.sequenceBody .fastaSeq span:nth-child(3)'
     )
     coverage_2.click()
-    assert output_div.get_attribute('innerHTML') == str(1)
+    wait.until(lambda: output_div.get_attribute('innerHTML') == str(1), 3)
 
 
 def test_dbsv005_mouse_selection(dash_duo):
