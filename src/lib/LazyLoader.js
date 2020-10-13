@@ -17,7 +17,9 @@ export default {
             /* webpackChunkName: "moleculeviewer3" */ './fragments/Molecule3dViewer'
         ),
     nglmoleculeViewer: () =>
-        import(/* webpackChunkName: "nglmoleculeviewer" */ './fragments/NglMoleculeViewer.react'),
+        import(
+            /* webpackChunkName: "nglmoleculeviewer" */ './fragments/NglMoleculeViewer.react'
+        ),
     needlePlot: () =>
         import(/* webpackChunkName: "needle" */ './fragments/NeedlePlot.react'),
     oncoPrint: () =>

@@ -2,7 +2,7 @@ import React, {Component, lazy, Suspense} from 'react';
 import LazyLoader from '../LazyLoader';
 import PropTypes from 'prop-types';
 
-const RealNglMoleculeViewer = lazy(LazyLoader.nglmoleculeviewer)
+const RealNglMoleculeViewer = lazy(LazyLoader.nglmoleculeViewer);
 /**
  * The NglMoleculeViewer is used to render schematic diagrams
  * of biomolecules in ribbon-structure representations.
@@ -12,13 +12,12 @@ const RealNglMoleculeViewer = lazy(LazyLoader.nglmoleculeviewer)
  * https://github.com/arose/ngl
  */
 export default class NglMoleculeViewer extends Component {
-    
     render() {
-        return(
+        return (
             <Suspense fallback={null}>
                 <RealNglMoleculeViewer {...this.props} />
             </Suspense>
-        )
+        );
     }
 }
 
