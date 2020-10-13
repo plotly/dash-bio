@@ -39,6 +39,7 @@ async_resources = [
     'moleculeviewer2',
     'moleculeviewer3',
     'needle',
+    'nglmoleculeviewer',
     'onco',
     'sequence',
     'speck'
