@@ -129,7 +129,7 @@ def description():
     )
 
 
-placeholder = html.Div(id='ngl-placeholder', style={'text-align': 'center', 'font-size': '25px'})
+placeholder = html.Div(id='ngl-placeholder', style={'textAlign': 'center', 'fontSize': '25px'})
 
 
 data_tab = [

@@ -21,10 +21,9 @@ export default class NglMoleculeViewer extends Component {
     }
 }
 
-const defaultViewportStyle = {
-    width: '500px',
-    height: '500px',
-};
+const defaultViewportHeight = '500px';
+
+const defaultViewportWidth = '500px';
 
 const defaultStageParameters = {
     quality: 'medium',
@@ -62,7 +61,8 @@ const defaultData = [
 
 NglMoleculeViewer.defaultProps = {
     data: defaultData,
-    viewportStyle: defaultViewportStyle,
+    viewportWidth: defaultViewportWidth,
+    viewportHeight: defaultViewportHeight,
     stageParameters: defaultStageParameters,
     imageParameters: defaultImageParameters,
     downloadImage: false,
@@ -83,14 +83,21 @@ NglMoleculeViewer.propTypes = {
     id: PropTypes.string,
 
     /**
-     * The height and the width (in px) of the container
-     * in which the molecules will be displayed.
-     * It should be in JSON format.
+     * Dash-assigned callback that should be called whenever properties change.
      */
-    viewportStyle: PropTypes.exact({
-        width: PropTypes.string,
-        height: PropTypes.string,
-    }),
+    setProps: PropTypes.func,
+
+    /**
+     * The width (in px or as a number) of the container
+     * in which the molecules will be displayed.
+     */
+    viewportWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    /**
+     * The height (in px or as a number) of the container
+     * in which the molecules will be displayed.
+     */
+    viewportHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     /**
      * Parameters (in JSON format) for the stage object of ngl.

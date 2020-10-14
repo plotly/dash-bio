@@ -1841,24 +1841,48 @@
         "required": false,
         "description": "The ID of this component, used to identify dash components in callbacks.\nThe ID needs to be unique across all of the components in an app."
       },
-      "viewportStyle": {
+      "setProps": {
         "type": {
-          "name": "exact",
-          "value": {
-            "width": {
-              "name": "string",
-              "required": false
-            },
-            "height": {
-              "name": "string",
-              "required": false
-            }
-          }
+          "name": "func"
         },
         "required": false,
-        "description": "The height and the width (in px) of the container\nin which the molecules will be displayed.\nIt should be in JSON format.",
+        "description": "Dash-assigned callback that should be called whenever properties change."
+      },
+      "viewportWidth": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "number"
+            }
+          ]
+        },
+        "required": false,
+        "description": "The width (in px or as a number) of the container\nin which the molecules will be displayed.",
         "defaultValue": {
-          "value": "{\n    width: '500px',\n    height: '500px',\n}",
+          "value": "'500px'",
+          "computed": false
+        }
+      },
+      "viewportHeight": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "number"
+            }
+          ]
+        },
+        "required": false,
+        "description": "The height (in px or as a number) of the container\nin which the molecules will be displayed.",
+        "defaultValue": {
+          "value": "'500px'",
           "computed": false
         }
       },

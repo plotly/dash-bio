@@ -15,15 +15,10 @@ https://github.com/arose/ngl
 Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components in callbacks.
 The ID needs to be unique across all of the components in an app.
-- viewportStyle (dict; default {
-    width: '500px',
-    height: '500px',
-}): The height and the width (in px) of the container
+- viewportWidth (string | number; default '500px'): The width (in px or as a number) of the container
 in which the molecules will be displayed.
-It should be in JSON format. viewportStyle has the following type: dict containing keys 'width', 'height'.
-Those keys have the following types:
-  - width (string; optional)
-  - height (string; optional)
+- viewportHeight (string | number; default '500px'): The height (in px or as a number) of the container
+in which the molecules will be displayed.
 - stageParameters (dict; default {
     quality: 'medium',
     backgroundColor: 'white',
@@ -130,12 +125,12 @@ Those keys have the following types:
   - molSpacingXaxis (number; required)
   - sideByside (boolean; required)"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, viewportStyle=Component.UNDEFINED, stageParameters=Component.UNDEFINED, imageParameters=Component.UNDEFINED, downloadImage=Component.UNDEFINED, pdbString=Component.UNDEFINED, data=Component.UNDEFINED, molStyles=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'viewportStyle', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
+    def __init__(self, id=Component.UNDEFINED, viewportWidth=Component.UNDEFINED, viewportHeight=Component.UNDEFINED, stageParameters=Component.UNDEFINED, imageParameters=Component.UNDEFINED, downloadImage=Component.UNDEFINED, pdbString=Component.UNDEFINED, data=Component.UNDEFINED, molStyles=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'viewportWidth', 'viewportHeight', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
         self._type = 'NglMoleculeViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'viewportStyle', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
+        self.available_properties = ['id', 'viewportWidth', 'viewportHeight', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

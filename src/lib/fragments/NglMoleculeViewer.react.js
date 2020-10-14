@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {propTypes, defaultProps} from '../components/NglMoleculeViewer.react';
 import {Stage, Selection, download} from 'ngl';
 import {equals} from 'ramda';
+// import {isNumeric} from 'fast-isnumeric';
 
 /**
  * The NglMoleculeViewer is used to render schematic diagrams
@@ -22,12 +23,19 @@ export default class NglMoleculeViewer extends Component {
     }
 
     componentDidMount() {
-        const {id, stageParameters, viewportStyle} = this.props;
+        const {id, stageParameters, viewportWidth, viewportHeight} = this.props;
         const params = {...stageParameters};
         const stage = new Stage(id, params);
         const orientationMatrix = stage.viewerControls.getOrientation();
 
-        stage.setSize(viewportStyle.width, viewportStyle.height);
+        const widthStr = isNaN(viewportWidth)
+            ? viewportWidth
+            : viewportWidth + 'px';
+        const heightStr = isNaN(viewportHeight)
+            ? viewportHeight
+            : viewportHeight + 'px';
+
+        stage.setSize(widthStr, heightStr);
         this.setState({stage, orientationMatrix});
     }
 
