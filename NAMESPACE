@@ -12,7 +12,6 @@ export(dashbioOncoPrint)
 export(dashbioSequenceViewer)
 export(dashbioSpeck)
 export(dashbioVolcano)
-export(DashNglDashNgl)
 export(dashbioManhattan)
 import(manhattanly)
 
