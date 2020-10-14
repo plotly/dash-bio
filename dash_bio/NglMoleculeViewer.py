@@ -15,9 +15,9 @@ https://github.com/arose/ngl
 Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components in callbacks.
 The ID needs to be unique across all of the components in an app.
-- viewportWidth (string | number; default '500px'): The width (in px or as a number) of the container
+- width (string | number; default '500px'): The width (in px or as a number) of the container
 in which the molecules will be displayed.
-- viewportHeight (string | number; default '500px'): The height (in px or as a number) of the container
+- height (string | number; default '500px'): The height (in px or as a number) of the container
 in which the molecules will be displayed.
 - stageParameters (dict; default {
     quality: 'medium',
@@ -125,12 +125,12 @@ Those keys have the following types:
   - molSpacingXaxis (number; required)
   - sideByside (boolean; required)"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, viewportWidth=Component.UNDEFINED, viewportHeight=Component.UNDEFINED, stageParameters=Component.UNDEFINED, imageParameters=Component.UNDEFINED, downloadImage=Component.UNDEFINED, pdbString=Component.UNDEFINED, data=Component.UNDEFINED, molStyles=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'viewportWidth', 'viewportHeight', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
+    def __init__(self, id=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, stageParameters=Component.UNDEFINED, imageParameters=Component.UNDEFINED, downloadImage=Component.UNDEFINED, pdbString=Component.UNDEFINED, data=Component.UNDEFINED, molStyles=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'width', 'height', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
         self._type = 'NglMoleculeViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'viewportWidth', 'viewportHeight', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
+        self.available_properties = ['id', 'width', 'height', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles']
         self.available_wildcard_properties =            []
 
         _explicit_args = kwargs.pop('_explicit_args')

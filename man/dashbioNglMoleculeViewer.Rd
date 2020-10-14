@@ -10,20 +10,19 @@ The NglMoleculeViewer is used to render schematic diagrams of biomolecules in ri
 }
 
 \usage{
-dashbioNglMoleculeViewer(id=NULL, viewportWidth=NULL, viewportHeight=NULL,
-stageParameters=NULL, imageParameters=NULL,
-downloadImage=NULL, pdbString=NULL, data=NULL,
-molStyles=NULL)
+dashbioNglMoleculeViewer(id=NULL, width=NULL, height=NULL, stageParameters=NULL,
+imageParameters=NULL, downloadImage=NULL, pdbString=NULL,
+data=NULL, molStyles=NULL)
 }
 
 \arguments{
 \item{id}{Character. The ID of this component, used to identify dash components in callbacks.
 The ID needs to be unique across all of the components in an app.}
 
-\item{viewportWidth}{Character | numeric. The width (in px or as a number) of the container
+\item{width}{Character | numeric. The width (in px or as a number) of the container
 in which the molecules will be displayed.}
 
-\item{viewportHeight}{Character | numeric. The height (in px or as a number) of the container
+\item{height}{Character | numeric. The height (in px or as a number) of the container
 in which the molecules will be displayed.}
 
 \item{stageParameters}{Lists containing elements 'quality', 'backgroundcolor', 'cameratype'.

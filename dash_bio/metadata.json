@@ -1848,7 +1848,7 @@
         "required": false,
         "description": "Dash-assigned callback that should be called whenever properties change."
       },
-      "viewportWidth": {
+      "width": {
         "type": {
           "name": "union",
           "value": [
@@ -1867,7 +1867,7 @@
           "computed": false
         }
       },
-      "viewportHeight": {
+      "height": {
         "type": {
           "name": "union",
           "value": [
