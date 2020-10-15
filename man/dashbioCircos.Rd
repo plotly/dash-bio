@@ -10,9 +10,9 @@ Dash Circos is a library used to analyze and interpret data using a circular lay
 }
 
 \usage{
-dashbioCircos(enableDownloadSVG=NULL, enableZoomPan=NULL, id=NULL, style=NULL,
-eventDatum=NULL, selectEvent=NULL, layout=NULL, config=NULL, size=NULL,
-tracks=NULL)
+dashbioCircos(enableDownloadSVG=NULL, enableZoomPan=NULL, id=NULL,
+style=NULL, eventDatum=NULL, selectEvent=NULL, layout=NULL,
+config=NULL, size=NULL, tracks=NULL)
 }
 
 \arguments{
@@ -104,6 +104,9 @@ those elements have the following types:
 For a complete list of tracks and usage,
 please check the docs.}
 }
+
+\value{named list of JSON elements corresponding to React.js properties and their values}
+
 \examples{
 \dontrun{
 library(dash)

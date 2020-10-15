@@ -154,12 +154,14 @@ To run integration tests locally on, say, Google Chrome:
 python -m venv venv
 . venv/bin/activate
 pip install -r tests/requirements.txt
-pip install dash[testing]
-pytest tests/integration
+pip install dash[testing] #if you use zsh run: pip install dash\[testing\]
+pip install dash-bio #if pytest fails try: pip3 install dash-bio
+pytest tests/integration #for testing all apps
+pytest tests/integration/test_yourNewApp #for testing only one app 
 ```
 Do not worry if you get errors running this last command. You will have to
-download a Chrome driver, install it, and add its path. Follow what the error
-messages point to (this will be platform-specific).
+download a Chrome driver (Linux:chromium), install it, and add its path.
+Follow what the error messages point to (this will be platform-specific).
 
 To write more integration tests, please read this
 [tutorial](https://dash.plotly.com/testing).

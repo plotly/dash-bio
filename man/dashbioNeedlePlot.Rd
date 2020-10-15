@@ -10,8 +10,8 @@ The Needle Plot component is used to visualize large datasets containing categor
 }
 
 \usage{
-dashbioNeedlePlot(id=NULL, mutationData=NULL, xlabel=NULL, ylabel=NULL, rangeSlider=NULL,
-needleStyle=NULL, domainStyle=NULL)
+dashbioNeedlePlot(id=NULL, mutationData=NULL, xlabel=NULL, ylabel=NULL,
+rangeSlider=NULL, needleStyle=NULL, domainStyle=NULL)
 }
 
 \arguments{
@@ -46,6 +46,9 @@ those elements have the following types:
   - domaincolor (unnamed list; optional)
   - displayminordomains (logical; optional). Options for the protein domain coloring}
 }
+
+\value{named list of JSON elements corresponding to React.js properties and their values}
+
 \examples{
 \dontrun{
 library(dash)

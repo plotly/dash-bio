@@ -10,8 +10,9 @@ FornaContainer is a force-directed graph that is used to visualize the secondary
 }
 
 \usage{
-dashbioFornaContainer(id=NULL, height=NULL, width=NULL, sequences=NULL, nodeFillColor=NULL,
-colorScheme=NULL, customColors=NULL, allowPanningAndZooming=NULL)
+dashbioFornaContainer(id=NULL, height=NULL, width=NULL, sequences=NULL,
+nodeFillColor=NULL, colorScheme=NULL, customColors=NULL,
+allowPanningAndZooming=NULL)
 }
 
 \arguments{
@@ -90,3 +91,6 @@ perfectly in between 0 and 20.}
 \item{allowPanningAndZooming}{Logical. Allow users to zoom in and pan the display. If this is enabled,
 then pressing the 'c' key on the keyboard will center the view.}
 }
+
+\value{named list of JSON elements corresponding to React.js properties and their values}
+

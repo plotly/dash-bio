@@ -42,6 +42,7 @@ The Dash Bio components each fall into one of three categories:
 - Dash Mol2D
 - Dash Mol3D
 - Dash Speck
+- Dash Ngl (experimental)
 
 ## Dash
 

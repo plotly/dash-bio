@@ -1,16 +1,14 @@
 Package: dashBio
 Title: Open-source Bioinformatics Components for Dash
-Version: 0.4.5
+Version: 0.5.0
 Description: A suite of components that makes it simpler to analyze and visualize bioinformatics data and interact with them in a Dash application.
 Depends: R (>= 3.0.2), manhattanly
-Imports: dash 
+Imports: dash
 Suggests: 
+Authors@R: person("The", "Team", role = c("aut", "cre"), email = "dashbio@plotly.com")
 License: MIT + file LICENSE
 URL: https://github.com/plotly/dash-bio
 BugReports: https://github.com/plotly/dash-bio/issues
 Encoding: UTF-8
 LazyData: true
 KeepSource: true
-Author: The Plotly Team [aut]
-Maintainer: Ryan Patrick Kyle <ryan@plotly.com>
-RoxygenNote: 6.1.1

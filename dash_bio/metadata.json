@@ -1829,6 +1829,249 @@
       }
     }
   },
+  "src/lib/components/NglMoleculeViewer.react.js": {
+    "description": "The NglMoleculeViewer is used to render schematic diagrams\nof biomolecules in ribbon-structure representations.\nRead more about the component here:\nhttps://github.com/IvoLeist/dash_ngl\nRead more about the used WebGL protein viewer here:\nhttps://github.com/arose/ngl",
+    "displayName": "NglMoleculeViewer",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of this component, used to identify dash components in callbacks.\nThe ID needs to be unique across all of the components in an app."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called whenever properties change."
+      },
+      "width": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "number"
+            }
+          ]
+        },
+        "required": false,
+        "description": "The width (in px or as a number) of the container\nin which the molecules will be displayed.",
+        "defaultValue": {
+          "value": "'500px'",
+          "computed": false
+        }
+      },
+      "height": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "number"
+            }
+          ]
+        },
+        "required": false,
+        "description": "The height (in px or as a number) of the container\nin which the molecules will be displayed.",
+        "defaultValue": {
+          "value": "'500px'",
+          "computed": false
+        }
+      },
+      "stageParameters": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "quality": {
+              "name": "string",
+              "required": false
+            },
+            "backgroundColor": {
+              "name": "string",
+              "required": false
+            },
+            "cameraType": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Parameters (in JSON format) for the stage object of ngl.\nCurrently implemented are render quality, background color and camera type\nquality: auto, low, medium, high (default: auto)\nbackgroundColor: white / black (default: white)\ncameraType: perspective / orthographic (default: perspective)",
+        "defaultValue": {
+          "value": "{\n    quality: 'medium',\n    backgroundColor: 'white',\n    cameraType: 'perspective',\n}",
+          "computed": false
+        }
+      },
+      "imageParameters": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "antialias": {
+              "name": "bool",
+              "required": false
+            },
+            "transparent": {
+              "name": "bool",
+              "required": false
+            },
+            "trim": {
+              "name": "bool",
+              "required": false
+            },
+            "defaultFilename": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Parameters (in JSON format) for exporting the image",
+        "defaultValue": {
+          "value": "{\n    antialias: true,\n    transparent: true,\n    trim: true,\n    defaultFilename: 'dash-bio_ngl_output',\n}",
+          "computed": false
+        }
+      },
+      "downloadImage": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "flag if download image was selected",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "pdbString": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Variable which defines how many molecules should be shown and/or which chain\nThe following format needs to be used:\npdbID1.chain:start-end@atom1,atom2_pdbID2.chain:start-end\n. indicates that only one chain should be shown\n: indicates that a specific amino acids range should be shown (e.g. 1-50)\n@ indicates that chosen atoms should be highlighted (e.g. @50,100,150)\n _ indicates that more than one protein should be shown"
+      },
+      "data": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "exact",
+            "value": {
+              "filename": {
+                "name": "string",
+                "required": true
+              },
+              "ext": {
+                "name": "string",
+                "required": false
+              },
+              "selectedValue": {
+                "name": "string",
+                "required": true
+              },
+              "chain": {
+                "name": "string",
+                "required": true
+              },
+              "aaRange": {
+                "name": "string",
+                "required": true
+              },
+              "color": {
+                "name": "string",
+                "required": true
+              },
+              "chosen": {
+                "name": "exact",
+                "value": {
+                  "residues": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "atoms": {
+                    "name": "string",
+                    "required": true
+                  }
+                },
+                "required": false
+              },
+              "config": {
+                "name": "exact",
+                "value": {
+                  "input": {
+                    "name": "string",
+                    "required": true
+                  },
+                  "type": {
+                    "name": "string",
+                    "required": true
+                  }
+                },
+                "required": false
+              },
+              "uploaded": {
+                "name": "bool",
+                "required": true
+              },
+              "resetView": {
+                "name": "bool",
+                "required": true
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "The data (in JSON format) that will be used to display the molecule\nfilename: name of the used pdb/cif file\next: file extensions (pdb or cif)\nselectedValue: pdbString\nchain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A\naaRange: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only 50 atoms\ncolor: chain color\nchosen.atoms: string of the chosen Atoms, e.g. 50,100,150\n              --> chosen eatoms changed to colored 'ball'\nchosen.residues: string of the chosen residues, e.g. 50,100,150\n                 --> C alpha of chosen residue changed to colored 'ball'\nconfig.input: content of the pdb file\nconfig.type: format of config.input\nuploaded: bool if file from local storage (false) or uploaded by user (true)\nresetView: bool if the selection did not change but the view should be resettet (true)",
+        "defaultValue": {
+          "value": "[\n    {\n        filename: 'placeholder',\n        ext: '',\n        selectedValue: 'placeholder',\n        chain: 'ALL',\n        aaRange: 'ALL',\n        chosen: {\n            chosenAtoms: '',\n            chosenResidues: '',\n        },\n        color: 'red',\n        config: {\n            input: '',\n            type: 'text/plain',\n        },\n        uploaded: false,\n        resetView: false,\n    },\n]",
+          "computed": false
+        }
+      },
+      "molStyles": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "representations": {
+              "name": "arrayOf",
+              "value": {
+                "name": "string"
+              },
+              "required": false
+            },
+            "chosenAtomsColor": {
+              "name": "string",
+              "required": true
+            },
+            "chosenAtomsRadius": {
+              "name": "number",
+              "required": true
+            },
+            "molSpacingXaxis": {
+              "name": "number",
+              "required": true
+            },
+            "sideByside": {
+              "name": "bool",
+              "required": true
+            }
+          }
+        },
+        "required": false,
+        "description": "The data (in JSON format) that will be used to style the displayed molecule\nrepresentations: one or multiple selected molecule representation\n - Possible molecule styles:\n   'backbone,'ball+stick','cartoon', 'hyperball','licorice','line',\n   'ribbon',''rope','spacefill','surface','trace','tube'\n - Possible additional representations:\n   'axes','axes+box','helixorient','unitcell'\nchosenAtomsColor: color of the 'ball+stick' representation of the chosen atoms\nchosenAtomsRadius: radius of the 'ball+stick' representation of the chosen atoms\nmolSpacingXaxis: distance on the xAxis between each molecule",
+        "defaultValue": {
+          "value": "{\n    representations: ['cartoon', 'axes+box'],\n    chosenAtomsColor: '#ffffff',\n    chosenAtomsRadius: 1,\n    molSpacingXaxis: 100,\n    sideByside: false,\n}",
+          "computed": false
+        }
+      }
+    }
+  },
   "src/lib/components/OncoPrint.react.js": {
     "description": "The OncoPrint component is used to view multiple genetic alteration events\nthrough an interactive and zoomable heatmap. It is a React/Dash port of the\npopular oncoPrint() function from the BioConductor R package.\nUnder the hood, the rendering is done using Plotly.js built upon D3.\nPlotly's interactivity allows the user to bind clicks and hovers to genetic\nevents, allowing the user to create complex bioinformatic apps or workflows\nthat rely on crossfiltering.\nRead more about the component here:\nhttps://github.com/plotly/react-oncoprint",
     "displayName": "OncoPrint",

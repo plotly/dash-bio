@@ -10,9 +10,9 @@ The OncoPrint component is used to view multiple genetic alteration events throu
 }
 
 \usage{
-dashbioOncoPrint(id=NULL, eventDatum=NULL, data=NULL, padding=NULL, colorscale=NULL,
-backgroundcolor=NULL, range=NULL, showlegend=NULL, showoverview=NULL,
-width=NULL, height=NULL)
+dashbioOncoPrint(id=NULL, eventDatum=NULL, data=NULL, padding=NULL,
+colorscale=NULL, backgroundcolor=NULL, range=NULL,
+showlegend=NULL, showoverview=NULL, width=NULL, height=NULL)
 }
 
 \arguments{
@@ -52,6 +52,9 @@ Will disable auto-resizing of plots if set.}
 \item{height}{Numeric | character. Height of the OncoPrint.
 Will disable auto-resizing of plots if set.}
 }
+
+\value{named list of JSON elements corresponding to React.js properties and their values}
+
 \examples{
 \dontrun{
 library(dash)

@@ -10,7 +10,8 @@ The Molecule2dViewer component is used to render structural formulae of molecule
 }
 
 \usage{
-dashbioMolecule2dViewer(id=NULL, selectedAtomIds=NULL, width=NULL, height=NULL, modelData=NULL)
+dashbioMolecule2dViewer(id=NULL, selectedAtomIds=NULL, width=NULL, height=NULL,
+modelData=NULL)
 }
 
 \arguments{
@@ -37,6 +38,9 @@ those elements have the following types:
   - strength (numeric; optional)
   - distance (numeric; optional)s. Description of the molecule to display.}
 }
+
+\value{named list of JSON elements corresponding to React.js properties and their values}
+
 \examples{
 \dontrun{
 library(dash)

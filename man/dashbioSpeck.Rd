@@ -10,7 +10,8 @@ The Speck component is a WebGL-based 3D molecule renderer. Read more about the c
 }
 
 \usage{
-dashbioSpeck(id=NULL, data=NULL, scrollZoom=NULL, view=NULL, presetView=NULL)
+dashbioSpeck(id=NULL, data=NULL, scrollZoom=NULL, view=NULL,
+presetView=NULL)
 }
 
 \arguments{
@@ -60,6 +61,9 @@ related to how the molecule is displayed.}
 \item{presetView}{A value equal to: 'default', 'stickball', 'toon', 'licorice'. One of several pre-loaded views: default, stick-ball, toon,
 and licorice}
 }
+
+\value{named list of JSON elements corresponding to React.js properties and their values}
+
 \examples{
 \dontrun{
 library(dash)
