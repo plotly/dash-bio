@@ -137,8 +137,11 @@ workflows:
   build:
     jobs:
       - python-3.6
-          context: dash-docker-hub
+          context:
+            - dash-docker-hub
       - python-3.7
-          context: dash-docker-hub
+          context:
+            - dash-docker-hub
       - node
-          context: dash-docker-hub
+          context:
+            - dash-docker-hub
