@@ -10,7 +10,7 @@ from .component_factory._manhattan import ManhattanPlot
 from .component_factory._volcano import VolcanoPlot
 from .component_factory._clustergram import Clustergram
 
-if not hasattr(_dash, 'development'):
+if not hasattr(_dash, '__plotly_dash') and not hasattr(_dash, 'development'):
     print('Dash was not successfully imported. '
           'Make sure you don\'t have a file '
           'named \n"dash.py" in your current directory.', file=_sys.stderr)
