@@ -7,12 +7,13 @@ class Igv(Component):
     """An Igv component.
 The Igv component is an interactive genome visualization component
 developed by the Integrative Genomics Viewer (IGV) team. It uses an
-example integration of igv.js and React (https://github.com/eweitz/igv.js-react).
+example integration of igv.js and React (https://www.npmjs.com/package/igv).
 
 Keyword arguments:
-- id (string; optional): The ID used to identify this component in Dash callbacks.
+- id (string; optional): The ID of this component, used to identify dash components in callbacks.
+The ID needs to be unique across all of the components in an app.
 - style (dict; optional): Generic style overrides on the plot div
-- className (string; optional): className of the parent div
+- className (string; optional): className of the component div.
 - genome (string; optional): String identifier defining genome (e.g. "hg19"). See https://github.com/igvteam/igv.js/wiki/Reference-Genome
     for details and list of supported identifiers. Note: One (but only one) of
     either genome or reference properties must be set.

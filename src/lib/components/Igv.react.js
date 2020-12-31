@@ -1,29 +1,20 @@
-import React, {Component} from 'react';
+import React, {Component, lazy, Suspense} from 'react';
+import LazyLoader from '../LazyLoader';
 import PropTypes from 'prop-types';
-import igv from 'igv';
 
+const RealIgv = lazy(LazyLoader.igv);
 /**
  * The Igv component is an interactive genome visualization component
  * developed by the Integrative Genomics Viewer (IGV) team. It uses an
- * example integration of igv.js and React (https://github.com/eweitz/igv.js-react).
+ * example integration of igv.js and React (https://www.npmjs.com/package/igv).
  */
 export default class Igv extends Component {
-    componentDidMount() {
-        var igvContainer = document.getElementById(this.props.id);
-        var igvOptions = {
-            genome: this.props.genome,
-            locus: this.props.locus,
-            reference: this.props.reference,
-            minimumBases: this.props.minimumBases,
-            tracks: this.props.tracks,
-        };
-        return igv.createBrowser(igvContainer, igvOptions);
-    }
-
     render() {
-        const {id, style} = this.props;
-
-        return <div id={id} style={style} />;
+        return (
+            <Suspense fallback={null}>
+                <RealIgv {...this.props} />
+            </Suspense>
+        );
     }
 }
 
@@ -31,7 +22,8 @@ Igv.defaultProps = {};
 
 Igv.propTypes = {
     /**
-     * The ID used to identify this component in Dash callbacks.
+     * The ID of this component, used to identify dash components in callbacks.
+     * The ID needs to be unique across all of the components in an app.
      */
     id: PropTypes.string,
 
@@ -47,7 +39,7 @@ Igv.propTypes = {
     style: PropTypes.object,
 
     /**
-     * className of the parent div
+     * className of the component div.
      */
     className: PropTypes.string,
 

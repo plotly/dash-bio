@@ -1390,7 +1390,7 @@
     }
   },
   "src/lib/components/Igv.react.js": {
-    "description": "The Igv component is an interactive genome visualization component\ndeveloped by the Integrative Genomics Viewer (IGV) team. It uses an\nexample integration of igv.js and React (https://github.com/eweitz/igv.js-react).",
+    "description": "The Igv component is an interactive genome visualization component\ndeveloped by the Integrative Genomics Viewer (IGV) team. It uses an\nexample integration of igv.js and React (https://www.npmjs.com/package/igv).",
     "displayName": "Igv",
     "methods": [],
     "props": {
@@ -1399,7 +1399,7 @@
           "name": "string"
         },
         "required": false,
-        "description": "The ID used to identify this component in Dash callbacks."
+        "description": "The ID of this component, used to identify dash components in callbacks.\nThe ID needs to be unique across all of the components in an app."
       },
       "setProps": {
         "type": {
@@ -1420,7 +1420,7 @@
           "name": "string"
         },
         "required": false,
-        "description": "className of the parent div"
+        "description": "className of the component div."
       },
       "genome": {
         "type": {

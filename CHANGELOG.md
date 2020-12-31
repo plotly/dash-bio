@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.5.1] - 2020-12-29
+### Added
+* [#534](https://github.com/plotly/dash-bio/pull/534) Added Dash-IGV component.
+
 ## [0.5.0] - 2020-10-05
 ### Added
 * [#496](https://github.com/plotly/dash-bio/pull/496) Added Dash-NGL-Moleculeviewer component.

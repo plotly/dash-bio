@@ -36,6 +36,7 @@ async_resources = [
     'alignment',
     'circos',
     'ideogram',
+    'igv',
     'moleculeviewer2',
     'moleculeviewer3',
     'needle',
