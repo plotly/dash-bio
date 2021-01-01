@@ -35,7 +35,7 @@
     "fast-memoize": "^2.5.1",
     "fornac": "git://github.com/plotly/fornac.git#6b1b84740d35bf37ca7d251e665039a87b4c2ea9",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
-    "igv": "2.7.4",
+    "igv": "2.6.8",
     "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
     "ngl": "^0.10.4",
