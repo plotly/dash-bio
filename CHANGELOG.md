@@ -2,7 +2,7 @@
 
 ## [0.5.1] - 2020-12-27
 ### Fixed
-* [#534](https://github.com/plotly/dash-bio/pull/534) Fixed abandoned resource vulnerability with CircosJS fork.
+* [#536](https://github.com/plotly/dash-bio/pull/536) Fixed abandoned resource vulnerability with CircosJS fork.
 
 ## [0.5.0] - 2020-10-05
 ### Added
