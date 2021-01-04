@@ -1,0 +1,80 @@
+#igv-body {
+    background-color: #FAFCFE !important;
+    color: #505050 !important;
+}
+
+#igv-body ::-webkit-scrollbar {
+    background-color: #FAFCFE !important;
+}
+#igv-body ::-webkit-scrollbar-thumb {
+    background-color: #009DFF !important;
+}
+
+#igv-control-tabs .tab--selected {
+    border-top: solid 2px #009DFF !important;
+    color: #009DFF !important;
+}
+
+
+#igv-chart {
+    height: 700px;
+    width: calc(100vw - 600px);
+    margin: 50px;
+    display: inline-block !important;
+}
+
+#igv-dropdown, #igv-colorscale-mutation-dropdown {
+    display: inline-block;
+    width: 180px;
+    float: right;
+}
+#igv-body .app-controls-name {
+    width: 130px;
+}
+#igv-show-overview, #igv-show-legend {
+    width: 160px;
+    margin-top: 3px;
+    display: inline-block;
+}
+
+#igv-show-overview label, #igv-show-legend label {
+    display: inline-block;
+    text-transform: lowercase;
+    font-variant: all-small-caps;
+    position: relative;
+    top: -5px;
+    font-size: 12pt;
+    font-weight: 500;
+}
+#igv-show-overview > div > div > div, #igv-show-legend > div > div > div {
+    display: inline-block;
+    position: relative;
+    padding: 2px;
+    margin: 3px;
+}
+#igv-show-overview > div, #igv-show-legend > div {
+    display: inline-block !important;
+    text-align: center;
+}
+
+#igv-control-tabs h4 {
+    text-align: center;
+}
+.igv-slider .rc-slider-track {
+    background-color: #009DFF !important;
+}
+#igv-body .control-slider .rc-slider-handle, #igv-body .control-slider .rc-slider-dot-active {
+    border-color: #009DFF !important;
+}
+#igv-body .control-slider {
+    margin-top: 10px;
+    margin-right: 30px;
+}
+#igv-body .chrome-picker {
+    border: none !important;
+    border-radius: 0px !important;
+    width: 100% !important;
+}
+#igv-body .app-controls-desc {
+    margin-top: 10px;
+}
