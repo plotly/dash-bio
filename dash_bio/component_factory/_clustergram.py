@@ -539,8 +539,8 @@ Methods:
         )
 
         # hide labels, if necessary
-        for l in self._hidden_labels:
-            fig["layout"][l].update(ticks="", showticklabels=False)
+        for label in self._hidden_labels:
+            fig["layout"][label].update(ticks="", showticklabels=False)
 
         # recalculate the heatmap, if necessary
         if heatmap is None:
