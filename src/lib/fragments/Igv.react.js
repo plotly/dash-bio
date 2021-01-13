@@ -17,7 +17,37 @@ export default class Igv extends Component {
             minimumBases: this.props.minimumBases,
             tracks: this.props.tracks,
         };
-        return igv.createBrowser(igvContainer, igvOptions);
+        return igv
+            .createBrowser(igvContainer, igvOptions)
+            .then(function(browser) {
+                igv.browser = browser;
+            });
+    }
+
+    componentDidUpdate(prevProps) {
+        if (
+            this.props.genome !== prevProps.genome ||
+            this.props.minimumBases !== prevProps.minimumBases ||
+            this.props.locus !== prevProps.locus ||
+            this.props.reference !== prevProps.reference ||
+            this.props.tracks !== prevProps.tracks
+        ) {
+            igv.removeAllBrowsers();
+
+            this.igvContainer = document.getElementById(this.props.id);
+            this.igvOptions = {
+                genome: this.props.genome,
+                locus: this.props.locus,
+                reference: this.props.reference,
+                minimumBases: this.props.minimumBases,
+                tracks: this.props.tracks,
+            };
+            igv.createBrowser(this.igvContainer, this.igvOptions).then(function(
+                browser
+            ) {
+                igv.browser = browser;
+            });
+        }
     }
 
     render() {

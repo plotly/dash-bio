@@ -1,8 +1,8 @@
 # Changelog
 
-## [0.5.1] - 2020-12-29
+## [0.5.2] - 2021-01-07
 ### Added
-* [#534](https://github.com/plotly/dash-bio/pull/534) Added Dash-IGV component.
+* [#537](https://github.com/plotly/dash-bio/pull/537) Added Dash-IGV component.
 
 ## [0.5.0] - 2020-10-05
 ### Added

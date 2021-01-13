@@ -1,3 +1,4 @@
+import requests
 import dash
 import dash_bio
 import dash_html_components as html
@@ -18,19 +19,26 @@ igvStyle = dict(
 def test_dbigv001_ASM985889v3(dash_duo):
     app = dash.Dash(__name__)
 
+    try:
+        requests.get('https://www.google.com/').status_code
+        data_path = 'https://s3.amazonaws.com/igv.org.genomes/'
+    except:
+        print("Running test with local datasets")
+        data_path = app.get_asset_url('')
+
     app.layout = html.Div(simple_app_layout(
         dash_bio.Igv(
             id=_COMPONENT_ID,
             reference={
                 "id": "ASM985889v3",
                 "name": "Sars-CoV-2 (ASM985889v3)",
-                "fastaURL": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna",
-                "indexURL": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
+                "fastaURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna",
+                "indexURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
                 "order": 1000000,
                 "tracks": [
                     {
                         "name": "Annotations",
-                        "url": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                        "url": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
                         "displayMode": "EXPANDED",
                         "nameField": "gene",
                         "height": 150
@@ -46,7 +54,7 @@ def test_dbigv001_ASM985889v3(dash_duo):
     dash_duo.start_server(app)
 
     # Check that the genome loaded
-    dash_duo.wait_for_text_to_equal('#igv-current_genome', 'ASM985889v3')
+    dash_duo.wait_for_text_to_equal('.igv-current-genome', 'ASM985889v3')
 
     # Check that track(s) loaded
     tracks = dash_duo.find_elements('.igv-track-label')
@@ -57,19 +65,26 @@ def test_dbigv001_ASM985889v3(dash_duo):
 def test_dbigv002_ASM985889v3_tracks(dash_duo):
     app = dash.Dash(__name__)
 
+    try:
+        requests.get('https://www.google.com/').status_code
+        data_path = 'https://s3.amazonaws.com/igv.org.genomes/'
+    except:
+        print("Running test with local datasets")
+        data_path = app.get_asset_url('')
+
     app.layout = html.Div(simple_app_layout(
         dash_bio.Igv(
             id=_COMPONENT_ID,
             reference={
                 "id": "ASM985889v3",
                 "name": "Sars-CoV-2 (ASM985889v3)",
-                "fastaURL": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna",
-                "indexURL": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
+                "fastaURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna",
+                "indexURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
                 "order": 1000000,
                 "tracks": [
                     {
                         "name": "Annotations",
-                        "url": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                        "url": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
                         "displayMode": "EXPANDED",
                         "nameField": "gene",
                         "height": 150
@@ -81,7 +96,7 @@ def test_dbigv002_ASM985889v3_tracks(dash_duo):
 
                 "name": "Genes",
                 "type": "annotation",
-                "url": "https://s3.amazonaws.com/igv.org.genomes/covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                "url": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
                 "displayMode": "EXPANDED"
 
             }],
@@ -93,7 +108,7 @@ def test_dbigv002_ASM985889v3_tracks(dash_duo):
     dash_duo.start_server(app)
 
     # Check that the genome loaded
-    dash_duo.wait_for_text_to_equal('#igv-current_genome', 'ASM985889v3')
+    dash_duo.wait_for_text_to_equal('.igv-current-genome', 'ASM985889v3')
 
     # Check that track(s) loaded
     tracks = dash_duo.find_elements('.igv-track-label')
@@ -104,21 +119,28 @@ def test_dbigv002_ASM985889v3_tracks(dash_duo):
 def test_dbigv003_sacCer3(dash_duo):
     app = dash.Dash(__name__)
 
+    try:
+        requests.get('https://www.google.com/').status_code
+        data_path = 'https://s3.dualstack.us-east-1.amazonaws.com/igv.org.genomes/'
+    except:
+        print("Running test with local datasets")
+        data_path = app.get_asset_url('')
+
     app.layout = html.Div(simple_app_layout(
         dash_bio.Igv(
             id=_COMPONENT_ID,
             reference={
                 "id": "sacCer3",
                 "name": "S. cerevisiae (sacCer3)",
-                "fastaURL": "https://s3.dualstack.us-east-1.amazonaws.com/igv.org.genomes/sacCer3/sacCer3.fa",
-                "indexURL": "https://s3.dualstack.us-east-1.amazonaws.com/igv.org.genomes/sacCer3/sacCer3.fa.fai",
+                "fastaURL": data_path + "sacCer3/sacCer3.fa",
+                "indexURL": data_path + "sacCer3/sacCer3.fa.fai",
                 "tracks": [
                     {
                         "name": "Ensembl Genes",
                         "type": "annotation",
                         "format": "ensgene",
                         "displayMode": "EXPANDED",
-                        "url": "https://s3.dualstack.us-east-1.amazonaws.com/igv.org.genomes/sacCer3/ensGene.txt.gz",
+                        "url": data_path + "sacCer3/ensGene.txt.gz",
                         "indexed": False,
                         "supportsWholeGenome": False
                     }
@@ -132,7 +154,7 @@ def test_dbigv003_sacCer3(dash_duo):
     dash_duo.start_server(app)
 
     # Check that the genome loaded
-    dash_duo.wait_for_text_to_equal('#igv-current_genome', 'sacCer3')
+    dash_duo.wait_for_text_to_equal('.igv-current-genome', 'sacCer3')
 
     # Check that track(s) loaded
     tracks = dash_duo.find_elements('.igv-track-label')
