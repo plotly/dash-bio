@@ -3,8 +3,7 @@ import dash
 import dash_bio
 import dash_html_components as html
 
-from common_features import simple_app_layout, simple_app_callback, \
-    user_interactions_layout, user_interactions_callback
+from common_features import simple_app_layout
 
 _COMPONENT_ID = 'myigv'
 
@@ -22,7 +21,7 @@ def test_dbigv001_ASM985889v3(dash_duo):
     try:
         requests.get('https://www.google.com/').status_code
         data_path = 'https://s3.amazonaws.com/igv.org.genomes/'
-    except:
+    except requests.exceptions.ConnectionError:
         print("Running test with local datasets")
         data_path = app.get_asset_url('')
 
@@ -68,7 +67,7 @@ def test_dbigv002_ASM985889v3_tracks(dash_duo):
     try:
         requests.get('https://www.google.com/').status_code
         data_path = 'https://s3.amazonaws.com/igv.org.genomes/'
-    except:
+    except requests.exceptions.ConnectionError:
         print("Running test with local datasets")
         data_path = app.get_asset_url('')
 
@@ -122,7 +121,7 @@ def test_dbigv003_sacCer3(dash_duo):
     try:
         requests.get('https://www.google.com/').status_code
         data_path = 'https://s3.dualstack.us-east-1.amazonaws.com/igv.org.genomes/'
-    except:
+    except requests.exceptions.ConnectionError:
         print("Running test with local datasets")
         data_path = app.get_asset_url('')
 

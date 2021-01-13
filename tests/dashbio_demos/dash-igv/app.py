@@ -1,11 +1,8 @@
 import os
-import json
 import dash_html_components as html
 import dash_core_components as dcc
-from dash.dependencies import Input, Output, State
-import dash_daq as daq
+from dash.dependencies import Input, Output
 import dash_bio
-import dash
 
 try:
     from layout_helper import run_standalone_app
@@ -34,9 +31,10 @@ HOSTED_GENOME_DICT = [
     {'value': 'ce11', 'label': 'C. elegans (ce11)'}
 ]
 
+
 def description():
-    return 'A high-performance genomics viewer with an interactive UI and support for a wide variety of data types and ' \
-           'features.'
+    return 'A high-performance genomics viewer with an interactive UI and support for a ' \
+           'wide variety of data types and features.'
 
 
 def header_colors():
