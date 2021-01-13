@@ -32,12 +32,14 @@ def test_dbigv001_ASM985889v3(dash_duo):
                 "id": "ASM985889v3",
                 "name": "Sars-CoV-2 (ASM985889v3)",
                 "fastaURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna",
-                "indexURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
+                "indexURL": data_path +
+                            "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
                 "order": 1000000,
                 "tracks": [
                     {
                         "name": "Annotations",
-                        "url": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                        "url": data_path +
+                               "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
                         "displayMode": "EXPANDED",
                         "nameField": "gene",
                         "height": 150
@@ -78,12 +80,14 @@ def test_dbigv002_ASM985889v3_tracks(dash_duo):
                 "id": "ASM985889v3",
                 "name": "Sars-CoV-2 (ASM985889v3)",
                 "fastaURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna",
-                "indexURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
+                "indexURL": data_path +
+                            "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
                 "order": 1000000,
                 "tracks": [
                     {
                         "name": "Annotations",
-                        "url": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                        "url": data_path +
+                               "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
                         "displayMode": "EXPANDED",
                         "nameField": "gene",
                         "height": 150
@@ -95,7 +99,8 @@ def test_dbigv002_ASM985889v3_tracks(dash_duo):
 
                 "name": "Genes",
                 "type": "annotation",
-                "url": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                "url": data_path +
+                       "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
                 "displayMode": "EXPANDED"
 
             }],

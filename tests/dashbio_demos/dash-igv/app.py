@@ -60,8 +60,8 @@ def layout():
                                 """
                                 The Dash IGV component is a high-performance genomics
                                 data visualization component developed originally by the [IGV
-                                Team]( based at UC San Diego and the Broad Institute. It offers 
-                                support for array-based and next-generation sequencing data, 
+                                Team]( based at UC San Diego and the Broad Institute. It offers
+                                support for array-based and next-generation sequencing data,
                                 and a smooth, interactive UI for real-time exploration of large
                                 scale genomic data. This includes visualizing alignments, copy number,
                                 genome-wide interactions, gene expression and methylation, and more 
@@ -93,7 +93,8 @@ def layout():
                                 ),
                                 html.Div(
                                     className='app-controls-desc',
-                                    children='Select a Genome Identifier to display the remotely hosted genome.'
+                                    children='Select a Genome Identifier to display the remotely hosted '
+                                             'genome.'
                                 ),
                             ]),
                             html.Hr(
@@ -111,12 +112,13 @@ def layout():
                                         min=10,
                                         max=200,
                                         step=10,
-                                        marks=dict((i,str(i)) for i in range(10,190, 30))
+                                        marks=dict((i, str(i)) for i in range(10, 190, 30))
                                     ),
 
                                     html.Div(
                                         className='app-controls-desc',
-                                        children='Minimum window size in base pairs when zooming in.'
+                                        children='Minimum window size in base pairs when zooming '
+                                                 'in.'
                                     ),
                                 ],
                             ),
@@ -147,6 +149,7 @@ def callbacks(_app):
                 )
             ])
         )
+
 
 # only declare app/server if the file is being run directly
 if 'DEMO_STANDALONE' not in os.environ:
