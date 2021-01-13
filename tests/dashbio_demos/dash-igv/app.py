@@ -9,14 +9,12 @@ try:
 except ModuleNotFoundError:
     from .layout_helper import run_standalone_app
 
-
 text_style = {
     'color': "#506784",
     'font-family': 'Open Sans'
 }
 
 _COMPONENT_ID = 'igv-chart'
-
 
 HOSTED_GENOME_DICT = [
     {'value': 'hg38', 'label': 'Human (GRCh38/hg38)'},
@@ -63,10 +61,13 @@ def layout():
                                 Team]( based at UC San Diego and the Broad Institute. It offers
                                 support for array-based and next-generation sequencing data,
                                 and a smooth, interactive UI for real-time exploration of large
-                                scale genomic data. This includes visualizing alignments, copy number,
-                                genome-wide interactions, gene expression and methylation, and more 
-                                data types. Data tracks, interactions, and analysis can be controlled
-                                by integrating with a Dash app to create a complete dynamic workflow.
+                                scale genomic data. This includes visualizing alignments,
+                                copy number,
+                                genome-wide interactions, gene expression and methylation, and more
+                                data types. Data tracks, interactions, and analysis can be
+                                controlled
+                                by integrating with a Dash app to create a complete dynamic
+                                workflow.
                                 """
                             ),
                             html.P(
@@ -93,7 +94,8 @@ def layout():
                                 ),
                                 html.Div(
                                     className='app-controls-desc',
-                                    children='Select a Genome Identifier to display the remotely hosted '
+                                    children='Select a Genome Identifier to display the remotely '
+                                             'hosted '
                                              'genome.'
                                 ),
                             ]),
@@ -139,7 +141,7 @@ def callbacks(_app):
          Input('minimum-bases', 'value')]
     )
     def return_igv(genome, bases):
-        return(
+        return (
             html.Div([
                 dash_bio.Igv(
                     id=_COMPONENT_ID,

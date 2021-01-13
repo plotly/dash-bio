@@ -33,13 +33,13 @@ def test_dbigv001_ASM985889v3(dash_duo):
                 "name": "Sars-CoV-2 (ASM985889v3)",
                 "fastaURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna",
                 "indexURL": data_path +
-                            "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
+                        "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
                 "order": 1000000,
                 "tracks": [
                     {
                         "name": "Annotations",
                         "url": data_path +
-                               "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                        "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
                         "displayMode": "EXPANDED",
                         "nameField": "gene",
                         "height": 150
@@ -81,13 +81,13 @@ def test_dbigv002_ASM985889v3_tracks(dash_duo):
                 "name": "Sars-CoV-2 (ASM985889v3)",
                 "fastaURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna",
                 "indexURL": data_path +
-                            "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
+                        "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
                 "order": 1000000,
                 "tracks": [
                     {
                         "name": "Annotations",
                         "url": data_path +
-                               "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                        "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
                         "displayMode": "EXPANDED",
                         "nameField": "gene",
                         "height": 150
@@ -95,15 +95,16 @@ def test_dbigv002_ASM985889v3_tracks(dash_duo):
                 ]
 
             },
-            tracks=[{  # normally, tracks listed here would not duplicate those already present above
+            tracks=[
+                {  # normally, tracks listed here would not duplicate those already present above
 
-                "name": "Genes",
-                "type": "annotation",
-                "url": data_path +
-                       "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
-                "displayMode": "EXPANDED"
+                    "name": "Genes",
+                    "type": "annotation",
+                    "url": data_path +
+                    "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
+                    "displayMode": "EXPANDED"
 
-            }],
+                }],
             minimumBases=100,
             style=igvStyle
         ),
