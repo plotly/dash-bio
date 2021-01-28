@@ -52,7 +52,7 @@ export default class NglMoleculeViewer extends Component {
                 return true;
             }
 
-            // check if view should be resettet
+            // check if view should be reset
             const resetView = data[0].resetView;
             if (oldSelection === newSelection && resetView === true) {
                 return true;

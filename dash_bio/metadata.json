@@ -1389,6 +1389,76 @@
       }
     }
   },
+  "src/lib/components/Igv.react.js": {
+    "description": "The Igv component is an interactive genome visualization component\ndeveloped by the Integrative Genomics Viewer (IGV) team. It uses an\nexample integration of igv.js and React (https://www.npmjs.com/package/igv).",
+    "displayName": "Igv",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of this component, used to identify dash components in callbacks.\nThe ID needs to be unique across all of the components in an app."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Generic style overrides on the plot div"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "className of the component div."
+      },
+      "genome": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "String identifier defining genome (e.g. \"hg19\"). See https://github.com/igvteam/igv.js/wiki/Reference-Genome\n    for details and list of supported identifiers. Note: One (but only one) of\n    either genome or reference properties must be set. If both are set,\n    the genome property will be ignored."
+      },
+      "reference": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Object defining reference genome. see https://github.com/igvteam/igv.js/wiki/Reference-Genome\n    Note: One (but only one) of either genome or reference properties must be set. If both are set,\n    the genome property will be ignored."
+      },
+      "locus": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Initial genomic location(s). Either a string or an array of strings.\n    If an array a viewport is created for each location."
+      },
+      "minimumBases": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "Minimum window size in base pairs when zooming in"
+      },
+      "tracks": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "Array of configuration objects defining tracks initially displayed when app launches.\n    see https://github.com/igvteam/igv.js/wiki/Tracks-2.0"
+      }
+    }
+  },
   "src/lib/components/Molecule2dViewer.react.js": {
     "description": "The Molecule2dViewer component is used to render structural\nformulae of molecules.\nRead more about the component here:\nhttps://github.com/Autodesk/molecule-2d-for-react",
     "displayName": "Molecule2dViewer",
