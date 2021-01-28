@@ -8,8 +8,13 @@ import igv from 'igv';
  * example integration of igv.js and React (https://www.npmjs.com/package/igv).
  */
 export default class Igv extends Component {
+    constructor(props) {
+        super(props);
+        this.ref = React.createRef();
+    }
+
     createIgvBrowser() {
-        var igvContainer = document.getElementById(this.props.id);
+        var igvContainer = this.ref.current;
         var igvOptions = {
             genome: this.props.genome,
             locus: this.props.locus,
@@ -44,7 +49,7 @@ export default class Igv extends Component {
     render() {
         const {id, style} = this.props;
 
-        return <div id={id} style={style} />;
+        return <div id={id} style={style} ref={this.ref} />;
     }
 }
 

@@ -54,11 +54,12 @@ def layout():
                         value='what-is',
                         children=html.Div(className='control-tab', children=[
                             html.H4(className='what-is', children='What is IGV?'),
-                            html.P(
+                            dcc.Markdown(
                                 """
                                 The Dash IGV component is a high-performance genomics
                                 data visualization component developed originally by the [IGV
-                                Team]( based at UC San Diego and the Broad Institute. It offers
+                                Team](https://igv.org/) based at UC San Diego and the Broad 
+                                Institute. It offers
                                 support for array-based and next-generation sequencing data,
                                 and a smooth, interactive UI for real-time exploration of large
                                 scale genomic data. This includes visualizing alignments,
@@ -68,10 +69,8 @@ def layout():
                                 controlled
                                 by integrating with a Dash app to create a complete dynamic
                                 workflow.
-                                """
-                            ),
-                            html.P(
-                                """
+
+
                                 Read more about the component here:
                                 https://github.com/igvteam/igv.js/
                                 """

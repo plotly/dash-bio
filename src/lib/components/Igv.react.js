@@ -46,14 +46,16 @@ Igv.propTypes = {
     /**
     String identifier defining genome (e.g. "hg19"). See https://github.com/igvteam/igv.js/wiki/Reference-Genome
     for details and list of supported identifiers. Note: One (but only one) of
-    either genome or reference properties must be set.
+    either genome or reference properties must be set. If both are set,
+    the genome property will be ignored.
     */
 
     genome: PropTypes.string,
 
     /**
     Object defining reference genome. see https://github.com/igvteam/igv.js/wiki/Reference-Genome
-    Note: One (but only one) of either genome or reference properties must be set.
+    Note: One (but only one) of either genome or reference properties must be set. If both are set,
+    the genome property will be ignored.
     */
     reference: PropTypes.object,
 

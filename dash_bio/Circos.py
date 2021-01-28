@@ -105,7 +105,7 @@ Those keys have the following types:
         _locals.update(kwargs)  # For wildcard attrs
         args = {k: _locals[k] for k in _explicit_args if k != 'children'}
 
-        for k in [u'layout']:
+        for k in ['layout']:
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')

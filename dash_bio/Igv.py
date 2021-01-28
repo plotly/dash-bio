@@ -16,9 +16,11 @@ The ID needs to be unique across all of the components in an app.
 - className (string; optional): className of the component div.
 - genome (string; optional): String identifier defining genome (e.g. "hg19"). See https://github.com/igvteam/igv.js/wiki/Reference-Genome
     for details and list of supported identifiers. Note: One (but only one) of
-    either genome or reference properties must be set.
+    either genome or reference properties must be set. If both are set,
+    the genome property will be ignored.
 - reference (dict; optional): Object defining reference genome. see https://github.com/igvteam/igv.js/wiki/Reference-Genome
-    Note: One (but only one) of either genome or reference properties must be set.
+    Note: One (but only one) of either genome or reference properties must be set. If both are set,
+    the genome property will be ignored.
 - locus (string; optional): Initial genomic location(s). Either a string or an array of strings.
     If an array a viewport is created for each location.
 - minimumBases (number; optional): Minimum window size in base pairs when zooming in

@@ -1427,14 +1427,14 @@
           "name": "string"
         },
         "required": false,
-        "description": "String identifier defining genome (e.g. \"hg19\"). See https://github.com/igvteam/igv.js/wiki/Reference-Genome\n    for details and list of supported identifiers. Note: One (but only one) of\n    either genome or reference properties must be set."
+        "description": "String identifier defining genome (e.g. \"hg19\"). See https://github.com/igvteam/igv.js/wiki/Reference-Genome\n    for details and list of supported identifiers. Note: One (but only one) of\n    either genome or reference properties must be set. If both are set,\n    the genome property will be ignored."
       },
       "reference": {
         "type": {
           "name": "object"
         },
         "required": false,
-        "description": "Object defining reference genome. see https://github.com/igvteam/igv.js/wiki/Reference-Genome\n    Note: One (but only one) of either genome or reference properties must be set."
+        "description": "Object defining reference genome. see https://github.com/igvteam/igv.js/wiki/Reference-Genome\n    Note: One (but only one) of either genome or reference properties must be set. If both are set,\n    the genome property will be ignored."
       },
       "locus": {
         "type": {
