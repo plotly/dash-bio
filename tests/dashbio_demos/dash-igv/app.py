@@ -58,7 +58,7 @@ def layout():
                                 """
                                 The Dash IGV component is a high-performance genomics
                                 data visualization component developed originally by the [IGV
-                                Team](https://igv.org/) based at UC San Diego and the Broad 
+                                Team](https://igv.org/) based at UC San Diego and the Broad
                                 Institute. It offers
                                 support for array-based and next-generation sequencing data,
                                 and a smooth, interactive UI for real-time exploration of large
