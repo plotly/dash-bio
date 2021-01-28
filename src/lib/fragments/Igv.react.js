@@ -8,7 +8,7 @@ import igv from 'igv';
  * example integration of igv.js and React (https://www.npmjs.com/package/igv).
  */
 export default class Igv extends Component {
-    componentDidMount() {
+    createIgvBrowser() {
         var igvContainer = document.getElementById(this.props.id);
         var igvOptions = {
             genome: this.props.genome,
@@ -24,6 +24,10 @@ export default class Igv extends Component {
             });
     }
 
+    componentDidMount() {
+        this.createIgvBrowser();
+    }
+
     componentDidUpdate(prevProps) {
         if (
             this.props.genome !== prevProps.genome ||
@@ -33,20 +37,7 @@ export default class Igv extends Component {
             this.props.tracks !== prevProps.tracks
         ) {
             igv.removeBrowser(igv.browser);
-
-            this.igvContainer = document.getElementById(this.props.id);
-            this.igvOptions = {
-                genome: this.props.genome,
-                locus: this.props.locus,
-                reference: this.props.reference,
-                minimumBases: this.props.minimumBases,
-                tracks: this.props.tracks,
-            };
-            igv.createBrowser(this.igvContainer, this.igvOptions).then(function(
-                browser
-            ) {
-                igv.browser = browser;
-            });
+            this.createIgvBrowser();
         }
     }
 
