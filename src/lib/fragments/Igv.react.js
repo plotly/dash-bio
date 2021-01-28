@@ -32,7 +32,7 @@ export default class Igv extends Component {
             this.props.reference !== prevProps.reference ||
             this.props.tracks !== prevProps.tracks
         ) {
-            igv.removeAllBrowsers();
+            igv.removeBrowser(igv.browser);
 
             this.igvContainer = document.getElementById(this.props.id);
             this.igvOptions = {
