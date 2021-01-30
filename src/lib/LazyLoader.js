@@ -9,6 +9,8 @@ export default {
     ideogram: () =>
         import(/* webpackChunkName: "ideogram" */ './fragments/Ideogram.react'),
     igv: () => import(/* webpackChunkName: "igv" */ './fragments/Igv.react'),
+    pileup: () =>
+        import(/* webpackChunkName: "igv" */ './fragments/Pileup.react'),
     molecule2dViewer: () =>
         import(
             /* webpackChunkName: "moleculeviewer2" */ './fragments/Molecule2dViewer.react'

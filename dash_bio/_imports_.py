@@ -8,6 +8,7 @@ from .Molecule3dViewer import Molecule3dViewer
 from .NeedlePlot import NeedlePlot
 from .NglMoleculeViewer import NglMoleculeViewer
 from .OncoPrint import OncoPrint
+from .Pileup import Pileup
 from .SequenceViewer import SequenceViewer
 from .Speck import Speck
 
@@ -22,6 +23,7 @@ __all__ = [
     "NeedlePlot",
     "NglMoleculeViewer",
     "OncoPrint",
+    "Pileup",
     "SequenceViewer",
     "Speck"
 ]
