@@ -2,36 +2,46 @@ import requests
 import dash
 import dash_bio
 import dash_html_components as html
-# import bdgenomics.mango.pileup as pileup
+import os
+import re
 
 import time
 from common_features import simple_app_layout
 
 _COMPONENT_ID = 'mypileup'
 
+_GENOME = "hg19"
+_GEAR_ICON = '⚙'
+
 def test_dbpileup001_reference(dash_duo):
     app = dash.Dash(__name__)
 
-    # try:
-    #     requests.get('https://www.google.com/').status_code
-    #     data_path = 'https://s3.amazonaws.com/igv.org.genomes/'
-    # except requests.exceptions.ConnectionError:
-    #     print("Running test with local datasets")
-    #     data_path = app.get_asset_url('')
+    TWOBIT_URL = os.path.join(app.get_asset_url(''), "pileup", "chr17_little.2bit")
 
-    # TODO: how would track conversion work?
-    tracks=[{
-    'viz': 'pileup.viz.genome()',
-    'isReference': 'true',
-    'data': 'http://www.biodalliance.org/datasets/hg19.2bit',
-    'name': 'Reference'
-      }
-    ]
+    pileup_label = 'bam file'
+    feature_label = 'features'
+    tracks=[
+        {'viz': 'pileup',
+            'label': pileup_label,
+            'source': 'bam',
+            'sourceOptions': {
+                'url': os.path.join(app.get_asset_url(''), "pileup", "synth3.normal.17.7500000-7515000.bam"),
+                'indexUrl': os.path.join(app.get_asset_url(''), "pileup", "synth3.normal.17.7500000-7515000.bam.bai")
+            }
+        },
+        {'viz': 'features',
+            'label': feature_label,
+            'source': 'bigBed',
+            'sourceOptions': {
+                'url': os.path.join(app.get_asset_url(''), "pileup", "chr17.22.10000-21000.bb")
+            }
+        }]
 
     app.layout = html.Div(simple_app_layout(
         dash_bio.Pileup(
             id=_COMPONENT_ID,
             range={"contig": 'chr17', "start": 7512284, "stop": 7512644},
+            reference = {"label": _GENOME, "url": TWOBIT_URL},
             tracks=tracks
         ),
     ))
@@ -39,117 +49,73 @@ def test_dbpileup001_reference(dash_duo):
     dash_duo.start_server(app)
 
     # Check that the genome loaded
-    # dash_duo.wait_for_text_to_equal('.pileup-current-genome', 'ASM985889v3')
+    dash_duo.wait_for_text_to_equal('.reference>.track-label', _GENOME)
+    # Check that reference track loaded
+    tracks = dash_duo.find_elements('.reference')
+    assert len(tracks) == 1 # track-label and track-content
+    assert tracks[0].text == _GENOME
 
-    # Check that track(s) loaded
+    # check dropdown menu
+    tracks = dash_duo.find_elements('.controls')
+    assert "chr17" in tracks[0].text
 
-    tracks = dash_duo.find_elements('.pileup-root')
-    time.sleep(5000000)
+    # Check that pileup track loaded
+    tracks = dash_duo.find_elements('.pileup')
+    assert len(tracks) == 1 # track-label and track-content
+    # gear and track name should be printed
+    assert pileup_label in tracks[0].text
+    assert _GEAR_ICON in tracks[0].text
 
-    print(tracks)
-    assert len(tracks) == 1
-    assert tracks[0].text == 'Annotations'
+    # Check that feature track loaded
+    tracks = dash_duo.find_elements('.features')
+    assert len(tracks) == 1 # track-label and track-content
+    # gear and track name should be printed
+    assert feature_label in tracks[0].text
+    assert _GEAR_ICON in tracks[0].text
 
 
-# def test_dbigv002_ASM985889v3_tracks(dash_duo):
-#     app = dash.Dash(__name__)
-#
-#     try:
-#         requests.get('https://www.google.com/').status_code
-#         data_path = 'https://s3.amazonaws.com/igv.org.genomes/'
-#     except requests.exceptions.ConnectionError:
-#         print("Running test with local datasets")
-#         data_path = app.get_asset_url('')
-#
-#     app.layout = html.Div(simple_app_layout(
-#         dash_bio.Igv(
-#             id=_COMPONENT_ID,
-#             reference={
-#                 "id": "ASM985889v3",
-#                 "name": "Sars-CoV-2 (ASM985889v3)",
-#                 "fastaURL": data_path + "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna",
-#                 "indexURL": data_path +
-#                         "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.fai",
-#                 "order": 1000000,
-#                 "tracks": [
-#                     {
-#                         "name": "Annotations",
-#                         "url": data_path +
-#                         "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
-#                         "displayMode": "EXPANDED",
-#                         "nameField": "gene",
-#                         "height": 150
-#                     }
-#                 ]
-#
-#             },
-#             tracks=[
-#                 {  # normally, tracks listed here would not duplicate those already present above
-#
-#                     "name": "Genes",
-#                     "type": "annotation",
-#                     "url": data_path +
-#                     "covid_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.gff.gz",
-#                     "displayMode": "EXPANDED"
-#
-#                 }],
-#             minimumBases=100,
-#             style=igvStyle
-#         ),
-#     ))
-#
-#     dash_duo.start_server(app)
-#
-#     # Check that the genome loaded
-#     dash_duo.wait_for_text_to_equal('.igv-current-genome', 'ASM985889v3')
-#
-#     # Check that track(s) loaded
-#     tracks = dash_duo.find_elements('.igv-track-label')
-#     assert tracks[0].text == 'Annotations'
-#     assert tracks[1].text == 'Genes'
-#
-#
-# def test_dbigv003_sacCer3(dash_duo):
-#     app = dash.Dash(__name__)
-#
-#     try:
-#         requests.get('https://www.google.com/').status_code
-#         data_path = 'https://s3.dualstack.us-east-1.amazonaws.com/igv.org.genomes/'
-#     except requests.exceptions.ConnectionError:
-#         print("Running test with local datasets")
-#         data_path = app.get_asset_url('')
-#
-#     app.layout = html.Div(simple_app_layout(
-#         dash_bio.Igv(
-#             id=_COMPONENT_ID,
-#             reference={
-#                 "id": "sacCer3",
-#                 "name": "S. cerevisiae (sacCer3)",
-#                 "fastaURL": data_path + "sacCer3/sacCer3.fa",
-#                 "indexURL": data_path + "sacCer3/sacCer3.fa.fai",
-#                 "tracks": [
-#                     {
-#                         "name": "Ensembl Genes",
-#                         "type": "annotation",
-#                         "format": "ensgene",
-#                         "displayMode": "EXPANDED",
-#                         "url": data_path + "sacCer3/ensGene.txt.gz",
-#                         "indexed": False,
-#                         "supportsWholeGenome": False
-#                     }
-#                 ]
-#             },
-#             minimumBases=100,
-#             style=igvStyle
-#         ),
-#     ))
-#
-#     dash_duo.start_server(app)
-#
-#     # Check that the genome loaded
-#     dash_duo.wait_for_text_to_equal('.igv-current-genome', 'sacCer3')
-#
-#     # Check that track(s) loaded
-#     tracks = dash_duo.find_elements('.igv-track-label')
-#     assert len(tracks) == 1
-#     assert tracks[0].text == 'Ensembl Genes'
+
+def test_dbpileup002_json(dash_duo):
+    app = dash.Dash(__name__)
+
+    TWOBIT_URL = os.path.join(app.get_asset_url(''), "pileup", "chr17_little.2bit")
+
+    # read in JSON as string
+    file = os.path.join(os.path.dirname(os.path.abspath(__file__)),"assets", "pileup", "alignments.ga4gh.chr17.1-250.json")
+
+    with open(file, "r") as f:
+        json = re.sub('\s+','',f.read())
+
+    pileup_label = 'bam file in GA4GH json'
+    tracks=[
+        {'viz': 'pileup',
+            'label': pileup_label,
+            'source': 'alignmentJson',
+            'sourceOptions': json
+        }]
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Pileup(
+            id=_COMPONENT_ID,
+            range={"contig": 'chr17', "start": 7512284, "stop": 7512644},
+            reference = {"label": _GENOME, "url": TWOBIT_URL},
+            tracks=tracks
+        ),
+    ))
+
+    dash_duo.start_server(app)
+
+    # Check that the genome loaded
+    dash_duo.wait_for_text_to_equal('.reference>.track-label', _GENOME)
+
+    # Check that reference track loaded
+    tracks = dash_duo.find_elements('.reference')
+    assert len(tracks) == 1 # track-label and track-content
+    assert tracks[0].text == _GENOME
+
+    # Check that pileup track loaded
+    tracks = dash_duo.find_elements('.pileup')
+    assert len(tracks) == 1 # track-label and track-content
+    # gear and track name should be printed
+    assert pileup_label in tracks[0].text
+    assert _GEAR_ICON in tracks[0].text

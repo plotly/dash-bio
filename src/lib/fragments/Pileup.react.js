@@ -13,57 +13,50 @@ export default class Pileup extends Component {
         this.ref = React.createRef();
     }
 
-    parseTracks(tracks) {
+    parseTracks(reference, tracks) {
         // TODO maybe move to pileup.js
         console.log(tracks);
-        return [
-            {
-                viz: pileup.viz.genome(),
-                isReference: true,
-                data: pileup.formats.twoBit({
-                    url: 'http://www.biodalliance.org/datasets/hg19.2bit',
-                }),
-                name: 'Reference',
-            },
-        ];
+        console.log(reference);
 
-        //         var referenceTrack = {
-        //       viz: pileup.viz.genome(),
-        //       isReference: true,
-        //       data: pileup.formats.twoBit({
-        //         url: referenceUrl
-        //       }),
-        //       name: 'Reference'
-        // };
+        var referenceTrack = {
+            viz: pileup.viz.genome(),
+            isReference: true,
+            data: pileup.formats.twoBit({
+                url: reference.url,
+            }),
+            name: reference.label,
+        };
 
-        // // make list of pileup sources
-        // var sources = [referenceTrack];
-        //
-        // // add in optional tracks
-        // for (var i = 0; i < this.model.get('tracks').length; i++) {
-        //   var track = this.model.get('tracks')[i]
-        //
-        //   var newTrack = {
-        //     viz: pileup.viz[track.viz](),
-        //     isReference: false,
-        //     data: null,
-        //     name: track.label
-        //   };
-        //
-        //
-        //   // data may not exist for scale or location tracks
-        //   if (pileup.formats[track.source] != null) {
-        //     newTrack.data = pileup.formats[track.source](track.sourceOptions);
-        //   }
-        //   sources.push(newTrack);
-        // }
+        // make list of pileup sources
+        var sources = [referenceTrack];
+
+        // add in optional tracks
+        for (var i = 0; i < tracks.length; i++) {
+            var track = tracks[i];
+
+            var newTrack = {
+                viz: pileup.viz[track.viz](),
+                isReference: false,
+                data: null,
+                name: track.label,
+            };
+
+            // data may not exist for scale or location tracks
+            if (pileup.formats[track.source] !== null) {
+                newTrack.data = pileup.formats[track.source](
+                    track.sourceOptions
+                );
+            }
+            sources.push(newTrack);
+        }
+        return sources;
     }
 
     createPileupBrowser() {
         var pileupContainer = this.ref.current;
         var pileupOptions = {
             range: this.props.range,
-            tracks: this.parseTracks(this.props.tracks),
+            tracks: this.parseTracks(this.props.reference, this.props.tracks),
         };
         return pileup.create(pileupContainer, pileupOptions);
     }

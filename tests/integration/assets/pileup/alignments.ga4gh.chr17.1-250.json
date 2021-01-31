@@ -1,0 +1,723 @@
+{
+  "nextPageToken": null,
+  "alignments": [
+    {
+      "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "r000",
+      "readNumber": 0,
+      "improperPlacement": true,
+      "nextMatePosition": {
+        "position": 79,
+        "strand": "POS_STRAND",
+        "referenceName": "chr17"
+      },
+      "supplementaryAlignment": false,
+      "numberReads": 2,
+      "fragmentLength": 30,
+      "secondaryAlignment": false,
+      "alignedSequence": "ATTTAGCTAC",
+      "id": "pileup.js:chr17.1-250:r000",
+      "alignment": {
+        "position": {
+          "position": 4,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 10
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "r000",
+      "readNumber": 0,
+      "improperPlacement": false,
+      "nextMatePosition": {
+        "position": 49,
+        "strand": "POS_STRAND",
+        "referenceName": "chr17"
+      },
+      "supplementaryAlignment": false,
+      "numberReads": 2,
+      "fragmentLength": -30,
+      "secondaryAlignment": false,
+      "alignedSequence": "CCCAATCATT",
+      "id": "pileup.js:chr17.1-250:r000",
+      "alignment": {
+        "position": {
+          "position": 19,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 10
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+      "": {
+        "YY": [
+          "100"
+        ],
+        "XX": [
+          "[12561, 2, 20, 112]"
+        ],
+        "RG": [
+          "fish"
+        ],
+        "PG": [
+          "colt"
+        ]
+      },
+      "duplicateFragment": false,
+      "alignedQuality": [],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "r001",
+      "readNumber": 1,
+      "improperPlacement": true,
+      "nextMatePosition": {
+        "position": 36,
+        "strand": "POS_STRAND",
+        "referenceName": "chr17"
+      },
+      "supplementaryAlignment": false,
+      "numberReads": 2,
+      "fragmentLength": 39,
+      "secondaryAlignment": false,
+      "alignedSequence": "TTAGATAAAGAGGATACTG",
+      "id": "pileup.js:chr17.1-250:r001",
+      "alignment": {
+        "position": {
+          "position": 24,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 8
+          },
+          {
+            "referenceSequence": null,
+            "operation": "INSERT",
+            "operationLength": 4
+          },
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 4
+          },
+          {
+            "referenceSequence": null,
+            "operation": "DELETE",
+            "operationLength": 1
+          },
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 3
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "r002",
+      "readNumber": null,
+      "improperPlacement": true,
+      "nextMatePosition": null,
+      "supplementaryAlignment": false,
+      "numberReads": null,
+      "fragmentLength": 0,
+      "secondaryAlignment": false,
+      "alignedSequence": "AAAAGATAAGGGATAAA",
+      "id": "pileup.js:chr17.1-250:r002",
+      "alignment": {
+        "position": {
+          "position": 34,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "CLIP_SOFT",
+            "operationLength": 1
+          },
+          {
+            "referenceSequence": null,
+            "operation": "INSERT",
+            "operationLength": 2
+          },
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 6
+          },
+          {
+            "referenceSequence": null,
+            "operation": "PAD",
+            "operationLength": 1
+          },
+          {
+            "referenceSequence": null,
+            "operation": "INSERT",
+            "operationLength": 1
+          },
+          {
+            "referenceSequence": null,
+            "operation": "PAD",
+            "operationLength": 1
+          },
+          {
+            "referenceSequence": null,
+            "operation": "INSERT",
+            "operationLength": 1
+          },
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 4
+          },
+          {
+            "referenceSequence": null,
+            "operation": "INSERT",
+            "operationLength": 2
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "r003",
+      "readNumber": null,
+      "improperPlacement": false,
+      "nextMatePosition": null,
+      "supplementaryAlignment": false,
+      "numberReads": null,
+      "fragmentLength": 0,
+      "secondaryAlignment": false,
+      "alignedSequence": "AGCTAA",
+      "id": "pileup.js:chr17.1-250:r003",
+      "alignment": {
+        "position": {
+          "position": 44,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "CLIP_HARD",
+            "operationLength": 5
+          },
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 6
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "r004",
+      "readNumber": null,
+      "improperPlacement": true,
+      "nextMatePosition": null,
+      "supplementaryAlignment": false,
+      "numberReads": null,
+      "fragmentLength": 0,
+      "secondaryAlignment": false,
+      "alignedSequence": "ATAGCTCTCAGC",
+      "id": "pileup.js:chr17.1-250:r004",
+      "alignment": {
+        "position": {
+          "position": 55,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 6
+          },
+          {
+            "referenceSequence": null,
+            "operation": "SKIP",
+            "operationLength": 14
+          },
+          {
+            "referenceSequence": null,
+            "operation": "INSERT",
+            "operationLength": 1
+          },
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 5
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "r003",
+      "readNumber": null,
+      "improperPlacement": false,
+      "nextMatePosition": null,
+      "supplementaryAlignment": false,
+      "numberReads": null,
+      "fragmentLength": 0,
+      "secondaryAlignment": false,
+      "alignedSequence": "TAGGC",
+      "id": "pileup.js:chr17.1-250:r003",
+      "alignment": {
+        "position": {
+          "position": 68,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "CLIP_HARD",
+            "operationLength": 6
+          },
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 5
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "r001",
+      "readNumber": 0,
+      "improperPlacement": true,
+      "nextMatePosition": {
+        "position": 6,
+        "strand": "POS_STRAND",
+        "referenceName": "chr17"
+      },
+      "supplementaryAlignment": false,
+      "numberReads": 2,
+      "fragmentLength": -39,
+      "secondaryAlignment": false,
+      "alignedSequence": "CAGCGCCAT",
+      "id": "pileup.js:chr17.1-250:r001",
+      "alignment": {
+        "position": {
+          "position": 76,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 9
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "x1",
+      "readNumber": null,
+      "improperPlacement": false,
+      "nextMatePosition": null,
+      "supplementaryAlignment": false,
+      "numberReads": null,
+      "fragmentLength": 0,
+      "secondaryAlignment": false,
+      "alignedSequence": "AGGTTTTATAAAACAAATAA",
+      "id": "pileup.js:chr17.1-250:x1",
+      "alignment": {
+        "position": {
+          "position": 79,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 20
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30
+      ],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "x2",
+      "readNumber": null,
+      "improperPlacement": false,
+      "nextMatePosition": null,
+      "supplementaryAlignment": false,
+      "numberReads": null,
+      "fragmentLength": 0,
+      "secondaryAlignment": false,
+      "alignedSequence": "GGTTTTATAAAACAAATAATT",
+      "id": "pileup.js:chr17.1-250:x2",
+      "alignment": {
+        "position": {
+          "position": 90,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 21
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30
+      ],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "x3",
+      "readNumber": null,
+      "improperPlacement": false,
+      "nextMatePosition": null,
+      "supplementaryAlignment": false,
+      "numberReads": null,
+      "fragmentLength": 0,
+      "secondaryAlignment": false,
+      "alignedSequence": "TTATAAAACAAATAATTAAGTCTACA",
+      "id": "pileup.js:chr17.1-250:x3",
+      "alignment": {
+        "position": {
+          "position": 103,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 9
+          },
+          {
+            "referenceSequence": null,
+            "operation": "INSERT",
+            "operationLength": 4
+          },
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 13
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30
+      ],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "x4",
+      "readNumber": null,
+      "improperPlacement": false,
+      "nextMatePosition": null,
+      "supplementaryAlignment": false,
+      "numberReads": null,
+      "fragmentLength": 0,
+      "secondaryAlignment": false,
+      "alignedSequence": "CAAATAATTAAGTCTACAGAGCAAC",
+      "id": "pileup.js:chr17.1-250:x4",
+      "alignment": {
+        "position": {
+          "position": 114,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 25
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30
+      ],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "x5",
+      "readNumber": null,
+      "improperPlacement": false,
+      "nextMatePosition": null,
+      "supplementaryAlignment": false,
+      "numberReads": null,
+      "fragmentLength": 0,
+      "secondaryAlignment": false,
+      "alignedSequence": "AATAATTAAGTCTACAGAGCAACT",
+      "id": "pileup.js:chr17.1-250:x5",
+      "alignment": {
+        "position": {
+          "position": 134,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 24
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    },
+    {
+       "attributes": {"attr": {"XC": {"values": [{"int32Value": 84}]}, "RG": {"values": [{"stringValue": "ERR181329"}]}}},
+      "duplicateFragment": false,
+      "alignedQuality": [
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30
+      ],
+      "failedVendorQualityChecks": false,
+      "fragmentName": "x6",
+      "readNumber": null,
+      "improperPlacement": false,
+      "nextMatePosition": null,
+      "supplementaryAlignment": false,
+      "numberReads": null,
+      "fragmentLength": 0,
+      "secondaryAlignment": false,
+      "alignedSequence": "TAATTAAGTCTACAGAGCAACTA",
+      "id": "pileup.js:chr17.1-250:x6",
+      "alignment": {
+        "position": {
+          "position": 164,
+          "strand": "POS_STRAND",
+          "referenceName": "chr17"
+        },
+        "cigar": [
+          {
+            "referenceSequence": null,
+            "operation": "ALIGNMENT_MATCH",
+            "operationLength": 23
+          }
+        ],
+        "mappingQuality": 30
+      },
+      "readGroupId": "pileup.js:chr17.1-250"
+    }
+  ]
+}
