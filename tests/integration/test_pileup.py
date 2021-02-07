@@ -21,21 +21,41 @@ def test_dbpileup001_reference(dash_duo):
     pileup_label = 'bam file'
     feature_label = 'features'
     tracks=[
-        {'viz': 'pileup',
+            {
+              'viz': 'scale',
+              'label': 'Scale'
+            },
+            {
+              'viz': 'location',
+              'label': 'Location'
+            },
+            {
+                'viz': 'genes',
+                'label': 'genes',
+                'source': 'bigBed',
+                'sourceOptions': {'url': 'http://www.biodalliance.org/datasets/ensGene.bb'}
+            },
+            {
+                'viz': 'variants',
+                'label': 'variants',
+                'source': 'vcf',
+                'sourceOptions': {'url': os.path.join(app.get_asset_url(''), "pileup", "snv.chr17.vcf") }
+            },
+            {'viz': 'pileup',
             'label': pileup_label,
             'source': 'bam',
             'sourceOptions': {
                 'url': os.path.join(app.get_asset_url(''), "pileup", "synth3.normal.17.7500000-7515000.bam"),
                 'indexUrl': os.path.join(app.get_asset_url(''), "pileup", "synth3.normal.17.7500000-7515000.bam.bai")
-            }
-        },
-        {'viz': 'features',
-            'label': feature_label,
-            'source': 'bigBed',
-            'sourceOptions': {
-                'url': os.path.join(app.get_asset_url(''), "pileup", "chr17.22.10000-21000.bb")
-            }
-        }]
+                }
+            },
+            {'viz': 'features',
+                'label': feature_label,
+                'source': 'bigBed',
+                'sourceOptions': {
+                    'url': os.path.join(app.get_asset_url(''), "pileup", "chr17.22.10000-21000.bb")
+                }
+            }]
 
     app.layout = html.Div(simple_app_layout(
         dash_bio.Pileup(
@@ -81,7 +101,7 @@ def test_dbpileup002_json(dash_duo):
     TWOBIT_URL = os.path.join(app.get_asset_url(''), "pileup", "chr17_little.2bit")
 
     # read in JSON as string
-    file = os.path.join(os.path.dirname(os.path.abspath(__file__)),"assets", "pileup", "alignments.ga4gh.chr17.1-250.json")
+    file = os.path.join(os.path.dirname(app.get_asset_url(''), "pileup", "alignments.ga4gh.chr17.1-250.json")
 
     with open(file, "r") as f:
         json = re.sub('\s+','',f.read())

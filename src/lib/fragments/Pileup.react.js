@@ -41,8 +41,9 @@ export default class Pileup extends Component {
                 name: track.label,
             };
 
-            // data may not exist for scale or location tracks
-            if (pileup.formats[track.source] !== null) {
+            // Make sure source exists and it is a valid pileup format
+            // Source may not exist for scale or location tracks
+            if (('source' in track) & (pileup.formats[track.source] !== null)) {
                 newTrack.data = pileup.formats[track.source](
                     track.sourceOptions
                 );

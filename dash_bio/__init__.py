@@ -37,6 +37,7 @@ async_resources = [
     'circos',
     'ideogram',
     'igv',
+    'pileup',
     'moleculeviewer2',
     'moleculeviewer3',
     'needle',
