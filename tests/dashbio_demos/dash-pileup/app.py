@@ -212,18 +212,12 @@ def layout():
 
 
 def callbacks(_app):
-    print("asdfasd")
-    print(dir(_app))
-    print(_app._walk_assets_directory())
-    print(_app._assets_files)
     # Return the Pileup component with the selected genome and base length
     @_app.callback(
         Output('pileup-output', 'children'),
         [Input('case-dropdown', 'value')]
     )
     def return_pileup(case):
-        print("case", case)
-        print
         data = HOSTED_CASE_DICT[case]
         return (
             html.Div([
