@@ -7,7 +7,7 @@ filepath = os.path.abspath(os.path.dirname(__file__))
 long_description = io.open('README.md', encoding='utf-8').read()
 
 package = {
-    'name': os.path.basename(filepath).replace('-', '_'),
+    'name': 'dash_bio_utils',
     'version': '0.0.5',
     'author': 'The Plotly Team',
     'author_email': 'dashbio@plot.ly',
@@ -17,7 +17,7 @@ package = {
 setup(
     name=package['name'],
     version=package['version'],
-    url='http://github.com/plotly/{}'.format(package['name'].replace('_', '-')),
+    url='http://github.com/plotly/dash-bio-utils',
     author=package['author'],
     author_email='dashbio@plot.ly',
     packages=[package['name']],
