@@ -20,12 +20,13 @@ export default class NglMoleculeViewer extends Component {
             orientationMatrix: null,
             structuresList: [],
         };
+        this.ref = React.createRef();
     }
 
     componentDidMount() {
-        const {id, stageParameters, width, height} = this.props;
+        const {stageParameters, width, height} = this.props;
         const params = {...stageParameters};
-        const stage = new Stage(id, params);
+        const stage = new Stage(this.ref.current, params);
         const orientationMatrix = stage.viewerControls.getOrientation();
 
         const widthStr = isNumeric(width) ? width + 'px' : width;
@@ -280,7 +281,7 @@ export default class NglMoleculeViewer extends Component {
 
     render() {
         const {id} = this.props;
-        return <div id={id} />;
+        return <div id={id} ref={this.ref} />;
     }
 }
 
