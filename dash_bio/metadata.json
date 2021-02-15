@@ -1933,7 +1933,7 @@
         "required": false,
         "description": "The width (in px or as a number) of the container\nin which the molecules will be displayed.",
         "defaultValue": {
-          "value": "'500px'",
+          "value": "'600px'",
           "computed": false
         }
       },
@@ -1952,7 +1952,7 @@
         "required": false,
         "description": "The height (in px or as a number) of the container\nin which the molecules will be displayed.",
         "defaultValue": {
-          "value": "'500px'",
+          "value": "'600px'",
           "computed": false
         }
       },
@@ -2098,7 +2098,7 @@
           }
         },
         "required": false,
-        "description": "The data (in JSON format) that will be used to display the molecule\nfilename: name of the used pdb/cif file\next: file extensions (pdb or cif)\nselectedValue: pdbString\nchain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A\naaRange: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only 50 atoms\ncolor: chain color\nchosen.atoms: string of the chosen Atoms, e.g. 50,100,150\n              --> chosen eatoms changed to colored 'ball'\nchosen.residues: string of the chosen residues, e.g. 50,100,150\n                 --> C alpha of chosen residue changed to colored 'ball'\nconfig.input: content of the pdb file\nconfig.type: format of config.input\nuploaded: bool if file from local storage (false) or uploaded by user (true)\nresetView: bool if the selection did not change but the view should be resettet (true)",
+        "description": "The data (in JSON format) that will be used to display the molecule\nfilename: name of the used pdb/cif file\next: file extensions (pdb or cif)\nselectedValue: pdbString\nchain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A\naaRange: ALL if the whole molecule should be displayed, e.g. 1:50 for showing only 50 atoms\ncolor: chain color\nchosen.atoms: string of the chosen Atoms, e.g. 50,100,150\n              --> chosen eatoms changed to colored 'ball'\nchosen.residues: string of the chosen residues, e.g. 50,100,150\n                 --> C alpha of chosen residue changed to colored 'ball'\nconfig.input: content of the pdb file\nconfig.type: format of config.input\nuploaded: bool if file from local storage (false) or uploaded by user (true)\nresetView: bool if the selection did not change but the view should be resettet (true)",
         "defaultValue": {
           "value": "[\n    {\n        filename: 'placeholder',\n        ext: '',\n        selectedValue: 'placeholder',\n        chain: 'ALL',\n        aaRange: 'ALL',\n        chosen: {\n            chosenAtoms: '',\n            chosenResidues: '',\n        },\n        color: 'red',\n        config: {\n            input: '',\n            type: 'text/plain',\n        },\n        uploaded: false,\n        resetView: false,\n    },\n]",
           "computed": false

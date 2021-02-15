@@ -74,7 +74,7 @@ filename: name of the used pdb/cif file
 ext: file extensions (pdb or cif)
 selectedValue: pdbString
 chain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A
-aaRange: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only 50 atoms
+aaRange: ALL if the whole molecule should be displayed, e.g. 1:50 for showing only 50 atoms
 color: chain color
 chosen.atoms: string of the chosen Atoms, e.g. 50,100,150
               --> chosen eatoms changed to colored 'ball'

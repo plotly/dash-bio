@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.6.1] - 2021-02-15
+### Fixed
+* [#544](https://github.com/plotly/dash-bio/pull/544) Miscellaneous fixes for NglMoleculeViewer component.
+
 ## [0.6.0] - 2021-01-28
 ### Added
 * [#537](https://github.com/plotly/dash-bio/pull/537) Added Dash-IGV component.
