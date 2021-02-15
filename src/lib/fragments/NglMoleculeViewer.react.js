@@ -37,7 +37,14 @@ export default class NglMoleculeViewer extends Component {
     }
 
     shouldComponentUpdate(prevProps, nextProps) {
-        const {stageParameters, data, downloadImage, molStyles} = this.props;
+        const {
+            stageParameters,
+            data,
+            downloadImage,
+            molStyles,
+            height,
+            width,
+        } = this.props;
 
         // check if data has changed
         if (data !== null && prevProps.data !== null) {
@@ -80,16 +87,35 @@ export default class NglMoleculeViewer extends Component {
             return true;
         }
 
+        // check if Height or Width has been changed
+        if (
+            !equals(prevProps.height, height) ||
+            !equals(prevProps.width, width)
+        ) {
+            return true;
+        }
+
         // no update since neither the data nor the stage paramas have changed
         return false;
     }
 
     componentDidUpdate() {
-        const {data, stageParameters, downloadImage, sideByside} = this.props;
+        const {
+            data,
+            stageParameters,
+            downloadImage,
+            sideByside,
+            height,
+            width,
+        } = this.props;
         const {stage, structuresList} = this.state;
+
+        const widthStr = isNumeric(width) ? width + 'px' : width;
+        const heightStr = isNumeric(height) ? height + 'px' : height;
 
         // update the stage with the new stage params
         stage.setParameters(stageParameters);
+        stage.setSize(widthStr, heightStr);
 
         if (
             downloadImage === undefined ||
