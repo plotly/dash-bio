@@ -11,13 +11,10 @@ export default class Pileup extends Component {
     constructor(props) {
         super(props);
         this.ref = React.createRef();
+        this.pileup = null;
     }
 
     parseTracks(reference, tracks) {
-        // TODO maybe move to pileup.js
-        console.log(tracks);
-        console.log(reference);
-
         var referenceTrack = {
             viz: pileup.viz.genome(),
             isReference: true,
@@ -59,21 +56,35 @@ export default class Pileup extends Component {
             range: this.props.range,
             tracks: this.parseTracks(this.props.reference, this.props.tracks),
         };
-        return pileup.create(pileupContainer, pileupOptions);
+        console.log(pileupContainer);
+        if (this.pileup !== null) {
+            // destroy pileup if it currently exists
+            this.pileup.destroy();
+        }
+        this.pileup = pileup.create(pileupContainer, pileupOptions);
     }
 
     componentDidMount() {
+        console.log('component mounted');
         this.createPileupBrowser();
     }
 
     componentDidUpdate(prevProps) {
-        if (
-            this.props.range !== prevProps.range ||
-            this.props.tracks !== prevProps.tracks
-        ) {
-            // TODO: may need to delete browser
-            // pileup.removeBrowser(pileup.browser);
+        if (this.props.tracks !== prevProps.tracks) {
             this.createPileupBrowser();
+        } else if (this.props.range !== prevProps.range) {
+            console.log('setting Range', this.props.range);
+            console.log(this.props.range);
+
+            try {
+                this.pileup.setRange(this.props.range);
+            } catch (error) {
+                // sometimes the ReactElement in pileup.js is null,
+                // keeping you from changing the range. In this case,
+                // we have to just re-create the browser.
+                console.error(error);
+                this.createPileupBrowser();
+            }
         }
     }
 
