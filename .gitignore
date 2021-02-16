@@ -1,2 +1,4 @@
 # virtualenv
 venv
+dist/
+dash_bio_utils.egg-info/

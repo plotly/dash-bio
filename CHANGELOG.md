@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6] - 2021-02-09
+
+### Added
+
+* Added `ngl_parser` to parse PDB and cif files for highlights and chain data
+with the `dash_bio` NglMoleculeViewer component.
+
 ## [0.0.5] - 2020-06-10
 
 ### Changed
