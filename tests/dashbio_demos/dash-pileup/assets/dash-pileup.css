@@ -2,6 +2,13 @@
     background-color: #34AD99 !important;
 }
 
+/* pileup track */
+.pileup-root > .pileup, .pileup-root > .genotypes {
+  flex: 1;  /* stretch to fill remaining space */
+  flex-basis: auto;
+  min-height: 100px; /* prevent tracks from becoming too small */
+}
+
 #pileup-control-tabs {
     width: 400px;
     height: 550px;
@@ -316,12 +323,7 @@ h3.pileup-settings-section {
   max-height: 200px; /* prevents track from becoming too large */
 }
 
-/* pileup track */
-.pileup-root > .pileup, .pileup-root > .genotypes {
-  flex: 1;  /* stretch to fill remaining space */
-  flex-basis: auto;
-  min-height: 300px; /* prevent tracks from becoming too small */
-}
+
 .pileup .alignment .match {
   fill: #c8c8c8;  /* matches pileup */
 }

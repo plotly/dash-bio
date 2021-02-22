@@ -6,6 +6,7 @@ import dash_bio
 import pandas as pd
 import dash_table
 from dash_table.Format import Format
+import numpy as np
 
 try:
     from layout_helper import run_standalone_app
@@ -30,120 +31,23 @@ def header_colors():
     }
 
 
-HG19_REFERENCE =  {"label": 'hg19', "url": 'http://www.biodalliance.org/datasets/hg19.2bit'};
+HG19_REFERENCE =  {"label": 'mm10', "url": 'https://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.2bit'};
 
 DATAPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/data')
 
-bam_tumor = {
-    'url': os.path.join("/assets/data/tumor", "synth4.tumor.1.4930000-4950000.bam"),
-    'indexUrl': os.path.join("/assets/data/tumor", "synth4.tumor.1.4930000-4950000.bam.bai")
-}
-
-bam_normal = {
-    'url': os.path.join("/assets/data/tumor", "synth3.normal.17.7500000-7515000.bam"),
-    'indexUrl': os.path.join("/assets/data/tumor", "synth3.normal.17.7500000-7515000.bam.bai")
-}
-
-# TODO: need to set viewaspairs=True I think
-structural_variants = {
-        'range': {'contig': 'chr17', 'start': 4930382, 'stop': 4946898},
-        'tracks': [
-              {
-                'viz': 'scale',
-                'label': 'Scale'
-              },
-              {
-                'viz': 'location',
-                'label': 'Location'
-              },
-              {
-                'viz':'coverage',
-                'source': 'bam',
-                'sourceOptions': bam_tumor,
-                'label': 'synth4'
-              },
-              {'viz': 'pileup',
-                'label': 'synth4',
-                'source': 'bam',
-                'sourceOptions': bam_normal
-             }
-        ]
-}
-
-
-
-tumor_normal = {
-        'range': {'contig': 'chr17', 'start': 7512284, 'stop': 7512700},
-        'tracks': [
-            {
-              'viz': 'scale',
-              'label': 'Scale'
-            },
-            {
-              'viz': 'location',
-              'label': 'Location'
-            },
-            {
-                'viz': 'variants',
-                'label': 'variants',
-                'source': 'vcf',
-                'sourceOptions': {'url': os.path.join("/assets/data/tumor", "snv.chr17.vcf") }
-            },
-            {
-                'viz': 'genes',
-                'label': 'genes',
-                'source': 'bigBed',
-                'sourceOptions': {'url': 'http://www.biodalliance.org/datasets/ensGene.bb'}
-            },
-            {
-                'viz':'coverage',
-                'label': 'normal',
-                'source': 'bam',
-                'sourceOptions': bam_normal,
-            },
-            {
-                'viz': 'pileup',
-                'label': 'normal',
-                'source': 'bam',
-                'sourceOptions': bam_normal,
-            },
-            {
-                'viz':'coverage',
-                'label': 'tumor',
-                'source': 'bam',
-                'sourceOptions': bam_tumor,
-            },
-            {
-                'viz': 'pileup',
-                'label': 'tumor',
-                'source': 'bam',
-                'sourceOptions': bam_tumor,
-            }
-        ]
-}
-
 DE_dataframe = pd.read_csv(os.path.join(DATAPATH, "rna", "DE_genes.csv"))
-rows = []
-for i in range(len(DE_dataframe)):
-    row = []
-    for col in DE_dataframe.columns:
-        value = DE_dataframe.iloc[i][col]
-        # style = cell_style(value, 0, 100)
-        row.append(html.Td(value))# TODO style https://www.programcreek.com/python/example/100617/dash_html_components.Table, style=style))
-    rows.append(html.Tr(row))
 
-
-rna_normal = {
-    'url': os.path.join("/assets/data/rna/ENCSR095PIC", "ENCFF185ITT.bam"),
-    'indexUrl': os.path.join("/assets/data/rna/ENCSR095PIC", "ENCFF185ITT.bam.bai")
+basal_bam = {
+    'url': os.path.join("/assets/data/rna/basal.sorted.bam"),
+    'indexUrl': os.path.join("/assets/data/rna/basal.sorted.bam.bai")
 }
 
-rna_KO = {
-    'url': os.path.join("/assets/data/rna/ENCSR096VPS", "ENCFF304IDS.bam"),
-    'indexUrl': os.path.join("/assets/data/rna/ENCSR096VPS", "ENCFF304IDS.bam.bai")
+luminal_bam = {
+    'url': os.path.join("/assets/data/rna/luminal.sorted.bam"),
+    'indexUrl': os.path.join("/assets/data/rna/luminal.sorted.bam.bai")
 }
 rna_differential = {
-        'range': {'contig': 'chr17', 'start': 7512284, 'stop': 7512644},
+        'range': {'contig': 'chr1', 'start': 54986297, 'stop': 54991347},
         'tracks': [
             {
               'viz': 'scale',
@@ -157,32 +61,40 @@ rna_differential = {
                 'viz': 'genes',
                 'label': 'genes',
                 'source': 'bigBed',
-                'sourceOptions': {'url': 'http://www.biodalliance.org/datasets/ensGene.bb'}
+                'sourceOptions': {'url': "/assets/data/rna/mm10.chr1.ncbiRefSeq.sorted.bb"}
             },
             {
                 'viz':'coverage',
-                'label': 'NFYA wildtype',
+                'label': 'Basal Mouse cells',
                 'source': 'bam',
-                'sourceOptions': rna_normal,
+                'sourceOptions': basal_bam,
+            },
+            {
+                'viz':'pileup',
+                'label': 'Basal Mouse cells',
+                'source': 'bam',
+                'sourceOptions': basal_bam,
             },
             {
                 'viz':'coverage',
-                'label': 'NFYA KO',
+                'label': 'Luminal Mouse cells',
                 'source': 'bam',
-                'sourceOptions': rna_KO,
+                'sourceOptions': luminal_bam ,
+            },
+            {
+                'viz':'pileup',
+                'label': 'Luminal Mouse cells',
+                'source': 'bam',
+                'sourceOptions': luminal_bam,
             },
         ]
 }
 
 HOSTED_CASE_DICT = {
-    'structural-variants': structural_variants,
-    'tumor-normal': tumor_normal,
     'rna-differential': rna_differential,
 }
 
 HOSTED_USE_CASES = [
-    {'value': 'structural-variants', 'label': 'Structural variants'},
-    {'value': 'tumor-normal', 'label': 'Tumor/Normal'},
     {'value': 'rna-differential', 'label': 'Differential RNA-seq'},
 ]
 
@@ -191,8 +103,26 @@ def layout():
         html.Div(id='pileup-control-tabs', className='control-tabs', children=[
             dcc.Tabs(
                 id='pileup-tabs',
-                value='what-is',
+                value='data',
                 children=[
+                    dcc.Tab(
+                        label='Data',
+                        value='data',
+                        children=html.Div(className='control-tab', children=[
+                            dcc.Graph(
+                                id='my-dashbio-volcanoplot',
+                                figure=dash_bio.VolcanoPlot(
+                                    dataframe=DE_dataframe,
+                                            effect_size='log2FoldChange',
+                                            title="Differentially Expressed Genes",
+                                            genomewideline_value=-np.log10(0.05),
+                                            p='padj',
+                                            snp='Gene',
+                                            gene='Gene',
+                                )
+                            )
+                        ])
+                    ),
                     dcc.Tab(
                         label='About',
                         value='what-is',
@@ -210,36 +140,6 @@ def layout():
                                 data stored in GA4GH formatted data stores.
                                 """
                             )
-                        ])
-                    ),
-                    dcc.Tab(
-                        label='Data',
-                        value='data',
-                        children=html.Div(className='control-tab', children=[
-                            dash_table.DataTable(
-                                id='datatable-interactivity',
-                                columns=[
-                                    dict(id='a', name='4 decimals', type='numeric', format=Format(precision=4, scheme=Scheme.fixed)), # skip-id-check
-                                    dict(id='a', name='4 decimals / trimmed', type='numeric', format=Format(precision=4, scheme=Scheme.fixed, trim=Trim.yes)), # skip-id-check
-                                    dict(id='a', name='Custom 4 decimals / trimmed', type='numeric', format=dict(specifier='.4~f')), # skip-id-check
-
-                                    {"name": i, "id": i, "deletable": False, "selectable": True,
-                                        "format": dict(specifier='.2~f')} for i in DE_dataframe.columns
-                                ],
-                                data=DE_dataframe.to_dict('records'),
-                                editable=False,
-                                filter_action="native",
-                                sort_action="native",
-                                sort_mode="multi",
-                                column_selectable="single",
-                                row_selectable="single",
-                                row_deletable=False,
-                                selected_columns=[],
-                                selected_rows=[0],
-                                page_action="native",
-                                page_current= 0,
-                                page_size= 15,
-                            ),html.Div(id='datatable-interactivity-container')
                         ])
                     )
                 ]
@@ -259,40 +159,27 @@ def layout():
 
 
 def callbacks(_app):
-    # # Return the Pileup component with the selected genome and base length
-    # @_app.callback(
-    #     Output('pileup-output', 'children'),
-    #     [Input('case-dropdown', 'value')]
-    # )
-    # def return_pileup(case):
-    #     case = 'rna-differential' # TODO
-    #     data = HOSTED_CASE_DICT[case]
-    #     return (
-    #         html.Div([
-    #             dash_bio.Pileup(
-    #                 id=_COMPONENT_ID,
-    #                 range=data['range'],
-    #                 reference = HG19_REFERENCE,
-    #                 tracks=data['tracks'],
-    #             )
-    #         ])
-    #     )
+
     @_app.callback(
     Output(_COMPONENT_ID, 'range'),
-    Input('datatable-interactivity', "derived_virtual_data"),
-    Input('datatable-interactivity', "derived_virtual_selected_rows"))
-    def update_range(rows, derived_virtual_selected_rows):
+    Input('my-dashbio-volcanoplot', 'clickData'))
+    def update_range(point):
 
-        data = HOSTED_CASE_DICT['rna-differential'] # TODO rm other options
+        data = HOSTED_CASE_DICT['rna-differential']
 
-        if derived_virtual_selected_rows is None or rows is None:
+        if (point == None):
             range = data['range']
         else:
-            # if derived_virtual_selected_rows is not None:
-            row = rows[derived_virtual_selected_rows[0]]
+
+            pointText = point['points'][0]['text']
+            gene = pointText.split('GENE: ')[-1]
+
+            row = DE_dataframe[DE_dataframe['Gene'] == gene].iloc[0]
+
             range = {'contig': row['chr'],
                     'start': row['start'],
                     'stop': row['end']}
+            print(range)
 
         return range
 

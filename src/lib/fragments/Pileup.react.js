@@ -51,21 +51,19 @@ export default class Pileup extends Component {
     }
 
     createPileupBrowser() {
-        var pileupContainer = this.ref.current;
+        // var pileupContainer = this.ref.current;
         var pileupOptions = {
             range: this.props.range,
             tracks: this.parseTracks(this.props.reference, this.props.tracks),
         };
-        console.log(pileupContainer);
         if (this.pileup !== null) {
             // destroy pileup if it currently exists
             this.pileup.destroy();
         }
-        this.pileup = pileup.create(pileupContainer, pileupOptions);
+        this.pileup = pileup.create(this.ref.current, pileupOptions);
     }
 
     componentDidMount() {
-        console.log('component mounted');
         this.createPileupBrowser();
     }
 
@@ -73,8 +71,6 @@ export default class Pileup extends Component {
         if (this.props.tracks !== prevProps.tracks) {
             this.createPileupBrowser();
         } else if (this.props.range !== prevProps.range) {
-            console.log('setting Range', this.props.range);
-            console.log(this.props.range);
 
             try {
                 this.pileup.setRange(this.props.range);
@@ -82,7 +78,6 @@ export default class Pileup extends Component {
                 // sometimes the ReactElement in pileup.js is null,
                 // keeping you from changing the range. In this case,
                 // we have to just re-create the browser.
-                console.error(error);
                 this.createPileupBrowser();
             }
         }
