@@ -100,8 +100,9 @@ def test_dbpileup002_json(dash_duo):
 
     TWOBIT_URL = os.path.join(app.get_asset_url(''), "pileup", "chr17_little.2bit")
 
-    # read in JSON as string
-    file = os.path.join(os.path.dirname(app.get_asset_url(''), "pileup", "alignments.ga4gh.chr17.1-250.json")
+    # read in JSON as string: local file
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    file = os.path.join(dir_path, "assets", "pileup", "alignments.ga4gh.chr17.1-250.json")
 
     with open(file, "r") as f:
         json = re.sub('\s+','',f.read())
