@@ -1,21 +1,19 @@
 
+# Data Usage
+
+All data is available in [GEO accession GSE60450](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE60450).
+We used mus musculus RNA-seq data from basal and luminal cell types (2 day lactate),
+resulting in 4 samples (2 replicates per condition).
+Ωå
+Files and processing was based off of an [RNA-seq tutorial from WEHI bioinformatics](https://bioinformatics-core-shared-training.github.io/RNAseq-R/). In all samples, we only evaluate reads from chr1.
+
 # Data generation
 
+4 samples was downloaded using SRA (SRP045534) using 'prefetch' in sra-toolkit.
+Fastq files were extracted using 'fastq-dump' in sra-toolkit. Fastq
 
-fastq files for basal and luminal can be downloaded from the following tutorial:
-
-- Tutorial: https://bioinformatics-core-shared-training.github.io/RNAseq-R/
-	and http://bioinf.wehi.edu.au/RNAseqCaseStudy/
-- Data: https://figshare.com/s/f5d63d8c265a05618137
-
-mm10 genome assembly was used.
-
-fastq files were aligned using Rsubread in R version 4.0.3.
+Fastq files were aligned to the mm10 assembly using Rsubread in R version 4.0.3.
 Reads were quantified using `featureCounts()` in Rsubread.
 Limma and EdgeR were used to compute differential expression between genes.
 
 Entrez GeneIDs were translated to mgi gene symbols using biomaRt.
-
-
-Reads across all replicates were pooled into two bam files: one for basal and one
-for luminal.

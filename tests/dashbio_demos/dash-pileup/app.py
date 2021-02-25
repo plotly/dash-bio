@@ -38,13 +38,14 @@ DATAPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/data
 DE_dataframe = pd.read_csv(os.path.join(DATAPATH, "rna", "DE_genes.csv"))
 
 basal_bam = {
-    'url': os.path.join("/assets/data/rna/basal.sorted.bam"),
-    'indexUrl': os.path.join("/assets/data/rna/basal.sorted.bam.bai")
+    'url': os.path.join("/assets/data/rna/sra/SRR1552454.fastq.gz.sampled.bam"),
+    'indexUrl': os.path.join("/assets/data/rna/sra/SRR1552454.fastq.gz.sampled.bam.bai")
 }
 
+
 luminal_bam = {
-    'url': os.path.join("/assets/data/rna/luminal.sorted.bam"),
-    'indexUrl': os.path.join("/assets/data/rna/luminal.sorted.bam.bai")
+    'url': os.path.join("/assets/data/rna/sra/SRR1552448.fastq.gz.sampled.bam"),
+    'indexUrl': os.path.join("/assets/data/sra/SRR1552448.fastq.gz.sampled.bam.bai")
 }
 rna_differential = {
         'range': {'contig': 'chr1', 'start': 54986297, 'stop': 54991347},
@@ -179,7 +180,6 @@ def callbacks(_app):
             range = {'contig': row['chr'],
                     'start': row['start'],
                     'stop': row['end']}
-            print(range)
 
         return range
 

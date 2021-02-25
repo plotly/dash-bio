@@ -58,7 +58,8 @@ export default class Pileup extends Component {
         };
         if (this.pileup !== null) {
             // destroy pileup if it currently exists
-            this.pileup.destroy();
+            var pileupDidUnmount = this.pileup.destroy();
+            console.log('did unmount?', pileupDidUnmount);
         }
         this.pileup = pileup.create(this.ref.current, pileupOptions);
     }
@@ -71,15 +72,7 @@ export default class Pileup extends Component {
         if (this.props.tracks !== prevProps.tracks) {
             this.createPileupBrowser();
         } else if (this.props.range !== prevProps.range) {
-
-            try {
-                this.pileup.setRange(this.props.range);
-            } catch (error) {
-                // sometimes the ReactElement in pileup.js is null,
-                // keeping you from changing the range. In this case,
-                // we have to just re-create the browser.
-                this.createPileupBrowser();
-            }
+            this.pileup.setRange(this.props.range);
         }
     }
 
