@@ -36,16 +36,18 @@ HG19_REFERENCE =  {"label": 'mm10', "url": 'https://hgdownload.cse.ucsc.edu/gold
 DATAPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/data')
 
 DE_dataframe = pd.read_csv(os.path.join(DATAPATH, "rna", "DE_genes.csv"))
+# add SNP column
+DE_dataframe['SNP'] = 'NA'
 
 basal_bam = {
-    'url': os.path.join("/assets/data/rna/sra/SRR1552454.fastq.gz.sampled.bam"),
-    'indexUrl': os.path.join("/assets/data/rna/sra/SRR1552454.fastq.gz.sampled.bam.bai")
+    'url': os.path.join("/assets/data/rna/SRR1552454.fastq.gz.sampled.bam"),
+    'indexUrl': os.path.join("/assets/data/rna/SRR1552454.fastq.gz.sampled.bam.bai")
 }
 
 
 luminal_bam = {
-    'url': os.path.join("/assets/data/rna/sra/SRR1552448.fastq.gz.sampled.bam"),
-    'indexUrl': os.path.join("/assets/data/sra/SRR1552448.fastq.gz.sampled.bam.bai")
+    'url': os.path.join("/assets/data/rna/SRR1552448.fastq.gz.sampled.bam"),
+    'indexUrl': os.path.join("/assets/data/rna/SRR1552448.fastq.gz.sampled.bam.bai")
 }
 rna_differential = {
         'range': {'contig': 'chr1', 'start': 54986297, 'stop': 54991347},
@@ -118,7 +120,7 @@ def layout():
                                             title="Differentially Expressed Genes",
                                             genomewideline_value=-np.log10(0.05),
                                             p='padj',
-                                            snp='Gene',
+                                            snp='SNP',
                                             gene='Gene',
                                 )
                             )

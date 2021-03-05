@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {propTypes, defaultProps} from '../components/Pileup.react';
 import pileup from 'pileup';
 
+import '../../../node_modules/pileup/style/pileup.css';
+
 /**
  * The Pileup component is an genome visualization component
  * developed by the the Hammerlab. It uses an
