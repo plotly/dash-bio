@@ -20,12 +20,13 @@ export default class NglMoleculeViewer extends Component {
             orientationMatrix: null,
             structuresList: [],
         };
+        this.ref = React.createRef();
     }
 
     componentDidMount() {
-        const {id, stageParameters, width, height} = this.props;
+        const {stageParameters, width, height} = this.props;
         const params = {...stageParameters};
-        const stage = new Stage(id, params);
+        const stage = new Stage(this.ref.current, params);
         const orientationMatrix = stage.viewerControls.getOrientation();
 
         const widthStr = isNumeric(width) ? width + 'px' : width;
@@ -36,7 +37,14 @@ export default class NglMoleculeViewer extends Component {
     }
 
     shouldComponentUpdate(prevProps, nextProps) {
-        const {stageParameters, data, downloadImage, molStyles} = this.props;
+        const {
+            stageParameters,
+            data,
+            downloadImage,
+            molStyles,
+            height,
+            width,
+        } = this.props;
 
         // check if data has changed
         if (data !== null && prevProps.data !== null) {
@@ -79,16 +87,35 @@ export default class NglMoleculeViewer extends Component {
             return true;
         }
 
+        // check if Height or Width has been changed
+        if (
+            !equals(prevProps.height, height) ||
+            !equals(prevProps.width, width)
+        ) {
+            return true;
+        }
+
         // no update since neither the data nor the stage paramas have changed
         return false;
     }
 
     componentDidUpdate() {
-        const {data, stageParameters, downloadImage, sideByside} = this.props;
+        const {
+            data,
+            stageParameters,
+            downloadImage,
+            sideByside,
+            height,
+            width,
+        } = this.props;
         const {stage, structuresList} = this.state;
+
+        const widthStr = isNumeric(width) ? width + 'px' : width;
+        const heightStr = isNumeric(height) ? height + 'px' : height;
 
         // update the stage with the new stage params
         stage.setParameters(stageParameters);
+        stage.setSize(widthStr, heightStr);
 
         if (
             downloadImage === undefined ||
@@ -280,7 +307,7 @@ export default class NglMoleculeViewer extends Component {
 
     render() {
         const {id} = this.props;
-        return <div id={id} />;
+        return <div id={id} ref={this.ref} />;
     }
 }
 

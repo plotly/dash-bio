@@ -15,9 +15,9 @@ https://github.com/arose/ngl
 Keyword arguments:
 - id (string; optional): The ID of this component, used to identify dash components in callbacks.
 The ID needs to be unique across all of the components in an app.
-- width (string | number; default '500px'): The width (in px or as a number) of the container
+- width (string | number; default '600px'): The width (in px or as a number) of the container
 in which the molecules will be displayed.
-- height (string | number; default '500px'): The height (in px or as a number) of the container
+- height (string | number; default '600px'): The height (in px or as a number) of the container
 in which the molecules will be displayed.
 - stageParameters (dict; default {
     quality: 'medium',
@@ -75,7 +75,7 @@ filename: name of the used pdb/cif file
 ext: file extensions (pdb or cif)
 selectedValue: pdbString
 chain: ALL if the whole molecule shoud be displayed, e.g. A for showing only chain A
-aaRange: ALL if the whole molecule shoud be displayed, e.g. 1:50 for showing only 50 atoms
+aaRange: ALL if the whole molecule should be displayed, e.g. 1:50 for showing only 50 atoms
 color: chain color
 chosen.atoms: string of the chosen Atoms, e.g. 50,100,150
               --> chosen eatoms changed to colored 'ball'
