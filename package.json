@@ -39,7 +39,7 @@
     "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
     "ngl": "^0.10.4",
-    "pileup": "file:/Users/akmorrow/hammerlab/pileup.js",
+    "pileup": "0.7.0",
     "plotly.js": "^1.52.2",
     "ramda": "^0.26.0",
     "react": "16.13.0",
