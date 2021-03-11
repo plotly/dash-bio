@@ -85,20 +85,43 @@ Molecule3dViewer.propTypes = {
     selectedAtomIds: PropTypes.array,
 
     /**
-     * Labels corresponding to the atoms of the molecule.
-     * The text key sets the label content, and additional
-     * styling options can be set with the parameters key.
+     * Labels corresponding to the atoms of the molecule
      */
-    labels: PropTypes.array,
+    labels: PropTypes.arrayOf(PropTypes.exact({
+        /**
+         * The label content
+         */
+        text: PropTypes.string,
+
+        /**
+         * Additional styling options. See https://dash.plotly.com/dash-bio/molecule3dviewer for details
+         */
+        parameters: PropTypes.object
+    })),
 
     /**
      * Add an isosurface from volumetric data provided in the `cube_file`
      */
-    orbital: PropTypes.shape({
+    orbital: PropTypes.exact({
+        /**
+         * The filepath containing raw volumetric data for vertex coloring
+         */
         cube_file: PropTypes.string,
+        /**
+         * The isovalue to draw the surface at
+         */
         iso_val: PropTypes.number,
+        /**
+         * Transparency of the surface, between 0 and 1
+         */
         opacity: PropTypes.number,
+        /**
+         * Color for the positive value of the isosurface orbital
+         */
         positiveVolumetricColor: PropTypes.string,
+        /**
+         * Color for the negative value of the isosurface orbital
+         */
         negativeVolumetricColor: PropTypes.string,
     }),
 
