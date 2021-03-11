@@ -85,9 +85,28 @@ Molecule3dViewer.propTypes = {
     selectedAtomIds: PropTypes.array,
 
     /**
-     * labels corresponding to the atoms of the molecule
+     * Labels corresponding to the atoms of the molecule.
+     * The text key sets the label content, and additional
+     * styling options can be set with the parameters key.
      */
     labels: PropTypes.array,
+
+    /**
+     * Add an isosurface from volumetric data provided in the `cube_file`
+     */
+    orbital: PropTypes.shape({
+        cube_file: PropTypes.string,
+        iso_val: PropTypes.number,
+        opacity: PropTypes.number,
+        positiveVolumetricColor: PropTypes.string,
+        negativeVolumetricColor: PropTypes.string,
+    }),
+
+    /**
+     * Add a predefined renderable shape objects to the molecule.
+     * Valid shape types are Arrow, Sphere, and Cylinder.
+     */
+    shapes: PropTypes.arrayOf(PropTypes.object),
 
     /**
      * Callback to re-render molecule viewer
