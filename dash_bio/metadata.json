@@ -1710,33 +1710,53 @@
       },
       "labels": {
         "type": {
-          "name": "array"
+          "name": "arrayOf",
+          "value": {
+            "name": "exact",
+            "value": {
+              "text": {
+                "name": "string",
+                "description": "The label content",
+                "required": false
+              },
+              "parameters": {
+                "name": "object",
+                "description": "Additional styling options. See https://dash.plotly.com/dash-bio/molecule3dviewer for details",
+                "required": false
+              }
+            }
+          }
         },
         "required": false,
-        "description": "Labels corresponding to the atoms of the molecule.\nThe text key sets the label content, and additional\nstyling options can be set with the parameters key."
+        "description": "Labels corresponding to the atoms of the molecule"
       },
       "orbital": {
         "type": {
-          "name": "shape",
+          "name": "exact",
           "value": {
             "cube_file": {
               "name": "string",
+              "description": "The filepath containing raw volumetric data for vertex coloring",
               "required": false
             },
             "iso_val": {
               "name": "number",
+              "description": "The isovalue to draw the surface at",
               "required": false
             },
             "opacity": {
               "name": "number",
+              "description": "Transparency of the surface, between 0 and 1",
               "required": false
             },
             "positiveVolumetricColor": {
               "name": "string",
+              "description": "Color for the positive value of the isosurface orbital",
               "required": false
             },
             "negativeVolumetricColor": {
               "name": "string",
+              "description": "Color for the negative value of the isosurface orbital",
               "required": false
             }
           }

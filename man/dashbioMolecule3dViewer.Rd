@@ -43,17 +43,18 @@ and should have two main dictionaries - atoms, bonds}
 
 \item{selectedAtomIds}{Unnamed list. Property that stores a list of all selected atoms}
 
-\item{labels}{Unnamed list. Labels corresponding to the atoms of the molecule.
-The text key sets the label content, and additional
-styling options can be set with the parameters key.}
+\item{labels}{List of lists containing elements 'text', 'parameters'.
+those elements have the following types:
+  - text (character; optional): the label content
+  - parameters (named list; optional): additional styling options. see https://dash.plotly.com/dash-bio/molecule3dviewer for detailss. Labels corresponding to the atoms of the molecule}
 
 \item{orbital}{Lists containing elements 'cube_file', 'iso_val', 'opacity', 'positivevolumetriccolor', 'negativevolumetriccolor'.
 those elements have the following types:
-  - cube_file (character; optional)
-  - iso_val (numeric; optional)
-  - opacity (numeric; optional)
-  - positivevolumetriccolor (character; optional)
-  - negativevolumetriccolor (character; optional). Add an isosurface from volumetric data provided in the `cube_file`}
+  - cube_file (character; optional): the filepath containing raw volumetric data for vertex coloring
+  - iso_val (numeric; optional): the isovalue to draw the surface at
+  - opacity (numeric; optional): transparency of the surface, between 0 and 1
+  - positivevolumetriccolor (character; optional): color for the positive value of the isosurface orbital
+  - negativevolumetriccolor (character; optional): color for the negative value of the isosurface orbital. Add an isosurface from volumetric data provided in the `cube_file`}
 
 \item{shapes}{List of named lists. Add a predefined renderable shape objects to the molecule.
 Valid shape types are Arrow, Sphere, and Cylinder.}
