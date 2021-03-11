@@ -13,7 +13,8 @@ The Molecule3dViewer component is used to render schematic diagrams of biomolecu
 dashbioMolecule3dViewer(id=NULL, selectionType=NULL, backgroundColor=NULL,
 backgroundOpacity=NULL, styles=NULL, modelData=NULL,
 atomLabelsShown=NULL, selectedAtomIds=NULL, labels=NULL,
-onRenderNewData=NULL, onChangeSelection=NULL)
+orbital=NULL, shapes=NULL, onRenderNewData=NULL,
+onChangeSelection=NULL)
 }
 
 \arguments{
@@ -42,7 +43,20 @@ and should have two main dictionaries - atoms, bonds}
 
 \item{selectedAtomIds}{Unnamed list. Property that stores a list of all selected atoms}
 
-\item{labels}{Unnamed list. labels corresponding to the atoms of the molecule}
+\item{labels}{Unnamed list. Labels corresponding to the atoms of the molecule.
+The text key sets the label content, and additional
+styling options can be set with the parameters key.}
+
+\item{orbital}{Lists containing elements 'cube_file', 'iso_val', 'opacity', 'positivevolumetriccolor', 'negativevolumetriccolor'.
+those elements have the following types:
+  - cube_file (character; optional)
+  - iso_val (numeric; optional)
+  - opacity (numeric; optional)
+  - positivevolumetriccolor (character; optional)
+  - negativevolumetriccolor (character; optional). Add an isosurface from volumetric data provided in the `cube_file`}
+
+\item{shapes}{List of named lists. Add a predefined renderable shape objects to the molecule.
+Valid shape types are Arrow, Sphere, and Cylinder.}
 
 \item{onRenderNewData}{Callback to re-render molecule viewer
 when modelData is changed}

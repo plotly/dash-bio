@@ -1713,7 +1713,46 @@
           "name": "array"
         },
         "required": false,
-        "description": "labels corresponding to the atoms of the molecule"
+        "description": "Labels corresponding to the atoms of the molecule.\nThe text key sets the label content, and additional\nstyling options can be set with the parameters key."
+      },
+      "orbital": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "cube_file": {
+              "name": "string",
+              "required": false
+            },
+            "iso_val": {
+              "name": "number",
+              "required": false
+            },
+            "opacity": {
+              "name": "number",
+              "required": false
+            },
+            "positiveVolumetricColor": {
+              "name": "string",
+              "required": false
+            },
+            "negativeVolumetricColor": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Add an isosurface from volumetric data provided in the `cube_file`"
+      },
+      "shapes": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "Add a predefined renderable shape objects to the molecule.\nValid shape types are Arrow, Sphere, and Cylinder."
       },
       "onRenderNewData": {
         "type": {

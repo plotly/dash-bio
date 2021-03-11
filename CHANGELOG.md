@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.2] - 2021-03-10
+### Fixed
+* [#545](https://github.com/plotly/dash-bio/pull/545) `sideByside` prop fix for NglMoleculeViewer when `ALL` chains are visualized.
+### Added
+* [#546](https://github.com/plotly/dash-bio/pull/546) Added shapes and isosurfaces props to 3dMoleculeViewer to enable rendering additional features on the molecule.
+
 ## [0.6.1] - 2021-02-15
 ### Fixed
 * [#544](https://github.com/plotly/dash-bio/pull/544) Miscellaneous fixes for NglMoleculeViewer component.
