@@ -87,17 +87,19 @@ Molecule3dViewer.propTypes = {
     /**
      * Labels corresponding to the atoms of the molecule
      */
-    labels: PropTypes.arrayOf(PropTypes.exact({
-        /**
-         * The label content
-         */
-        text: PropTypes.string,
+    labels: PropTypes.arrayOf(
+        PropTypes.exact({
+            /**
+             * The label content
+             */
+            text: PropTypes.string,
 
-        /**
-         * Additional styling options. See https://dash.plotly.com/dash-bio/molecule3dviewer for details
-         */
-        parameters: PropTypes.object
-    })),
+            /**
+             * Additional styling options. See https://dash.plotly.com/dash-bio/molecule3dviewer for details
+             */
+            parameters: PropTypes.object,
+        })
+    ),
 
     /**
      * Add an isosurface from volumetric data provided in the `cube_file`
