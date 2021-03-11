@@ -202,7 +202,24 @@ export default class NglMoleculeViewer extends Component {
         stage.viewerControls.orient(orientationMatrix);
 
         if (chain === 'ALL') {
-            this.addMolStyle(stageObj, sele, chosen, color);
+            if (sideByside === true) {
+                const selection = new Selection(sele);
+                const structure = stageObj.structure.getView(selection);
+                struc = stage.addComponentFromObject(structure);
+
+                const strucCenter = struc.getCenter();
+                const pa = structure.getPrincipalAxes();
+
+                struc.setRotation(pa.getRotationQuaternion());
+                struc.setPosition([
+                    0 - strucCenter.x - xOffset,
+                    0 - strucCenter.y,
+                    0 - strucCenter.z,
+                ]);
+                this.addMolStyle(struc, sele, chosen, color);
+            } else {
+                this.addMolStyle(stageObj, sele, chosen, color);
+            }
         } else {
             sele += chain;
             if (aaRange !== 'ALL') {
