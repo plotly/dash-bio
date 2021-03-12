@@ -88,16 +88,14 @@ Molecule3dViewer.propTypes = {
      * Labels corresponding to the atoms of the molecule
      */
     labels: PropTypes.arrayOf(
-        PropTypes.exact({
+        PropTypes.shape({
             /**
              * The label content
              */
             text: PropTypes.string,
-
             /**
-             * Additional styling options. See https://dash.plotly.com/dash-bio/molecule3dviewer for details
+             * For additional styling keys, see https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec
              */
-            parameters: PropTypes.object,
         })
     ),
 

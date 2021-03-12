@@ -1712,16 +1712,11 @@
         "type": {
           "name": "arrayOf",
           "value": {
-            "name": "exact",
+            "name": "shape",
             "value": {
               "text": {
                 "name": "string",
                 "description": "The label content",
-                "required": false
-              },
-              "parameters": {
-                "name": "object",
-                "description": "Additional styling options. See https://dash.plotly.com/dash-bio/molecule3dviewer for details",
                 "required": false
               }
             }

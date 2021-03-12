@@ -29,10 +29,9 @@ Those keys have the following types:
   - bonds (list; optional)
 - atomLabelsShown (boolean; optional): Property to either show or hide labels
 - selectedAtomIds (list; optional): Property that stores a list of all selected atoms
-- labels (dict; optional): Labels corresponding to the atoms of the molecule. labels has the following type: list of dicts containing keys 'text', 'parameters'.
+- labels (dict; optional): Labels corresponding to the atoms of the molecule. labels has the following type: list of dicts containing keys 'text'.
 Those keys have the following types:
   - text (string; optional): The label content
-  - parameters (dict; optional): Additional styling options. See https://dash.plotly.com/dash-bio/molecule3dviewer for details
 - orbital (dict; optional): Add an isosurface from volumetric data provided in the `cube_file`. orbital has the following type: dict containing keys 'cube_file', 'iso_val', 'opacity', 'positiveVolumetricColor', 'negativeVolumetricColor'.
 Those keys have the following types:
   - cube_file (string; optional): The filepath containing raw volumetric data for vertex coloring

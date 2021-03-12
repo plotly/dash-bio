@@ -43,10 +43,9 @@ and should have two main dictionaries - atoms, bonds}
 
 \item{selectedAtomIds}{Unnamed list. Property that stores a list of all selected atoms}
 
-\item{labels}{List of lists containing elements 'text', 'parameters'.
+\item{labels}{List of lists containing elements 'text'.
 those elements have the following types:
-  - text (character; optional): the label content
-  - parameters (named list; optional): additional styling options. see https://dash.plotly.com/dash-bio/molecule3dviewer for detailss. Labels corresponding to the atoms of the molecule}
+  - text (character; optional): the label contents. Labels corresponding to the atoms of the molecule}
 
 \item{orbital}{Lists containing elements 'cube_file', 'iso_val', 'opacity', 'positivevolumetriccolor', 'negativevolumetriccolor'.
 those elements have the following types:
