@@ -43,9 +43,10 @@ and should have two main dictionaries - atoms, bonds}
 
 \item{selectedAtomIds}{Unnamed list. Property that stores a list of all selected atoms}
 
-\item{labels}{List of lists containing elements 'text'.
-those elements have the following types:
-  - text (character; optional): the label contents. Labels corresponding to the atoms of the molecule}
+\item{labels}{List of named lists. Labels corresponding to the atoms of the molecule.
+Each label has a `text` field, a string containing the label content,
+and can have many other styling fields as described in
+https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec}
 
 \item{orbital}{Lists containing elements 'cube_file', 'iso_val', 'opacity', 'positivevolumetriccolor', 'negativevolumetriccolor'.
 those elements have the following types:

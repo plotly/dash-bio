@@ -1712,18 +1712,11 @@
         "type": {
           "name": "arrayOf",
           "value": {
-            "name": "shape",
-            "value": {
-              "text": {
-                "name": "string",
-                "description": "The label content",
-                "required": false
-              }
-            }
+            "name": "object"
           }
         },
         "required": false,
-        "description": "Labels corresponding to the atoms of the molecule"
+        "description": "Labels corresponding to the atoms of the molecule.\nEach label has a `text` field, a string containing the label content,\nand can have many other styling fields as described in\nhttps://3dmol.csb.pitt.edu/doc/types.html#LabelSpec"
       },
       "orbital": {
         "type": {

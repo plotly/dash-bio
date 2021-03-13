@@ -20,6 +20,13 @@ export default class NglMoleculeViewer extends Component {
             orientationMatrix: null,
             structuresList: [],
         };
+        this.highlightAtoms = this.highlightAtoms.bind(this);
+        this.addMolStyle = this.addMolStyle.bind(this);
+        this.addMolSideBySide = this.addMolSideBySide.bind(this);
+        this.showStructure = this.showStructure.bind(this);
+        this.processDataFromBackend = this.processDataFromBackend.bind(this);
+        this.loadData = this.loadData.bind(this);
+        this.generateImage = this.generateImage.bind(this);
         this.ref = React.createRef();
     }
 
