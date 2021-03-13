@@ -85,19 +85,12 @@ Molecule3dViewer.propTypes = {
     selectedAtomIds: PropTypes.array,
 
     /**
-     * Labels corresponding to the atoms of the molecule
+     * Labels corresponding to the atoms of the molecule.
+     * Each label has a `text` field, a string containing the label content,
+     * and can have many other styling fields as described in
+     * https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec
      */
-    labels: PropTypes.arrayOf(
-        PropTypes.shape({
-            /**
-             * The label content
-             */
-            text: PropTypes.string,
-            /**
-             * For additional styling keys, see https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec
-             */
-        })
-    ),
+    labels: PropTypes.arrayOf(PropTypes.object),
 
     /**
      * Add an isosurface from volumetric data provided in the `cube_file`
