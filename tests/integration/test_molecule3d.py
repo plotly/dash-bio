@@ -113,7 +113,7 @@ def test_dbm3004_labels(dash_duo):
             labels=[
                 {"text": "first_text", "fontColor": "red"},
                 {"text": "second_text", "backgroundColor": "blue", "position": {"x": 10, "y": -10,
-                                                                            "z": 0}}
+                                                                                "z": 0}}
             ]
         )
     ))
