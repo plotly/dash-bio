@@ -127,4 +127,8 @@ def test_dbm3004_labels(dash_duo):
         take_snapshot=True
     )
 
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
     dash_duo.percy_snapshot('test-mol3d_labels')
+
+    assert not dash_duo.get_logs()
