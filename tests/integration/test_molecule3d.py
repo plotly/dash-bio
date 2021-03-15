@@ -111,13 +111,12 @@ def test_dbm3004_labels(dash_duo):
             modelData=_model_data,
             styles=_styles_data,
             labels=[
-            {"text": "first_text", "fontColor": "red"},
-            {"text": "second_text", "backgroundColor": "blue", "position": {"x": 10, "y": -10,
+                {"text": "first_text", "fontColor": "red"},
+                {"text": "second_text", "backgroundColor": "blue", "position": {"x": 10, "y": -10,
                                                                             "z": 0}}
-        ]
+            ]
         )
     ))
-
 
     dash_duo.start_server(app, dev_tools_props_check=True)
 
