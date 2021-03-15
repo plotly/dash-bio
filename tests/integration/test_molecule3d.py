@@ -109,25 +109,19 @@ def test_dbm3004_labels(dash_duo):
         dash_bio.Molecule3dViewer(
             id=_COMPONENT_ID,
             modelData=_model_data,
-            styles=_styles_data
-        )
-    ))
-
-    simple_app_callback(
-        app,
-        dash_duo,
-        component_id=_COMPONENT_ID,
-        test_prop_name='labels',
-        test_prop_value=[
+            styles=_styles_data,
+            labels=[
             {"text": "first_text", "fontColor": "red"},
             {"text": "second_text", "backgroundColor": "blue", "position": {"x": 10, "y": -10,
                                                                             "z": 0}}
-        ],
-        prop_value_type='list',
-        take_snapshot=True
-    )
+        ]
+        )
+    ))
+
 
     dash_duo.start_server(app, dev_tools_props_check=True)
+
+    dash_duo.wait_for_element('#' + _COMPONENT_ID)
 
     dash_duo.percy_snapshot('test-mol3d_labels')
 
