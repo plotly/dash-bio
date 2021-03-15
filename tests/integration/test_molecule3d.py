@@ -120,7 +120,8 @@ def test_dbm3004_labels(dash_duo):
         test_prop_name='labels',
         test_prop_value=[
             {"text": "first_text", "fontColor": "red"},
-            {"text": "second_text", "backgroundColor": "blue", "position": {"x":10, "y": -10, "z": 0}}
+            {"text": "second_text", "backgroundColor": "blue", "position": {"x": 10, "y": -10,
+                                                                            "z": 0}}
         ],
         prop_value_type='list',
         take_snapshot=True
