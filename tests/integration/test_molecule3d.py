@@ -99,3 +99,31 @@ def test_dbm3003_selected_atom_ids(dash_duo):
         validation_fn=lambda x: json.dumps(x) == json.dumps([1306, 1371, 1339, 1404]),
         take_snapshot=True
     )
+
+
+def test_dbm3004_labels(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='labels',
+        test_prop_value=[
+            {"text": "first_text", "fontColor": "red"},
+            {"text": "second_text", "backgroundColor": "blue", "position": {"x":10, "y": -10, "z": 0}}
+        ],
+        prop_value_type='list',
+        take_snapshot=True
+    )
+
+    dash_duo.percy_snapshot('test-mol3d_labels')
