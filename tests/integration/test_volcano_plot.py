@@ -101,7 +101,7 @@ def test_dbvp004_genomewideline_value(dash_duo):
         component=dash_bio.VolcanoPlot,
         component_data=_data,
         test_prop_name='genomewideline_value',
-        test_prop_value=3,
+        test_prop_value=4,
         prop_value_type='int',
         data_prop_name='dataframe',
         take_snapshot=True

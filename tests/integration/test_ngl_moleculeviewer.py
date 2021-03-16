@@ -568,7 +568,7 @@ def test_dbn_015_rotate_stage(dash_duo):
 
 def test_dbn_016_reset_stageView(dash_duo):
 
-    test_value = "6CHG.A_3K8P.D"
+    test_value = "6CHG.A_3K8P.C"
 
     app = dash.Dash(__name__)
 
@@ -587,7 +587,7 @@ def test_dbn_016_reset_stageView(dash_duo):
 
 def test_dbn_017_download_image(dash_duo):
 
-    test_value = "6CHG.A_3K8P.D"
+    test_value = "6CHG.A_3K8P.C"
 
     app = dash.Dash(__name__)
 
