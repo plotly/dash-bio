@@ -3,7 +3,7 @@ version: 2
 jobs:
     percy-finalize:
         docker:
-        - image: percyio/agent
+            - image: percyio/agent
               auth:
                 username: dashautomation
                 password: $DASH_PAT_DOCKERHUB
