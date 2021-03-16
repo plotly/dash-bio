@@ -587,7 +587,7 @@ def test_dbn_016_reset_stageView(dash_duo):
 
 def test_dbn_017_download_image(dash_duo):
 
-    test_value = "6CHG.A_3K8P.C"
+    test_value = "6CHG.A_3K8P"
 
     app = dash.Dash(__name__)
 
