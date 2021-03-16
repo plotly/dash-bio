@@ -113,14 +113,14 @@ jobs:
                     python setup.py sdist
                     cd dist
                     find . -name "*.gz" | xargs pip install --progress-bar off --no-cache-dir --ignore-installed --quiet && cd ..
-                    pytest tests/integration
+                    pytest --nopercyfinalize tests/integration
 
             - run:
                 name: Run unit tests
                 command: |
                     python -m venv venv
                     . venv/bin/activate
-                    pytest tests/unit
+                    pytest --nopercyfinalize tests/unit
 
     python-3.7:
         <<: *test-template
