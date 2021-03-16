@@ -5,10 +5,10 @@ jobs:
         docker:
         - image: percyio/agent
             auth:
-            username: dashautomation
-            password: $DASH_PAT_DOCKERHUB
+                username: dashautomation
+                password: $DASH_PAT_DOCKERHUB
         steps:
-        - run: percy finalize --all
+            - run: percy finalize --all
 
     node:
         docker:
