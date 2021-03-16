@@ -67,6 +67,7 @@ jobs:
                 password: $DASH_PAT_DOCKERHUB
         environment:
             PERCY_ENABLED: False
+            PERCY_PARALLEL_TOTAL=-1
 
         steps:
             - checkout
@@ -129,7 +130,7 @@ jobs:
                 command: |
                     python -m venv venv
                     . venv/bin/activate
-                    pytest --nopercy finalize tests/unit
+                    pytest tests/unit
 
     python-3.7:
         <<: *test-template
@@ -140,6 +141,7 @@ jobs:
                 password: $DASH_PAT_DOCKERHUB
         environment:
             PERCY_ENABLED: True
+            PERCY_PARALLEL_TOTAL: -1
 
 workflows:
   version: 2
