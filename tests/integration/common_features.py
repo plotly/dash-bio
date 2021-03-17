@@ -9,6 +9,8 @@ import time
 PASS = 'passed'
 FAIL = 'failed'
 
+def generate_identifier():
+    return str(time.time())[-4:]
 
 def process_value(
         value,
@@ -187,7 +189,7 @@ def _start_app_server(
 
     dash_duo.wait_for_element('#passfail')
 
-    identifier = str(time.time())[-4:]
+    identifier = generate_identifier()
 
     if take_snapshot:
         dash_duo.percy_snapshot(f'{component_id}_{test_prop_name}_{test_prop_value}_{identifier}')
