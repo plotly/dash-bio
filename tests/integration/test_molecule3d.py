@@ -3,6 +3,7 @@ import json
 from selenium.webdriver.common.action_chains import ActionChains
 
 import dash
+from dash.dependencies import Input, Output
 import dash_html_components as html
 from dash_bio_utils import pdb_parser as parser, styles_parser as sparser
 import dash_bio
@@ -111,7 +112,7 @@ def test_dbm3004_labels(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(simple_app_layout(
+    app.layout = html.Div([
         dash_bio.Molecule3dViewer(
             id=_COMPONENT_ID,
             modelData=_model_data,
@@ -121,14 +122,23 @@ def test_dbm3004_labels(dash_duo):
                 {"text": "second_text", "backgroundColor": "blue", "position": {"x": 10, "y": -10,
                                                                                 "z": 0}}
             ]
-        )
-    ))
+        ),
+        html.Div(id="labels-output")
+    ])
+
+    @app.callback(
+        Output(component_id='labels-output', component_property='children'),
+        Input(component_id=_COMPONENT_ID, component_property='labels')
+    )
+    def update_output_div(labels):
+
+        return labels[0]['text']
 
     dash_duo.start_server(app, dev_tools_props_check=True)
 
     dash_duo.wait_for_element('#' + _COMPONENT_ID)
 
-    dash_duo.implicitly_wait(5)
+    dash_duo.wait_for_text_to_equal('#labels-output', 'first_text')
 
     dash_duo.percy_snapshot('test-mol3d_labels')
 
