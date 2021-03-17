@@ -131,7 +131,6 @@ def test_dbm3004_labels(dash_duo):
         Input(component_id=_COMPONENT_ID, component_property='labels')
     )
     def update_output_div(labels):
-
         return labels[0]['text']
 
     dash_duo.start_server(app, dev_tools_props_check=True)
