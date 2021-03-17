@@ -128,7 +128,7 @@ def test_dbm3004_labels(dash_duo):
 
     dash_duo.wait_for_element('#' + _COMPONENT_ID)
 
-    dash_duo.wait_for_element_by_css_selector('.molecule-3d')
+    dash_duo.implicitly_wait(5)
 
     dash_duo.percy_snapshot('test-mol3d_labels')
 
