@@ -12,6 +12,7 @@ FAIL = 'failed'
 def generate_identifier():
     return str(time.time())[-4:]
 
+
 def process_value(
         value,
         data_type,
