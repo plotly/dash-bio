@@ -222,14 +222,15 @@ def test_dbsv004_coverage_clicked(dash_duo):
     coverage_1 = dash_duo.find_element(
         '.sequenceBody .fastaSeq span:nth-child(1)'
     )
+
     coverage_1.click()
-    assert output_div.get_attribute('innerHTML') == str(0)
+    dash_duo.wait_for_text_to_equal('#interaction-results', '0')
 
     coverage_2 = dash_duo.find_element(
         '.sequenceBody .fastaSeq span:nth-child(3)'
     )
     coverage_2.click()
-    assert output_div.get_attribute('innerHTML') == str(1)
+    dash_duo.wait_for_text_to_equal('#interaction-results', '1')
 
 
 def test_dbsv005_mouse_selection(dash_duo):
