@@ -217,8 +217,6 @@ def test_dbsv004_coverage_clicked(dash_duo):
         prop_name='coverageClicked'
     )
 
-    output_div = dash_duo.find_element('#interaction-results')
-
     coverage_1 = dash_duo.find_element(
         '.sequenceBody .fastaSeq span:nth-child(1)'
     )
