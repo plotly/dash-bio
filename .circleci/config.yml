@@ -140,7 +140,6 @@ jobs:
                 password: $DASH_PAT_DOCKERHUB
         environment:
             PERCY_ENABLED: True
-            PERCY_PARALLEL_TOTAL: -1
 
 workflows:
   version: 2
