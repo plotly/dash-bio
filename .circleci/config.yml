@@ -66,8 +66,7 @@ jobs:
                 username: dashautomation
                 password: $DASH_PAT_DOCKERHUB
         environment:
-            PERCY_ENABLED: True
-            PERCY_PARALLEL_TOTAL: -1
+            PERCY_ENABLED: False
 
         steps:
             - checkout
@@ -140,7 +139,7 @@ jobs:
                 username: dashautomation
                 password: $DASH_PAT_DOCKERHUB
         environment:
-            PERCY_ENABLED: False
+            PERCY_ENABLED: True
             PERCY_PARALLEL_TOTAL: -1
 
 workflows:
