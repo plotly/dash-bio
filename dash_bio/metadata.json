@@ -2290,7 +2290,7 @@
     }
   },
   "src/lib/components/Pileup.react.js": {
-    "description": "The Pileup component is an genome visualization component\ndeveloped by the the Hammerlab. It uses an\nexample integration of pileup.js and React (https://www.npmjs.com/package/pileup).",
+    "description": "The Pileup component is a genome visualization component\ndeveloped by the the Hammerlab. It uses an\nexample integration of pileup.js and React (https://www.npmjs.com/package/pileup).",
     "displayName": "Pileup",
     "methods": [],
     "props": {
@@ -2324,7 +2324,7 @@
       },
       "range": {
         "type": {
-          "name": "shape",
+          "name": "exact",
           "value": {
             "contig": {
               "name": "string",

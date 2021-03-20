@@ -2,6 +2,10 @@
     background-color: #34AD99 !important;
 }
 
+.pileup-root {
+   padding: 20px;
+}
+
 /* pileup track */
 .pileup-root > .pileup, .pileup-root > .genotypes {
   flex: 1;  /* stretch to fill remaining space */

@@ -5,7 +5,7 @@ from dash.development.base_component import Component, _explicitize_args
 
 class Pileup(Component):
     """A Pileup component.
-The Pileup component is an genome visualization component
+The Pileup component is a genome visualization component
 developed by the the Hammerlab. It uses an
 example integration of pileup.js and React (https://www.npmjs.com/package/pileup).
 

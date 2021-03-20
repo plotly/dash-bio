@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {propTypes, defaultProps} from '../components/Pileup.react';
 import pileup from 'pileup';
+import {isNil} from 'ramda';
 
 import '../../../node_modules/pileup/style/pileup.css';
 
@@ -14,6 +15,8 @@ export default class Pileup extends Component {
         super(props);
         this.ref = React.createRef();
         this.pileup = null;
+
+        this.parseTracks = this.parseTracks.bind(this);
     }
 
     parseTracks(reference, tracks) {
@@ -53,15 +56,13 @@ export default class Pileup extends Component {
     }
 
     createPileupBrowser() {
-        // var pileupContainer = this.ref.current;
         var pileupOptions = {
             range: this.props.range,
             tracks: this.parseTracks(this.props.reference, this.props.tracks),
         };
-        if (this.pileup !== null) {
+        if (!isNil(this.pileup)) {
             // destroy pileup if it currently exists
-            var pileupDidUnmount = this.pileup.destroy();
-            console.log('did unmount?', pileupDidUnmount);
+            this.pileup.destroy();
         }
         this.pileup = pileup.create(this.ref.current, pileupOptions);
     }

@@ -5,7 +5,7 @@ import {PILEUP_VIZ_TYPES, PILEUP_SOURCE_TYPES} from '../constants/tracks';
 
 const RealPileup = lazy(LazyLoader.pileup);
 /**
- * The Pileup component is an genome visualization component
+ * The Pileup component is a genome visualization component
  * developed by the the Hammerlab. It uses an
  * example integration of pileup.js and React (https://www.npmjs.com/package/pileup).
  */
@@ -48,7 +48,7 @@ Pileup.propTypes = {
     Object defining genomic location.
     Of the format: {contig: 'chr17', start: 7512384, stop: 7512544}
     */
-    range: PropTypes.shape({
+    range: PropTypes.exact({
         /**
          * Name of contig to display. (ie. chr17)
          */
