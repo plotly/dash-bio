@@ -55,7 +55,8 @@ def test_dbm3001_selection_type(dash_duo):
 
     dash_duo.wait_for_element_by_css_selector('.molecule-3d')
 
-    dash_duo.percy_snapshot('test-mol3d_selectionType_chain' + generate_identifier())
+    dash_duo.percy_snapshot('test-mol3d_selectionType_chain' + generate_identifier(),
+                            convert_canvases=True)
 
 
 def test_dbm3002_rotate(dash_duo):
@@ -79,7 +80,7 @@ def test_dbm3002_rotate(dash_duo):
     ac = ActionChains(dash_duo.driver)
     ac.drag_and_drop_by_offset(mol3d, 100, 50).perform()
 
-    dash_duo.percy_snapshot('test-mol3d_rotate' + generate_identifier())
+    dash_duo.percy_snapshot('test-mol3d_rotate' + generate_identifier(), convert_canvases=True)
 
 
 def test_dbm3003_selected_atom_ids(dash_duo):
@@ -139,6 +140,6 @@ def test_dbm3004_labels(dash_duo):
 
     dash_duo.wait_for_text_to_equal('#labels-output', 'first_text')
 
-    dash_duo.percy_snapshot('test-mol3d_labels' + generate_identifier())
+    dash_duo.percy_snapshot('test-mol3d_labels' + generate_identifier(), convert_canvases=True)
 
     assert not dash_duo.get_logs()

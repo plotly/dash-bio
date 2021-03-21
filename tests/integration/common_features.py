@@ -194,7 +194,8 @@ def _start_app_server(
     identifier = generate_identifier()
 
     if take_snapshot:
-        dash_duo.percy_snapshot(f'{component_id}_{test_prop_name}_{test_prop_value}_{identifier}')
+        dash_duo.percy_snapshot(f'{component_id}_{test_prop_name}_{test_prop_value}_{identifier}',
+                                convert_canvases=True)
 
     assert dash_duo.find_element('#passfail').text == PASS
 

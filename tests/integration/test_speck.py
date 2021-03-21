@@ -38,7 +38,7 @@ def test_dbsp001_rotate(dash_duo):
     ac.move_to_element(speck).drag_and_drop_by_offset(
         speck, 150, 200).perform()
 
-    dash_duo.percy_snapshot('test-speck_rotate' + generate_identifier())
+    dash_duo.percy_snapshot('test-speck_rotate' + generate_identifier(), convert_canvases=True)
 
 
 def test_dbsp002_click_and_drag(dash_duo):
@@ -60,7 +60,8 @@ def test_dbsp002_click_and_drag(dash_duo):
     ac.move_to_element(speck).key_down(Keys.SHIFT).drag_and_drop_by_offset(
         speck, -50, 100).key_up(Keys.SHIFT).perform()
 
-    dash_duo.percy_snapshot('test-speck_click_and_drag' + generate_identifier())
+    dash_duo.percy_snapshot('test-speck_click_and_drag' + generate_identifier(),
+                            convert_canvases=True)
 
 
 def test_dbsp003_preset_view_licorice(dash_duo):
