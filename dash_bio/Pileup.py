@@ -27,10 +27,12 @@ Those keys have the following types:
          https://genome.ucsc.edu/goldenPath/help/twoBit.html
   - stop (number; optional): Stop location to display
 - tracks (dict; optional): Array of configuration objects defining tracks initially displayed when app launches.
-    see https://github.com/hammerlab/pileup.js#usage. tracks has the following type: list of dicts containing keys 'viz', 'label', 'source', 'sourceOptions'.
+    see https://github.com/hammerlab/pileup.js#usage. tracks has the following type: list of dicts containing keys 'viz', 'vizOptions', 'label', 'source', 'sourceOptions'.
 Those keys have the following types:
   - viz (optional): Name of visualization.
             (ie coverage, genome, genes, etc.)
+  - vizOptions (optional): Options that define viz defails.
+            Options depend on the viz type selected.
   - label (string; optional): Label to display by track
   - source (optional): Data source to visualize.
             (ie bam, vcf, alignmentJson, GAVariant, etc.)

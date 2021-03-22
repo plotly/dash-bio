@@ -140,3 +140,82 @@ def test_dbpileup002_json(dash_duo):
     # gear and track name should be printed
     assert pileup_label in tracks[0].text
     assert _GEAR_ICON in tracks[0].text
+
+def test_dbpileup003_viz_options(dash_duo):
+    app = dash.Dash(__name__)
+
+    TWOBIT_URL = os.path.join(app.get_asset_url(''), "pileup", "chr17_little.2bit")
+
+    # read in JSON as string: local file
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    file = os.path.join(dir_path, "assets", "pileup", "alignments.ga4gh.chr17.1-250.json")
+
+    with open(file, "r") as f:
+        json = re.sub('\s+','',f.read())
+
+    pileup_label = 'bam file in GA4GH json'
+    tracks=[
+        {'viz': 'pileup',
+            'vizOptions': { 'viewAsPairs': True },
+            'label': pileup_label,
+            'source': 'alignmentJson',
+            'sourceOptions': json
+        }]
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Pileup(
+            id=_COMPONENT_ID,
+            range={"contig": 'chr17', "start": 7512284, "stop": 7512644},
+            reference = {"label": _GENOME, "url": TWOBIT_URL},
+            tracks=tracks
+        ),
+    ))
+
+    dash_duo.start_server(app)
+
+    # Check that the genome loaded
+    dash_duo.wait_for_text_to_equal('.reference>.track-label', _GENOME)
+
+    # Check that reference track loaded
+    tracks = dash_duo.find_elements('.reference')
+    assert len(tracks) == 1 # track-label and track-content
+    assert tracks[0].text == _GENOME
+
+    # Check that pileup track loaded
+    tracks = dash_duo.find_elements('.pileup')
+    assert len(tracks) == 1 # track-label and track-content
+    # gear and track name should be printed
+    assert pileup_label in tracks[0].text
+    assert _GEAR_ICON in tracks[0].text
+
+    # show option menu
+    gear = dash_duo.find_elements('.gear')[0]
+    gear.click()
+
+    # make sure option menu has viewAsPairs checked
+    checks = dash_duo.find_elements('.checked')
+    # View as pairs and Color by insert should be checked
+    assert len(checks) == 2
+
+def test_dbpileup004_no_tracks(dash_duo):
+    app = dash.Dash(__name__)
+
+    TWOBIT_URL = os.path.join(app.get_asset_url(''), "pileup", "chr17_little.2bit")
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Pileup(
+            id=_COMPONENT_ID,
+            range={"contig": 'chr17', "start": 7512284, "stop": 7512644},
+            reference = {"label": _GENOME, "url": TWOBIT_URL}
+        ),
+    ))
+
+    dash_duo.start_server(app)
+
+    # Check that the genome loaded
+    dash_duo.wait_for_text_to_equal('.reference>.track-label', _GENOME)
+
+    # Check that reference track loaded
+    tracks = dash_duo.find_elements('.reference')
+    assert len(tracks) == 1 # track-label and track-content
+    assert tracks[0].text == _GENOME

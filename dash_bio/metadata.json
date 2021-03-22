@@ -2383,6 +2383,12 @@
                 "description": "Name of visualization.\n            (ie coverage, genome, genes, etc.)",
                 "required": false
               },
+              "vizOptions": {
+                "name": "custom",
+                "raw": "PropTypes.Object",
+                "description": "Options that define viz defails.\n            Options depend on the viz type selected.",
+                "required": false
+              },
               "label": {
                 "name": "string",
                 "description": "Label to display by track",

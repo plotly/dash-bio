@@ -99,6 +99,12 @@ Pileup.propTypes = {
             viz: PropTypes.oneOf(PILEUP_VIZ_TYPES),
 
             /**
+             * Options that define viz defails.
+            Options depend on the viz type selected.
+             */
+            vizOptions: PropTypes.Object,
+
+            /**
              * Label to display by track
              */
             label: PropTypes.string,

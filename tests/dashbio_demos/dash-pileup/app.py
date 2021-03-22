@@ -77,6 +77,7 @@ rna_differential = {
             },
             {
                 'viz':'pileup',
+                'vizOptions': { 'viewAsPairs': True},
                 'label': 'Basal Mouse cells',
                 'source': 'bam',
                 'sourceOptions': basal_bam,

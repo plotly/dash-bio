@@ -32,26 +32,32 @@ export default class Pileup extends Component {
         // make list of pileup sources
         var sources = [referenceTrack];
 
-        // add in optional tracks
-        for (var i = 0; i < tracks.length; i++) {
-            var track = tracks[i];
+        if (!isNil(tracks)) {
+            // add in optional tracks
+            for (var i = 0; i < tracks.length; i++) {
+                var track = tracks[i];
 
-            var newTrack = {
-                viz: pileup.viz[track.viz](),
-                isReference: false,
-                data: null,
-                name: track.label,
-            };
+                var newTrack = {
+                    viz: pileup.viz[track.viz](track.vizOptions),
+                    isReference: false,
+                    data: null,
+                    name: track.label,
+                };
 
-            // Make sure source exists and it is a valid pileup format
-            // Source may not exist for scale or location tracks
-            if (('source' in track) & (pileup.formats[track.source] !== null)) {
-                newTrack.data = pileup.formats[track.source](
-                    track.sourceOptions
-                );
+                // Make sure source exists and it is a valid pileup format
+                // Source may not exist for scale or location tracks
+                if (
+                    ('source' in track) &
+                    (pileup.formats[track.source] !== null)
+                ) {
+                    newTrack.data = pileup.formats[track.source](
+                        track.sourceOptions
+                    );
+                }
+                sources.push(newTrack);
             }
-            sources.push(newTrack);
         }
+
         return sources;
     }
 
