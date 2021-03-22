@@ -26,7 +26,10 @@ def test_dbsp001_rotate(dash_duo):
     app.layout = html.Div(
         dash_bio.Speck(
             id=_COMPONENT_ID,
-            data=_data
+            data=_data,
+            view={
+                "brightness": 0
+            }
         )
     )
 
@@ -149,7 +152,8 @@ def test_dbsp006_custom_view(dash_duo):
         'atomScale': 0.15,
         'relativeAtomScale': 0.51,
         'bonds': True,
-        'bondScale': 0.75
+        'bondScale': 0.75,
+        'brightness': 0
     }
 
     simple_app_callback(
