@@ -6,10 +6,7 @@ from dash.dependencies import Input, Output, State
 import dash_daq as daq
 import dash_bio
 
-try:
-    from layout_helper import run_standalone_app
-except ModuleNotFoundError:
-    from .layout_helper import run_standalone_app
+from layout_helper import run_standalone_app
 
 
 text_style = {
@@ -100,7 +97,7 @@ def header_colors():
 def layout():
     return html.Div(id='oncoprint-body', className='app-body', children=[
 
-        dcc.Loading(className='dashbio-loading', children=dash_bio.OncoPrint(
+        dcc.Loading(parent_className='dashbio-loading', children=dash_bio.OncoPrint(
             id='oncoprint-chart',
             height=550,
             data=[]
@@ -393,10 +390,8 @@ def callbacks(_app):
         return data[COLORSCALE_KEY]
 
 
-# only declare app/server if the file is being run directly
-if 'DEMO_STANDALONE' not in os.environ:
-    app = run_standalone_app(layout, callbacks, header_colors, __file__)
-    server = app.server
+app = run_standalone_app(layout, callbacks, header_colors, __file__)
+server = app.server
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=8050)

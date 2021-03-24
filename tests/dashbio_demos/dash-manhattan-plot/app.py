@@ -7,11 +7,7 @@ from dash.dependencies import Input, Output
 
 import dash_bio
 
-try:
-    from layout_helper import run_standalone_app
-except ModuleNotFoundError:
-    from .layout_helper import run_standalone_app
-
+from layout_helper import run_standalone_app
 
 DATAPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 
@@ -46,7 +42,7 @@ def header_colors():
 
 def layout():
     return html.Div(id='mhp-page-content', className='app-body', children=[
-        dcc.Loading(className='dashbio-loading', children=html.Div(
+        dcc.Loading(parent_className='dashbio-loading', children=html.Div(
             id='mhp-graph-div',
             children=dcc.Graph(
                 figure=fig,
@@ -149,10 +145,8 @@ def callbacks(_app):
         )
 
 
-# only declare app/server if the file is being run directly
-if 'DEMO_STANDALONE' not in os.environ:
-    app = run_standalone_app(layout, callbacks, header_colors, __file__)
-    server = app.server
+app = run_standalone_app(layout, callbacks, header_colors, __file__)
+server = app.server
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=8050)

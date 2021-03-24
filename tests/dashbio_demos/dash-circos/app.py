@@ -12,11 +12,7 @@ import dash_table as dt
 from dash_bio_utils import circos_parser as cp
 import dash_bio
 
-try:
-    from layout_helper import run_standalone_app
-except ModuleNotFoundError:
-    from .layout_helper import run_standalone_app
-
+from layout_helper import run_standalone_app
 
 DATAPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 # Main dataset used for all graphs
@@ -908,7 +904,7 @@ upload_instructions = (
 
 def layout():
     return html.Div(id='circos-body', className='app-body', children=[
-        dcc.Loading(className='dashbio-loading', children=html.Div(
+        dcc.Loading(parent_className='dashbio-loading', children=html.Div(
             id="circos-hold",
             children=[empty]
         )),
@@ -1397,10 +1393,8 @@ def callbacks(_app):
         return contents
 
 
-# only declare app/server if the file is being run directly
-if 'DEMO_STANDALONE' not in os.environ:
-    app = run_standalone_app(layout, callbacks, header_colors, __file__)
-    server = app.server
+app = run_standalone_app(layout, callbacks, header_colors, __file__)
+server = app.server
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=8050)

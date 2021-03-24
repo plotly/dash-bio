@@ -10,11 +10,7 @@ import dash_daq as daq
 from dash_bio_utils import gene_expression_reader
 import dash_bio
 
-try:
-    from layout_helper import run_standalone_app
-except ModuleNotFoundError:
-    from .layout_helper import run_standalone_app
-
+from layout_helper import run_standalone_app
 
 DATAPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 
@@ -148,7 +144,7 @@ def layout():
 
     return html.Div(id='clustergram-body', className='app-body', children=[
 
-        dcc.Loading(className='dashbio-loading', children=html.Div(
+        dcc.Loading(parent_className='dashbio-loading', children=html.Div(
             id='clustergram-wrapper',
             children=dcc.Graph(id='clustergram', style={'display': 'none'})
         )),
@@ -892,10 +888,8 @@ def callbacks(_app):
         return current
 
 
-# only declare app/server if the file is being run directly
-if 'DEMO_STANDALONE' not in os.environ:
-    app = run_standalone_app(layout, callbacks, header_colors, __file__)
-    server = app.server
+app = run_standalone_app(layout, callbacks, header_colors, __file__)
+server = app.server
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=8050)
