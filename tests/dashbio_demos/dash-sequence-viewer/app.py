@@ -2,7 +2,6 @@ import os
 import base64
 
 from Bio.SeqUtils import seq3
-from Bio.Alphabet import generic_dna, generic_rna
 from Bio.Seq import Seq
 from Bio.Data.CodonTable import TranslationError
 from dash.dependencies import Input, Output, State
@@ -12,10 +11,7 @@ import dash_core_components as dcc
 from dash_bio_utils import protein_reader as pr
 import dash_bio
 
-try:
-    from layout_helper import run_standalone_app
-except ModuleNotFoundError:
-    from .layout_helper import run_standalone_app
+from layout_helper import run_standalone_app
 
 
 DATAPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
@@ -924,7 +920,7 @@ def callbacks(_app):
                     subsequence = subsequence[:-(len(subsequence) % 3)] \
                         if (len(subsequence) % 3) != 0 \
                         else subsequence
-                    s = Seq(subsequence, generic_dna)
+                    s = Seq(subsequence)
                     try:
                         aa_string = str(s.translate())
                     except TranslationError:
@@ -934,7 +930,7 @@ def callbacks(_app):
                     subsequence = subsequence[:-(len(subsequence) % 3)] \
                         if (len(subsequence) % 3) != 0 \
                         else subsequence
-                    s = Seq(subsequence, generic_rna)
+                    s = Seq(subsequence)
                     try:
                         aa_string = str(s.translate())
                     except TranslationError:
@@ -1066,10 +1062,8 @@ def callbacks(_app):
         return test
 
 
-# only declare app/server if the file is being run directly
-if 'DEMO_STANDALONE' not in os.environ:
-    app = run_standalone_app(layout, callbacks, header_colors, __file__)
-    server = app.server
+app = run_standalone_app(layout, callbacks, header_colors, __file__)
+server = app.server
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=8050)
