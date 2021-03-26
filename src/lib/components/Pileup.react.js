@@ -68,7 +68,7 @@ Pileup.propTypes = {
     /**
     Object defining genomic reference.
     */
-    reference: PropTypes.shape({
+    reference: PropTypes.exact({
         /**
          * Label to display by reference
          */
@@ -91,7 +91,7 @@ Pileup.propTypes = {
     see https://github.com/hammerlab/pileup.js#usage
     */
     tracks: PropTypes.arrayOf(
-        PropTypes.shape({
+        PropTypes.exact({
             /**
              * Name of visualization.
             (ie coverage, genome, genes, etc.)
@@ -99,7 +99,7 @@ Pileup.propTypes = {
             viz: PropTypes.oneOf(PILEUP_VIZ_TYPES),
 
             /**
-             * Options that define viz defails.
+             * Options that define viz details.
             Options depend on the viz type selected.
              */
             vizOptions: PropTypes.Object,

@@ -13,7 +13,7 @@ _COMPONENT_ID = 'mypileup'
 _GENOME = "hg19"
 _GEAR_ICON = '⚙'
 
-def test_dbpileup001_reference(dash_duo):
+def test_dbpu001_reference(dash_duo):
     app = dash.Dash(__name__)
 
     TWOBIT_URL = os.path.join(app.get_asset_url(''), "pileup", "chr17_little.2bit")
@@ -86,6 +86,9 @@ def test_dbpileup001_reference(dash_duo):
     assert pileup_label in tracks[0].text
     assert _GEAR_ICON in tracks[0].text
 
+    # Take a Percy snapshot to check that tracks are rendered correctly
+    dash_duo.percy_snapshot('test-pileup_reference', convert_canvases=True)
+
     # Check that feature track loaded
     tracks = dash_duo.find_elements('.features')
     assert len(tracks) == 1 # track-label and track-content
@@ -95,7 +98,7 @@ def test_dbpileup001_reference(dash_duo):
 
 
 
-def test_dbpileup002_json(dash_duo):
+def test_dbpu002_json(dash_duo):
     app = dash.Dash(__name__)
 
     TWOBIT_URL = os.path.join(app.get_asset_url(''), "pileup", "chr17_little.2bit")
@@ -141,7 +144,7 @@ def test_dbpileup002_json(dash_duo):
     assert pileup_label in tracks[0].text
     assert _GEAR_ICON in tracks[0].text
 
-def test_dbpileup003_viz_options(dash_duo):
+def test_dbpu003_viz_options(dash_duo):
     app = dash.Dash(__name__)
 
     TWOBIT_URL = os.path.join(app.get_asset_url(''), "pileup", "chr17_little.2bit")
@@ -197,7 +200,7 @@ def test_dbpileup003_viz_options(dash_duo):
     # View as pairs and Color by insert should be checked
     assert len(checks) == 2
 
-def test_dbpileup004_no_tracks(dash_duo):
+def test_dbpu004_no_tracks(dash_duo):
     app = dash.Dash(__name__)
 
     TWOBIT_URL = os.path.join(app.get_asset_url(''), "pileup", "chr17_little.2bit")
