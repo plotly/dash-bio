@@ -33,6 +33,7 @@ def header_colors():
         'font_color': 'white',
     }
 
+
 # Layout of the app
 def layout():
     return html.Div(id='sample-body', className='app-body', children=[
@@ -84,6 +85,7 @@ def layout():
 
         dcc.Store(id='sample-data-store'),
     ])
+
 
 # Returns callbacks for the app
 def callbacks(_app):
