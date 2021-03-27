@@ -224,20 +224,20 @@ remote add [app name]-test [deployment server git URL]`.
 `dash-bio` repo* !
 
 #### Step 3: Push to the playground server
-Run `git subtree push --prefix tests/dashbio_demos/[app name]-test plotly master`. This will deploy the app on the playground server. Check that it works by visiting the URL that is displayed in the console. Try out a few of the callbacks to make
+Run `git subtree push --prefix tests/dashbio_demos/[app directory] [app name]-test master`. This will deploy the app on the playground server. Check that it works by visiting the URL that is displayed in the console. Try out a few of the callbacks to make
 sure that they are working.
 
 #### Step 4: Initialize the app on the dash-gallery server and push to it 
 Log into the `developers` account on
 [dash-gallery.plotly.host](dash-gallery.plotly.host) and follow the same
 instructions as in Step 1, but give this remote a different name
-(e.g., by running `git remote add gallery [deployment server git
-URL]`). Then, run `git push gallery master`.
+(e.g. by running `git remote add gallery [deployment server git
+URL]`). Then, run `git subtree push --prefix tests/dashbio_demos/[app directory] gallery master`.
 
 #### Step 5: Undo the app-specific commit 
 Run `git log` to find the ID of the commit prior to the one that you
 just made to change the `Procfile`. Then, reset your local branch to
-this commit so that the `index.py` app still deploys and runs
+this commit so that the `app.py` app still deploys and runs
 normally. You can do this by running `git reset --hard [commit ID]`.
 
 #### Step 6: Ensure that your branch is even with `master` 
