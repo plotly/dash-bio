@@ -3,7 +3,7 @@ import {propTypes, defaultProps} from '../components/Pileup.react';
 import pileup from 'pileup';
 import {isNil} from 'ramda';
 
-import '../../../node_modules/pileup/style/pileup.css';
+import 'pileup/style/pileup.css';
 
 /**
  * The Pileup component is an genome visualization component
@@ -17,6 +17,7 @@ export default class Pileup extends Component {
         this.pileup = null;
 
         this.parseTracks = this.parseTracks.bind(this);
+        this.createPileupBrowser = this.createPileupBrowser.bind(this);
     }
 
     parseTracks(reference, tracks) {
