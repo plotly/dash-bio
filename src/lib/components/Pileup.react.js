@@ -79,22 +79,19 @@ Pileup.propTypes = {
          https://genome.ucsc.edu/goldenPath/help/twoBit.html
          */
         url: PropTypes.string,
-
-        /**
-         * Stop location to display
-         */
-        stop: PropTypes.number,
     }),
 
     /**
     Array of configuration objects defining tracks initially displayed when app launches.
-    see https://github.com/hammerlab/pileup.js#usage
+    See https://github.com/hammerlab/pileup.js#usage
     */
     tracks: PropTypes.arrayOf(
         PropTypes.exact({
             /**
-             * Name of visualization.
-            (ie coverage, genome, genes, etc.)
+             * Name of visualization. Must be one of
+            (coverage, genome, genes, features, idiogram, location, scale,
+            variants, genotypes, or pileup)
+            See https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js
              */
             viz: PropTypes.oneOf(PILEUP_VIZ_TYPES),
 
@@ -110,8 +107,10 @@ Pileup.propTypes = {
             label: PropTypes.string,
 
             /**
-             * Data source to visualize.
-            (ie bam, vcf, alignmentJson, GAVariant, etc.)
+             * Data source to visualize. Must be one of
+            (bam, vcf, alignmentJson, variantJson, featureJson, idiogramJson, cytoBand,
+            vcf, twoBit, bigBed, GAReadAlignment, GAVariant, GAFeature, GAGene)
+            See https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js
              */
             source: PropTypes.oneOf(PILEUP_SOURCE_TYPES),
 
