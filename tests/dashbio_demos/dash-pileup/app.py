@@ -4,8 +4,6 @@ import dash_core_components as dcc
 from dash.dependencies import Input, Output
 import dash_bio
 import pandas as pd
-import dash_table
-from dash_table.Format import Format
 import numpy as np
 
 from layout_helper import run_standalone_app
@@ -16,6 +14,7 @@ text_style = {
 }
 
 _COMPONENT_ID = 'pileup-browser'
+
 
 def description():
     return 'An interactive in-browser track viewer.'
@@ -28,9 +27,10 @@ def header_colors():
     }
 
 
-REFERENCE =  {"label": 'mm10',
-              "url": 'https://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.2bit'
-}
+REFERENCE = {
+                "label": 'mm10',
+                "url": 'https://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/mm10.2bit'
+            }
 
 DATAPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets/data')
 
@@ -67,26 +67,26 @@ rna_differential = {
                 'sourceOptions': {'url': "/assets/data/rna/mm10.chr1.ncbiRefSeq.sorted.bb"}
             },
             {
-                'viz':'coverage',
+                'viz': 'coverage',
                 'label': 'Basal Mouse cells',
                 'source': 'bam',
                 'sourceOptions': basal_bam,
             },
             {
-                'viz':'pileup',
-                'vizOptions': { 'viewAsPairs': True},
+                'viz': 'pileup',
+                'vizOptions': {'viewAsPairs': True},
                 'label': 'Basal Mouse cells',
                 'source': 'bam',
                 'sourceOptions': basal_bam,
             },
             {
-                'viz':'coverage',
+                'viz': 'coverage',
                 'label': 'Luminal Mouse cells',
                 'source': 'bam',
                 'sourceOptions': luminal_bam,
             },
             {
-                'viz':'pileup',
+                'viz': 'pileup',
                 'label': 'Luminal Mouse cells',
                 'source': 'bam',
                 'sourceOptions': luminal_bam,
@@ -101,6 +101,7 @@ HOSTED_CASE_DICT = {
 HOSTED_USE_CASES = [
     {'value': 'rna-differential', 'label': 'Differential RNA-seq'},
 ]
+
 
 def layout():
     return html.Div(id='pileup-body', className='app-body', children=[
@@ -117,12 +118,12 @@ def layout():
                                 id='pileup-dashbio-volcanoplot',
                                 figure=dash_bio.VolcanoPlot(
                                     dataframe=DE_dataframe,
-                                            effect_size='log2FoldChange',
-                                            title="Differentially Expressed Genes",
-                                            genomewideline_value=-np.log10(0.05),
-                                            p='padj',
-                                            snp='SNP',
-                                            gene='Gene',
+                                    effect_size='log2FoldChange',
+                                    title="Differentially Expressed Genes",
+                                    genomewideline_value=-np.log10(0.05),
+                                    p='padj',
+                                    snp='SNP',
+                                    gene='Gene',
                                 )
                             )
                         ])
@@ -138,10 +139,11 @@ def layout():
                                 data visualization component developed originally by the Hammer Lab
                                 (https://github.com/hammerlab/pileup.js). pileup.js
                                 supports visualization of genomic file formats, such as vcfs,
-                                bam, and bigbed files. pileup.js additionally allows flexible interaction
-                                with non-standard data formats. Users can visualize GA4GH JSON formatted
-                                alignments, features and variants. Users can also connect with and visualize
-                                data stored in GA4GH formatted data stores.
+                                bam, and bigbed files. pileup.js additionally allows flexible
+                                interaction with non-standard data formats. Users can visualize
+                                GA4GH JSON formatted alignments, features and variants. Users can
+                                also connect with and visualize data stored in GA4GH formatted data
+                                stores.
                                 """
                             )
                         ])
@@ -149,29 +151,28 @@ def layout():
                 ]
             )
         ]),
-        dcc.Loading(parent_className='dashbio-loading', id='pileup-output', children =
-        html.Div([
+        dcc.Loading(parent_className='dashbio-loading', id='pileup-output', children=html.Div([
             dash_bio.Pileup(
                 id=_COMPONENT_ID,
                 range=HOSTED_CASE_DICT['rna-differential']['range'],
-                reference = REFERENCE,
-                tracks= HOSTED_CASE_DICT['rna-differential']['tracks'],
+                reference=REFERENCE,
+                tracks=HOSTED_CASE_DICT['rna-differential']['tracks'],
             )
         ])),
     ])
 
 
-
 def callbacks(_app):
 
     @_app.callback(
-    Output(_COMPONENT_ID, 'range'),
-    Input('pileup-dashbio-volcanoplot', 'clickData'))
+        Output(_COMPONENT_ID, 'range'),
+        Input('pileup-dashbio-volcanoplot', 'clickData')
+    )
     def update_range(point):
 
         data = HOSTED_CASE_DICT['rna-differential']
 
-        if (point == None):
+        if (point is None):
             range = data['range']
         else:
 
@@ -181,9 +182,11 @@ def callbacks(_app):
 
             row = DE_dataframe[DE_dataframe['Gene'] == gene].iloc[0]
 
-            range = {'contig': row['chr'],
-                    'start': row['start'],
-                    'stop': row['end']}
+            range = {
+                        'contig': row['chr'],
+                        'start': row['start'],
+                        'stop': row['end']
+                     }
 
         return range
 
