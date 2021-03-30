@@ -4,10 +4,6 @@ import os
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import pathlib
-
-# get path of common assets
-COMMON_ASSETS_PATH = os.path.join(pathlib.Path(__file__).parent.absolute(), '../common/assets')
 
 
 def run_standalone_app(
@@ -66,7 +62,7 @@ def app_page_layout(page_layout,
                                 src='data:image/png;base64,{}'.format(
                                     base64.b64encode(
                                         open(
-                                            os.path.join(COMMON_ASSETS_PATH, 'plotly-dash-bio-logo.png'), 'rb'
+                                            './assets/plotly-dash-bio-logo.png', 'rb'
                                         ).read()
                                     ).decode()
                                 )
@@ -93,8 +89,11 @@ def app_page_layout(page_layout,
                     html.Img(
                         src='data:image/png;base64,{}'.format(
                             base64.b64encode(
-                                open(os.path.join(COMMON_ASSETS_PATH, 'GitHub-Mark-{}64px.png'.format(
-                                    'Light-' if light_logo else '')), 'rb'
+                                open(
+                                    './assets/GitHub-Mark-{}64px.png'.format(
+                                        'Light-' if light_logo else ''
+                                    ),
+                                    'rb'
                                 ).read()
                             ).decode()
                         )
