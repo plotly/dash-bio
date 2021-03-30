@@ -2348,7 +2348,7 @@
       },
       "reference": {
         "type": {
-          "name": "shape",
+          "name": "exact",
           "value": {
             "label": {
               "name": "string",
@@ -2358,11 +2358,6 @@
             "url": {
               "name": "string",
               "description": "Url of 2bit file.\n         https://genome.ucsc.edu/goldenPath/help/twoBit.html",
-              "required": false
-            },
-            "stop": {
-              "name": "number",
-              "description": "Stop location to display",
               "required": false
             }
           }
@@ -2374,19 +2369,19 @@
         "type": {
           "name": "arrayOf",
           "value": {
-            "name": "shape",
+            "name": "exact",
             "value": {
               "viz": {
                 "name": "enum",
                 "computed": true,
                 "value": "PILEUP_VIZ_TYPES",
-                "description": "Name of visualization.\n            (ie coverage, genome, genes, etc.)",
+                "description": "Name of visualization. Must be one of\n            (coverage, genome, genes, features, idiogram, location, scale,\n            variants, genotypes, or pileup)\n            See https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js",
                 "required": false
               },
               "vizOptions": {
                 "name": "custom",
                 "raw": "PropTypes.Object",
-                "description": "Options that define viz defails.\n            Options depend on the viz type selected.",
+                "description": "Options that define viz details.\n            Options depend on the viz type selected.",
                 "required": false
               },
               "label": {
@@ -2398,7 +2393,7 @@
                 "name": "enum",
                 "computed": true,
                 "value": "PILEUP_SOURCE_TYPES",
-                "description": "Data source to visualize.\n            (ie bam, vcf, alignmentJson, GAVariant, etc.)",
+                "description": "Data source to visualize. Must be one of\n            (bam, vcf, alignmentJson, variantJson, featureJson, idiogramJson, cytoBand,\n            vcf, twoBit, bigBed, GAReadAlignment, GAVariant, GAFeature, GAGene)\n            See https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js",
                 "required": false
               },
               "sourceOptions": {
@@ -2411,7 +2406,7 @@
           }
         },
         "required": false,
-        "description": "Array of configuration objects defining tracks initially displayed when app launches.\n    see https://github.com/hammerlab/pileup.js#usage"
+        "description": "Array of configuration objects defining tracks initially displayed when app launches.\n    See https://github.com/hammerlab/pileup.js#usage"
       }
     }
   },

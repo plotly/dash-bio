@@ -20,22 +20,25 @@ Those keys have the following types:
   - contig (string; optional): Name of contig to display. (ie. chr17)
   - start (number; optional): Start location to display
   - stop (number; optional): Stop location to display
-- reference (dict; optional): Object defining genomic reference. reference has the following type: dict containing keys 'label', 'url', 'stop'.
+- reference (dict; optional): Object defining genomic reference. reference has the following type: dict containing keys 'label', 'url'.
 Those keys have the following types:
   - label (string; optional): Label to display by reference
   - url (string; optional): Url of 2bit file.
          https://genome.ucsc.edu/goldenPath/help/twoBit.html
-  - stop (number; optional): Stop location to display
 - tracks (dict; optional): Array of configuration objects defining tracks initially displayed when app launches.
-    see https://github.com/hammerlab/pileup.js#usage. tracks has the following type: list of dicts containing keys 'viz', 'vizOptions', 'label', 'source', 'sourceOptions'.
+    See https://github.com/hammerlab/pileup.js#usage. tracks has the following type: list of dicts containing keys 'viz', 'vizOptions', 'label', 'source', 'sourceOptions'.
 Those keys have the following types:
-  - viz (optional): Name of visualization.
-            (ie coverage, genome, genes, etc.)
-  - vizOptions (optional): Options that define viz defails.
+  - viz (optional): Name of visualization. Must be one of
+            (coverage, genome, genes, features, idiogram, location, scale,
+            variants, genotypes, or pileup)
+            See https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js
+  - vizOptions (optional): Options that define viz details.
             Options depend on the viz type selected.
   - label (string; optional): Label to display by track
-  - source (optional): Data source to visualize.
-            (ie bam, vcf, alignmentJson, GAVariant, etc.)
+  - source (optional): Data source to visualize. Must be one of
+            (bam, vcf, alignmentJson, variantJson, featureJson, idiogramJson, cytoBand,
+            vcf, twoBit, bigBed, GAReadAlignment, GAVariant, GAFeature, GAGene)
+            See https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js
   - sourceOptions (optional): Options that define data source.
             Options depend on the source selected."""
     @_explicitize_args
