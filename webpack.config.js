@@ -51,6 +51,12 @@ module.exports = {
                     name(module, chunks, cacheGroupKey) {
                         return `${cacheGroupKey}-${chunks[0].name}`;
                     }
+                },
+                shared: {
+                    chunks: 'async',
+                    minSize: 0,
+                    minChunks: 2,
+                    name: 'dash_bio-shared'
                 }
             }
         }

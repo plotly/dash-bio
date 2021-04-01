@@ -80,6 +80,18 @@ _js_dist.extend([
     }
 ])
 
+_js_dist.extend([
+    {
+        'relative_package_path': 'dash_bio-shared.js',
+        'external_url': (
+            'https://unpkg.com/dash-bio@{}'
+            '/' + package_name + '/dash_bio-shared.js'
+        ).format(__version__),
+        'async': True,
+        'namespace': 'dash_bio'
+    }
+])
+
 _css_dist = []
 
 
