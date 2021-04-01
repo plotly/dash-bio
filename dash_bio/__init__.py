@@ -37,6 +37,7 @@ async_resources = [
     'circos',
     'ideogram',
     'igv',
+    'pileup',
     'moleculeviewer2',
     'moleculeviewer3',
     'needle',
@@ -76,6 +77,18 @@ _js_dist.extend([
             '/' + package_name + '/bundle.js'
         ).format(__version__),
         'namespace': package_name
+    }
+])
+
+_js_dist.extend([
+    {
+        'relative_package_path': 'dash_bio-shared.js',
+        'external_url': (
+            'https://unpkg.com/dash-bio@{}'
+            '/' + package_name + '/dash_bio-shared.js'
+        ).format(__version__),
+        'async': True,
+        'namespace': 'dash_bio'
     }
 ])
 

@@ -2289,6 +2289,127 @@
       }
     }
   },
+  "src/lib/components/Pileup.react.js": {
+    "description": "The Pileup component is a genome visualization component\ndeveloped by the the Hammerlab. It uses an\nexample integration of pileup.js and React (https://www.npmjs.com/package/pileup).",
+    "displayName": "Pileup",
+    "methods": [],
+    "props": {
+      "id": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The ID of this component, used to identify dash components in callbacks.\nThe ID needs to be unique across all of the components in an app."
+      },
+      "setProps": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "Dash-assigned callback that should be called to report property changes\nto Dash, to make them available for callbacks."
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Generic style overrides on the plot div"
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "className of the component div."
+      },
+      "range": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "contig": {
+              "name": "string",
+              "description": "Name of contig to display. (ie. chr17)",
+              "required": false
+            },
+            "start": {
+              "name": "number",
+              "description": "Start location to display",
+              "required": false
+            },
+            "stop": {
+              "name": "number",
+              "description": "Stop location to display",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Object defining genomic location.\n    Of the format: {contig: 'chr17', start: 7512384, stop: 7512544}"
+      },
+      "reference": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "label": {
+              "name": "string",
+              "description": "Label to display by reference",
+              "required": false
+            },
+            "url": {
+              "name": "string",
+              "description": "Url of 2bit file.\n         https://genome.ucsc.edu/goldenPath/help/twoBit.html",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Object defining genomic reference."
+      },
+      "tracks": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "exact",
+            "value": {
+              "viz": {
+                "name": "enum",
+                "computed": true,
+                "value": "PILEUP_VIZ_TYPES",
+                "description": "Name of visualization. Must be one of\n            (coverage, genome, genes, features, idiogram, location, scale,\n            variants, genotypes, or pileup)\n            See https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js",
+                "required": false
+              },
+              "vizOptions": {
+                "name": "custom",
+                "raw": "PropTypes.Object",
+                "description": "Options that define viz details.\n            Options depend on the viz type selected.",
+                "required": false
+              },
+              "label": {
+                "name": "string",
+                "description": "Label to display by track",
+                "required": false
+              },
+              "source": {
+                "name": "enum",
+                "computed": true,
+                "value": "PILEUP_SOURCE_TYPES",
+                "description": "Data source to visualize. Must be one of\n            (bam, vcf, alignmentJson, variantJson, featureJson, idiogramJson, cytoBand,\n            vcf, twoBit, bigBed, GAReadAlignment, GAVariant, GAFeature, GAGene)\n            See https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js",
+                "required": false
+              },
+              "sourceOptions": {
+                "name": "custom",
+                "raw": "PropTypes.Object",
+                "description": "Options that define data source.\n            Options depend on the source selected.",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "Array of configuration objects defining tracks initially displayed when app launches.\n    See https://github.com/hammerlab/pileup.js#usage"
+      }
+    }
+  },
   "src/lib/components/SequenceViewer.react.js": {
     "description": "The sequence viewer component is used to display sequences\nthat represent proteins, strands of genomic information, and\nmore. It can apply a coverage to the sequence supplied (with\nclickable coverage sections that can display specific information,\nand an optional legend to describe the color codes used),\nsearch through the sequence for specific regex, capture\nmouse selection events of subparts of the sequence, display a\ncount of the number of nucleotides or amino acids in the\nsequence,\nRead more about the component here:\nhttps://github.com/FlyBase/react-sequence-viewer",
     "displayName": "SequenceViewer",
