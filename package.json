@@ -39,6 +39,7 @@
     "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
     "ngl": "^0.10.4",
+    "pileup": "0.7.0",
     "plotly.js": "^1.52.2",
     "ramda": "^0.26.0",
     "react": "16.13.0",
@@ -85,6 +86,7 @@
   },
   "files": [
     "dash_bio/bundle.js",
+    "dash_bio/dash_bio-shared.js",
     "dash_bio/async~*.js"
   ],
   "engines": {
