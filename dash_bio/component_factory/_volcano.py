@@ -356,10 +356,12 @@ class _VolcanoPlot():
 
         layout = go.Layout(
             title=title,
+            margin=go.layout.Margin(l = 0,r = 0, b = 0),
             hovermode='closest',
             legend={
-                'x': 0.85,
-                'y': 0.1,
+                'orientation': 'h',
+                'yanchor': 'bottom',
+                'y' : 1.02,
                 'bgcolor': '#f2f5fa'
             },
             xaxis={
