@@ -86,7 +86,7 @@ Pileup.propTypes = {
     See https://github.com/hammerlab/pileup.js#usage
     */
     tracks: PropTypes.arrayOf(
-        PropTypes.exact({
+        PropTypes.shape({
             /**
              * Name of visualization. Must be one of
             (coverage, genome, genes, features, idiogram, location, scale,
