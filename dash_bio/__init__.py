@@ -92,6 +92,28 @@ _js_dist.extend([
     }
 ])
 
+_js_dist.extend(
+    [
+        {
+            "relative_package_path": "{}-shared.js".format(__name__),
+            "external_url": (
+                "https://unpkg.com/dash-bio@{}"
+                "/dash_bio/dash_bio-shared.js"
+            ).format(__version__),
+            "namespace": "dash_bio",
+        },
+        {
+            "relative_package_path": "{}-shared.js.map".format(__name__),
+            "external_url": (
+                "https://unpkg.com/dash-bio@{}"
+                "/dash_bio/dash_bio-shared.js.map"
+            ).format(__version__),
+            "namespace": "dash_bio",
+            "dynamic": True,
+        }
+    ]
+)
+
 _css_dist = []
 
 

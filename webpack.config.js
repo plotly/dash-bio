@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const WebpackDashDynamicImport = require('@plotly/webpack-dash-dynamic-import');
 
 const packagejson = require('./package.json');
@@ -62,7 +63,11 @@ module.exports = {
         }
     },
     plugins: [
-        new WebpackDashDynamicImport()
+        new WebpackDashDynamicImport(),
+        new webpack.SourceMapDevToolPlugin({
+            filename: '[file].map',
+            exclude: ['async-plotlyjs']
+        })
     ],
     resolve: {
         alias: {
