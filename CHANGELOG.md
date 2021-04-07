@@ -3,6 +3,7 @@
 ## Unreleased
 ### Added
 * [#543](https://github.com/plotly/dash-bio/pull/543) Added Dash Pileup component.
+* [#553](https://github.com/plotly/dash-bio/pull/553) Added source mapping.
 
 ### Fixed 
 - [#550](https://github.com/plotly/dash-bio/pull/548) Updated CONTRIBUTING.md andbasic demo app structure. In addition, removed residual code and pre-deploy scripts associated with now-discontinued Dash Bio gallery. 
