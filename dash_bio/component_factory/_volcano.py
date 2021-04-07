@@ -29,11 +29,7 @@ def VolcanoPlot(
         height=None,
         width=None,
         margin=None,
-        legend={
-                'x': 0.85,
-                'y': 0.1,
-                'bgcolor': '#f2f5fa'
-            },
+        legend=None,
         effect_size_line=None,
         effect_size_line_color='grey',
         effect_size_line_width=0.5,
@@ -306,11 +302,7 @@ class _VolcanoPlot():
             margin=None,
             point_size=5,
             col=None,
-            legend={
-                'x': 0.85,
-                'y': 0.1,
-                'bgcolor': '#f2f5fa'
-            },
+            legend=None,
             effect_size_line=None,
             effect_size_line_color='grey',
             effect_size_line_width=0.5,
