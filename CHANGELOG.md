@@ -3,6 +3,7 @@
 ## Unreleased
 ### Added
 * [#543](https://github.com/plotly/dash-bio/pull/543) Added Dash Pileup component.
+* [#553](https://github.com/plotly/dash-bio/pull/553) Added source mapping.
 
 ## [0.6.1] - 2021-02-15
 ### Fixed
