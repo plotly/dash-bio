@@ -26,6 +26,14 @@ def VolcanoPlot(
         ylabel='-log10(p)',
         point_size=5,
         col=None,
+        height=None,
+        width=None,
+        margin=None,
+        legend={
+                'x': 0.85,
+                'y': 0.1,
+                'bgcolor': '#f2f5fa'
+            },
         effect_size_line=None,
         effect_size_line_color='grey',
         effect_size_line_width=0.5,
@@ -33,7 +41,8 @@ def VolcanoPlot(
         genomewideline_color='grey',
         genomewideline_width=1,
         highlight=True,
-        highlight_color="red"
+        highlight_color="red",
+        **kwargs
 ):
     """Return a Dash Bio VolcanoPlot figure.
 
@@ -79,6 +88,13 @@ Keyword arguments:
     plot.
 - col (string; optional): Color of the points of the Scatter plot. Can
     be in any color format accepted by plotly.graph_objects.
+- height (number; optional): Sets the plot's height (in px).
+- width (number; optional): Sets the plot's width (in px).
+- margin (dict | plotly.graph_objects.layout.Margin instance): A dict or Margin
+    instance that sets the separation between the main plotting space and
+    the outside of the figure.
+- legend (dict | plotly.graph_objects.layout.Legend instance): A dict or Legend
+    instance with compatible properties.
 - effect_size_line (bool | list; default [-1, 1]): A boolean which
     must be either False to deactivate the option, or a list/array containing
     the upper and lower bounds of the effect size values. Significant
@@ -114,7 +130,10 @@ Keyword arguments:
 
     plotly.offline.plot(fig, image='png')
     '''
-
+- Additional keys (misc.): Arbitrary arguments can be passed to modify the
+    Layout and styling of the graph. A full reference of acceptable args is
+    available [here](https://plotly.com/python-api-reference/generated/plotly.graph_objects
+    .Layout.html).
     """
 
     vp = _VolcanoPlot(
@@ -131,6 +150,10 @@ Keyword arguments:
         title=title,
         xlabel=xlabel,
         ylabel=ylabel,
+        height=height,
+        width=width,
+        margin=margin,
+        legend=legend,
         point_size=point_size,
         col=col,
         effect_size_line=effect_size_line,
@@ -140,7 +163,8 @@ Keyword arguments:
         genomewideline_color=genomewideline_color,
         genomewideline_width=genomewideline_width,
         highlight=highlight,
-        highlight_color=highlight_color
+        highlight_color=highlight_color,
+        **kwargs
     )
 
 
@@ -277,8 +301,16 @@ class _VolcanoPlot():
             title='Volcano Plot',
             xlabel=None,
             ylabel='-log10(p)',
+            height=None,
+            width=None,
+            margin=None,
             point_size=5,
             col=None,
+            legend={
+                'x': 0.85,
+                'y': 0.1,
+                'bgcolor': '#f2f5fa'
+            },
             effect_size_line=None,
             effect_size_line_color='grey',
             effect_size_line_width=0.5,
@@ -287,6 +319,7 @@ class _VolcanoPlot():
             genomewideline_width=1,
             highlight=True,
             highlight_color='red',
+            **kwargs
     ):
         """Return a figure object compatible with plotly.graph_objects.
 
@@ -299,6 +332,13 @@ class _VolcanoPlot():
       plot.
     - col (string; optional): Color of the points of the Scatter plot. Can
         be in any color format accepted by plotly.graph_objects.
+    - height (number; optional): Sets the plot's height (in px).
+    - width (number; optional): Sets the plot's width (in px).
+    - margin (dict | plotly.graph_objects.layout.Margin instance): A dict or Margin
+        instance that sets the separation between the main plotting space and
+        the outside of the figure.
+    - legend (dict | plotly.graph_objects.layout.Legend instance): A dict or Legend
+        instance with compatible properties.
     - effect_size_line (bool | list; default [-1, 1]): A boolean which must be
         either False to deactivate the option, or a list/array containing the
         upper and lower bounds of the effect size values. Significant data
@@ -322,6 +362,10 @@ class _VolcanoPlot():
     - highlight_color (string; default 'red'): Color of the data points
         highlighted because considered significant. Can be in any color
         format accepted by plotly.graph_objects.
+    - Additional keys (misc.): Arbitrary arguments can be passed to modify the
+        Layout and styling of the graph. A full reference of acceptable args is
+        available [here](https://plotly.com/python-api-reference/generated/plotly.graph_objects
+        .Layout.html).
         """
 
         if xlabel is None:
@@ -356,12 +400,11 @@ class _VolcanoPlot():
 
         layout = go.Layout(
             title=title,
+            margin=margin,
             hovermode='closest',
-            legend={
-                'x': 0.85,
-                'y': 0.1,
-                'bgcolor': '#f2f5fa'
-            },
+            legend=legend,
+            height=height,
+            width=width,
             xaxis={
                 'title': xlabel,
                 'zeroline': False,
@@ -370,7 +413,8 @@ class _VolcanoPlot():
             yaxis={
                 'title': ylabel,
                 'zeroline': False
-            }
+            },
+            **kwargs
         )
 
         data_to_plot = []  # To contain the data traces
