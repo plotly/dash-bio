@@ -24,6 +24,8 @@ def VolcanoPlot(
         title='Volcano Plot',
         xlabel=None,
         ylabel='-log10(p)',
+        x_axis=None,
+        y_axis=None,
         point_size=5,
         col=None,
         height=None,
@@ -80,6 +82,10 @@ Keyword arguments:
 - title (string; default 'Volcano Plot'): Title of the graph.
 - xlabel (string; optional): Label of the x axis.
 - ylabel (string; default '-log10(p)'): Label of the y axis.
+- xaxis (dict: optional): Dict with compatible properties for the x-axis of
+     the figure layout.
+- yaxis (dict: optional): Dict with compatible properties for the y-axis of
+    the figure layout.
 - point_size (number; default 5): Size of the points of the Scatter
     plot.
 - col (string; optional): Color of the points of the Scatter plot. Can
@@ -146,6 +152,8 @@ Keyword arguments:
         title=title,
         xlabel=xlabel,
         ylabel=ylabel,
+        x_axis=x_axis,
+        y_axis=y_axis,
         height=height,
         width=width,
         margin=margin,
@@ -297,6 +305,8 @@ class _VolcanoPlot():
             title='Volcano Plot',
             xlabel=None,
             ylabel='-log10(p)',
+            x_axis=None,
+            y_axis=None,
             height=None,
             width=None,
             margin=None,
@@ -318,8 +328,12 @@ class _VolcanoPlot():
         Keyword arguments:
     - title (string; default 'Volcano Plot'): Title of the
         graph.
-    - xlabel (string; optional): Label of the x axis.
-    - ylabel (string; default '-log10(p)'): Label of the y axis.
+    - xlabel (string; optional): Label of the x-axis.
+    - ylabel (string; default '-log10(p)'): Label of the y-axis.
+    - xaxis (dict: optional): Dict with compatible properties for the x-axis of
+        the figure layout.
+    - yaxis (dict: optional): Dict with compatible properties for the y-axis of
+        the figure layout.
     - point_size (number; default 5): Size of the points of the scatter
       plot.
     - col (string; optional): Color of the points of the Scatter plot. Can
@@ -537,4 +551,13 @@ class _VolcanoPlot():
 
         layout.shapes = lines
 
-        return go.Figure(data=data_to_plot, layout=layout)
+        figure = go.Figure(data=data_to_plot, layout=layout)
+
+        # Update the X and Y axis parameters
+        if x_axis:
+            figure.update_xaxes(**x_axis)
+
+        if y_axis:
+            figure.update_yaxes(**y_axis)
+
+        return figure
