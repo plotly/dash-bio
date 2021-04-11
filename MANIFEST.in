@@ -1,5 +1,7 @@
-include dash_bio/bundle.js
 include dash_bio/dash_bio-shared.js
+include dash_bio/dash_bio-shared.js.map
+include dash_bio/bundle.js
+include dash_bio/bundle.js.map
 include dash_bio/async-*.js
 include dash_bio/async-*.js.map
 include dash_bio/metadata.json
