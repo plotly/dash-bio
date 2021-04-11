@@ -1,12 +1,13 @@
 import json
 import pandas
 
+from common_features import nested_component_layout, \
+    nested_component_app_callback
+
 import dash
 import dash_html_components as html
 import dash_bio
 
-from common_features import nested_component_layout, \
-    nested_component_app_callback
 
 _data = None
 
@@ -129,3 +130,28 @@ def test_dbvp005_effect_size_line_value(dash_duo):
         data_prop_name='dataframe',
         take_snapshot=True
     )
+
+
+def test_dbvp006_test_layout_props(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(nested_component_layout(
+        dash_bio.VolcanoPlot(
+            dataframe=_data,
+            width=600,
+            legend={
+                'x': 0.85,
+                'orientation': 'h',
+                'yanchor': 'bottom',
+                'y': 1.02,
+                'bgcolor': '#f2f5fa'
+            },
+            x_axis={"color": "red"},
+            y_axis={"color": "blue"},
+            template="simple_white",
+            plot_bgcolor="pink",
+        )
+    ))
+
+    dash_duo.percy_snapshot('test-volcano_layout_props')
