@@ -141,5 +141,3 @@ def test_dbm3004_labels(dash_duo):
     dash_duo.wait_for_text_to_equal('#labels-output', 'first_text')
 
     dash_duo.percy_snapshot('test-mol3d_labels' + generate_identifier(), convert_canvases=True)
-
-    assert not dash_duo.get_logs()
