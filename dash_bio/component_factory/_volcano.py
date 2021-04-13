@@ -21,7 +21,7 @@ def VolcanoPlot(
         gene='GENE',
         annotation=None,
         logp=True,
-        title='Volcano Plot',
+        title=None,
         xlabel=None,
         ylabel='-log10(p)',
         x_axis=None,
@@ -403,6 +403,20 @@ class _VolcanoPlot():
 
         if col is None:
             col = 'black'
+
+        if title is None:
+            title = {'text': 'Volcano Plot',
+                     'font': {'family': 'sans-serif', 'size': 20},
+                     'x': 0.5,
+                     'xanchor': 'right',
+                     'yanchor': 'top'
+                     }
+        if legend is None:
+            legend = {'bgcolor': '#ebf1fa',
+             'yanchor': 'top',
+             'x': 1.01,
+             "font": {"family": "sans-serif"}
+             }
 
         layout = go.Layout(
             title=title,
