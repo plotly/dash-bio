@@ -413,10 +413,10 @@ class _VolcanoPlot():
                      }
         if legend is None:
             legend = {'bgcolor': '#ebf1fa',
-             'yanchor': 'top',
-             'x': 1.01,
-             "font": {"family": "sans-serif"}
-             }
+                     'yanchor': 'top',
+                     'x': 1.01,
+                     "font": {"family": "sans-serif"}
+                     }
 
         layout = go.Layout(
             title=title,
