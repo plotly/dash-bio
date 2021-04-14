@@ -24,14 +24,8 @@ def VolcanoPlot(
         title=None,
         xlabel=None,
         ylabel='-log10(p)',
-        x_axis=None,
-        y_axis=None,
         point_size=5,
         col=None,
-        height=None,
-        width=None,
-        margin=None,
-        legend=None,
         effect_size_line=None,
         effect_size_line_color='grey',
         effect_size_line_width=0.5,
@@ -152,12 +146,6 @@ Keyword arguments:
         title=title,
         xlabel=xlabel,
         ylabel=ylabel,
-        x_axis=x_axis,
-        y_axis=y_axis,
-        height=height,
-        width=width,
-        margin=margin,
-        legend=legend,
         point_size=point_size,
         col=col,
         effect_size_line=effect_size_line,
@@ -305,11 +293,8 @@ class _VolcanoPlot():
             title='Volcano Plot',
             xlabel=None,
             ylabel='-log10(p)',
-            x_axis=None,
-            y_axis=None,
-            height=None,
-            width=None,
-            margin=None,
+            xaxis=None,
+            yaxis=None,
             point_size=5,
             col=None,
             legend=None,
@@ -420,11 +405,8 @@ class _VolcanoPlot():
 
         layout = go.Layout(
             title=title,
-            margin=margin,
             hovermode='closest',
             legend=legend,
-            height=height,
-            width=width,
             xaxis={
                 'title': xlabel,
                 'zeroline': False,
@@ -568,10 +550,10 @@ class _VolcanoPlot():
         figure = go.Figure(data=data_to_plot, layout=layout)
 
         # Update the X and Y axis parameters
-        if x_axis:
-            figure.update_xaxes(**x_axis)
+        if xaxis:
+            figure.update_xaxes(**xaxis)
 
-        if y_axis:
-            figure.update_yaxes(**y_axis)
+        if yaxis:
+            figure.update_yaxes(**yaxis)
 
         return figure
