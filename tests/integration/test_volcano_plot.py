@@ -146,8 +146,8 @@ def test_dbvp006_test_layout_props(dash_duo):
                 'y': 1.02,
                 'bgcolor': '#f2f5fa'
             },
-            x_axis={"color": "red"},
-            y_axis={"color": "blue"},
+            xaxis={"color": "red"},
+            yaxis={"color": "blue"},
             template="simple_white",
         )
     ))
