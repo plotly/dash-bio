@@ -1,6 +1,15 @@
 version: 2
 
 jobs:
+    percy-finalize:
+        docker:
+            - image: percyio/agent
+              auth:
+                username: dashautomation
+                password: $DASH_PAT_DOCKERHUB
+        steps:
+            - run: percy finalize --all
+
     node:
         docker:
             - image: circleci/python:3.7.5-stretch-node
@@ -57,7 +66,8 @@ jobs:
                 username: dashautomation
                 password: $DASH_PAT_DOCKERHUB
         environment:
-            PERCY_ENABLED: True
+            PYTHON_VERSION: py36
+            PERCY_ENABLE: 0
 
         steps:
             - checkout
@@ -113,7 +123,7 @@ jobs:
                     python setup.py sdist
                     cd dist
                     find . -name "*.gz" | xargs pip install --progress-bar off --no-cache-dir --ignore-installed --quiet && cd ..
-                    pytest tests/integration
+                    pytest --nopercyfinalize tests/integration
 
             - run:
                 name: Run unit tests
@@ -130,7 +140,9 @@ jobs:
                 username: dashautomation
                 password: $DASH_PAT_DOCKERHUB
         environment:
-            PERCY_ENABLED: True
+            PYTHON_VERSION: py37
+            PERCY_ENABLE: 1
+            PERCY_PARALLEL_TOTAL: -1
 
 workflows:
   version: 2
@@ -139,3 +151,6 @@ workflows:
       - python-3.6
       - python-3.7
       - node
+      - percy-finalize:
+          requires:
+            - python-3.7

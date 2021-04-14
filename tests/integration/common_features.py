@@ -4,9 +4,14 @@ import dash
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
+import time
 
 PASS = 'passed'
 FAIL = 'failed'
+
+
+def generate_identifier():
+    return str(time.time())[-4:]
 
 
 def process_value(
@@ -186,8 +191,11 @@ def _start_app_server(
 
     dash_duo.wait_for_element('#passfail')
 
+    identifier = generate_identifier()
+
     if take_snapshot:
-        dash_duo.percy_snapshot(f'{component_id}_{test_prop_name}_{test_prop_value}')
+        dash_duo.percy_snapshot(f'{component_id}_{test_prop_name}_{test_prop_value}_{identifier}',
+                                convert_canvases=True)
 
     assert dash_duo.find_element('#passfail').text == PASS
 
