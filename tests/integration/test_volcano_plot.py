@@ -2,7 +2,7 @@ import json
 import pandas
 
 from common_features import nested_component_layout, \
-    nested_component_app_callback, generate_identifier
+    nested_component_app_callback
 
 import dash
 import dash_html_components as html
@@ -133,7 +133,6 @@ def test_dbvp005_effect_size_line_value(dash_duo):
 
 
 def test_dbvp006_test_layout_props(dash_duo):
-
     app = dash.Dash(__name__)
 
     app.layout = html.Div(nested_component_layout(
@@ -150,9 +149,17 @@ def test_dbvp006_test_layout_props(dash_duo):
             x_axis={"color": "red"},
             y_axis={"color": "blue"},
             template="simple_white",
-            plot_bgcolor="pink",
         )
     ))
 
-    dash_duo.percy_snapshot('test-volcano_layout_props' + generate_identifier(),
-                            convert_canvases=True)
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.VolcanoPlot,
+        component_data=_data,
+        test_prop_name='plot_bgcolor',
+        test_prop_value='pink',
+        prop_value_type='string',
+        data_prop_name='dataframe',
+        take_snapshot=True
+    )
