@@ -26,6 +26,8 @@ export default class Molecule3dViewer extends Component {
             this.props.backgroundOpacity !== nextProps.backgroundOpacity ||
             this.props.styles !== nextProps.styles ||
             this.props.selectionType !== nextProps.selectionType ||
+            this.props.orbital !== nextProps.orbital ||
+            this.props.shapes !== nextProps.shapes ||
             (!this.props.selectedAtomIds && nextProps.selectedAtomIds) ||
             (this.props.selectedAtomIds && !nextProps.selectedAtomIds) ||
             (this.props.selectedAtomIds &&

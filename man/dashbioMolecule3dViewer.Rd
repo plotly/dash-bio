@@ -13,7 +13,8 @@ The Molecule3dViewer component is used to render schematic diagrams of biomolecu
 dashbioMolecule3dViewer(id=NULL, selectionType=NULL, backgroundColor=NULL,
 backgroundOpacity=NULL, styles=NULL, modelData=NULL,
 atomLabelsShown=NULL, selectedAtomIds=NULL, labels=NULL,
-onRenderNewData=NULL, onChangeSelection=NULL)
+orbital=NULL, shapes=NULL, onRenderNewData=NULL,
+onChangeSelection=NULL)
 }
 
 \arguments{
@@ -42,7 +43,21 @@ and should have two main dictionaries - atoms, bonds}
 
 \item{selectedAtomIds}{Unnamed list. Property that stores a list of all selected atoms}
 
-\item{labels}{Unnamed list. labels corresponding to the atoms of the molecule}
+\item{labels}{List of named lists. Labels corresponding to the atoms of the molecule.
+Each label has a `text` field, a string containing the label content,
+and can have many other styling fields as described in
+https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec}
+
+\item{orbital}{Lists containing elements 'cube_file', 'iso_val', 'opacity', 'positivevolumetriccolor', 'negativevolumetriccolor'.
+those elements have the following types:
+  - cube_file (character; optional): the filepath containing raw volumetric data for vertex coloring
+  - iso_val (numeric; optional): the isovalue to draw the surface at
+  - opacity (numeric; optional): transparency of the surface, between 0 and 1
+  - positivevolumetriccolor (character; optional): color for the positive value of the isosurface orbital
+  - negativevolumetriccolor (character; optional): color for the negative value of the isosurface orbital. Add an isosurface from volumetric data provided in the `cube_file`}
+
+\item{shapes}{List of named lists. Add a predefined renderable shape objects to the molecule.
+Valid shape types are Arrow, Sphere, and Cylinder.}
 
 \item{onRenderNewData}{Callback to re-render molecule viewer
 when modelData is changed}
