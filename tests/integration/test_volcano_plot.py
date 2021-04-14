@@ -154,5 +154,5 @@ def test_dbvp006_test_layout_props(dash_duo):
         )
     ))
 
-    dash_duo.percy_snapshot('test-volcano-plot_layout_props' + generate_identifier(),
+    dash_duo.percy_snapshot('test-volcano_layout_props' + generate_identifier(),
                             convert_canvases=True)
