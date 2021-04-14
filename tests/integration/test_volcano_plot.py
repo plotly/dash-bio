@@ -2,7 +2,7 @@ import json
 import pandas
 
 from common_features import nested_component_layout, \
-    nested_component_app_callback
+    nested_component_app_callback, generate_identifier
 
 import dash
 import dash_html_components as html
@@ -154,4 +154,4 @@ def test_dbvp006_test_layout_props(dash_duo):
         )
     ))
 
-    dash_duo.percy_snapshot('test-volcano-plot_layout_props', convert_canvases=True)
+    dash_duo.percy_snapshot('test-volcano-plot_layout_props' + generate_identifier(), convert_canvases=True)
