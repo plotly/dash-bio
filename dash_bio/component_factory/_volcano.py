@@ -21,7 +21,6 @@ def VolcanoPlot(
         gene='GENE',
         annotation=None,
         logp=True,
-        title=None,
         xlabel=None,
         ylabel='-log10(p)',
         point_size=5,
@@ -73,7 +72,6 @@ Keyword arguments:
     plotting the raw value could be useful for other genome-wide plots
     (e.g., peak heights, Bayes factors, test statistics, and other
     "scores").
-- title (string; default 'Volcano Plot'): Title of the graph.
 - xlabel (string; optional): Label of the x axis.
 - ylabel (string; default '-log10(p)'): Label of the y axis.
 - point_size (number; default 5): Size of the points of the Scatter
@@ -111,7 +109,7 @@ Keyword arguments:
     dataframe = pd.DataFrame(
         np.random.randint(0,100,size=(100, 2)),
         columns=['P', 'EFFECTSIZE'])
-    fig = create_volcano(dataframe, title='XYZ Volcano plot')
+    fig = create_volcano(dataframe, title=dict(text='XYZ Volcano plot'))
 
     plotly.offline.plot(fig, image='png')
     '''
@@ -121,6 +119,8 @@ Keyword arguments:
     .Layout.html).
 
     Some commonly used layout keys are:
+    - title (dict: optional): Dict with compatible properties for the title of
+        the figure layout.
     - xaxis (dict: optional): Dict with compatible properties for the x-axis of
         the figure layout.
     - yaxis (dict: optional): Dict with compatible properties for the y-axis of
@@ -145,7 +145,6 @@ Keyword arguments:
     )
 
     return vp.figure(
-        title=title,
         xlabel=xlabel,
         ylabel=ylabel,
         point_size=point_size,
@@ -292,7 +291,6 @@ class _VolcanoPlot():
 
     def figure(
             self,
-            title=None,
             xlabel=None,
             ylabel='-log10(p)',
             point_size=5,
@@ -310,8 +308,6 @@ class _VolcanoPlot():
         """Return a figure object compatible with plotly.graph_objects.
 
         Keyword arguments:
-    - title (string; default 'Volcano Plot'): Title of the
-        graph.
     - xlabel (string; optional): Label of the x-axis.
     - ylabel (string; default '-log10(p)'): Label of the y-axis.
     - point_size (number; default 5): Size of the points of the scatter
@@ -347,6 +343,8 @@ class _VolcanoPlot():
         .Layout.html).
 
         Some commonly used layout keys are:
+        - title (dict: optional): Dict with compatible properties for the title of
+            the figure layout.
         - xaxis (dict: optional): Dict with compatible properties for the x-axis of
             the figure layout.
         - yaxis (dict: optional): Dict with compatible properties for the y-axis of
