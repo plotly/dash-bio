@@ -84,7 +84,8 @@ _js_dist.extend([
             'https://unpkg.com/dash-bio@{}'
             '/' + package_name + '/bundle.js.map'
         ).format(__version__),
-        'namespace': package_name
+        'namespace': package_name,
+        'dynamic': True
     }
 ])
 
