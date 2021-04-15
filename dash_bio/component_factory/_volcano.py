@@ -295,8 +295,6 @@ class _VolcanoPlot():
             title=None,
             xlabel=None,
             ylabel='-log10(p)',
-            xaxis=None,
-            yaxis=None,
             point_size=5,
             col=None,
             effect_size_line=None,
@@ -546,13 +544,4 @@ class _VolcanoPlot():
 
         layout.shapes = lines
 
-        figure = go.Figure(data=data_to_plot, layout=layout)
-
-        # Update the X and Y axis parameters
-        if xaxis:
-            figure.update_xaxes(**xaxis)
-
-        if yaxis:
-            figure.update_yaxes(**yaxis)
-
-        return figure
+        return go.Figure(data=data_to_plot, layout=layout)
