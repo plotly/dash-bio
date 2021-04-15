@@ -27,7 +27,7 @@ npm ci
 
 ## Step 2: Develop
 
-Development of a component for this repository comprises of two parts:
+Development of a component for this repository is composed of two parts:
 the component itself, and a sample application that showcases the capabilities
 of your component and how it interacts with Dash.
 
