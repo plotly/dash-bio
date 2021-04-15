@@ -290,14 +290,13 @@ class _VolcanoPlot():
 
     def figure(
             self,
-            title='Volcano Plot',
+            title=None,
             xlabel=None,
             ylabel='-log10(p)',
             xaxis=None,
             yaxis=None,
             point_size=5,
             col=None,
-            legend=None,
             effect_size_line=None,
             effect_size_line_color='grey',
             effect_size_line_width=0.5,
@@ -389,24 +388,19 @@ class _VolcanoPlot():
         if col is None:
             col = 'black'
 
-        if title is None:
-            title = {'text': 'Volcano Plot',
-                     'font': {'family': 'sans-serif', 'size': 20},
-                     'x': 0.5,
-                     'xanchor': 'right',
-                     'yanchor': 'top'
-                     }
-        if legend is None:
-            legend = {'bgcolor': '#ebf1fa',
-                      'yanchor': 'top',
-                      'x': 1.01,
-                      "font": {"family": "sans-serif"}
-                      }
-
         layout = go.Layout(
-            title=title,
+            title={'text': 'Volcano Plot',
+                   'font': {'family': 'sans-serif', 'size': 20},
+                   'x': 0.5,
+                   'xanchor': 'right',
+                   'yanchor': 'top'
+                   },
             hovermode='closest',
-            legend=legend,
+            legend={'bgcolor': '#ebf1fa',
+                    'yanchor': 'top',
+                    'x': 1.01,
+                    "font": {"family": "sans-serif"}
+                    },
             xaxis={
                 'title': xlabel,
                 'zeroline': False,
@@ -415,9 +409,10 @@ class _VolcanoPlot():
             yaxis={
                 'title': ylabel,
                 'zeroline': False
-            },
-            **kwargs
+            }
         )
+
+        layout.update(**kwargs)
 
         data_to_plot = []  # To contain the data traces
         tmp = pd.DataFrame()  # Empty DataFrame to contain the highlighted data
