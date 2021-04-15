@@ -76,21 +76,10 @@ Keyword arguments:
 - title (string; default 'Volcano Plot'): Title of the graph.
 - xlabel (string; optional): Label of the x axis.
 - ylabel (string; default '-log10(p)'): Label of the y axis.
-- xaxis (dict: optional): Dict with compatible properties for the x-axis of
-     the figure layout.
-- yaxis (dict: optional): Dict with compatible properties for the y-axis of
-    the figure layout.
 - point_size (number; default 5): Size of the points of the Scatter
     plot.
 - col (string; optional): Color of the points of the Scatter plot. Can
     be in any color format accepted by plotly.graph_objects.
-- height (number; optional): Sets the plot's height (in px).
-- width (number; optional): Sets the plot's width (in px).
-- margin (dict | plotly.graph_objects.layout.Margin instance): A dict or Margin
-    instance that sets the separation between the main plotting space and
-    the outside of the figure.
-- legend (dict | plotly.graph_objects.layout.Legend instance): A dict or Legend
-    instance with compatible properties.
 - effect_size_line (bool | list; default [-1, 1]): A boolean which
     must be either False to deactivate the option, or a list/array containing
     the upper and lower bounds of the effect size values. Significant
@@ -130,6 +119,19 @@ Keyword arguments:
     Layout and styling of the graph. A full reference of acceptable args is
     available [here](https://plotly.com/python-api-reference/generated/plotly.graph_objects
     .Layout.html).
+
+    Some commonly used layout keys are:
+    - xaxis (dict: optional): Dict with compatible properties for the x-axis of
+        the figure layout.
+    - yaxis (dict: optional): Dict with compatible properties for the y-axis of
+        the figure layout.
+    - height (number; optional): Sets the plot's height (in px).
+    - width (number; optional): Sets the plot's width (in px).
+    - margin (dict | plotly.graph_objects.layout.Margin instance): A dict or Margin
+        instance that sets the separation between the main plotting space and
+        the outside of the figure.
+    - legend (dict | plotly.graph_objects.layout.Legend instance): A dict or Legend
+        instance with compatible properties.
     """
 
     vp = _VolcanoPlot(
@@ -314,21 +316,10 @@ class _VolcanoPlot():
         graph.
     - xlabel (string; optional): Label of the x-axis.
     - ylabel (string; default '-log10(p)'): Label of the y-axis.
-    - xaxis (dict: optional): Dict with compatible properties for the x-axis of
-        the figure layout.
-    - yaxis (dict: optional): Dict with compatible properties for the y-axis of
-        the figure layout.
     - point_size (number; default 5): Size of the points of the scatter
       plot.
     - col (string; optional): Color of the points of the Scatter plot. Can
         be in any color format accepted by plotly.graph_objects.
-    - height (number; optional): Sets the plot's height (in px).
-    - width (number; optional): Sets the plot's width (in px).
-    - margin (dict | plotly.graph_objects.layout.Margin instance): A dict or Margin
-        instance that sets the separation between the main plotting space and
-        the outside of the figure.
-    - legend (dict | plotly.graph_objects.layout.Legend instance): A dict or Legend
-        instance with compatible properties.
     - effect_size_line (bool | list; default [-1, 1]): A boolean which must be
         either False to deactivate the option, or a list/array containing the
         upper and lower bounds of the effect size values. Significant data
@@ -356,6 +347,19 @@ class _VolcanoPlot():
         Layout and styling of the graph. A full reference of acceptable args is
         available [here](https://plotly.com/python-api-reference/generated/plotly.graph_objects
         .Layout.html).
+
+        Some commonly used layout keys are:
+        - xaxis (dict: optional): Dict with compatible properties for the x-axis of
+            the figure layout.
+        - yaxis (dict: optional): Dict with compatible properties for the y-axis of
+            the figure layout.
+        - height (number; optional): Sets the plot's height (in px).
+        - width (number; optional): Sets the plot's width (in px).
+        - margin (dict | plotly.graph_objects.layout.Margin instance): A dict or Margin
+            instance that sets the separation between the main plotting space and
+            the outside of the figure.
+        - legend (dict | plotly.graph_objects.layout.Legend instance): A dict or Legend
+            instance with compatible properties.
         """
 
         if xlabel is None:
