@@ -1710,10 +1710,57 @@
       },
       "labels": {
         "type": {
-          "name": "array"
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
         },
         "required": false,
-        "description": "labels corresponding to the atoms of the molecule"
+        "description": "Labels corresponding to the atoms of the molecule.\nEach label has a `text` field, a string containing the label content,\nand can have many other styling fields as described in\nhttps://3dmol.csb.pitt.edu/doc/types.html#LabelSpec"
+      },
+      "orbital": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "cube_file": {
+              "name": "string",
+              "description": "The filepath containing raw volumetric data for vertex coloring",
+              "required": false
+            },
+            "iso_val": {
+              "name": "number",
+              "description": "The isovalue to draw the surface at",
+              "required": false
+            },
+            "opacity": {
+              "name": "number",
+              "description": "Transparency of the surface, between 0 and 1",
+              "required": false
+            },
+            "positiveVolumetricColor": {
+              "name": "string",
+              "description": "Color for the positive value of the isosurface orbital",
+              "required": false
+            },
+            "negativeVolumetricColor": {
+              "name": "string",
+              "description": "Color for the negative value of the isosurface orbital",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Add an isosurface from volumetric data provided in the `cube_file`"
+      },
+      "shapes": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "object"
+          }
+        },
+        "required": false,
+        "description": "Add a predefined renderable shape objects to the molecule.\nValid shape types are Arrow, Sphere, and Cylinder."
       },
       "onRenderNewData": {
         "type": {

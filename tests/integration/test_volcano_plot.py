@@ -1,12 +1,13 @@
 import json
 import pandas
 
+from common_features import nested_component_layout, \
+    nested_component_app_callback
+
 import dash
 import dash_html_components as html
 import dash_bio
 
-from common_features import nested_component_layout, \
-    nested_component_app_callback
 
 _data = None
 
@@ -101,7 +102,7 @@ def test_dbvp004_genomewideline_value(dash_duo):
         component=dash_bio.VolcanoPlot,
         component_data=_data,
         test_prop_name='genomewideline_value',
-        test_prop_value=3,
+        test_prop_value=4,
         prop_value_type='int',
         data_prop_name='dataframe',
         take_snapshot=True
@@ -126,6 +127,39 @@ def test_dbvp005_effect_size_line_value(dash_duo):
         test_prop_name='effect_size_line',
         test_prop_value=json.dumps([-0.5, 1.5]),
         prop_value_type='list',
+        data_prop_name='dataframe',
+        take_snapshot=True
+    )
+
+
+def test_dbvp006_test_layout_props(dash_duo):
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(nested_component_layout(
+        dash_bio.VolcanoPlot(
+            dataframe=_data,
+            width=600,
+            legend={
+                'x': 0.85,
+                'orientation': 'h',
+                'yanchor': 'bottom',
+                'y': 1.02,
+                'bgcolor': '#f2f5fa'
+            },
+            xaxis={"color": "red"},
+            yaxis={"color": "blue"},
+            template="simple_white",
+        )
+    ))
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.VolcanoPlot,
+        component_data=_data,
+        test_prop_name='plot_bgcolor',
+        test_prop_value='pink',
+        prop_value_type='string',
         data_prop_name='dataframe',
         take_snapshot=True
     )

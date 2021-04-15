@@ -21,7 +21,6 @@ def VolcanoPlot(
         gene='GENE',
         annotation=None,
         logp=True,
-        title='Volcano Plot',
         xlabel=None,
         ylabel='-log10(p)',
         point_size=5,
@@ -33,7 +32,8 @@ def VolcanoPlot(
         genomewideline_color='grey',
         genomewideline_width=1,
         highlight=True,
-        highlight_color="red"
+        highlight_color="red",
+        **kwargs
 ):
     """Return a Dash Bio VolcanoPlot figure.
 
@@ -72,7 +72,6 @@ Keyword arguments:
     plotting the raw value could be useful for other genome-wide plots
     (e.g., peak heights, Bayes factors, test statistics, and other
     "scores").
-- title (string; default 'Volcano Plot'): Title of the graph.
 - xlabel (string; optional): Label of the x axis.
 - ylabel (string; default '-log10(p)'): Label of the y axis.
 - point_size (number; default 5): Size of the points of the Scatter
@@ -110,11 +109,29 @@ Keyword arguments:
     dataframe = pd.DataFrame(
         np.random.randint(0,100,size=(100, 2)),
         columns=['P', 'EFFECTSIZE'])
-    fig = create_volcano(dataframe, title='XYZ Volcano plot')
+    fig = create_volcano(dataframe, title=dict(text='XYZ Volcano plot'))
 
     plotly.offline.plot(fig, image='png')
     '''
+- Additional keys (misc.): Arbitrary arguments can be passed to modify the
+    Layout and styling of the graph. A full reference of acceptable args is
+    available [here](https://plotly.com/python-api-reference/generated/plotly.graph_objects
+    .Layout.html).
 
+    Some commonly used layout keys are:
+    - title (dict: optional): Dict with compatible properties for the title of
+        the figure layout.
+    - xaxis (dict: optional): Dict with compatible properties for the x-axis of
+        the figure layout.
+    - yaxis (dict: optional): Dict with compatible properties for the y-axis of
+        the figure layout.
+    - height (number; optional): Sets the plot's height (in px).
+    - width (number; optional): Sets the plot's width (in px).
+    - margin (dict | plotly.graph_objects.layout.Margin instance): A dict or Margin
+        instance that sets the separation between the main plotting space and
+        the outside of the figure.
+    - legend (dict | plotly.graph_objects.layout.Legend instance): A dict or Legend
+        instance with compatible properties.
     """
 
     vp = _VolcanoPlot(
@@ -128,7 +145,6 @@ Keyword arguments:
     )
 
     return vp.figure(
-        title=title,
         xlabel=xlabel,
         ylabel=ylabel,
         point_size=point_size,
@@ -140,7 +156,8 @@ Keyword arguments:
         genomewideline_color=genomewideline_color,
         genomewideline_width=genomewideline_width,
         highlight=highlight,
-        highlight_color=highlight_color
+        highlight_color=highlight_color,
+        **kwargs
     )
 
 
@@ -274,7 +291,6 @@ class _VolcanoPlot():
 
     def figure(
             self,
-            title='Volcano Plot',
             xlabel=None,
             ylabel='-log10(p)',
             point_size=5,
@@ -287,14 +303,13 @@ class _VolcanoPlot():
             genomewideline_width=1,
             highlight=True,
             highlight_color='red',
+            **kwargs
     ):
         """Return a figure object compatible with plotly.graph_objects.
 
         Keyword arguments:
-    - title (string; default 'Volcano Plot'): Title of the
-        graph.
-    - xlabel (string; optional): Label of the x axis.
-    - ylabel (string; default '-log10(p)'): Label of the y axis.
+    - xlabel (string; optional): Label of the x-axis.
+    - ylabel (string; default '-log10(p)'): Label of the y-axis.
     - point_size (number; default 5): Size of the points of the scatter
       plot.
     - col (string; optional): Color of the points of the Scatter plot. Can
@@ -322,6 +337,25 @@ class _VolcanoPlot():
     - highlight_color (string; default 'red'): Color of the data points
         highlighted because considered significant. Can be in any color
         format accepted by plotly.graph_objects.
+    - Additional keys (misc.): Arbitrary arguments can be passed to modify the
+        Layout and styling of the graph. A full reference of acceptable args is
+        available [here](https://plotly.com/python-api-reference/generated/plotly.graph_objects
+        .Layout.html).
+
+        Some commonly used layout keys are:
+        - title (dict: optional): Dict with compatible properties for the title of
+            the figure layout.
+        - xaxis (dict: optional): Dict with compatible properties for the x-axis of
+            the figure layout.
+        - yaxis (dict: optional): Dict with compatible properties for the y-axis of
+            the figure layout.
+        - height (number; optional): Sets the plot's height (in px).
+        - width (number; optional): Sets the plot's width (in px).
+        - margin (dict | plotly.graph_objects.layout.Margin instance): A dict or Margin
+            instance that sets the separation between the main plotting space and
+            the outside of the figure.
+        - legend (dict | plotly.graph_objects.layout.Legend instance): A dict or Legend
+            instance with compatible properties.
         """
 
         if xlabel is None:
@@ -355,13 +389,18 @@ class _VolcanoPlot():
             col = 'black'
 
         layout = go.Layout(
-            title=title,
+            title={'text': 'Volcano Plot',
+                   'font': {'family': 'sans-serif', 'size': 20},
+                   'x': 0.5,
+                   'xanchor': 'right',
+                   'yanchor': 'top'
+                   },
             hovermode='closest',
-            legend={
-                'x': 0.85,
-                'y': 0.1,
-                'bgcolor': '#f2f5fa'
-            },
+            legend={'bgcolor': '#ebf1fa',
+                    'yanchor': 'top',
+                    'x': 1.01,
+                    "font": {"family": "sans-serif"}
+                    },
             xaxis={
                 'title': xlabel,
                 'zeroline': False,
@@ -372,6 +411,8 @@ class _VolcanoPlot():
                 'zeroline': False
             }
         )
+
+        layout.update(**kwargs)
 
         data_to_plot = []  # To contain the data traces
         tmp = pd.DataFrame()  # Empty DataFrame to contain the highlighted data

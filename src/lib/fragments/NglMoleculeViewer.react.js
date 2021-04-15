@@ -20,6 +20,13 @@ export default class NglMoleculeViewer extends Component {
             orientationMatrix: null,
             structuresList: [],
         };
+        this.highlightAtoms = this.highlightAtoms.bind(this);
+        this.addMolStyle = this.addMolStyle.bind(this);
+        this.addMolSideBySide = this.addMolSideBySide.bind(this);
+        this.showStructure = this.showStructure.bind(this);
+        this.processDataFromBackend = this.processDataFromBackend.bind(this);
+        this.loadData = this.loadData.bind(this);
+        this.generateImage = this.generateImage.bind(this);
         this.ref = React.createRef();
     }
 
@@ -184,6 +191,24 @@ export default class NglMoleculeViewer extends Component {
         }
     }
 
+    // helper function to add molecules to the stage side by side
+    addMolSideBySide(stageObj, sele, stage, chosen, color, xOffset) {
+        const selection = new Selection(sele);
+        const structure = stageObj.structure.getView(selection);
+        const struc = stage.addComponentFromObject(structure);
+
+        const strucCenter = struc.getCenter();
+        const pa = structure.getPrincipalAxes();
+
+        struc.setRotation(pa.getRotationQuaternion());
+        struc.setPosition([
+            0 - strucCenter.x - xOffset,
+            0 - strucCenter.y,
+            0 - strucCenter.z,
+        ]);
+        this.addMolStyle(struc, sele, chosen, color);
+    }
+
     // helper functions which styles the output of loadStructure/loadData
     showStructure(
         stageObj,
@@ -195,14 +220,24 @@ export default class NglMoleculeViewer extends Component {
         sideByside
     ) {
         const {stage, orientationMatrix} = this.state;
-        let struc = stageObj;
         let sele = ':';
 
         // reset the stage to the default orientationMatrix
         stage.viewerControls.orient(orientationMatrix);
 
         if (chain === 'ALL') {
-            this.addMolStyle(stageObj, sele, chosen, color);
+            if (sideByside === true) {
+                this.addMolSideBySide(
+                    stageObj,
+                    sele,
+                    stage,
+                    chosen,
+                    color,
+                    xOffset
+                );
+            } else {
+                this.addMolStyle(stageObj, sele, chosen, color);
+            }
         } else {
             sele += chain;
             if (aaRange !== 'ALL') {
@@ -210,23 +245,17 @@ export default class NglMoleculeViewer extends Component {
             }
 
             if (sideByside === true) {
-                const selection = new Selection(sele);
-                const structure = stageObj.structure.getView(selection);
-                struc = stage.addComponentFromObject(structure);
-
-                const strucCenter = struc.getCenter();
-                const pa = structure.getPrincipalAxes();
-
-                struc.setRotation(pa.getRotationQuaternion());
-                struc.setPosition([
-                    0 - strucCenter.x - xOffset,
-                    0 - strucCenter.y,
-                    0 - strucCenter.z,
-                ]);
+                this.addMolSideBySide(
+                    stageObj,
+                    sele,
+                    stage,
+                    chosen,
+                    color,
+                    xOffset
+                );
+            } else {
+                this.addMolStyle(stageObj, sele, chosen, color);
             }
-
-            // const struc=stageObj
-            this.addMolStyle(struc, sele, chosen, color);
         }
         stage.autoView();
     }
