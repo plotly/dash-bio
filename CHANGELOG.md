@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.7.0] - 2021-04-19
 
 ### Fixed
 * [#547](https://github.com/plotly/dash-bio/pull/547) `sideByside` prop fix for NglMoleculeViewer  component when `ALL` chains are visualized.
@@ -11,10 +11,8 @@
 * [#553](https://github.com/plotly/dash-bio/pull/553) Added source mapping.
 * [#554](https://github.com/plotly/dash-bio/pull/554) Added additional props and arbitrary layout arguments to VolcanoPlot.
 
-
-### Fixed 
+### Changed
 - [#550](https://github.com/plotly/dash-bio/pull/548) Updated CONTRIBUTING.md andbasic demo app structure. In addition, removed residual code and pre-deploy scripts associated with now-discontinued Dash Bio gallery. 
-
 
 ## [0.6.1] - 2021-02-15
 ### Fixed
