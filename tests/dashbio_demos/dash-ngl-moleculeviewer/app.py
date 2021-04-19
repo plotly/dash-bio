@@ -1,5 +1,4 @@
 from base64 import b64decode
-import os
 import glob
 import gzip
 import zlib
@@ -11,10 +10,8 @@ import dash_html_components as html
 import dash_core_components as dcc
 import dash_bio
 
-try:
-    from layout_helper import run_standalone_app
-except ModuleNotFoundError:
-    from .layout_helper import run_standalone_app
+from layout_helper import run_standalone_app
+
 
 # Preset colors for the shown molecules
 COLORS = [
@@ -860,10 +857,8 @@ def callbacks(_app):
         )
 
 
-# only declare app/server if the file is being run directly
-if 'DEMO_STANDALONE' not in os.environ:
-    app = run_standalone_app(layout, callbacks, header_colors, __file__)
-    server = app.server
+app = run_standalone_app(layout, callbacks, header_colors, __file__)
+server = app.server
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=8050)

@@ -1,5 +1,5 @@
-dash==1.8.0
-dash-html-components==1.0.2
-dash-core-components==1.7.0
-dash-daq==0.3.2
+dash>=1.8.0
+dash-html-components>=1.0.2
+dash-core-components>=1.7.0
+dash-daq>=0.3.2
 

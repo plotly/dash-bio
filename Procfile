@@ -1,2 +1,0 @@
-web: gunicorn index:server
-
