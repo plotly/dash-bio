@@ -44,7 +44,7 @@ jobs:
                     python -m venv venv
                     . venv/bin/activate
                     git clone --depth 1 https://github.com/plotly/dash.git dash-main
-                    cd dash-main && pip install -e .[dev, testing] --progress-bar off && renderer build && cd ../..
+                    cd dash-main && pip install -e .[dev,testing] --progress-bar off && renderer build && cd ../..
                     npm run build
 
             - run:
