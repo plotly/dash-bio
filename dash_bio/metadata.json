@@ -1752,6 +1752,62 @@
         "required": false,
         "description": "Add an isosurface from volumetric data provided in the `cube_file`"
       },
+      "zoom": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "factor": {
+              "name": "number",
+              "description": "Magnification factor. Values greater than 1 will zoom,\nin, less than one will zoom out. Default 2.",
+              "required": false
+            },
+            "animationDuration": {
+              "name": "number",
+              "description": "An optional parameter that denotes the duration of a\nzoom animation.",
+              "required": false
+            },
+            "fixedPath": {
+              "name": "bool",
+              "description": "If true, animation is constrained to requested motion,\noverriding updates that happen during the animation.",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Zoom the current view by a constant factor, with optional parameters\nto modify the duration and motion of the zoom animation.",
+        "defaultValue": {
+          "value": "{\n    factor: 0.8,\n    animationDuration: 0,\n    fixedPath: true,\n}",
+          "computed": false
+        }
+      },
+      "zoomTo": {
+        "type": {
+          "name": "exact",
+          "value": {
+            "sel": {
+              "name": "object",
+              "description": "Selection specification specifying model and atom properties\nto select. Default: all atoms in viewer.",
+              "required": false
+            },
+            "animationDuration": {
+              "name": "number",
+              "description": "An optional parameter that denotes the duration of a zoom animation.",
+              "required": false
+            },
+            "fixedPath": {
+              "name": "bool",
+              "description": "If true, animation is constrained to requested motion,\noverriding updates that happen during the animation.",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "Zoom to center of atom selection.",
+        "defaultValue": {
+          "value": "{\n    sel: {},\n    animationDuration: 0,\n    fixedPath: true,\n}",
+          "computed": false
+        }
+      },
       "shapes": {
         "type": {
           "name": "arrayOf",

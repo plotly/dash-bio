@@ -10,27 +10,26 @@ The Molecule3dViewer component is used to render schematic diagrams of biomolecu
 }
 
 \usage{
-dashbioMolecule3dViewer(id=NULL, selectionType=NULL, backgroundColor=NULL,
-backgroundOpacity=NULL, styles=NULL, modelData=NULL,
-atomLabelsShown=NULL, selectedAtomIds=NULL, labels=NULL,
-orbital=NULL, shapes=NULL, onRenderNewData=NULL,
-onChangeSelection=NULL)
+dashbioMolecule3dViewer(id=NULL, atomLabelsShown=NULL, backgroundColor=NULL,
+backgroundOpacity=NULL, labels=NULL, modelData=NULL,
+onChangeSelection=NULL, onRenderNewData=NULL, orbital=NULL,
+selectedAtomIds=NULL, selectionType=NULL, shapes=NULL,
+styles=NULL, zoom=NULL, zoomTo=NULL)
 }
 
 \arguments{
 \item{id}{Character. The ID used to identify this component in callbacks}
 
-\item{selectionType}{A value equal to: 'atom', 'residue', 'chain'. The selection type - may be atom, residue or chain}
+\item{atomLabelsShown}{Logical. Property to either show or hide labels}
 
 \item{backgroundColor}{Character. Property to change the background color of the molecule viewer}
 
 \item{backgroundOpacity}{Numeric. Property to change the background opacity - ranges from 0 to 1}
 
-\item{styles}{List of lists containing elements 'color', 'visualization_type'.
-those elements have the following types:
-  - color (character; optional)
-  - visualization_type (a value equal to: 'cartoon', 'sphere', 'stick'; optional)s. Property that can be used to change the representation of
-the molecule. Options include sticks, cartoon and sphere}
+\item{labels}{List of named lists. Labels corresponding to the atoms of the molecule.
+Each label has a `text` field, a string containing the label content,
+and can have many other styling fields as described in
+https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec}
 
 \item{modelData}{Lists containing elements 'atoms', 'bonds'.
 those elements have the following types:
@@ -39,14 +38,11 @@ those elements have the following types:
 The data will be in JSON format
 and should have two main dictionaries - atoms, bonds}
 
-\item{atomLabelsShown}{Logical. Property to either show or hide labels}
+\item{onChangeSelection}{Callback to change append selectedAtomIds
+when a selection is made}
 
-\item{selectedAtomIds}{Unnamed list. Property that stores a list of all selected atoms}
-
-\item{labels}{List of named lists. Labels corresponding to the atoms of the molecule.
-Each label has a `text` field, a string containing the label content,
-and can have many other styling fields as described in
-https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec}
+\item{onRenderNewData}{Callback to re-render molecule viewer
+when modelData is changed}
 
 \item{orbital}{Lists containing elements 'cube_file', 'iso_val', 'opacity', 'positivevolumetriccolor', 'negativevolumetriccolor'.
 those elements have the following types:
@@ -56,14 +52,36 @@ those elements have the following types:
   - positivevolumetriccolor (character; optional): color for the positive value of the isosurface orbital
   - negativevolumetriccolor (character; optional): color for the negative value of the isosurface orbital. Add an isosurface from volumetric data provided in the `cube_file`}
 
+\item{selectedAtomIds}{Unnamed list. Property that stores a list of all selected atoms}
+
+\item{selectionType}{A value equal to: 'atom', 'residue', 'chain'. The selection type - may be atom, residue or chain}
+
 \item{shapes}{List of named lists. Add a predefined renderable shape objects to the molecule.
 Valid shape types are Arrow, Sphere, and Cylinder.}
 
-\item{onRenderNewData}{Callback to re-render molecule viewer
-when modelData is changed}
+\item{styles}{List of lists containing elements 'color', 'visualization_type'.
+those elements have the following types:
+  - color (character; optional)
+  - visualization_type (a value equal to: 'cartoon', 'sphere', 'stick'; optional)s. Property that can be used to change the representation of
+the molecule. Options include sticks, cartoon and sphere}
 
-\item{onChangeSelection}{Callback to change append selectedAtomIds
-when a selection is made}
+\item{zoom}{Lists containing elements 'factor', 'animationduration', 'fixedpath'.
+those elements have the following types:
+  - factor (numeric; optional): magnification factor. values greater than 1 will zoom,
+in, less than one will zoom out. default 2.
+  - animationduration (numeric; optional): an optional parameter that denotes the duration of a
+zoom animation.
+  - fixedpath (logical; optional): if true, animation is constrained to requested motion,
+overriding updates that happen during the animation.. Zoom the current view by a constant factor, with optional parameters
+to modify the duration and motion of the zoom animation.}
+
+\item{zoomTo}{Lists containing elements 'sel', 'animationduration', 'fixedpath'.
+those elements have the following types:
+  - sel (named list; optional): selection specification specifying model and atom properties
+to select. default: all atoms in viewer.
+  - animationduration (numeric; optional): an optional parameter that denotes the duration of a zoom animation.
+  - fixedpath (logical; optional): if true, animation is constrained to requested motion,
+overriding updates that happen during the animation.. Zoom to center of atom selection.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

@@ -25,6 +25,16 @@ Molecule3dViewer.defaultProps = {
     selectionType: 'atom',
     backgroundColor: '#FFFFFF',
     backgroundOpacity: 0,
+    zoom: {
+        factor: 0.8,
+        animationDuration: 0,
+        fixedPath: true,
+    },
+    zoomTo: {
+        sel: {},
+        animationDuration: 0,
+        fixedPath: true,
+    },
 };
 
 Molecule3dViewer.propTypes = {
@@ -116,6 +126,48 @@ Molecule3dViewer.propTypes = {
          * Color for the negative value of the isosurface orbital
          */
         negativeVolumetricColor: PropTypes.string,
+    }),
+
+    /**
+     * Zoom the current view by a constant factor, with optional parameters
+     * to modify the duration and motion of the zoom animation.
+     */
+    zoom: PropTypes.exact({
+        /**
+         * Magnification factor. Values greater than 1 will zoom,
+         * in, less than one will zoom out. Default 2.
+         */
+        factor: PropTypes.number,
+        /**
+         * An optional parameter that denotes the duration of a
+         * zoom animation.
+         */
+        animationDuration: PropTypes.number,
+        /**
+         * If true, animation is constrained to requested motion,
+         * overriding updates that happen during the animation.
+         */
+        fixedPath: PropTypes.bool,
+    }),
+
+    /**
+     * Zoom to center of atom selection.
+     */
+    zoomTo: PropTypes.exact({
+        /**
+         * Selection specification specifying model and atom properties
+         * to select. Default: all atoms in viewer.
+         */
+        sel: PropTypes.object,
+        /**
+         * An optional parameter that denotes the duration of a zoom animation.
+         */
+        animationDuration: PropTypes.number,
+        /**
+         * If true, animation is constrained to requested motion,
+         * overriding updates that happen during the animation.
+         */
+        fixedPath: PropTypes.bool,
     }),
 
     /**

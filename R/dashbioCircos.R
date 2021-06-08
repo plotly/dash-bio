@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dashbioCircos <- function(enableDownloadSVG=NULL, enableZoomPan=NULL, id=NULL, style=NULL, eventDatum=NULL, selectEvent=NULL, layout=NULL, config=NULL, size=NULL, tracks=NULL) {
+dashbioCircos <- function(id=NULL, config=NULL, enableDownloadSVG=NULL, enableZoomPan=NULL, eventDatum=NULL, layout=NULL, selectEvent=NULL, size=NULL, style=NULL, tracks=NULL) {
     
-    props <- list(enableDownloadSVG=enableDownloadSVG, enableZoomPan=enableZoomPan, id=id, style=style, eventDatum=eventDatum, selectEvent=selectEvent, layout=layout, config=config, size=size, tracks=tracks)
+    props <- list(id=id, config=config, enableDownloadSVG=enableDownloadSVG, enableZoomPan=enableZoomPan, eventDatum=eventDatum, layout=layout, selectEvent=selectEvent, size=size, style=style, tracks=tracks)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dashbioCircos <- function(enableDownloadSVG=NULL, enableZoomPan=NULL, id=NULL, s
         props = props,
         type = 'Circos',
         namespace = 'dash_bio',
-        propNames = c('enableDownloadSVG', 'enableZoomPan', 'id', 'style', 'eventDatum', 'selectEvent', 'layout', 'config', 'size', 'tracks'),
+        propNames = c('id', 'config', 'enableDownloadSVG', 'enableZoomPan', 'eventDatum', 'layout', 'selectEvent', 'size', 'style', 'tracks'),
         package = 'dashBio'
         )
 

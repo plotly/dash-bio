@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dashbioNeedlePlot <- function(id=NULL, mutationData=NULL, xlabel=NULL, ylabel=NULL, rangeSlider=NULL, needleStyle=NULL, domainStyle=NULL) {
+dashbioNeedlePlot <- function(id=NULL, domainStyle=NULL, mutationData=NULL, needleStyle=NULL, rangeSlider=NULL, xlabel=NULL, ylabel=NULL) {
     
-    props <- list(id=id, mutationData=mutationData, xlabel=xlabel, ylabel=ylabel, rangeSlider=rangeSlider, needleStyle=needleStyle, domainStyle=domainStyle)
+    props <- list(id=id, domainStyle=domainStyle, mutationData=mutationData, needleStyle=needleStyle, rangeSlider=rangeSlider, xlabel=xlabel, ylabel=ylabel)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dashbioNeedlePlot <- function(id=NULL, mutationData=NULL, xlabel=NULL, ylabel=NU
         props = props,
         type = 'NeedlePlot',
         namespace = 'dash_bio',
-        propNames = c('id', 'mutationData', 'xlabel', 'ylabel', 'rangeSlider', 'needleStyle', 'domainStyle'),
+        propNames = c('id', 'domainStyle', 'mutationData', 'needleStyle', 'rangeSlider', 'xlabel', 'ylabel'),
         package = 'dashBio'
         )
 

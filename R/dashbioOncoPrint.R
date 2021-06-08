@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dashbioOncoPrint <- function(id=NULL, eventDatum=NULL, data=NULL, padding=NULL, colorscale=NULL, backgroundcolor=NULL, range=NULL, showlegend=NULL, showoverview=NULL, width=NULL, height=NULL) {
+dashbioOncoPrint <- function(id=NULL, backgroundcolor=NULL, colorscale=NULL, data=NULL, eventDatum=NULL, height=NULL, padding=NULL, range=NULL, showlegend=NULL, showoverview=NULL, width=NULL) {
     
-    props <- list(id=id, eventDatum=eventDatum, data=data, padding=padding, colorscale=colorscale, backgroundcolor=backgroundcolor, range=range, showlegend=showlegend, showoverview=showoverview, width=width, height=height)
+    props <- list(id=id, backgroundcolor=backgroundcolor, colorscale=colorscale, data=data, eventDatum=eventDatum, height=height, padding=padding, range=range, showlegend=showlegend, showoverview=showoverview, width=width)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dashbioOncoPrint <- function(id=NULL, eventDatum=NULL, data=NULL, padding=NULL, 
         props = props,
         type = 'OncoPrint',
         namespace = 'dash_bio',
-        propNames = c('id', 'eventDatum', 'data', 'padding', 'colorscale', 'backgroundcolor', 'range', 'showlegend', 'showoverview', 'width', 'height'),
+        propNames = c('id', 'backgroundcolor', 'colorscale', 'data', 'eventDatum', 'height', 'padding', 'range', 'showlegend', 'showoverview', 'width'),
         package = 'dashBio'
         )
 

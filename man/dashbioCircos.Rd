@@ -10,22 +10,31 @@ Dash Circos is a library used to analyze and interpret data using a circular lay
 }
 
 \usage{
-dashbioCircos(enableDownloadSVG=NULL, enableZoomPan=NULL, id=NULL,
-style=NULL, eventDatum=NULL, selectEvent=NULL, layout=NULL,
-config=NULL, size=NULL, tracks=NULL)
+dashbioCircos(id=NULL, config=NULL, enableDownloadSVG=NULL,
+enableZoomPan=NULL, eventDatum=NULL, layout=NULL,
+selectEvent=NULL, size=NULL, style=NULL, tracks=NULL)
 }
 
 \arguments{
+\item{id}{Character. The ID of the component to be used in Dash callbacks}
+
+\item{config}{Named list. Configuration of overall layout of the graph.}
+
 \item{enableDownloadSVG}{Logical. Allow for an SVG snapshot of the Circos graph to be downloaded.}
 
 \item{enableZoomPan}{Logical. Allow for zooming and panning the Circos graph.}
 
-\item{id}{Character. The ID of the component to be used in Dash callbacks}
-
-\item{style}{Named list. The CSS styling of the div wrapping the component}
-
 \item{eventDatum}{Named list. A Dash prop that returns data on clicking or hovering of the tracks.
 Depending on what is specified for prop "selectEvent".}
+
+\item{layout}{List of lists containing elements 'len', 'color', 'label', 'id'.
+those elements have the following types:
+  - len (numeric; required): the length of the block.
+  - color (character; required): the color of the block.
+  - label (character; required): the labels of the block.
+  - id (character; required): the id of the block, where it will recieve
+data from the specified "track" id.s. The overall layout of the Circos graph, provided
+as a list of dictionaries.}
 
 \item{selectEvent}{Named list. A dictionary used to choose whether tracks should return
 data on click, hover, or both, with the dash prop "eventDatum".
@@ -38,19 +47,10 @@ selectEvent={
         "2": "both"
     },}
 
-\item{layout}{List of lists containing elements 'len', 'color', 'label', 'id'.
-those elements have the following types:
-  - len (numeric; required): the length of the block.
-  - color (character; required): the color of the block.
-  - label (character; required): the labels of the block.
-  - id (character; required): the id of the block, where it will recieve
-data from the specified "track" id.s. The overall layout of the Circos graph, provided
-as a list of dictionaries.}
-
-\item{config}{Named list. Configuration of overall layout of the graph.}
-
 \item{size}{Numeric. The overall size of the SVG container holding the
 graph. Set on initilization and unchangeable thereafter.}
+
+\item{style}{Named list. The CSS styling of the div wrapping the component}
 
 \item{tracks}{List of lists containing elements 'id', 'data', 'config', 'type', 'tooltipcontent', 'color'.
 those elements have the following types:
