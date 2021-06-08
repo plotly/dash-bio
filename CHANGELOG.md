@@ -1,5 +1,12 @@
 # Changelog
 
+## UNRELEASED
+
+### Fixed
+* [#561](https://github.com/plotly/dash-bio/pull/561) Repeated re-rendering of the Molecule3dViewer component caused the viewer zoom to decrease multiplicatively.
+This fix also exposes the `zoom` and `zoomTo` props for this component.
+
+
 ## [0.7.0] - 2021-04-19
 
 ### Fixed
@@ -12,7 +19,7 @@
 * [#554](https://github.com/plotly/dash-bio/pull/554) Added additional props and arbitrary layout arguments to VolcanoPlot.
 
 ### Changed
-- [#550](https://github.com/plotly/dash-bio/pull/548) Updated CONTRIBUTING.md andbasic demo app structure. In addition, removed residual code and pre-deploy scripts associated with now-discontinued Dash Bio gallery. 
+- [#550](https://github.com/plotly/dash-bio/pull/548) Updated CONTRIBUTING.md andbasic demo app structure. In addition, removed residual code and pre-deploy scripts associated with now-discontinued Dash Bio gallery.
 
 ## [0.6.1] - 2021-02-15
 ### Fixed
