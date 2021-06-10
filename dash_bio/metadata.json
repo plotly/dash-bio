@@ -1763,7 +1763,7 @@
             },
             "animationDuration": {
               "name": "number",
-              "description": "An optional parameter that denotes the duration of a\nzoom animation.",
+              "description": "An optional parameter that denotes the duration of a\nzoom animation, in milliseconds.",
               "required": false
             },
             "fixedPath": {
@@ -1776,7 +1776,7 @@
         "required": false,
         "description": "Zoom the current view by a constant factor, with optional parameters\nto modify the duration and motion of the zoom animation.",
         "defaultValue": {
-          "value": "{\n    factor: 0.8,\n    animationDuration: 0,\n    fixedPath: true,\n}",
+          "value": "{\n    factor: 0.8,\n    animationDuration: 0,\n    fixedPath: false,\n}",
           "computed": false
         }
       },
@@ -1785,13 +1785,25 @@
           "name": "exact",
           "value": {
             "sel": {
-              "name": "object",
+              "name": "exact",
+              "value": {
+                "chain": {
+                  "name": "string",
+                  "description": "Chain that the residue is located on.",
+                  "required": false
+                },
+                "res": {
+                  "name": "number",
+                  "description": "The index value used to identify the residue;\nresidues are numbered sequentially starting from 1.",
+                  "required": false
+                }
+              },
               "description": "Selection specification specifying model and atom properties\nto select. Default: all atoms in viewer.",
               "required": false
             },
             "animationDuration": {
               "name": "number",
-              "description": "An optional parameter that denotes the duration of a zoom animation.",
+              "description": "An optional parameter that denotes the duration of a zoom animation\n, in milliseconds.",
               "required": false
             },
             "fixedPath": {
@@ -1804,7 +1816,7 @@
         "required": false,
         "description": "Zoom to center of atom selection.",
         "defaultValue": {
-          "value": "{\n    sel: {},\n    animationDuration: 0,\n    fixedPath: true,\n}",
+          "value": "{\n    sel: {},\n    animationDuration: 0,\n    fixedPath: false,\n}",
           "computed": false
         }
       },

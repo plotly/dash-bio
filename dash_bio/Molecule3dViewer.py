@@ -84,7 +84,7 @@ Keyword arguments:
 
     - visualization_type (a value equal to: 'cartoon', 'sphere', 'stick'; optional)
 
-- zoom (dict; default {    factor: 0.8,    animationDuration: 0,    fixedPath: True,}):
+- zoom (dict; default {    factor: 0.8,    animationDuration: 0,    fixedPath: False,}):
     Zoom the current view by a constant factor, with optional
     parameters to modify the duration and motion of the zoom
     animation.
@@ -93,7 +93,7 @@ Keyword arguments:
 
     - animationDuration (number; optional):
         An optional parameter that denotes the duration of a zoom
-        animation.
+        animation, in milliseconds.
 
     - factor (number; optional):
         Magnification factor. Values greater than 1 will zoom, in,
@@ -103,14 +103,14 @@ Keyword arguments:
         If True, animation is constrained to requested motion,
         overriding updates that happen during the animation.
 
-- zoomTo (dict; default {    sel: {},    animationDuration: 0,    fixedPath: True,}):
+- zoomTo (dict; default {    sel: {},    animationDuration: 0,    fixedPath: False,}):
     Zoom to center of atom selection.
 
     `zoomTo` is a dict with keys:
 
     - animationDuration (number; optional):
         An optional parameter that denotes the duration of a zoom
-        animation.
+        animation , in milliseconds.
 
     - fixedPath (boolean; optional):
         If True, animation is constrained to requested motion,
@@ -118,7 +118,16 @@ Keyword arguments:
 
     - sel (dict; optional):
         Selection specification specifying model and atom properties
-        to select. Default: all atoms in viewer."""
+        to select. Default: all atoms in viewer.
+
+        `sel` is a dict with keys:
+
+        - chain (string; optional):
+            Chain that the residue is located on.
+
+        - res (number; optional):
+            The index value used to identify the residue; residues are
+            numbered sequentially starting from 1."""
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, selectionType=Component.UNDEFINED, backgroundColor=Component.UNDEFINED, backgroundOpacity=Component.UNDEFINED, styles=Component.UNDEFINED, modelData=Component.UNDEFINED, atomLabelsShown=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, labels=Component.UNDEFINED, orbital=Component.UNDEFINED, zoom=Component.UNDEFINED, zoomTo=Component.UNDEFINED, shapes=Component.UNDEFINED, onRenderNewData=Component.UNDEFINED, onChangeSelection=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'labels', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'styles', 'zoom', 'zoomTo']

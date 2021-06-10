@@ -70,16 +70,21 @@ those elements have the following types:
   - factor (numeric; optional): magnification factor. values greater than 1 will zoom,
 in, less than one will zoom out. default 2.
   - animationduration (numeric; optional): an optional parameter that denotes the duration of a
-zoom animation.
+zoom animation, in milliseconds.
   - fixedpath (logical; optional): if true, animation is constrained to requested motion,
 overriding updates that happen during the animation.. Zoom the current view by a constant factor, with optional parameters
 to modify the duration and motion of the zoom animation.}
 
 \item{zoomTo}{Lists containing elements 'sel', 'animationduration', 'fixedpath'.
 those elements have the following types:
-  - sel (named list; optional): selection specification specifying model and atom properties
-to select. default: all atoms in viewer.
-  - animationduration (numeric; optional): an optional parameter that denotes the duration of a zoom animation.
+  - sel (optional): selection specification specifying model and atom properties
+to select. default: all atoms in viewer.. sel has the following type: lists containing elements 'chain', 'res'.
+those elements have the following types:
+  - chain (character; optional): chain that the residue is located on.
+  - res (numeric; optional): the index value used to identify the residue;
+residues are numbered sequentially starting from 1.
+  - animationduration (numeric; optional): an optional parameter that denotes the duration of a zoom animation
+, in milliseconds.
   - fixedpath (logical; optional): if true, animation is constrained to requested motion,
 overriding updates that happen during the animation.. Zoom to center of atom selection.}
 }

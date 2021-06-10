@@ -28,12 +28,12 @@ Molecule3dViewer.defaultProps = {
     zoom: {
         factor: 0.8,
         animationDuration: 0,
-        fixedPath: true,
+        fixedPath: false,
     },
     zoomTo: {
         sel: {},
         animationDuration: 0,
-        fixedPath: true,
+        fixedPath: false,
     },
 };
 
@@ -158,7 +158,17 @@ Molecule3dViewer.propTypes = {
          * Selection specification specifying model and atom properties
          * to select. Default: all atoms in viewer.
          */
-        sel: PropTypes.object,
+        sel: PropTypes.exact({
+            /**
+             * Chain that the residue is located on.
+             */
+            chain: PropTypes.string,
+            /**
+             * The index value used to identify the residue;
+             * residues are numbered sequentially starting from 1.
+             */
+            res: PropTypes.number,
+        }),
         /**
          * An optional parameter that denotes the duration of a zoom animation
          * , in milliseconds.
