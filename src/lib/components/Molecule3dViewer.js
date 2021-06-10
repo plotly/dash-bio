@@ -140,7 +140,7 @@ Molecule3dViewer.propTypes = {
         factor: PropTypes.number,
         /**
          * An optional parameter that denotes the duration of a
-         * zoom animation.
+         * zoom animation, in milliseconds.
          */
         animationDuration: PropTypes.number,
         /**
@@ -160,7 +160,8 @@ Molecule3dViewer.propTypes = {
          */
         sel: PropTypes.object,
         /**
-         * An optional parameter that denotes the duration of a zoom animation.
+         * An optional parameter that denotes the duration of a zoom animation
+         * , in milliseconds.
          */
         animationDuration: PropTypes.number,
         /**
