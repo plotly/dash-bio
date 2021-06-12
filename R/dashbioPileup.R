@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dashbioPileup <- function(id=NULL, style=NULL, className=NULL, range=NULL, reference=NULL, tracks=NULL) {
+dashbioPileup <- function(id=NULL, className=NULL, range=NULL, reference=NULL, style=NULL, tracks=NULL) {
     
-    props <- list(id=id, style=style, className=className, range=range, reference=reference, tracks=tracks)
+    props <- list(id=id, className=className, range=range, reference=reference, style=style, tracks=tracks)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dashbioPileup <- function(id=NULL, style=NULL, className=NULL, range=NULL, refer
         props = props,
         type = 'Pileup',
         namespace = 'dash_bio',
-        propNames = c('id', 'style', 'className', 'range', 'reference', 'tracks'),
+        propNames = c('id', 'className', 'range', 'reference', 'style', 'tracks'),
         package = 'dashBio'
         )
 

@@ -14,9 +14,19 @@ export default class Molecule3dViewer extends Component {
     }
 
     onRenderNewData(glviewer) {
-        glviewer.center();
-        const zoomRatio = 0.8;
-        glviewer.zoom(zoomRatio);
+        this.glviewer = glviewer;
+
+        glviewer.zoomTo(
+            this.props.zoomTo.sel,
+            this.props.zoomTo.animationDuration,
+            this.props.zoomTo.fixedPath
+        );
+
+        glviewer.zoom(
+            this.props.zoom.factor,
+            this.props.zoom.animationDuration,
+            this.props.zoom.fixedPath
+        );
     }
 
     shouldComponentUpdate(nextProps) {
@@ -28,6 +38,9 @@ export default class Molecule3dViewer extends Component {
             this.props.selectionType !== nextProps.selectionType ||
             this.props.orbital !== nextProps.orbital ||
             this.props.shapes !== nextProps.shapes ||
+            this.props.labels !== nextProps.labels ||
+            this.props.zoom !== nextProps.zoom ||
+            this.props.zoomTo !== nextProps.zoomTo ||
             (!this.props.selectedAtomIds && nextProps.selectedAtomIds) ||
             (this.props.selectedAtomIds && !nextProps.selectedAtomIds) ||
             (this.props.selectedAtomIds &&
@@ -46,6 +59,26 @@ export default class Molecule3dViewer extends Component {
             return true;
         }
         return false;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (
+            (this.props.zoom !== prevProps.zoom ||
+                this.props.zoomTo !== prevProps.zoomTo) &&
+            this.glviewer
+        ) {
+            this.glviewer.zoomTo(
+                this.props.zoomTo.sel,
+                this.props.zoomTo.animationDuration,
+                this.props.zoomTo.fixedPath
+            );
+
+            this.glviewer.zoom(
+                this.props.zoom.factor,
+                this.props.zoom.animationDuration,
+                this.props.zoom.fixedPath
+            );
+        }
     }
 
     render() {

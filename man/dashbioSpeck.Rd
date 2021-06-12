@@ -10,8 +10,8 @@ The Speck component is a WebGL-based 3D molecule renderer. Read more about the c
 }
 
 \usage{
-dashbioSpeck(id=NULL, data=NULL, scrollZoom=NULL, view=NULL,
-presetView=NULL)
+dashbioSpeck(id=NULL, data=NULL, presetView=NULL, scrollZoom=NULL,
+view=NULL)
 }
 
 \arguments{
@@ -25,6 +25,9 @@ those elements have the following types:
   - z (numeric; optional)s. The xyz file data; a list of atoms such that each atom
 has a dictionary defining the x, y, and z coordinates
 along with the atom's symbol.}
+
+\item{presetView}{A value equal to: 'default', 'stickball', 'toon', 'licorice'. One of several pre-loaded views: default, stick-ball, toon,
+and licorice}
 
 \item{scrollZoom}{Logical. The option of whether or not to allow scrolling to control
 the zoom.}
@@ -57,9 +60,6 @@ those elements have the following types:
   - dofposition (numeric; optional)
   - fxaa (numeric; optional). An object that determines and controls various parameters
 related to how the molecule is displayed.}
-
-\item{presetView}{A value equal to: 'default', 'stickball', 'toon', 'licorice'. One of several pre-loaded views: default, stick-ball, toon,
-and licorice}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

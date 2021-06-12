@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dashbioSpeck <- function(id=NULL, data=NULL, scrollZoom=NULL, view=NULL, presetView=NULL) {
+dashbioSpeck <- function(id=NULL, data=NULL, presetView=NULL, scrollZoom=NULL, view=NULL) {
     
-    props <- list(id=id, data=data, scrollZoom=scrollZoom, view=view, presetView=presetView)
+    props <- list(id=id, data=data, presetView=presetView, scrollZoom=scrollZoom, view=view)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dashbioSpeck <- function(id=NULL, data=NULL, scrollZoom=NULL, view=NULL, presetV
         props = props,
         type = 'Speck',
         namespace = 'dash_bio',
-        propNames = c('id', 'data', 'scrollZoom', 'view', 'presetView'),
+        propNames = c('id', 'data', 'presetView', 'scrollZoom', 'view'),
         package = 'dashBio'
         )
 

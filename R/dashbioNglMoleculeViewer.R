@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dashbioNglMoleculeViewer <- function(id=NULL, width=NULL, height=NULL, stageParameters=NULL, imageParameters=NULL, downloadImage=NULL, pdbString=NULL, data=NULL, molStyles=NULL) {
+dashbioNglMoleculeViewer <- function(id=NULL, data=NULL, downloadImage=NULL, height=NULL, imageParameters=NULL, molStyles=NULL, pdbString=NULL, stageParameters=NULL, width=NULL) {
     
-    props <- list(id=id, width=width, height=height, stageParameters=stageParameters, imageParameters=imageParameters, downloadImage=downloadImage, pdbString=pdbString, data=data, molStyles=molStyles)
+    props <- list(id=id, data=data, downloadImage=downloadImage, height=height, imageParameters=imageParameters, molStyles=molStyles, pdbString=pdbString, stageParameters=stageParameters, width=width)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dashbioNglMoleculeViewer <- function(id=NULL, width=NULL, height=NULL, stagePara
         props = props,
         type = 'NglMoleculeViewer',
         namespace = 'dash_bio',
-        propNames = c('id', 'width', 'height', 'stageParameters', 'imageParameters', 'downloadImage', 'pdbString', 'data', 'molStyles'),
+        propNames = c('id', 'data', 'downloadImage', 'height', 'imageParameters', 'molStyles', 'pdbString', 'stageParameters', 'width'),
         package = 'dashBio'
         )
 

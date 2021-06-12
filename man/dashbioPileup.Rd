@@ -10,15 +10,13 @@ The Pileup component is a genome visualization component developed by the the Ha
 }
 
 \usage{
-dashbioPileup(id=NULL, style=NULL, className=NULL, range=NULL,
-reference=NULL, tracks=NULL)
+dashbioPileup(id=NULL, className=NULL, range=NULL, reference=NULL,
+style=NULL, tracks=NULL)
 }
 
 \arguments{
 \item{id}{Character. The ID of this component, used to identify dash components in callbacks.
 The ID needs to be unique across all of the components in an app.}
-
-\item{style}{Named list. Generic style overrides on the plot div}
 
 \item{className}{Character. className of the component div.}
 
@@ -34,6 +32,8 @@ those elements have the following types:
   - label (character; optional): label to display by reference
   - url (character; optional): url of 2bit file.
          https://genome.ucsc.edu/goldenpath/help/twobit.html. Object defining genomic reference.}
+
+\item{style}{Named list. Generic style overrides on the plot div}
 
 \item{tracks}{List of lists containing elements 'viz', 'vizoptions', 'label', 'source', 'sourceoptions'.
 those elements have the following types:

@@ -44,8 +44,7 @@ jobs:
                     python -m venv venv
                     . venv/bin/activate
                     git clone --depth 1 https://github.com/plotly/dash.git dash-main
-                    cd dash-main && pip install -e .[dev,testing]
-                    cd dash-renderer && npm ci && npm run build && pip install -e . && cd ../..
+                    cd dash-main && pip install -e .[dev,testing] --progress-bar off && renderer build && cd ../
                     npm run build
 
             - run:
@@ -97,8 +96,8 @@ jobs:
                 command: |
                     . venv/bin/activate
                     git clone --depth 1 https://github.com/plotly/dash.git dash-main
-                    cd dash-main && pip install -e .[dev,testing]
-                    cd dash-renderer && npm ci && npm run build && pip install -e . && cd ../..
+                    cd dash-main && pip install -e .[dev,testing] --progress-bar off && renderer build && cd ../
+
 
             - run:
                 name: Run pylint

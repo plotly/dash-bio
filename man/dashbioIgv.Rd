@@ -10,15 +10,13 @@ The Igv component is an interactive genome visualization component developed by 
 }
 
 \usage{
-dashbioIgv(id=NULL, style=NULL, className=NULL, genome=NULL,
-reference=NULL, locus=NULL, minimumBases=NULL, tracks=NULL)
+dashbioIgv(id=NULL, className=NULL, genome=NULL, locus=NULL,
+minimumBases=NULL, reference=NULL, style=NULL, tracks=NULL)
 }
 
 \arguments{
 \item{id}{Character. The ID of this component, used to identify dash components in callbacks.
 The ID needs to be unique across all of the components in an app.}
-
-\item{style}{Named list. Generic style overrides on the plot div}
 
 \item{className}{Character. className of the component div.}
 
@@ -27,14 +25,16 @@ The ID needs to be unique across all of the components in an app.}
     either genome or reference properties must be set. If both are set,
     the genome property will be ignored.}
 
-\item{reference}{Named list. Object defining reference genome. see https://github.com/igvteam/igv.js/wiki/Reference-Genome
-    Note: One (but only one) of either genome or reference properties must be set. If both are set,
-    the genome property will be ignored.}
-
 \item{locus}{Character. Initial genomic location(s). Either a string or an array of strings.
     If an array a viewport is created for each location.}
 
 \item{minimumBases}{Numeric. Minimum window size in base pairs when zooming in}
+
+\item{reference}{Named list. Object defining reference genome. see https://github.com/igvteam/igv.js/wiki/Reference-Genome
+    Note: One (but only one) of either genome or reference properties must be set. If both are set,
+    the genome property will be ignored.}
+
+\item{style}{Named list. Generic style overrides on the plot div}
 
 \item{tracks}{Unnamed list. Array of configuration objects defining tracks initially displayed when app launches.
     see https://github.com/igvteam/igv.js/wiki/Tracks-2.0}

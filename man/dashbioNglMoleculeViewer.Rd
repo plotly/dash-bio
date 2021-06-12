@@ -10,47 +10,14 @@ The NglMoleculeViewer is used to render schematic diagrams of biomolecules in ri
 }
 
 \usage{
-dashbioNglMoleculeViewer(id=NULL, width=NULL, height=NULL, stageParameters=NULL,
-imageParameters=NULL, downloadImage=NULL, pdbString=NULL,
-data=NULL, molStyles=NULL)
+dashbioNglMoleculeViewer(id=NULL, data=NULL, downloadImage=NULL, height=NULL,
+imageParameters=NULL, molStyles=NULL, pdbString=NULL,
+stageParameters=NULL, width=NULL)
 }
 
 \arguments{
 \item{id}{Character. The ID of this component, used to identify dash components in callbacks.
 The ID needs to be unique across all of the components in an app.}
-
-\item{width}{Character | numeric. The width (in px or as a number) of the container
-in which the molecules will be displayed.}
-
-\item{height}{Character | numeric. The height (in px or as a number) of the container
-in which the molecules will be displayed.}
-
-\item{stageParameters}{Lists containing elements 'quality', 'backgroundcolor', 'cameratype'.
-those elements have the following types:
-  - quality (character; optional)
-  - backgroundcolor (character; optional)
-  - cameratype (character; optional). Parameters (in JSON format) for the stage object of ngl.
-Currently implemented are render quality, background color and camera type
-quality: auto, low, medium, high (default: auto)
-backgroundColor: white / black (default: white)
-cameraType: perspective / orthographic (default: perspective)}
-
-\item{imageParameters}{Lists containing elements 'antialias', 'transparent', 'trim', 'defaultfilename'.
-those elements have the following types:
-  - antialias (logical; optional)
-  - transparent (logical; optional)
-  - trim (logical; optional)
-  - defaultfilename (character; optional). Parameters (in JSON format) for exporting the image}
-
-\item{downloadImage}{Logical. flag if download image was selected}
-
-\item{pdbString}{Character. Variable which defines how many molecules should be shown and/or which chain
-The following format needs to be used:
-pdbID1.chain:start-end@atom1,atom2_pdbID2.chain:start-end
-. indicates that only one chain should be shown
-: indicates that a specific amino acids range should be shown (e.g. 1-50)
-@ indicates that chosen atoms should be highlighted (e.g. @50,100,150)
- _ indicates that more than one protein should be shown}
 
 \item{data}{List of lists containing elements 'filename', 'ext', 'selectedvalue', 'chain', 'aarange', 'color', 'chosen', 'config', 'uploaded', 'resetview'.
 those elements have the following types:
@@ -85,6 +52,18 @@ config.type: format of config.input
 uploaded: bool if file from local storage (false) or uploaded by user (true)
 resetView: bool if the selection did not change but the view should be resettet (true)}
 
+\item{downloadImage}{Logical. flag if download image was selected}
+
+\item{height}{Character | numeric. The height (in px or as a number) of the container
+in which the molecules will be displayed.}
+
+\item{imageParameters}{Lists containing elements 'antialias', 'transparent', 'trim', 'defaultfilename'.
+those elements have the following types:
+  - antialias (logical; optional)
+  - transparent (logical; optional)
+  - trim (logical; optional)
+  - defaultfilename (character; optional). Parameters (in JSON format) for exporting the image}
+
 \item{molStyles}{Lists containing elements 'representations', 'chosenatomscolor', 'chosenatomsradius', 'molspacingxaxis', 'sidebyside'.
 those elements have the following types:
   - representations (list of characters; optional)
@@ -101,6 +80,27 @@ representations: one or multiple selected molecule representation
 chosenAtomsColor: color of the 'ball+stick' representation of the chosen atoms
 chosenAtomsRadius: radius of the 'ball+stick' representation of the chosen atoms
 molSpacingXaxis: distance on the xAxis between each molecule}
+
+\item{pdbString}{Character. Variable which defines how many molecules should be shown and/or which chain
+The following format needs to be used:
+pdbID1.chain:start-end@atom1,atom2_pdbID2.chain:start-end
+. indicates that only one chain should be shown
+: indicates that a specific amino acids range should be shown (e.g. 1-50)
+@ indicates that chosen atoms should be highlighted (e.g. @50,100,150)
+ _ indicates that more than one protein should be shown}
+
+\item{stageParameters}{Lists containing elements 'quality', 'backgroundcolor', 'cameratype'.
+those elements have the following types:
+  - quality (character; optional)
+  - backgroundcolor (character; optional)
+  - cameratype (character; optional). Parameters (in JSON format) for the stage object of ngl.
+Currently implemented are render quality, background color and camera type
+quality: auto, low, medium, high (default: auto)
+backgroundColor: white / black (default: white)
+cameraType: perspective / orthographic (default: perspective)}
+
+\item{width}{Character | numeric. The width (in px or as a number) of the container
+in which the molecules will be displayed.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

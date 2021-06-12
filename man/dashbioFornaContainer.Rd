@@ -10,9 +10,9 @@ FornaContainer is a force-directed graph that is used to visualize the secondary
 }
 
 \usage{
-dashbioFornaContainer(id=NULL, height=NULL, width=NULL, sequences=NULL,
-nodeFillColor=NULL, colorScheme=NULL, customColors=NULL,
-allowPanningAndZooming=NULL)
+dashbioFornaContainer(id=NULL, allowPanningAndZooming=NULL, colorScheme=NULL,
+customColors=NULL, height=NULL, nodeFillColor=NULL,
+sequences=NULL, width=NULL)
 }
 
 \arguments{
@@ -20,42 +20,8 @@ allowPanningAndZooming=NULL)
 callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{height}{Numeric. The height (in px) of the container in which the molecules will
-be displayed.}
-
-\item{width}{Numeric. The width (in px) of the container in which the molecules will
-be displayed.}
-
-\item{sequences}{List of lists containing elements 'sequence', 'structure', 'options'.
-those elements have the following types:
-  - sequence (character; required): a string representing the rna nucleotide sequence of
-the rna molecule.
-  - structure (character; required): a dot-bracket string
-(https://software.broadinstitute.org/software/igv/rnasecstructure)
-that specifies the secondary structure of the rna
-molecule.
-  - options (optional): additional options to be applied to the rendering of
-the rna molecule.. options has the following type: lists containing elements 'applyforce', 'circularizeexternal', 'labelinterval', 'name', 'avoidothers'.
-those elements have the following types:
-  - applyforce (logical; optional): indicate whether the force-directed layout will be
-applied to the displayed molecule. enabling this
-option allows users to change the layout of the
-molecule by selecting and dragging the individual
-nucleotide nodes. true by default.
-  - circularizeexternal (logical; optional): this only makes sense in connection with the
-applyforce argument. if it's true, the external
-loops will be arranged in a nice circle. if false,
-they will be allowed to flop around as the force
-layout dictates. true by default.
-  - labelinterval (numeric; optional): change how often nucleotide numbers are labelled
-with their number. 10 by default.
-  - name (character; optional): the molecule name; this is used in custom color
-scales.
-  - avoidothers (logical; optional): whether or not this molecule should "avoid" other
-molecules in the map.s. The molecules that will be displayed.}
-
-\item{nodeFillColor}{Character. The fill color for all of the nodes. This will override any
-color scheme defined in colorScheme.}
+\item{allowPanningAndZooming}{Logical. Allow users to zoom in and pan the display. If this is enabled,
+then pressing the 'c' key on the keyboard will center the view.}
 
 \item{colorScheme}{A value equal to: 'sequence', 'structure', 'positions', 'custom'. The color scheme that is used to color the nodes.}
 
@@ -88,8 +54,42 @@ the sixth nucleotide in that molecule will have a color that is
 perfectly in between yellow and red (i.e., orange), since 10 is
 perfectly in between 0 and 20.}
 
-\item{allowPanningAndZooming}{Logical. Allow users to zoom in and pan the display. If this is enabled,
-then pressing the 'c' key on the keyboard will center the view.}
+\item{height}{Numeric. The height (in px) of the container in which the molecules will
+be displayed.}
+
+\item{nodeFillColor}{Character. The fill color for all of the nodes. This will override any
+color scheme defined in colorScheme.}
+
+\item{sequences}{List of lists containing elements 'sequence', 'structure', 'options'.
+those elements have the following types:
+  - sequence (character; required): a string representing the rna nucleotide sequence of
+the rna molecule.
+  - structure (character; required): a dot-bracket string
+(https://software.broadinstitute.org/software/igv/rnasecstructure)
+that specifies the secondary structure of the rna
+molecule.
+  - options (optional): additional options to be applied to the rendering of
+the rna molecule.. options has the following type: lists containing elements 'applyforce', 'circularizeexternal', 'labelinterval', 'name', 'avoidothers'.
+those elements have the following types:
+  - applyforce (logical; optional): indicate whether the force-directed layout will be
+applied to the displayed molecule. enabling this
+option allows users to change the layout of the
+molecule by selecting and dragging the individual
+nucleotide nodes. true by default.
+  - circularizeexternal (logical; optional): this only makes sense in connection with the
+applyforce argument. if it's true, the external
+loops will be arranged in a nice circle. if false,
+they will be allowed to flop around as the force
+layout dictates. true by default.
+  - labelinterval (numeric; optional): change how often nucleotide numbers are labelled
+with their number. 10 by default.
+  - name (character; optional): the molecule name; this is used in custom color
+scales.
+  - avoidothers (logical; optional): whether or not this molecule should "avoid" other
+molecules in the map.s. The molecules that will be displayed.}
+
+\item{width}{Numeric. The width (in px) of the container in which the molecules will
+be displayed.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

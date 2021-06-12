@@ -10,16 +10,12 @@ The Molecule2dViewer component is used to render structural formulae of molecule
 }
 
 \usage{
-dashbioMolecule2dViewer(id=NULL, selectedAtomIds=NULL, width=NULL, height=NULL,
-modelData=NULL)
+dashbioMolecule2dViewer(id=NULL, height=NULL, modelData=NULL, selectedAtomIds=NULL,
+width=NULL)
 }
 
 \arguments{
 \item{id}{Character. The ID used to identify this component in callbacks.}
-
-\item{selectedAtomIds}{List of numerics. The selected atom IDs.}
-
-\item{width}{Numeric. The width of the SVG element.}
 
 \item{height}{Numeric. The height of the SVG element.}
 
@@ -37,6 +33,10 @@ those elements have the following types:
   - bond (numeric; optional)
   - strength (numeric; optional)
   - distance (numeric; optional)s. Description of the molecule to display.}
+
+\item{selectedAtomIds}{List of numerics. The selected atom IDs.}
+
+\item{width}{Numeric. The width of the SVG element.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

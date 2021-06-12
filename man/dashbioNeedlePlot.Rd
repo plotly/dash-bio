@@ -10,8 +10,8 @@ The Needle Plot component is used to visualize large datasets containing categor
 }
 
 \usage{
-dashbioNeedlePlot(id=NULL, mutationData=NULL, xlabel=NULL, ylabel=NULL,
-rangeSlider=NULL, needleStyle=NULL, domainStyle=NULL)
+dashbioNeedlePlot(id=NULL, domainStyle=NULL, mutationData=NULL,
+needleStyle=NULL, rangeSlider=NULL, xlabel=NULL, ylabel=NULL)
 }
 
 \arguments{
@@ -19,18 +19,17 @@ rangeSlider=NULL, needleStyle=NULL, domainStyle=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
+\item{domainStyle}{Lists containing elements 'domaincolor', 'displayminordomains'.
+those elements have the following types:
+  - domaincolor (unnamed list; optional)
+  - displayminordomains (logical; optional). Options for the protein domain coloring}
+
 \item{mutationData}{Lists containing elements 'x', 'y', 'mutationgroups', 'domains'.
 those elements have the following types:
   - x (character | unnamed list; optional)
   - y (character | unnamed list; optional)
   - mutationgroups (list of characters; optional)
   - domains (unnamed list; optional). The data that are displayed on the plot}
-
-\item{xlabel}{Character. Title of the x-axis.}
-
-\item{ylabel}{Character. Title of the y-axis.}
-
-\item{rangeSlider}{Logical. If true, enables a rangeslider for the x-axis.}
 
 \item{needleStyle}{Lists containing elements 'stemcolor', 'stemthickness', 'stemconstheight', 'headsize', 'headcolor', 'headsymbol'.
 those elements have the following types:
@@ -41,10 +40,11 @@ those elements have the following types:
   - headcolor (unnamed list | character; optional)
   - headsymbol (unnamed list | character; optional). Options for the needle marking single site mutations}
 
-\item{domainStyle}{Lists containing elements 'domaincolor', 'displayminordomains'.
-those elements have the following types:
-  - domaincolor (unnamed list; optional)
-  - displayminordomains (logical; optional). Options for the protein domain coloring}
+\item{rangeSlider}{Logical. If true, enables a rangeslider for the x-axis.}
+
+\item{xlabel}{Character. Title of the x-axis.}
+
+\item{ylabel}{Character. Title of the y-axis.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

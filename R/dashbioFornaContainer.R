@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dashbioFornaContainer <- function(id=NULL, height=NULL, width=NULL, sequences=NULL, nodeFillColor=NULL, colorScheme=NULL, customColors=NULL, allowPanningAndZooming=NULL) {
+dashbioFornaContainer <- function(id=NULL, allowPanningAndZooming=NULL, colorScheme=NULL, customColors=NULL, height=NULL, nodeFillColor=NULL, sequences=NULL, width=NULL) {
     
-    props <- list(id=id, height=height, width=width, sequences=sequences, nodeFillColor=nodeFillColor, colorScheme=colorScheme, customColors=customColors, allowPanningAndZooming=allowPanningAndZooming)
+    props <- list(id=id, allowPanningAndZooming=allowPanningAndZooming, colorScheme=colorScheme, customColors=customColors, height=height, nodeFillColor=nodeFillColor, sequences=sequences, width=width)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dashbioFornaContainer <- function(id=NULL, height=NULL, width=NULL, sequences=NU
         props = props,
         type = 'FornaContainer',
         namespace = 'dash_bio',
-        propNames = c('id', 'height', 'width', 'sequences', 'nodeFillColor', 'colorScheme', 'customColors', 'allowPanningAndZooming'),
+        propNames = c('id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'nodeFillColor', 'sequences', 'width'),
         package = 'dashBio'
         )
 
