@@ -19,12 +19,12 @@
     "test": "npm run lint:test && npm run format:test && npm run test-unit",
     "test-unit": "jest",
     "build:js": "npm run lint && npm run format && webpack --mode production",
-    "build:backends": "node ./extract-meta src/lib/components > dash_bio/metadata.json && python get_version_info.py && dash-generate-components ./src/lib/components dash_bio -p package-info.json --r-prefix='dashbio' --r-imports='dash' --r-depends='manhattanly'",
+    "build:backends": "dash-generate-components ./src/lib/components dash_bio -p package-info.json --r-prefix='dashbio' --r-imports='dash' --r-depends='manhattanly'",
     "build": "npm run build:js && npm run build:backends",
     "postbuild": "es-check es5 dash_bio/*.js"
   },
   "author": "The Plotly Team <dashbio@plotly.com>",
-  "maintainer": "Ryan Patrick Kyle <ryan@plotly.com>",
+  "maintainer": "Hammad Khan <hammadkhan@plot.ly>",
   "license": "MIT",
   "dependencies": {
     "circos": "git+https://github.com/plotly/circosJS.git#matthewchan15-zoom-pan-svg",
