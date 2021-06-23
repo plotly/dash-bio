@@ -37,17 +37,17 @@ those elements have the following types:
 
 \item{tracks}{List of lists containing elements 'viz', 'vizoptions', 'label', 'source', 'sourceoptions'.
 those elements have the following types:
-  - viz (optional): name of visualization. must be one of
+  - viz (a value equal to: 'coverage', 'genome', 'genes', 'features', 'idiogram', 'location', 'scale', 'variants', 'genotypes', 'pileup'; optional): name of visualization. must be one of
             (coverage, genome, genes, features, idiogram, location, scale,
-            variants, genotypes, or pileup)
-            see https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js
+            variants, genotypes, or pileup). for more info on visualization
+            types supported by pileup.js see https://github.com/akmorrow13/pileup.js/blob/master/src/main/pileup.js.
   - vizoptions (optional): options that define viz details.
             options depend on the viz type selected.
   - label (character; optional): label to display by track
-  - source (optional): data source to visualize. must be one of
+  - source (a value equal to: 'bam', 'alignmentjson', 'variantjson', 'featurejson', 'idiogramjson', 'cytoband', 'vcf', 'twobit', 'bigbed', 'gareadalignment', 'gavariant', 'gafeature', 'gagene'; optional): data source to visualize. must be one of
             (bam, vcf, alignmentjson, variantjson, featurejson, idiogramjson, cytoband,
-            vcf, twobit, bigbed, gareadalignment, gavariant, gafeature, gagene)
-            see https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js
+            vcf, twobit, bigbed, gareadalignment, gavariant, gafeature, gagene). for more info on
+            data source types supported by pileup.js see https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js
   - sourceoptions (optional): options that define data source.
             options depend on the source selected.s. Array of configuration objects defining tracks initially displayed when app launches.
     See https://github.com/hammerlab/pileup.js#usage}

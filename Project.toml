@@ -1,0 +1,12 @@
+
+name = "DashBio"
+uuid = "1b08a953-4be3-4667-9a23-39d4b6b31131"
+authors = ["The Plotly Team <dashbio@plotly.com>"]
+version = "0.7.0"
+
+[deps]
+Dash = "1b08a953-4be3-4667-9a23-3db579824955"
+
+[compat]
+julia = "1.2"
+Dash = "0.1.3"
