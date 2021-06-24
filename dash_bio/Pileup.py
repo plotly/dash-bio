@@ -59,22 +59,24 @@ Keyword arguments:
     - label (string; optional):
         Label to display by track.
 
-    - source (optional):
+    - source (a value equal to: 'bam', 'alignmentJson', 'variantJson', 'featureJson', 'idiogramJson', 'cytoBand', 'vcf', 'twoBit', 'bigBed', 'GAReadAlignment', 'GAVariant', 'GAFeature', 'GAGene'; optional):
         Data source to visualize. Must be one of             (bam,
         vcf, alignmentJson, variantJson, featureJson, idiogramJson,
         cytoBand,             vcf, twoBit, bigBed, GAReadAlignment,
-        GAVariant, GAFeature, GAGene)             See
+        GAVariant, GAFeature, GAGene). For more info on
+        data source types supported by pileup.js see
         https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js.
 
     - sourceOptions (optional):
         Options that define data source.             Options depend on
         the source selected.
 
-    - viz (optional):
+    - viz (a value equal to: 'coverage', 'genome', 'genes', 'features', 'idiogram', 'location', 'scale', 'variants', 'genotypes', 'pileup'; optional):
         Name of visualization. Must be one of             (coverage,
         genome, genes, features, idiogram, location, scale,
-        variants, genotypes, or pileup)             See
-        https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js.
+        variants, genotypes, or pileup). For more info on
+        visualization             types supported by pileup.js see
+        https://github.com/akmorrow13/pileup.js/blob/master/src/main/pileup.js.
 
     - vizOptions (optional):
         Options that define viz details.             Options depend on

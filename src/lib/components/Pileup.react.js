@@ -1,7 +1,6 @@
 import React, {Component, lazy, Suspense} from 'react';
 import LazyLoader from '../LazyLoader';
 import PropTypes from 'prop-types';
-import {PILEUP_VIZ_TYPES, PILEUP_SOURCE_TYPES} from '../constants/tracks';
 
 const RealPileup = lazy(LazyLoader.pileup);
 /**
@@ -90,10 +89,23 @@ Pileup.propTypes = {
             /**
              * Name of visualization. Must be one of
             (coverage, genome, genes, features, idiogram, location, scale,
-            variants, genotypes, or pileup)
-            See https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js
+            variants, genotypes, or pileup). For more info on visualization
+            types supported by pileup.js see https://github.com/akmorrow13/pileup.js/blob/master/src/main/pileup.js.
+
              */
-            viz: PropTypes.oneOf(PILEUP_VIZ_TYPES),
+
+            viz: PropTypes.oneOf([
+                'coverage',
+                'genome',
+                'genes',
+                'features',
+                'idiogram',
+                'location',
+                'scale',
+                'variants',
+                'genotypes',
+                'pileup',
+            ]),
 
             /**
              * Options that define viz details.
@@ -109,10 +121,24 @@ Pileup.propTypes = {
             /**
              * Data source to visualize. Must be one of
             (bam, vcf, alignmentJson, variantJson, featureJson, idiogramJson, cytoBand,
-            vcf, twoBit, bigBed, GAReadAlignment, GAVariant, GAFeature, GAGene)
-            See https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js
+            vcf, twoBit, bigBed, GAReadAlignment, GAVariant, GAFeature, GAGene). For more info on
+            data source types supported by pileup.js see https://github.com/hammerlab/pileup.js/blob/master/src/main/pileup.js
              */
-            source: PropTypes.oneOf(PILEUP_SOURCE_TYPES),
+            source: PropTypes.oneOf([
+                'bam',
+                'alignmentJson',
+                'variantJson',
+                'featureJson',
+                'idiogramJson',
+                'cytoBand',
+                'vcf',
+                'twoBit',
+                'bigBed',
+                'GAReadAlignment',
+                'GAVariant',
+                'GAFeature',
+                'GAGene',
+            ]),
 
             /**
              * Options that define data source.
