@@ -6,6 +6,8 @@
 * [#561](https://github.com/plotly/dash-bio/pull/561) Repeated re-rendering of the Molecule3dViewer component caused the viewer zoom to decrease multiplicatively.
 This fix also exposes the `zoom` and `zoomTo` props for this component.
 
+### Added
+* [#563](https://github.com/plotly/dash-bio/pull/563) Added component generation support for Dash Julia.
 
 ## [0.7.0] - 2021-04-19
 
