@@ -160,7 +160,7 @@ export default class NeedlePlot extends Component {
     prepareTraces() {
         const {
             mutationData: {x, y, mutationGroups, domains},
-            domainStyle: {domainColor, displayMinorDomains},
+            domainStyle: {domainColor, displayMinorDomains, textangle},
             needleStyle: {
                 stemColor,
                 stemThickness,
@@ -196,12 +196,14 @@ export default class NeedlePlot extends Component {
         const X_RANGE_MAX = this.state.xEnd || X_DATA_MAX;
         const XSPAN = X_RANGE_MAX - X_RANGE_MIN;
         // this is used to trigger a change of display inside annotations
-        const XSPAN_RATIO = 0.2;
+        const XSPAN_RATIO = 0.1;
         const Y_BUFFER = stemConstHeight === true ? 0.5 : Y_DATA_MAX / 10;
         // this is used to scale the position for the annotations
         const Y_BUFFER_DIVIDER = 2;
         const Y_TOP = stemConstHeight === true ? 2 : Y_DATA_MAX + Y_BUFFER;
         const DOMAIN_WIDTH = 33;
+        const ANGLED_OFFSET = 1.2;
+        const ANGLED_RATIO = 0.001;
 
         const sequenceDomains = [];
         const domainAnnotations = [];
@@ -269,11 +271,16 @@ export default class NeedlePlot extends Component {
             // Name of the protein domain
             domainAnnotations.push({
                 x: (x0 + x1) / Y_BUFFER_DIVIDER,
-                y: -Y_BUFFER / Y_BUFFER_DIVIDER,
+                y:
+                    textangle === 0
+                        ? -Y_BUFFER / Y_BUFFER_DIVIDER
+                        : -Y_BUFFER / Y_BUFFER_DIVIDER -
+                          (ANGLED_OFFSET + Math.abs(textangle) * ANGLED_RATIO),
                 showarrow: false,
                 text: dom.name,
                 width: domainLength,
                 align: domainLength < XSPAN_RATIO * XSPAN ? 'right' : 'center',
+                textangle: textangle,
             });
         });
 

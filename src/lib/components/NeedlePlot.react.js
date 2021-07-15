@@ -102,11 +102,17 @@ NeedlePlot.propTypes = {
     domainStyle: PropTypes.shape({
         // Color of the protein domains
         domainColor: PropTypes.array,
-        /*
-	the prop x sometimes contains smaller domains (e.g. multi-site
-	mutations), if true, they are displayed
-	*/
+        /**
+         * The prop x sometimes contains smaller domains (e.g. multi-site
+        mutations), if true, these are displayed
+         */
         displayMinorDomains: PropTypes.bool,
+
+        /**
+         * Sets the angle at which the domain annotation
+         * text is drawn with respect to the horizontal.
+         */
+        textangle: PropTypes.number,
     }),
 
     /**
@@ -175,6 +181,7 @@ NeedlePlot.defaultProps = {
             '#fdb462',
             '#b3de69',
         ],
+        textangle: 0,
     },
 };
 

@@ -16,14 +16,20 @@ Keyword arguments:
     callbacks. The ID needs to be unique across all of the components
     in an app.
 
-- domainStyle (dict; default {    displayMinorDomains: False,    domainColor: [        '#8dd3c7',        '#ffffb3',        '#bebada',        '#fb8072',        '#80b1d3',        '#fdb462',        '#b3de69',        '#fccde5',        '#d9d9d9',        '#bc80bd',        '#ccebc5',        '#ffed6f',        '#8dd3c7',        '#ffffb3',        '#bebada',        '#fb8072',        '#80b1d3',        '#fdb462',        '#b3de69',    ],}):
+- domainStyle (dict; default {    displayMinorDomains: False,    domainColor: [        '#8dd3c7',        '#ffffb3',        '#bebada',        '#fb8072',        '#80b1d3',        '#fdb462',        '#b3de69',        '#fccde5',        '#d9d9d9',        '#bc80bd',        '#ccebc5',        '#ffed6f',        '#8dd3c7',        '#ffffb3',        '#bebada',        '#fb8072',        '#80b1d3',        '#fdb462',        '#b3de69',    ],    textangle: 0,}):
     Options for the protein domain coloring.
 
     `domainStyle` is a dict with keys:
 
-    - displayMinorDomains (boolean; optional)
+    - displayMinorDomains (boolean; optional):
+        The prop x sometimes contains smaller domains (e.g. multi-site
+        mutations), if True, these are displayed.
 
     - domainColor (list; optional)
+
+    - textangle (number; optional):
+        Sets the angle at which the domain annotation text is drawn
+        with respect to the horizontal.
 
 - mutationData (dict; default {    x: [],    y: [],    domains: [],    mutationGroups: [],}):
     The data that are displayed on the plot.

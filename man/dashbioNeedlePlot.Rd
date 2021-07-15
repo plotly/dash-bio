@@ -19,10 +19,13 @@ needleStyle=NULL, rangeSlider=NULL, xlabel=NULL, ylabel=NULL)
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
 
-\item{domainStyle}{Lists containing elements 'domaincolor', 'displayminordomains'.
+\item{domainStyle}{Lists containing elements 'domaincolor', 'displayminordomains', 'textangle'.
 those elements have the following types:
   - domaincolor (unnamed list; optional)
-  - displayminordomains (logical; optional). Options for the protein domain coloring}
+  - displayminordomains (logical; optional): the prop x sometimes contains smaller domains (e.g. multi-site
+        mutations), if true, these are displayed
+  - textangle (numeric; optional): sets the angle at which the domain annotation
+text is drawn with respect to the horizontal.. Options for the protein domain coloring}
 
 \item{mutationData}{Lists containing elements 'x', 'y', 'mutationgroups', 'domains'.
 those elements have the following types:
