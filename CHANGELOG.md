@@ -11,6 +11,7 @@ This fix also exposes the `zoom` and `zoomTo` props for this component.
 
 ### Added
 * [#563](https://github.com/plotly/dash-bio/pull/563) Added component generation support for Dash Julia.
+* [#565](https://github.com/plotly/dash-bio/pull/565) Added `selectData` and `clickData` props to NeedlePlot to expose event data for callbacks.
 
 ## [0.7.0] - 2021-04-19
 

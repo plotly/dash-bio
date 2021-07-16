@@ -10,14 +10,17 @@ The Needle Plot component is used to visualize large datasets containing categor
 }
 
 \usage{
-dashbioNeedlePlot(id=NULL, domainStyle=NULL, mutationData=NULL,
-needleStyle=NULL, rangeSlider=NULL, xlabel=NULL, ylabel=NULL)
+dashbioNeedlePlot(id=NULL, clickData=NULL, domainStyle=NULL,
+mutationData=NULL, needleStyle=NULL, rangeSlider=NULL,
+selectedData=NULL, xlabel=NULL, ylabel=NULL)
 }
 
 \arguments{
 \item{id}{Character. The ID of this component, used to identify dash components
 in callbacks. The ID needs to be unique across all of the
 components in an app.}
+
+\item{clickData}{Unnamed list. An array of the points on the graph that have been clicked with Plotly.js clickEvents.}
 
 \item{domainStyle}{Lists containing elements 'domaincolor', 'displayminordomains', 'textangle'.
 those elements have the following types:
@@ -44,6 +47,8 @@ those elements have the following types:
   - headsymbol (unnamed list | character; optional). Options for the needle marking single site mutations}
 
 \item{rangeSlider}{Logical. If true, enables a rangeslider for the x-axis.}
+
+\item{selectedData}{Unnamed list. An array of the points on the graph that have been selected with Plotly.js selectEvents.}
 
 \item{xlabel}{Character. Title of the x-axis.}
 

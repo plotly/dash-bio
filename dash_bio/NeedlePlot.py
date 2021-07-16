@@ -16,6 +16,10 @@ Keyword arguments:
     callbacks. The ID needs to be unique across all of the components
     in an app.
 
+- clickData (list; optional):
+    An array of the points on the graph that have been clicked with
+    Plotly.js clickEvents.
+
 - domainStyle (dict; default {    displayMinorDomains: False,    domainColor: [        '#8dd3c7',        '#ffffb3',        '#bebada',        '#fb8072',        '#80b1d3',        '#fdb462',        '#b3de69',        '#fccde5',        '#d9d9d9',        '#bc80bd',        '#ccebc5',        '#ffed6f',        '#8dd3c7',        '#ffffb3',        '#bebada',        '#fb8072',        '#80b1d3',        '#fdb462',        '#b3de69',    ],    textangle: 0,}):
     Options for the protein domain coloring.
 
@@ -64,18 +68,22 @@ Keyword arguments:
 - rangeSlider (boolean; default False):
     If True, enables a rangeslider for the x-axis.
 
+- selectedData (list; optional):
+    An array of the points on the graph that have been selected with
+    Plotly.js selectEvents.
+
 - xlabel (string; optional):
     Title of the x-axis.
 
 - ylabel (string; optional):
     Title of the y-axis."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, mutationData=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, rangeSlider=Component.UNDEFINED, needleStyle=Component.UNDEFINED, domainStyle=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'domainStyle', 'mutationData', 'needleStyle', 'rangeSlider', 'xlabel', 'ylabel']
+    def __init__(self, id=Component.UNDEFINED, mutationData=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, rangeSlider=Component.UNDEFINED, needleStyle=Component.UNDEFINED, domainStyle=Component.UNDEFINED, selectedData=Component.UNDEFINED, clickData=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'clickData', 'domainStyle', 'mutationData', 'needleStyle', 'rangeSlider', 'selectedData', 'xlabel', 'ylabel']
         self._type = 'NeedlePlot'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'domainStyle', 'mutationData', 'needleStyle', 'rangeSlider', 'xlabel', 'ylabel']
+        self.available_properties = ['id', 'clickData', 'domainStyle', 'mutationData', 'needleStyle', 'rangeSlider', 'selectedData', 'xlabel', 'ylabel']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

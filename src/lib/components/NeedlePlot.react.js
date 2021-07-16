@@ -116,6 +116,16 @@ NeedlePlot.propTypes = {
     }),
 
     /**
+     * An array of the points on the graph that have been selected with Plotly.js selectEvents.
+     */
+    selectedData: PropTypes.array,
+
+    /**
+     * An array of the points on the graph that have been clicked with Plotly.js clickEvents.
+     */
+    clickData: PropTypes.array,
+
+    /**
      * Dash-assigned callback that should be called whenever any of the
      * properties change
      */

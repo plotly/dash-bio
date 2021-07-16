@@ -1,6 +1,19 @@
 import React, {Component} from 'react';
 import Plot from 'react-plotly.js';
-import {reduce, max, range, repeat, mergeDeepRight, omit} from 'ramda';
+import {
+    reduce,
+    max,
+    range,
+    repeat,
+    mergeDeepRight,
+    omit,
+    isNil,
+    filter,
+    includes,
+    type,
+    has,
+    equals,
+} from 'ramda';
 import {propTypes, defaultProps} from '../components/NeedlePlot.react';
 
 /**
@@ -92,6 +105,69 @@ function nanMax(test_array) {
     return reduce(max, -Infinity, filterNanArray(test_array));
 }
 
+const filterEventData = (gd, eventData, event) => {
+    console.log('gd is ', gd, ' eventData is ', eventData, ' event is ', event);
+    let filteredEventData;
+    if (includes(event, ['click', 'hover', 'selected'])) {
+        const points = [];
+
+        if (isNil(eventData)) {
+            return null;
+        }
+
+        /*
+         * remove `data`, `layout`, `xaxis`, etc
+         * objects from the event data since they're so big
+         * and cause JSON stringify ciricular structure errors.
+         *
+         * also, pull down the `customdata` point from the data array
+         * into the event object
+         */
+        const data = gd.props.data;
+        console.log('data is ', data);
+
+        for (let i = 0; i < eventData.points.length; i++) {
+            const fullPoint = eventData.points[i];
+            const pointData = filter(function(o) {
+                return !includes(type(o), ['Object', 'Array']);
+            }, fullPoint);
+            if (
+                has('curveNumber', fullPoint) &&
+                has('pointNumber', fullPoint) &&
+                has('customdata', data[pointData.curveNumber])
+            ) {
+                pointData.customdata =
+                    data[pointData.curveNumber].customdata[
+                        fullPoint.pointNumber
+                    ];
+            }
+
+            // specific to histogram. see https://github.com/plotly/plotly.js/pull/2113/
+            if (has('pointNumbers', fullPoint)) {
+                pointData.pointNumbers = fullPoint.pointNumbers;
+            }
+
+            points[i] = pointData;
+        }
+        filteredEventData = {points};
+    } else if (event === 'relayout' || event === 'restyle') {
+        /*
+         * relayout shouldn't include any big objects
+         * it will usually just contain the ranges of the axes like
+         * "xaxis.range[0]": 0.7715822247381828,
+         * "xaxis.range[1]": 3.0095292008680063`
+         */
+        filteredEventData = eventData;
+    }
+    if (has('range', eventData)) {
+        filteredEventData.range = eventData.range;
+    }
+    if (has('lassoPoints', eventData)) {
+        filteredEventData.lassoPoints = eventData.lassoPoints;
+    }
+    return filteredEventData;
+};
+
 /**
  * The Needle Plot component is used to visualize large datasets
  * containing categorical or numerical data. The lines and markers in
@@ -100,11 +176,13 @@ function nanMax(test_array) {
 export default class NeedlePlot extends Component {
     constructor() {
         super();
+        this.gd = React.createRef();
         this.state = {
             xStart: null,
             xEnd: null,
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     UNSAFE_componentWillMount() {
@@ -130,6 +208,27 @@ export default class NeedlePlot extends Component {
         }
     }
 
+    handleClick(eventData) {
+        const clickData = filterEventData(this.gd.current, eventData, 'click');
+        if (!isNil(clickData)) {
+            this.props.setProps({clickData: clickData});
+        }
+    }
+
+    handleSelect(eventData) {
+        const selectedData = filterEventData(
+            this.gd.current,
+            eventData,
+            'selected'
+        );
+        if (
+            !isNil(selectedData) &&
+            !equals(selectedData, this.props.selectedData)
+        ) {
+            this.props.setProps({selectedData: selectedData});
+        }
+    }
+
     render() {
         const {id} = this.props;
         const {
@@ -147,8 +246,11 @@ export default class NeedlePlot extends Component {
         return (
             <div id={id}>
                 <Plot
+                    ref={this.gd}
                     data={data}
                     layout={layout}
+                    onClick={this.handleClick}
+                    onSelected={this.handleSelect}
                     onRelayout={this.handleChange}
                     {...omit(['setProps'], this.props)}
                 />

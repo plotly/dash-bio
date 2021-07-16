@@ -2043,6 +2043,20 @@
           "computed": false
         }
       },
+      "selectedData": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "An array of the points on the graph that have been selected with Plotly.js selectEvents."
+      },
+      "clickData": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "An array of the points on the graph that have been clicked with Plotly.js clickEvents."
+      },
       "setProps": {
         "type": {
           "name": "func"
