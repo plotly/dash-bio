@@ -106,7 +106,6 @@ function nanMax(test_array) {
 }
 
 const filterEventData = (gd, eventData, event) => {
-    console.log('gd is ', gd, ' eventData is ', eventData, ' event is ', event);
     let filteredEventData;
     if (includes(event, ['click', 'hover', 'selected'])) {
         const points = [];
@@ -124,7 +123,6 @@ const filterEventData = (gd, eventData, event) => {
          * into the event object
          */
         const data = gd.props.data;
-        console.log('data is ', data);
 
         for (let i = 0; i < eventData.points.length; i++) {
             const fullPoint = eventData.points[i];
