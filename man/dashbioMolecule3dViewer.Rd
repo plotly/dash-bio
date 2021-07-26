@@ -78,10 +78,10 @@ to modify the duration and motion of the zoom animation.}
 \item{zoomTo}{Lists containing elements 'sel', 'animationduration', 'fixedpath'.
 those elements have the following types:
   - sel (optional): selection specification specifying model and atom properties
-to select. default: all atoms in viewer.. sel has the following type: lists containing elements 'chain', 'res'.
+to select. default: all atoms in viewer.. sel has the following type: lists containing elements 'chain', 'resi'.
 those elements have the following types:
   - chain (character; optional): chain that the residue is located on.
-  - res (numeric; optional): the index value used to identify the residue;
+  - resi (numeric; optional): the index value used to identify the residue;
 residues are numbered sequentially starting from 1.
   - animationduration (numeric; optional): an optional parameter that denotes the duration of a zoom animation
 , in milliseconds.

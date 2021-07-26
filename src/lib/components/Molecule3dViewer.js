@@ -167,7 +167,7 @@ Molecule3dViewer.propTypes = {
              * The index value used to identify the residue;
              * residues are numbered sequentially starting from 1.
              */
-            res: PropTypes.number,
+            resi: PropTypes.number,
         }),
         /**
          * An optional parameter that denotes the duration of a zoom animation

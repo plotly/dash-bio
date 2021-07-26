@@ -1,6 +1,18 @@
 import React, {Component} from 'react';
 import Plot from 'react-plotly.js';
-import {reduce, max, range, repeat, mergeDeepRight, omit} from 'ramda';
+import {
+    reduce,
+    max,
+    range,
+    repeat,
+    mergeDeepRight,
+    omit,
+    isNil,
+    filter,
+    includes,
+    type,
+    has,
+} from 'ramda';
 import {propTypes, defaultProps} from '../components/NeedlePlot.react';
 
 /**
@@ -92,6 +104,67 @@ function nanMax(test_array) {
     return reduce(max, -Infinity, filterNanArray(test_array));
 }
 
+const filterEventData = (gd, eventData, event) => {
+    let filteredEventData;
+    if (includes(event, ['click', 'hover', 'selected'])) {
+        const points = [];
+
+        if (isNil(eventData)) {
+            return null;
+        }
+
+        /*
+         * remove `data`, `layout`, `xaxis`, etc
+         * objects from the event data since they're so big
+         * and cause JSON stringify ciricular structure errors.
+         *
+         * also, pull down the `customdata` point from the data array
+         * into the event object
+         */
+        const data = gd.props.data;
+
+        for (let i = 0; i < eventData.points.length; i++) {
+            const fullPoint = eventData.points[i];
+            const pointData = filter(function(o) {
+                return !includes(type(o), ['Object', 'Array']);
+            }, fullPoint);
+            if (
+                has('curveNumber', fullPoint) &&
+                has('pointNumber', fullPoint) &&
+                has('customdata', data[pointData.curveNumber])
+            ) {
+                pointData.customdata =
+                    data[pointData.curveNumber].customdata[
+                        fullPoint.pointNumber
+                    ];
+            }
+
+            // specific to histogram. see https://github.com/plotly/plotly.js/pull/2113/
+            if (has('pointNumbers', fullPoint)) {
+                pointData.pointNumbers = fullPoint.pointNumbers;
+            }
+
+            points[i] = pointData;
+        }
+        filteredEventData = {points};
+    } else if (event === 'relayout' || event === 'restyle') {
+        /*
+         * relayout shouldn't include any big objects
+         * it will usually just contain the ranges of the axes like
+         * "xaxis.range[0]": 0.7715822247381828,
+         * "xaxis.range[1]": 3.0095292008680063`
+         */
+        filteredEventData = eventData;
+    }
+    if (has('range', eventData)) {
+        filteredEventData.range = eventData.range;
+    }
+    if (has('lassoPoints', eventData)) {
+        filteredEventData.lassoPoints = eventData.lassoPoints;
+    }
+    return filteredEventData;
+};
+
 /**
  * The Needle Plot component is used to visualize large datasets
  * containing categorical or numerical data. The lines and markers in
@@ -100,11 +173,13 @@ function nanMax(test_array) {
 export default class NeedlePlot extends Component {
     constructor() {
         super();
+        this.gd = React.createRef();
         this.state = {
             xStart: null,
             xEnd: null,
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     UNSAFE_componentWillMount() {
@@ -130,6 +205,13 @@ export default class NeedlePlot extends Component {
         }
     }
 
+    handleClick(eventData) {
+        const clickData = filterEventData(this.gd.current, eventData, 'click');
+        if (!isNil(clickData)) {
+            this.props.setProps({clickData: clickData});
+        }
+    }
+
     render() {
         const {id} = this.props;
         const {
@@ -147,8 +229,10 @@ export default class NeedlePlot extends Component {
         return (
             <div id={id}>
                 <Plot
+                    ref={this.gd}
                     data={data}
                     layout={layout}
+                    onClick={this.handleClick}
                     onRelayout={this.handleChange}
                     {...omit(['setProps'], this.props)}
                 />
@@ -160,7 +244,7 @@ export default class NeedlePlot extends Component {
     prepareTraces() {
         const {
             mutationData: {x, y, mutationGroups, domains},
-            domainStyle: {domainColor, displayMinorDomains},
+            domainStyle: {domainColor, displayMinorDomains, textangle},
             needleStyle: {
                 stemColor,
                 stemThickness,
@@ -196,12 +280,14 @@ export default class NeedlePlot extends Component {
         const X_RANGE_MAX = this.state.xEnd || X_DATA_MAX;
         const XSPAN = X_RANGE_MAX - X_RANGE_MIN;
         // this is used to trigger a change of display inside annotations
-        const XSPAN_RATIO = 0.2;
+        const XSPAN_RATIO = 0.1;
         const Y_BUFFER = stemConstHeight === true ? 0.5 : Y_DATA_MAX / 10;
         // this is used to scale the position for the annotations
         const Y_BUFFER_DIVIDER = 2;
         const Y_TOP = stemConstHeight === true ? 2 : Y_DATA_MAX + Y_BUFFER;
         const DOMAIN_WIDTH = 33;
+        const ANGLED_OFFSET = 1.2;
+        const ANGLED_RATIO = 0.001;
 
         const sequenceDomains = [];
         const domainAnnotations = [];
@@ -269,11 +355,16 @@ export default class NeedlePlot extends Component {
             // Name of the protein domain
             domainAnnotations.push({
                 x: (x0 + x1) / Y_BUFFER_DIVIDER,
-                y: -Y_BUFFER / Y_BUFFER_DIVIDER,
+                y:
+                    textangle === 0
+                        ? -Y_BUFFER / Y_BUFFER_DIVIDER
+                        : -Y_BUFFER / Y_BUFFER_DIVIDER -
+                          (ANGLED_OFFSET + Math.abs(textangle) * ANGLED_RATIO),
                 showarrow: false,
                 text: dom.name,
                 width: domainLength,
                 align: domainLength < XSPAN_RATIO * XSPAN ? 'right' : 'center',
+                textangle: textangle,
             });
         });
 
@@ -377,7 +468,7 @@ export default class NeedlePlot extends Component {
     // Fetch layout
     prepareLayout(vars) {
         const {data, globalAnnotation, domainAnnotations} = vars;
-        const {xlabel, ylabel, rangeSlider} = mergeDeepRight(
+        const {xlabel, ylabel, rangeSlider, margin} = mergeDeepRight(
             NeedlePlot.defaultProps,
             this.props
         );
@@ -430,7 +521,7 @@ export default class NeedlePlot extends Component {
                 showgrid: false,
                 ticks: 'inside',
             },
-            margin: {t: 100, l: 40, r: 0, b: 40},
+            margin: margin,
             annotations: domainAnnotations.concat(globalAnnotation),
         };
         if (rangeSlider === true) {

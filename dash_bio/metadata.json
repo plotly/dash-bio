@@ -1824,7 +1824,7 @@
                   "description": "Chain that the residue is located on.",
                   "required": false
                 },
-                "res": {
+                "resi": {
                   "name": "number",
                   "description": "The index value used to identify the residue;\nresidues are numbered sequentially starting from 1.",
                   "required": false
@@ -1938,6 +1938,17 @@
           "computed": false
         }
       },
+      "margin": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Margins of the plot",
+        "defaultValue": {
+          "value": "{t: 100, l: 40, r: 0, b: 40}",
+          "computed": false
+        }
+      },
       "xlabel": {
         "type": {
           "name": "string"
@@ -2026,6 +2037,12 @@
             },
             "displayMinorDomains": {
               "name": "bool",
+              "description": "The prop x sometimes contains smaller domains (e.g. multi-site\n        mutations), if true, these are displayed",
+              "required": false
+            },
+            "textangle": {
+              "name": "number",
+              "description": "Sets the angle at which the domain annotation\ntext is drawn with respect to the horizontal.",
               "required": false
             }
           }
@@ -2033,9 +2050,16 @@
         "required": false,
         "description": "Options for the protein domain coloring",
         "defaultValue": {
-          "value": "{\n    displayMinorDomains: false,\n    domainColor: [\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n        '#fccde5',\n        '#d9d9d9',\n        '#bc80bd',\n        '#ccebc5',\n        '#ffed6f',\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n    ],\n}",
+          "value": "{\n    displayMinorDomains: false,\n    domainColor: [\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n        '#fccde5',\n        '#d9d9d9',\n        '#bc80bd',\n        '#ccebc5',\n        '#ffed6f',\n        '#8dd3c7',\n        '#ffffb3',\n        '#bebada',\n        '#fb8072',\n        '#80b1d3',\n        '#fdb462',\n        '#b3de69',\n    ],\n    textangle: 0,\n}",
           "computed": false
         }
+      },
+      "clickData": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "An array of the points on the graph that have been clicked with Plotly.js clickEvents."
       },
       "setProps": {
         "type": {
