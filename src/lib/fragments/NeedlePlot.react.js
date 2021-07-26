@@ -12,7 +12,6 @@ import {
     includes,
     type,
     has,
-    equals,
 } from 'ramda';
 import {propTypes, defaultProps} from '../components/NeedlePlot.react';
 
@@ -213,20 +212,6 @@ export default class NeedlePlot extends Component {
         }
     }
 
-    handleSelect(eventData) {
-        const selectedData = filterEventData(
-            this.gd.current,
-            eventData,
-            'selected'
-        );
-        if (
-            !isNil(selectedData) &&
-            !equals(selectedData, this.props.selectedData)
-        ) {
-            this.props.setProps({selectedData: selectedData});
-        }
-    }
-
     render() {
         const {id} = this.props;
         const {
@@ -248,7 +233,6 @@ export default class NeedlePlot extends Component {
                     data={data}
                     layout={layout}
                     onClick={this.handleClick}
-                    onSelected={this.handleSelect}
                     onRelayout={this.handleChange}
                     {...omit(['setProps'], this.props)}
                 />
@@ -484,7 +468,7 @@ export default class NeedlePlot extends Component {
     // Fetch layout
     prepareLayout(vars) {
         const {data, globalAnnotation, domainAnnotations} = vars;
-        const {xlabel, ylabel, rangeSlider} = mergeDeepRight(
+        const {xlabel, ylabel, rangeSlider, margin} = mergeDeepRight(
             NeedlePlot.defaultProps,
             this.props
         );
@@ -537,7 +521,7 @@ export default class NeedlePlot extends Component {
                 showgrid: false,
                 ticks: 'inside',
             },
-            margin: {t: 100, l: 40, r: 0, b: 40},
+            margin: margin,
             annotations: domainAnnotations.concat(globalAnnotation),
         };
         if (rangeSlider === true) {

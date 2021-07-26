@@ -10,9 +10,9 @@ The Needle Plot component is used to visualize large datasets containing categor
 }
 
 \usage{
-dashbioNeedlePlot(id=NULL, clickData=NULL, domainStyle=NULL,
+dashbioNeedlePlot(id=NULL, clickData=NULL, domainStyle=NULL, margin=NULL,
 mutationData=NULL, needleStyle=NULL, rangeSlider=NULL,
-selectedData=NULL, xlabel=NULL, ylabel=NULL)
+xlabel=NULL, ylabel=NULL)
 }
 
 \arguments{
@@ -29,6 +29,8 @@ those elements have the following types:
         mutations), if true, these are displayed
   - textangle (numeric; optional): sets the angle at which the domain annotation
 text is drawn with respect to the horizontal.. Options for the protein domain coloring}
+
+\item{margin}{Named list. Margins of the plot}
 
 \item{mutationData}{Lists containing elements 'x', 'y', 'mutationgroups', 'domains'.
 those elements have the following types:
@@ -47,8 +49,6 @@ those elements have the following types:
   - headsymbol (unnamed list | character; optional). Options for the needle marking single site mutations}
 
 \item{rangeSlider}{Logical. If true, enables a rangeslider for the x-axis.}
-
-\item{selectedData}{Unnamed list. An array of the points on the graph that have been selected with Plotly.js selectEvents.}
 
 \item{xlabel}{Character. Title of the x-axis.}
 

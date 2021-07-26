@@ -50,6 +50,11 @@ NeedlePlot.propTypes = {
     }),
 
     /**
+     * Margins of the plot
+     */
+    margin: PropTypes.object,
+
+    /**
      * Title of the x-axis.
      **/
     xlabel: PropTypes.string,
@@ -114,11 +119,6 @@ NeedlePlot.propTypes = {
          */
         textangle: PropTypes.number,
     }),
-
-    /**
-     * An array of the points on the graph that have been selected with Plotly.js selectEvents.
-     */
-    selectedData: PropTypes.array,
 
     /**
      * An array of the points on the graph that have been clicked with Plotly.js clickEvents.
@@ -193,6 +193,7 @@ NeedlePlot.defaultProps = {
         ],
         textangle: 0,
     },
+    margin: {t: 100, l: 40, r: 0, b: 40},
 };
 
 export const defaultProps = NeedlePlot.defaultProps;
