@@ -3,14 +3,14 @@
 ## [0.7.1] - 2021-07-26
 
 ### Fixed
-* [#561](https://github.com/plotly/dash-bio/pull/561) Repeated re-rendering of the Molecule3dViewer component caused the viewer zoom to decrease multiplicatively.
+* [#562](https://github.com/plotly/dash-bio/pull/562) Repeated re-rendering of the Molecule3dViewer component caused the viewer zoom to decrease multiplicatively.
 This fix also exposes the `zoom` and `zoomTo` props for this component.
 * [#565](https://github.com/plotly/dash-bio/pull/565) Fixed major domain annotation positioning for the NeedlePlot component and exposed `textangle` prop to allow domain annotation text to be angled relative to the horizontal axis.
 ### Changed
-- [#562](https://github.com/plotly/dash-bio/pull/562) Changed package scripts to 3 main build scripts: `build:js`, `build:backends`, and `build` to combined them. This brings the dash-bio build process in-line with the process for other Dash component libraries. As part of this change, `__init__.py` now also uses relative imports to load components (for more info, see [#534](https://github.com/plotly/dash-bio/issues/534)).
+- [#563](https://github.com/plotly/dash-bio/pull/563) Changed package scripts to 3 main build scripts: `build:js`, `build:backends`, and `build` to combined them. This brings the dash-bio build process in-line with the process for other Dash component libraries. As part of this change, `__init__.py` now also uses relative imports to load components (for more info, see [#534](https://github.com/plotly/dash-bio/issues/534)).
 
 ### Added
-* [#563](https://github.com/plotly/dash-bio/pull/563) Added component generation support for Dash Julia.
+* [#564](https://github.com/plotly/dash-bio/pull/564) Added component generation support for Dash Julia.
 * [#565](https://github.com/plotly/dash-bio/pull/565) Added `margins` and `clickData` props to NeedlePlot to expose event data for callbacks.
 
 ## [0.7.0] - 2021-04-19
