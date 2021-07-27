@@ -16,14 +16,27 @@ Keyword arguments:
     callbacks. The ID needs to be unique across all of the components
     in an app.
 
-- domainStyle (dict; default {    displayMinorDomains: False,    domainColor: [        '#8dd3c7',        '#ffffb3',        '#bebada',        '#fb8072',        '#80b1d3',        '#fdb462',        '#b3de69',        '#fccde5',        '#d9d9d9',        '#bc80bd',        '#ccebc5',        '#ffed6f',        '#8dd3c7',        '#ffffb3',        '#bebada',        '#fb8072',        '#80b1d3',        '#fdb462',        '#b3de69',    ],}):
+- clickData (list; optional):
+    An array of the points on the graph that have been clicked with
+    Plotly.js clickEvents.
+
+- domainStyle (dict; default {    displayMinorDomains: False,    domainColor: [        '#8dd3c7',        '#ffffb3',        '#bebada',        '#fb8072',        '#80b1d3',        '#fdb462',        '#b3de69',        '#fccde5',        '#d9d9d9',        '#bc80bd',        '#ccebc5',        '#ffed6f',        '#8dd3c7',        '#ffffb3',        '#bebada',        '#fb8072',        '#80b1d3',        '#fdb462',        '#b3de69',    ],    textangle: 0,}):
     Options for the protein domain coloring.
 
     `domainStyle` is a dict with keys:
 
-    - displayMinorDomains (boolean; optional)
+    - displayMinorDomains (boolean; optional):
+        The prop x sometimes contains smaller domains (e.g. multi-site
+        mutations), if True, these are displayed.
 
     - domainColor (list; optional)
+
+    - textangle (number; optional):
+        Sets the angle at which the domain annotation text is drawn
+        with respect to the horizontal.
+
+- margin (dict; default {t: 100, l: 40, r: 0, b: 40}):
+    Margins of the plot.
 
 - mutationData (dict; default {    x: [],    y: [],    domains: [],    mutationGroups: [],}):
     The data that are displayed on the plot.
@@ -64,12 +77,12 @@ Keyword arguments:
 - ylabel (string; optional):
     Title of the y-axis."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, mutationData=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, rangeSlider=Component.UNDEFINED, needleStyle=Component.UNDEFINED, domainStyle=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'domainStyle', 'mutationData', 'needleStyle', 'rangeSlider', 'xlabel', 'ylabel']
+    def __init__(self, id=Component.UNDEFINED, mutationData=Component.UNDEFINED, margin=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, rangeSlider=Component.UNDEFINED, needleStyle=Component.UNDEFINED, domainStyle=Component.UNDEFINED, clickData=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'clickData', 'domainStyle', 'margin', 'mutationData', 'needleStyle', 'rangeSlider', 'xlabel', 'ylabel']
         self._type = 'NeedlePlot'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'domainStyle', 'mutationData', 'needleStyle', 'rangeSlider', 'xlabel', 'ylabel']
+        self.available_properties = ['id', 'clickData', 'domainStyle', 'margin', 'mutationData', 'needleStyle', 'rangeSlider', 'xlabel', 'ylabel']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

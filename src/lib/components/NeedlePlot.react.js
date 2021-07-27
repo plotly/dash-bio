@@ -50,6 +50,11 @@ NeedlePlot.propTypes = {
     }),
 
     /**
+     * Margins of the plot
+     */
+    margin: PropTypes.object,
+
+    /**
      * Title of the x-axis.
      **/
     xlabel: PropTypes.string,
@@ -102,12 +107,23 @@ NeedlePlot.propTypes = {
     domainStyle: PropTypes.shape({
         // Color of the protein domains
         domainColor: PropTypes.array,
-        /*
-	the prop x sometimes contains smaller domains (e.g. multi-site
-	mutations), if true, they are displayed
-	*/
+        /**
+         * The prop x sometimes contains smaller domains (e.g. multi-site
+        mutations), if true, these are displayed
+         */
         displayMinorDomains: PropTypes.bool,
+
+        /**
+         * Sets the angle at which the domain annotation
+         * text is drawn with respect to the horizontal.
+         */
+        textangle: PropTypes.number,
     }),
+
+    /**
+     * An array of the points on the graph that have been clicked with Plotly.js clickEvents.
+     */
+    clickData: PropTypes.array,
 
     /**
      * Dash-assigned callback that should be called whenever any of the
@@ -175,7 +191,9 @@ NeedlePlot.defaultProps = {
             '#fdb462',
             '#b3de69',
         ],
+        textangle: 0,
     },
+    margin: {t: 100, l: 40, r: 0, b: 40},
 };
 
 export const defaultProps = NeedlePlot.defaultProps;

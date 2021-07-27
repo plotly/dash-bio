@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, {Component, lazy, Suspense} from 'react';
 import LazyLoader from '../LazyLoader';
-import {TRACK_TYPES} from '../constants/tracks';
 
 const RealCircos = lazy(LazyLoader.circos);
 
@@ -145,7 +144,16 @@ Circos.propTypes = {
              * Please check the docs for a list of tracks you can use,
              * and ensure the name is typed in all capitals.
              **/
-            type: PropTypes.oneOf(TRACK_TYPES),
+            type: PropTypes.oneOf([
+                'CHORDS',
+                'HEATMAP',
+                'HIGHLIGHT',
+                'HISTOGRAM',
+                'LINE',
+                'SCATTER',
+                'STACK',
+                'TEXT',
+            ]),
 
             /**
              * Specify what data for tooltipContent is

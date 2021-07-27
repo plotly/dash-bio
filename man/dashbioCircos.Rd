@@ -60,7 +60,7 @@ be a json object.
   - config (named list; optional): the layout of the tracks, where the user
 can configure innerradius, outterradius, ticks,
 labels, and more.
-  - type (optional): specify the type of track this is.
+  - type (a value equal to: 'chords', 'heatmap', 'highlight', 'histogram', 'line', 'scatter', 'stack', 'text'; optional): specify the type of track this is.
 please check the docs for a list of tracks you can use,
 and ensure the name is typed in all capitals.
   - tooltipcontent (optional): specify what data for tooltipcontent is

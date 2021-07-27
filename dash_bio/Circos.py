@@ -127,7 +127,7 @@ Keyword arguments:
 
         - targetID (string; optional)
 
-    - type (optional):
+    - type (a value equal to: 'CHORDS', 'HEATMAP', 'HIGHLIGHT', 'HISTOGRAM', 'LINE', 'SCATTER', 'STACK', 'TEXT'; optional):
         Specify the type of track this is. Please check the docs for a
         list of tracks you can use, and ensure the name is typed in
         all capitals."""

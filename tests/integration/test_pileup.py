@@ -4,7 +4,7 @@ import dash_html_components as html
 import os
 import re
 
-from common_features import simple_app_layout
+from common_features import simple_app_layout, generate_identifier
 
 _COMPONENT_ID = 'mypileup'
 
@@ -92,7 +92,8 @@ def test_dbpu001_reference(dash_duo):
     assert _GEAR_ICON in tracks[0].text
 
     # Take a Percy snapshot to check that tracks are rendered correctly
-    dash_duo.percy_snapshot('test-pileup_reference', convert_canvases=True)
+    dash_duo.percy_snapshot('test-pileup_reference' + generate_identifier(),
+                            convert_canvases=True)
 
     # Check that feature track loaded
     tracks = dash_duo.find_elements('.features')

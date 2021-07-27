@@ -125,7 +125,7 @@ Keyword arguments:
         - chain (string; optional):
             Chain that the residue is located on.
 
-        - res (number; optional):
+        - resi (number; optional):
             The index value used to identify the residue; residues are
             numbered sequentially starting from 1."""
     @_explicitize_args
