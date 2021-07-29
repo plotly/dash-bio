@@ -1,0 +1,16 @@
+cython>=0.19
+dash>=1.20.0
+dash-bio==0.7.1
+dash-bio-utils==0.0.6
+dash-daq==0.2.2
+gunicorn==19.9.0
+jsonschema==2.6.0
+matplotlib==3.0.2
+numpy==1.15.4
+pandas>=0.24.2
+plotly>=3.5.0
+PubChemPy==1.0.4
+requests==2.21.0
+scikit-learn==0.20.2
+scipy>=1.1.0
+tables>=3.6.1
