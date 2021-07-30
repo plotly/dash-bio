@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 VariantMap plot
 Author: CY THAM
 Version: 1.0.0
-"""
+"""  # pylint: disable=pointless-string-statement
 
 
 def VariantMap(

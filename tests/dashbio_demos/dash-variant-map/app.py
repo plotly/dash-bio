@@ -619,7 +619,6 @@ def callbacks(app):
             # print("Update - store_custom = None")
             return None
 
-        sample_list = []
         filter_list = []
         index_list = []
         annotation_dict = {}
