@@ -9,10 +9,10 @@
     background-color: #0a2b4d !important;
 }
 #variantmap-wrapper {
-    width: 600px;
+    width: 70%;
     display: inline-block !important;
     padding: 0px;
-    margin: 0px;
+    margin: auto;
 }
 #slider-wrapper {
     width: 600px;

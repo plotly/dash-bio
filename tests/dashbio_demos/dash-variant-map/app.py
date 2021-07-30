@@ -46,13 +46,13 @@ main_desc = (
     "sample cohort. The colors indicate the class of an SV "
     "present in a sample. The heatmap can be customized "
     "interactively to suit your analysis by changing various "
-    'components in the "Customize" tab.'
+    'options in the "Customize" tab.'
 )
 
 
 data_desc = (
-    "VariantMap requires a dataframe object that is generated "
-    "by VariantBreak. Do note that only NanoVar VCF "
+    "VariantMap accepts a dataframe object that is generated "
+    "by VariantBreak. Note that only NanoVar VCF "
     "files are currently compatible to work with VariantBreak "
     "in creating the dataframe."
 )
@@ -189,10 +189,6 @@ def layout():
                                             id="customize-tab",
                                             className="fullwidth-app-controls-name",
                                             children=[
-                                                dcc.Dropdown(
-                                                    id="sample_filt",
-                                                    style={"display": "none"},
-                                                ),
                                                 dcc.Dropdown(
                                                     id="file_filt",
                                                     style={"display": "none"},
@@ -376,8 +372,8 @@ def callbacks(app):
         # Set-up customize tab
         # Get all unique gene names
         total_genes = set()
-        if "Gene_name" in df.columns:
-            for genes in df.Gene_name:
+        if "gene_name" in df.columns:
+            for genes in df.gene_name:
                 if genes != "":
                     for gene in genes.split("/"):
                         total_genes.add(gene.strip().rstrip(";"))
@@ -385,8 +381,8 @@ def callbacks(app):
 
         # Get all unique gene types
         gene_types = set()
-        if "Gene_type" in df.columns:
-            for t in df.Gene_type:
+        if "gene_type" in df.columns:
+            for t in df.gene_type:
                 if t != "":
                     for _t in t.split(","):
                         gene_types.add(_t.strip())
@@ -434,25 +430,15 @@ def callbacks(app):
         # Customize tab children
         child_customize = [
             html.Div(
-                "Customize the heatmap by adjusting the components below and "
-                'click "SUBMIT" at the end after finalizing your settings. '
-                "Hover over each section header for more information."
+                "Customize the VariantMap by adjusting the selections below "
+                'Click "Submit" to finalize the settings and update the figure. '
+                "Hover over each section header for a description of the setting."
             ),
             html.Br(),
             html.Div(
                 "Filter by variant file:",
                 title="Hide variants that are present in these samples.",
                 style={"font-weight": "bold"},
-            ),
-            dcc.Dropdown(
-                id="sample_filt",
-                options=[
-                    {"label": name, "value": name} for name in metadata["sample_names"]
-                ],
-                value=None,
-                multi=True,
-                placeholder="Variant files",
-                searchable=False,
             ),
             html.Br(),
             html.Div(
@@ -605,7 +591,6 @@ def callbacks(app):
         Output("custom-store", "data"),
         [Input("submit-button", "n_clicks")],
         [
-            State("sample_filt", "value"),
             State("file_filt", "value"),
             State("input_index", "value"),
             State("gene_names", "value"),
@@ -619,7 +604,6 @@ def callbacks(app):
     )
     def store_custom(
         n_clicks,
-        sample_filt,
         file_filt,
         index_str,
         gene_names,
@@ -641,10 +625,6 @@ def callbacks(app):
         annotation_dict = {}
         custom_dict = {}
 
-        if sample_filt:
-            for i in sample_filt:
-                sample_list.append(i)
-
         if file_filt:
             for i in file_filt:
                 filter_list.append(i)
@@ -653,20 +633,20 @@ def callbacks(app):
             index_list = [x.strip() for x in index_str.split(";") if x]
             custom_dict["index_list"] = index_list
 
-        annotation_dict["Gene_name"] = []
+        annotation_dict["gene_name"] = []
         if gene_names:
             for i in gene_names:
-                annotation_dict["Gene_name"].append(i)
+                annotation_dict["gene_name"].append(i)
 
-        annotation_dict["Gene_type"] = []
+        annotation_dict["gene_type"] = []
         if gene_types:
             for i in gene_types:
-                annotation_dict["Gene_type"].append(i)
+                annotation_dict["gene_type"].append(i)
 
-        annotation_dict["Gene_feature"] = []
+        annotation_dict["gene_feature"] = []
         if features:
             for i in features:
-                annotation_dict["Gene_feature"].append(i)
+                annotation_dict["gene_feature"].append(i)
 
         for name in data["metadata"]["annotation"]:
             if name != "GTF":
@@ -707,18 +687,12 @@ def callbacks(app):
                 df = df[df[col].isin(new_labels)]
                 custom_dict[col] = new_labels
 
-        # Subset dataframe by sample filter
-        if sample_list:  # If not blank list
-            for sample in sample_list:
-                df = df[df[sample] == 0.0]
-
         # Subtset dataframe by filter file
         if filter_list:  # If not blank list
             for _filter in filter_list:
                 df = df[df[_filter] != "1"]
 
         custom_dict["row_counts"] = df.shape[0]
-        custom_dict["filter_sample"] = sample_list
         custom_dict["filter_file"] = filter_list
         custom_dict["index_list"] = index_list
 
@@ -787,6 +761,7 @@ def callbacks(app):
                 batch_no=selected_batch,
                 sample_order=sample_sortlist,
                 sample_names=names_dict,
+                width=1100
             )
 
         else:
@@ -798,16 +773,16 @@ def callbacks(app):
                     _ = df.loc[custom_config["index_list"], :]
                     annotation["index_list"] = custom_config["index_list"]
             except KeyError:
-                error_msg = "ERROR: Selected variant indexes not found in data."
+                error_msg = "ERROR: Selected variant indices not found within dataset."
 
             # Preparing annotation filters
             for name in data["metadata"]["annotation"]:
                 if name != "GTF":
                     annotation[name] = custom_config[name]
 
-            annotation["Gene_name"] = custom_config["Gene_name"]
-            annotation["Gene_type"] = custom_config["Gene_type"]
-            annotation["Gene_feature"] = custom_config["Gene_feature"]
+            annotation["gene_name"] = custom_config["gene_name"]
+            annotation["gene_type"] = custom_config["gene_type"]
+            annotation["gene_feature"] = custom_config["gene_feature"]
 
             # Assign VariantMap plot to fig
             fig = dash_bio.VariantMap(
@@ -815,10 +790,10 @@ def callbacks(app):
                 entries_per_batch=custom_config["entries"],
                 batch_no=selected_batch,
                 annotation=annotation,
-                filter_sample=custom_config["filter_sample"],
                 filter_file=custom_config["filter_file"],
                 sample_order=sample_sortlist,
                 sample_names=names_dict,
+                width=1100
             )
 
         # Children for variantmap-fig
