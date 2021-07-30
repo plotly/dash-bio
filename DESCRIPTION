@@ -1,6 +1,6 @@
 Package: dashBio
 Title: Open-source Bioinformatics Components for Dash
-Version: 0.7.0
+Version: 0.7.1
 Description: A suite of components that makes it simpler to analyze and visualize bioinformatics data and interact with them in a Dash application.
 Depends: R (>= 3.0.2), manhattanly
 Imports: dash
