@@ -98,6 +98,7 @@ jobs:
                 command: |
                     . venv/bin/activate
                     pip install --progress-bar off -r tests/requirements.txt --quiet
+                no_output_timeout: 20m
 
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}-{{ checksum ".circleci/config.yml" }}
