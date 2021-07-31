@@ -13,5 +13,5 @@ click==7.1.2
 colour==0.1.5
 cryptography==3.3.2
 cycler==0.10.0
-dash==1.9.1
+dash==1.21.0
 ipdb==0.11
