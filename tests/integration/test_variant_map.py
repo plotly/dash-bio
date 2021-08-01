@@ -4,6 +4,8 @@ import dash
 import dash_bio
 import dash_core_components as dcc
 
+from common_features import generate_identifier
+
 
 # Load dataframe and metadata
 _data_file = 'tests/dashbio_demos/dash-variant-map/data/sample_data.h5'
@@ -26,4 +28,4 @@ def test_dbvm001_basic(dash_duo):
 
     dash_duo.start_server(app)
     dash_duo.wait_for_element('#variantmap')
-    dash_duo.percy_snapshot('variantmap-basic')
+    dash_duo.percy_snapshot('variantmap-basic' + generate_identifier())
