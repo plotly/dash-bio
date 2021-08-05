@@ -26,6 +26,7 @@ def VariantMap(
     rangeslider=True,
     height=500,
     width=600,
+    **kwargs,
 ):
     """Returns a Dash Bio VariantMap figure.
     Keyword arguments:
@@ -69,6 +70,25 @@ def VariantMap(
     - rangeslider (bool; default True): Whether or not to show the range slider.
     - height (number; default 500): The height of the graph, in px.
     - width (number; default 700): The width of the graph, in px.
+    - Arbitrary keys (misc.): Arbitrary arguments can be passed to modify the
+        Layout and styling of the graph. A full reference of acceptable args is
+        available [here](https://plotly.com/python-api-reference/generated/plotly.graph_objects
+        .Layout.html).
+
+        Some commonly used layout keys are:
+        - title (dict: optional): Dict with compatible properties for the title of
+            the figure layout.
+        - xaxis (dict: optional): Dict with compatible properties for the x-axis of
+            the figure layout.
+        - yaxis (dict: optional): Dict with compatible properties for the y-axis of
+            the figure layout.
+        - height (number; optional): Sets the plot's height (in px).
+        - width (number; optional): Sets the plot's width (in px).
+        - margin (dict | plotly.graph_objects.layout.Margin instance): A dict or Margin
+            instance that sets the separation between the main plotting space and
+            the outside of the figure.
+        - legend (dict | plotly.graph_objects.layout.Legend instance): A dict or Legend
+            instance with compatible properties.
     Usage example:
     import pandas as pd
     import dash_bio
@@ -130,10 +150,10 @@ def VariantMap(
         colorbar_thick,
         rangeslider,
         height,
-        width,
+        width
     )
 
-    return vm.figure()
+    return vm.figure(**kwargs)
 
 
 class _VariantMap:
@@ -274,7 +294,7 @@ class _VariantMap:
         names.reverse()
         self.names = names
 
-    def figure(self):
+    def figure(self, **kwargs):
         """
         :return: a go.Figure object
         """
@@ -330,6 +350,8 @@ class _VariantMap:
             paper_bgcolor="rgba(10,43,77,255)",
             plot_bgcolor="rgba(255,255,255,255)",
         )
+
+        layout.update(**kwargs)
 
         return go.Figure(data=[trace1], layout=layout)
 

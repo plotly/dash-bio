@@ -3,7 +3,7 @@
 ## UNRELEASED
 
 ### Added
-* [#5XX](https://github.com/plotly/dash-bio/pull/5XX) Added VariantMap component (see XXX for original PR).
+* [#567](https://github.com/plotly/dash-bio/pull/567) Added VariantMap component (see [#504](https://github.com/plotly/dash-bio/pull/504) for original PR).
 
 ## [0.7.1] - 2021-07-26
 

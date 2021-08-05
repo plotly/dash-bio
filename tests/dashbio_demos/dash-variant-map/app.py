@@ -757,7 +757,7 @@ def callbacks(app):
         if custom_config is None:  # If custom_config settings are not provided
             fig = dash_bio.VariantMap(
                 df,
-                batch_no=selected_batch,
+                batch_number=selected_batch,
                 sample_order=sample_sortlist,
                 sample_names=names_dict,
                 width=1100
@@ -787,7 +787,7 @@ def callbacks(app):
             fig = dash_bio.VariantMap(
                 df,
                 entries_per_batch=custom_config["entries"],
-                batch_no=selected_batch,
+                batch_number=selected_batch,
                 annotation=annotation,
                 filter_file=custom_config["filter_file"],
                 sample_order=sample_sortlist,
