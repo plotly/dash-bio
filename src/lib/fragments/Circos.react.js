@@ -164,9 +164,11 @@ export default class Circos extends Component {
                         );
                     };
                 }
+            } else {
+                configApply.tooltipContent = undefined;
             }
         } else {
-            configApply.tooltipContent = null;
+            configApply.tooltipContent = undefined;
         }
     }
 
