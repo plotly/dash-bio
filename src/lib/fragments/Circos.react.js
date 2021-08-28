@@ -109,7 +109,10 @@ export default class Circos extends Component {
          * Set the tool tip event handler. It allows the user to specify what data they want
          * to show on annotation click or hover
          */
-        if (typeof configApply.tooltipContent !== 'undefined') {
+        if (
+            typeof configApply.tooltipContent !== 'undefined' &&
+            configApply.tooltipContent !== null
+        ) {
             if (typeof configApply.tooltipContent.name !== 'undefined') {
                 if (configApply.tooltipContent.name === 'all') {
                     configApply.tooltipContent = d => {
