@@ -74,3 +74,35 @@ def test_dbci002_inner_outer_radii(dash_duo):
 
     assert int(chr_one_div.size['width']) == 41
     assert int(chr_one_div.size['height']) == 81
+
+
+def test_dbci003_tracks_config(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    histogram_layout = [
+        {'type': 'HISTOGRAM', 'data': _data['histogram'][:5],
+         'config': {
+                    'innerRadius': 330,
+                    'outerRadius': 350,
+                    'opacity': 0.6,
+                    'color': {'name': 'color'},
+                    'tooltipContent': None,
+                },
+         }
+    ]
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Circos(
+            id=_COMPONENT_ID,
+            layout=_data['GRCh37'],
+            tracks=histogram_layout
+        )
+    ))
+
+    dash_duo.start_server(app)
+
+    dash_duo.wait_for_element('#react-entry-point')
+
+    # The component should be inited instead of errors
+    assert len(dash_duo.find_elements(f'#{_COMPONENT_ID}')) == 1
