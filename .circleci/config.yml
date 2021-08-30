@@ -54,12 +54,12 @@ jobs:
             - run:
                 name: Install Dash for package build and build package
                 command: |
-                    pip install --upgrade pip
                     curl --proto '=https' --tlsv1.2 -sSf -o rust-init.sh https://sh.rustup.rs
                     chmod ugo+x rust-init.sh
                     ./rust-init.sh -y
                     python -m venv venv
                     . venv/bin/activate
+                    pip install --upgrade pip
                     git clone --depth 1 https://github.com/plotly/dash.git dash-main
                     export PATH=$PATH:/home/circleci/.local/bin/:/home/circleci/.cargo/bin
                     export RUSTC_BOOTSTRAP=1
@@ -113,11 +113,11 @@ jobs:
             - run:
                 name: Install Dash
                 command: |
-                    pip install --upgrade pip
                     curl --proto '=https' --tlsv1.2 -sSf -o rust-init.sh https://sh.rustup.rs
                     chmod ugo+x rust-init.sh
                     ./rust-init.sh -y
                     . venv/bin/activate
+                    pip install --upgrade pip
                     git clone --depth 1 https://github.com/plotly/dash.git dash-main
                     export PATH=$PATH:/home/circleci/.local/bin/:/home/circleci/.cargo/bin
                     export RUSTC_BOOTSTRAP=1
