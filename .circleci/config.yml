@@ -54,6 +54,7 @@ jobs:
             - run:
                 name: Install Dash for package build and build package
                 command: |
+                    pip install --upgrade pip
                     curl --proto '=https' --tlsv1.2 -sSf -o rust-init.sh https://sh.rustup.rs
                     chmod ugo+x rust-init.sh
                     ./rust-init.sh -y
@@ -112,6 +113,7 @@ jobs:
             - run:
                 name: Install Dash
                 command: |
+                    pip install --upgrade pip
                     curl --proto '=https' --tlsv1.2 -sSf -o rust-init.sh https://sh.rustup.rs
                     chmod ugo+x rust-init.sh
                     ./rust-init.sh -y
