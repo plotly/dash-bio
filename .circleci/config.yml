@@ -110,7 +110,7 @@ jobs:
             - run:
                 name: Install Dash
                 command: |
-                    pip install --upgrade pip
+                    . venv/bin/activate
                     git clone --depth 1 https://github.com/plotly/dash.git dash-main
                     cd dash-main && pip install -e .[dev,testing] --progress-bar off && renderer build && cd ../
 
