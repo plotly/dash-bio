@@ -104,5 +104,5 @@ def test_dbci003_tracks_config(dash_duo):
 
     dash_duo.wait_for_element('#react-entry-point')
 
-    # The component should be inited instead of errors
+    # The component should be rendered instead of displaying console errors
     assert len(dash_duo.find_elements(f'#{_COMPONENT_ID}')) == 1
