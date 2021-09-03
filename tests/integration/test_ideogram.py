@@ -34,7 +34,8 @@ def test_dbid001_displayed_chromosomes(dash_duo):
 
     WebDriverWait(dash_duo.driver, 1).until(
         lambda _:
-        len(dash_duo.find_elements('g.chromosome-set-container')) == 5
+        len(dash_duo.find_elements('g.chromosome-set-container')) == 5,
+        5
     )
 
 
@@ -69,7 +70,7 @@ def test_dbid002_click_rotation(dash_duo):
     # rotation shouldn't take more than 1-2 seconds
     WebDriverWait(dash_duo.driver, 1).until(
         lambda _: 'rotate(0)' in dash_duo.find_element(
-            '#chr1-9606-chromosome-set').get_attribute('transform'))
+            '#chr1-9606-chromosome-set').get_attribute('transform'), 5)
 
 
 def test_dbid003_click_rotation_disabled(dash_duo):
@@ -93,7 +94,7 @@ def test_dbid003_click_rotation_disabled(dash_duo):
 
     WebDriverWait(dash_duo.driver, 1).until(
         lambda _: 'rotate(90)' in dash_duo.find_element(
-            '#chr1-9606-chromosome-set').get_attribute('transform'))
+            '#chr1-9606-chromosome-set').get_attribute('transform'), 5)
 
     # click to rotate and ensure that the correct chromosome is rotated
     dash_duo.find_element('#chr1-9606-chromosome-set').click()
