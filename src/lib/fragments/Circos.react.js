@@ -264,7 +264,7 @@ export default class Circos extends Component {
         } = this.props;
 
         return (
-            <div id={id} style={style} data-event-datum={eventDatum}>
+            <div id={id} style={style} eventdatum={eventDatum}>
                 <div
                     id="Circos-container"
                     ref={ref => {
