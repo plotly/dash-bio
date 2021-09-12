@@ -163,6 +163,6 @@ def test_dbsp006_custom_view(dash_duo):
         test_prop_name='view',
         test_prop_value=json.dumps(new_view),
         prop_value_type='dict',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(new_view),
+        validation_fn=lambda x: x == new_view,
         take_snapshot=True
     )
