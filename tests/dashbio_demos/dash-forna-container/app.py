@@ -380,7 +380,8 @@ def layout():
                                             children='Specify the information which will ' +
                                                      'be rendered on the mouse hover.'
                                         ),
-                                        dcc.Input(id='forna-title-pattern', placeholder='${structName}:${num}')
+                                        dcc.Input(id='forna-title-pattern',
+                                                  placeholder='${structName}:${num}')
                                     ]
                                 ),
                                 html.Br(),
