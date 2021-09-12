@@ -20,7 +20,7 @@
     border-color: #85002D !important;
 }
 
-#forna-sequence, #forna-structure, #forna-id {
+#forna-sequence, #forna-structure, #forna-id, #forna-title-pattern {
     width: 100%;
     margin-top: 15px;
 }

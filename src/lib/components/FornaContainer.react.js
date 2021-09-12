@@ -23,6 +23,7 @@ export default class FornaContainer extends Component {
             colorScheme,
             customColors,
             allowPanningAndZooming,
+            titlePattern,
         } = this.props;
 
         this._fornaContainer = new PreFornaContainer(
@@ -30,6 +31,7 @@ export default class FornaContainer extends Component {
             {
                 initialSize: [width, height],
                 allowPanningAndZooming: allowPanningAndZooming,
+                titlePattern: titlePattern,
             }
         );
         // initialize the correct colors
@@ -64,11 +66,17 @@ export default class FornaContainer extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        const {sequences, colorScheme} = this.props;
+        const {sequences, colorScheme, titlePattern} = this.props;
 
         if (!R.equals(sequences, nextProps.sequences)) {
             return true;
         }
+
+        if (nextProps.titlePattern !== titlePattern) {
+            this._fornaContainer.setTitlePattern(nextProps.titlePattern);
+            return true;
+        }
+
         this._fornaContainer.addCustomColors(nextProps.customColors);
         this._fornaContainer.changeColorScheme(colorScheme);
 
@@ -246,6 +254,13 @@ FornaContainer.propTypes = {
      * Dash-assigned callback that gets fired when the value changes.
      */
     setProps: PropTypes.func,
+
+    /**
+     * Allow users to specify which information will be displayed after
+     * hover on the elements. To render node property place it into ${}
+     * construction. For example: '${structName}:${num}'
+     */
+    titlePattern: PropTypes.string,
 };
 
 FornaContainer.defaultProps = {
@@ -254,4 +269,5 @@ FornaContainer.defaultProps = {
     sequences: [],
     allowPanningAndZooming: true,
     colorScheme: 'sequence',
+    titlePattern: '${structName}:${num}',
 };

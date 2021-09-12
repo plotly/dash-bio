@@ -894,6 +894,17 @@
         },
         "required": false,
         "description": "Dash-assigned callback that gets fired when the value changes."
+      },
+      "titlePattern": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Allow users to specify which information will be displayed after\nhover on the elements. To render node property place it into ${}\nconstruction. For example: '${structName}:${num}'",
+        "defaultValue": {
+          "value": "'${structName}:${num}'",
+          "computed": false
+        }
       }
     }
   },
