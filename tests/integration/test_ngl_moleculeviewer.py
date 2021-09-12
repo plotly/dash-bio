@@ -299,7 +299,7 @@ def test_dbdn002_change_background(dash_duo):
         test_prop_name="stageParameters",
         test_prop_value=json.dumps(stage_config),
         prop_value_type="dict",
-        validation_fn=lambda x: json.dumps(x) == json.dumps(stage_config),
+        validation_fn=lambda x: x == stage_config,
         take_snapshot=True,
     )
 

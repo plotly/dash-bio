@@ -46,7 +46,7 @@ def test_dbsv001_coverage(dash_duo):
         test_prop_name='coverage',
         test_prop_value=json.dumps(new_coverage),
         prop_value_type='list',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(new_coverage),
+        validation_fn=lambda x: x == new_coverage,
         take_snapshot=True
     )
 
