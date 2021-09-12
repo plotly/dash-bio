@@ -75,7 +75,7 @@ def test_dbfc002_display_multiple_sequences(dash_duo):
         test_prop_name='sequences',
         test_prop_value=json.dumps(sequences),
         prop_value_type='list',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(sequences),
+        validation_fn=lambda x: x == sequences,
         take_snapshot=True
     )
 
@@ -187,7 +187,7 @@ def test_dbfc005_label_interval(dash_duo):
         test_prop_name='sequences',
         test_prop_value=json.dumps(sequences),
         prop_value_type='list',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(sequences),
+        validation_fn=lambda x: x == sequences,
         take_snapshot=True
     )
 
@@ -248,7 +248,7 @@ def test_dbfc006_custom_colors(dash_duo):
         test_prop_name='customColors',
         test_prop_value=json.dumps(custom_colors),
         prop_value_type='dict',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(custom_colors),
+        validation_fn=lambda x: x == custom_colors,
         take_snapshot=True
     )
 

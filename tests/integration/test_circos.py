@@ -31,6 +31,11 @@ def test_dbci001_graph_type(dash_duo):
         {'type': 'HISTOGRAM', 'data': _data['histogram'][:5]}
     ]
 
+    def validation_fn(x):
+        print(json.dumps(x))
+        print(json.dumps(histogram_layout))
+        return json.dumps(x) == json.dumps(histogram_layout)
+
     simple_app_callback(
         app,
         dash_duo,
@@ -38,7 +43,7 @@ def test_dbci001_graph_type(dash_duo):
         test_prop_name='tracks',
         test_prop_value=json.dumps(histogram_layout),
         prop_value_type='dict',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(histogram_layout)
+        validation_fn=lambda x: x == histogram_layout
     )
 
     # there should be five bins in the histogram
