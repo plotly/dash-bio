@@ -43,7 +43,7 @@ def test_dbnp001_needle_style(dash_duo):
         test_prop_name='needleStyle',
         test_prop_value=json.dumps(new_needle_style),
         prop_value_type='dict',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(new_needle_style),
+        validation_fn=lambda x: x == new_needle_style,
         take_snapshot=True
     )
 
@@ -108,7 +108,7 @@ def test_dbnp002_domainStyle(dash_duo):
         test_prop_name='domainStyle',
         test_prop_value=json.dumps(new_domain_style),
         prop_value_type='dict',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(new_domain_style),
+        validation_fn=lambda x: x == new_domain_style,
         take_snapshot=True
     )
 
