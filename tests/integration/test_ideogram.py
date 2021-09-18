@@ -121,7 +121,8 @@ def test_dbid004_remote_annotations_path(dash_duo):
         test_prop_name='annotationsPath',
         test_prop_value='https://eweitz.github.io/ideogram/data/annotations/10_virtual_cnvs.json',
         prop_value_type='string',
-        validation_fn=lambda x: x == 'https://eweitz.github.io/ideogram/data/annotations/10_virtual_cnvs.json'
+        validation_fn=lambda x:
+        x == 'https://eweitz.github.io/ideogram/data/annotations/10_virtual_cnvs.json'
     )
 
     WebDriverWait(dash_duo.driver, 1).until(
@@ -150,8 +151,9 @@ def test_dbid005_local_annotations(dash_duo):
             {"chr": "20", "annots": [["observation 1", 30954171, 5816, "rgba(255, 0, 0, 0.65)"]]},
             {"chr": "3", "annots": [[" ", 30000000, 9000000, "rgba(0, 255, 0, 0.65)"],
                                     ["virtual3", 33000000, 3000000, "rgba(255, 0, 0, 0.65)"]]},
-            {"chr": "9", "annots": [["a duplicate name", 120000000, 9000000, "rgba(0, 255, 0, 0.65)"],
-                                    ["a duplicate name", 12000000, 12000000, "rgba(255, 0, 0, 0.65)"]]},
+            {"chr": "9", "annots":
+                [["a duplicate name", 120000000, 9000000, "rgba(0, 255, 0, 0.65)"],
+                 ["a duplicate name", 12000000, 12000000, "rgba(255, 0, 0, 0.65)"]]},
             {"chr": "foo", "annots": []},
             {"chr": "X", "annots": [["observation 2", 47422351, 6720, "rgba(0, 0, 255, 0.65)"]]}
         ]
