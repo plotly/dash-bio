@@ -15,7 +15,7 @@ import dash_bio
 
 # from dash_bio_utils import pdb_parser as parser
 
-from common_features import simple_app_layout, simple_app_callback, generate_identifier
+from common_features import simple_app_layout, simple_app_callback
 
 _COMPONENT_ID = "test-ngl"
 data_path = "tests/dashbio_demos/dash-ngl-moleculeviewer/data/"
@@ -264,8 +264,7 @@ def modified_simple_app_callback(
 
     time.sleep(5)
     if take_snapshot:
-        dash_duo.percy_snapshot(f"{component_id}_{test_prop_name}_{test_prop_value}_"
-                                f"{generate_identifier()}", convert_canvases=True)
+        dash_duo.percy_snapshot(f"{component_id}_{test_prop_name}_{test_prop_value}", convert_canvases=True)
 
 
 def test_dbdn001_viewer_loaded(dash_duo):
