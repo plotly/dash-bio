@@ -33,7 +33,7 @@
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
     "igv": "2.6.8",
     "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
-    "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
+    "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git#c0f527d9ae1156bb0932790a683c74604100cd32",
     "ngl": "^0.10.4",
     "pileup": "0.7.0",
     "plotly.js": "^1.52.2",
