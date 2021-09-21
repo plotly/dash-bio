@@ -4,7 +4,6 @@ import dash
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
-import time
 
 PASS = 'passed'
 FAIL = 'failed'
