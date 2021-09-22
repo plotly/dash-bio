@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased - ???
+
+### Fixed
+* [#562](https://github.com/plotly/dash-bio/pull/576) Fixed abnormal memory consumption with Molecule3dViewer component when selecting residues or rotating the molecule (for more info see [#511](https://github.com/plotly/dash-bio/issues/511)).
+
 ## [0.7.1] - 2021-07-26
 
 ### Fixed
