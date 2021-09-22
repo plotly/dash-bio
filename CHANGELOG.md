@@ -3,7 +3,8 @@
 ## Unreleased - ???
 
 ### Fixed
-* [#562](https://github.com/plotly/dash-bio/pull/576) Fixed abnormal memory consumption with Molecule3dViewer component when selecting residues or rotating the molecule (for more info see [#511](https://github.com/plotly/dash-bio/issues/511)).
+* [#576](https://github.com/plotly/dash-bio/pull/576) Fixed abnormal memory consumption with Molecule3dViewer component when selecting residues or rotating the molecule (for more info see [#511](https://github.com/plotly/dash-bio/issues/511)).
+* [#575](https://github.com/plotly/dash-bio/pull/575) Bumped Ideogram version to 1.6.0 to fix erratic annotations behavior (for more info see [#524](https://github.com/plotly/dash-bio/issues/524)).
 
 ## [0.7.1] - 2021-07-26
 
