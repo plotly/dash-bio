@@ -122,7 +122,8 @@ def test_dbid004_remote_annotations_path(dash_duo):
         test_prop_value='https://eweitz.github.io/ideogram/data/annotations/10_virtual_cnvs.json',
         prop_value_type='string',
         validation_fn=lambda x:
-        x == 'https://eweitz.github.io/ideogram/data/annotations/10_virtual_cnvs.json'
+        x == 'https://eweitz.github.io/ideogram/data/annotations/10_virtual_cnvs.json',
+        take_snapshot=True,
     )
 
     WebDriverWait(dash_duo.driver, 1).until(
@@ -166,7 +167,8 @@ def test_dbid005_local_annotations(dash_duo):
         test_prop_name='annotations',
         test_prop_value=json.dumps(annotations),
         prop_value_type='dict',
-        validation_fn=lambda x: x == annotations
+        validation_fn=lambda x: x == annotations,
+        take_snapshot=True,
     )
 
     WebDriverWait(dash_duo.driver, 1).until(
