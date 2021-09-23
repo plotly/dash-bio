@@ -24,8 +24,7 @@ initial_sequences = {
             'circularizeExternal': True,
             'avoidOthers': False,
             'labelInterval': 5,
-            'name': 'PDB_01019',
-            'titlePattern': 'nanachi'
+            'name': 'PDB_01019'
         }
     }
 }
@@ -462,15 +461,15 @@ def callbacks(_app):
         return current, error_msg
 
     @_app.callback(
-        Output('forna', 'titlePattern'),
+        Output('forna', 'hoverPattern'),
         [Input('forna-submit-title-pattern', 'n_clicks')],
         [State('forna-title-pattern', 'value')]
     )
-    def update_title_pattern(nclicks, title_pattern):
+    def update_hover_pattern(nclicks, hover_pattern):
         if nclicks is None or nclicks == 0:
             raise PreventUpdate
 
-        return title_pattern
+        return hover_pattern
 
     @_app.callback(
         Output('forna', 'colorScheme'),
