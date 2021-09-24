@@ -314,7 +314,7 @@ def test_dbfc008_default_hover_pattern(dash_duo):
     dash_duo.start_server(app)
     dash_duo.wait_for_element('#' + _COMPONENT_ID)
 
-    check_title(dash_duo, 1, 'empty:1')
+    check_title(dash_duo, 1, 'nucleotide:1')
 
 
 def test_dbfc009_custom_hover_pattern(dash_duo):
@@ -364,14 +364,14 @@ def test_dbfc011_none_hover_pattern(dash_duo):
             id=_COMPONENT_ID,
             sequences=[{'sequence': 'AUGAU', 'structure': '.....'}],
             colorScheme='positions',
-            hoverPattern=None
+            hoverPattern=' '
         )
     )
 
     dash_duo.start_server(app)
     dash_duo.wait_for_element('#' + _COMPONENT_ID)
 
-    check_title(dash_duo, 1, '')
+    check_title(dash_duo, 1, ' ')
 
 
 def check_title(dash_duo, number, title):
