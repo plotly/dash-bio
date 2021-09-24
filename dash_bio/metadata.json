@@ -894,6 +894,13 @@
         },
         "required": false,
         "description": "Dash-assigned callback that gets fired when the value changes."
+      },
+      "hoverPattern": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Allow users to specify which information will be displayed after\nhover on the elements. To render node property place it into ${}\nconstruction. For example: 'Structure name is ${structName} - ${num}'.\nAcceptable node properties are \"num\", \"radius\", \"rna\", \"nodeType\",\n\"structName\", \"size\", \"uid\", \"name\"."
       }
     }
   },
