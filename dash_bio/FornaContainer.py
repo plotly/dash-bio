@@ -61,6 +61,11 @@ Keyword arguments:
     The height (in px) of the container in which the molecules will be
     displayed.
 
+- hoverPattern (string; default '${structName}:${num}'):
+    Allow users to specify which information will be displayed after
+    hover on the elements. To render node property place it into ${}
+    construction. For example: '${structName}:${num}'.
+
 - nodeFillColor (string; optional):
     The fill color for all of the nodes. This will override any color
     scheme defined in colorScheme.
@@ -110,21 +115,16 @@ Keyword arguments:
         (https://software.broadinstitute.org/software/igv/RNAsecStructure)
         that specifies the secondary structure of the RNA molecule.
 
-- titlePattern (string; default '${structName}:${num}'):
-    Allow users to specify which information will be displayed after
-    hover on the elements. To render node property place it into ${}
-    construction. For example: '${structName}:${num}'.
-
 - width (number; default 300):
     The width (in px) of the container in which the molecules will be
     displayed."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, titlePattern=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'nodeFillColor', 'sequences', 'titlePattern', 'width']
+    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, hoverPattern=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'hoverPattern', 'nodeFillColor', 'sequences', 'width']
         self._type = 'FornaContainer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'nodeFillColor', 'sequences', 'titlePattern', 'width']
+        self.available_properties = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'hoverPattern', 'nodeFillColor', 'sequences', 'width']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

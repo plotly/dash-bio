@@ -895,7 +895,7 @@
         "required": false,
         "description": "Dash-assigned callback that gets fired when the value changes."
       },
-      "titlePattern": {
+      "hoverPattern": {
         "type": {
           "name": "string"
         },

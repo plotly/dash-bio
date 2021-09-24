@@ -11,8 +11,8 @@ FornaContainer is a force-directed graph that is used to visualize the secondary
 
 \usage{
 dashbioFornaContainer(id=NULL, allowPanningAndZooming=NULL, colorScheme=NULL,
-customColors=NULL, height=NULL, nodeFillColor=NULL,
-sequences=NULL, titlePattern=NULL, width=NULL)
+customColors=NULL, height=NULL, hoverPattern=NULL,
+nodeFillColor=NULL, sequences=NULL, width=NULL)
 }
 
 \arguments{
@@ -57,6 +57,10 @@ perfectly in between 0 and 20.}
 \item{height}{Numeric. The height (in px) of the container in which the molecules will
 be displayed.}
 
+\item{hoverPattern}{Character. Allow users to specify which information will be displayed after
+hover on the elements. To render node property place it into ${}
+construction. For example: '${structName}:${num}'}
+
 \item{nodeFillColor}{Character. The fill color for all of the nodes. This will override any
 color scheme defined in colorScheme.}
 
@@ -87,10 +91,6 @@ with their number. 10 by default.
 scales.
   - avoidothers (logical; optional): whether or not this molecule should "avoid" other
 molecules in the map.s. The molecules that will be displayed.}
-
-\item{titlePattern}{Character. Allow users to specify which information will be displayed after
-hover on the elements. To render node property place it into ${}
-construction. For example: '${structName}:${num}'}
 
 \item{width}{Numeric. The width (in px) of the container in which the molecules will
 be displayed.}

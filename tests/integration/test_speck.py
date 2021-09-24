@@ -8,7 +8,7 @@ import dash_bio
 import dash_html_components as html
 from dash_bio_utils import xyz_reader
 
-from common_features import simple_app_layout, simple_app_callback, generate_identifier
+from common_features import simple_app_layout, simple_app_callback
 
 _data = None
 
@@ -41,7 +41,7 @@ def test_dbsp001_rotate(dash_duo):
     ac.move_to_element(speck).drag_and_drop_by_offset(
         speck, 150, 200).perform()
 
-    dash_duo.percy_snapshot('test-speck_rotate' + generate_identifier(), convert_canvases=True)
+    dash_duo.percy_snapshot('test-speck_rotate', convert_canvases=True)
 
 
 def test_dbsp002_click_and_drag(dash_duo):
@@ -63,7 +63,7 @@ def test_dbsp002_click_and_drag(dash_duo):
     ac.move_to_element(speck).key_down(Keys.SHIFT).drag_and_drop_by_offset(
         speck, -50, 100).key_up(Keys.SHIFT).perform()
 
-    dash_duo.percy_snapshot('test-speck_click_and_drag' + generate_identifier(),
+    dash_duo.percy_snapshot('test-speck_click_and_drag',
                             convert_canvases=True)
 
 
