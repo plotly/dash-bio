@@ -9,8 +9,6 @@
 ### Added
 * [#573](https://github.com/plotly/dash-bio/pull/573) Added the ability to configure the FornaContainer hover info with `hoverPattern` prop and interpolated node keys (for more info see [#519](https://github.com/plotly/dash-bio/issues/519)).
 
-
-
 ## [0.7.1] - 2021-07-26
 
 ### Fixed
