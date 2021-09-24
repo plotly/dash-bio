@@ -29,7 +29,7 @@
   "dependencies": {
     "circos": "git+https://github.com/plotly/circosJS.git#matthewchan15-zoom-pan-svg",
     "fast-memoize": "^2.5.1",
-    "fornac": "git://github.com/plotly/fornac.git#47a0437f8be8735b7abbf744878eadc54d8f2959",
+    "fornac": "git://github.com/plotly/fornac.git#794ebd47766a8cff2020d83a5f9071201ef59d31",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#a63d8c0198fe0475a9b141e5aa77bb273ddb217e",
     "igv": "2.6.8",
     "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
