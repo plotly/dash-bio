@@ -258,7 +258,9 @@ FornaContainer.propTypes = {
     /**
      * Allow users to specify which information will be displayed after
      * hover on the elements. To render node property place it into ${}
-     * construction. For example: '${structName}:${num}'
+     * construction. For example: 'Structure name is ${structName} - ${num}'.
+     * Acceptable node properties are "num", "radius", "rna", "nodeType",
+     * "structName", "size", "uid", "name".
      */
     hoverPattern: PropTypes.string,
 };
@@ -269,5 +271,4 @@ FornaContainer.defaultProps = {
     sequences: [],
     allowPanningAndZooming: true,
     colorScheme: 'sequence',
-    hoverPattern: '${structName}:${num}',
 };

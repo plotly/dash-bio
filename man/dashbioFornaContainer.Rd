@@ -59,7 +59,9 @@ be displayed.}
 
 \item{hoverPattern}{Character. Allow users to specify which information will be displayed after
 hover on the elements. To render node property place it into ${}
-construction. For example: '${structName}:${num}'}
+construction. For example: 'Structure name is ${structName} - ${num}'.
+Acceptable node properties are "num", "radius", "rna", "nodeType",
+"structName", "size", "uid", "name".}
 
 \item{nodeFillColor}{Character. The fill color for all of the nodes. This will override any
 color scheme defined in colorScheme.}

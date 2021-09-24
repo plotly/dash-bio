@@ -61,10 +61,13 @@ Keyword arguments:
     The height (in px) of the container in which the molecules will be
     displayed.
 
-- hoverPattern (string; default '${structName}:${num}'):
+- hoverPattern (string; optional):
     Allow users to specify which information will be displayed after
     hover on the elements. To render node property place it into ${}
-    construction. For example: '${structName}:${num}'.
+    construction. For example: 'Structure name is ${structName} -
+    ${num}'. Acceptable node properties are \"num\", \"radius\",
+    \"rna\", \"nodeType\", \"structName\", \"size\", \"uid\",
+    \"name\".
 
 - nodeFillColor (string; optional):
     The fill color for all of the nodes. This will override any color
