@@ -395,7 +395,7 @@ def callbacks(_app):
         Output('mol3d-color-storage', 'data'),
         [Input('mol3d-coloring-value', 'value'),
          Input('dropdown-style-color', 'value')],
-        state=[State('mol3d-coloring-key', 'value'),
+        [State('mol3d-coloring-key', 'value'),
                State('mol3d-color-storage', 'data')]
     )
     def update_color_dict(color_value, color_style, color_key, current):

@@ -18,7 +18,7 @@
     "lint": "eslint src --fix",
     "test": "npm run lint:test && npm run format:test && npm run test-unit",
     "test-unit": "jest",
-    "build:js": "npm run lint && npm run format && webpack --mode production",
+    "build:js": "webpack --mode production",
     "build:backends": "dash-generate-components ./src/lib/components dash_bio -p package-info.json --r-prefix='dashbio' --r-imports='dash' --r-depends='manhattanly'",
     "build": "npm run build:js && npm run build:backends",
     "postbuild": "es-check es5 dash_bio/*.js"
@@ -32,6 +32,7 @@
     "fornac": "git://github.com/plotly/fornac.git#6b1b84740d35bf37ca7d251e665039a87b4c2ea9",
     "ideogram": "git+https://github.com/eweitz/ideogram.git#7d9b2ab91b91ef35db93bdeb529d4760de63292f",
     "igv": "2.6.8",
+    "jsme-react": "git+https://github.com/nickmelnikov82/jsme-react.git",
     "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git",
     "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git",
     "ngl": "^0.10.4",

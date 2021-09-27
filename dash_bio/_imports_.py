@@ -3,6 +3,7 @@ from .Circos import Circos
 from .FornaContainer import FornaContainer
 from .Ideogram import Ideogram
 from .Igv import Igv
+from .Jsme import Jsme
 from .Molecule2dViewer import Molecule2dViewer
 from .Molecule3dViewer import Molecule3dViewer
 from .NeedlePlot import NeedlePlot
@@ -18,6 +19,7 @@ __all__ = [
     "FornaContainer",
     "Ideogram",
     "Igv",
+    "Jsme",
     "Molecule2dViewer",
     "Molecule3dViewer",
     "NeedlePlot",

@@ -12,6 +12,7 @@ import NglMoleculeViewer from './components/NglMoleculeViewer.react';
 import OncoPrint from './components/OncoPrint.react';
 import SequenceViewer from './components/SequenceViewer.react';
 import Speck from './components/Speck.react';
+import Jsme from './components/Jsme.react';
 
 export {
     AlignmentChart,
@@ -27,4 +28,5 @@ export {
     OncoPrint,
     SequenceViewer,
     Speck,
+    Jsme,
 };

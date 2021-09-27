@@ -1,0 +1,4 @@
+dash>=1.6.1
+-e git://github.com/plotly/dash-bio.git#egg=dash_bio
+dash-bio-utils==0.0.6
+dash-daq==0.2.2

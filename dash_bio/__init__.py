@@ -39,7 +39,8 @@ async_resources = [
     'nglmoleculeviewer',
     'onco',
     'sequence',
-    'speck'
+    'speck',
+    'jsme'
 ]
 
 _js_dist = []
