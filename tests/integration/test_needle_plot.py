@@ -121,3 +121,61 @@ def test_dbnp002_domainStyle(dash_duo):
         )
 
         assert match.group(1) in new_domain_style['domainColor']
+
+
+def test_dbnp003_height(dash_duo):
+    """ Test that check if height property is setting correctly """
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.NeedlePlot(
+            id=_COMPONENT_ID,
+            mutationData=_data
+        )
+    ))
+
+    new_height = 250
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='height',
+        test_prop_value=json.dumps(new_height),
+        validation_fn=lambda x: x == new_height,
+        prop_value_type='int',
+        take_snapshot=True
+    )
+
+    main = dash_duo.find_element(f'#{_COMPONENT_ID}')
+
+    assert int(main.size['height']) == new_height
+
+
+def test_dbnp004_width(dash_duo):
+    """ Test that check if width property is setting correctly """
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.NeedlePlot(
+            id=_COMPONENT_ID,
+            mutationData=_data
+        )
+    ))
+
+    new_width = 350
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='width',
+        test_prop_value=json.dumps(new_width),
+        validation_fn=lambda x: x == new_width,
+        prop_value_type='int',
+        take_snapshot=True
+    )
+
+    main = dash_duo.find_element(f'#{_COMPONENT_ID}')
+
+    assert int(main.size['width']) == new_width
