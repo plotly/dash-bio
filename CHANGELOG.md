@@ -1,5 +1,11 @@
 # Changelog
 
+## UNRELEASED
+
+### Changed
+
+* [#15](https://github.com/plotly/dash-bio-utils/pull/15) Combined `styles_parser` into `pdb_parser`, and added support for loading remotely sourced PDB files.
+
 ## [0.0.6] - 2021-02-09
 
 ### Added
