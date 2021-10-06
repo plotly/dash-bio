@@ -1,140 +1,22 @@
 """PDB parser
 
 This module contains functions that can read PDB files and return a
-JSON representation of the structural data and styling."""
+JSON representation of the structural and styling data."""
 
 import re
 import six.moves.urllib.request as urlreq
 from six.moves.urllib.parse import urlparse as urlparse
 from six.moves.urllib.error import URLError
-from .constants import (
+import parmed as pmd
+
+from .styles import (
     ATOM_COLOR_DICT,
     CHAIN_COLOR_DICT,
     RESIDUE_COLOR_DICT,
     RESIDUE_TYPES,
     RESIDUE_TYPE_COLOR_DICT,
+    create_style
 )
-
-import parmed as pmd
-
-"""Styles parser
-The following functions specify the style of a
-molecule that is rendered using the Molecule3dViewer component in Dash
-Bio."""
-
-
-def fill_in_defaults(input_dict, default_dict):
-    """Function to automatically populate any missing values in the
-    specified style dictionary with default values.
-    """
-    if input_dict is None:
-        input_dict = {}
-    for key in default_dict:
-        if key not in input_dict.keys():
-            input_dict[key] = default_dict[key]
-    return input_dict
-
-
-def create_style(
-    lines,
-    style,
-    mol_color,
-    residue_type_colors=None,
-    atom_colors=None,
-    chain_colors=None,
-    residue_colors=None,
-):
-    """Function to create the different styles (stick, cartoon, sphere)
-    using the protein data bank (PDB) file as input. This function outputs
-    the styles as a JSON file
-    @param pdb_path
-    Name of the biomolecular structure file in PDB format
-    @param style
-    Type of representation of the biomolecule (options: stick, cartoon, sphere)
-    @param mol_color
-    Coloring scheme for depicting biomolecules (options: residue_type, atom, residue, chain)
-    @param custom_dict
-    optional parameter to specify the color scheme for different chains
-    in JSON format
-    @param atm_color
-    optional parameter to specify the color scheme for different atoms
-    in JSON format
-    """
-
-    # Merge dictionaries if necessary
-    residue_type_colors = fill_in_defaults(residue_type_colors, RESIDUE_TYPE_COLOR_DICT)
-    atom_colors = fill_in_defaults(atom_colors, ATOM_COLOR_DICT)
-    chain_colors = fill_in_defaults(chain_colors, CHAIN_COLOR_DICT)
-    residue_colors = fill_in_defaults(residue_colors, RESIDUE_COLOR_DICT)
-
-    # Initialize variables
-    chains = []
-    atm_types = []
-    res_names = []
-
-    style_data = {}
-
-    # Variables that store the character positions of different
-    # parameters from the molecule PDB file
-    pos = {"chain": [21, 22], "atm_type": [77, 78], "res_name": [17, 20]}
-
-    for l in lines:
-        line = l.split()
-
-        # ignore irrelevant lines
-        if "ATOM" not in line[0] and "HETATM" not in line[0]:
-            continue
-
-        chain = l[pos["chain"][0] : pos["chain"][1]]
-        atm_type = l[pos["atm_type"][0] : pos["atm_type"][1]]
-        res_name = l[pos["res_name"][0] : pos["res_name"][1]].strip()
-
-        chains.append(chain)
-        atm_types.append(atm_type)
-        res_names.append(res_name)
-
-        index = len(chains) - 1
-
-        if line[0] == "ATOM":
-            if mol_color == "chain":
-                style_data[index] = {
-                    "color": chain_colors[chain]
-                    if chain in chain_colors
-                    else "#BEA06E",
-                    "visualization_type": style,
-                }
-            elif mol_color == "residue":
-                style_data[index] = {
-                    "color": residue_colors[res_name.upper()]
-                    if res_name.upper() in residue_colors
-                    else "#BEA06E",
-                    "visualization_type": style,
-                }
-            elif mol_color == "residue_type":
-                style_data[index] = {
-                    "color": residue_type_colors[RESIDUE_TYPES[res_name.upper()]]
-                    if res_name.upper() in RESIDUE_TYPES
-                    else "#BEA06E",
-                    "visualization_type": style,
-                }
-            elif mol_color == "atom":
-                style_data[index] = {
-                    "color": atom_colors[atm_type]
-                    if atm_type in atom_colors
-                    else "#330000",
-                    "visualization_type": style,
-                }
-
-        else:
-            if atm_type in atom_colors:
-                style_data[index] = {
-                    "color": atom_colors[atm_type],
-                    "visualization_type": "stick",
-                }
-            else:
-                style_data[index] = {"color": "#330000", "visualization_type": "stick"}
-
-    return style_data
 
 
 def create_data(pdb_path, style="cartoon", mol_color="residue", **kwargs):
@@ -258,7 +140,7 @@ def create_data(pdb_path, style="cartoon", mol_color="residue", **kwargs):
             {"atom2_index": int(atom1[0]), "atom1_index": int(atom2[0])}
         )
 
-    styles_data = create_style(lines, style=style, mol_color=mol_color, **kwargs)
+    styles_data = create_style(path=pdb_path, lines=lines, style=style, mol_color=mol_color, **kwargs)
 
     output_dict['mol3d'] = {"styles": styles_data, "modelData": modelData}
 

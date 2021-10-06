@@ -2,6 +2,10 @@
 
 ## UNRELEASED
 
+### Added
+
+* [#17](https://github.com/plotly/dash-bio-utils/pull/17) Added `mmCIF_parser` for parsing mmCIF and PDBx format files (see [#16](https://github.com/plotly/dash-bio-utils/pull/16) for more info).
+
 ### Changed
 
 * [#15](https://github.com/plotly/dash-bio-utils/pull/15) Combined `styles_parser` into `pdb_parser`, and added support for loading remotely sourced PDB files.
