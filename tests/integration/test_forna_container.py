@@ -75,7 +75,7 @@ def test_dbfc002_display_multiple_sequences(dash_duo):
         test_prop_name='sequences',
         test_prop_value=json.dumps(sequences),
         prop_value_type='list',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(sequences),
+        validation_fn=lambda x: x == sequences,
         take_snapshot=True
     )
 
@@ -187,7 +187,7 @@ def test_dbfc005_label_interval(dash_duo):
         test_prop_name='sequences',
         test_prop_value=json.dumps(sequences),
         prop_value_type='list',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(sequences),
+        validation_fn=lambda x: x == sequences,
         take_snapshot=True
     )
 
@@ -248,7 +248,7 @@ def test_dbfc006_custom_colors(dash_duo):
         test_prop_name='customColors',
         test_prop_value=json.dumps(custom_colors),
         prop_value_type='dict',
-        validation_fn=lambda x: json.dumps(x) == json.dumps(custom_colors),
+        validation_fn=lambda x: x == custom_colors,
         take_snapshot=True
     )
 
@@ -297,3 +297,85 @@ def test_dbfc007_color_scheme_initial_load(dash_duo):
     check_color(dash_duo, 3, 'rgb(219, 219, 141)')
     check_color(dash_duo, 4, 'rgb(239, 187, 146)')
     check_color(dash_duo, 5, 'rgb(255, 152, 150)')
+
+
+def test_dbfc008_default_hover_pattern(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        dash_bio.FornaContainer(
+            id=_COMPONENT_ID,
+            sequences=[{'sequence': 'AUGAU', 'structure': '.....'}],
+            colorScheme='positions'
+        )
+    )
+
+    dash_duo.start_server(app)
+    dash_duo.wait_for_element('#' + _COMPONENT_ID)
+
+    check_title(dash_duo, 1, 'nucleotide:1')
+
+
+def test_dbfc009_custom_hover_pattern(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        dash_bio.FornaContainer(
+            id=_COMPONENT_ID,
+            sequences=[{'sequence': 'AUGAU', 'structure': '.....'}],
+            colorScheme='positions',
+            hoverPattern='${name} - ${num}'
+        )
+    )
+
+    dash_duo.start_server(app)
+    dash_duo.wait_for_element('#' + _COMPONENT_ID)
+
+    check_title(dash_duo, 1, 'A - 1')
+
+
+def test_dbfc010_hover_pattern_with_non_existed_fields(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        dash_bio.FornaContainer(
+            id=_COMPONENT_ID,
+            sequences=[{'sequence': 'AUGAU', 'structure': '.....'}],
+            colorScheme='positions',
+            hoverPattern='${nonExistedField} - ${num}'
+        )
+    )
+
+    dash_duo.start_server(app)
+    dash_duo.wait_for_element('#' + _COMPONENT_ID)
+
+    check_title(dash_duo, 1, ' - 1')
+
+
+def test_dbfc011_none_hover_pattern(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        dash_bio.FornaContainer(
+            id=_COMPONENT_ID,
+            sequences=[{'sequence': 'AUGAU', 'structure': '.....'}],
+            colorScheme='positions',
+            hoverPattern=' '
+        )
+    )
+
+    dash_duo.start_server(app)
+    dash_duo.wait_for_element('#' + _COMPONENT_ID)
+
+    check_title(dash_duo, 1, ' ')
+
+
+def check_title(dash_duo, number, title):
+    node = dash_duo.find_element(
+        'g.gnode > circle.node[node_num="{}"] > title'.format(str(number))
+    )
+    assert node.get_attribute('innerHTML') == title

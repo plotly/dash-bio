@@ -130,6 +130,16 @@ NeedlePlot.propTypes = {
      * properties change
      */
     setProps: PropTypes.func,
+
+    /**
+     * Width of the Plot
+     */
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    /**
+     * Height of the Plot.
+     */
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 NeedlePlot.defaultProps = {
@@ -194,6 +204,10 @@ NeedlePlot.defaultProps = {
         textangle: 0,
     },
     margin: {t: 100, l: 40, r: 0, b: 40},
+
+    width: 700,
+
+    height: 800,
 };
 
 export const defaultProps = NeedlePlot.defaultProps;

@@ -19,11 +19,15 @@
 
 ## Step 1: Clone the dash-bio repo and install its dependencies
 
+Clone the project from this GitHub repository using the following command:
+
 ```bash
 git clone https://github.com/plotly/dash-bio.git
 cd dash-bio
-npm ci
+npm install
 ```
+
+You will need to have Python installed and the Python variable added to your PATH.
 
 ## Step 2: Develop
 
@@ -52,14 +56,14 @@ Python, need to be named in upper camel case. This is incredibly
 important due to the amount of parsing we perform in our testing suite
 and app deployments.
 
-### Demo applications 
+### Demo applications
 Dash Bio demo apps follow a standardized template and showcase the properties
-of the component and possible use-cases with sample datasets. The `assets` and 
+of the component and possible use-cases with sample datasets. The `assets` and
 `layout_helper.py` modules in the `common` subdirectory include the base CSS styling for
 demo apps and helper functions to generate the layout and callback structure to run
 the demo as a standalone Dash app. These should be added to your demo app directory
-to ensure that the layout and structure of your app is consistent when deployed 
-to the Dash Gallery. See *Setup* below for more details on using `layout_helper.py` 
+to ensure that the layout and structure of your app is consistent when deployed
+to the Dash Gallery. See *Setup* below for more details on using `layout_helper.py`
 within your demo application.
 
 ### Setup
@@ -70,22 +74,22 @@ In the `tests/dashbio_demos/common` subdirectory, you will find the minimal proj
 >the way the CSS is set up for each application, it is advisable to create a
 >container `div` that will house your application, e.g.,
 >```python
->def layout(): 
+>def layout():
 >	return html.Div(id='my-component-container', children=[
->	    "A sample component", 
+>	    "A sample component",
 >	    dash_bio.MyComponent(id='my-component'),
 >	    html.Div(id='my-component-output'),
 >	])
 >```
 >* `callbacks(app)` should contain all of the callbacks in the application and
 >not return anything, e.g.,
->```python 
+>```python
 >def callbacks(app):
 >	@app.callback(
 >	    Output('my-component-output', 'children'),
 >	    [Input('my-component', 'someProperty')]
 >	)
->	def update_output(property): 
+>	def update_output(property):
 >	    return "Value: {}".format(str(property))
 >```
 
@@ -101,10 +105,10 @@ Test out your application by going to the repository's root directory and
 running
 
 ```bash
-python tests/dashbio_demos/{YOUR_DEMO_APP}/app.py 
+python tests/dashbio_demos/{YOUR_DEMO_APP}/app.py
 ```
 
-Then navigate to `localhost:8050` in your web browser. 
+Then navigate to `localhost:8050` in your web browser.
 
 You will need to quit the Python application and rerun it if you have made
 changes to the Python file itself, or have recently rebuilt/reinstalled the
@@ -123,7 +127,7 @@ if you want to make a container `div` for your application as mentioned in the
 Setup subsection, please account for an extra height of `100px` that is taken
 up by the header when you are specifying the height of the container.
 
-### Final touches 
+### Final touches
 In the `tests/dashbio_demos/images/` subfolder, please include a PNG file named
 `pic_{your component name in snake case}.png`.
 
@@ -140,8 +144,8 @@ It should return a dictionary with any or all of the specified keys `bg_color`
 (string), `font_color` (string), and `light_logo` (boolean). Please change the
 background color from default, and try to choose one that isn't used for
 another application, e.g.,
->```python 
->def header_colors(): 
+>```python
+>def header_colors():
 >    return {
 >        'bg_color': 'rgb(255, 0, 0)',
 >        'font_color': 'rgb(255, 255, 255)',
@@ -163,9 +167,9 @@ python -m venv venv
 . venv/bin/activate
 pip install -r tests/requirements.txt
 pip install dash[testing] #if you use zsh run: pip install dash\[testing\]
-pip install dash-bio #if pytest fails try: pip3 install dash-bio
+pip install -e . #if pytest fails try: pip3 install dash-bio
 pytest tests/integration #for testing all apps
-pytest tests/integration/test_yourNewApp #for testing only one app 
+pytest tests/integration/test_yourNewApp #for testing only one app
 ```
 Do not worry if you get errors running this last command. You will have to
 download a Chrome driver (Linux:chromium), install it, and add it to your PATH.
@@ -195,13 +199,13 @@ the package.
 
 ## Step 5: Submit a pull request (PR)
 
-Fill out the description template in the GitHub interface. Please include a 
+Fill out the description template in the GitHub interface. Please include a
 link to the original JavaScript component if your PR is porting a React component
 to Dash Bio, and any relevant details or sample datasets that might help with
-testing the component and demo app. 
+testing the component and demo app.
 
 
-## Deployment 
+## Deployment
 
 *Deployment is done from the `master` branch only.*
 
@@ -217,7 +221,7 @@ remote add [app name]-test [deployment server git URL]`.
 #### Step 2: Edit and commit app-specific files
 
 >#### Step 2a: Edit the `Procfile`
->Edit the `Procfile` at the root of the repository to say `web: gunicorn app:server`. 
+>Edit the `Procfile` at the root of the repository to say `web: gunicorn app:server`.
 >
 >#### Step 2b: Commit the changes
 >Commit the `Procfile` and other changes, but *do not push to the
@@ -227,19 +231,19 @@ remote add [app name]-test [deployment server git URL]`.
 Run `git subtree push --prefix tests/dashbio_demos/[app directory] [app name]-test master`. This will deploy the app on the playground server. Check that it works by visiting the URL that is displayed in the console. Try out a few of the callbacks to make
 sure that they are working.
 
-#### Step 4: Initialize the app on the dash-gallery server and push to it 
+#### Step 4: Initialize the app on the dash-gallery server and push to it
 Log into the `developers` account on
 [dash-gallery.plotly.host](dash-gallery.plotly.host) and follow the same
 instructions as in Step 1, but give this remote a different name
 (e.g. by running `git remote add gallery [deployment server git
 URL]`). Then, run `git subtree push --prefix tests/dashbio_demos/[app directory] gallery master`.
 
-#### Step 5: Undo the app-specific commit 
+#### Step 5: Undo the app-specific commit
 Run `git log` to find the ID of the commit prior to the one that you
 just made to change the `Procfile`. Then, reset your local branch to
 this commit so that the `app.py` app still deploys and runs
 normally. You can do this by running `git reset --hard [commit ID]`.
 
-#### Step 6: Ensure that your branch is even with `master` 
+#### Step 6: Ensure that your branch is even with `master`
 Since you've reverted the change, running `git diff` should return
 nothing.

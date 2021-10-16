@@ -35,6 +35,9 @@ Keyword arguments:
         Sets the angle at which the domain annotation text is drawn
         with respect to the horizontal.
 
+- height (number | string; default 800):
+    Height of the Plot.
+
 - margin (dict; default {t: 100, l: 40, r: 0, b: 40}):
     Margins of the plot.
 
@@ -71,18 +74,21 @@ Keyword arguments:
 - rangeSlider (boolean; default False):
     If True, enables a rangeslider for the x-axis.
 
+- width (number | string; default 700):
+    Width of the Plot.
+
 - xlabel (string; optional):
     Title of the x-axis.
 
 - ylabel (string; optional):
     Title of the y-axis."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, mutationData=Component.UNDEFINED, margin=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, rangeSlider=Component.UNDEFINED, needleStyle=Component.UNDEFINED, domainStyle=Component.UNDEFINED, clickData=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'clickData', 'domainStyle', 'margin', 'mutationData', 'needleStyle', 'rangeSlider', 'xlabel', 'ylabel']
+    def __init__(self, id=Component.UNDEFINED, mutationData=Component.UNDEFINED, margin=Component.UNDEFINED, xlabel=Component.UNDEFINED, ylabel=Component.UNDEFINED, rangeSlider=Component.UNDEFINED, needleStyle=Component.UNDEFINED, domainStyle=Component.UNDEFINED, clickData=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'clickData', 'domainStyle', 'height', 'margin', 'mutationData', 'needleStyle', 'rangeSlider', 'width', 'xlabel', 'ylabel']
         self._type = 'NeedlePlot'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'clickData', 'domainStyle', 'margin', 'mutationData', 'needleStyle', 'rangeSlider', 'xlabel', 'ylabel']
+        self.available_properties = ['id', 'clickData', 'domainStyle', 'height', 'margin', 'mutationData', 'needleStyle', 'rangeSlider', 'width', 'xlabel', 'ylabel']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

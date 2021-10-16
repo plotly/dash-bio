@@ -61,6 +61,14 @@ Keyword arguments:
     The height (in px) of the container in which the molecules will be
     displayed.
 
+- hoverPattern (string; optional):
+    Allow users to specify which information will be displayed after
+    hover on the elements. To render node property place it into ${}
+    construction. For example: 'Structure name is ${structName} -
+    ${num}'. Acceptable node properties are \"num\", \"radius\",
+    \"rna\", \"nodeType\", \"structName\", \"size\", \"uid\",
+    \"name\".
+
 - nodeFillColor (string; optional):
     The fill color for all of the nodes. This will override any color
     scheme defined in colorScheme.
@@ -114,12 +122,12 @@ Keyword arguments:
     The width (in px) of the container in which the molecules will be
     displayed."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'nodeFillColor', 'sequences', 'width']
+    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, hoverPattern=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'hoverPattern', 'nodeFillColor', 'sequences', 'width']
         self._type = 'FornaContainer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'nodeFillColor', 'sequences', 'width']
+        self.available_properties = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'hoverPattern', 'nodeFillColor', 'sequences', 'width']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

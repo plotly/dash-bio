@@ -1,4 +1,4 @@
--r ../requirements.txt
+-r ../dev-requirements.txt
 
 # Additional packages needed to run the tests.
 attrs==19.3.0

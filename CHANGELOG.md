@@ -1,9 +1,14 @@
 # Changelog
 
-## UNRELEASED
+## Unreleased - ???
+
+### Fixed
+* [#576](https://github.com/plotly/dash-bio/pull/576) Fixed abnormal memory consumption with Molecule3dViewer component when selecting residues or rotating the molecule (for more info see [#511](https://github.com/plotly/dash-bio/issues/511)).
+* [#575](https://github.com/plotly/dash-bio/pull/575) Bumped Ideogram version to 1.6.0 to fix erratic annotations behavior (for more info see [#524](https://github.com/plotly/dash-bio/issues/524)).
 
 ### Added
 * [#567](https://github.com/plotly/dash-bio/pull/567) Added VariantMap component (see [#504](https://github.com/plotly/dash-bio/pull/504) for original PR).
+* [#573](https://github.com/plotly/dash-bio/pull/573) Added the ability to configure the FornaContainer hover info with `hoverPattern` prop and interpolated node keys (for more info see [#519](https://github.com/plotly/dash-bio/issues/519)).
 
 ## [0.7.1] - 2021-07-26
 
@@ -11,6 +16,7 @@
 * [#562](https://github.com/plotly/dash-bio/pull/562) Repeated re-rendering of the Molecule3dViewer component caused the viewer zoom to decrease multiplicatively.
 This fix also exposes the `zoom` and `zoomTo` props for this component.
 * [#565](https://github.com/plotly/dash-bio/pull/565) Fixed major domain annotation positioning for the NeedlePlot component and exposed `textangle` prop to allow domain annotation text to be angled relative to the horizontal axis.
+
 ### Changed
 - [#563](https://github.com/plotly/dash-bio/pull/563) Changed package scripts to 3 main build scripts: `build:js`, `build:backends`, and `build` to combined them. This brings the dash-bio build process in-line with the process for other Dash component libraries. As part of this change, `__init__.py` now also uses relative imports to load components (for more info, see [#534](https://github.com/plotly/dash-bio/issues/534)).
 

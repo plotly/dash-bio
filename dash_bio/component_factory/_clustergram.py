@@ -280,11 +280,11 @@ Methods:
         else:
             self._col_group_marker = col_group_marker
         if tick_font is None:
-            self._tick_font = dict()
+            self._tick_font = {}
         else:
             self._tick_font = tick_font
         if annotation_font is None:
-            self._annotation_font = dict()
+            self._annotation_font = {}
         else:
             self._annotation_font = annotation_font
         self._paper_bg_color = paper_bg_color
