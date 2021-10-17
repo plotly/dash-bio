@@ -264,11 +264,11 @@ AlignmentChart.defaultProps = {
     numtiles: null,
     overview: 'heatmap',
     scrollskip: 10,
-    tickstart: null,
-    ticksteps: null,
+    tickstart: 1,
+    ticksteps: 6,
     // Other
-    width: null,
-    height: 900,
+    width: '100%',
+    height: '100%',
 };
 
 export const propTypes = AlignmentChart.propTypes;
