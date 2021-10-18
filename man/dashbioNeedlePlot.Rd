@@ -10,9 +10,9 @@ The Needle Plot component is used to visualize large datasets containing categor
 }
 
 \usage{
-dashbioNeedlePlot(id=NULL, clickData=NULL, domainStyle=NULL, margin=NULL,
-mutationData=NULL, needleStyle=NULL, rangeSlider=NULL,
-xlabel=NULL, ylabel=NULL)
+dashbioNeedlePlot(id=NULL, clickData=NULL, domainStyle=NULL, height=NULL,
+margin=NULL, mutationData=NULL, needleStyle=NULL,
+rangeSlider=NULL, width=NULL, xlabel=NULL, ylabel=NULL)
 }
 
 \arguments{
@@ -29,6 +29,8 @@ those elements have the following types:
         mutations), if true, these are displayed
   - textangle (numeric; optional): sets the angle at which the domain annotation
 text is drawn with respect to the horizontal.. Options for the protein domain coloring}
+
+\item{height}{Numeric | character. Height of the Plot.}
 
 \item{margin}{Named list. Margins of the plot}
 
@@ -49,6 +51,8 @@ those elements have the following types:
   - headsymbol (unnamed list | character; optional). Options for the needle marking single site mutations}
 
 \item{rangeSlider}{Logical. If true, enables a rangeslider for the x-axis.}
+
+\item{width}{Numeric | character. Width of the Plot}
 
 \item{xlabel}{Character. Title of the x-axis.}
 
