@@ -15,7 +15,7 @@ def header_colors():
 
 
 def description():
-    return 'RNA secondary structure analysis.'
+    return 'Molecule editor.'
 
 
 def layout():
@@ -144,7 +144,7 @@ def callbacks(_app):
          State('jsme-height', 'value'),
          State('jsme-width', 'value')]
     )
-    def update_configs  (nclicks, options, height, width):
+    def update_configs(nclicks, options, height, width):
         if nclicks is None or nclicks == 0 or height is None or len(height) == 0 or width is None or len(width) == 0:
             raise PreventUpdate
         return options, height, width
@@ -161,4 +161,4 @@ app = run_standalone_app(layout, callbacks, header_colors, __file__)
 server = app.server
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8050)
+    app.run_server(debug=True, port=8051)

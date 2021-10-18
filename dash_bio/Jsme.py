@@ -5,7 +5,7 @@ from dash.development.base_component import Component, _explicitize_args
 
 class Jsme(Component):
     """A Jsme component.
-JSME is a molecule editor that JSME supports drawing and
+JSME is a molecule editor that supports drawing and
 editing of molecules and reactions on desktop computer,
 as well as on handheld devices including iPhone, iPad and Android
 smartphones and tablets. A built-in substituent menu and several keyboard shortcuts
@@ -36,7 +36,8 @@ Keyword arguments:
     available options are described on the
     https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/JME/Options.
 
-- smiles (string; optional)
+- smiles (string; optional):
+    The molecule SMILE to display.
 
 - style (dict; optional):
     Generic style overrides on the plot div.

@@ -68,6 +68,9 @@ Jsme.propTypes = {
      * A Dash prop that returns data when SMILE will be changed.
      */
     eventSmiles: PropTypes.string,
+    /**
+     * The molecule SMILE to display
+     */
     smiles: PropTypes.string,
 };
 
