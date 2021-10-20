@@ -235,6 +235,10 @@ AlignmentChart.propTypes = {
      * are set.
      */
     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    /**
+     * Sequences ids to display
+     */
+    sequenceIds: PropTypes.array,
 };
 
 AlignmentChart.defaultProps = {
@@ -269,6 +273,7 @@ AlignmentChart.defaultProps = {
     // Other
     width: '100%',
     height: '100%',
+    sequenceIds: null,
 };
 
 export const propTypes = AlignmentChart.propTypes;

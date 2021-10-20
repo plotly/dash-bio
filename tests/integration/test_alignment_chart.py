@@ -1,3 +1,4 @@
+import json
 import re
 
 import dash
@@ -93,40 +94,13 @@ def test_dbav003_change_conservation_colorscale(dash_duo):
     )
     assert match.group(1) == 'rgb(230, 103, 0)'
 
-def test_dbav004_width(dash_duo):
 
-    app = dash.Dash(__name__)
-
-    app.layout = html.Div(simple_app_layout(
-        dash_bio.AlignmentChart(id=_COMPONENT_ID, data=_data)
-    ))
-
-    new_width = 1200
-
-    simple_app_callback(
-        app,
-        dash_duo,
-        component_id=_COMPONENT_ID,
-        test_prop_name='width',
-        test_prop_value=new_width,
-        prop_value_type='int',
-        validation_fn=lambda x: x == new_width
-    )
-
-    main = dash_duo.find_element(f'#{_COMPONENT_ID}')
-
-    assert int(main.size['width']) == new_width
-
-
-def test_dbnp005_height(dash_duo):
+def test_dbnp004_height(dash_duo):
     """ Test that check if width property is setting correctly """
     app = dash.Dash(__name__)
 
     app.layout = html.Div(simple_app_layout(
-        dash_bio.NeedlePlot(
-            id=_COMPONENT_ID,
-            mutationData=_data
-        )
+        dash_bio.AlignmentChart(id=_COMPONENT_ID, data=_data)
     ))
 
     new_height = 350
@@ -145,3 +119,29 @@ def test_dbnp005_height(dash_duo):
     main = dash_duo.find_element(f'#{_COMPONENT_ID}')
 
     assert int(main.size['height']) == new_height
+
+
+def test_dbav005_change_sequence_ids(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.AlignmentChart(id=_COMPONENT_ID, data=_data)
+    ))
+
+    sequence_ids = [1, 2]
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='sequenceIds',
+        test_prop_value=json.dumps(sequence_ids),
+        prop_value_type='list',
+        validation_fn=lambda x: json.dumps(x) == json.dumps(sequence_ids)
+    )
+
+    ids_elements = dash_duo.find_elements('.subplot.xy g.yaxislayer-above > .ytick')
+
+    # One more item for consensus
+    assert len(ids_elements) == len(sequence_ids) + 1

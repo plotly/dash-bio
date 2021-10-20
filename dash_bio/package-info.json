@@ -39,7 +39,7 @@
     "plotly.js": "^1.52.2",
     "ramda": "^0.26.0",
     "react": "16.13.0",
-    "react-alignment-viewer": "^0.5.5",
+    "react-alignment-viewer": "git+https://github.com/nickmelnikov82/react-alignment-viewer.git#add-sequence-filtering-by-id",
     "react-dom": "16.13.0",
     "react-oncoprint": "^1.2.3",
     "react-plotly.js": "^2.4.0",
