@@ -42,7 +42,37 @@ The Dash Bio components each fall into one of three categories:
 - Dash Mol2D
 - Dash Mol3D
 - Dash Speck
-- Dash Ngl (experimental)
+- Dash Ngl
+
+
+## Using Dash Bio
+
+It's easy to add a fully interactive chromosomal, molecular or genomic visualization to your Dash app by simply
+including the Dash Bio component into your app layout as follows:
+
+```python
+import urllib.request as urlreq
+from dash import Dash, html
+import dash_bio as dashbio
+
+app = Dash(__name__)
+
+data = urlreq.urlopen(
+    'https://raw.githubusercontent.com/plotly/dash-bio-docs-files/master/alignment_viewer_p53.fasta'
+).read().decode('utf-8')
+
+app.layout = html.Div([
+    dashbio.AlignmentChart(
+        id='my-default-alignment-viewer',
+        data=data
+    )
+])
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
+```
+
+See the [Dash Bio documentation](https://dash.plotly.com/dash-bio) for more components and examples.
 
 ## Dash
 
@@ -55,9 +85,9 @@ For inquiries about Dash app development, advanced OEM integration,
 and more, please [reach
 out](https://plotly.typeform.com/to/mH1Cpb).
 
-## Contributing
+## Contributing and Local Development
 
-If you would like to contribute to this repository, please refer to
+If you would like to contribute to this repository, or run demo apps and tests, please refer to
 the [contributing
 guidelines](https://github.com/plotly/dash-bio/blob/master/CONTRIBUTING.md).
 

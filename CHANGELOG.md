@@ -7,6 +7,7 @@
 * [#575](https://github.com/plotly/dash-bio/pull/575) Bumped Ideogram version to 1.6.0 to fix erratic annotations behavior (for more info see [#524](https://github.com/plotly/dash-bio/issues/524)).
 
 ### Added
+* [#567](https://github.com/plotly/dash-bio/pull/567) Added VariantMap component (see [#504](https://github.com/plotly/dash-bio/pull/504) for original PR).
 * [#573](https://github.com/plotly/dash-bio/pull/573) Added the ability to configure the FornaContainer hover info with `hoverPattern` prop and interpolated node keys (for more info see [#519](https://github.com/plotly/dash-bio/issues/519)).
 
 ## [0.7.1] - 2021-07-26

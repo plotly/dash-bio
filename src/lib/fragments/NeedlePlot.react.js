@@ -213,7 +213,7 @@ export default class NeedlePlot extends Component {
     }
 
     render() {
-        const {id} = this.props;
+        const {id, width, height} = this.props;
         const {
             data,
             globalAnnotation,
@@ -226,9 +226,15 @@ export default class NeedlePlot extends Component {
             domainAnnotations,
         });
 
+        const divStyle = {
+            width: width,
+            height: height,
+        };
+
         return (
-            <div id={id}>
+            <div id={id} style={divStyle}>
                 <Plot
+                    style={divStyle}
                     ref={this.gd}
                     data={data}
                     layout={layout}
