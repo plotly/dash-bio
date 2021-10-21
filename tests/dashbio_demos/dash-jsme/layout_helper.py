@@ -2,8 +2,8 @@ import base64
 import os
 
 import dash
-from dash import dcc
-from dash import html
+import dash_core_components as dcc
+import dash_html_components as html
 
 
 def run_standalone_app(
