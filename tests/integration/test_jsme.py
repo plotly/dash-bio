@@ -12,6 +12,7 @@ _TEST_SMILES = 'O=C(Nc1cccc(Cl)c1)c3cncc4nnc(c2ccc(OC(F)F)cc2)n34'
 
 # Selectors
 _DRAW_BOARD_SELECTOR = 'g > rect'
+_DRAG_AND_DROP_SELECTOR = 'g > polygon'
 _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR = 'div > div > div:nth-child(3) > svg > g > rect:nth-child(1)'
 _POPUP_AREA_SELECTOR = '.gwt-TextArea'
 _POPUP_INPUT_SELECTOR = '.gwt-TextBox'
@@ -24,12 +25,13 @@ _VERTICAL_INSTRUMENT_PANEL_SELECTOR = 'div > div > div:nth-child(4) > svg > g > 
 
 # We can't works with JS selector because all buttons are SVG
 # First instrument line
-_SMILE = (0.00, 0.25)
-_CLEAR_AREA = (0.07, 0.25)
-_NEW_COMPONENT = (0.14, 0.25)
-_DELETE_MODE = (0.21, 0.25)
-_DELETE_GROUP_MODE = (0.33, 0.25)
-_CHARGED_STATES_MODE = (0.47, 0.25)
+_SMILE_BUTTON_COORD = (0.00, 0.25)
+_CLEAR_AREA_COORD = (0.07, 0.25)
+_NEW_COMPONENT_COORD = (0.14, 0.25)
+_DELETE_COORD = (0.21, 0.25)
+_DELETE_GROUP_COORD = (0.33, 0.25)
+_CHARGED_STATES_COORD = (0.47, 0.25)
+_REACTION_COORD = (0.5, 0.25)
 _UNDO_COORD = (0.54, 0.25)
 _REDO_COORD = (0.61, 0.25)
 _SPIRO_RING_COORD = (0.68, 0.25)
@@ -52,22 +54,24 @@ _FUNCTIONAL_GROUP_COORD = (0.75, 0.75)
 _MENU_FORM_COORD = (0.83, 0.75)
 
 # Vertical instrument line
-_C_ATOM = (0.5, 0.03)
-_N_ATOM = (0.5, 0.09)
-_O_ATOM = (0.5, 0.15)
-_S_ATOM = (0.5, 0.22)
-_F_ATOM = (0.5, 0.28)
-_Cl_ATOM = (0.5, 0.34)
-_Br_ATOM = (0.5, 0.42)
-_I_ATOM = (0.5, 0.49)
-_P_ATOM = (0.5, 0.56)
-_X_ATOM = (0.5, 0.63)
+_C_ATOM_COORD = (0.5, 0.03)
+_N_ATOM_COORD = (0.5, 0.09)
+_O_ATOM_COORD = (0.5, 0.15)
+_S_ATOM_COORD = (0.5, 0.22)
+_F_ATOM_COORD = (0.5, 0.28)
+_Cl_ATOM_COORD = (0.5, 0.34)
+_Br_ATOM_COORD = (0.5, 0.42)
+_I_ATOM_COORD = (0.5, 0.49)
+_P_ATOM_COORD = (0.5, 0.56)
+_X_ATOM_COORD = (0.5, 0.63)
+_R_ATOM_COORD = (0.5, 0.7)
 
 
 def test_dbj001_smiles_props(dash_duo):
     app = _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles=_TEST_SMILES
+        smiles=_TEST_SMILES,
+        options='NOdepict'
     ))
 
     _check_smile(dash_duo, _TEST_SMILES)
@@ -79,7 +83,7 @@ def test_dbj002_clear_editing_area(dash_duo):
         smiles='C1CC1'
     ))
 
-    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _CLEAR_AREA)
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _CLEAR_AREA_COORD)
     _check_smile(dash_duo, '')
 
 
@@ -108,11 +112,12 @@ def test_dbj003_check_structures(dash_duo):
 def test_dbj004_new_molecule_component(dash_duo):
     app = _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles='CC'
+        smiles='CC',
+        options='multiPart'
     ))
 
-    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _NEW_COMPONENT)
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _TRIANGLE_COORD)
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _NEW_COMPONENT_COORD)
     _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.3, 0.5))
     _check_smile(dash_duo, 'CC.C1CC1')
 
@@ -120,23 +125,24 @@ def test_dbj004_new_molecule_component(dash_duo):
 def test_dbj005_input_stereo_bond(dash_duo):
     app = _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles='CCC'
+        smiles='CCC',
+        options='stereo'
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _STEREO_BOND_COORD)
-    _click_at_draw_board(dash_duo)
+    _click_bond_end(dash_duo)
     _check_smile(dash_duo, 'C[C@H](C)C')
 
 
 def test_dbj006_delete_mode(dash_duo):
     app = _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles='CC'
+        smiles='CCC'
     ))
 
-    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _DELETE_MODE)
-    _click_at_draw_board(dash_duo)
-    _check_smile(dash_duo, '')
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _DELETE_COORD)
+    _click_selector(dash_duo, 'rect + line')
+    _check_smile(dash_duo, 'CC')
 
 
 def test_dbj007_functional_group_mode(dash_duo):
@@ -204,8 +210,8 @@ def test_dbj009_delete_group_mode(dash_duo):
         smiles='CC(C)C'
     ))
 
-    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _DELETE_GROUP_MODE)
-    _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.5, 0.48))
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _DELETE_GROUP_COORD)
+    _click_selector(dash_duo, 'line')
     _check_smile(dash_duo, 'CCC')
 
 
@@ -215,37 +221,36 @@ def test_dbj010_charged_states_mode(dash_duo):
         smiles='CCC'
     ))
 
-    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _CHARGED_STATES_MODE)
-    _click_at_draw_board(dash_duo)
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _CHARGED_STATES_COORD)
+    _click_bond_end(dash_duo)
     _check_smile(dash_duo, 'C[CH-]C')
 
 
 def test_dbj011_undo_redo(dash_duo):
     app = _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
+        smiles='CC'
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _SINGLE_BOND_COORD)
-    _click_at_draw_board(dash_duo)
-    _click_at_draw_board(dash_duo)
-    _click_at_draw_board(dash_duo)
+    _click_bond_end(dash_duo)
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _UNDO_COORD)
-    _check_smile(dash_duo, 'CCC')
+    _check_smile(dash_duo, 'CC')
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _REDO_COORD)
-    _check_smile(dash_duo, 'CC(C)C')
+    _check_smile(dash_duo, 'CCC')
 
 
 def test_dbj012_spiro_ring(dash_duo):
     app = _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
+        smiles='C1CC1'
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _TRIANGLE_COORD)
-    _click_at_draw_board(dash_duo)
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _SPIRO_RING_COORD)
-    _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.5, 0.47))
+    _click_bond_end(dash_duo)
     _check_smile(dash_duo, 'C1CC12CC2')
 
 
@@ -260,19 +265,21 @@ def test_dbj013_about_form(dash_duo):
 
 def test_dbj014_check_atoms(dash_duo):
     app = _prepare_app(dash_duo, dash_bio.Jsme(
-        id=_COMPONENT_ID
+        id=_COMPONENT_ID,
+        options='rButton',
     ))
 
     structures = [
-        (_C_ATOM, 'C'),
-        (_N_ATOM, 'N'),
-        (_O_ATOM, 'O'),
-        (_S_ATOM, 'S'),
-        (_F_ATOM, 'F'),
-        (_Cl_ATOM, 'Cl'),
-        (_Br_ATOM, 'Br'),
-        (_I_ATOM, 'I'),
-        (_P_ATOM, 'P'),
+        (_C_ATOM_COORD, 'C'),
+        (_N_ATOM_COORD, 'N'),
+        (_O_ATOM_COORD, 'O'),
+        (_S_ATOM_COORD, 'S'),
+        (_F_ATOM_COORD, 'F'),
+        (_Cl_ATOM_COORD, 'Cl'),
+        (_Br_ATOM_COORD, 'Br'),
+        (_I_ATOM_COORD, 'I'),
+        (_P_ATOM_COORD, 'P'),
+        (_R_ATOM_COORD, '[R]'),
     ]
 
     for structure in structures:
@@ -281,10 +288,11 @@ def test_dbj014_check_atoms(dash_duo):
 
 def test_dbj015_inorganic_atom(dash_duo):
     app = _prepare_app(dash_duo, dash_bio.Jsme(
-        id=_COMPONENT_ID
+        id=_COMPONENT_ID,
+        options='xButton',
     ))
 
-    _click_selector_at_coordinates(dash_duo, _VERTICAL_INSTRUMENT_PANEL_SELECTOR, _X_ATOM)
+    _click_selector_at_coordinates(dash_duo, _VERTICAL_INSTRUMENT_PANEL_SELECTOR, _X_ATOM_COORD)
     _popup_decorator(dash_duo, _POPUP_INPUT_SELECTOR)(_set_popup_value)('[C]')
     _click_at_draw_board(dash_duo)
     _check_smile(dash_duo, '[C]')
@@ -293,7 +301,8 @@ def test_dbj015_inorganic_atom(dash_duo):
 def test_dbj016_check_menu_copy(dash_duo):
     app = _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles=_TEST_SMILES
+        smiles=_TEST_SMILES,
+        options="useOCLidCode exportInChIauxInfo exportInChIkey exportInChI exportSVG searchInChIkey useOpenChemLib paste"
     ))
 
     menu = {
@@ -303,9 +312,11 @@ def test_dbj016_check_menu_copy(dash_duo):
         'Copy as InChI': "InChI=1S/C19H12ClF2N5O2/c20-12-2-1-3-13(8-12)24-18(28)15-9-23-10-16-25-26-17(27(15)16)11\
 -4-6-14(7-5-11)29-19(21)22/h1-10,19H,(H,24,28)",
         'Copy as InChI key': 'AJGOFYWOTIIYLR-UHFFFAOYSA-N',
+        'Copy as InChI auxinfo': 'AuxInfo=1/1/N:6,7,5,20,28,21,27,10,12,14,19,8,4,22,11,15,18,2,24,9,25,26,13',
         'Copy as Scalar Vector Graphics': _TEST_SMILES,
+        'Copy as OCL ID code': 'ek`ZDL@FMO@diI`HcZPNdLbbRfttTRbaaRrThx|rBRzF`BIijY`@ja`@@',
         'Search chemical structure (through InChIKey)': None,
-        'Paste MOL or SDF or SMILES': None,
+        'Paste MOL or SDF or SMILES or OCL ID code': None,
     }
 
     menu_keys = tuple(menu.keys())
@@ -341,19 +352,126 @@ def test_dbj016_check_menu_copy(dash_duo):
 def test_dbj017_check_menu_add(dash_duo):
     app = _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
+        options='multiPart addNewPart',
+        smiles='CC(C)C',
     ))
 
-    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _MENU_FORM_COORD)
-    menu_form = dash_duo.find_elements(_POPUP_MENU_SELECTOR)
-    assert menu_form != [], "MENU form not found"
+    _paste_new_smiles(dash_duo, _TEST_SMILES)
+    _check_smile(dash_duo, ''.join(('CC(C)C.', _TEST_SMILES)))
 
-    for element in menu_form:
-        menu_value = element.get_attribute('innerHTML')
-        if menu_value not in 'Paste MOL or SDF or SMILES':
-            continue
-        _click_selector(dash_duo, element)
-        break
-    _popup_decorator(dash_duo, _POPUP_AREA_SELECTOR)(_set_popup_value)(_TEST_SMILES)
+
+def test_dbj018_check_depict_options(dash_duo):
+    app = _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='depict toggle depictAction NOshowDragAndDropSymbolInDepictMode',
+        smiles='CCC'
+    ))
+
+    # Wait fo render
+    _timeout_decorator(dash_duo.wait_for_element, "")(_DRAW_BOARD_SELECTOR)
+
+    _timeout_decorator(dash_duo.wait_for_no_elements, "Option NOshowDragAndDropSymbolInDepictMode")(_DRAG_AND_DROP_SELECTOR)
+
+    _timeout_decorator(dash_duo.wait_for_no_elements, "Option depict")(_HORIZONTAL_INSTRUMENT_PANEL_SELECTOR)
+
+    _click_at_draw_board(dash_duo)
+    _timeout_decorator(dash_duo.wait_for_element, "Option toggle")(_HORIZONTAL_INSTRUMENT_PANEL_SELECTOR)
+
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _SINGLE_BOND_COORD)
+    _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.3, 0.3))
+    _click_bond_end(dash_duo)
+    _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.3, 0.3))
+    # Test depictAction option
+    _check_smile(dash_duo, "CC(C)C")
+
+
+def test_dbj019_check_notoggle_options(dash_duo):
+    app = _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='depict NOtoggle NOdepictAction showDragAndDropSymbolInDepictMode',
+        smiles='CC'
+    ))
+
+    _timeout_decorator(dash_duo.wait_for_element, "Option showDragAndDropSymbolInDepictMode")(_DRAG_AND_DROP_SELECTOR)
+
+    _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.3, 0.3))
+    _timeout_decorator(dash_duo.wait_for_no_elements, "Option NOtoggle")(_HORIZONTAL_INSTRUMENT_PANEL_SELECTOR)
+
+    _click_bond_end(dash_duo)
+    assert len(dash_duo.find_elements("line")) == 1, "Option NOdepictAction not working"
+
+
+def test_dbj020_check_nopaste_option(dash_duo):
+    app = _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='NOpaste',
+    ))
+
+    try:
+        _paste_new_smiles(dash_duo, "CCC")
+    except NameError:
+        # All right
+        pass
+    except Exception as e:
+        assert False, f"Error: {e}"
+    else:
+        assert False, "Option NOpaste not working"
+
+
+def test_dbj021_check_reaction_option(dash_duo):
+    app = _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='reaction',
+    ))
+
+    _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.3, 0.3))
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _REACTION_COORD)
+    _check_smile(dash_duo, 'CC>>CC')
+
+
+def test_dbj022_check_nobutton_options(dash_duo):
+    app = _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='NOreaction NOxButton NOrButton NOstereo NOmultiPart',
+    ))
+
+    # NOreaction check
+    _click_selector(dash_duo, _DRAW_BOARD_SELECTOR)
+    _click_bond_end(dash_duo)
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _CHAIN_BOND_COORD)
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _REACTION_COORD)
+    _check_smile(dash_duo, 'CCC')
+
+    # NOmultipart check
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _TRIANGLE_COORD)
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _NEW_COMPONENT_COORD)
+    _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.3, 0.5))
+    _check_smile(dash_duo, 'CCC')
+
+    # NOstereo check
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _SINGLE_BOND_COORD)
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _STEREO_BOND_COORD)
+    _click_bond_end(dash_duo)
+    _check_smile(dash_duo, 'CC(C)C')
+
+    # NO xButton check
+    _click_selector_at_coordinates(dash_duo, _VERTICAL_INSTRUMENT_PANEL_SELECTOR, _X_ATOM_COORD)
+    _timeout_decorator(dash_duo.wait_for_no_elements, "Option NOxButton")(_POPUP_INPUT_SELECTOR)
+
+    # NO rButton check
+    _click_selector_at_coordinates(dash_duo, _VERTICAL_INSTRUMENT_PANEL_SELECTOR, _R_ATOM_COORD)
+    _click_bond_end(dash_duo)
+    _check_smile(dash_duo, 'CC(C)(C)C')
+
+
+def test_dbj023_check_menu_replace(dash_duo):
+    app = _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='multiPart NOaddNewPart',
+        smiles='CC(C)C',
+    ))
+
+    _paste_new_smiles(dash_duo, _TEST_SMILES)
     _check_smile(dash_duo, _TEST_SMILES)
 
 
@@ -372,10 +490,17 @@ def _popup_decorator(dash_duo, selector):
                 dash_duo.wait_for_no_elements(_POPUP_PANEL_SELECTOR)
             except dash.testing.errors.TestingTimeoutError:
                 assert False, "Close button not working"
-
         return wrapper
-
     return inner
+
+
+def _timeout_decorator(func, test_string):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except dash.testing.errors.TestingTimeoutError as e:
+            assert False, f'{test_string} not working: {e}'
+    return wrapper
 
 
 def _check_in_popup_value(text, field):
@@ -405,7 +530,7 @@ def _check_atom(dash_duo, coord, smiles):
 
 
 def _check_smile(dash_duo, smiles):
-    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _SMILE)
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _SMILE_BUTTON_COORD)
     _popup_decorator(dash_duo, _POPUP_INPUT_SELECTOR)(_get_popup_value)(smiles)
 
 
@@ -422,7 +547,15 @@ def _check_structure(dash_duo, coord, smiles):
 
 
 def _clear_dashboard(dash_duo):
-    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _CLEAR_AREA)
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _CLEAR_AREA_COORD)
+
+
+def _click_bond_end(dash_duo):
+    board = dash_duo.wait_for_element(_DRAW_BOARD_SELECTOR)
+    line = dash_duo.wait_for_element("line")
+    x = int(line.get_attribute('x1'))/int(board.get_attribute('width'))
+    y = int(line.get_attribute('y1'))/int(board.get_attribute('height'))
+    _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (x, y))
 
 
 def _click_selector(dash_duo, selector):
@@ -444,6 +577,25 @@ def _click_selector_at_coordinates(dash_duo, selector, coord):
 
 def _click_at_draw_board(dash_duo):
     _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.5, 0.5))
+
+
+def _paste_new_smiles(dash_duo, smiles):
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _MENU_FORM_COORD)
+
+    menu_form = dash_duo.find_elements(_POPUP_MENU_SELECTOR)
+    assert menu_form != [], "MENU form not found"
+    paste_item = False
+    for element in menu_form:
+        menu_value = element.get_attribute('innerHTML')
+        if menu_value not in 'Paste MOL or SDF or SMILES':
+            continue
+        paste_item = True
+        _click_selector(dash_duo, element)
+        break
+    if paste_item is False:
+        _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _MENU_FORM_COORD)
+        raise NameError("Paste button not found")
+    _popup_decorator(dash_duo, _POPUP_AREA_SELECTOR)(_set_popup_value)(smiles)
 
 
 def _prepare_app(dash_duo, jsme):

@@ -10,7 +10,8 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div([
     dashbio.Jsme(
-        options='depict'
+        options='reaction',
+        smiles="CCC"
     ),
 ])
 
