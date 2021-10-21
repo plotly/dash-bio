@@ -60,3 +60,66 @@ out](https://plotly.typeform.com/to/mH1Cpb).
 If you would like to contribute to this repository, please refer to
 the [contributing
 guidelines](https://github.com/plotly/dash-bio/blob/master/CONTRIBUTING.md).
+
+## Run the app on the Jupyter Lab
+
+1. Create a virtual environment:
+
+    a. On macOS and Linux, type: `python3 -m venv env`
+
+    b. On Windows, type: `py -m venv env` 
+
+    For these steps you need to have virtual environment be installed on your
+    computer. Do it by using the command: `pip install virtualenv`
+
+2. Activate your new environment:
+
+    a. On macOS and Linux, type: `source env/bin/activate`
+
+    b. On Windows, type: `.\env\Scripts\activate`
+
+3. Install required libraries: (make sure you have pip installed with pip help)
+
+    a. pip install numpy==1.18.1
+
+    b. pip install pandas==1.0.0
+
+    c. pip install dash==1.19.0
+
+    d. pip install Jupyterlab==2.2.9
+
+4. To run Dash inside Jupyter lab:
+
+    a. Type: pip install jupyter-dash
+
+    b. Type: jupyter lab build (this step needs Node.js and NPM installed on your
+    computer. To check whether you have Node and NPM on your computer, just type
+    node -v and npm -v into command prompt. If you need to install these packages,
+    go to https://nodejs.org/en/)
+
+5. To run Plotly figures inside jupyter lab:
+
+    a. Type: pip install jupyterlab "ipywidgets>=7.5”
+    b. Type: jupyter labextension install jupyterlab-plotly@4.14.3
+    (aslo requires Node.js and NPM)
+
+6. Start Jupyterlab by typing: `jupyter lab`
+
+Important: you need to run jupyter lab with activating virtual environment.
+
+## Run on port e.g. 8060 instead of port 8050 which is default
+
+As we can see in Dash.run_server method definition,
+port can be passed as parameter:
+
+`def run_server(self,
+               port=8050,
+               debug=True,
+               threaded=True,
+               **flask_run_options):
+    self.server.run(port=port, debug=debug, **flask_run_options)`
+
+So, if you need to use another port:
+
+`if __name__ == '__main__':
+    app.run_server(debug=True, port=8051) # or whatever you choose`
