@@ -2,6 +2,7 @@ import time
 
 import dash
 import dash_html_components as html
+from dash.testing.errors import TestingTimeoutError
 
 import dash_bio
 from common_features import simple_app_layout
@@ -11,9 +12,10 @@ _COMPONENT_ID = 'test-jsme'
 _TEST_SMILES = 'O=C(Nc1cccc(Cl)c1)c3cncc4nnc(c2ccc(OC(F)F)cc2)n34'
 
 # Selectors
-_DRAW_BOARD_SELECTOR = 'g > rect'
+_DRAW_BOARD_SELECTOR = 'div > div > div:nth-child(2) > svg > g > rect'
 _DRAG_AND_DROP_SELECTOR = 'g > polygon'
-_HORIZONTAL_INSTRUMENT_PANEL_SELECTOR = 'div > div > div:nth-child(3) > svg > g > rect:nth-child(1)'
+_FIRST_LINE_SELECTOR = 'div > div > div:nth-child(2) > svg > g > line'
+_HORIZONTAL_INSTRUMENT_PANEL_SELECTOR = 'div > div > div:nth-child(3) > svg > g > rect:nth-of-type(1)'
 _POPUP_AREA_SELECTOR = '.gwt-TextArea'
 _POPUP_INPUT_SELECTOR = '.gwt-TextBox'
 _POPUP_CLOSE_BUTTON_SELECTOR = 'tbody button:last-of-type'
@@ -21,7 +23,7 @@ _POPUP_LABEL_SELECTOR = '.gwt-Label'
 _POPUP_MENU_SELECTOR = '.gwt-MenuItem'
 _POPUP_PANEL_SELECTOR = '.gwt-DecoratedPopupPanel'
 _POPUP_SECOND_BUTTON_SELECTOR = 'tbody button + button'
-_VERTICAL_INSTRUMENT_PANEL_SELECTOR = 'div > div > div:nth-child(4) > svg > g > rect:nth-child(1)'
+_VERTICAL_INSTRUMENT_PANEL_SELECTOR = 'div > div > div:nth-child(4) > svg > g > rect:nth-of-type(1)'
 
 # We can't works with JS selector because all buttons are SVG
 # First instrument line
@@ -29,7 +31,10 @@ _SMILE_BUTTON_COORD = (0.00, 0.25)
 _CLEAR_AREA_COORD = (0.07, 0.25)
 _NEW_COMPONENT_COORD = (0.14, 0.25)
 _DELETE_COORD = (0.21, 0.25)
+_STAR_COORD = (0.28, 0.25)
+_NUMBER_COORD = (0.28, 0.25)
 _DELETE_GROUP_COORD = (0.33, 0.25)
+_QUERY_COORD = (0.4, 0.25)
 _CHARGED_STATES_COORD = (0.47, 0.25)
 _REACTION_COORD = (0.5, 0.25)
 _UNDO_COORD = (0.54, 0.25)
@@ -66,9 +71,19 @@ _P_ATOM_COORD = (0.5, 0.56)
 _X_ATOM_COORD = (0.5, 0.63)
 _R_ATOM_COORD = (0.5, 0.7)
 
+""" 
+    This options need mouse move method or mouse wheel method:
+        - atomMoveButton/NOatomMoveButton
+        - zoom/NOzoom
+    This buttons need mouse move method:
+        - Chain bond instrument
+        
+    Also can't check options keepHs/removeHs/removeHsC, jsme always remove hydrogens
+"""
+
 
 def test_dbj001_smiles_props(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles=_TEST_SMILES,
         options='NOdepict'
@@ -78,7 +93,7 @@ def test_dbj001_smiles_props(dash_duo):
 
 
 def test_dbj002_clear_editing_area(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles='C1CC1'
     ))
@@ -88,7 +103,7 @@ def test_dbj002_clear_editing_area(dash_duo):
 
 
 def test_dbj003_check_structures(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID
     ))
 
@@ -110,7 +125,7 @@ def test_dbj003_check_structures(dash_duo):
 
 
 def test_dbj004_new_molecule_component(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles='CC',
         options='multiPart'
@@ -123,7 +138,7 @@ def test_dbj004_new_molecule_component(dash_duo):
 
 
 def test_dbj005_input_stereo_bond(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles='CCC',
         options='stereo'
@@ -135,19 +150,20 @@ def test_dbj005_input_stereo_bond(dash_duo):
 
 
 def test_dbj006_delete_mode(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles='CCC'
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _DELETE_COORD)
-    _click_selector(dash_duo, 'rect + line')
+    _click_selector(dash_duo, _FIRST_LINE_SELECTOR)
     _check_smile(dash_duo, 'CC')
 
 
 def test_dbj007_functional_group_mode(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
+        options='NOpolarNitro canonize'
     ))
 
     functional_groups = {
@@ -193,7 +209,7 @@ def test_dbj007_functional_group_mode(dash_duo):
 
 
 def test_dbj008_chain_bond(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID
     ))
 
@@ -205,18 +221,18 @@ def test_dbj008_chain_bond(dash_duo):
 
 
 def test_dbj009_delete_group_mode(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles='CC(C)C'
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _DELETE_GROUP_COORD)
-    _click_selector(dash_duo, 'line')
+    _click_selector(dash_duo, _FIRST_LINE_SELECTOR)
     _check_smile(dash_duo, 'CCC')
 
 
 def test_dbj010_charged_states_mode(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles='CCC'
     ))
@@ -227,7 +243,7 @@ def test_dbj010_charged_states_mode(dash_duo):
 
 
 def test_dbj011_undo_redo(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles='CC'
     ))
@@ -243,7 +259,7 @@ def test_dbj011_undo_redo(dash_duo):
 
 
 def test_dbj012_spiro_ring(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles='C1CC1'
     ))
@@ -255,7 +271,7 @@ def test_dbj012_spiro_ring(dash_duo):
 
 
 def test_dbj013_about_form(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
     ))
 
@@ -264,7 +280,7 @@ def test_dbj013_about_form(dash_duo):
 
 
 def test_dbj014_check_atoms(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         options='rButton',
     ))
@@ -287,7 +303,7 @@ def test_dbj014_check_atoms(dash_duo):
 
 
 def test_dbj015_inorganic_atom(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         options='xButton',
     ))
@@ -299,10 +315,11 @@ def test_dbj015_inorganic_atom(dash_duo):
 
 
 def test_dbj016_check_menu_copy(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles=_TEST_SMILES,
-        options="useOCLidCode exportInChIauxInfo exportInChIkey exportInChI exportSVG searchInChIkey useOpenChemLib paste"
+        options="useOCLidCode exportInChIauxInfo exportInChIkey \
+exportInChI exportSVG searchInChIkey useOpenChemLib paste"
     ))
 
     menu = {
@@ -350,7 +367,7 @@ def test_dbj016_check_menu_copy(dash_duo):
 
 
 def test_dbj017_check_menu_add(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         options='multiPart addNewPart',
         smiles='CC(C)C',
@@ -361,20 +378,20 @@ def test_dbj017_check_menu_add(dash_duo):
 
 
 def test_dbj018_check_depict_options(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='depict toggle depictAction NOshowDragAndDropSymbolInDepictMode',
+        options='depict border toggle depictAction NOshowDragAndDropSymbolInDepictMode',
         smiles='CCC'
     ))
 
-    # Wait fo render
-    _timeout_decorator(dash_duo.wait_for_element, "")(_DRAW_BOARD_SELECTOR)
+    _timeout_decorator(dash_duo.wait_for_element, "Option border")(_DRAW_BOARD_SELECTOR + ':nth-child(2)')
 
-    _timeout_decorator(dash_duo.wait_for_no_elements, "Option NOshowDragAndDropSymbolInDepictMode")(_DRAG_AND_DROP_SELECTOR)
+    _timeout_decorator(dash_duo.wait_for_no_elements, "Option NOshowDragAndDropSymbolInDepictMode")(
+        _DRAG_AND_DROP_SELECTOR)
 
     _timeout_decorator(dash_duo.wait_for_no_elements, "Option depict")(_HORIZONTAL_INSTRUMENT_PANEL_SELECTOR)
 
-    _click_at_draw_board(dash_duo)
+    _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.7, 0.7))
     _timeout_decorator(dash_duo.wait_for_element, "Option toggle")(_HORIZONTAL_INSTRUMENT_PANEL_SELECTOR)
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _SINGLE_BOND_COORD)
@@ -386,11 +403,13 @@ def test_dbj018_check_depict_options(dash_duo):
 
 
 def test_dbj019_check_notoggle_options(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='depict NOtoggle NOdepictAction showDragAndDropSymbolInDepictMode',
+        options='depict NOborder NOtoggle NOdepictAction showDragAndDropSymbolInDepictMode',
         smiles='CC'
     ))
+
+    _timeout_decorator(dash_duo.wait_for_no_elements, "Option NOborder")(_DRAW_BOARD_SELECTOR + ':nth-child(2)')
 
     _timeout_decorator(dash_duo.wait_for_element, "Option showDragAndDropSymbolInDepictMode")(_DRAG_AND_DROP_SELECTOR)
 
@@ -398,11 +417,11 @@ def test_dbj019_check_notoggle_options(dash_duo):
     _timeout_decorator(dash_duo.wait_for_no_elements, "Option NOtoggle")(_HORIZONTAL_INSTRUMENT_PANEL_SELECTOR)
 
     _click_bond_end(dash_duo)
-    assert len(dash_duo.find_elements("line")) == 1, "Option NOdepictAction not working"
+    assert len(dash_duo.find_elements(_FIRST_LINE_SELECTOR)) == 1, "Option NOdepictAction not working"
 
 
 def test_dbj020_check_nopaste_option(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         options='NOpaste',
     ))
@@ -419,7 +438,7 @@ def test_dbj020_check_nopaste_option(dash_duo):
 
 
 def test_dbj021_check_reaction_option(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         options='reaction',
     ))
@@ -430,9 +449,9 @@ def test_dbj021_check_reaction_option(dash_duo):
 
 
 def test_dbj022_check_nobutton_options(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='NOreaction NOxButton NOrButton NOstereo NOmultiPart',
+        options='reaction rButton NOreaction NOxButton NOrButton NOstereo NOmultiPart star noStar query NOquery',
     ))
 
     # NOreaction check
@@ -463,11 +482,23 @@ def test_dbj022_check_nobutton_options(dash_duo):
     _click_bond_end(dash_duo)
     _check_smile(dash_duo, 'CC(C)(C)C')
 
+    # noStar check
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _STAR_COORD)
+    _click_bond_end(dash_duo)
+    _check_smile(dash_duo, 'C[C+](C)(C)(C)C')
+
+    # NOquery
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _QUERY_COORD)
+    try:
+        dash_duo.wait_for_no_elements(_POPUP_PANEL_SELECTOR)
+    except TestingTimeoutError:
+        assert False, "Query button working"
+
 
 def test_dbj023_check_menu_replace(dash_duo):
-    app = _prepare_app(dash_duo, dash_bio.Jsme(
+    _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='multiPart NOaddNewPart',
+        options='multiPart addNewPart NOaddNewPart',
         smiles='CC(C)C',
     ))
 
@@ -475,12 +506,189 @@ def test_dbj023_check_menu_replace(dash_duo):
     _check_smile(dash_duo, _TEST_SMILES)
 
 
+def test_dbj024_check_noexport(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='NOuseOpenChemLib NOsearchInChIkey NOuseOCLidCode NOexportInChIauxInfo NOexportInChIkey NOexportInChI',
+        smiles='CC(C)C',
+    ))
+
+    menu = [
+        'Copy as Scalar Vector Graphics',
+        'Paste MOL or SDF or SMILES',
+        'Search chemical structure',
+        'Copy as InChI',
+        'Copy as InChI key',
+        'Copy as InChI auxinfo',
+        'Copy as OCL ID code',
+    ]
+
+    _check_no_menu_item(dash_duo, menu)
+
+
+def test_dbj025_check_noexportsvg(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='useOpenChemLib NOexportSVG',
+        smiles='CC(C)C',
+    ))
+
+    menu = [
+        'Copy as Scalar Vector Graphics',
+    ]
+
+    _check_no_menu_item(dash_duo, menu)
+
+
+def test_dbj026_check_star(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='star',
+        smiles='CC(C)C',
+    ))
+
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _STAR_COORD)
+    _click_bond_end(dash_duo)
+    _click_bond_end(dash_duo)
+    _click_bond_end(dash_duo)
+    _check_smile(dash_duo, 'C[CH:1](C)C')
+
+
+def test_dbj027_check_number(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='number autonumber',
+        smiles='CC(C)C',
+    ))
+
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _NUMBER_COORD)
+    _click_bond_end(dash_duo)
+    _click_bond_end(dash_duo)
+    _click_bond_end(dash_duo)
+    _check_smile(dash_duo, 'C[CH:3](C)C')
+
+
+def test_dbj028_check_query(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='query',
+    ))
+
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _QUERY_COORD)
+    _check_query_popup(dash_duo)
+
+
+def test_dbj029_check_newlook(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='newLook',
+    ))
+
+    panel = dash_duo.wait_for_element('div > div > div:nth-child(3) > svg > g > rect:nth-of-type(2)')
+    assert panel.get_attribute('stroke') == 'rgb(64,64,64)'
+
+
+def test_dbj030_check_oldlook(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='oldLook',
+    ))
+
+    panel = dash_duo.wait_for_element('div > div > div:nth-child(3) > svg > g > rect:nth-of-type(2)')
+    assert panel.get_attribute('stroke') != 'rgb(64,64,64)'
+
+
+def test_dbj031_check_hydrogens(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='hydrogens',
+        smiles='CO',
+    ))
+
+    text = dash_duo.wait_for_element('div > div > div:nth-child(2) > svg > g > text')
+    assert text.get_attribute('innerHTML') == 'HO'
+
+
+def test_dbj032_check_nohydrogens(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='NOhydrogens',
+        smiles='CO',
+    ))
+
+    text = dash_duo.wait_for_element('div > div > div:nth-child(2) > svg > g > text')
+    assert text.get_attribute('innerHTML') == 'O'
+
+
+def test_dbj033_check_polar(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='polarNitro',
+        smiles='CN(=O)=O',
+    ))
+
+    _check_smile(dash_duo, 'C[N+](=O)[O-]')
+
+
+def test_dbj034_check_noez(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='NOautoEZ',
+        smiles='CC(Cl)=C(C)Cl',
+    ))
+
+    _check_smile(dash_duo, 'CC(Cl)=C(C)Cl')
+
+
+def test_dbj035_check_ez(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='autoEZ',
+        smiles='CC(Cl)=C(C)Cl',
+    ))
+
+    _check_smile(dash_duo, 'C/C(Cl)=C(C)\\Cl')
+
+
+def test_dbj036_check_nocanonize(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='NOcanonize',
+        smiles='C/1=C/C=C\\C=C1',
+    ))
+
+    _check_smile(dash_duo, 'C/1=C/C=C\\C=C1')
+
+
+def test_dbj037_check_width_height(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        width="500px",
+        height="1000px",
+    ))
+
+    main_div = dash_duo.wait_for_element('#' + _COMPONENT_ID + " > div > div:nth-of-type(1)")
+
+    assert 'width: 500px' in main_div.get_attribute('style'), "Option width not working"
+    assert 'height: 1000px' in main_div.get_attribute('style'), "Option height not working"
+
+
+def test_dbj038_check_style(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        style={'background-color': 'black'},
+    ))
+
+    react_div = dash_duo.wait_for_element('#' + _COMPONENT_ID)
+    assert 'background-color: black;' in react_div.get_attribute('style'), "Option style not working"
+
+
 def _popup_decorator(dash_duo, selector):
     def inner(func):
         def wrapper(*args):
             try:
                 field = dash_duo.wait_for_element(selector)
-            except dash.testing.errors.TestingTimeoutError:
+            except TestingTimeoutError:
                 assert False, "POPUP form not found"
 
             func(*args, field=field)
@@ -488,9 +696,11 @@ def _popup_decorator(dash_duo, selector):
             _click_selector(dash_duo, _POPUP_CLOSE_BUTTON_SELECTOR)
             try:
                 dash_duo.wait_for_no_elements(_POPUP_PANEL_SELECTOR)
-            except dash.testing.errors.TestingTimeoutError:
+            except TestingTimeoutError:
                 assert False, "Close button not working"
+
         return wrapper
+
     return inner
 
 
@@ -498,14 +708,98 @@ def _timeout_decorator(func, test_string):
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except dash.testing.errors.TestingTimeoutError as e:
+        except TestingTimeoutError as e:
             assert False, f'{test_string} not working: {e}'
+
     return wrapper
 
 
 def _check_in_popup_value(text, field):
     existed_smiles = field.get_attribute('value')
     assert text in existed_smiles, f"SMILEs does not contain: '{text}' in '{existed_smiles}'"
+
+
+def _check_no_menu_item(dash_duo, menu_list):
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_PANEL_SELECTOR, _MENU_FORM_COORD)
+    menu_form = dash_duo.find_elements(_POPUP_MENU_SELECTOR)
+    assert menu_form != [], "MENU form not found"
+
+    for element in menu_form:
+        menu_value = element.get_attribute('innerHTML')
+        for menu_name in menu_list:
+            assert menu_name not in menu_value, f"Menu key in list, menu: {menu_value}"
+
+
+def _check_popup_list(dash_duo, element, test_dict, text_box, reset_button):
+    _click_selector(dash_duo, element)
+    name = element.get_attribute("innerHTML")
+    assert name in test_dict, f"Element not in list, option: {name}"
+    assert text_box.get_attribute('value') == test_dict[name][0]
+    test_dict[name].pop(0)
+    _click_selector(dash_duo, reset_button)
+
+
+def _check_query_popup(dash_duo):
+    try:
+        dash_duo.wait_for_element(_POPUP_PANEL_SELECTOR)
+    except TestingTimeoutError:
+        assert False, "POPUP form not found"
+
+    all_buttons = dash_duo.find_elements('button')
+    text_box = dash_duo.find_element(_POPUP_INPUT_SELECTOR)
+    close_button = None
+    reset_button = None
+    for index, b in enumerate(all_buttons):
+        name = b.get_attribute("innerHTML")
+        if name == "Close":
+            close_button = b
+            all_buttons[index] = None
+        elif name == "Reset":
+            reset_button = b
+            all_buttons[index] = None
+        elif name == "Submit":
+            all_buttons[index] = None
+
+    assert close_button is not None and reset_button is not None, "Close or Reset button not found"
+
+    test_button_dict = {
+        'Any': ['*', '~', ],
+        'Any except C': ['!#6', ],
+        'Halogen': ['F,Cl,Br,I', ],
+        'C': ['#6', ],
+        'N': ['#7', ],
+        'O': ['#8', ],
+        'S': ['#16', ],
+        'P': ['#15', ],
+        'F': ['F', ],
+        'Cl': ['Cl', ],
+        'Br': ['Br', ],
+        'I': ['I', ],
+        'Aromatic': ['a', ':', ],
+        'Nonaromatic': ['A', ],
+        'Ring': ['R', '@', ],
+        'Nonring': ['!R', '!@', ],
+    }
+
+    for b in all_buttons:
+        if b:
+            _check_popup_list(dash_duo, b, test_button_dict, text_box, reset_button)
+
+    all_option = dash_duo.find_elements('option')
+
+    test_option_dict = {
+        'Any': ['*', '*', ],
+        '0': ['*;H0', '*;D0', ],
+        '1': ['*;H1', '*;D1', ],
+        '2': ['*;H2', '*;D2', ],
+        '3': ['*;H3', '*;D3', ],
+        '4': ['*;D4', ],
+        '5': ['*;D5', ],
+        '6': ['*;D6', ],
+    }
+
+    for o in all_option:
+        _check_popup_list(dash_duo, o, test_option_dict, text_box, reset_button)
 
 
 def _get_popup_value(text, field):
@@ -552,9 +846,9 @@ def _clear_dashboard(dash_duo):
 
 def _click_bond_end(dash_duo):
     board = dash_duo.wait_for_element(_DRAW_BOARD_SELECTOR)
-    line = dash_duo.wait_for_element("line")
-    x = int(line.get_attribute('x1'))/int(board.get_attribute('width'))
-    y = int(line.get_attribute('y1'))/int(board.get_attribute('height'))
+    line = dash_duo.wait_for_element(_FIRST_LINE_SELECTOR)
+    x = int(line.get_attribute('x1')) / int(board.get_attribute('width'))
+    y = int(line.get_attribute('y1')) / int(board.get_attribute('height'))
     _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (x, y))
 
 
@@ -569,7 +863,7 @@ def _click_selector_at_coordinates(dash_duo, selector, coord):
     try:
         dash_duo.wait_for_element(selector)
         dash_duo.click_at_coord_fractions(selector, *coord)
-    except dash.testing.errors.TestingTimeoutError:
+    except TestingTimeoutError:
         assert False, f"Element not ready: {selector}"
     except Exception as e:
         assert False, f"Unable to click element at coordinate, selector={selector}, error={e}"
@@ -603,4 +897,12 @@ def _prepare_app(dash_duo, jsme):
     app.layout = html.Div(simple_app_layout(jsme))
     dash_duo.start_server(app, dev_tools_props_check=True)
     dash_duo.wait_for_element('#' + _COMPONENT_ID)
+
+    # If smile wait to render
+    if hasattr(jsme, 'smiles'):
+        # No smile render without OpenChemLib
+        if hasattr(jsme, 'options') and 'NOuseOpenChemLib' in jsme.options:
+            return app
+        dash_duo.wait_for_element(_FIRST_LINE_SELECTOR)
+
     return app
