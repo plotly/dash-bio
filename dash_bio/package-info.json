@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
@@ -39,7 +39,7 @@
     "plotly.js": "^1.52.2",
     "ramda": "^0.26.0",
     "react": "16.13.0",
-    "react-alignment-viewer": "git+https://github.com/nickmelnikov82/react-alignment-viewer.git#fix-select-box",
+    "react-alignment-viewer": "git+https://github.com/plotly/react-alignment-viewer.git#475c55a",
     "react-dom": "16.13.0",
     "react-oncoprint": "^1.2.3",
     "react-plotly.js": "^2.4.0",
