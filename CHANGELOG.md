@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased - ???
+## [0.8.0] - 2021-09-27
 
 ### Fixed
 * [#576](https://github.com/plotly/dash-bio/pull/576) Fixed abnormal memory consumption with Molecule3dViewer component when selecting residues or rotating the molecule (for more info see [#511](https://github.com/plotly/dash-bio/issues/511)).
@@ -9,6 +9,8 @@
 ### Added
 * [#567](https://github.com/plotly/dash-bio/pull/567) Added VariantMap component (see [#504](https://github.com/plotly/dash-bio/pull/504) for original PR).
 * [#573](https://github.com/plotly/dash-bio/pull/573) Added the ability to configure the FornaContainer hover info with `hoverPattern` prop and interpolated node keys (for more info see [#519](https://github.com/plotly/dash-bio/issues/519)).
+* [#579](https://github.com/plotly/dash-bio/pull/579) Added ability to resize the NeedlePlot component (for more info see [#545](https://github.com/plotly/dash-bio/issues/545)).
+* [#583](https://github.com/plotly/dash-bio/pull/583) Added the ability to manually set Sequence ID's for AlignmentChart component (for more info see [#421](https://github.com/plotly/dash-bio/issues/421)).
 
 ## [0.7.1] - 2021-07-26
 
