@@ -83,7 +83,7 @@ Keyword arguments:
     bars or to stack them as separate subplots. No effect if not both
     gap and conservation are shown.
 
-- height (number | string; default 900):
+- height (number | string; default '100%'):
     Width of the Viewer. Property takes precedence over tilesheight if
     both are set.
 
@@ -103,6 +103,9 @@ Keyword arguments:
     If overview is set to 'scroll', determines how many tiles to skip
     with each slider movement. Has no effect if scroll is not enabled
     (such as with overview or none).
+
+- sequenceIds (list; optional):
+    Sequences ids to display.
 
 - showconsensus (boolean; default True):
     Displays toggling the consensus sequence, where each nucleotide in
@@ -130,13 +133,13 @@ Keyword arguments:
 - textsize (number | string; default 10):
     Size of the nucleotide labels, as a number.
 
-- tickstart (number | string; optional):
+- tickstart (number | string; default 1):
     Determines where to start annotating the first tile. If let blank
     will be automatically determined by Plotly. Equivalent to Plotly's
     tick0 property. Does not function if overview mode 'slider' is
     applied. (Current bug).
 
-- ticksteps (number | string; optional):
+- ticksteps (number | string; default 6):
     Determines at what interval to keep annotating the tiles. If left
     blank will be automatially determined by Plotly. Equivalent to
     Plotly's dtick property. Does not function if overview mode
@@ -153,16 +156,16 @@ Keyword arguments:
     Viewer width divided by the tile width. the Viewwer width divided
     by the tile witdth.
 
-- width (number | string; optional):
+- width (number | string; default '100%'):
     Width of the Viewer. Property takes precedence over tileswidth and
     numtiles if either of them is set."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, eventDatum=Component.UNDEFINED, data=Component.UNDEFINED, extension=Component.UNDEFINED, colorscale=Component.UNDEFINED, opacity=Component.UNDEFINED, textcolor=Component.UNDEFINED, textsize=Component.UNDEFINED, showlabel=Component.UNDEFINED, showid=Component.UNDEFINED, showconservation=Component.UNDEFINED, conservationcolor=Component.UNDEFINED, conservationcolorscale=Component.UNDEFINED, conservationopacity=Component.UNDEFINED, conservationmethod=Component.UNDEFINED, correctgap=Component.UNDEFINED, showgap=Component.UNDEFINED, gapcolor=Component.UNDEFINED, gapcolorscale=Component.UNDEFINED, gapopacity=Component.UNDEFINED, groupbars=Component.UNDEFINED, showconsensus=Component.UNDEFINED, tilewidth=Component.UNDEFINED, tileheight=Component.UNDEFINED, overview=Component.UNDEFINED, numtiles=Component.UNDEFINED, scrollskip=Component.UNDEFINED, tickstart=Component.UNDEFINED, ticksteps=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'colorscale', 'conservationcolor', 'conservationcolorscale', 'conservationmethod', 'conservationopacity', 'correctgap', 'data', 'eventDatum', 'extension', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'height', 'numtiles', 'opacity', 'overview', 'scrollskip', 'showconsensus', 'showconservation', 'showgap', 'showid', 'showlabel', 'textcolor', 'textsize', 'tickstart', 'ticksteps', 'tileheight', 'tilewidth', 'width']
+    def __init__(self, id=Component.UNDEFINED, eventDatum=Component.UNDEFINED, data=Component.UNDEFINED, extension=Component.UNDEFINED, colorscale=Component.UNDEFINED, opacity=Component.UNDEFINED, textcolor=Component.UNDEFINED, textsize=Component.UNDEFINED, showlabel=Component.UNDEFINED, showid=Component.UNDEFINED, showconservation=Component.UNDEFINED, conservationcolor=Component.UNDEFINED, conservationcolorscale=Component.UNDEFINED, conservationopacity=Component.UNDEFINED, conservationmethod=Component.UNDEFINED, correctgap=Component.UNDEFINED, showgap=Component.UNDEFINED, gapcolor=Component.UNDEFINED, gapcolorscale=Component.UNDEFINED, gapopacity=Component.UNDEFINED, groupbars=Component.UNDEFINED, showconsensus=Component.UNDEFINED, tilewidth=Component.UNDEFINED, tileheight=Component.UNDEFINED, overview=Component.UNDEFINED, numtiles=Component.UNDEFINED, scrollskip=Component.UNDEFINED, tickstart=Component.UNDEFINED, ticksteps=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, sequenceIds=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'colorscale', 'conservationcolor', 'conservationcolorscale', 'conservationmethod', 'conservationopacity', 'correctgap', 'data', 'eventDatum', 'extension', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'height', 'numtiles', 'opacity', 'overview', 'scrollskip', 'sequenceIds', 'showconsensus', 'showconservation', 'showgap', 'showid', 'showlabel', 'textcolor', 'textsize', 'tickstart', 'ticksteps', 'tileheight', 'tilewidth', 'width']
         self._type = 'AlignmentChart'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'colorscale', 'conservationcolor', 'conservationcolorscale', 'conservationmethod', 'conservationopacity', 'correctgap', 'data', 'eventDatum', 'extension', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'height', 'numtiles', 'opacity', 'overview', 'scrollskip', 'showconsensus', 'showconservation', 'showgap', 'showid', 'showlabel', 'textcolor', 'textsize', 'tickstart', 'ticksteps', 'tileheight', 'tilewidth', 'width']
+        self.available_properties = ['id', 'colorscale', 'conservationcolor', 'conservationcolorscale', 'conservationmethod', 'conservationopacity', 'correctgap', 'data', 'eventDatum', 'extension', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'height', 'numtiles', 'opacity', 'overview', 'scrollskip', 'sequenceIds', 'showconsensus', 'showconservation', 'showgap', 'showid', 'showlabel', 'textcolor', 'textsize', 'tickstart', 'ticksteps', 'tileheight', 'tilewidth', 'width']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

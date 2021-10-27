@@ -16,10 +16,11 @@ conservationopacity=NULL, correctgap=NULL, data=NULL,
 eventDatum=NULL, extension=NULL, gapcolor=NULL,
 gapcolorscale=NULL, gapopacity=NULL, groupbars=NULL,
 height=NULL, numtiles=NULL, opacity=NULL, overview=NULL,
-scrollskip=NULL, showconsensus=NULL, showconservation=NULL,
-showgap=NULL, showid=NULL, showlabel=NULL, textcolor=NULL,
-textsize=NULL, tickstart=NULL, ticksteps=NULL,
-tileheight=NULL, tilewidth=NULL, width=NULL)
+scrollskip=NULL, sequenceIds=NULL, showconsensus=NULL,
+showconservation=NULL, showgap=NULL, showid=NULL,
+showlabel=NULL, textcolor=NULL, textsize=NULL,
+tickstart=NULL, ticksteps=NULL, tileheight=NULL,
+tilewidth=NULL, width=NULL)
 }
 
 \arguments{
@@ -83,6 +84,8 @@ that value.}
 \item{scrollskip}{Numeric. If overview is set to 'scroll', determines how many tiles to skip
 with each slider movement.
 Has no effect if scroll is not enabled (such as with overview or none).}
+
+\item{sequenceIds}{Unnamed list. Sequences ids to display}
 
 \item{showconsensus}{Logical. Displays toggling the consensus sequence, where each nucleotide in the
 consensus sequence is the argmax of its distribution at a set nucleotide.}
