@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.0.8] - 2021-09-27
+* [#19](https://github.com/plotly/dash-bio-utils/pull/19) Minor bugfix to remove type-constrained signature function to maintain support for Python<=3.8.
+
 ## [0.0.7] - 2021-09-26
 
 ### Added
