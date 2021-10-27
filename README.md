@@ -91,7 +91,7 @@ If you would like to contribute to this repository, or run demo apps and tests, 
 the [contributing
 guidelines](https://github.com/plotly/dash-bio/blob/master/CONTRIBUTING.md).
 
-## Run the app on the Jupyter Lab
+## Run the app in a Jupyter Lab environment
 
 1. Create a virtual environment:
 
