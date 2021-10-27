@@ -1,14 +1,14 @@
 # Changelog
 
-## UNRELEASED
+## [0.0.7] - 2021-09-26
 
 ### Added
 
-* [#17](https://github.com/plotly/dash-bio-utils/pull/17) Added `mmCIF_parser` for parsing mmCIF and PDBx format files (see [#16](https://github.com/plotly/dash-bio-utils/pull/16) for more info).
+* [#18](https://github.com/plotly/dash-bio-utils/pull/18) Added support for mmCIF and PDBx format files by reworking PDB parser helper function into a class-based module.(see [#16](https://github.com/plotly/dash-bio-utils/pull/16) and [#17](https://github.com/plotly/dash-bio-utils/pull/17) for more info).
 
 ### Changed
 
-* [#15](https://github.com/plotly/dash-bio-utils/pull/15) Combined `styles_parser` into `pdb_parser`, and added support for loading remotely sourced PDB files.
+* [#15](https://github.com/plotly/dash-bio-utils/pull/18) Restructured PDB parser to use `parmed` library for sourcing PDB and CIF files, and refactored `create_mol3d_style`.
 
 ## [0.0.6] - 2021-02-09
 
