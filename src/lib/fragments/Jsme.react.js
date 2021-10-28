@@ -13,6 +13,62 @@ export default class Jsme extends Component {
         setProps({eventSmiles: smiles});
     }
 
+    componentDidMount() {
+        const POPUP_TIMEOUT = 500;
+
+        document.addEventListener('mouseup', function() {
+            endMovePopup();
+            setTimeout(function() {
+                const popupWindows = document.getElementsByClassName("mosaic-Caption dragdrop-handle");
+                for (const window of popupWindows) {
+                    const newWindow = window.cloneNode(false);
+                    newWindow.classList.remove('dragdrop-handle');
+                    newWindow.classList.add('dragdrop-handle-new');
+                    newWindow.addEventListener('mousedown', startMovePopup);
+                    while (window.hasChildNodes()) {
+                        newWindow.appendChild(window.firstChild);
+                    }
+                    window.parentNode.replaceChild(newWindow, window);
+                }
+            }, POPUP_TIMEOUT)
+        })
+
+        function endMovePopup() {
+            document.removeEventListener('mousemove', movePopup);
+            const currentPopupWindow = document.getElementById("PopupDraggable");
+            if(currentPopupWindow) {
+                currentPopupWindow.removeAttribute('id');
+                currentPopupWindow.removeAttribute('posX');
+                currentPopupWindow.removeAttribute('posY');
+            }
+        }
+
+        function startMovePopup(event) {
+            event.preventDefault();
+            const currentPopupWindow = event.target.closest(".gwt-DecoratedPopupPanel");
+            if(currentPopupWindow) {
+                currentPopupWindow.id = "PopupDraggable";
+                currentPopupWindow.posX = event.clientX;
+                currentPopupWindow.posY = event.clientY;
+
+                document.addEventListener('mousemove', movePopup);
+            }
+        }
+
+        function movePopup(event) {
+            event.preventDefault();
+            const currentPopupWindow = document.getElementById("PopupDraggable");
+            if(currentPopupWindow) {
+                currentPopupWindow.style.left = (
+                    currentPopupWindow.offsetLeft - (currentPopupWindow.posX - event.clientX)) + "px";
+                currentPopupWindow.style.top = (
+                    currentPopupWindow.offsetTop - (currentPopupWindow.posY - event.clientY)) + "px";
+                currentPopupWindow.posX = event.clientX;
+                currentPopupWindow.posY = event.clientY;
+            }
+        }
+    }
+
     render() {
         const {
             id,
