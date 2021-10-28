@@ -235,6 +235,10 @@ AlignmentChart.propTypes = {
      * are set.
      */
     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    /**
+     * Sequences ids to display
+     */
+    sequenceIds: PropTypes.array,
 };
 
 AlignmentChart.defaultProps = {
@@ -264,11 +268,12 @@ AlignmentChart.defaultProps = {
     numtiles: null,
     overview: 'heatmap',
     scrollskip: 10,
-    tickstart: null,
-    ticksteps: null,
+    tickstart: 1,
+    ticksteps: 6,
     // Other
-    width: null,
-    height: 900,
+    width: '100%',
+    height: '100%',
+    sequenceIds: null,
 };
 
 export const propTypes = AlignmentChart.propTypes;
