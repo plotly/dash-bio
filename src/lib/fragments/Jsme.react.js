@@ -5,6 +5,7 @@ import {defaultProps, propTypes} from '../components/Jsme.react';
 export default class Jsme extends Component {
     constructor(props) {
         super(props);
+        this.ref = React.createRef();
     }
 
     setSmiles(smiles) {
@@ -15,6 +16,16 @@ export default class Jsme extends Component {
 
     componentDidMount() {
         const POPUP_TIMEOUT = 500;
+
+        this.ref.current.addEventListener('wheel', preventWheelAction(this.props.id));
+        function preventWheelAction(div_name) {
+            return function (event) {
+                if(!event.target.matches("#" + div_name + " > div > div > div > div:nth-child(2) > svg > g > rect") &&
+                    !event.target.matches("#" + div_name + " > div")) {
+                    event.preventDefault();
+                }
+            };
+        }
 
         document.addEventListener('mouseup', function() {
             endMovePopup();
@@ -80,13 +91,12 @@ export default class Jsme extends Component {
         } = this.props;
 
         return (
-            <div id={id} style={style}>
+            <div id={id} style={style} ref={this.ref}>
                 <JsmeReact options={options}
                            height={height}
                            width={width}
                            smiles={smiles}
-                           onChange={this.setSmiles.bind(this)}
-                           ref={this.ref}/>
+                           onChange={this.setSmiles.bind(this)}/>
             </div>
         );
     }
