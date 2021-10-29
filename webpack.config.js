@@ -24,7 +24,7 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules\/(?!3dmol\/|speck\/|ideogram\/|react-alignment-viewer\/)/,
+                exclude: /node_modules[\\\/](?!3dmol[\\\/]|speck[\\\/]|ideogram[\\\/]|react-alignment-viewer[\\\/]|molecule-3d-for-react[\\\/])/,
                 use: {
                     loader: 'babel-loader',
                 },

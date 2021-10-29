@@ -96,11 +96,11 @@ jobs:
 
             - run:
                 name: Install requirements
-                no_output_timeout: 20m
                 command: |
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install --progress-bar off -r tests/requirements.txt --quiet
+                no_output_timeout: 20m
 
             - save_cache:
                 key: deps1-{{ .Branch }}-{{ checksum "dev-requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}-{{ checksum ".circleci/config.yml" }}
@@ -139,6 +139,7 @@ jobs:
                     cd dist
                     find . -name "*.gz" | xargs pip install --progress-bar off --no-cache-dir --ignore-installed --quiet && cd ..
                     pytest --nopercyfinalize tests/integration
+                no_output_timeout: 20m
 
             - run:
                 name: Run unit tests

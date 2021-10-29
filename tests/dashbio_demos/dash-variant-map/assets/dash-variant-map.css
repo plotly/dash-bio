@@ -1,0 +1,85 @@
+#variantmap-body {
+    color: #ffffff !important;
+    background-color: #0a2b4d !important;
+}
+#variantmap-body ::-webkit-scrollbar {
+    background-color: #eff0e6 !important;
+}
+#variantmap-body ::-webkit-scrollbar-thumb {
+    background-color: #0a2b4d !important;
+}
+#variantmap-wrapper {
+    width: 70%;
+    display: inline-block !important;
+    padding: 0px;
+    margin: auto;
+}
+#slider-wrapper {
+    width: 600px;
+    display: inline-block !important;
+    padding: 0px;
+    margin: 0px;
+}
+#variantmap-control-tabs {
+    background-color: #1f6335 !important;
+}
+#variantmap-control-tabs .control-tab {
+    background-color: #1f6335 !important;
+    border-color: #ffffff !important;
+    color: #ffffff;
+}
+#variantmap-control-tabs .tab {
+    background-color: #1f6335 !important;
+    border-color: #ffffff !important;
+    color: #ffffff;
+}
+#variantmap-control-tabs #gene_names, #sample_filt, #file_filt {
+    color: #000000;
+}
+#variantmap-control-tabs .tab--selected {
+    color: #ffffff !important;
+    border-top-color: #ffffff !important;
+}
+#variantmap-control-tabs .control-upload {
+    border: dotted 1px #ffffff !important;
+}
+.customButton {
+    background-color: #0a2b4d;
+    border-radius: 26px;
+    border: 2px solid #ffffff;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0px 14px;
+    color: #ffffff;
+    float: left;
+}
+.customButton:hover {
+    background-color:#ffffff;
+}
+
+.customButton:active {
+    position:relative;
+    top:2px;
+}
+.customButton:focus {
+    background-color: #0a2b4d;
+    color: #ffffff;
+}
+#app-page-content .rc-slider-handle {
+    border: solid 2px #e9e9e9 !important;
+    background-color: #1f6335;
+}
+.rc-slider-dot-active {
+    border: 1.66667px solid #e9e9e9 !important;
+}
+#app-page-content .rc-slider-track {
+    background-color: #e9e9e9 !important;
+}
+.rc-slider-mark-text {
+    color: #ffffff !important;
+}
+.rc-slider-mark-text-active {
+    color: #ffffff !important;
+}
+

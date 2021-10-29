@@ -391,7 +391,7 @@
         "required": false,
         "description": "Determines where to start annotating the first tile.\nIf let blank will be automatically determined by Plotly.\nEquivalent to Plotly's tick0 property.\nDoes not function if overview mode 'slider' is applied. (Current bug)",
         "defaultValue": {
-          "value": "null",
+          "value": "1",
           "computed": false
         }
       },
@@ -410,7 +410,7 @@
         "required": false,
         "description": "Determines at what interval to keep annotating the tiles.\nIf left blank will be automatially determined by Plotly.\nEquivalent to Plotly's dtick property.\nDoes not function if overview mode 'slider' is applied. (Current bug)",
         "defaultValue": {
-          "value": "null",
+          "value": "6",
           "computed": false
         }
       },
@@ -429,7 +429,7 @@
         "required": false,
         "description": "Width of the Viewer.\nProperty takes precedence over tileswidth and numtiles\nif either of them is set.",
         "defaultValue": {
-          "value": "null",
+          "value": "'100%'",
           "computed": false
         }
       },
@@ -448,7 +448,18 @@
         "required": false,
         "description": "Width of the Viewer.\nProperty takes precedence over tilesheight if both\nare set.",
         "defaultValue": {
-          "value": "900",
+          "value": "'100%'",
+          "computed": false
+        }
+      },
+      "sequenceIds": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "Sequences ids to display",
+        "defaultValue": {
+          "value": "null",
           "computed": false
         }
       }
@@ -894,6 +905,13 @@
         },
         "required": false,
         "description": "Dash-assigned callback that gets fired when the value changes."
+      },
+      "hoverPattern": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "Allow users to specify which information will be displayed after\nhover on the elements. To render node property place it into ${}\nconstruction. For example: 'Structure name is ${structName} - ${num}'.\nAcceptable node properties are \"num\", \"radius\", \"rna\", \"nodeType\",\n\"structName\", \"size\", \"uid\", \"name\"."
       }
     }
   },
@@ -2142,6 +2160,44 @@
         },
         "required": false,
         "description": "Dash-assigned callback that should be called whenever any of the\nproperties change"
+      },
+      "width": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Width of the Plot",
+        "defaultValue": {
+          "value": "700",
+          "computed": false
+        }
+      },
+      "height": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": false,
+        "description": "Height of the Plot.",
+        "defaultValue": {
+          "value": "800",
+          "computed": false
+        }
       }
     }
   },

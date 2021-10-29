@@ -22,7 +22,7 @@ initial_sequences = {
         'options': {
             'applyForce': True,
             'circularizeExternal': True,
-            'avoidOthers': True,
+            'avoidOthers': False,
             'labelInterval': 5,
             'name': 'PDB_01019'
         }
@@ -364,6 +364,31 @@ def layout():
                                     ]
                                 )
                             ])
+                        ),
+                        dcc.Tab(
+                            label='Title Pattern',
+                            value='title-pattern',
+                            children=html.Div(className='control-tab', children=[
+                                html.Div(
+                                    className='app-controls-block',
+                                    children=[
+                                        html.Div(className='fullwidth-app-controls-name',
+                                                 children='Title pattern'),
+                                        html.Div(
+                                            className='app-controls-desc',
+                                            children='Specify the information which will ' +
+                                                     'be rendered on the mouse hover.'
+                                        ),
+                                        dcc.Input(id='forna-title-pattern',
+                                                  placeholder='${structName}:${num}')
+                                    ]
+                                ),
+                                html.Br(),
+                                html.Button(
+                                    id='forna-submit-title-pattern',
+                                    children='Submit'
+                                )
+                            ])
                         )
                     ])
                 ]),
@@ -434,6 +459,17 @@ def callbacks(_app):
             }
 
         return current, error_msg
+
+    @_app.callback(
+        Output('forna', 'hoverPattern'),
+        [Input('forna-submit-title-pattern', 'n_clicks')],
+        [State('forna-title-pattern', 'value')]
+    )
+    def update_hover_pattern(nclicks, hover_pattern):
+        if nclicks is None or nclicks == 0:
+            raise PreventUpdate
+
+        return hover_pattern
 
     @_app.callback(
         Output('forna', 'colorScheme'),
