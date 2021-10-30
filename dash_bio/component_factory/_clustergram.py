@@ -26,7 +26,8 @@ def Clustergram(
     row_dist="euclidean",
     col_dist="euclidean",
     dist_fun=scs.distance.pdist,
-    link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
+    link_fun=None,
+    link_method=None,
     color_threshold=None,
     optimal_leaf_order=False,
     color_map=None,
@@ -87,6 +88,11 @@ Keyword arguments:
 - link_fun (function; default scipy.cluster.hierarchy.linkage): Function to
     compute the linkage matrix from the pairwise distances (see docs for
     scipy.cluster.hierarchy.linkage).
+- link_method (string; default 'complete'): The linkage algorithm to use
+    if link_fun not set. For method 'single', an optimized algorithm based
+    on minimum spanning, for methods 'complete', 'average', 'weighted' and
+    'ward', an algorithm called nearest-neighbors chain is implemented
+    (see docs for scipy.cluster.hierarchy.linkage).
 - color_threshold (dict; default {'row': 0, 'col': 0}): Maximum
     linkage value for which unique colors are assigned to clusters;
     'row' for rows, and 'col' for columns.
@@ -162,6 +168,7 @@ Keyword arguments:
 - width (number; default 500): The width of the graph, in px.
 
     """
+
     if color_threshold is None:
         color_threshold = dict(row=0, col=0)
 
@@ -209,7 +216,8 @@ Methods:
         row_dist="euclidean",
         col_dist="euclidean",
         dist_fun=scs.distance.pdist,
-        link_fun=lambda x, **kwargs: sch.linkage(x, "complete", **kwargs),
+        link_fun=None,
+        link_method=None,
         color_threshold=None,
         optimal_leaf_order=False,
         color_map=None,
@@ -245,6 +253,15 @@ Methods:
         row_ids = list(range(data.shape[0]))
         # Always keep unique identifiers for columns
         column_ids = list(range(data.shape[1]))
+
+        if link_method is None:
+            link_method = "complete"
+
+        if link_fun is None:
+            def linkage(x, **kwargs):
+                return sch.linkage(x, link_method, **kwargs)
+
+            link_fun = linkage
 
         self._data = data
         self._row_labels = row_labels
