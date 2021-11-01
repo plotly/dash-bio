@@ -386,7 +386,7 @@ class _VolcanoPlot():
             ymax = max(self.data[self.pName].values)
 
         if col is None:
-            col = 'black'
+            col = '#2186f4'
 
         layout = go.Layout(
             title={'text': 'Volcano Plot',
