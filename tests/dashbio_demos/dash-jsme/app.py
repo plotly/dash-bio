@@ -34,17 +34,17 @@ def layout():
                             children=html.Div(className='control-tab', children=[
                                 html.H4(className='what-is', children='What is JSME?'),
                                 dcc.Markdown('''
-                                JSME is a molecule editor that supports drawing and
-                                editing of molecules and reactions 
+                            JSME is a molecule editor that supports drawing and
+                            editing of molecules and reactions
 
-                                In the "Update config" tab, you can change height,
-                                width and specify options for JSME. Available options can
-                                be found by 
-                                [this link](https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/JME/Options).
+                            In the "Update config" tab, you can change height,
+                            width and specify options for JSME. Available options can
+                            be found by
+                            [this link](https://wiki.jmol.org/Jmol_JavaScript_Object/JME/Options).
 
-                                See [this page](https://jsme-editor.github.io/help.html) to get more information about
-                                JSME and how it use.
-                                ''')
+                            See [this page](https://jsme-editor.github.io/help.html)
+                            to get more information about JSME and how it use.
+                            ''')
                             ])
                         ),
 
@@ -145,7 +145,12 @@ def callbacks(_app):
          State('jsme-width', 'value')]
     )
     def update_configs(nclicks, options, height, width):
-        if nclicks is None or nclicks == 0 or height is None or len(height) == 0 or width is None or len(width) == 0:
+        if nclicks is None or \
+                nclicks == 0 or \
+                height is None or \
+                len(height) == 0 or \
+                width is None or \
+                len(width) == 0:
             raise PreventUpdate
         return options, height, width
 
