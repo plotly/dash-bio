@@ -874,7 +874,8 @@ def _click_bond_end(dash_duo):
 
 def _click_selector(dash_duo, selector):
     try:
-        dash_duo.wait_for_element(selector)
+        if isinstance(selector, str):
+            dash_duo.wait_for_element(selector)
         dash_duo.multiple_click(selector, 1)
     except TestingTimeoutError:
         assert False, f"Element not ready: {selector}"
