@@ -429,7 +429,7 @@
         "required": false,
         "description": "Width of the Viewer.\nProperty takes precedence over tileswidth and numtiles\nif either of them is set.",
         "defaultValue": {
-          "value": "'100%'",
+          "value": "null",
           "computed": false
         }
       },
@@ -448,7 +448,7 @@
         "required": false,
         "description": "Width of the Viewer.\nProperty takes precedence over tilesheight if both\nare set.",
         "defaultValue": {
-          "value": "'100%'",
+          "value": "null",
           "computed": false
         }
       },

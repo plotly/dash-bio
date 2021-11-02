@@ -83,7 +83,7 @@ Keyword arguments:
     bars or to stack them as separate subplots. No effect if not both
     gap and conservation are shown.
 
-- height (number | string; default '100%'):
+- height (number | string; optional):
     Width of the Viewer. Property takes precedence over tilesheight if
     both are set.
 
@@ -156,7 +156,7 @@ Keyword arguments:
     Viewer width divided by the tile width. the Viewwer width divided
     by the tile witdth.
 
-- width (number | string; default '100%'):
+- width (number | string; optional):
     Width of the Viewer. Property takes precedence over tileswidth and
     numtiles if either of them is set."""
     @_explicitize_args
