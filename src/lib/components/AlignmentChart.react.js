@@ -271,8 +271,8 @@ AlignmentChart.defaultProps = {
     tickstart: 1,
     ticksteps: 6,
     // Other
-    width: '100%',
-    height: '100%',
+    width: null,
+    height: null,
     sequenceIds: null,
 };
 
