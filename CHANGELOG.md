@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased - ???
+
+### Changed
+* [#589](https://github.com/plotly/dash-bio/pull/589) Removed hardcoded clustergram linkage method, added parameter `link_method` instead. 
+
 ## [0.8.0] - 2021-09-27
 
 ### Fixed
