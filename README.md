@@ -74,6 +74,49 @@ if __name__ == '__main__':
 
 See the [Dash Bio documentation](https://dash.plotly.com/dash-bio) for more components and examples.
 
+
+## Run Dash Bio in a JupyterLab environment
+
+1. Create a virtual environment:
+
+    The following steps require a virtual environment tool to be installed on your computer: `pip install virtualenv`
+
+    a. On macOS and Linux: `python3 -m venv env`
+
+    b. On Windows, enter: `py -m venv env`
+
+2. Activate your new environment:
+
+    a. On macOS and Linux, enter: `source env/bin/activate`
+
+    b. On Windows, enter: `.\env\Scripts\activate`
+
+3. Install required libraries (make sure you have pip installed with `pip help`):
+```
+pip install dash dash-bio pandas numpy Jupyterlab
+```
+
+4. To run Dash inside Jupyter lab:
+
+    a. Install jupyter-dash:  `pip install jupyter-dash`
+
+    b. Enter `jupyter lab build`
+
+    (Note: This step requires Node.js and NPM installed on yourcomputer. To check if Node and NPM are installed, enter `node -v` and `npm -v` in your terminal. For install instructions see [nodejs.org](https://nodejs.org/en/).
+
+5. To display Plotly figures in JupyterLab:
+```
+pip install jupyterlab "ipywidgets>=7.5”
+jupyter labextension install jupyterlab-plotly@4.14.3
+```
+
+6. Start JupyterLab by typing: `jupyter lab`
+
+    Important: JupyterLab must be run within the virtual environment that was previously activated.
+
+
+For more on running a Dash app in Jupyter Lab visit [Getting Started with Jupyter Dash](https://github.com/plotly/jupyter-dash/blob/master/notebooks/getting_started.ipynb).
+
 ## Dash
 
 Learn more about Dash at
