@@ -1,43 +1,44 @@
 ## Run the app
 
 ```bash
-python tests\dashbio_demos\dash-molecule-2d-viewer\app.py
+python tests/dashbio_demos/dash-molecule-2d-viewer/app.py
 ```
 Then navigate to `localhost:8050` in your web browser.
 
-You can check the description of the molecule-2d-viewer in the 'About' tab.
-
 ## Usage
 
-There are 2 tabs in this app: about and view.
+There are 2 tabs in this app: About and View.
 
-In the graph tab you can specify threshold value and suggestive line.
+The About tab contains a general overview of the Molecule-2d component.
 
-## Documentation about this app
+In Graph tab you can specify threshold value and suggestive line.
 
-You could check some examples of using this app with different properties due to
-this link 'https://dash.plotly.com/dash-bio/molecule2dviewer'.
+## Documentation
 
-## List of the properties
+Learn more about using the Molecule-2d with interactive examples in the
+[Dash Bio docs](https://dash.plotly.com/dash-bio/molecule2dviewer).
 
-- id  
+## Molecule-2d Properties Reference
 
-- height     
+- **id** (string; optional): The ID used to identify this component in callbacks. 
 
-- modelData     
+- **height** (number; default 500): The height of the SVG element.    
 
-- modelData 
-    1. links 
-        1. bond 
-        2. distance 
-        3. id 
-        4. source 
-        5. strength 
-        6. target 
-    2. nodes 
-        1. atom 
-        2. id 
+- **modelData** (dict; default { nodes: [], links: [],}): Description of the molecule to display.    
 
-- selectedAtomIds     
+- **modelData** is a dict with keys:
+    1. **links** (list of dicts; optional)
+        1. **bond** (number; optional)
+        2. **distance** (number; optional)
+        3. **id** (number; optional)
+        4. **source** (optional)
+        5. **strength** (number; optional)
+        6. **target** (optional)
+    2. **nodes** (list of dicts; optional)
+    - **nodes** is a list of dicts with keys:
+        1. **atom** (string; optional)
+        2. **id** (number; optional)
 
-- width  
+- **selectedAtomIds** (list of numbers; optional): The selected atom IDs.    
+
+- **width** (number; default 500): The width of the SVG element. 

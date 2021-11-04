@@ -1,62 +1,61 @@
 ## Run the app
 
 ```bash
-python tests\dashbio_demos\dash-speck\app.py
+python tests/dashbio_demos/dash-speck/app.py
 ```
 Then navigate to `localhost:8050` in your web browser.
 
-You can check the description of the spec in the 'About' tab.
-
 ## Usage
 
-There are 3 tabs in this app: about, data and view.
+There are 3 tabs in this app: About, Data and View.
 
-In the data tab you can select from 2 preloaded datasets.
+The About tab contains a general overview of the Volcano Plot component.
 
-In the view tab you can specify style options.
+In Data tab you can select from 2 preloaded datasets.
 
-## Documentation about this app
+In View tab you can specify style options.
 
-You could check some examples of using this app with different properties due to
-this link 'https://dash.plotly.com/dash-bio/volcanoplot'.
+## Documentation
 
-## List of the properties
+Learn more about using the Volcano Plot with interactive examples in the [Dash Bio docs](https://dash.plotly.com/dash-bio/volcanoplot).
 
-- dataframe   
+## Volcano Plot Properties Reference
 
-- effect_size       
+- **dataframe** (dataframe; required): A pandas dataframe which must contain at least the following two columns: - a numeric quantity to plot such as a p-value or zscore - a numeric quantity measuring the strength of association, typically an odds ratio, regression coefficient, or log fold change. Here, it is referred to as effect_size.  
 
-- p       
+- **effect_size** (string; default 'EFFECTSIZE'): A string denoting the column name for the effect size. This column must be numeric and must not contain missing nor NaN values.       
 
-- snp   
+- **p** (string; default 'P'): A string denoting the column name for the float quantity to be plotted on the y-axis. This column must be numeric. It does not have to be a p-value. It can be any numeric quantity such as peak heights, Bayes factors, test statistics. If it is not a p-value, make sure to set logp = False.       
 
-- gene  
+- **snp** (string; default 'SNP'): A string denoting the column name for the SNP names (e.g., rs number). More generally, this column could be anything that identifies each point being plotted. For example, in an Epigenomewide association study (EWAS), this could be the probe name or cg number. This column should be a character. This argument is optional, however it is necessary to specify it if you want to highlight points on the plot using the highlight argument in the figure method.  
 
-- annotation       
+- **gene** (string; default 'GENE'): A string denoting the column name for the GENE names. More generally, this could be any annotation information that should be included in the plot. 
 
-- logp  
+- **annotation** (string; optional): A string denoting the column to use as annotations. This could be any annotation information that you want to include in the plot (e.g., zscore, effect size, minor allele frequency).      
 
-- xlabel  
+- **logp** (bool; default True): If True, the -log10 of the p-value is plotted. It isn't very useful to plot raw p-values; however, plotting the raw value could be useful for other genome-wide plots (e.g., peak heights, Bayes factors, test statistics, and other "scores"). 
 
-- ylabel  
+- **xlabel** (string; optional): Label of the x axis. 
 
-- point_size  
+- **ylabel** (string; default '-log10(p)'): Label of the y axis. 
 
-- col  
+- **point_size** (number; default 5): Size of the points of the Scatter plot. 
 
-- effect_size_line  
+- **col** (string; optional): Color of the points of the Scatter plot. Can be in any color format accepted by plotly.graph_objects. 
 
-- effect_size_line_color 
+- **effect_size_line** (bool | list; default [-1, 1]): A boolean which must be either False to deactivate the option, or a list/array containing the upper and lower bounds of the effect size values. Significant data points will have lower values than the lower bound, or higher values than the higher bound. Keeping the default value will result in assigning the list -1, 1 to the argument. 
 
-- effect_size_line_width  
+- **effect_size_line_color** (string; default 'grey'): Color of the effect size lines.
 
-- genomewideline_value  
+- **effect_size_line_width** (number; default 2): Width of the effect size lines. 
 
-- genomewideline_color  
+- **genomewideline_value** (bool | number; default -log10(5e-8)): A boolean which must be either False to deactivate the option, or a numerical value corresponding to the p-value above which the data points are considered significant. 
 
-- genomewideline_width  
+- **genomewideline_color** (string; default 'red'): Color of the genome-wide line. Can be in any color format accepted by plotly.graph_objects. 
 
-- highlight 
+- **genomewideline_width** (number; default 1): Width of the genome-wide line. 
 
-- highlight_color 
+- **highlight** (bool; default True): Whether the data points considered significant should be highlighted or not.
+
+- **highlight_color** (string; default 'red'): Color of the data points highlighted because considered significant. Can be in any color format accepted by plotly.graph_objects.
 
