@@ -256,7 +256,10 @@ def test_dbsv005_mouse_selection(dash_duo):
     ac = ActionChains(dash_duo.driver)
     ac.move_to_element(sequence)
     ac.move_by_offset(
-        -(sequence.size['width']/2), -(sequence.size['height']/2)
+        -(sequence.size['width']/2)+int(
+            sequence.value_of_css_property("padding-left").replace('px', '')),
+        -(sequence.size['height']/2)+int(
+            sequence.value_of_css_property("padding-top").replace('px', ''))
     )
     ac.click_and_hold()
     ac.move_by_offset(85, 0)
