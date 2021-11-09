@@ -10,7 +10,7 @@ import copy
 import jsonschema
 import numpy as np
 
-from dash_bio_utils.uniprot_database_tools import pfam_domain_parser
+from .uniprot_database_tools import pfam_domain_parser
 
 EMPTY_MUT_DATA = dict(
     x=[],
@@ -197,7 +197,7 @@ def load_protein_domains(accession=None, json_fname=None):
     be chosen over the one of the JSON file.
     """
     if json_fname is not None:
-        with open(json_fname) as f:
+        with open(json_fname, encoding='utf-8') as f:
             domain_data = json.load(f)
 
     if accession is not None:
@@ -213,7 +213,7 @@ def load_mutation_data(json_fname=None):
     :return: formatted mutation data for the dash_bio.NeedlePlot component
     """
     if json_fname is not None:
-        with open(json_fname) as f:
+        with open(json_fname, encoding='utf-8') as f:
             mutation_data = json.load(f)
 
     return parse_mutation_data(mutation_data)

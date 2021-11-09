@@ -152,7 +152,7 @@ def read_tsv_file(
                 break
 
     else:
-        with open(filepath, 'r') as f:
+        with open(filepath, 'r', encoding='utf-8') as f:
             for line in f.readlines():
                 if line[0] == description_row_prefix or not line.strip():
                     if line[0] == description_row_prefix:

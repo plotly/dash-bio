@@ -74,9 +74,9 @@ def create_local_files(data, file_name):
     """Create local JSON and CSV files."""
     data.to_csv("{}.csv".format(file_name), encoding="utf-8", index=False)
     data = data.to_dict(orient='records')
-    json_file = open("{}.json".format(file_name), 'w')
-    out = json.dumps(data)
-    json_file.write(out)
+
+    with open("{}.json".format(file_name), 'w', encoding='utf-8') as json_file:
+        json_file.write(json.dumps(data))
 
 
 def txt_to_layout(

@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 import urllib.request
 
-from dash_bio_utils.gene_expression_reader import read_soft
+from dash_bio.utils.gene_expression_reader import read_soft
 
 # Use the first `sample_length` characters of data file living at `url`
 # as a piece of toy data, for testing gene expression reader functions.

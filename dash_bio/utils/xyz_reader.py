@@ -32,7 +32,7 @@ def read_xyz(datapath_or_datastring,
 
     # open file if given a path
     if is_datafile:
-        with open(datapath_or_datastring, 'r') as f:
+        with open(datapath_or_datastring, 'r', encoding='utf-8') as f:
             lines = f.readlines()
 
     # or read the raw string
@@ -42,7 +42,7 @@ def read_xyz(datapath_or_datastring,
     with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tf:
         tf.write('\n'.join(lines))
 
-    with open(tf.name, 'r'):
+    with open(tf.name, 'r', encoding='utf-8'):
         for line in lines:
             # each line in an xyz file contains the symbol for the atom at
             # that position, as well as the x, y, and z coordinates of the

@@ -4,7 +4,7 @@ import base64
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
-from dash_bio_utils.xyz_reader import read_xyz
+from dash_bio.utils.xyz_reader import read_xyz
 import dash_bio
 
 from layout_helper import run_standalone_app

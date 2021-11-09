@@ -11,6 +11,7 @@ import glob
 import six.moves.urllib.request as urlreq
 import gzip
 
+
 # Helper function to split the aa_range and pdb_id
 def single_split(string, sep):
     parts = string.split(sep)
@@ -18,6 +19,7 @@ def single_split(string, sep):
         raise ValueError('expected "{}" once, found {} in "{}"'.format(sep, string.count(sep),
                                                                        string))
     return parts
+
 
 # Helper function to set highlights
 def get_highlights(string, sep, atom_indicator):
@@ -63,20 +65,21 @@ def get_data(data_path, pdb_id, color, reset_view=False, local=True):
                 )
 
     if local:
-        fname = [f for f in glob.glob(data_path + pdb_id + ".*")][0]
+        fname = list(glob.glob(data_path + pdb_id + ".*"))[0]
 
         if "gz" in fname:
             ext = fname.split(".")[-2]
-            with gzip.open(fname, "r") as f:
+            with gzip.open(fname, "r", encoding='utf-8') as f:
                 content = f.read().decode("UTF-8")
         else:
             ext = fname.split(".")[-1]
-            with open(fname, "r") as f:
+            with open(fname, "r", encoding='utf-8') as f:
                 content = f.read()
     else:
-        fname =  single_split(pdb_id, ".")[0] + '.pdb'
+        fname = single_split(pdb_id, ".")[0] + '.pdb'
         ext = fname.split(".")[-1]
-        content= urlreq.urlopen(data_path + fname).read().decode("utf-8")
+        with urlreq.urlopen(data_path + fname) as data:
+            content = data.read().decode("utf-8")
 
     return {
         "filename": fname.split("/")[-1],

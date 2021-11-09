@@ -1,6 +1,5 @@
 import os
 import base64
-import json
 import tempfile
 
 from shutil import copy2
@@ -10,7 +9,7 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
-from dash_bio_utils import pdb_parser as parser, styles_parser as sparser
+from dash_bio.utils import pdb_parser as parser, mol3dviewer_styles_creator as sparser
 import dash_bio
 
 from layout_helper import run_standalone_app
@@ -455,25 +454,16 @@ def callbacks(_app):
             return 'demostr and contents are none'
 
         # Create the model data from the decoded contents
-        modata = parser.create_data(fname)
-
-        fmodel = files_data_style(modata)
-        with open(fmodel) as fm:
-            mdata = json.load(fm)
+        pdb = parser.PdbParser(fname)
+        mdata = pdb.mol3d_data()
 
         # Create the cartoon style from the decoded contents
-        datstyle = sparser.create_style(fname, mol_style, color_style, **custom_colors)
-
-        fstyle = files_data_style(datstyle)
-        with open(fstyle) as sf:
-            data_style = json.load(sf)
-
-        # Delete all the temporary files that were created
-        for x in [fname, fmodel, fstyle]:
-            if os.path.isfile(x):
-                os.unlink(x)
-            else:
-                pass
+        data_style = sparser.create_mol3d_style(
+            mdata.get("atoms"),
+            mol_style,
+            color_style,
+            **custom_colors
+        )
 
         # Return the new molecule visualization container
         return dash_bio.Molecule3dViewer(

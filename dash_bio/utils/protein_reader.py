@@ -61,7 +61,7 @@ def read_fasta(datapath_or_datastring,
 
     # open file if given a path
     if is_datafile:
-        with open(datapath_or_datastring, 'r') as f:
+        with open(datapath_or_datastring, 'r', encoding='utf-8') as f:
             lines = f.readlines()
             if '>' not in lines[0]:
                 raw_data = ['>']

@@ -68,7 +68,7 @@ def read_structure(datapath_or_datastring,
     structural_info = {}
 
     if is_datafile:
-        with open(datapath_or_datastring, 'r') as f:
+        with open(datapath_or_datastring, 'r', encoding='utf-8') as f:
             structural_info = json.loads(f.read())
     else:
         structural_info = json.loads(datapath_or_datastring)

@@ -77,7 +77,7 @@ class PdbParser:
                 "target": b.atom2.idx,
                 "bond": b.order,
                 "distance": b.measure(),
-                "strength": b.energy() # TODO verify
+                "strength": b.energy()  # TODO verify
             })
 
         return data

@@ -101,14 +101,17 @@ def create_mol3d_style(
     @param color_scheme
     Color scheme used to style moleule elements.
     This should be a dict with keys being names of atoms, residues, residue types or chains,
-    depending on the value of color_element argument. If no value is provided, default color schemes will be used.
+    depending on the value of color_element argument. If no value is provided, default color
+    schemes will be used.
     """
 
-    if not visualization_type in ['stick', 'cartoon', 'sphere']:
-        raise Exception("Invalid argument type: visualization_type. Should be: 'stick' | 'cartoon' | 'sphere'.")
+    if visualization_type not in ['stick', 'cartoon', 'sphere']:
+        raise Exception("Invalid argument type: visualization_type.\
+Should be: 'stick' | 'cartoon' | 'sphere'.")
 
-    if not color_element in ['atom', 'residue', 'residue_type', 'chain']:
-        raise Exception("Invalid argument type: color_element. Should be: 'atom' | 'residue' | 'residue_type' | 'chain'.")
+    if color_element not in ['atom', 'residue', 'residue_type', 'chain']:
+        raise Exception("Invalid argument type: color_element.\
+Should be: 'atom' | 'residue' | 'residue_type' | 'chain'.")
 
     if not isinstance(atoms, list):
         raise Exception("Invalid argument type: atoms. Should be a list of dict.")

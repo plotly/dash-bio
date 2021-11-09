@@ -179,8 +179,8 @@ class UniprotQueryBuilder():
                         "refer to https://www.uniprot.org/help/query-fields")
 
         validated_parameters = self._validate_query_parameters(parameters)
-        for key in validated_parameters:
-            url = url + self._parameter_separator + key + "=" + validated_parameters[key]
+        for key, item in validated_parameters.values():
+            url = url + self._parameter_separator + key + "=" + item
         return url
 
     def query_into_file(self, query, fname="", fields=None, parameters=None):
@@ -190,9 +190,8 @@ class UniprotQueryBuilder():
         with urllib.request.urlopen(target_url) as url:
             content = url.read()
 
-            ofs = open(fname, 'wb')
-            ofs.write(content)
-            ofs.close()
+            with open(fname, 'wb') as ofs:
+                ofs.write(content)
 
     def query_into_pandas(self, query, fields=None, parameters=None, names=None):
         """returns the result of a query as a Pandas DataFrame"""

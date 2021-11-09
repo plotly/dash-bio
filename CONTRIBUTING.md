@@ -180,7 +180,6 @@ To write more integration tests, please read this
 
 To run the suite of unit tests:
 ```bash
-pip install dash_bio_utils
 python tests/unit/unit_test_data_setup.py
 npm run test
 ```

@@ -7,7 +7,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_daq as daq
 
-from dash_bio_utils import gene_expression_reader
+from dash_bio.utils import gene_expression_reader
 import dash_bio
 
 from layout_helper import run_standalone_app
