@@ -66,6 +66,7 @@ jobs:
                 command: |
                     python -m venv venv
                     . venv/bin/activate
+                    pip install .
                     cd tests/unit
                     python unit_test_data_setup.py
                     cd ../../
