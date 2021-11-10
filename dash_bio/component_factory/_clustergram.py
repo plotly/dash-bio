@@ -277,9 +277,9 @@ Methods:
         self._optimal_leaf_order = optimal_leaf_order
         if color_map is None:
             self._color_map = [
-                [0.0, "rgb(255,0,0)"],
-                [0.5, "rgb(0,0,0)"],
-                [1.0, "rgb(0,255,0)"],
+                [0.0, "rgb(84,48,5)"],
+                [0.5, "rgb(246,232,195)"],
+                [1.0, "rgb(0,60,48)"],
             ]
         else:
             self._color_map = color_map

@@ -15,9 +15,9 @@ from layout_helper import run_standalone_app
 DATAPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 
 color_palette = [
-    'rgb(128, 0, 96)',
-    'rgb(230, 115, 0)',
-    'rgb(255, 191, 0)'
+    'rgb(84,48,5)',
+    'rgb(246,232,195)',
+    'rgb(0,60,48)'
 ]
 
 fig_options = dict(
