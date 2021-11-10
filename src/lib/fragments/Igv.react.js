@@ -22,6 +22,11 @@ export default class Igv extends Component {
             minimumBases: this.props.minimumBases,
             tracks: this.props.tracks,
         };
+
+        if (igvOptions.tracks.length > 1) {
+            igvOptions.tracks = null;
+        }
+
         return igv
             .createBrowser(igvContainer, igvOptions)
             .then(function(browser) {
