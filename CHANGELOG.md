@@ -1,10 +1,12 @@
 # Changelog
 
-## [0.9.0] - ???
+## Unreleased - ???
 
 ### Added
 * [#587](https://github.com/plotly/dash-bio/pull/587) Added JSME component.
 
+### Changed
+* [#589](https://github.com/plotly/dash-bio/pull/589) Removed hardcoded clustergram linkage method, added parameter `link_method` instead.
 
 ## [0.8.0] - 2021-09-27
 

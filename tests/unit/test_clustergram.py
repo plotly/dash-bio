@@ -83,3 +83,18 @@ def test_column_labels():
     clustered_data = CLUSTERED_DATA.T
 
     assert np.array_equal(curves_dict['heatmap']['z'], clustered_data)
+
+
+def test_link_method():
+    """Test that specifying linkage method."""
+
+    data = DATA
+    _, _, curves_dict = Clustergram(
+        data,
+        generate_curves_dict=True,
+        return_computed_traces=True,
+        center_values=False,
+        link_method='centroid'
+    )
+    clustered_data = CLUSTERED_DATA
+    assert not np.array_equal(curves_dict['heatmap']['z'], clustered_data)
