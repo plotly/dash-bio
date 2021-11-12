@@ -86,7 +86,9 @@ def test_dbj001_smiles_props(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles=_TEST_SMILES,
-        options='NOdepict'
+        height="400px",
+        width="400px",
+        options='NOdepict, oldLook'
     ))
 
     _check_smile(dash_duo, _TEST_SMILES)
@@ -95,7 +97,10 @@ def test_dbj001_smiles_props(dash_duo):
 def test_dbj002_clear_editing_area(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles='C1CC1'
+        height="400px",
+        width="400px",
+        smiles='C1CC1',
+        options='oldLook'
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _CLEAR_AREA_COORD)
@@ -104,7 +109,10 @@ def test_dbj002_clear_editing_area(dash_duo):
 
 def test_dbj003_check_structures(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
-        id=_COMPONENT_ID
+        id=_COMPONENT_ID,
+        height="400px",
+        width="400px",
+        options="oldLook"
     ))
 
     structures = [
@@ -128,7 +136,9 @@ def test_dbj004_new_molecule_component(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles='CC',
-        options='multiPart'
+        height="400px",
+        width="400px",
+        options='multiPart, oldLook'
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _TRIANGLE_COORD)
@@ -141,7 +151,9 @@ def test_dbj005_input_stereo_bond(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles='CCC',
-        options='stereo'
+        height="400px",
+        width="400px",
+        options='stereo, oldLook'
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _STEREO_BOND_COORD)
@@ -152,7 +164,10 @@ def test_dbj005_input_stereo_bond(dash_duo):
 def test_dbj006_delete_mode(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles='CCC'
+        height="400px",
+        width="400px",
+        smiles='CCC',
+        options='oldLook'
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _DELETE_COORD)
@@ -163,7 +178,9 @@ def test_dbj006_delete_mode(dash_duo):
 def test_dbj007_functional_group_mode(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='NOpolarNitro canonize'
+        height="400px",
+        width="400px",
+        options='NOpolarNitro canonize newLook'
     ))
 
     functional_groups = {
@@ -212,7 +229,10 @@ def test_dbj007_functional_group_mode(dash_duo):
 
 def test_dbj008_chain_bond(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
-        id=_COMPONENT_ID
+        id=_COMPONENT_ID,
+        height="400px",
+        width="400px",
+        options="oldLook"
     ))
 
     # TODO: Chain bond instrument continuously draw bonds, so we need mouse press,
@@ -225,7 +245,10 @@ def test_dbj008_chain_bond(dash_duo):
 def test_dbj009_delete_group_mode(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles='CC(C)C'
+        smiles='CC(C)C',
+        height="400px",
+        width="400px",
+        options="oldLook"
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _DELETE_GROUP_COORD)
@@ -236,7 +259,10 @@ def test_dbj009_delete_group_mode(dash_duo):
 def test_dbj010_charged_states_mode(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles='CCC'
+        smiles='CCC',
+        height="400px",
+        width="400px",
+        options="oldLook"
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _CHARGED_STATES_COORD)
@@ -247,7 +273,10 @@ def test_dbj010_charged_states_mode(dash_duo):
 def test_dbj011_undo_redo(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles='CC'
+        smiles='CC',
+        height="400px",
+        width="400px",
+        options="oldLook"
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _SINGLE_BOND_COORD)
@@ -263,7 +292,10 @@ def test_dbj011_undo_redo(dash_duo):
 def test_dbj012_spiro_ring(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        smiles='C1CC1'
+        smiles='C1CC1',
+        height="400px",
+        width="400px",
+        options="oldLook"
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _TRIANGLE_COORD)
@@ -275,6 +307,9 @@ def test_dbj012_spiro_ring(dash_duo):
 def test_dbj013_about_form(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
+        height="400px",
+        width="400px",
+        options="oldLook"
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _INFO_FORM_COORD)
@@ -284,7 +319,9 @@ def test_dbj013_about_form(dash_duo):
 def test_dbj014_check_atoms(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='rButton',
+        options='rButton, oldLook',
+        height="400px",
+        width="400px"
     ))
 
     structures = [
@@ -307,7 +344,9 @@ def test_dbj014_check_atoms(dash_duo):
 def test_dbj015_inorganic_atom(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='xButton',
+        height="400px",
+        width="400px",
+        options='xButton oldLook',
     ))
 
     _click_selector_at_coordinates(dash_duo, _VERTICAL_INSTRUMENT_SELECTOR, _X_ATOM_COORD)
@@ -320,8 +359,10 @@ def test_dbj016_check_menu_copy(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
         smiles=_TEST_SMILES,
+        height="400px",
+        width="400px",
         options="useOCLidCode exportInChIauxInfo exportInChIkey \
-exportInChI exportSVG searchInChIkey useOpenChemLib paste"
+exportInChI exportSVG searchInChIkey useOpenChemLib paste oldLook"
     ))
 
     menu = {
@@ -374,7 +415,9 @@ exportInChI exportSVG searchInChIkey useOpenChemLib paste"
 def test_dbj017_check_menu_add(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='multiPart addNewPart',
+        height="400px",
+        width="400px",
+        options='multiPart addNewPart oldLook',
         smiles='CC(C)C',
     ))
 
@@ -385,7 +428,9 @@ def test_dbj017_check_menu_add(dash_duo):
 def test_dbj018_check_depict_options(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='depict border toggle depictAction NOshowDragAndDropSymbolInDepictMode',
+        height="400px",
+        width="400px",
+        options='depict border toggle depictAction NOshowDragAndDropSymbolInDepictMode oldLook',
         smiles='CCC'
     ))
 
@@ -414,7 +459,9 @@ def test_dbj018_check_depict_options(dash_duo):
 def test_dbj019_check_notoggle_options(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='depict NOborder NOtoggle NOdepictAction showDragAndDropSymbolInDepictMode',
+        height="400px",
+        width="400px",
+        options='depict NOborder NOtoggle NOdepictAction showDragAndDropSymbolInDepictMode oldLook',
         smiles='CC'
     ))
 
@@ -436,7 +483,9 @@ def test_dbj019_check_notoggle_options(dash_duo):
 def test_dbj020_check_nopaste_option(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='NOpaste',
+        height="400px",
+        width="400px",
+        options='NOpaste oldLook',
     ))
 
     try:
@@ -453,7 +502,9 @@ def test_dbj020_check_nopaste_option(dash_duo):
 def test_dbj021_check_reaction_option(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='reaction',
+        height="400px",
+        width="400px",
+        options='reaction oldLook',
     ))
 
     _click_selector_at_coordinates(dash_duo, _DRAW_BOARD_SELECTOR, (0.3, 0.3))
@@ -464,8 +515,10 @@ def test_dbj021_check_reaction_option(dash_duo):
 def test_dbj022_check_nobutton_options(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
+        height="400px",
+        width="400px",
         options='reaction rButton NOreaction NOxButton NOrButton NOstereo NOmultiPart \
-star noStar query NOquery',
+star noStar query NOquery oldLook',
     ))
 
     # NOreaction check
@@ -512,7 +565,9 @@ star noStar query NOquery',
 def test_dbj023_check_menu_replace(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='multiPart addNewPart NOaddNewPart',
+        height="400px",
+        width="400px",
+        options='multiPart addNewPart NOaddNewPart oldLook',
         smiles='CC(C)C',
     ))
 
@@ -523,8 +578,10 @@ def test_dbj023_check_menu_replace(dash_duo):
 def test_dbj024_check_noexport(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
+        height="400px",
+        width="400px",
         options='NOuseOpenChemLib NOsearchInChIkey NOuseOCLidCode NOexportInChIauxInfo \
-NOexportInChIkey NOexportInChI',
+NOexportInChIkey NOexportInChI oldLook',
         smiles='CC(C)C',
     ))
 
@@ -544,7 +601,9 @@ NOexportInChIkey NOexportInChI',
 def test_dbj025_check_noexportsvg(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='useOpenChemLib NOexportSVG',
+        height="400px",
+        width="400px",
+        options='useOpenChemLib NOexportSVG oldLook',
         smiles='CC(C)C',
     ))
 
@@ -558,7 +617,9 @@ def test_dbj025_check_noexportsvg(dash_duo):
 def test_dbj026_check_star(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='star',
+        height="400px",
+        width="400px",
+        options='star oldLook',
         smiles='CC(C)C',
     ))
 
@@ -572,7 +633,9 @@ def test_dbj026_check_star(dash_duo):
 def test_dbj027_check_number(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='number autonumber',
+        height="400px",
+        width="400px",
+        options='number autonumber oldLook',
         smiles='CC(C)C',
     ))
 
@@ -586,7 +649,9 @@ def test_dbj027_check_number(dash_duo):
 def test_dbj028_check_query(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='query',
+        height="400px",
+        width="400px",
+        options='query oldLook',
     ))
 
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _QUERY_COORD)
@@ -596,6 +661,8 @@ def test_dbj028_check_query(dash_duo):
 def test_dbj029_check_newlook(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
+        height="400px",
+        width="400px",
         options='newLook',
     ))
 
@@ -608,6 +675,8 @@ def test_dbj029_check_newlook(dash_duo):
 def test_dbj030_check_oldlook(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
+        height="400px",
+        width="400px",
         options='oldLook',
     ))
 
@@ -620,7 +689,9 @@ def test_dbj030_check_oldlook(dash_duo):
 def test_dbj031_check_hydrogens(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='hydrogens',
+        height="400px",
+        width="400px",
+        options='hydrogens oldLook',
         smiles='CO',
     ))
 
@@ -631,7 +702,9 @@ def test_dbj031_check_hydrogens(dash_duo):
 def test_dbj032_check_nohydrogens(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='NOhydrogens',
+        height="400px",
+        width="400px",
+        options='NOhydrogens oldLook',
         smiles='CO',
     ))
 
@@ -642,7 +715,9 @@ def test_dbj032_check_nohydrogens(dash_duo):
 def test_dbj033_check_polar(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='polarNitro',
+        height="400px",
+        width="400px",
+        options='polarNitro oldLook',
         smiles='CN(=O)=O',
     ))
 
@@ -652,7 +727,9 @@ def test_dbj033_check_polar(dash_duo):
 def test_dbj034_check_noez(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='NOautoEZ',
+        height="400px",
+        width="400px",
+        options='NOautoEZ oldLook',
         smiles='CC(Cl)=C(C)Cl',
     ))
 
@@ -662,7 +739,9 @@ def test_dbj034_check_noez(dash_duo):
 def test_dbj035_check_ez(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='autoEZ',
+        height="400px",
+        width="400px",
+        options='autoEZ oldLook',
         smiles='CC(Cl)=C(C)Cl',
     ))
 
@@ -672,7 +751,9 @@ def test_dbj035_check_ez(dash_duo):
 def test_dbj036_check_nocanonize(dash_duo):
     _prepare_app(dash_duo, dash_bio.Jsme(
         id=_COMPONENT_ID,
-        options='NOcanonize',
+        height="400px",
+        width="400px",
+        options='NOcanonize oldLook',
         smiles='C/1=C/C=C\\C=C1',
     ))
 
