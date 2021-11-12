@@ -81,7 +81,7 @@ def layout():
                                             max=900,
                                             step=100,
                                             value=600,
-                                            marks={i: str(i) for i in range(200,1000,100)}
+                                            marks={i: str(i) for i in range(200, 1000, 100)}
                                         ),
                                         html.Div(
                                             className='app-controls-desc',
@@ -93,7 +93,7 @@ def layout():
                                             max=900,
                                             step=100,
                                             value=900,
-                                            marks={i: str(i) for i in range(200,1000,100)}
+                                            marks={i: str(i) for i in range(200, 1000, 100)}
                                         ),
 
                                     ]
