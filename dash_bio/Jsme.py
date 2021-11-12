@@ -6,9 +6,9 @@ from dash.development.base_component import Component, _explicitize_args
 class Jsme(Component):
     """A Jsme component.
 JSME is a molecule editor that supports drawing and
-editing of molecules and reactions on desktop computer,
-as well as on handheld devices including iPhone, iPad and Android
-smartphones and tablets. A built-in substituent menu and several keyboard shortcuts
+editing of molecules and reactions on in a web app,
+supporting both desktop and mobile devices. A built-in
+substituent menu and several keyboard shortcuts
 provide speedy access to the most common editing features and allow easy
 and fast creation of even large and complex molecules. The editor
 is able to export molecules as SMILES, MDL/Symyx/Accelrys Molfile or
@@ -28,10 +28,10 @@ Keyword arguments:
 - eventSmiles (string; optional):
     A Dash prop that returns data when SMILE will be changed.
 
-- height (string; default '400px'):
+- height (string; default '600px'):
     The height of the JSME container. Can be set in px, % etc.
 
-- options (string; optional):
+- options (string; default 'newLook'):
     String that is a comma separated string of JSME options. The
     available options are described on the
     https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/JME/Options.
@@ -42,7 +42,7 @@ Keyword arguments:
 - style (dict; optional):
     Generic style overrides on the plot div.
 
-- width (string; default '400px'):
+- width (string; default '600px'):
     The width of the JSME container. Can be set in px, % etc."""
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, style=Component.UNDEFINED, options=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, eventSmiles=Component.UNDEFINED, smiles=Component.UNDEFINED, **kwargs):

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.0] - ???
+
+### Added
+* [#587](https://github.com/plotly/dash-bio/pull/587) Added JSME component.
+
+
 ## [0.8.0] - 2021-09-27
 
 ### Fixed

@@ -33,6 +33,5 @@ export default {
         ),
     speck: () =>
         import(/* webpackChunkName: "speck" */ './fragments/Speck.react'),
-    jsme: () =>
-        import(/* webpackChunkName: "jsme" */ './fragments/Jsme.react'),
+    jsme: () => import(/* webpackChunkName: "jsme" */ './fragments/Jsme.react'),
 };

@@ -6,9 +6,9 @@ const RealJsme = lazy(LazyLoader.jsme);
 
 /**
  * JSME is a molecule editor that supports drawing and
- * editing of molecules and reactions on desktop computer,
- * as well as on handheld devices including iPhone, iPad and Android
- * smartphones and tablets. A built-in substituent menu and several keyboard shortcuts
+ * editing of molecules and reactions on in a web app,
+ * supporting both desktop and mobile devices. A built-in
+ * substituent menu and several keyboard shortcuts
  * provide speedy access to the most common editing features and allow easy
  * and fast creation of even large and complex molecules. The editor
  * is able to export molecules as SMILES, MDL/Symyx/Accelrys Molfile or
@@ -30,8 +30,9 @@ export default class Jsme extends Component {
 }
 
 Jsme.defaultProps = {
-    height: '400px',
-    width: '400px',
+    height: '600px',
+    width: '600px',
+    options: 'newLook',
     id: 'jsme',
 };
 

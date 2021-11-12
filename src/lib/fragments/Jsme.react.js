@@ -17,11 +17,20 @@ export default class Jsme extends Component {
     componentDidMount() {
         const POPUP_TIMEOUT = 500;
 
-        this.ref.current.addEventListener('wheel', preventWheelAction(this.props.id));
+        this.ref.current.addEventListener(
+            'wheel',
+            preventWheelAction(this.props.id)
+        );
         function preventWheelAction(div_name) {
-            return function (event) {
-                if(!event.target.matches("#" + div_name + " > div > div > div > div:nth-child(2) > svg > g > rect") &&
-                    !event.target.matches("#" + div_name + " > div")) {
+            return function(event) {
+                if (
+                    !event.target.matches(
+                        '#' +
+                            div_name +
+                            ' > div > div > div > div:nth-child(2) > svg > g > rect'
+                    ) &&
+                    !event.target.matches('#' + div_name + ' > div')
+                ) {
                     event.preventDefault();
                 }
             };
@@ -30,7 +39,9 @@ export default class Jsme extends Component {
         document.addEventListener('mouseup', function() {
             endMovePopup();
             setTimeout(function() {
-                const popupWindows = document.getElementsByClassName("mosaic-Caption dragdrop-handle");
+                const popupWindows = document.getElementsByClassName(
+                    'mosaic-Caption dragdrop-handle'
+                );
                 for (const window of popupWindows) {
                     const newWindow = window.cloneNode(false);
                     newWindow.classList.remove('dragdrop-handle');
@@ -41,13 +52,15 @@ export default class Jsme extends Component {
                     }
                     window.parentNode.replaceChild(newWindow, window);
                 }
-            }, POPUP_TIMEOUT)
-        })
+            }, POPUP_TIMEOUT);
+        });
 
         function endMovePopup() {
             document.removeEventListener('mousemove', movePopup);
-            const currentPopupWindow = document.getElementById("PopupDraggable");
-            if(currentPopupWindow) {
+            const currentPopupWindow = document.getElementById(
+                'PopupDraggable'
+            );
+            if (currentPopupWindow) {
                 currentPopupWindow.removeAttribute('id');
                 currentPopupWindow.removeAttribute('posX');
                 currentPopupWindow.removeAttribute('posY');
@@ -56,9 +69,11 @@ export default class Jsme extends Component {
 
         function startMovePopup(event) {
             event.preventDefault();
-            const currentPopupWindow = event.target.closest(".gwt-DecoratedPopupPanel");
-            if(currentPopupWindow) {
-                currentPopupWindow.id = "PopupDraggable";
+            const currentPopupWindow = event.target.closest(
+                '.gwt-DecoratedPopupPanel'
+            );
+            if (currentPopupWindow) {
+                currentPopupWindow.id = 'PopupDraggable';
                 currentPopupWindow.posX = event.clientX;
                 currentPopupWindow.posY = event.clientY;
 
@@ -68,12 +83,18 @@ export default class Jsme extends Component {
 
         function movePopup(event) {
             event.preventDefault();
-            const currentPopupWindow = document.getElementById("PopupDraggable");
-            if(currentPopupWindow) {
-                currentPopupWindow.style.left = (
-                    currentPopupWindow.offsetLeft - (currentPopupWindow.posX - event.clientX)) + "px";
-                currentPopupWindow.style.top = (
-                    currentPopupWindow.offsetTop - (currentPopupWindow.posY - event.clientY)) + "px";
+            const currentPopupWindow = document.getElementById(
+                'PopupDraggable'
+            );
+            if (currentPopupWindow) {
+                currentPopupWindow.style.left =
+                    currentPopupWindow.offsetLeft -
+                    (currentPopupWindow.posX - event.clientX) +
+                    'px';
+                currentPopupWindow.style.top =
+                    currentPopupWindow.offsetTop -
+                    (currentPopupWindow.posY - event.clientY) +
+                    'px';
                 currentPopupWindow.posX = event.clientX;
                 currentPopupWindow.posY = event.clientY;
             }
@@ -81,22 +102,17 @@ export default class Jsme extends Component {
     }
 
     render() {
-        const {
-            id,
-            style,
-            options,
-            height,
-            width,
-            smiles,
-        } = this.props;
+        const {id, style, options, height, width, smiles} = this.props;
 
         return (
             <div id={id} style={style} ref={this.ref}>
-                <JsmeReact options={options}
-                           height={height}
-                           width={width}
-                           smiles={smiles}
-                           onChange={this.setSmiles.bind(this)}/>
+                <JsmeReact
+                    options={options}
+                    height={height}
+                    width={width}
+                    smiles={smiles}
+                    onChange={this.setSmiles.bind(this)}
+                />
             </div>
         );
     }

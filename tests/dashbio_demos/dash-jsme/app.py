@@ -37,7 +37,7 @@ def layout():
                             JSME is a molecule editor that supports drawing and
                             editing of molecules and reactions
 
-                            In the "Update config" tab, you can change height,
+                            In the "Options" tab, you can change height,
                             width and specify options for JSME. Available options can
                             be found by
                             [this link](https://wiki.jmol.org/Jmol_JavaScript_Object/JME/Options).
@@ -49,7 +49,7 @@ def layout():
                         ),
 
                         dcc.Tab(
-                            label='Update config',
+                            label='Options',
                             value='update-config',
                             children=html.Div(className='control-tab', children=[
                                 html.Div(
@@ -59,7 +59,7 @@ def layout():
                                                  children='Options'),
                                         html.Div(
                                             className='app-controls-desc',
-                                            children='Specify Jsme options as a string.'
+                                            children='Specify JSME options as a string.'
                                         ),
                                         dcc.Input(
                                             id='jsme-options',
@@ -75,17 +75,25 @@ def layout():
                                             className='app-controls-desc',
                                             children='Specify the container height.'
                                         ),
-                                        dcc.Input(
+                                        dcc.Slider(
                                             id='jsme-height',
-                                            placeholder='400px'
+                                            min=200,
+                                            max=900,
+                                            step=100,
+                                            value=600,
+                                            marks={i: str(i) for i in range(200,1000,100)}
                                         ),
                                         html.Div(
                                             className='app-controls-desc',
                                             children='Specify the container width.'
                                         ),
-                                        dcc.Input(
+                                        dcc.Slider(
                                             id='jsme-width',
-                                            placeholder='500px'
+                                            min=200,
+                                            max=900,
+                                            step=100,
+                                            value=900,
+                                            marks={i: str(i) for i in range(200,1000,100)}
                                         ),
 
                                     ]
@@ -102,8 +110,9 @@ def layout():
             html.Div(id='jsme-container', children=[
                 dash_bio.Jsme(
                     id='jsme',
-                    height='500px',
-                    width='500px',
+                    height='600px',
+                    width='900px',
+                    options='newLook',
                     smiles='O=C(Nc1cccc(Cl)c1)c3cncc4nnc(c2ccc(OC(F)F)cc2)n34'
                 ),
                 html.P(id='jsme-smile'),
@@ -113,28 +122,6 @@ def layout():
 
 
 def callbacks(_app):
-    @_app.callback(
-        [Output('jsme-error-message', 'children')],
-        [Input('jsme-submit-changes', 'n_clicks')],
-        [State('jsme-height', 'value'),
-         State('jsme-width', 'value')]
-    )
-    def show_error(nclicks, height, width):
-        if nclicks is None or nclicks == 0:
-            raise PreventUpdate
-
-        empty_fields = []
-
-        if height is None or len(height) == 0:
-            empty_fields.append('height')
-        if width is None or len(width) == 0:
-            empty_fields.append('width')
-
-        if len(empty_fields) == 0:
-            return ['']
-        else:
-            return [f"{' and '.join(empty_fields).capitalize()}  are required"]
-
     @_app.callback(
         [Output('jsme', 'options'),
          Output('jsme', 'height'),
@@ -148,9 +135,7 @@ def callbacks(_app):
         if nclicks is None or \
                 nclicks == 0 or \
                 height is None or \
-                len(height) == 0 or \
-                width is None or \
-                len(width) == 0:
+                width is None:
             raise PreventUpdate
         return options, height, width
 
