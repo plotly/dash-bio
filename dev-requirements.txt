@@ -3,7 +3,7 @@
 
 cython>=0.19
 dash[testing,dev]
-dash-bio-utils==0.0.8
+dash-bio-utils==0.0.6
 dash-daq==0.5.0
 flake8==3.9.2
 gunicorn==19.9.0
