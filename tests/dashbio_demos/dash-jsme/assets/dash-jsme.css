@@ -1,0 +1,55 @@
+#jsme-container {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 50px 0 0 50px;
+}
+
+#jsme-body ::-webkit-scrollbar-thumb {
+    background-color: #85002D !important;
+}
+
+#jsme-control-tabs .tab--selected {
+    color: #85002D !important;
+}
+
+#jsme-body .rc-slider-track {
+    background-color: #85002D !important;
+}
+
+#jsme-body .rc-slider-handle, #jsme-body .rc-slider-dot-active {
+    border-color: #85002D !important;
+}
+
+#jsme-body #jsme-bond-length {
+    display: inline-block;
+    width: 150px;
+    margin-top: 10px;
+}
+
+#jsme-control-tabs .app-controls-block {
+    margin: 0
+}
+
+#jsme-smile {
+    width: 100%;
+    word-break: break-all;
+    background-color: white;
+    border: 1px solid #d3d3d3;
+    margin-top: 16px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+#jsme-height {
+    margin-bottom: 12px;
+}
+
+.app-controls-desc {
+    margin-bottom: 4px;
+}
+
+#jsme-error-message {
+    color: #85002D !important;
+    margin-bottom: 8px;
+}

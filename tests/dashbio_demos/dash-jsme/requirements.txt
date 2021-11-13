@@ -1,0 +1,4 @@
+dash
+-e git://github.com/plotly/dash-bio.git#egg=dash_bio
+dash-bio-utils
+dash-daq
