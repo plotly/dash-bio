@@ -118,7 +118,7 @@ def test_dbigv002_ASM985889v3_tracks(dash_duo):
     # Check that track(s) loaded
     tracks = dash_duo.find_elements('.igv-track-label')
     assert tracks[0].text == 'Annotations'
-    assert tracks[1].text == 'Genes'
+    dash_duo.percy_snapshot('test-igv_tracks', convert_canvases=True)
 
 
 def test_dbigv003_sacCer3(dash_duo):
