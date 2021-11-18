@@ -74,6 +74,7 @@ def test_dbcl002_cluster_by_row_or_col(dash_duo):
     assert len(dash_duo.find_elements("g.subplot.x9y9")) == 0
     assert len(dash_duo.find_elements("g.subplot.x3y3")) == 1
 
+
 def test_dbcl003_row_col_thresholds(dash_duo):
 
     app = dash.Dash(__name__)

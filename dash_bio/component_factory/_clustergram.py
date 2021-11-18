@@ -401,11 +401,14 @@ Methods:
         if self._row_labels:
             self._row_labels = [self._row_labels[r] for r in self._row_ids]
         if self._row_colors:
-            self._row_colors = [self._row_colors[r] if r < len(self._row_colors) else 'gray' for r in self._row_ids]
+            self._row_colors = [self._row_colors[r] if r < len(self._row_colors) else 'gray' for r
+                                in self._row_ids]
         if self._column_labels:
             self._column_labels = [self._column_labels[r] for r in self._column_ids]
         if self._column_colors:
-            self._column_colors = [self._column_colors[r] if r < len(self._column_colors) else 'gray' for r in self._column_ids]
+            self._column_colors = [
+                self._column_colors[r] if r < len(self._column_colors) else 'gray' for r in
+                self._column_ids]
 
         # this dictionary relates curve numbers (accessible from the
         # hoverData/clickData props) to cluster numbers
@@ -422,7 +425,8 @@ Methods:
             specs=[
                 [{}, {}, {"colspan": 2}, None, {}],
                 [{}, {}, {"colspan": 2}, None, {}],
-                [{"rowspan": 2}, {"rowspan": 2}, {"colspan": 2, "rowspan": 2}, None, {"rowspan": 2}],
+                [{"rowspan": 2}, {"rowspan": 2}, {"colspan": 2, "rowspan": 2}, None,
+                 {"rowspan": 2}],
                 [None, None, None, None, None],
                 [{}, {}, {"colspan": 2}, None, {}],
             ],
