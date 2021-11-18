@@ -20,7 +20,7 @@ export default class Igv extends Component {
             locus: this.props.locus,
             reference: this.props.reference,
             minimumBases: this.props.minimumBases,
-            tracks: [...this.props.tracks],
+            tracks: this.props.tracks && [...this.props.tracks],
         };
         return igv
             .createBrowser(igvContainer, igvOptions)
