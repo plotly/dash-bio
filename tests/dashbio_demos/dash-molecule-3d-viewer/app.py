@@ -1,22 +1,19 @@
-import os
 import base64
+import os
 import tempfile
-
 from shutil import copy2
 from textwrap import dedent as s
 
-from dash.dependencies import Input, Output, State
-import dash_html_components as html
 import dash_core_components as dcc
 import dash_daq as daq
+import dash_html_components as html
+from dash.dependencies import Input, Output, State
 from dash_bio.utils import pdb_parser as parser, mol3dviewer_styles_creator as sparser
-import dash_bio
 
+import dash_bio
 from layout_helper import run_standalone_app
 
-
 DATAPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-
 
 data_info = {
     os.path.join(DATAPATH, '4uft.pdb'): {
@@ -119,7 +116,6 @@ def description():
 
 
 def layout():
-
     return html.Div(
         id='mol3d-body',
         className='app-body',
@@ -169,7 +165,7 @@ def layout():
                                                     'value': os.path.join(DATAPATH, '4uft.pdb')
                                                 },
                                                 {
-                                                    'label':  'a-cobratoxin-AChBP complex',
+                                                    'label': 'a-cobratoxin-AChBP complex',
                                                     'value': os.path.join(DATAPATH, '1yi5.pdb')
                                                 },
                                                 {
@@ -225,7 +221,7 @@ def layout():
                                 # Textarea container to display the selected atoms
                                 html.Div(
                                     title='view information about selected atoms '
-                                    'of biomolecule',
+                                          'of biomolecule',
                                     className="app-controls-block",
                                     id="mol3d-selection-display",
                                     children=[
@@ -344,7 +340,6 @@ def files_data_style(content):
 
 
 def callbacks(_app):
-
     @_app.callback(
         Output('mol3d-data-info', 'children'),
         [Input('dropdown-demostr', 'value')]
@@ -379,10 +374,10 @@ def callbacks(_app):
     )
     def update_color_options(mol_style):
         color_dict_keys = {
-            'atom': list(sparser.ATOM_COLOR_DICT.keys()),
-            'residue': list(sparser.RESIDUE_COLOR_DICT.keys()),
-            'residue_type': list(sparser.RESIDUE_TYPE_COLOR_DICT.keys()),
-            'chain': list(sparser.CHAIN_COLOR_DICT.keys())
+            'atom': list(sparser.ATOM_COLORS.keys()),
+            'residue': list(sparser.RESIDUE_COLORS.keys()),
+            'residue_type': list(sparser.RESIDUE_TYPE_COLORS.keys()),
+            'chain': list(sparser.CHAIN_COLORS.keys())
         }
 
         options = [{'label': k.upper(), 'value': k}
@@ -394,8 +389,8 @@ def callbacks(_app):
         Output('mol3d-color-storage', 'data'),
         [Input('mol3d-coloring-value', 'value'),
          Input('dropdown-style-color', 'value')],
-        state=[State('mol3d-coloring-key', 'value'),
-               State('mol3d-color-storage', 'data')]
+        [State('mol3d-coloring-key', 'value'),
+         State('mol3d-color-storage', 'data')]
     )
     def update_color_dict(color_value, color_style, color_key, current):
 
@@ -475,6 +470,7 @@ def callbacks(_app):
             backgroundOpacity='0',
             atomLabelsShown=False,
         )
+
     # Callback to print details of each selected atom of the biomolecule
 
     @_app.callback(

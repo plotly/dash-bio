@@ -2,6 +2,7 @@
 # pip install -r dev-requirements.txt
 
 cython>=0.19
+dash[testing,dev]
 dash-daq==0.5.0
 flake8==3.9.2
 gunicorn==19.9.0
