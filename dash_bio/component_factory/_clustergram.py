@@ -184,7 +184,6 @@ Keyword arguments:
     kwargs.pop("computed_traces")
     kwargs.pop("generate_curves_dict")
 
-
     (fig, ct, curves_dict) = _Clustergram(**kwargs).figure(
         computed_traces=computed_traces
     )
