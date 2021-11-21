@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component, lazy, Suspense } from 'react';
+import React, {Component, lazy, Suspense} from 'react';
 import LazyLoader from '../LazyLoader';
 
 const RealCircos = lazy(LazyLoader.circos);
