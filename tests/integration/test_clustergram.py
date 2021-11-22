@@ -266,7 +266,8 @@ def test_dbcl009_column_colors(dash_duo):
     app.layout = html.Div(
         nested_component_layout(
             dash_bio.Clustergram(data=_data,
-                                 column_colors=['green'] * 35)
+                                 column_colors=['green'] * 35,
+                                 column_colors_label="Green Boxes")
         )
     )
 
