@@ -19,7 +19,11 @@ def Clustergram(
     return_computed_traces=False,
     computed_traces=None,
     row_labels=None,
+    row_colors=None,
+    row_colors_label=None,
     column_labels=None,
+    column_colors=None,
+    column_colors_label=None,
     hidden_labels=None,
     standardize="none",
     cluster="all",
@@ -65,8 +69,16 @@ Keyword arguments:
    (precomputed) Clustergram component.
 - row_labels (list; optional): List of row category labels
    (observation labels).
+- row_colors (list; optional): List of row colors
+   (observation colors).
+- row_colors_label (string; optional): String which describes the annotation
+    label for row_colors.
 - column_labels (list; optional): List of column category labels
    (observation labels).
+- column_colors (list; optional): List of column colors
+   (observation colors).
+- column_colors_label (string; optional): String which describes the annotation
+    label for column_colors.
 - hidden_labels (list; optional): List containing strings 'row' and/or 'col'
     if row and/or column labels should be hidden on the final plot.
 - standardize (string; default 'none'): The dimension for standardizing
@@ -209,7 +221,11 @@ Methods:
         self,
         data,
         row_labels=None,
+        row_colors=None,
+        row_colors_label=None,
         column_labels=None,
+        column_colors=None,
+        column_colors_label=None,
         hidden_labels=None,
         standardize="none",
         cluster="all",
@@ -265,8 +281,12 @@ Methods:
 
         self._data = data
         self._row_labels = row_labels
+        self._row_colors = row_colors
+        self._row_colors_label = row_colors_label
         self._row_ids = row_ids
         self._column_labels = column_labels
+        self._column_colors = column_colors
+        self._column_colors_label = column_colors_label
         self._column_ids = column_ids
         self._cluster = cluster
         self._row_dist = row_dist
@@ -331,9 +351,9 @@ Methods:
         self._hidden_labels = []
 
         if "row" in hidden_labels:
-            self._hidden_labels.append("yaxis5")
+            self._hidden_labels.append("yaxis11")
         if "col" in hidden_labels:
-            self._hidden_labels.append("xaxis5")
+            self._hidden_labels.append("xaxis11")
 
         # preprocessing data
         if self._imputer_parameters is not None:
@@ -388,8 +408,15 @@ Methods:
         # Match reordered rows and columns with their respective labels
         if self._row_labels:
             self._row_labels = [self._row_labels[r] for r in self._row_ids]
+        if self._row_colors:
+            self._row_colors = [self._row_colors[r] if r < len(self._row_colors) else 'gray' for r
+                                in self._row_ids]
         if self._column_labels:
             self._column_labels = [self._column_labels[r] for r in self._column_ids]
+        if self._column_colors:
+            self._column_colors = [
+                self._column_colors[r] if r < len(self._column_colors) else 'gray' for r in
+                self._column_ids]
 
         # this dictionary relates curve numbers (accessible from the
         # hoverData/clickData props) to cluster numbers
@@ -401,13 +428,15 @@ Methods:
         # [row dendro] [heatmap]     [heatmap]     [row GM]
         # [empty]      [col. GM]     [col. GM]     [empty]
         fig = subplots.make_subplots(
-            rows=4,
-            cols=4,
+            rows=5,
+            cols=5,
             specs=[
-                [{}, {"colspan": 2}, None, {}],
-                [{"rowspan": 2}, {"colspan": 2, "rowspan": 2}, None, {"rowspan": 2}],
-                [None, None, None, None],
-                [{}, {"colspan": 2}, None, {}],
+                [{}, {}, {"colspan": 2}, None, {}],
+                [{}, {}, {"colspan": 2}, None, {}],
+                [{"rowspan": 2}, {"rowspan": 2}, {"colspan": 2, "rowspan": 2}, None,
+                 {"rowspan": 2}],
+                [None, None, None, None, None],
+                [{}, {}, {"colspan": 2}, None, {}],
             ],
             vertical_spacing=0,
             horizontal_spacing=0,
@@ -471,13 +500,21 @@ Methods:
         # update axis settings for dendrograms and heatmap
         axes = [
             "xaxis1",
-            "xaxis2",
-            "xaxis4",
+            "xaxis3",
             "xaxis5",
+            "xaxis6",
+            "xaxis7",
+            "xaxis9",
+            "xaxis10",
+            "xaxis11",
             "yaxis1",
-            "yaxis2",
-            "yaxis4",
+            "yaxis3",
             "yaxis5",
+            "yaxis6",
+            "yaxis7",
+            "yaxis9",
+            "yaxis10",
+            "yaxis11",
         ]
 
         for a in axes:
@@ -499,7 +536,7 @@ Methods:
             cdt["line"] = dict(width=self._line_width[1])
             cdt["hoverinfo"] = "y+name"
             cluster_curve_numbers[len(fig.data)] = ["col", i]
-            fig.append_trace(cdt, 1, 2)
+            fig.append_trace(cdt, 1, 3)
 
         # row dendrogram (displays on left side)
         for i in range(len(row_dendro_traces)):
@@ -508,7 +545,7 @@ Methods:
             rdt["line"] = dict(width=self._line_width[0])
             rdt["hoverinfo"] = "x+name"
             cluster_curve_numbers[len(fig.data)] = ["row", i]
-            fig.append_trace(rdt, 2, 1)
+            fig.append_trace(rdt, 3, 1)
 
         col_dendro_traces_y = [r["y"] for r in col_dendro_traces]
         # arbitrary extrema if col_dendro_traces_y is empty
@@ -520,16 +557,16 @@ Methods:
 
         # ensure that everything is aligned properly
         # with the heatmap
-        yaxis4 = fig["layout"]["yaxis4"]  # pylint: disable=invalid-sequence-index
-        yaxis4.update(scaleanchor="y5")
-        xaxis2 = fig["layout"]["xaxis2"]  # pylint: disable=invalid-sequence-index
-        xaxis2.update(scaleanchor="x5")
+        yaxis9 = fig["layout"]["yaxis9"]  # pylint: disable=invalid-sequence-index
+        yaxis9.update(scaleanchor="y11")
+        xaxis3 = fig["layout"]["xaxis3"]  # pylint: disable=invalid-sequence-index
+        xaxis3.update(scaleanchor="x11")
 
         if len(tickvals_col) == 0:
             tickvals_col = [10 * i + 5 for i in range(len(self._column_ids))]
 
         # add in all of the labels
-        fig["layout"]["xaxis5"].update(  # pylint: disable=invalid-sequence-index
+        fig["layout"]["xaxis11"].update(  # pylint: disable=invalid-sequence-index
             tickmode="array",
             tickvals=tickvals_col,
             ticktext=self._column_labels,
@@ -545,7 +582,7 @@ Methods:
         if len(tickvals_row) == 0:
             tickvals_row = [10 * i + 5 for i in range(len(self._row_ids))]
 
-        fig["layout"]["yaxis5"].update(  # pylint: disable=invalid-sequence-index
+        fig["layout"]["yaxis11"].update(  # pylint: disable=invalid-sequence-index
             tickmode="array",
             tickvals=tickvals_row,
             ticktext=self._row_labels,
@@ -558,6 +595,14 @@ Methods:
         # hide labels, if necessary
         for label in self._hidden_labels:
             fig["layout"][label].update(ticks="", showticklabels=False)
+
+        row_colors_heatmap = self._get_row_colors_heatmap()
+        if row_colors_heatmap is not None:
+            fig.append_trace(self._get_row_colors_heatmap(), 3, 2)
+
+        col_colors_heatmap = self._get_column_colors_heatmap()
+        if col_colors_heatmap is not None:
+            fig.append_trace(col_colors_heatmap, 2, 3)
 
         # recalculate the heatmap, if necessary
         if heatmap is None:
@@ -579,11 +624,11 @@ Methods:
                 colorbar={"xpad": 100},
             )
 
-        fig.append_trace(heatmap, 2, 2)
+        fig.append_trace(heatmap, 3, 3)
 
         # it seems the range must be set after heatmap is appended to the
         # traces, otherwise the range gets overwritten
-        fig["layout"]["yaxis4"].update(  # pylint: disable=invalid-sequence-index
+        fig["layout"]["yaxis9"].update(  # pylint: disable=invalid-sequence-index
             range=[min(tickvals_row), max(tickvals_row)],
         )
 
@@ -607,33 +652,60 @@ Methods:
         # row: dendrogram, heatmap, row labels (left-to-right)
         # column: dendrogram, column labels, heatmap (top-to-bottom)
 
+        row_colors_ratio = 0.02 if row_colors_heatmap is not None else 0
+        col_colors_ratio = 0.02 if col_colors_heatmap is not None else 0
+
         # width adjustment for row dendrogram
         fig["layout"]["xaxis1"].update(  # pylint: disable=invalid-sequence-index
             domain=[0, 0.95]
         )
-        fig["layout"]["xaxis2"].update(  # pylint: disable=invalid-sequence-index
-            domain=[row_ratio, 0.95], anchor="y4"
-        )
-        fig["layout"]["xaxis4"].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, row_ratio]
+        fig["layout"]["xaxis3"].update(  # pylint: disable=invalid-sequence-index
+            domain=[row_ratio + row_colors_ratio, 0.95], anchor="y9"
         )
         fig["layout"]["xaxis5"].update(  # pylint: disable=invalid-sequence-index
-            domain=[row_ratio, 0.95]
+            domain=[0, 0.95]
+        )
+        fig["layout"]["xaxis7"].update(  # pylint: disable=invalid-sequence-index
+            domain=[row_ratio + row_colors_ratio, 0.95], anchor="y9"
+        )
+        fig["layout"]["xaxis9"].update(  # pylint: disable=invalid-sequence-index
+            domain=[0, row_ratio]
+        )
+        fig["layout"]["xaxis10"].update(  # pylint: disable=invalid-sequence-index
+            domain=[row_ratio, row_ratio + row_colors_ratio]
+        )
+        fig["layout"]["xaxis11"].update(  # pylint: disable=invalid-sequence-index
+            domain=[row_ratio + row_colors_ratio, 0.95]
         )
 
         # height adjustment for column dendrogram
         fig["layout"]["yaxis1"].update(  # pylint: disable=invalid-sequence-index
             domain=[1 - col_ratio, 1]
         )
-        fig["layout"]["yaxis2"].update(  # pylint: disable=invalid-sequence-index
+        fig["layout"]["yaxis3"].update(  # pylint: disable=invalid-sequence-index
             domain=[1 - col_ratio, 1],
             range=[col_dendro_traces_min_y, col_dendro_traces_max_y],
         )
-        fig["layout"]["yaxis4"].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, 1 - col_ratio]
-        )
         fig["layout"]["yaxis5"].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, 1 - col_ratio]
+            domain=[1 - col_ratio - col_colors_ratio, 1 - col_ratio]
+        )
+
+        fig["layout"]["yaxis6"].update(  # pylint: disable=invalid-sequence-index
+            domain=[1 - col_ratio - col_colors_ratio, 1 - col_ratio]
+        )
+        fig["layout"]["yaxis7"].update(  # pylint: disable=invalid-sequence-index
+            domain=[1 - col_ratio - col_colors_ratio, 1 - col_ratio]
+        )
+
+        fig["layout"]["yaxis9"].update(  # pylint: disable=invalid-sequence-index
+            domain=[0, 1 - col_ratio - col_colors_ratio]
+        )
+
+        fig["layout"]["yaxis10"].update(  # pylint: disable=invalid-sequence-index
+            domain=[0, 1 - col_ratio - col_colors_ratio]
+        )
+        fig["layout"]["yaxis11"].update(  # pylint: disable=invalid-sequence-index
+            domain=[0, 1 - col_ratio - col_colors_ratio]
         )
 
         fig["layout"][
@@ -643,9 +715,10 @@ Methods:
         )
 
         # annotations
+        color_labels = self._get_color_labels()
 
         # axis settings for subplots that will display group labels
-        axes = ["xaxis6", "yaxis6", "xaxis8", "yaxis8"]
+        axes = ["xaxis12", "yaxis12", "xaxis15", "yaxis15"]
 
         for a in axes:
             fig["layout"][a].update(
@@ -659,27 +732,27 @@ Methods:
             )
 
         # group labels for row dendrogram
-        fig["layout"]["yaxis6"].update(  # pylint: disable=invalid-sequence-index
-            domain=[0, 0.95 - col_ratio], scaleanchor="y5", scaleratio=1
+        fig["layout"]["yaxis12"].update(  # pylint: disable=invalid-sequence-index
+            domain=[0, 0.95 - col_ratio], scaleanchor="y11", scaleratio=1
         )
         if len(tickvals_row) > 0:
-            fig["layout"]["yaxis6"].update(  # pylint: disable=invalid-sequence-index
+            fig["layout"]["yaxis12"].update(  # pylint: disable=invalid-sequence-index
                 range=[min(tickvals_row), max(tickvals_row)]
             )
         # padding between group label line and dendrogram
-        fig["layout"]["xaxis6"].update(  # pylint: disable=invalid-sequence-index
+        fig["layout"]["xaxis12"].update(  # pylint: disable=invalid-sequence-index
             domain=[0.95, 1], range=[-5, 1]
         )
 
         # group labels for column dendrogram
-        fig["layout"]["xaxis8"].update(  # pylint: disable=invalid-sequence-index
-            domain=[row_ratio, 0.95], scaleanchor="x5", scaleratio=1
+        fig["layout"]["xaxis15"].update(  # pylint: disable=invalid-sequence-index
+            domain=[row_ratio, 0.95], scaleanchor="x11", scaleratio=1
         )
         if len(tickvals_col) > 0:
-            fig["layout"]["xaxis8"].update(  # pylint: disable=invalid-sequence-index
+            fig["layout"]["xaxis15"].update(  # pylint: disable=invalid-sequence-index
                 range=[min(tickvals_col), max(tickvals_col)]
             )
-        fig["layout"]["yaxis8"].update(  # pylint: disable=invalid-sequence-index
+        fig["layout"]["yaxis15"].update(  # pylint: disable=invalid-sequence-index
             domain=[0.95 - col_ratio, 1 - col_ratio], range=[-0.5, 0.5]
         )
 
@@ -691,12 +764,12 @@ Methods:
             col_annotations,
         ) = self._group_label_traces(row_dendro_traces, col_dendro_traces)
         # add annotations to graph
-        fig["layout"].update(annotations=row_annotations + col_annotations)
+        fig["layout"].update(annotations=row_annotations + col_annotations + color_labels)
         # add label traces to graph
         for rgl in row_group_labels:
-            fig.append_trace(rgl, 2, 4)
+            fig.append_trace(rgl, 3, 5)
         for cgl in col_group_labels:
-            fig.append_trace(cgl, 4, 2)
+            fig.append_trace(cgl, 5, 3)
 
         # set background colors
         fig["layout"].update(
@@ -755,6 +828,62 @@ Methods:
             Zrow = self._link_fun(drow, optimal_ordering=self._optimal_leaf_order)
 
         return (Zcol, Zrow)
+
+    def _get_row_colors_heatmap(self):
+        colors = self._row_colors
+
+        if colors is None:
+            return None
+
+        colorscale = []
+
+        i = 0
+
+        step = round(1 / len(colors), 10)
+
+        for color in colors:
+            colorscale.append([i, color])
+            i = round(i + step, 10)
+            colorscale.append([i, color])
+
+        colorscale[-1][0] = 1
+
+        z = [[i] for i in range(len(colors))]
+
+        return go.Heatmap(
+            z=z,
+            colorscale=colorscale,
+            colorbar={"xpad": 100},
+            showscale=False
+        )
+
+    def _get_column_colors_heatmap(self):
+        colors = self._column_colors
+
+        if colors is None:
+            return None
+
+        colorscale = []
+
+        i = 0
+
+        step = round(1 / len(colors), 10)
+
+        for color in colors:
+            colorscale.append([i, color])
+            i = round(i + step, 10)
+            colorscale.append([i, color])
+
+        colorscale[-1][0] = 1
+
+        z = [[i * 5 for i in range(len(colors))]]
+
+        return go.Heatmap(
+            z=z,
+            colorscale=colorscale,
+            colorbar={"xpad": 100},
+            showscale=False
+        )
 
     def _compute_clustered_data(self):
         """Get the traces that need to be plotted for the row and column
@@ -868,6 +997,53 @@ Methods:
 
         return (tmp_rdt, tmp_cdt)
 
+    def _get_color_labels(self):
+        """Return annotations positioned on the figure to describe the
+        features represented by the row and/or column colors.
+
+        Parameters:
+        - row_colors_label (string; optional): String which describes the annotation
+            label for row_colors.
+        - column_colors_label (string; optional): String which describes the annotation
+            label for column_colors.
+
+        Returns:
+        - list: A list of dicts describing the row and column color labels.
+        """
+        labels = []
+
+        if self._row_colors_label is not None:
+            row_label = {
+                "x": "1",
+                "y": "0.85",
+                "xref": "paper",
+                "yref": "paper",
+                "xanchor": "left",
+                "yanchor": "top",
+                "text": self._row_colors_label,
+                "font": self._annotation_font,
+                "showarrow": False
+            }
+
+            labels.append(row_label)
+
+        if self._column_colors_label is not None:
+            column_label = {
+                "x": "0.1",
+                "y": "0",
+                "xref": "paper",
+                "yref": "paper",
+                "xanchor": "right",
+                "yanchor": "bottom",
+                "text": self._column_colors_label,
+                "font": self._annotation_font,
+                "showarrow": False
+            }
+
+            labels.append(column_label)
+
+        return labels
+
     def _group_label_traces(self, row_clusters, col_clusters):
         """Calculate the traces and annotations that correspond to group
         labels.
@@ -910,8 +1086,8 @@ Methods:
                 dict(
                     x=0.5,
                     y=1 / 2 * (ymin + ymax),
-                    xref="x6",
-                    yref="y6",
+                    xref="x12",
+                    yref="y12",
                     text=rgm["annotation"],
                     font=self._annotation_font,
                     showarrow=False,
@@ -940,8 +1116,8 @@ Methods:
                 dict(
                     x=1 / 2 * (xmin + xmax),
                     y=-0.5,
-                    xref="x8",
-                    yref="y8",
+                    xref="x15",
+                    yref="y15",
                     text=cgm["annotation"],
                     font=self._annotation_font,
                     showarrow=False,
