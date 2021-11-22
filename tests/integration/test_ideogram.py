@@ -59,7 +59,7 @@ def test_dbid002_click_rotation(dash_duo):
     )
 
     # ensure that it loads un-rotated
-    WebDriverWait(dash_duo.driver, 1).until(
+    WebDriverWait(dash_duo.driver, 5).until(
         lambda _: 'rotate(90)' in dash_duo.find_element(
             '#chr1-9606-chromosome-set').get_attribute('transform'))
 
@@ -99,7 +99,7 @@ def test_dbid003_click_rotation_disabled(dash_duo):
     # click to rotate and ensure that the correct chromosome is rotated
     dash_duo.find_element('#chr1-9606-chromosome-set').click()
 
-    WebDriverWait(dash_duo.driver, 1)
+    WebDriverWait(dash_duo.driver, 5)
 
     assert 'rotate(90)' in dash_duo.find_element(
         '#chr1-9606-chromosome-set').get_attribute('transform')
