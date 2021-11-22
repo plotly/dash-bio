@@ -273,4 +273,3 @@ def test_dbcl009_column_colors(dash_duo):
     dash_duo.start_server(app, dev_tools_props_check=True)
     dash_duo.wait_for_element('g.subplot.x7y7')
     dash_duo.percy_snapshot('test-clust_col_colors', convert_canvases=True)
-
