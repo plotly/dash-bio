@@ -4,6 +4,7 @@
 
 ### Added
 * [#587](https://github.com/plotly/dash-bio/pull/587) Added JSME component.
+* [#628](https://github.com/plotly/dash-bio/pull/628) Added option to add colored labels to rows and columns on Clustergram.
 
 ### Changed
 * [#589](https://github.com/plotly/dash-bio/pull/589) Removed hardcoded clustergram linkage method, added parameter `link_method` instead.

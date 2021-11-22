@@ -20,8 +20,10 @@ def Clustergram(
     computed_traces=None,
     row_labels=None,
     row_colors=None,
+    row_colors_label=None,
     column_labels=None,
     column_colors=None,
+    column_colors_label=None,
     hidden_labels=None,
     standardize="none",
     cluster="all",
@@ -69,10 +71,14 @@ Keyword arguments:
    (observation labels).
 - row_colors (list; optional): List of row colors
    (observation colors).
+- row_colors_label (string; optional): String which describes the annotation
+    label for row_colors.
 - column_labels (list; optional): List of column category labels
    (observation labels).
 - column_colors (list; optional): List of column colors
    (observation colors).
+- column_colors_label (string; optional): String which describes the annotation
+    label for column_colors.
 - hidden_labels (list; optional): List containing strings 'row' and/or 'col'
     if row and/or column labels should be hidden on the final plot.
 - standardize (string; default 'none'): The dimension for standardizing
@@ -215,7 +221,11 @@ Methods:
         self,
         data,
         row_labels=None,
+        row_colors=None,
+        row_colors_label=None,
         column_labels=None,
+        column_colors=None,
+        column_colors_label=None,
         hidden_labels=None,
         standardize="none",
         cluster="all",
@@ -242,8 +252,6 @@ Methods:
         plot_bg_color="rgba(0,0,0,0)",
         height=500,
         width=500,
-        row_colors=None,
-        column_colors=None,
     ):
         """Construct a Dash Bio Clustergram object.
 
@@ -274,9 +282,11 @@ Methods:
         self._data = data
         self._row_labels = row_labels
         self._row_colors = row_colors
-        self._column_colors = column_colors
+        self._row_colors_label = row_colors_label
         self._row_ids = row_ids
         self._column_labels = column_labels
+        self._column_colors = column_colors
+        self._column_colors_label = column_colors_label
         self._column_ids = column_ids
         self._cluster = cluster
         self._row_dist = row_dist
@@ -430,7 +440,7 @@ Methods:
             ],
             vertical_spacing=0,
             horizontal_spacing=0,
-            print_grid=True,
+            print_grid=False,
         )
 
         fig["layout"].update(hovermode="closest")
@@ -705,6 +715,7 @@ Methods:
         )
 
         # annotations
+        color_labels = self._get_color_labels()
 
         # axis settings for subplots that will display group labels
         axes = ["xaxis12", "yaxis12", "xaxis15", "yaxis15"]
@@ -753,7 +764,7 @@ Methods:
             col_annotations,
         ) = self._group_label_traces(row_dendro_traces, col_dendro_traces)
         # add annotations to graph
-        fig["layout"].update(annotations=row_annotations + col_annotations)
+        fig["layout"].update(annotations=row_annotations + col_annotations + color_labels)
         # add label traces to graph
         for rgl in row_group_labels:
             fig.append_trace(rgl, 3, 5)
@@ -864,7 +875,6 @@ Methods:
             colorscale.append([i, color])
 
         colorscale[-1][0] = 1
-        print(colorscale)
 
         z = [[i * 5 for i in range(len(colors))]]
 
@@ -986,6 +996,53 @@ Methods:
             tmp_cdt += c
 
         return (tmp_rdt, tmp_cdt)
+
+    def _get_color_labels(self):
+        """Return annotations positioned on the figure to describe the
+        features represented by the row and/or column colors.
+
+        Parameters:
+        - row_colors_label (string; optional): String which describes the annotation
+            label for row_colors.
+        - column_colors_label (string; optional): String which describes the annotation
+            label for column_colors.
+
+        Returns:
+        - list: A list of dicts describing the row and column color labels.
+        """
+        labels = []
+
+        if self._row_colors_label is not None:
+            row_label = {
+                "x": "1",
+                "y": "0.85",
+                "xref": "paper",
+                "yref": "paper",
+                "xanchor": "left",
+                "yanchor": "top",
+                "text": self._row_colors_label,
+                "font": self._annotation_font,
+                "showarrow": False
+            }
+
+            labels.append(row_label)
+
+        if self._column_colors_label is not None:
+            column_label = {
+                "x": "0.1",
+                "y": "0",
+                "xref": "paper",
+                "yref": "paper",
+                "xanchor": "right",
+                "yanchor": "bottom",
+                "text": self._column_colors_label,
+                "font": self._annotation_font,
+                "showarrow": False
+            }
+
+            labels.append(column_label)
+
+        return labels
 
     def _group_label_traces(self, row_clusters, col_clusters):
         """Calculate the traces and annotations that correspond to group
