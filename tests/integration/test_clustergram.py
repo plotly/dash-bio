@@ -51,8 +51,8 @@ def test_dbcl002_cluster_by_row_or_col(dash_duo):
         prop_value_type="string",
     )
 
-    assert len(dash_duo.find_elements("g.subplot.x2y2")) == 0
-    assert len(dash_duo.find_elements("g.subplot.x4y4")) == 1
+    assert len(dash_duo.find_elements("g.subplot.x3y3")) == 0
+    assert len(dash_duo.find_elements("g.subplot.x9y9")) == 1
 
     # create a new instance of the app to test column clustering
 
@@ -71,8 +71,8 @@ def test_dbcl002_cluster_by_row_or_col(dash_duo):
         take_snapshot=True,
     )
 
-    assert len(dash_duo.find_elements("g.subplot.x4y4")) == 0
-    assert len(dash_duo.find_elements("g.subplot.x2y2")) == 1
+    assert len(dash_duo.find_elements("g.subplot.x9y9")) == 0
+    assert len(dash_duo.find_elements("g.subplot.x3y3")) == 1
 
 
 def test_dbcl003_row_col_thresholds(dash_duo):
@@ -94,10 +94,10 @@ def test_dbcl003_row_col_thresholds(dash_duo):
 
     # there should be 9 traces for the column dendrogram
     # plus one trace for the background
-    assert len(dash_duo.find_elements("g.subplot.x2y2 > g.plot g.trace.scatter")) == 10
+    assert len(dash_duo.find_elements("g.subplot.x3y3 > g.plot g.trace.scatter")) == 10
 
     # 30 traces for the row dendrogram, plus one for the background
-    assert len(dash_duo.find_elements("g.subplot.x4y4 > g.plot g.trace.scatter")) == 31
+    assert len(dash_duo.find_elements("g.subplot.x9y9 > g.plot g.trace.scatter")) == 31
 
 
 def test_dbcl004_col_annotations(dash_duo):
@@ -121,11 +121,11 @@ def test_dbcl004_col_annotations(dash_duo):
     )
 
     # the annotation has shown up
-    assert len(dash_duo.find_elements("g.subplot.x8y8")) == 1
+    assert len(dash_duo.find_elements("g.subplot.x15y15")) == 1
 
     # the annotation is the correct color
     dash_duo.wait_for_style_to_equal(
-        "g.subplot.x8y8 g.plot g.lines > path", "stroke", "rgb(62, 248, 199)"
+        "g.subplot.x15y15 g.plot g.lines > path", "stroke", "rgb(62, 248, 199)", 1000000000
     )
 
 
@@ -150,11 +150,11 @@ def test_dbcl005_row_annotations(dash_duo):
     )
 
     # the annotation has shown up
-    assert len(dash_duo.find_elements("g.subplot.x6y6")) == 1
+    assert len(dash_duo.find_elements("g.subplot.x12y12")) == 1
 
     # the annotation is the correct color
     dash_duo.wait_for_style_to_equal(
-        "g.subplot.x6y6 g.plot g.lines > path", "stroke", "rgb(248, 62, 199)"
+        "g.subplot.x12y12 g.plot g.lines > path", "stroke", "rgb(248, 62, 199)"
     )
 
 
@@ -179,8 +179,8 @@ def test_dbcl006_df_input_row_cluster(dash_duo):
         prop_value_type="string",
     )
 
-    assert len(dash_duo.find_elements("g.subplot.x2y2")) == 0
-    assert len(dash_duo.find_elements("g.subplot.x4y4")) == 1
+    assert len(dash_duo.find_elements("g.subplot.x3y3")) == 0
+    assert len(dash_duo.find_elements("g.subplot.x9y9")) == 1
 
 
 def test_dbcl007_hidden_labels(dash_duo):
@@ -210,9 +210,9 @@ def test_dbcl007_hidden_labels(dash_duo):
     )
 
     # ensure that row labels are hidden
-    assert len(dash_duo.find_elements("g.yaxislayer-above g.y5tick")) == 0
+    assert len(dash_duo.find_elements("g.yaxislayer-above g.y11tick")) == 0
     # ensure that column labels are displayed
-    assert len(dash_duo.find_elements("g.xaxislayer-above g.x5tick")) == len(col_labels)
+    assert len(dash_duo.find_elements("g.xaxislayer-above g.x11tick")) == len(col_labels)
 
     # create a new instance of the app to test hiding of column labels
 
@@ -237,6 +237,40 @@ def test_dbcl007_hidden_labels(dash_duo):
     )
 
     # ensure that column labels are hidden
-    assert len(dash_duo.find_elements("g.xaxislayer-above g.x5tick")) == 0
+    assert len(dash_duo.find_elements("g.xaxislayer-above g.x11tick")) == 0
     # ensure that row labels are displayed
-    assert len(dash_duo.find_elements("g.yaxislayer-above g.y5tick")) == len(row_labels)
+    assert len(dash_duo.find_elements("g.yaxislayer-above g.y11tick")) == len(row_labels)
+
+
+def test_dbcl008_row_colors(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(data=_data,
+                                 row_colors=['green'] * 35)
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    dash_duo.wait_for_element('g.subplot.x10y10')
+    dash_duo.percy_snapshot('test-clust_row_colors', convert_canvases=True)
+
+
+def test_dbcl009_column_colors(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(data=_data,
+                                 column_colors=['green'] * 35,
+                                 column_colors_label="Green Boxes")
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+    dash_duo.wait_for_element('g.subplot.x7y7')
+    dash_duo.percy_snapshot('test-clust_col_colors', convert_canvases=True)
