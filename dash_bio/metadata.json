@@ -466,7 +466,7 @@
     }
   },
   "src/lib/components/Circos.react.js": {
-    "description": "Dash Circos is a library used to analyze and interpret\ndata using a circular layout, based on the popular\n'Circos' graph. This Dash Bio component is a useful tool\nfor showcasing relationships bewtween data/datasets in a\nbeautiful way.",
+    "description": "Dash Circos is a library used to analyze and interpret\ndata using a circular layout, based on the popular\n'Circos' graph. This Dash Bio component is a useful tool\nfor showcasing relationships between data/datasets in an\nattractive, circular layout to highlight feature\ninteractions and relationships.",
     "displayName": "Circos",
     "methods": [],
     "props": {
@@ -664,7 +664,7 @@
           }
         },
         "required": false,
-        "description": "Configuration of the graph layout",
+        "description": "Configuration options for the graph layout.",
         "defaultValue": {
           "value": "{}",
           "computed": false
@@ -697,7 +697,7 @@
                 "value": {
                   "name": "object"
                 },
-                "description": "The data that makes up the track. Depending on the track type it will be a list of dicts with different keys.\nSee the docs section about a given track type to learn more about the required data format.",
+                "description": "The data that makes up the track, passed as a list of dicts with different keys depending on the track type.\nSee the docs section about a given track type to learn more about the required data format.",
                 "required": false
               },
               "config": {

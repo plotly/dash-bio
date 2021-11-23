@@ -8,8 +8,9 @@ class Circos(Component):
 Dash Circos is a library used to analyze and interpret
 data using a circular layout, based on the popular
 'Circos' graph. This Dash Bio component is a useful tool
-for showcasing relationships bewtween data/datasets in a
-beautiful way.
+for showcasing relationships between data/datasets in an
+attractive, circular layout to highlight feature
+interactions and relationships.
 
 Keyword arguments:
 
@@ -17,7 +18,7 @@ Keyword arguments:
     The ID of the component to be used in Dash callbacks.
 
 - config (dict; optional):
-    Configuration of the graph layout.
+    Configuration options for the graph layout.
 
     `config` is a dict with keys:
 
@@ -130,8 +131,8 @@ Keyword arguments:
         options.
 
     - data (list of dicts; optional):
-        The data that makes up the track. Depending on the track type
-        it will be a list of dicts with different keys. See the docs
+        The data that makes up the track, passed as a list of dicts
+        with different keys depending on the track type. See the docs
         section about a given track type to learn more about the
         required data format.
 

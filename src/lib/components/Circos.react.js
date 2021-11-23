@@ -8,8 +8,9 @@ const RealCircos = lazy(LazyLoader.circos);
  * Dash Circos is a library used to analyze and interpret
  * data using a circular layout, based on the popular
  * 'Circos' graph. This Dash Bio component is a useful tool
- * for showcasing relationships bewtween data/datasets in a
- * beautiful way.
+ * for showcasing relationships between data/datasets in an
+ * attractive, circular layout to highlight feature
+ * interactions and relationships.
  */
 export default class Circos extends Component {
     render() {
@@ -101,7 +102,7 @@ Circos.propTypes = {
     ).isRequired,
 
     /**
-     * Configuration of the graph layout
+     * Configuration options for the graph layout.
      */
     config: PropTypes.shape({
         innerRadius: PropTypes.number,
@@ -151,7 +152,7 @@ Circos.propTypes = {
             id: PropTypes.string,
 
             /**
-             * The data that makes up the track. Depending on the track type it will be a list of dicts with different keys.
+             * The data that makes up the track, passed as a list of dicts with different keys depending on the track type.
              * See the docs section about a given track type to learn more about the required data format.
              */
             data: PropTypes.arrayOf(PropTypes.object),

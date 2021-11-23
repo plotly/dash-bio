@@ -6,7 +6,7 @@
 \title{Circos component}
 
 \description{
-Dash Circos is a library used to analyze and interpret data using a circular layout, based on the popular 'Circos' graph. This Dash Bio component is a useful tool for showcasing relationships bewtween data/datasets in a beautiful way.
+Dash Circos is a library used to analyze and interpret data using a circular layout, based on the popular 'Circos' graph. This Dash Bio component is a useful tool for showcasing relationships between data/datasets in an attractive, circular layout to highlight feature interactions and relationships.
 }
 
 \usage{
@@ -47,7 +47,7 @@ those elements have the following types:
   - size (optional): . size has the following type: lists containing elements 'minor', 'major'.
 those elements have the following types:
   - minor (numeric; optional)
-  - major (numeric; optional). Configuration of the graph layout}
+  - major (numeric; optional). Configuration options for the graph layout.}
 
 \item{enableDownloadSVG}{Logical. Allow for an SVG snapshot of the Circos graph to be downloaded.}
 
@@ -82,7 +82,7 @@ graph. Set on initilization and unchangeable thereafter.}
 \item{tracks}{List of lists containing elements 'id', 'data', 'config', 'type'.
 those elements have the following types:
   - id (character; optional): the id of the track.
-  - data (list of named lists; optional): the data that makes up the track. depending on the track type it will be a list of dicts with different keys.
+  - data (list of named lists; optional): the data that makes up the track, passed as a list of dicts with different keys depending on the track type.
 see the docs section about a given track type to learn more about the required data format.
   - config (named list; optional): the track configuration. depending on the track type it will be a dict with different keys.
 see the docs section about a given track type to learn more about available configuration options.
