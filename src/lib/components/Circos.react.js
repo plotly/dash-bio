@@ -8,9 +8,9 @@ const RealCircos = lazy(LazyLoader.circos);
  * Dash Circos is a library used to analyze and interpret
  * data using a circular layout, based on the popular
  * 'Circos' graph. This Dash Bio component is a useful tool
- * for showcasing relationships bewtween data/datasets in a
- * beautiful way. Please checkout the Dash Bio repository
- * on github to learn more about this API.
+ * for showcasing relationships between data/datasets in an
+ * attractive, circular layout to highlight feature
+ * interactions and relationships.
  */
 export default class Circos extends Component {
     render() {
@@ -40,18 +40,18 @@ Circos.propTypes = {
     enableZoomPan: PropTypes.bool,
 
     /**
-     * The ID of the component to be used in Dash callbacks
+     * The ID of the component to be used in Dash callbacks.
      */
     id: PropTypes.string,
 
     /**
-     * The CSS styling of the div wrapping the component
+     * The CSS styling of the div wrapping the component.
      */
     style: PropTypes.object,
 
     /**
-     * A Dash prop that returns data on clicking or hovering of the tracks.
-     * Depending on what is specified for prop "selectEvent".
+     * A Dash prop that returns data on clicking or hovering of the tracks,
+     * depending on what is specified for prop "selectEvent".
      */
     eventDatum: PropTypes.object,
 
@@ -75,8 +75,7 @@ Circos.propTypes = {
     setProps: PropTypes.func,
 
     /**
-     * The overall layout of the Circos graph, provided
-     * as a list of dictionaries.
+     * Data used to draw Circos layout blocks.
      */
     layout: PropTypes.arrayOf(
         PropTypes.shape({
@@ -96,17 +95,45 @@ Circos.propTypes = {
             label: PropTypes.string.isRequired,
 
             /**
-             * The id of the block, where it will recieve
-             * data from the specified "track" id.
+             * The id of the block.
              */
             id: PropTypes.string.isRequired,
         })
     ).isRequired,
 
     /**
-     * Configuration of overall layout of the graph.
+     * Configuration options for the graph layout.
      */
-    config: PropTypes.object,
+    config: PropTypes.shape({
+        innerRadius: PropTypes.number,
+        outerRadius: PropTypes.number,
+        cornerRadius: PropTypes.number,
+        gap: PropTypes.number,
+        labels: PropTypes.shape({
+            display: PropTypes.bool,
+            size: PropTypes.number,
+            color: PropTypes.string,
+            radialOffset: PropTypes.number,
+        }),
+        ticks: PropTypes.shape({
+            display: PropTypes.bool,
+            color: PropTypes.string,
+            spacing: PropTypes.number,
+            labels: PropTypes.bool,
+            labelSpacing: PropTypes.number,
+            labelSuffix: PropTypes.string,
+            labelDenominator: PropTypes.number,
+            labelDisplay0: PropTypes.bool,
+            labelSize: PropTypes.number,
+            labelColor: PropTypes.string,
+            labelFont: PropTypes.string,
+            majorSpacing: PropTypes.number,
+            size: PropTypes.shape({
+                minor: PropTypes.number,
+                major: PropTypes.number,
+            }),
+        }),
+    }),
 
     /**
      * The overall size of the SVG container holding the
@@ -115,34 +142,29 @@ Circos.propTypes = {
     size: PropTypes.number,
 
     /**
-     * Tracks that specify specific layouts.
-     * For a complete list of tracks and usage,
-     * please check the docs.
+     * A list of tracks displayed on top of the base Circos layout.
      */
     tracks: PropTypes.arrayOf(
         PropTypes.shape({
             /**
-             * The id of a specific piece of track data.
+             * The id of the track.
              */
             id: PropTypes.string,
 
             /**
-             * The data that makes up the track. It can
-             * be a Json object.
+             * The data that makes up the track, passed as a list of dicts with different keys depending on the track type.
+             * See the docs section about a given track type to learn more about the required data format.
              */
-            data: PropTypes.array.isRequired,
+            data: PropTypes.arrayOf(PropTypes.object),
 
             /**
-             * The layout of the tracks, where the user
-             * can configure innerRadius, outterRadius, ticks,
-             * labels, and more.
+             * The track configuration. Depending on the track type it will be a dict with different keys.
+             * See the docs section about a given track type to learn more about available configuration options.
              */
             config: PropTypes.object,
 
             /**
-             * Specify the type of track this is.
-             * Please check the docs for a list of tracks you can use,
-             * and ensure the name is typed in all capitals.
+             * The type of the track.
              **/
             type: PropTypes.oneOf([
                 'CHORDS',
@@ -153,59 +175,6 @@ Circos.propTypes = {
                 'SCATTER',
                 'STACK',
                 'TEXT',
-            ]),
-
-            /**
-             * Specify what data for tooltipContent is
-             * displayed.
-             * The entry for the "name" key, is any of the keys used in the data loaded into tracks.
-             * Ex: "tooltipContent": {"name": "block_id"},
-             * To display all data in the dataset use "all" as the entry for the key "name".
-             * Ex: "tooltipContent": {"name": "all"}
-             * Ex: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.
-             * "tooltipContent": {
-                "source": "block_id",
-                "target": "position",
-                "targetEnd": "value"
-                        },
-             * Ex: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.
-             * "tooltipContent": {
-                "source": "source",
-                "sourceID": "id",
-                "target": "target",
-                "targetID": "id",
-                "targetEnd": "end"
-            }
-             **/
-            tooltipContent: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.shape({
-                    name: PropTypes.string.isRequired,
-                }),
-                PropTypes.shape({
-                    source: PropTypes.string.isRequired,
-                    sourceID: PropTypes.string,
-                    target: PropTypes.string.isRequired,
-                    targetEnd: PropTypes.string.isRequired,
-                    targetID: PropTypes.string,
-                }),
-            ]),
-            /**
-             * Specify which dictonary key to grab color values from, in the passed in dataset.
-             * This can be a string or an object.
-             * If using a string, you can specify hex,
-             * RGB, and colors from d3 scale chromatic (Ex: RdYlBu).
-             * The key "name" is required for this dictionary,
-             * where the input for "name" points to some list of
-             * dictionaries color values.
-             * Ex: "color": {"name": "some key that refers to color in a data set"}
-             *
-             **/
-            color: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.shape({
-                    name: PropTypes.string.isRequired,
-                }),
             ]),
         })
     ),

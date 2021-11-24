@@ -466,7 +466,7 @@
     }
   },
   "src/lib/components/Circos.react.js": {
-    "description": "Dash Circos is a library used to analyze and interpret\ndata using a circular layout, based on the popular\n'Circos' graph. This Dash Bio component is a useful tool\nfor showcasing relationships bewtween data/datasets in a\nbeautiful way. Please checkout the Dash Bio repository\non github to learn more about this API.",
+    "description": "Dash Circos is a library used to analyze and interpret\ndata using a circular layout, based on the popular\n'Circos' graph. This Dash Bio component is a useful tool\nfor showcasing relationships between data/datasets in an\nattractive, circular layout to highlight feature\ninteractions and relationships.",
     "displayName": "Circos",
     "methods": [],
     "props": {
@@ -489,21 +489,21 @@
           "name": "string"
         },
         "required": false,
-        "description": "The ID of the component to be used in Dash callbacks"
+        "description": "The ID of the component to be used in Dash callbacks."
       },
       "style": {
         "type": {
           "name": "object"
         },
         "required": false,
-        "description": "The CSS styling of the div wrapping the component"
+        "description": "The CSS styling of the div wrapping the component."
       },
       "eventDatum": {
         "type": {
           "name": "object"
         },
         "required": false,
-        "description": "A Dash prop that returns data on clicking or hovering of the tracks.\nDepending on what is specified for prop \"selectEvent\"."
+        "description": "A Dash prop that returns data on clicking or hovering of the tracks,\ndepending on what is specified for prop \"selectEvent\"."
       },
       "selectEvent": {
         "type": {
@@ -542,21 +542,129 @@
               },
               "id": {
                 "name": "string",
-                "description": "The id of the block, where it will recieve\ndata from the specified \"track\" id.",
+                "description": "The id of the block.",
                 "required": true
               }
             }
           }
         },
         "required": true,
-        "description": "The overall layout of the Circos graph, provided\nas a list of dictionaries."
+        "description": "Data used to draw Circos layout blocks."
       },
       "config": {
         "type": {
-          "name": "object"
+          "name": "shape",
+          "value": {
+            "innerRadius": {
+              "name": "number",
+              "required": false
+            },
+            "outerRadius": {
+              "name": "number",
+              "required": false
+            },
+            "cornerRadius": {
+              "name": "number",
+              "required": false
+            },
+            "gap": {
+              "name": "number",
+              "required": false
+            },
+            "labels": {
+              "name": "shape",
+              "value": {
+                "display": {
+                  "name": "bool",
+                  "required": false
+                },
+                "size": {
+                  "name": "number",
+                  "required": false
+                },
+                "color": {
+                  "name": "string",
+                  "required": false
+                },
+                "radialOffset": {
+                  "name": "number",
+                  "required": false
+                }
+              },
+              "required": false
+            },
+            "ticks": {
+              "name": "shape",
+              "value": {
+                "display": {
+                  "name": "bool",
+                  "required": false
+                },
+                "color": {
+                  "name": "string",
+                  "required": false
+                },
+                "spacing": {
+                  "name": "number",
+                  "required": false
+                },
+                "labels": {
+                  "name": "bool",
+                  "required": false
+                },
+                "labelSpacing": {
+                  "name": "number",
+                  "required": false
+                },
+                "labelSuffix": {
+                  "name": "string",
+                  "required": false
+                },
+                "labelDenominator": {
+                  "name": "number",
+                  "required": false
+                },
+                "labelDisplay0": {
+                  "name": "bool",
+                  "required": false
+                },
+                "labelSize": {
+                  "name": "number",
+                  "required": false
+                },
+                "labelColor": {
+                  "name": "string",
+                  "required": false
+                },
+                "labelFont": {
+                  "name": "string",
+                  "required": false
+                },
+                "majorSpacing": {
+                  "name": "number",
+                  "required": false
+                },
+                "size": {
+                  "name": "shape",
+                  "value": {
+                    "minor": {
+                      "name": "number",
+                      "required": false
+                    },
+                    "major": {
+                      "name": "number",
+                      "required": false
+                    }
+                  },
+                  "required": false
+                }
+              },
+              "required": false
+            }
+          }
         },
         "required": false,
-        "description": "Configuration of overall layout of the graph.",
+        "description": "Configuration options for the graph layout.",
         "defaultValue": {
           "value": "{}",
           "computed": false
@@ -581,17 +689,20 @@
             "value": {
               "id": {
                 "name": "string",
-                "description": "The id of a specific piece of track data.",
+                "description": "The id of the track.",
                 "required": false
               },
               "data": {
-                "name": "array",
-                "description": "The data that makes up the track. It can\nbe a Json object.",
-                "required": true
+                "name": "arrayOf",
+                "value": {
+                  "name": "object"
+                },
+                "description": "The data that makes up the track, passed as a list of dicts with different keys depending on the track type.\nSee the docs section about a given track type to learn more about the required data format.",
+                "required": false
               },
               "config": {
                 "name": "object",
-                "description": "The layout of the tracks, where the user\ncan configure innerRadius, outterRadius, ticks,\nlabels, and more.",
+                "description": "The track configuration. Depending on the track type it will be a dict with different keys.\nSee the docs section about a given track type to learn more about available configuration options.",
                 "required": false
               },
               "type": {
@@ -630,77 +741,14 @@
                     "computed": false
                   }
                 ],
-                "description": "Specify the type of track this is.\nPlease check the docs for a list of tracks you can use,\nand ensure the name is typed in all capitals.",
-                "required": false
-              },
-              "tooltipContent": {
-                "name": "union",
-                "value": [
-                  {
-                    "name": "string"
-                  },
-                  {
-                    "name": "shape",
-                    "value": {
-                      "name": {
-                        "name": "string",
-                        "required": true
-                      }
-                    }
-                  },
-                  {
-                    "name": "shape",
-                    "value": {
-                      "source": {
-                        "name": "string",
-                        "required": true
-                      },
-                      "sourceID": {
-                        "name": "string",
-                        "required": false
-                      },
-                      "target": {
-                        "name": "string",
-                        "required": true
-                      },
-                      "targetEnd": {
-                        "name": "string",
-                        "required": true
-                      },
-                      "targetID": {
-                        "name": "string",
-                        "required": false
-                      }
-                    }
-                  }
-                ],
-                "description": "Specify what data for tooltipContent is\ndisplayed.\nThe entry for the \"name\" key, is any of the keys used in the data loaded into tracks.\nEx: \"tooltipContent\": {\"name\": \"block_id\"},\nTo display all data in the dataset use \"all\" as the entry for the key \"name\".\nEx: \"tooltipContent\": {\"name\": \"all\"}\nEx: This will return (source) + ' > ' + (target) + ': ' + (targetEnd)'.\n\"tooltipContent\": {\n                \"source\": \"block_id\",\n                \"target\": \"position\",\n                \"targetEnd\": \"value\"\n                        },\nEx: This will return (source)(sourceID) + ' > ' + (target)(targetID) + ': ' (target)(targetEnd)'.\n\"tooltipContent\": {\n                \"source\": \"source\",\n                \"sourceID\": \"id\",\n                \"target\": \"target\",\n                \"targetID\": \"id\",\n                \"targetEnd\": \"end\"\n            }",
-                "required": false
-              },
-              "color": {
-                "name": "union",
-                "value": [
-                  {
-                    "name": "string"
-                  },
-                  {
-                    "name": "shape",
-                    "value": {
-                      "name": {
-                        "name": "string",
-                        "required": true
-                      }
-                    }
-                  }
-                ],
-                "description": "Specify which dictonary key to grab color values from, in the passed in dataset.\nThis can be a string or an object.\nIf using a string, you can specify hex,\nRGB, and colors from d3 scale chromatic (Ex: RdYlBu).\nThe key \"name\" is required for this dictionary,\nwhere the input for \"name\" points to some list of\ndictionaries color values.\nEx: \"color\": {\"name\": \"some key that refers to color in a data set\"}",
+                "description": "The type of the track.",
                 "required": false
               }
             }
           }
         },
         "required": false,
-        "description": "Tracks that specify specific layouts.\nFor a complete list of tracks and usage,\nplease check the docs.",
+        "description": "A list of tracks displayed on top of the base Circos layout.",
         "defaultValue": {
           "value": "[]",
           "computed": false

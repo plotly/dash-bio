@@ -8,9 +8,9 @@ class Circos(Component):
 Dash Circos is a library used to analyze and interpret
 data using a circular layout, based on the popular
 'Circos' graph. This Dash Bio component is a useful tool
-for showcasing relationships bewtween data/datasets in a
-beautiful way. Please checkout the Dash Bio repository
-on github to learn more about this API.
+for showcasing relationships between data/datasets in an
+attractive, circular layout to highlight feature
+interactions and relationships.
 
 Keyword arguments:
 
@@ -18,7 +18,65 @@ Keyword arguments:
     The ID of the component to be used in Dash callbacks.
 
 - config (dict; optional):
-    Configuration of overall layout of the graph.
+    Configuration options for the graph layout.
+
+    `config` is a dict with keys:
+
+    - cornerRadius (number; optional)
+
+    - gap (number; optional)
+
+    - innerRadius (number; optional)
+
+    - labels (dict; optional)
+
+        `labels` is a dict with keys:
+
+        - color (string; optional)
+
+        - display (boolean; optional)
+
+        - radialOffset (number; optional)
+
+        - size (number; optional)
+
+    - outerRadius (number; optional)
+
+    - ticks (dict; optional)
+
+        `ticks` is a dict with keys:
+
+        - color (string; optional)
+
+        - display (boolean; optional)
+
+        - labelColor (string; optional)
+
+        - labelDenominator (number; optional)
+
+        - labelDisplay0 (boolean; optional)
+
+        - labelFont (string; optional)
+
+        - labelSize (number; optional)
+
+        - labelSpacing (number; optional)
+
+        - labelSuffix (string; optional)
+
+        - labels (boolean; optional)
+
+        - majorSpacing (number; optional)
+
+        - size (dict; optional)
+
+            `size` is a dict with keys:
+
+            - major (number; optional)
+
+            - minor (number; optional)
+
+        - spacing (number; optional)
 
 - enableDownloadSVG (boolean; optional):
     Allow for an SVG snapshot of the Circos graph to be downloaded.
@@ -28,11 +86,10 @@ Keyword arguments:
 
 - eventDatum (dict; optional):
     A Dash prop that returns data on clicking or hovering of the
-    tracks. Depending on what is specified for prop \"selectEvent\".
+    tracks, depending on what is specified for prop \"selectEvent\".
 
 - layout (list of dicts; required):
-    The overall layout of the Circos graph, provided as a list of
-    dictionaries.
+    Data used to draw Circos layout blocks.
 
     `layout` is a list of dicts with keys:
 
@@ -40,8 +97,7 @@ Keyword arguments:
         The color of the block.
 
     - id (string; required):
-        The id of the block, where it will recieve data from the
-        specified \"track\" id.
+        The id of the block.
 
     - label (string; required):
         The labels of the block.
@@ -64,73 +120,27 @@ Keyword arguments:
     The CSS styling of the div wrapping the component.
 
 - tracks (list of dicts; optional):
-    Tracks that specify specific layouts. For a complete list of
-    tracks and usage, please check the docs.
+    A list of tracks displayed on top of the base Circos layout.
 
     `tracks` is a list of dicts with keys:
 
-    - color (dict; optional):
-        Specify which dictonary key to grab color values from, in the
-        passed in dataset. This can be a string or an object. If using
-        a string, you can specify hex, RGB, and colors from d3 scale
-        chromatic (Ex: RdYlBu). The key \"name\" is required for this
-        dictionary, where the input for \"name\" points to some list
-        of dictionaries color values. Ex: \"color\": {\"name\": \"some
-        key that refers to color in a data set\"}.
-
-        `color` is a string
-
-      Or dict with keys:
-
-        - name (string; required)
-
     - config (dict; optional):
-        The layout of the tracks, where the user can configure
-        innerRadius, outterRadius, ticks, labels, and more.
+        The track configuration. Depending on the track type it will
+        be a dict with different keys. See the docs section about a
+        given track type to learn more about available configuration
+        options.
 
-    - data (list; required):
-        The data that makes up the track. It can be a Json object.
+    - data (list of dicts; optional):
+        The data that makes up the track, passed as a list of dicts
+        with different keys depending on the track type. See the docs
+        section about a given track type to learn more about the
+        required data format.
 
     - id (string; optional):
-        The id of a specific piece of track data.
-
-    - tooltipContent (dict; optional):
-        Specify what data for tooltipContent is displayed. The entry
-        for the \"name\" key, is any of the keys used in the data
-        loaded into tracks. Ex: \"tooltipContent\": {\"name\":
-        \"block_id\"}, To display all data in the dataset use \"all\"
-        as the entry for the key \"name\". Ex: \"tooltipContent\":
-        {\"name\": \"all\"} Ex: This will return (source) + ' > ' +
-        (target) + ': ' + (targetEnd)'. \"tooltipContent\": {
-        \"source\": \"block_id\",                 \"target\":
-        \"position\",                 \"targetEnd\": \"value\"
-        }, Ex: This will return (source)(sourceID) + ' > ' +
-        (target)(targetID) + ': ' (target)(targetEnd)'.
-        \"tooltipContent\": {                 \"source\": \"source\",
-        \"sourceID\": \"id\",                 \"target\": \"target\",
-        \"targetID\": \"id\",                 \"targetEnd\": \"end\"
-        }.
-
-        `tooltipContent` is a string | dict with keys:
-
-        - name (string; required)
-
-              Or dict with keys:
-
-        - source (string; required)
-
-        - sourceID (string; optional)
-
-        - target (string; required)
-
-        - targetEnd (string; required)
-
-        - targetID (string; optional)
+        The id of the track.
 
     - type (a value equal to: 'CHORDS', 'HEATMAP', 'HIGHLIGHT', 'HISTOGRAM', 'LINE', 'SCATTER', 'STACK', 'TEXT'; optional):
-        Specify the type of track this is. Please check the docs for a
-        list of tracks you can use, and ensure the name is typed in
-        all capitals."""
+        The type of the track."""
     @_explicitize_args
     def __init__(self, enableDownloadSVG=Component.UNDEFINED, enableZoomPan=Component.UNDEFINED, id=Component.UNDEFINED, style=Component.UNDEFINED, eventDatum=Component.UNDEFINED, selectEvent=Component.UNDEFINED, layout=Component.REQUIRED, config=Component.UNDEFINED, size=Component.UNDEFINED, tracks=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'config', 'enableDownloadSVG', 'enableZoomPan', 'eventDatum', 'layout', 'selectEvent', 'size', 'style', 'tracks']
