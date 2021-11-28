@@ -287,7 +287,7 @@ export default class Circos extends Component {
                     layout={layout}
                     tracks={tracks}
                     size={size}
-                    {...omit(['setProps', 'loading_state'], this.props)}
+                    {...omit(['setProps', 'loading_state', 'id'], this.props)}
                 />
             </div>
         );

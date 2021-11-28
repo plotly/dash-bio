@@ -66,7 +66,12 @@ export default class FornaContainer extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        const {sequences, colorScheme, hoverPattern} = this.props;
+        const {
+            sequences,
+            colorScheme,
+            hoverPattern,
+            loading_state,
+        } = this.props;
 
         if (!R.equals(sequences, nextProps.sequences)) {
             return true;
@@ -77,18 +82,18 @@ export default class FornaContainer extends Component {
             return true;
         }
 
-        if (
-            JSON.stringify(this.props.loading_state) !==
-            JSON.stringify(nextProps.loading_state)
-        ) {
-            return true;
-        }
-
         this._fornaContainer.addCustomColors(nextProps.customColors);
         this._fornaContainer.changeColorScheme(colorScheme);
 
         if (nextProps.nodeFillColor !== undefined) {
             this._fornaContainer.setOutlineColor(nextProps.nodeFillColor);
+        }
+
+        if (
+            JSON.stringify(loading_state) !==
+            JSON.stringify(nextProps.loading_state)
+        ) {
+            return true;
         }
 
         return false;
