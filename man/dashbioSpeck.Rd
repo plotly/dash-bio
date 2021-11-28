@@ -10,8 +10,8 @@ The Speck component is a WebGL-based 3D molecule renderer. Read more about the c
 }
 
 \usage{
-dashbioSpeck(id=NULL, data=NULL, presetView=NULL, scrollZoom=NULL,
-view=NULL)
+dashbioSpeck(id=NULL, data=NULL, loading_state=NULL, presetView=NULL,
+scrollZoom=NULL, view=NULL)
 }
 
 \arguments{
@@ -25,6 +25,12 @@ those elements have the following types:
   - z (numeric; optional)s. The xyz file data; a list of atoms such that each atom
 has a dictionary defining the x, y, and z coordinates
 along with the atom's symbol.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{presetView}{A value equal to: 'default', 'stickball', 'toon', 'licorice'. One of several pre-loaded views: default, stick-ball, toon,
 and licorice}

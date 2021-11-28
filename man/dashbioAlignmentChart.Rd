@@ -15,12 +15,12 @@ conservationcolorscale=NULL, conservationmethod=NULL,
 conservationopacity=NULL, correctgap=NULL, data=NULL,
 eventDatum=NULL, extension=NULL, gapcolor=NULL,
 gapcolorscale=NULL, gapopacity=NULL, groupbars=NULL,
-height=NULL, numtiles=NULL, opacity=NULL, overview=NULL,
-scrollskip=NULL, sequenceIds=NULL, showconsensus=NULL,
-showconservation=NULL, showgap=NULL, showid=NULL,
-showlabel=NULL, textcolor=NULL, textsize=NULL,
-tickstart=NULL, ticksteps=NULL, tileheight=NULL,
-tilewidth=NULL, width=NULL)
+height=NULL, loading_state=NULL, numtiles=NULL,
+opacity=NULL, overview=NULL, scrollskip=NULL,
+sequenceIds=NULL, showconsensus=NULL, showconservation=NULL,
+showgap=NULL, showid=NULL, showlabel=NULL, textcolor=NULL,
+textsize=NULL, tickstart=NULL, ticksteps=NULL,
+tileheight=NULL, tilewidth=NULL, width=NULL)
 }
 
 \arguments{
@@ -72,6 +72,12 @@ No effect if not both gap and conservation are shown.}
 \item{height}{Numeric | character. Width of the Viewer.
 Property takes precedence over tilesheight if both
 are set.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{numtiles}{Numeric. Sets how many tiles to display across horitontally. If enabled,
 overrides tilewidth and sets the amount of tiles directly based off

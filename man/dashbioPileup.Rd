@@ -10,8 +10,8 @@ The Pileup component is a genome visualization component developed by the the Ha
 }
 
 \usage{
-dashbioPileup(id=NULL, className=NULL, range=NULL, reference=NULL,
-style=NULL, tracks=NULL)
+dashbioPileup(id=NULL, className=NULL, loading_state=NULL, range=NULL,
+reference=NULL, style=NULL, tracks=NULL)
 }
 
 \arguments{
@@ -19,6 +19,12 @@ style=NULL, tracks=NULL)
 The ID needs to be unique across all of the components in an app.}
 
 \item{className}{Character. className of the component div.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{range}{Lists containing elements 'contig', 'start', 'stop'.
 those elements have the following types:

@@ -31,6 +31,21 @@ Keyword arguments:
     have many other styling fields as described in
     https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec.
 
+- loading_state (dict; optional):
+    Object that holds the loading state object coming from
+    dash-renderer.
+
+    `loading_state` is a dict with keys:
+
+    - component_name (string; optional):
+        Holds the name of the component that is loading.
+
+    - is_loading (boolean; optional):
+        Determines if the component is loading or not.
+
+    - prop_name (string; optional):
+        Holds which property is loading.
+
 - modelData (dict; optional):
     The data that will be used to display the molecule in 3D The data
     will be in JSON format and should have two main dictionaries -
@@ -129,12 +144,12 @@ Keyword arguments:
             The index value used to identify the residue; residues are
             numbered sequentially starting from 1."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, selectionType=Component.UNDEFINED, backgroundColor=Component.UNDEFINED, backgroundOpacity=Component.UNDEFINED, styles=Component.UNDEFINED, modelData=Component.UNDEFINED, atomLabelsShown=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, labels=Component.UNDEFINED, orbital=Component.UNDEFINED, zoom=Component.UNDEFINED, zoomTo=Component.UNDEFINED, shapes=Component.UNDEFINED, onRenderNewData=Component.UNDEFINED, onChangeSelection=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'labels', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'styles', 'zoom', 'zoomTo']
+    def __init__(self, id=Component.UNDEFINED, selectionType=Component.UNDEFINED, backgroundColor=Component.UNDEFINED, backgroundOpacity=Component.UNDEFINED, styles=Component.UNDEFINED, modelData=Component.UNDEFINED, atomLabelsShown=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, labels=Component.UNDEFINED, orbital=Component.UNDEFINED, zoom=Component.UNDEFINED, zoomTo=Component.UNDEFINED, shapes=Component.UNDEFINED, onRenderNewData=Component.UNDEFINED, onChangeSelection=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'labels', 'loading_state', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'styles', 'zoom', 'zoomTo']
         self._type = 'Molecule3dViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'labels', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'styles', 'zoom', 'zoomTo']
+        self.available_properties = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'labels', 'loading_state', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'styles', 'zoom', 'zoomTo']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

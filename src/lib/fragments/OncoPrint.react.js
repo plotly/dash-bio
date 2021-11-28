@@ -17,13 +17,19 @@ export default class OncoPrint extends Component {
     }
 
     render() {
-        const {id, eventDatum} = this.props;
+        const {id, eventDatum, loading_state} = this.props;
 
         return (
-            <div id={id} eventDatum={eventDatum}>
+            <div
+                id={id}
+                eventDatum={eventDatum}
+                data-dash-is-loading={
+                    (loading_state && loading_state.is_loading) || undefined
+                }
+            >
                 <PreOncoPrint
                     onChange={this.handleChange}
-                    {...omit(['setProps'], this.props)}
+                    {...omit(['setProps', 'loading_state'], this.props)}
                 />
             </div>
         );

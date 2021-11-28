@@ -11,10 +11,11 @@ The Molecule3dViewer component is used to render schematic diagrams of biomolecu
 
 \usage{
 dashbioMolecule3dViewer(id=NULL, atomLabelsShown=NULL, backgroundColor=NULL,
-backgroundOpacity=NULL, labels=NULL, modelData=NULL,
-onChangeSelection=NULL, onRenderNewData=NULL, orbital=NULL,
-selectedAtomIds=NULL, selectionType=NULL, shapes=NULL,
-styles=NULL, zoom=NULL, zoomTo=NULL)
+backgroundOpacity=NULL, labels=NULL, loading_state=NULL,
+modelData=NULL, onChangeSelection=NULL,
+onRenderNewData=NULL, orbital=NULL, selectedAtomIds=NULL,
+selectionType=NULL, shapes=NULL, styles=NULL, zoom=NULL,
+zoomTo=NULL)
 }
 
 \arguments{
@@ -30,6 +31,12 @@ styles=NULL, zoom=NULL, zoomTo=NULL)
 Each label has a `text` field, a string containing the label content,
 and can have many other styling fields as described in
 https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{modelData}{Lists containing elements 'atoms', 'bonds'.
 those elements have the following types:

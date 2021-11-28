@@ -11,8 +11,9 @@ The Needle Plot component is used to visualize large datasets containing categor
 
 \usage{
 dashbioNeedlePlot(id=NULL, clickData=NULL, domainStyle=NULL, height=NULL,
-margin=NULL, mutationData=NULL, needleStyle=NULL,
-rangeSlider=NULL, width=NULL, xlabel=NULL, ylabel=NULL)
+loading_state=NULL, margin=NULL, mutationData=NULL,
+needleStyle=NULL, rangeSlider=NULL, width=NULL, xlabel=NULL,
+ylabel=NULL)
 }
 
 \arguments{
@@ -31,6 +32,12 @@ those elements have the following types:
 text is drawn with respect to the horizontal.. Options for the protein domain coloring}
 
 \item{height}{Numeric | character. Height of the Plot.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{margin}{Named list. Margins of the plot}
 

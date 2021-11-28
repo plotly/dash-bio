@@ -11,8 +11,9 @@ The OncoPrint component is used to view multiple genetic alteration events throu
 
 \usage{
 dashbioOncoPrint(id=NULL, backgroundcolor=NULL, colorscale=NULL, data=NULL,
-eventDatum=NULL, height=NULL, padding=NULL, range=NULL,
-showlegend=NULL, showoverview=NULL, width=NULL)
+eventDatum=NULL, height=NULL, loading_state=NULL,
+padding=NULL, range=NULL, showlegend=NULL,
+showoverview=NULL, width=NULL)
 }
 
 \arguments{
@@ -36,6 +37,12 @@ consisting of 'sample', 'gene', 'alteration', and 'type'}
 
 \item{height}{Numeric | character. Height of the OncoPrint.
 Will disable auto-resizing of plots if set.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{padding}{Numeric. Adjusts the padding (as a proportion of whitespace) between two tracks.
 Value is a ratio between 0 and 1.

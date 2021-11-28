@@ -36,6 +36,7 @@ export default class SequenceViewer extends Component {
             coverageClicked,
             selection,
             legend,
+            loading_state,
         } = this.props;
 
         if (
@@ -49,7 +50,8 @@ export default class SequenceViewer extends Component {
             badge !== nextProps.badge ||
             coverageClicked !== nextProps.coverageClicked ||
             legend !== nextProps.legend ||
-            sequence !== nextProps.sequence
+            sequence !== nextProps.sequence ||
+            loading_state !== nextProps.loading_state
         ) {
             return true;
         }
@@ -123,6 +125,11 @@ export default class SequenceViewer extends Component {
             <ReactSequenceViewer
                 sequence={this.props.sequence}
                 coverage={coverageWithClicks}
+                data-dash-is-loading={
+                    (this.props.loading_state &&
+                        this.props.loading_state.is_loading) ||
+                    undefined
+                }
                 {...options}
             />
         );

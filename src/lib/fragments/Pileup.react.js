@@ -87,9 +87,18 @@ export default class Pileup extends Component {
     }
 
     render() {
-        const {id, style} = this.props;
+        const {id, style, loading_state} = this.props;
 
-        return <div id={id} style={style} ref={this.ref} />;
+        return (
+            <div
+                id={id}
+                style={style}
+                ref={this.ref}
+                data-dash-is-loading={
+                    (loading_state && loading_state.is_loading) || undefined
+                }
+            />
+        );
     }
 }
 

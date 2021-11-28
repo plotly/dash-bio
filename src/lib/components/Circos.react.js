@@ -178,6 +178,24 @@ Circos.propTypes = {
             ]),
         })
     ),
+
+    /**
+     * Object that holds the loading state object coming from dash-renderer
+     */
+    loading_state: PropTypes.shape({
+        /**
+         * Determines if the component is loading or not
+         */
+        is_loading: PropTypes.bool,
+        /**
+         * Holds which property is loading
+         */
+        prop_name: PropTypes.string,
+        /**
+         * Holds the name of the component that is loading
+         */
+        component_name: PropTypes.string,
+    }),
 };
 
 export const propTypes = Circos.propTypes;

@@ -69,6 +69,21 @@ Keyword arguments:
     \"rna\", \"nodeType\", \"structName\", \"size\", \"uid\",
     \"name\".
 
+- loading_state (dict; optional):
+    Object that holds the loading state object coming from
+    dash-renderer.
+
+    `loading_state` is a dict with keys:
+
+    - component_name (string; optional):
+        Holds the name of the component that is loading.
+
+    - is_loading (boolean; optional):
+        Determines if the component is loading or not.
+
+    - prop_name (string; optional):
+        Holds which property is loading.
+
 - nodeFillColor (string; optional):
     The fill color for all of the nodes. This will override any color
     scheme defined in colorScheme.
@@ -122,12 +137,12 @@ Keyword arguments:
     The width (in px) of the container in which the molecules will be
     displayed."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, hoverPattern=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'hoverPattern', 'nodeFillColor', 'sequences', 'width']
+    def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, hoverPattern=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'hoverPattern', 'loading_state', 'nodeFillColor', 'sequences', 'width']
         self._type = 'FornaContainer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'hoverPattern', 'nodeFillColor', 'sequences', 'width']
+        self.available_properties = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'hoverPattern', 'loading_state', 'nodeFillColor', 'sequences', 'width']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

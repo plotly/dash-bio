@@ -17,6 +17,8 @@ export default class Molecule2dViewer extends Component {
     shouldComponentUpdate(nextProps) {
         if (
             this.props.modelData !== nextProps.modelData ||
+            JSON.stringify(this.props.loading_state) !==
+                JSON.stringify(nextProps.loading_state) ||
             (!this.props.selectedAtomIds && nextProps.selectedAtomIds) ||
             (this.props.selectedAtomIds && !nextProps.selectedAtomIds) ||
             (this.props.selectedAtomIds &&
@@ -58,7 +60,14 @@ export default class Molecule2dViewer extends Component {
         // increment key to force remount
 
         return (
-            <div id={this.props.id}>
+            <div
+                id={this.props.id}
+                data-dash-is-loading={
+                    (this.props.loading_state &&
+                        this.props.loading_state.is_loading) ||
+                    undefined
+                }
+            >
                 <Molecule2d
                     key={this.key}
                     onChangeSelection={this.onChangeSelection}

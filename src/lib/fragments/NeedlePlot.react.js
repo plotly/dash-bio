@@ -213,7 +213,7 @@ export default class NeedlePlot extends Component {
     }
 
     render() {
-        const {id, width, height} = this.props;
+        const {id, width, height, loading_state} = this.props;
         const {
             data,
             globalAnnotation,
@@ -232,7 +232,13 @@ export default class NeedlePlot extends Component {
         };
 
         return (
-            <div id={id} style={divStyle}>
+            <div
+                id={id}
+                style={divStyle}
+                data-dash-is-loading={
+                    (loading_state && loading_state.is_loading) || undefined
+                }
+            >
                 <Plot
                     style={divStyle}
                     ref={this.gd}
@@ -240,7 +246,7 @@ export default class NeedlePlot extends Component {
                     layout={layout}
                     onClick={this.handleClick}
                     onRelayout={this.handleChange}
-                    {...omit(['setProps'], this.props)}
+                    {...omit(['setProps', 'loading_state'], this.props)}
                 />
             </div>
         );

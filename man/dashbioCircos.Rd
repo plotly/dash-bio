@@ -12,7 +12,8 @@ Dash Circos is a library used to analyze and interpret data using a circular lay
 \usage{
 dashbioCircos(id=NULL, config=NULL, enableDownloadSVG=NULL,
 enableZoomPan=NULL, eventDatum=NULL, layout=NULL,
-selectEvent=NULL, size=NULL, style=NULL, tracks=NULL)
+loading_state=NULL, selectEvent=NULL, size=NULL, style=NULL,
+tracks=NULL)
 }
 
 \arguments{
@@ -62,6 +63,12 @@ those elements have the following types:
   - color (character; required): the color of the block.
   - label (character; required): the labels of the block.
   - id (character; required): the id of the block.s. Data used to draw Circos layout blocks.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{selectEvent}{Named list. A dictionary used to choose whether tracks should return
 data on click, hover, or both, with the dash prop "eventDatum".

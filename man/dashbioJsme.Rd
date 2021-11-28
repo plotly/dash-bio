@@ -10,8 +10,8 @@ JSME is a molecule editor that supports drawing and editing of molecules and rea
 }
 
 \usage{
-dashbioJsme(id=NULL, eventSmiles=NULL, height=NULL, options=NULL,
-smiles=NULL, style=NULL, width=NULL)
+dashbioJsme(id=NULL, eventSmiles=NULL, height=NULL, loading_state=NULL,
+options=NULL, smiles=NULL, style=NULL, width=NULL)
 }
 
 \arguments{
@@ -21,6 +21,12 @@ The ID needs to be unique across all of the components in an app.}
 \item{eventSmiles}{Character. A Dash prop that returns data when SMILE will be changed.}
 
 \item{height}{Character. The height of the JSME container. Can be set in px, \% etc.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{options}{Character. String that is a comma separated string of JSME options.
 The available options are described on the
