@@ -5,7 +5,7 @@ import dash_bio
 import dash_html_components as html
 
 from common_features import simple_app_layout, simple_app_callback
-import time
+
 _data = None
 
 _COMPONENT_ID = 'test-circos'
