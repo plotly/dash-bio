@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {omit} from 'ramda';
 
 import {propTypes, defaultProps} from '../components/AlignmentChart.react';
-import {AlignmentChart as PreAlignementChart} from 'react-alignment-viewer';
+import {AlignmentChart as PreAlignmentChart} from 'react-alignment-viewer';
 
 export default class AlignmentChart extends Component {
     constructor(props) {
@@ -17,14 +17,26 @@ export default class AlignmentChart extends Component {
     }
 
     render() {
-        const {id, eventDatum} = this.props;
+        const {id, eventDatum, loading_state} = this.props;
 
         return (
-            <div id={id} eventDatum={eventDatum}>
-                <PreAlignementChart
+            <div
+                id={id}
+                eventDatum={eventDatum}
+                data-dash-is-loading={
+                    (loading_state && loading_state.is_loading) || undefined
+                }
+            >
+                <PreAlignmentChart
                     onChange={this.handleChange}
                     {...omit(
-                        ['fireEvent', 'dashEvent', 'setProps', 'colorscale'],
+                        [
+                            'fireEvent',
+                            'dashEvent',
+                            'setProps',
+                            'loading_state',
+                            'colorscale',
+                        ],
                         this.props
                     )}
                     colorscale={

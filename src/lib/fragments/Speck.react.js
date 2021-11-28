@@ -233,7 +233,7 @@ export default class Speck extends Component {
     }
 
     render() {
-        const {id} = this.props;
+        const {id, loading_state} = this.props;
         const {view} = this;
 
         const divStyle = {
@@ -242,7 +242,14 @@ export default class Speck extends Component {
         };
 
         return (
-            <div id={id} ref={this.setContainerRef} style={divStyle}>
+            <div
+                id={id}
+                ref={this.setContainerRef}
+                style={divStyle}
+                data-dash-is-loading={
+                    (loading_state && loading_state.is_loading) || undefined
+                }
+            >
                 <canvas
                     ref={this.setCanvasRef}
                     width={view.resolution}

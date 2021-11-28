@@ -102,6 +102,14 @@ export default class NglMoleculeViewer extends Component {
             return true;
         }
 
+        // check if loading_state has changed
+        if (
+            JSON.stringify(this.props.loading_state) !==
+            JSON.stringify(nextProps.loading_state)
+        ) {
+            return true;
+        }
+
         // no update since neither the data nor the stage paramas have changed
         return false;
     }
@@ -335,8 +343,16 @@ export default class NglMoleculeViewer extends Component {
     }
 
     render() {
-        const {id} = this.props;
-        return <div id={id} ref={this.ref} />;
+        const {id, loading_state} = this.props;
+        return (
+            <div
+                id={id}
+                ref={this.ref}
+                data-dash-is-loading={
+                    (loading_state && loading_state.is_loading) || undefined
+                }
+            />
+        );
     }
 }
 

@@ -77,6 +77,13 @@ export default class FornaContainer extends Component {
             return true;
         }
 
+        if (
+            JSON.stringify(this.props.loading_state) !==
+            JSON.stringify(nextProps.loading_state)
+        ) {
+            return true;
+        }
+
         this._fornaContainer.addCustomColors(nextProps.customColors);
         this._fornaContainer.changeColorScheme(colorScheme);
 
@@ -93,6 +100,11 @@ export default class FornaContainer extends Component {
                 id={this.props.id}
                 ref={this.containerRef}
                 style={{outline: 'none'}}
+                data-dash-is-loading={
+                    (this.props.loading_state &&
+                        this.props.loading_state.is_loading) ||
+                    undefined
+                }
             />
         );
     }
@@ -263,6 +275,24 @@ FornaContainer.propTypes = {
      * "structName", "size", "uid", "name".
      */
     hoverPattern: PropTypes.string,
+
+    /**
+     * Object that holds the loading state object coming from dash-renderer
+     */
+    loading_state: PropTypes.shape({
+        /**
+         * Determines if the component is loading or not
+         */
+        is_loading: PropTypes.bool,
+        /**
+         * Holds which property is loading
+         */
+        prop_name: PropTypes.string,
+        /**
+         * Holds the name of the component that is loading
+         */
+        component_name: PropTypes.string,
+    }),
 };
 
 FornaContainer.defaultProps = {

@@ -87,6 +87,21 @@ Keyword arguments:
     Width of the Viewer. Property takes precedence over tilesheight if
     both are set.
 
+- loading_state (dict; optional):
+    Object that holds the loading state object coming from
+    dash-renderer.
+
+    `loading_state` is a dict with keys:
+
+    - component_name (string; optional):
+        Holds the name of the component that is loading.
+
+    - is_loading (boolean; optional):
+        Determines if the component is loading or not.
+
+    - prop_name (string; optional):
+        Holds which property is loading.
+
 - numtiles (number; optional):
     Sets how many tiles to display across horitontally. If enabled,
     overrides tilewidth and sets the amount of tiles directly based
@@ -160,12 +175,12 @@ Keyword arguments:
     Width of the Viewer. Property takes precedence over tileswidth and
     numtiles if either of them is set."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, eventDatum=Component.UNDEFINED, data=Component.UNDEFINED, extension=Component.UNDEFINED, colorscale=Component.UNDEFINED, opacity=Component.UNDEFINED, textcolor=Component.UNDEFINED, textsize=Component.UNDEFINED, showlabel=Component.UNDEFINED, showid=Component.UNDEFINED, showconservation=Component.UNDEFINED, conservationcolor=Component.UNDEFINED, conservationcolorscale=Component.UNDEFINED, conservationopacity=Component.UNDEFINED, conservationmethod=Component.UNDEFINED, correctgap=Component.UNDEFINED, showgap=Component.UNDEFINED, gapcolor=Component.UNDEFINED, gapcolorscale=Component.UNDEFINED, gapopacity=Component.UNDEFINED, groupbars=Component.UNDEFINED, showconsensus=Component.UNDEFINED, tilewidth=Component.UNDEFINED, tileheight=Component.UNDEFINED, overview=Component.UNDEFINED, numtiles=Component.UNDEFINED, scrollskip=Component.UNDEFINED, tickstart=Component.UNDEFINED, ticksteps=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, sequenceIds=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'colorscale', 'conservationcolor', 'conservationcolorscale', 'conservationmethod', 'conservationopacity', 'correctgap', 'data', 'eventDatum', 'extension', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'height', 'numtiles', 'opacity', 'overview', 'scrollskip', 'sequenceIds', 'showconsensus', 'showconservation', 'showgap', 'showid', 'showlabel', 'textcolor', 'textsize', 'tickstart', 'ticksteps', 'tileheight', 'tilewidth', 'width']
+    def __init__(self, id=Component.UNDEFINED, eventDatum=Component.UNDEFINED, data=Component.UNDEFINED, extension=Component.UNDEFINED, colorscale=Component.UNDEFINED, opacity=Component.UNDEFINED, textcolor=Component.UNDEFINED, textsize=Component.UNDEFINED, showlabel=Component.UNDEFINED, showid=Component.UNDEFINED, showconservation=Component.UNDEFINED, conservationcolor=Component.UNDEFINED, conservationcolorscale=Component.UNDEFINED, conservationopacity=Component.UNDEFINED, conservationmethod=Component.UNDEFINED, correctgap=Component.UNDEFINED, showgap=Component.UNDEFINED, gapcolor=Component.UNDEFINED, gapcolorscale=Component.UNDEFINED, gapopacity=Component.UNDEFINED, groupbars=Component.UNDEFINED, showconsensus=Component.UNDEFINED, tilewidth=Component.UNDEFINED, tileheight=Component.UNDEFINED, overview=Component.UNDEFINED, numtiles=Component.UNDEFINED, scrollskip=Component.UNDEFINED, tickstart=Component.UNDEFINED, ticksteps=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, sequenceIds=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'colorscale', 'conservationcolor', 'conservationcolorscale', 'conservationmethod', 'conservationopacity', 'correctgap', 'data', 'eventDatum', 'extension', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'height', 'loading_state', 'numtiles', 'opacity', 'overview', 'scrollskip', 'sequenceIds', 'showconsensus', 'showconservation', 'showgap', 'showid', 'showlabel', 'textcolor', 'textsize', 'tickstart', 'ticksteps', 'tileheight', 'tilewidth', 'width']
         self._type = 'AlignmentChart'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'colorscale', 'conservationcolor', 'conservationcolorscale', 'conservationmethod', 'conservationopacity', 'correctgap', 'data', 'eventDatum', 'extension', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'height', 'numtiles', 'opacity', 'overview', 'scrollskip', 'sequenceIds', 'showconsensus', 'showconservation', 'showgap', 'showid', 'showlabel', 'textcolor', 'textsize', 'tickstart', 'ticksteps', 'tileheight', 'tilewidth', 'width']
+        self.available_properties = ['id', 'colorscale', 'conservationcolor', 'conservationcolorscale', 'conservationmethod', 'conservationopacity', 'correctgap', 'data', 'eventDatum', 'extension', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'height', 'loading_state', 'numtiles', 'opacity', 'overview', 'scrollskip', 'sequenceIds', 'showconsensus', 'showconservation', 'showgap', 'showid', 'showlabel', 'textcolor', 'textsize', 'tickstart', 'ticksteps', 'tileheight', 'tilewidth', 'width']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

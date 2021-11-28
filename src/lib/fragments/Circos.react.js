@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import CircosJS from 'circos';
+import {omit} from 'ramda';
 import {propTypes, defaultProps} from '../components/Circos.react';
 
 /**
@@ -235,7 +236,11 @@ export default class Circos extends Component {
             this.props.layout !== nextProps.layout ||
             this.props.tracks !== nextProps.tracks ||
             this.props.size !== nextProps.size ||
-            this.props.selectEvent !== nextProps.selectEvent
+            this.props.selectEvent !== nextProps.selectEvent ||
+            JSON.stringify(this.props.style) !==
+                JSON.stringify(nextProps.style) ||
+            JSON.stringify(this.props.loading_state) !==
+                JSON.stringify(nextProps.loading_state)
         );
     }
 
@@ -261,10 +266,18 @@ export default class Circos extends Component {
             tracks,
             size,
             eventDatum,
+            loading_state,
         } = this.props;
 
         return (
-            <div id={id} style={style} eventdatum={eventDatum}>
+            <div
+                id={id}
+                style={style}
+                eventdatum={eventDatum}
+                data-dash-is-loading={
+                    (loading_state && loading_state.is_loading) || undefined
+                }
+            >
                 <div
                     id="Circos-container"
                     ref={ref => {
@@ -274,6 +287,7 @@ export default class Circos extends Component {
                     layout={layout}
                     tracks={tracks}
                     size={size}
+                    {...omit(['setProps', 'loading_state'], this.props)}
                 />
             </div>
         );

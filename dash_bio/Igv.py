@@ -26,6 +26,21 @@ Keyword arguments:
     one) of     either genome or reference properties must be set. If
     both are set,     the genome property will be ignored.
 
+- loading_state (dict; optional):
+    Object that holds the loading state object coming from
+    dash-renderer.
+
+    `loading_state` is a dict with keys:
+
+    - component_name (string; optional):
+        Holds the name of the component that is loading.
+
+    - is_loading (boolean; optional):
+        Determines if the component is loading or not.
+
+    - prop_name (string; optional):
+        Holds which property is loading.
+
 - locus (string; optional):
     Initial genomic location(s). Either a string or an array of
     strings.     If an array a viewport is created for each location.
@@ -47,12 +62,12 @@ Keyword arguments:
     when app launches.     see
     https://github.com/igvteam/igv.js/wiki/Tracks-2.0."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, style=Component.UNDEFINED, className=Component.UNDEFINED, genome=Component.UNDEFINED, reference=Component.UNDEFINED, locus=Component.UNDEFINED, minimumBases=Component.UNDEFINED, tracks=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'className', 'genome', 'locus', 'minimumBases', 'reference', 'style', 'tracks']
+    def __init__(self, id=Component.UNDEFINED, style=Component.UNDEFINED, className=Component.UNDEFINED, genome=Component.UNDEFINED, reference=Component.UNDEFINED, locus=Component.UNDEFINED, minimumBases=Component.UNDEFINED, tracks=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'className', 'genome', 'loading_state', 'locus', 'minimumBases', 'reference', 'style', 'tracks']
         self._type = 'Igv'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'className', 'genome', 'locus', 'minimumBases', 'reference', 'style', 'tracks']
+        self.available_properties = ['id', 'className', 'genome', 'loading_state', 'locus', 'minimumBases', 'reference', 'style', 'tracks']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

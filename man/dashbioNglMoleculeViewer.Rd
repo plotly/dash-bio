@@ -11,8 +11,8 @@ The NglMoleculeViewer is used to render schematic diagrams of biomolecules in ri
 
 \usage{
 dashbioNglMoleculeViewer(id=NULL, data=NULL, downloadImage=NULL, height=NULL,
-imageParameters=NULL, molStyles=NULL, pdbString=NULL,
-stageParameters=NULL, width=NULL)
+imageParameters=NULL, loading_state=NULL, molStyles=NULL,
+pdbString=NULL, stageParameters=NULL, width=NULL)
 }
 
 \arguments{
@@ -63,6 +63,12 @@ those elements have the following types:
   - transparent (logical; optional)
   - trim (logical; optional)
   - defaultfilename (character; optional). Parameters (in JSON format) for exporting the image}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{molStyles}{Lists containing elements 'representations', 'chosenatomscolor', 'chosenatomsradius', 'molspacingxaxis', 'sidebyside'.
 those elements have the following types:

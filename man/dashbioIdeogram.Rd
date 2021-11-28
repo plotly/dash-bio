@@ -18,13 +18,14 @@ barWidth=NULL, brush=NULL, brushData=NULL, chrHeight=NULL,
 chrMargin=NULL, chrWidth=NULL, chromosomes=NULL,
 className=NULL, container=NULL, dataDir=NULL,
 filterable=NULL, fullChromosomeLabels=NULL,
-histogramScaling=NULL, homology=NULL, localOrganism=NULL,
-organism=NULL, orientation=NULL, perspective=NULL,
-ploidy=NULL, ploidyDesc=NULL, rangeSet=NULL,
-resolution=NULL, rotatable=NULL, rotated=NULL, sex=NULL,
-showAnnotTooltip=NULL, showBandLabels=NULL,
-showChromosomeLabels=NULL, showFullyBanded=NULL,
-showNonNuclearChromosomes=NULL, style=NULL)
+histogramScaling=NULL, homology=NULL, loading_state=NULL,
+localOrganism=NULL, organism=NULL, orientation=NULL,
+perspective=NULL, ploidy=NULL, ploidyDesc=NULL,
+rangeSet=NULL, resolution=NULL, rotatable=NULL,
+rotated=NULL, sex=NULL, showAnnotTooltip=NULL,
+showBandLabels=NULL, showChromosomeLabels=NULL,
+showFullyBanded=NULL, showNonNuclearChromosomes=NULL,
+style=NULL)
 }
 
 \arguments{
@@ -156,6 +157,12 @@ Ex: homology={
         "stop": [2781479, 57217415]
     }
 }}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{localOrganism}{Named list. Provide local JSON organism into this prop from a local user JSON file.
 DataDir must not be initialized.}

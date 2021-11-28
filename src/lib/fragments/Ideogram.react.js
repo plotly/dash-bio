@@ -41,6 +41,7 @@ export default class Ideogram extends Component {
             'homology',
             'perspective',
             'fullChromosomeLabels',
+            'loading_state',
         ];
 
         this.onBrushHandler = this.onBrushHandler.bind(this);
@@ -237,9 +238,14 @@ export default class Ideogram extends Component {
                 id={this.props.id}
                 className={this.props.className}
                 style={this.props.style}
+                data-dash-is-loading={
+                    (this.props.loading_state &&
+                        this.props.loading_state.is_loading) ||
+                    undefined
+                }
             >
                 <div
-                    {...omit(['setProps'], this.props)}
+                    {...omit(['setProps', 'loading_state'], this.props)}
                     id={'ideogram-container-' + this.props.id}
                     onMouseOver={this.onMouseOverHandler}
                 />

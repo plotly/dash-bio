@@ -102,10 +102,25 @@ export default class Jsme extends Component {
     }
 
     render() {
-        const {id, style, options, height, width, smiles} = this.props;
+        const {
+            id,
+            style,
+            options,
+            height,
+            width,
+            smiles,
+            loading_state,
+        } = this.props;
 
         return (
-            <div id={id} style={style} ref={this.ref}>
+            <div
+                id={id}
+                style={style}
+                ref={this.ref}
+                data-dash-is-loading={
+                    (loading_state && loading_state.is_loading) || undefined
+                }
+            >
                 <JsmeReact
                     options={options}
                     height={height}
