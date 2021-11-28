@@ -8,6 +8,8 @@
 ### Added
 * [#587](https://github.com/plotly/dash-bio/pull/587) Added JSME component.
 * [#628](https://github.com/plotly/dash-bio/pull/628) Added option to add colored labels to rows and columns on Clustergram.
+* [#640](https://github.com/plotly/dash-bio/pull/640) Added loading states to each component to support custom loading css with `dash-data-is-loading`.
+
 
 ### Changed
 * [#589](https://github.com/plotly/dash-bio/pull/589) Removed hardcoded clustergram linkage method, added parameter `link_method` instead.
