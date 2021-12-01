@@ -24,6 +24,7 @@ export default class Speck extends Component {
 Speck.defaultProps = {
     view: speckView.new(),
     data: [],
+    showLegend: false,
 };
 
 Speck.propTypes = {
@@ -115,6 +116,12 @@ Speck.propTypes = {
          */
         component_name: PropTypes.string,
     }),
+
+    /**
+     * The option of whether to show color legend
+     */
+
+    showLegend: PropTypes.bool,
 };
 
 export const defaultProps = Speck.defaultProps;

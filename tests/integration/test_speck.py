@@ -166,3 +166,28 @@ def test_dbsp006_custom_view(dash_duo):
         validation_fn=lambda x: x == new_view,
         take_snapshot=True
     )
+
+
+def test_dbsp007_show_legend(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Speck(
+            id=_COMPONENT_ID,
+            data=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='showLegend',
+        test_prop_value='True',
+        prop_value_type='bool',
+        validation_fn=lambda x: json.dumps(x) == 'true',
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element("#speck-color-legend")
