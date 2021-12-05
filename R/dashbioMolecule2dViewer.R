@@ -1,8 +1,8 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-dashbioMolecule2dViewer <- function(id=NULL, height=NULL, loading_state=NULL, modelData=NULL, selectedAtomIds=NULL, width=NULL) {
+dashbioMolecule2dViewer <- function(id=NULL, height=NULL, loading_state=NULL, modelData=NULL, scrollZoom=NULL, selectedAtomIds=NULL, width=NULL) {
     
-    props <- list(id=id, height=height, loading_state=loading_state, modelData=modelData, selectedAtomIds=selectedAtomIds, width=width)
+    props <- list(id=id, height=height, loading_state=loading_state, modelData=modelData, scrollZoom=scrollZoom, selectedAtomIds=selectedAtomIds, width=width)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
@@ -10,7 +10,7 @@ dashbioMolecule2dViewer <- function(id=NULL, height=NULL, loading_state=NULL, mo
         props = props,
         type = 'Molecule2dViewer',
         namespace = 'dash_bio',
-        propNames = c('id', 'height', 'loading_state', 'modelData', 'selectedAtomIds', 'width'),
+        propNames = c('id', 'height', 'loading_state', 'modelData', 'scrollZoom', 'selectedAtomIds', 'width'),
         package = 'dashBio'
         )
 

@@ -62,18 +62,22 @@ Keyword arguments:
 
         - id (number; optional)
 
+- scrollZoom (boolean; optional):
+    The option of whether or not to allow scrolling to control the
+    zoom.
+
 - selectedAtomIds (list of numbers; optional):
     The selected atom IDs.
 
 - width (number; default 500):
     The width of the SVG element."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, modelData=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'height', 'loading_state', 'modelData', 'selectedAtomIds', 'width']
+    def __init__(self, id=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, modelData=Component.UNDEFINED, loading_state=Component.UNDEFINED, scrollZoom=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'height', 'loading_state', 'modelData', 'scrollZoom', 'selectedAtomIds', 'width']
         self._type = 'Molecule2dViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'height', 'loading_state', 'modelData', 'selectedAtomIds', 'width']
+        self.available_properties = ['id', 'height', 'loading_state', 'modelData', 'scrollZoom', 'selectedAtomIds', 'width']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

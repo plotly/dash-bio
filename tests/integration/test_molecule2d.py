@@ -2,6 +2,7 @@ import json
 import dash
 import dash_bio
 import dash_html_components as html
+from selenium.webdriver.common.action_chains import ActionChains
 
 from common_features import simple_app_layout, simple_app_callback
 
@@ -148,3 +149,41 @@ def test_dbm2004_select_deselect_atoms_via_click(dash_duo):
         'g.nodes-container > g.node.selected[index="2"]')
     atom_2.click()
     assert dash_duo.find_element('#clicked-atoms').text == json.dumps([3])
+
+
+def test_dbm2005_zoom(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule2dViewer(
+            id=_COMPONENT_ID,
+            modelData=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='scrollZoom',
+        test_prop_value='True',
+        prop_value_type='bool',
+        validation_fn=lambda x: json.dumps(x) == 'true',
+        take_snapshot=True,
+    )
+
+    svg = dash_duo.find_element('#' + _COMPONENT_ID + ' svg')
+    ac = ActionChains(dash_duo.driver)
+    ac.move_to_element(svg).double_click().perform()
+
+    links_transform = dash_duo\
+        .find_element('#' + _COMPONENT_ID + ' svg g.links-container')\
+        .get_attribute('transform')
+
+    nodes_transform = dash_duo\
+        .find_element('#' + _COMPONENT_ID + ' svg g.nodes-container')\
+        .get_attribute('transform')
+
+    assert len(links_transform) > 0
+    assert len(nodes_transform) > 0
