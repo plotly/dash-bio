@@ -170,12 +170,20 @@ def test_dbm2005_zoom(dash_duo):
         test_prop_value='True',
         prop_value_type='bool',
         validation_fn=lambda x: json.dumps(x) == 'true',
-        take_snapshot=False,
+        take_snapshot=True,
     )
 
     svg = dash_duo.find_element('#' + _COMPONENT_ID + ' svg')
     ac = ActionChains(dash_duo.driver)
     ac.move_to_element(svg).double_click().perform()
-    ac.move_to_element(svg).double_click().perform()
 
-    dash_duo.percy_snapshot("test-mol2d_scrollZoom", convert_canvases=True)
+    links_transform = dash_duo\
+        .wait_for_element('#' + _COMPONENT_ID + ' svg g.links-container')\
+        .get_attribute('transform')
+
+    nodes_transform = dash_duo\
+        .wait_for_element('#' + _COMPONENT_ID + ' svg g.nodes-container')\
+        .get_attribute('transform')
+
+    assert len(links_transform) > 0
+    assert len(nodes_transform) > 0
