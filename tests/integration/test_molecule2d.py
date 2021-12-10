@@ -178,7 +178,7 @@ def test_dbm2005_zoom(dash_duo):
     ac = ActionChains(dash_duo.driver)
     ac.move_to_element(svg).double_click().perform()
 
-    time.sleep(1)
+    time.sleep(10)
 
     links_transform = dash_duo\
         .wait_for_element('#' + _COMPONENT_ID + ' svg g.links-container')\
