@@ -171,7 +171,7 @@ def test_dbm2005_zoom(dash_duo):
         test_prop_value='True',
         prop_value_type='bool',
         validation_fn=lambda x: json.dumps(x) == 'true',
-        take_snapshot=True,
+        take_snapshot=False
     )
 
     svg = dash_duo.find_element('#' + _COMPONENT_ID + ' svg')
@@ -187,6 +187,8 @@ def test_dbm2005_zoom(dash_duo):
     nodes_transform = dash_duo\
         .wait_for_element('#' + _COMPONENT_ID + ' svg g.nodes-container')\
         .get_attribute('transform')
+
+    dash_duo.percy_snapshot("test-mol2d_scrollZoom", convert_canvases=True)
 
     assert len(links_transform) > 0
     assert len(nodes_transform) > 0
