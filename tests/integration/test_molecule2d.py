@@ -3,6 +3,7 @@ import dash
 import dash_bio
 import dash_html_components as html
 from selenium.webdriver.common.action_chains import ActionChains
+import time
 
 from common_features import simple_app_layout, simple_app_callback
 
@@ -177,7 +178,7 @@ def test_dbm2005_zoom(dash_duo):
     ac = ActionChains(dash_duo.driver)
     ac.move_to_element(svg).double_click().perform()
 
-    dash_duo.driver.implicitly_wait(100)
+    time.sleep(1)
 
     links_transform = dash_duo\
         .wait_for_element('#' + _COMPONENT_ID + ' svg g.links-container')\
