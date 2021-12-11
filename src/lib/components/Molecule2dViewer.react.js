@@ -94,6 +94,12 @@ Molecule2dViewer.propTypes = {
          */
         component_name: PropTypes.string,
     }),
+
+    /**
+     * The option of whether or not to allow scrolling to control
+     * the zoom.
+     */
+    scrollZoom: PropTypes.bool,
 };
 
 export const defaultProps = Molecule2dViewer.defaultProps;
