@@ -184,10 +184,9 @@ def test_dbsp007_show_legend(dash_duo):
         dash_duo,
         component_id=_COMPONENT_ID,
         test_prop_name='showLegend',
-        test_prop_value='True',
+        test_prop_value=str(True),
         prop_value_type='bool',
-        validation_fn=lambda x: x is True,
-        take_snapshot=True
+        validation_fn=lambda x: x is True
     )
 
     dash_duo.wait_for_element("#speck-color-legend")
