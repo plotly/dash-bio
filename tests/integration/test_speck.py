@@ -186,7 +186,7 @@ def test_dbsp007_show_legend(dash_duo):
         test_prop_name='showLegend',
         test_prop_value='True',
         prop_value_type='bool',
-        validation_fn=lambda x: json.dumps(x) == 'true',
+        validation_fn=lambda x: x is True,
         take_snapshot=True
     )
 
