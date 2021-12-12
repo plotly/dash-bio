@@ -274,3 +274,21 @@ def test_dbcl009_column_colors(dash_duo):
     dash_duo.start_server(app, dev_tools_props_check=True)
     dash_duo.wait_for_element('g.subplot.x7y7')
     dash_duo.percy_snapshot('test-clust_col_colors', convert_canvases=True)
+
+
+def test_dbcl010_hide_dendogram_axis_when_cluster_is_none(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(data=_data, cluster=None)
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.find_elements("g.subplot.x3y3")) == 0
+    assert len(dash_duo.find_elements("g.subplot.x9y9")) == 0
+
+    dash_duo.percy_snapshot('test-clust_col_colors', convert_canvases=True)
