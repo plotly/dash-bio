@@ -347,6 +347,8 @@ Methods:
             self._display_ratio = [self._display_ratio[0], 0]
         elif self._cluster == "col":
             self._display_ratio = [0, self._display_ratio[1]]
+        elif self._cluster is None:
+            self._display_ratio = [0, 0]
 
         self._hidden_labels = []
 
