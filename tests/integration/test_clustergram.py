@@ -290,5 +290,3 @@ def test_dbcl010_hide_dendogram_axis_when_cluster_is_none(dash_duo):
 
     assert len(dash_duo.find_elements("g.subplot.x3y3")) == 0
     assert len(dash_duo.find_elements("g.subplot.x9y9")) == 0
-
-    dash_duo.percy_snapshot('test-clust_col_colors', convert_canvases=True)
