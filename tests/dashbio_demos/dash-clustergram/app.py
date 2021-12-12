@@ -534,8 +534,8 @@ def callbacks(_app):
          Input('selected-columns', 'value'),
          Input('hide-labels', 'value')],
         [State('clustergram-datasets', 'value'),
-               State('file-upload', 'contents'),
-               State('data-meta-storage', 'data')]
+         State('file-upload', 'contents'),
+         State('data-meta-storage', 'data')]
     )
     def store_fig_options(
             cluster_by,
@@ -607,9 +607,9 @@ def callbacks(_app):
         [Input('clustergram', 'clickData'),
          Input('remove-all-group-markers', 'n_clicks')],
         [State('curves-dict', 'data'),
-               State('annotation', 'value'),
-               State('clustergram-annot-color', 'value'),
-               State('group-markers', 'data')]
+         State('annotation', 'value'),
+         State('clustergram-annot-color', 'value'),
+         State('group-markers', 'data')]
     )
     def add_marker(
             click_data,
@@ -689,10 +689,10 @@ def callbacks(_app):
          Input('selected-rows', 'value'),
          Input('selected-columns', 'value')],
         [State('fig-options-storage', 'data'),
-               State('clustergram-datasets', 'value'),
-               State('file-upload', 'contents'),
-               State('file-upload', 'filename'),
-               State('computed-traces', 'data')]
+         State('clustergram-datasets', 'value'),
+         State('file-upload', 'contents'),
+         State('file-upload', 'filename'),
+         State('computed-traces', 'data')]
     )
     def display_clustergram(
             _,
@@ -833,7 +833,7 @@ def callbacks(_app):
         [Input('data-meta-storage', 'modified_timestamp'),
          Input('selected-rows', 'options')],
         [State('clustergram-datasets', 'value'),
-               State('file-upload', 'contents')]
+         State('file-upload', 'contents')]
     )
     def clear_rows(_, row_options, dataset_name, contents):
         # if loading in a non-default dataset, clear all row selections
@@ -847,7 +847,7 @@ def callbacks(_app):
         [Input('data-meta-storage', 'modified_timestamp'),
          Input('selected-columns', 'options')],
         [State('clustergram-datasets', 'value'),
-               State('file-upload', 'contents')]
+         State('file-upload', 'contents')]
     )
     def clear_cols(_, col_options, dataset_name, contents):
         if dataset_name is None or col_options is None:
