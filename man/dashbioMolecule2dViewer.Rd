@@ -11,7 +11,7 @@ The Molecule2dViewer component is used to render structural formulae of molecule
 
 \usage{
 dashbioMolecule2dViewer(id=NULL, height=NULL, loading_state=NULL, modelData=NULL,
-selectedAtomIds=NULL, width=NULL)
+scrollZoom=NULL, selectedAtomIds=NULL, width=NULL)
 }
 
 \arguments{
@@ -39,6 +39,9 @@ those elements have the following types:
   - bond (numeric; optional)
   - strength (numeric; optional)
   - distance (numeric; optional)s. Description of the molecule to display.}
+
+\item{scrollZoom}{Logical. The option of whether or not to allow scrolling to control
+the zoom.}
 
 \item{selectedAtomIds}{List of numerics. The selected atom IDs.}
 

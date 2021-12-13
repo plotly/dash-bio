@@ -52,6 +52,9 @@ Keyword arguments:
     The option of whether or not to allow scrolling to control the
     zoom.
 
+- showLegend (boolean; default False):
+    The option of whether to show color legend.
+
 - view (dict; default speckView.new()):
     An object that determines and controls various parameters related
     to how the molecule is displayed.
@@ -107,12 +110,12 @@ Keyword arguments:
 
     - zoom (number; optional)"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, scrollZoom=Component.UNDEFINED, view=Component.UNDEFINED, presetView=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'data', 'loading_state', 'presetView', 'scrollZoom', 'view']
+    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, scrollZoom=Component.UNDEFINED, view=Component.UNDEFINED, presetView=Component.UNDEFINED, loading_state=Component.UNDEFINED, showLegend=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'data', 'loading_state', 'presetView', 'scrollZoom', 'showLegend', 'view']
         self._type = 'Speck'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'data', 'loading_state', 'presetView', 'scrollZoom', 'view']
+        self.available_properties = ['id', 'data', 'loading_state', 'presetView', 'scrollZoom', 'showLegend', 'view']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

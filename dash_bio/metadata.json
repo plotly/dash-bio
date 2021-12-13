@@ -1919,6 +1919,13 @@
         },
         "required": false,
         "description": "Object that holds the loading state object coming from dash-renderer"
+      },
+      "scrollZoom": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether or not to allow scrolling to control\nthe zoom."
       }
     }
   },
@@ -3630,6 +3637,17 @@
         },
         "required": false,
         "description": "Object that holds the loading state object coming from dash-renderer"
+      },
+      "showLegend": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "The option of whether to show color legend",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     }
   }
