@@ -8,6 +8,7 @@ import {
     speckView,
     speckInteractions,
     speckPresetViews,
+    speckElements,
 } from 'speck';
 
 import {propTypes, defaultProps} from '../components/Speck.react';
@@ -19,6 +20,8 @@ import {propTypes, defaultProps} from '../components/Speck.react';
 // Time (in milliseconds) idle before props reconciliation with external
 // view is done
 const PROPS_RECONCILE_DEBOUNCE_TIME = 500;
+
+const MAX_COLOR_INDEX = 255;
 
 const generateSystem = memoize(data => {
     const system = speckSystem.new();
@@ -55,6 +58,15 @@ const viewHasEqual = function(view1) {
     }
     return false;
 };
+
+function resizeCanvas(canvas) {
+    // Make the canvas visually fill the parent div of the plot
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    // Set the internal size to match the parent div
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
 
 export default class Speck extends Component {
     constructor(props) {
@@ -131,12 +143,12 @@ export default class Speck extends Component {
 
             refreshView: () => (this.refreshView = true),
         });
-
+        resizeCanvas(canvas);
         this.loop();
     }
 
     componentDidUpdate(prevProps) {
-        const {data, view, presetView} = this.props;
+        const {data, view, presetView, style} = this.props;
         const {renderer} = this.state;
 
         let viewInternal = this.view;
@@ -160,6 +172,11 @@ export default class Speck extends Component {
 
         // check for changes to data
         if (!equals(data, prevProps.data)) {
+            needsUpdate = true;
+        }
+
+        // check for changes to style
+        if (!equals(style, prevProps.style)) {
             needsUpdate = true;
         }
 
@@ -203,6 +220,7 @@ export default class Speck extends Component {
 
     loadStructure() {
         const {data} = this.props;
+        const {canvas} = this;
 
         // avoid trying to load an empty system
         if (data.length === 0) {
@@ -219,6 +237,9 @@ export default class Speck extends Component {
         renderer.setResolution(view.resolution, view.aoRes);
 
         this.refreshView = true;
+
+        // resize canvas to fit container
+        resizeCanvas(canvas);
     }
 
     loop() {
@@ -232,29 +253,81 @@ export default class Speck extends Component {
         requestAnimationFrame(this.loop);
     }
 
-    render() {
-        const {id, loading_state} = this.props;
-        const {view} = this;
+    colorLegend() {
+        const displayedSymbols = Array.from(
+            new Set(this.props.data.map(({symbol}) => symbol))
+        );
+        const displayedElements = displayedSymbols.map(
+            symbol => speckElements[symbol]
+        );
 
-        const divStyle = {
-            height: view.resolution,
-            width: view.resolution,
+        const containerStyle = {
+            backgroundColor: 'white',
+            width: '60px',
+            height: 'fit-content',
+            padding: '10px',
+            position: 'absolute',
+            right: '-80px',
+            top: 0,
         };
+
+        return (
+            <div style={containerStyle} id="speck-color-legend">
+                {displayedElements.map(element => {
+                    const colorBlockStyle = {
+                        backgroundColor: this.colorToRgb(element.color),
+                        width: '16px',
+                        height: '16px',
+                        display: 'inline-block',
+                        borderRadius: '50%',
+                        marginRight: '20px',
+                        border: '0.25px solid black',
+                    };
+
+                    const colorContainerStyle = {
+                        display: 'flex',
+                        alignItems: 'center',
+                    };
+
+                    return (
+                        <p style={colorContainerStyle} key={element.symbol}>
+                            <span style={colorBlockStyle} />
+                            <span>{element.symbol}</span>
+                        </p>
+                    );
+                })}
+            </div>
+        );
+    }
+
+    colorToRgb(colors) {
+        const newColors = colors
+            .map(color => color * MAX_COLOR_INDEX)
+            .map(color => this.lightenColor(color))
+            .join(', ');
+
+        return `rgb(${newColors})`;
+    }
+
+    // In WebGL we mix original colors with white to get more lighter colors
+    lightenColor(colorChannel) {
+        return colorChannel * 0.5 + MAX_COLOR_INDEX * 0.5;
+    }
+
+    render() {
+        const {id, loading_state, showLegend, style} = this.props;
 
         return (
             <div
                 id={id}
                 ref={this.setContainerRef}
-                style={divStyle}
+                style={style}
                 data-dash-is-loading={
                     (loading_state && loading_state.is_loading) || undefined
                 }
             >
-                <canvas
-                    ref={this.setCanvasRef}
-                    width={view.resolution}
-                    height={view.resolution}
-                />
+                <canvas ref={this.setCanvasRef} />
+                {showLegend && this.colorLegend()}
             </div>
         );
     }

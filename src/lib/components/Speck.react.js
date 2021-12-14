@@ -24,6 +24,12 @@ export default class Speck extends Component {
 Speck.defaultProps = {
     view: speckView.new(),
     data: [],
+    showLegend: false,
+    style: {
+        height: '600px',
+        width: '600px',
+        position: 'relative',
+    },
 };
 
 Speck.propTypes = {
@@ -99,6 +105,11 @@ Speck.propTypes = {
     setProps: PropTypes.func,
 
     /**
+     * Generic style overrides on the plot div
+     */
+    style: PropTypes.object,
+
+    /**
      * Object that holds the loading state object coming from dash-renderer
      */
     loading_state: PropTypes.shape({
@@ -115,6 +126,12 @@ Speck.propTypes = {
          */
         component_name: PropTypes.string,
     }),
+
+    /**
+     * The option of whether to show color legend
+     */
+
+    showLegend: PropTypes.bool,
 };
 
 export const defaultProps = Speck.defaultProps;

@@ -10,7 +10,8 @@
 * [#628](https://github.com/plotly/dash-bio/pull/628) Added option to add colored labels to rows and columns on Clustergram.
 * [#640](https://github.com/plotly/dash-bio/pull/640) Added loading states to each component to support custom loading css with `dash-data-is-loading`.
 * [#642](https://github.com/plotly/dash-bio/pull/642) Added `scrollZoom` property to Molecule2dViewer.
-
+* [#641](https://github.com/plotly/dash-bio/pull/641) Added `showLegend` property to Speck viewer, which allows users to show a color legend for atoms shown on the canvas.
+* [#641](https://github.com/plotly/dash-bio/pull/641) Added `style` property to Speck and Molecule3dViewer to enable generic style overrides on the plot div.
 
 ### Changed
 * [#589](https://github.com/plotly/dash-bio/pull/589) Removed hardcoded clustergram linkage method, added parameter `link_method` instead.
