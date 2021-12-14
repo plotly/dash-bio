@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased - ???
+## [0.9.0] - 2021-12-14
 
 ### Fixed
 * [#629](https://github.com/plotly/dash-bio/pull/629) Fixed an issue where IGV would generate duplicate tracks in the browser when a reload of the module was triggered through dcc.Tabs (for more info see [#572](https://github.com/plotly/dash-bio/issues/572)).
@@ -15,6 +15,7 @@
 
 ### Changed
 * [#589](https://github.com/plotly/dash-bio/pull/589) Removed hardcoded clustergram linkage method, added parameter `link_method` instead.
+* [#592](https://github.com/plotly/dash-bio/pull/592) Changed default plot colors of Clustergram to color vision deficiency friendly colormap (for more info see [#450](https://github.com/plotly/dash-bio/issues/450)).
 
 
 ## [0.8.0] - 2021-09-27
