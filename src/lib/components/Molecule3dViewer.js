@@ -35,6 +35,10 @@ Molecule3dViewer.defaultProps = {
         animationDuration: 0,
         fixedPath: false,
     },
+    style: {
+        height: 500,
+        width: 500,
+    },
 };
 
 Molecule3dViewer.propTypes = {
@@ -186,6 +190,21 @@ Molecule3dViewer.propTypes = {
      * Valid shape types are Arrow, Sphere, and Cylinder.
      */
     shapes: PropTypes.arrayOf(PropTypes.object),
+
+    /**
+     * The height (in px) of the container
+     */
+    height: PropTypes.number,
+
+    /**
+     * The width (in px) of the container
+     */
+    width: PropTypes.number,
+
+    /**
+     * Generic style overrides on the plot div
+     */
+    style: PropTypes.object,
 
     /**
      * Callback to re-render molecule viewer

@@ -2182,6 +2182,31 @@
         "required": false,
         "description": "Add a predefined renderable shape objects to the molecule.\nValid shape types are Arrow, Sphere, and Cylinder."
       },
+      "height": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The height (in px) of the container"
+      },
+      "width": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "The width (in px) of the container"
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Generic style overrides on the plot div",
+        "defaultValue": {
+          "value": "{\n    height: 500,\n    width: 500,\n}",
+          "computed": false
+        }
+      },
       "onRenderNewData": {
         "type": {
           "name": "func"
@@ -3613,6 +3638,17 @@
         },
         "required": false,
         "description": "Dash-assigned callback that should be called whenever any of the\nproperties change."
+      },
+      "style": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "Generic style overrides on the plot div",
+        "defaultValue": {
+          "value": "{\n    height: '600px',\n    width: '600px',\n    position: 'relative',\n}",
+          "computed": false
+        }
       },
       "loading_state": {
         "type": {

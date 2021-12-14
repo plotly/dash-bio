@@ -11,7 +11,7 @@ The Speck component is a WebGL-based 3D molecule renderer. Read more about the c
 
 \usage{
 dashbioSpeck(id=NULL, data=NULL, loading_state=NULL, presetView=NULL,
-scrollZoom=NULL, showLegend=NULL, view=NULL)
+scrollZoom=NULL, showLegend=NULL, style=NULL, view=NULL)
 }
 
 \arguments{
@@ -39,6 +39,8 @@ and licorice}
 the zoom.}
 
 \item{showLegend}{Logical. The option of whether to show color legend}
+
+\item{style}{Named list. Generic style overrides on the plot div}
 
 \item{view}{Lists containing elements 'aspect', 'zoom', 'translation', 'atomscale', 'relativeatomscale', 'bondscale', 'rotation', 'ao', 'aores', 'brightness', 'outline', 'spf', 'bonds', 'bondthreshold', 'bondshade', 'atomshade', 'resolution', 'dofstrength', 'dofposition', 'fxaa'.
 those elements have the following types:

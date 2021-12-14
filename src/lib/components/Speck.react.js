@@ -25,6 +25,11 @@ Speck.defaultProps = {
     view: speckView.new(),
     data: [],
     showLegend: false,
+    style: {
+        height: '600px',
+        width: '600px',
+        position: 'relative',
+    },
 };
 
 Speck.propTypes = {
@@ -98,6 +103,11 @@ Speck.propTypes = {
      */
 
     setProps: PropTypes.func,
+
+    /**
+     * Generic style overrides on the plot div
+     */
+    style: PropTypes.object,
 
     /**
      * Object that holds the loading state object coming from dash-renderer

@@ -59,6 +59,15 @@ const viewHasEqual = function(view1) {
     return false;
 };
 
+function resizeCanvas(canvas) {
+    // Make the canvas visually fill the parent div of the plot
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    // Set the internal size to match the parent div
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+
 export default class Speck extends Component {
     constructor(props) {
         super(props);
@@ -134,12 +143,12 @@ export default class Speck extends Component {
 
             refreshView: () => (this.refreshView = true),
         });
-
+        resizeCanvas(canvas);
         this.loop();
     }
 
     componentDidUpdate(prevProps) {
-        const {data, view, presetView} = this.props;
+        const {data, view, presetView, style} = this.props;
         const {renderer} = this.state;
 
         let viewInternal = this.view;
@@ -163,6 +172,11 @@ export default class Speck extends Component {
 
         // check for changes to data
         if (!equals(data, prevProps.data)) {
+            needsUpdate = true;
+        }
+
+        // check for changes to style
+        if (!equals(style, prevProps.style)) {
             needsUpdate = true;
         }
 
@@ -206,6 +220,7 @@ export default class Speck extends Component {
 
     loadStructure() {
         const {data} = this.props;
+        const {canvas} = this;
 
         // avoid trying to load an empty system
         if (data.length === 0) {
@@ -222,6 +237,9 @@ export default class Speck extends Component {
         renderer.setResolution(view.resolution, view.aoRes);
 
         this.refreshView = true;
+
+        // resize canvas to fit container
+        resizeCanvas(canvas);
     }
 
     loop() {
@@ -297,29 +315,18 @@ export default class Speck extends Component {
     }
 
     render() {
-        const {id, loading_state, showLegend} = this.props;
-        const {view} = this;
-
-        const divStyle = {
-            height: view.resolution,
-            width: view.resolution,
-            position: 'relative',
-        };
+        const {id, loading_state, showLegend, style} = this.props;
 
         return (
             <div
                 id={id}
                 ref={this.setContainerRef}
-                style={divStyle}
+                style={style}
                 data-dash-is-loading={
                     (loading_state && loading_state.is_loading) || undefined
                 }
             >
-                <canvas
-                    ref={this.setCanvasRef}
-                    width={view.resolution}
-                    height={view.resolution}
-                />
+                <canvas ref={this.setCanvasRef} />
                 {showLegend && this.colorLegend()}
             </div>
         );
