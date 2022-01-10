@@ -27,6 +27,9 @@ export default class Molecule3dViewer extends Component {
             this.props.zoom.animationDuration,
             this.props.zoom.fixedPath
         );
+
+        glviewer.setHeight(this.props.height);
+        glviewer.setWidth(this.props.width);
     }
 
     shouldComponentUpdate(nextProps) {
@@ -41,6 +44,11 @@ export default class Molecule3dViewer extends Component {
             this.props.labels !== nextProps.labels ||
             this.props.zoom !== nextProps.zoom ||
             this.props.zoomTo !== nextProps.zoomTo ||
+            this.props.height !== nextProps.height ||
+            this.props.width !== nextProps.width ||
+            this.props.style !== nextProps.style ||
+            JSON.stringify(this.props.loading_state) !==
+                JSON.stringify(nextProps.loading_state) ||
             (!this.props.selectedAtomIds && nextProps.selectedAtomIds) ||
             (this.props.selectedAtomIds && !nextProps.selectedAtomIds) ||
             (this.props.selectedAtomIds &&
@@ -82,7 +90,7 @@ export default class Molecule3dViewer extends Component {
     }
 
     render() {
-        const {id, selectionType} = this.props;
+        const {id, selectionType, loading_state, style} = this.props;
 
         // molecule-3d-for-react requires the selection type to be
         // capitalized, but Dash typically uses all-lowercase prop values
@@ -94,7 +102,13 @@ export default class Molecule3dViewer extends Component {
                   selectionType.slice(1);
 
         return (
-            <div id={id}>
+            <div
+                id={id}
+                data-dash-is-loading={
+                    (loading_state && loading_state.is_loading) || undefined
+                }
+                style={style}
+            >
                 <Molecule3d
                     {...this.props}
                     selectionType={capitalizedSelectionType}

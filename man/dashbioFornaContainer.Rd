@@ -12,7 +12,8 @@ FornaContainer is a force-directed graph that is used to visualize the secondary
 \usage{
 dashbioFornaContainer(id=NULL, allowPanningAndZooming=NULL, colorScheme=NULL,
 customColors=NULL, height=NULL, hoverPattern=NULL,
-nodeFillColor=NULL, sequences=NULL, width=NULL)
+loading_state=NULL, nodeFillColor=NULL, sequences=NULL,
+width=NULL)
 }
 
 \arguments{
@@ -62,6 +63,12 @@ hover on the elements. To render node property place it into ${}
 construction. For example: 'Structure name is ${structName} - ${num}'.
 Acceptable node properties are "num", "radius", "rna", "nodeType",
 "structName", "size", "uid", "name".}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{nodeFillColor}{Character. The fill color for all of the nodes. This will override any
 color scheme defined in colorScheme.}

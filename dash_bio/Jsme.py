@@ -31,6 +31,21 @@ Keyword arguments:
 - height (string; default '600px'):
     The height of the JSME container. Can be set in px, % etc.
 
+- loading_state (dict; optional):
+    Object that holds the loading state object coming from
+    dash-renderer.
+
+    `loading_state` is a dict with keys:
+
+    - component_name (string; optional):
+        Holds the name of the component that is loading.
+
+    - is_loading (boolean; optional):
+        Determines if the component is loading or not.
+
+    - prop_name (string; optional):
+        Holds which property is loading.
+
 - options (string; default 'newLook'):
     String that is a comma separated string of JSME options. The
     available options are described on the
@@ -45,12 +60,12 @@ Keyword arguments:
 - width (string; default '600px'):
     The width of the JSME container. Can be set in px, % etc."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, style=Component.UNDEFINED, options=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, eventSmiles=Component.UNDEFINED, smiles=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'eventSmiles', 'height', 'options', 'smiles', 'style', 'width']
+    def __init__(self, id=Component.UNDEFINED, style=Component.UNDEFINED, options=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, eventSmiles=Component.UNDEFINED, smiles=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'eventSmiles', 'height', 'loading_state', 'options', 'smiles', 'style', 'width']
         self._type = 'Jsme'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'eventSmiles', 'height', 'options', 'smiles', 'style', 'width']
+        self.available_properties = ['id', 'eventSmiles', 'height', 'loading_state', 'options', 'smiles', 'style', 'width']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

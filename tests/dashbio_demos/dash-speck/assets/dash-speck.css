@@ -25,10 +25,12 @@
 #speck-body .rc-slider-handle {
     border-color: #5673FA;
 }
-#speck-show-hide-bonds label, #speck-enable-presets label {
+#speck-show-hide-bonds label, #speck-enable-presets label, #speck-enable-legend label {
     font-size: 14pt;
 }
-#speck-show-hide-bonds label input[type=checkbox], #speck-enable-presets label input[type=checkbox] {
+#speck-show-hide-bonds label input[type=checkbox],
+#speck-enable-presets label input[type=checkbox],
+#speck-enable-legend label input[type=checkbox] {
     height: 12pt;
     margin-right: 10px;
 }

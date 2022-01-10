@@ -25,11 +25,29 @@ Keyword arguments:
 - backgroundOpacity (number; default 0):
     Property to change the background opacity - ranges from 0 to 1.
 
+- height (number; optional):
+    The height (in px) of the container.
+
 - labels (list of dicts; optional):
     Labels corresponding to the atoms of the molecule. Each label has
     a `text` field, a string containing the label content, and can
     have many other styling fields as described in
     https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec.
+
+- loading_state (dict; optional):
+    Object that holds the loading state object coming from
+    dash-renderer.
+
+    `loading_state` is a dict with keys:
+
+    - component_name (string; optional):
+        Holds the name of the component that is loading.
+
+    - is_loading (boolean; optional):
+        Determines if the component is loading or not.
+
+    - prop_name (string; optional):
+        Holds which property is loading.
 
 - modelData (dict; optional):
     The data that will be used to display the molecule in 3D The data
@@ -74,6 +92,9 @@ Keyword arguments:
     Add a predefined renderable shape objects to the molecule. Valid
     shape types are Arrow, Sphere, and Cylinder.
 
+- style (dict; default {    height: 500,    width: 500,}):
+    Generic style overrides on the plot div.
+
 - styles (list of dicts; optional):
     Property that can be used to change the representation of the
     molecule. Options include sticks, cartoon and sphere.
@@ -83,6 +104,9 @@ Keyword arguments:
     - color (string; optional)
 
     - visualization_type (a value equal to: 'cartoon', 'sphere', 'stick'; optional)
+
+- width (number; optional):
+    The width (in px) of the container.
 
 - zoom (dict; default {    factor: 0.8,    animationDuration: 0,    fixedPath: False,}):
     Zoom the current view by a constant factor, with optional
@@ -129,12 +153,12 @@ Keyword arguments:
             The index value used to identify the residue; residues are
             numbered sequentially starting from 1."""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, selectionType=Component.UNDEFINED, backgroundColor=Component.UNDEFINED, backgroundOpacity=Component.UNDEFINED, styles=Component.UNDEFINED, modelData=Component.UNDEFINED, atomLabelsShown=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, labels=Component.UNDEFINED, orbital=Component.UNDEFINED, zoom=Component.UNDEFINED, zoomTo=Component.UNDEFINED, shapes=Component.UNDEFINED, onRenderNewData=Component.UNDEFINED, onChangeSelection=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'labels', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'styles', 'zoom', 'zoomTo']
+    def __init__(self, id=Component.UNDEFINED, selectionType=Component.UNDEFINED, backgroundColor=Component.UNDEFINED, backgroundOpacity=Component.UNDEFINED, styles=Component.UNDEFINED, modelData=Component.UNDEFINED, atomLabelsShown=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, labels=Component.UNDEFINED, orbital=Component.UNDEFINED, zoom=Component.UNDEFINED, zoomTo=Component.UNDEFINED, shapes=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, style=Component.UNDEFINED, onRenderNewData=Component.UNDEFINED, onChangeSelection=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'height', 'labels', 'loading_state', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'style', 'styles', 'width', 'zoom', 'zoomTo']
         self._type = 'Molecule3dViewer'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'labels', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'styles', 'zoom', 'zoomTo']
+        self.available_properties = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'height', 'labels', 'loading_state', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'style', 'styles', 'width', 'zoom', 'zoomTo']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

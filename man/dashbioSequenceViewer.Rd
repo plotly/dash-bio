@@ -11,9 +11,9 @@ The sequence viewer component is used to display sequences that represent protei
 
 \usage{
 dashbioSequenceViewer(id=NULL, badge=NULL, charsPerLine=NULL, coverage=NULL,
-coverageClicked=NULL, legend=NULL, mouseSelection=NULL,
-search=NULL, selection=NULL, sequence=NULL,
-sequenceMaxHeight=NULL, showLineNumbers=NULL,
+coverageClicked=NULL, legend=NULL, loading_state=NULL,
+mouseSelection=NULL, search=NULL, selection=NULL,
+sequence=NULL, sequenceMaxHeight=NULL, showLineNumbers=NULL,
 subpartSelected=NULL, title=NULL, toolbar=NULL,
 wrapAminoAcids=NULL)
 }
@@ -48,6 +48,12 @@ those elements have the following types:
   - name (character; optional)
   - color (character; optional)
   - underscore (logical; optional)s. A legend corresponding to the color codes above (optionally displayed).}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{mouseSelection}{Lists containing elements 'start', 'end', 'selection'.
 those elements have the following types:

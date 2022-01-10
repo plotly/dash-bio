@@ -258,7 +258,13 @@ def layout():
                                     )
                                 ])
                             ]
-                        )
+                        ),
+                        html.Hr(),
+                        dcc.Checklist(
+                            id='speck-enable-legend',
+                            options=[{'label': 'Show legend', 'value': 'True'}],
+                            value=[]
+                        ),
                     ])
                 ),
             ])
@@ -299,7 +305,7 @@ def callbacks(_app):
     @_app.callback(
         Output('speck-molecule-dropdown', 'value'),
         [Input('speck-file-upload', 'contents')],
-        state=[State('speck-molecule-dropdown', 'value')]
+        [State('speck-molecule-dropdown', 'value')]
     )
     def clear_preloaded_on_upload(upload_contents, current):
         if upload_contents is not None:
@@ -310,7 +316,7 @@ def callbacks(_app):
         Output('speck-preloaded-uploaded-alert', 'children'),
         [Input('speck-molecule-dropdown', 'value'),
          Input('speck-file-upload', 'contents')],
-        state=[State('speck-file-upload', 'filename')]
+        [State('speck-file-upload', 'filename')]
     )
     def alert_preloaded_and_uploaded(molecule_fname, upload_contents, upload_fname):
         if molecule_fname is not None and upload_contents is not None:
@@ -386,8 +392,8 @@ def callbacks(_app):
         Output('speck', 'presetView'),
         [Input('speck-store-preset-atom-style', 'modified_timestamp'),
          Input('speck-store-preset-rendering', 'modified_timestamp')],
-        state=[State('speck-preset-rendering-dropdown', 'value'),
-               State('speck-preset-atom-style-dropdown', 'value')]
+        [State('speck-preset-rendering-dropdown', 'value'),
+         State('speck-preset-atom-style-dropdown', 'value')]
     )
     def preset_callback(
             atomstyle_ts, render_ts,
@@ -410,12 +416,19 @@ def callbacks(_app):
     @_app.callback(
         Output('speck-preset-atom-style-dropdown', 'value'),
         [Input('speck-preset-rendering-dropdown', 'value')],
-        state=[State('speck-preset-atom-style-dropdown', 'value')]
+        [State('speck-preset-atom-style-dropdown', 'value')]
     )
     def keep_atom_style(render, current):
         if render == 'default':
             return None
         return current
+
+    @_app.callback(
+        Output('speck', 'showLegend'),
+        Input('speck-enable-legend', 'value')
+    )
+    def update_show_legend(show_legend):
+        return show_legend[0] if len(show_legend) > 0 else False
 
 
 app = run_standalone_app(layout, callbacks, header_colors, __file__)

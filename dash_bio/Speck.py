@@ -29,6 +29,21 @@ Keyword arguments:
 
     - z (number; optional)
 
+- loading_state (dict; optional):
+    Object that holds the loading state object coming from
+    dash-renderer.
+
+    `loading_state` is a dict with keys:
+
+    - component_name (string; optional):
+        Holds the name of the component that is loading.
+
+    - is_loading (boolean; optional):
+        Determines if the component is loading or not.
+
+    - prop_name (string; optional):
+        Holds which property is loading.
+
 - presetView (a value equal to: 'default', 'stickball', 'toon', 'licorice'; optional):
     One of several pre-loaded views: default, stick-ball, toon, and
     licorice.
@@ -36,6 +51,12 @@ Keyword arguments:
 - scrollZoom (boolean; optional):
     The option of whether or not to allow scrolling to control the
     zoom.
+
+- showLegend (boolean; default False):
+    The option of whether to show color legend.
+
+- style (dict; default {    height: '600px',    width: '600px',    position: 'relative',}):
+    Generic style overrides on the plot div.
 
 - view (dict; default speckView.new()):
     An object that determines and controls various parameters related
@@ -92,12 +113,12 @@ Keyword arguments:
 
     - zoom (number; optional)"""
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, scrollZoom=Component.UNDEFINED, view=Component.UNDEFINED, presetView=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'data', 'presetView', 'scrollZoom', 'view']
+    def __init__(self, id=Component.UNDEFINED, data=Component.UNDEFINED, scrollZoom=Component.UNDEFINED, view=Component.UNDEFINED, presetView=Component.UNDEFINED, style=Component.UNDEFINED, loading_state=Component.UNDEFINED, showLegend=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'data', 'loading_state', 'presetView', 'scrollZoom', 'showLegend', 'style', 'view']
         self._type = 'Speck'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'data', 'presetView', 'scrollZoom', 'view']
+        self.available_properties = ['id', 'data', 'loading_state', 'presetView', 'scrollZoom', 'showLegend', 'style', 'view']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

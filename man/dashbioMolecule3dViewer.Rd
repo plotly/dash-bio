@@ -11,10 +11,11 @@ The Molecule3dViewer component is used to render schematic diagrams of biomolecu
 
 \usage{
 dashbioMolecule3dViewer(id=NULL, atomLabelsShown=NULL, backgroundColor=NULL,
-backgroundOpacity=NULL, labels=NULL, modelData=NULL,
-onChangeSelection=NULL, onRenderNewData=NULL, orbital=NULL,
-selectedAtomIds=NULL, selectionType=NULL, shapes=NULL,
-styles=NULL, zoom=NULL, zoomTo=NULL)
+backgroundOpacity=NULL, height=NULL, labels=NULL,
+loading_state=NULL, modelData=NULL, onChangeSelection=NULL,
+onRenderNewData=NULL, orbital=NULL, selectedAtomIds=NULL,
+selectionType=NULL, shapes=NULL, style=NULL, styles=NULL,
+width=NULL, zoom=NULL, zoomTo=NULL)
 }
 
 \arguments{
@@ -26,10 +27,18 @@ styles=NULL, zoom=NULL, zoomTo=NULL)
 
 \item{backgroundOpacity}{Numeric. Property to change the background opacity - ranges from 0 to 1}
 
+\item{height}{Numeric. The height (in px) of the container}
+
 \item{labels}{List of named lists. Labels corresponding to the atoms of the molecule.
 Each label has a `text` field, a string containing the label content,
 and can have many other styling fields as described in
 https://3dmol.csb.pitt.edu/doc/types.html#LabelSpec}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{modelData}{Lists containing elements 'atoms', 'bonds'.
 those elements have the following types:
@@ -59,11 +68,15 @@ those elements have the following types:
 \item{shapes}{List of named lists. Add a predefined renderable shape objects to the molecule.
 Valid shape types are Arrow, Sphere, and Cylinder.}
 
+\item{style}{Named list. Generic style overrides on the plot div}
+
 \item{styles}{List of lists containing elements 'color', 'visualization_type'.
 those elements have the following types:
   - color (character; optional)
   - visualization_type (a value equal to: 'cartoon', 'sphere', 'stick'; optional)s. Property that can be used to change the representation of
 the molecule. Options include sticks, cartoon and sphere}
+
+\item{width}{Numeric. The width (in px) of the container}
 
 \item{zoom}{Lists containing elements 'factor', 'animationduration', 'fixedpath'.
 those elements have the following types:

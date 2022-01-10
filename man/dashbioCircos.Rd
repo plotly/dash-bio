@@ -6,35 +6,69 @@
 \title{Circos component}
 
 \description{
-Dash Circos is a library used to analyze and interpret data using a circular layout, based on the popular 'Circos' graph. This Dash Bio component is a useful tool for showcasing relationships bewtween data/datasets in a beautiful way. Please checkout the Dash Bio repository on github to learn more about this API.
+Dash Circos is a library used to analyze and interpret data using a circular layout, based on the popular 'Circos' graph. This Dash Bio component is a useful tool for showcasing relationships between data/datasets in an attractive, circular layout to highlight feature interactions and relationships.
 }
 
 \usage{
 dashbioCircos(id=NULL, config=NULL, enableDownloadSVG=NULL,
 enableZoomPan=NULL, eventDatum=NULL, layout=NULL,
-selectEvent=NULL, size=NULL, style=NULL, tracks=NULL)
+loading_state=NULL, selectEvent=NULL, size=NULL, style=NULL,
+tracks=NULL)
 }
 
 \arguments{
-\item{id}{Character. The ID of the component to be used in Dash callbacks}
+\item{id}{Character. The ID of the component to be used in Dash callbacks.}
 
-\item{config}{Named list. Configuration of overall layout of the graph.}
+\item{config}{Lists containing elements 'innerradius', 'outerradius', 'cornerradius', 'gap', 'labels', 'ticks'.
+those elements have the following types:
+  - innerradius (numeric; optional)
+  - outerradius (numeric; optional)
+  - cornerradius (numeric; optional)
+  - gap (numeric; optional)
+  - labels (optional): . labels has the following type: lists containing elements 'display', 'size', 'color', 'radialoffset'.
+those elements have the following types:
+  - display (logical; optional)
+  - size (numeric; optional)
+  - color (character; optional)
+  - radialoffset (numeric; optional)
+  - ticks (optional): . ticks has the following type: lists containing elements 'display', 'color', 'spacing', 'labels', 'labelspacing', 'labelsuffix', 'labeldenominator', 'labeldisplay0', 'labelsize', 'labelcolor', 'labelfont', 'majorspacing', 'size'.
+those elements have the following types:
+  - display (logical; optional)
+  - color (character; optional)
+  - spacing (numeric; optional)
+  - labels (logical; optional)
+  - labelspacing (numeric; optional)
+  - labelsuffix (character; optional)
+  - labeldenominator (numeric; optional)
+  - labeldisplay0 (logical; optional)
+  - labelsize (numeric; optional)
+  - labelcolor (character; optional)
+  - labelfont (character; optional)
+  - majorspacing (numeric; optional)
+  - size (optional): . size has the following type: lists containing elements 'minor', 'major'.
+those elements have the following types:
+  - minor (numeric; optional)
+  - major (numeric; optional). Configuration options for the graph layout.}
 
 \item{enableDownloadSVG}{Logical. Allow for an SVG snapshot of the Circos graph to be downloaded.}
 
 \item{enableZoomPan}{Logical. Allow for zooming and panning the Circos graph.}
 
-\item{eventDatum}{Named list. A Dash prop that returns data on clicking or hovering of the tracks.
-Depending on what is specified for prop "selectEvent".}
+\item{eventDatum}{Named list. A Dash prop that returns data on clicking or hovering of the tracks,
+depending on what is specified for prop "selectEvent".}
 
 \item{layout}{List of lists containing elements 'len', 'color', 'label', 'id'.
 those elements have the following types:
   - len (numeric; required): the length of the block.
   - color (character; required): the color of the block.
   - label (character; required): the labels of the block.
-  - id (character; required): the id of the block, where it will recieve
-data from the specified "track" id.s. The overall layout of the Circos graph, provided
-as a list of dictionaries.}
+  - id (character; required): the id of the block.s. Data used to draw Circos layout blocks.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{selectEvent}{Named list. A dictionary used to choose whether tracks should return
 data on click, hover, or both, with the dash prop "eventDatum".
@@ -50,59 +84,16 @@ selectEvent={
 \item{size}{Numeric. The overall size of the SVG container holding the
 graph. Set on initilization and unchangeable thereafter.}
 
-\item{style}{Named list. The CSS styling of the div wrapping the component}
+\item{style}{Named list. The CSS styling of the div wrapping the component.}
 
-\item{tracks}{List of lists containing elements 'id', 'data', 'config', 'type', 'tooltipcontent', 'color'.
+\item{tracks}{List of lists containing elements 'id', 'data', 'config', 'type'.
 those elements have the following types:
-  - id (character; optional): the id of a specific piece of track data.
-  - data (unnamed list; required): the data that makes up the track. it can
-be a json object.
-  - config (named list; optional): the layout of the tracks, where the user
-can configure innerradius, outterradius, ticks,
-labels, and more.
-  - type (a value equal to: 'chords', 'heatmap', 'highlight', 'histogram', 'line', 'scatter', 'stack', 'text'; optional): specify the type of track this is.
-please check the docs for a list of tracks you can use,
-and ensure the name is typed in all capitals.
-  - tooltipcontent (optional): specify what data for tooltipcontent is
-displayed.
-the entry for the "name" key, is any of the keys used in the data loaded into tracks.
-ex: "tooltipcontent": {"name": "block_id"},
-to display all data in the dataset use "all" as the entry for the key "name".
-ex: "tooltipcontent": {"name": "all"}
-ex: this will return (source) + ' > ' + (target) + ': ' + (targetend)'.
-"tooltipcontent": {
-                "source": "block_id",
-                "target": "position",
-                "targetend": "value"
-                        },
-ex: this will return (source)(sourceid) + ' > ' + (target)(targetid) + ': ' (target)(targetend)'.
-"tooltipcontent": {
-                "source": "source",
-                "sourceid": "id",
-                "target": "target",
-                "targetid": "id",
-                "targetend": "end"
-            }. tooltipcontent has the following type: character | lists containing elements 'name'.
-those elements have the following types:
-  - name (character; required) | lists containing elements 'source', 'sourceid', 'target', 'targetend', 'targetid'.
-those elements have the following types:
-  - source (character; required)
-  - sourceid (character; optional)
-  - target (character; required)
-  - targetend (character; required)
-  - targetid (character; optional)
-  - color (optional): specify which dictonary key to grab color values from, in the passed in dataset.
-this can be a string or an object.
-if using a string, you can specify hex,
-rgb, and colors from d3 scale chromatic (ex: rdylbu).
-the key "name" is required for this dictionary,
-where the input for "name" points to some list of
-dictionaries color values.
-ex: "color": {"name": "some key that refers to color in a data set"}. color has the following type: character | lists containing elements 'name'.
-those elements have the following types:
-  - name (character; required)s. Tracks that specify specific layouts.
-For a complete list of tracks and usage,
-please check the docs.}
+  - id (character; optional): the id of the track.
+  - data (list of named lists; optional): the data that makes up the track, passed as a list of dicts with different keys depending on the track type.
+see the docs section about a given track type to learn more about the required data format.
+  - config (named list; optional): the track configuration. depending on the track type it will be a dict with different keys.
+see the docs section about a given track type to learn more about available configuration options.
+  - type (a value equal to: 'chords', 'heatmap', 'highlight', 'histogram', 'line', 'scatter', 'stack', 'text'; optional): the type of the track.s. A list of tracks displayed on top of the base Circos layout.}
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

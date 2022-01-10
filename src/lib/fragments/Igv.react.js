@@ -20,7 +20,7 @@ export default class Igv extends Component {
             locus: this.props.locus,
             reference: this.props.reference,
             minimumBases: this.props.minimumBases,
-            tracks: this.props.tracks,
+            tracks: this.props.tracks && [...this.props.tracks],
         };
         return igv
             .createBrowser(igvContainer, igvOptions)
@@ -39,7 +39,8 @@ export default class Igv extends Component {
             this.props.minimumBases !== prevProps.minimumBases ||
             this.props.locus !== prevProps.locus ||
             this.props.reference !== prevProps.reference ||
-            this.props.tracks !== prevProps.tracks
+            this.props.tracks !== prevProps.tracks ||
+            this.props.loading_state !== prevProps.loading_state
         ) {
             igv.removeBrowser(igv.browser);
             this.createIgvBrowser();
@@ -47,9 +48,18 @@ export default class Igv extends Component {
     }
 
     render() {
-        const {id, style} = this.props;
+        const {id, style, loading_state} = this.props;
 
-        return <div id={id} style={style} ref={this.ref} />;
+        return (
+            <div
+                id={id}
+                style={style}
+                ref={this.ref}
+                data-dash-is-loading={
+                    (loading_state && loading_state.is_loading) || undefined
+                }
+            />
+        );
     }
 }
 

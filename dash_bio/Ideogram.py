@@ -178,6 +178,21 @@ Keyword arguments:
 
         - stop (list of numbers; optional)
 
+- loading_state (dict; optional):
+    Object that holds the loading state object coming from
+    dash-renderer.
+
+    `loading_state` is a dict with keys:
+
+    - component_name (string; optional):
+        Holds the name of the component that is loading.
+
+    - is_loading (boolean; optional):
+        Determines if the component is loading or not.
+
+    - prop_name (string; optional):
+        Holds which property is loading.
+
 - localOrganism (dict; optional):
     Provide local JSON organism into this prop from a local user JSON
     file. DataDir must not be initialized.
@@ -246,12 +261,12 @@ Keyword arguments:
 - style (dict; optional):
     The component's inline styles."""
     @_explicitize_args
-    def __init__(self, id=Component.REQUIRED, style=Component.UNDEFINED, className=Component.UNDEFINED, annotationsLayout=Component.UNDEFINED, annotations=Component.UNDEFINED, annotationsPath=Component.UNDEFINED, annotationsData=Component.UNDEFINED, annotationTracks=Component.UNDEFINED, annotationHeight=Component.UNDEFINED, annotationsColor=Component.UNDEFINED, histogramScaling=Component.UNDEFINED, barWidth=Component.UNDEFINED, showAnnotTooltip=Component.UNDEFINED, assembly=Component.UNDEFINED, brush=Component.UNDEFINED, brushData=Component.UNDEFINED, container=Component.UNDEFINED, chrHeight=Component.UNDEFINED, chrMargin=Component.UNDEFINED, chrWidth=Component.UNDEFINED, chromosomes=Component.UNDEFINED, dataDir=Component.UNDEFINED, organism=Component.UNDEFINED, localOrganism=Component.UNDEFINED, homology=Component.UNDEFINED, perspective=Component.UNDEFINED, fullChromosomeLabels=Component.UNDEFINED, resolution=Component.UNDEFINED, filterable=Component.UNDEFINED, orientation=Component.UNDEFINED, ploidy=Component.UNDEFINED, ploidyDesc=Component.UNDEFINED, ancestors=Component.UNDEFINED, rangeSet=Component.UNDEFINED, rotatable=Component.UNDEFINED, rotated=Component.UNDEFINED, sex=Component.UNDEFINED, showChromosomeLabels=Component.UNDEFINED, showBandLabels=Component.UNDEFINED, showFullyBanded=Component.UNDEFINED, showNonNuclearChromosomes=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'ancestors', 'annotationHeight', 'annotationTracks', 'annotations', 'annotationsColor', 'annotationsData', 'annotationsLayout', 'annotationsPath', 'assembly', 'barWidth', 'brush', 'brushData', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'className', 'container', 'dataDir', 'filterable', 'fullChromosomeLabels', 'histogramScaling', 'homology', 'localOrganism', 'organism', 'orientation', 'perspective', 'ploidy', 'ploidyDesc', 'rangeSet', 'resolution', 'rotatable', 'rotated', 'sex', 'showAnnotTooltip', 'showBandLabels', 'showChromosomeLabels', 'showFullyBanded', 'showNonNuclearChromosomes', 'style']
+    def __init__(self, id=Component.REQUIRED, style=Component.UNDEFINED, className=Component.UNDEFINED, annotationsLayout=Component.UNDEFINED, annotations=Component.UNDEFINED, annotationsPath=Component.UNDEFINED, annotationsData=Component.UNDEFINED, annotationTracks=Component.UNDEFINED, annotationHeight=Component.UNDEFINED, annotationsColor=Component.UNDEFINED, histogramScaling=Component.UNDEFINED, barWidth=Component.UNDEFINED, showAnnotTooltip=Component.UNDEFINED, assembly=Component.UNDEFINED, brush=Component.UNDEFINED, brushData=Component.UNDEFINED, container=Component.UNDEFINED, chrHeight=Component.UNDEFINED, chrMargin=Component.UNDEFINED, chrWidth=Component.UNDEFINED, chromosomes=Component.UNDEFINED, dataDir=Component.UNDEFINED, organism=Component.UNDEFINED, localOrganism=Component.UNDEFINED, homology=Component.UNDEFINED, perspective=Component.UNDEFINED, fullChromosomeLabels=Component.UNDEFINED, resolution=Component.UNDEFINED, filterable=Component.UNDEFINED, orientation=Component.UNDEFINED, ploidy=Component.UNDEFINED, ploidyDesc=Component.UNDEFINED, ancestors=Component.UNDEFINED, rangeSet=Component.UNDEFINED, rotatable=Component.UNDEFINED, rotated=Component.UNDEFINED, sex=Component.UNDEFINED, showChromosomeLabels=Component.UNDEFINED, showBandLabels=Component.UNDEFINED, showFullyBanded=Component.UNDEFINED, showNonNuclearChromosomes=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'ancestors', 'annotationHeight', 'annotationTracks', 'annotations', 'annotationsColor', 'annotationsData', 'annotationsLayout', 'annotationsPath', 'assembly', 'barWidth', 'brush', 'brushData', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'className', 'container', 'dataDir', 'filterable', 'fullChromosomeLabels', 'histogramScaling', 'homology', 'loading_state', 'localOrganism', 'organism', 'orientation', 'perspective', 'ploidy', 'ploidyDesc', 'rangeSet', 'resolution', 'rotatable', 'rotated', 'sex', 'showAnnotTooltip', 'showBandLabels', 'showChromosomeLabels', 'showFullyBanded', 'showNonNuclearChromosomes', 'style']
         self._type = 'Ideogram'
         self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'ancestors', 'annotationHeight', 'annotationTracks', 'annotations', 'annotationsColor', 'annotationsData', 'annotationsLayout', 'annotationsPath', 'assembly', 'barWidth', 'brush', 'brushData', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'className', 'container', 'dataDir', 'filterable', 'fullChromosomeLabels', 'histogramScaling', 'homology', 'localOrganism', 'organism', 'orientation', 'perspective', 'ploidy', 'ploidyDesc', 'rangeSet', 'resolution', 'rotatable', 'rotated', 'sex', 'showAnnotTooltip', 'showBandLabels', 'showChromosomeLabels', 'showFullyBanded', 'showNonNuclearChromosomes', 'style']
+        self.available_properties = ['id', 'ancestors', 'annotationHeight', 'annotationTracks', 'annotations', 'annotationsColor', 'annotationsData', 'annotationsLayout', 'annotationsPath', 'assembly', 'barWidth', 'brush', 'brushData', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomes', 'className', 'container', 'dataDir', 'filterable', 'fullChromosomeLabels', 'histogramScaling', 'homology', 'loading_state', 'localOrganism', 'organism', 'orientation', 'perspective', 'ploidy', 'ploidyDesc', 'rangeSet', 'resolution', 'rotatable', 'rotated', 'sex', 'showAnnotTooltip', 'showBandLabels', 'showChromosomeLabels', 'showFullyBanded', 'showNonNuclearChromosomes', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

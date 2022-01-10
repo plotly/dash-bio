@@ -10,8 +10,9 @@ The Igv component is an interactive genome visualization component developed by 
 }
 
 \usage{
-dashbioIgv(id=NULL, className=NULL, genome=NULL, locus=NULL,
-minimumBases=NULL, reference=NULL, style=NULL, tracks=NULL)
+dashbioIgv(id=NULL, className=NULL, genome=NULL, loading_state=NULL,
+locus=NULL, minimumBases=NULL, reference=NULL, style=NULL,
+tracks=NULL)
 }
 
 \arguments{
@@ -24,6 +25,12 @@ The ID needs to be unique across all of the components in an app.}
     for details and list of supported identifiers. Note: One (but only one) of
     either genome or reference properties must be set. If both are set,
     the genome property will be ignored.}
+
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
 
 \item{locus}{Character. Initial genomic location(s). Either a string or an array of strings.
     If an array a viewport is created for each location.}

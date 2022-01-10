@@ -1,12 +1,22 @@
 # Changelog
 
-## Unreleased - ???
+## [0.9.0] - 2021-12-14
+
+### Fixed
+* [#629](https://github.com/plotly/dash-bio/pull/629) Fixed an issue where IGV would generate duplicate tracks in the browser when a reload of the module was triggered through dcc.Tabs (for more info see [#572](https://github.com/plotly/dash-bio/issues/572)).
 
 ### Added
 * [#587](https://github.com/plotly/dash-bio/pull/587) Added JSME component.
+* [#628](https://github.com/plotly/dash-bio/pull/628) Added option to add colored labels to rows and columns on Clustergram.
+* [#640](https://github.com/plotly/dash-bio/pull/640) Added loading states to each component to support custom loading css with `dash-data-is-loading`.
+* [#642](https://github.com/plotly/dash-bio/pull/642) Added `scrollZoom` property to Molecule2dViewer.
+* [#641](https://github.com/plotly/dash-bio/pull/641) Added `showLegend` property to Speck viewer, which allows users to show a color legend for atoms shown on the canvas.
+* [#641](https://github.com/plotly/dash-bio/pull/641) Added `style` property to Speck and Molecule3dViewer to enable generic style overrides on the plot div.
 
 ### Changed
 * [#589](https://github.com/plotly/dash-bio/pull/589) Removed hardcoded clustergram linkage method, added parameter `link_method` instead.
+* [#592](https://github.com/plotly/dash-bio/pull/592) Changed default plot colors of Clustergram to color vision deficiency friendly colormap (for more info see [#450](https://github.com/plotly/dash-bio/issues/450)).
+
 
 ## [0.8.0] - 2021-09-27
 

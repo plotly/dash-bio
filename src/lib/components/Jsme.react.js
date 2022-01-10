@@ -41,38 +41,63 @@ Jsme.propTypes = {
      * The ID of this component, used to identify dash components in callbacks.
      * The ID needs to be unique across all of the components in an app.
      */
+
     id: PropTypes.string,
     /**
      * Dash-assigned callback that should be called to report property changes
      * to Dash, to make them available for callbacks.
      */
     setProps: PropTypes.func,
+
     /**
      * Generic style overrides on the plot div
      */
     style: PropTypes.object,
+
     /**
      * String that is a comma separated string of JSME options.
      * The available options are described on the
      * https://wiki.jmol.org/index.php/Jmol_JavaScript_Object/JME/Options
      */
     options: PropTypes.string,
+
     /**
      * The height of the JSME container. Can be set in px, % etc.
      */
     height: PropTypes.string,
+
     /**
      * The width of the JSME container. Can be set in px, % etc.
      */
     width: PropTypes.string,
+
     /**
      * A Dash prop that returns data when SMILE will be changed.
      */
     eventSmiles: PropTypes.string,
+
     /**
      * The molecule SMILE to display
      */
     smiles: PropTypes.string,
+
+    /**
+     * Object that holds the loading state object coming from dash-renderer
+     */
+    loading_state: PropTypes.shape({
+        /**
+         * Determines if the component is loading or not
+         */
+        is_loading: PropTypes.bool,
+        /**
+         * Holds which property is loading
+         */
+        prop_name: PropTypes.string,
+        /**
+         * Holds the name of the component that is loading
+         */
+        component_name: PropTypes.string,
+    }),
 };
 
 export const propTypes = Jsme.propTypes;

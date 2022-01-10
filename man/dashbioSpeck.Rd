@@ -10,8 +10,8 @@ The Speck component is a WebGL-based 3D molecule renderer. Read more about the c
 }
 
 \usage{
-dashbioSpeck(id=NULL, data=NULL, presetView=NULL, scrollZoom=NULL,
-view=NULL)
+dashbioSpeck(id=NULL, data=NULL, loading_state=NULL, presetView=NULL,
+scrollZoom=NULL, showLegend=NULL, style=NULL, view=NULL)
 }
 
 \arguments{
@@ -26,11 +26,21 @@ those elements have the following types:
 has a dictionary defining the x, y, and z coordinates
 along with the atom's symbol.}
 
+\item{loading_state}{Lists containing elements 'is_loading', 'prop_name', 'component_name'.
+those elements have the following types:
+  - is_loading (logical; optional): determines if the component is loading or not
+  - prop_name (character; optional): holds which property is loading
+  - component_name (character; optional): holds the name of the component that is loading. Object that holds the loading state object coming from dash-renderer}
+
 \item{presetView}{A value equal to: 'default', 'stickball', 'toon', 'licorice'. One of several pre-loaded views: default, stick-ball, toon,
 and licorice}
 
 \item{scrollZoom}{Logical. The option of whether or not to allow scrolling to control
 the zoom.}
+
+\item{showLegend}{Logical. The option of whether to show color legend}
+
+\item{style}{Named list. Generic style overrides on the plot div}
 
 \item{view}{Lists containing elements 'aspect', 'zoom', 'translation', 'atomscale', 'relativeatomscale', 'bondscale', 'rotation', 'ao', 'aores', 'brightness', 'outline', 'spf', 'bonds', 'bondthreshold', 'bondshade', 'atomshade', 'resolution', 'dofstrength', 'dofposition', 'fxaa'.
 those elements have the following types:

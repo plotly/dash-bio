@@ -137,7 +137,7 @@ def callbacks(_app):
          Output('mol2d-compound-options-store', 'data'),
          Output('mol2d-search-results-store', 'data')],
         [Input('mol2d-search', 'n_submit')],
-        state=[State('mol2d-search', 'value')]
+        [State('mol2d-search', 'value')]
     )
     def update_results(_, query):
         results_dropdown = {'display': 'none'}
@@ -176,8 +176,8 @@ def callbacks(_app):
          Output('error-wrapper', 'children')],
         [Input('mol2d-search-results-store', 'modified_timestamp'),
          Input('mol2d-bond-length', 'value')],
-        state=[State('mol2d-search-results-store', 'data'),
-               State('mol2d-search-results', 'value')]
+        [State('mol2d-search-results-store', 'data'),
+         State('mol2d-search-results', 'value')]
     )
     def update_model(_, bond_length, stored_compounds, selected_compound):
 
