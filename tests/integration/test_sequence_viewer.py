@@ -262,7 +262,7 @@ def test_dbsv005_mouse_selection(dash_duo):
             sequence.value_of_css_property("padding-top").replace('px', ''))
     )
     ac.click_and_hold()
-    ac.move_by_offset(85, 0)
+    ac.move_by_offset(80, 0)
     ac.release()
     ac.perform()
 
@@ -272,8 +272,12 @@ def test_dbsv005_mouse_selection(dash_duo):
         'end': 10
     }
 
-    assert output_div.get_attribute('innerHTML') == json.dumps(expected_info)
+    WebDriverWait(dash_duo.driver, 5).until(
+        lambda _:
+        output_div.get_attribute('innerHTML') == json.dumps(expected_info)
+    )
 
+    assert output_div.get_attribute('innerHTML') == json.dumps(expected_info)
     # select something else
 
     ac = ActionChains(dash_duo.driver)
@@ -292,6 +296,10 @@ def test_dbsv005_mouse_selection(dash_duo):
         'end': 58
     }
 
-    assert output_div.get_attribute('innerHTML') == json.dumps(expected_info)
+    WebDriverWait(dash_duo.driver, 5).until(
+        lambda _:
+        output_div.get_attribute('innerHTML') == json.dumps(expected_info)
+    )
 
+    assert output_div.get_attribute('innerHTML') == json.dumps(expected_info)
     ac.send_keys(Keys.ESCAPE)
