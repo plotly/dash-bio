@@ -1,5 +1,6 @@
 import json
 import re
+import time
 
 import dash
 import dash_bio
@@ -262,7 +263,7 @@ def test_dbsv005_mouse_selection(dash_duo):
             sequence.value_of_css_property("padding-top").replace('px', ''))
     )
     ac.click_and_hold()
-    ac.move_by_offset(85, 0)
+    ac.move_by_offset(80, 0)
     ac.release()
     ac.perform()
 
@@ -272,17 +273,25 @@ def test_dbsv005_mouse_selection(dash_duo):
         'end': 10
     }
 
-    assert output_div.get_attribute('innerHTML') == json.dumps(expected_info)
+    WebDriverWait(dash_duo.driver, 1).until(
+        lambda _:
+        output_div.get_attribute('innerHTML') == json.dumps(expected_info)
+    )
 
+    assert output_div.get_attribute('innerHTML') == json.dumps(expected_info)
     # select something else
+
+    output_div = dash_duo.find_element('#interaction-results')
+
+    sequence = dash_duo.find_element('.fastaSeq')
 
     ac = ActionChains(dash_duo.driver)
     ac.move_to_element(sequence)
     ac.move_by_offset(
-        -(sequence.size['width']/2 - 100), -(sequence.size['height']/2 - 20)
+        -(sequence.size['width']/2 - 95), -(sequence.size['height']/2 - 20)
     )
     ac.click_and_hold()
-    ac.move_by_offset(55, 0)
+    ac.move_by_offset(45, 5)
     ac.release()
     ac.perform()
 
@@ -292,6 +301,10 @@ def test_dbsv005_mouse_selection(dash_duo):
         'end': 58
     }
 
-    assert output_div.get_attribute('innerHTML') == json.dumps(expected_info)
+    WebDriverWait(dash_duo.driver, 1).until(
+        lambda _:
+        output_div.get_attribute('innerHTML') == json.dumps(expected_info)
+    )
 
+    assert output_div.get_attribute('innerHTML') == json.dumps(expected_info)
     ac.send_keys(Keys.ESCAPE)
