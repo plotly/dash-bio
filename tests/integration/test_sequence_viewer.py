@@ -1,6 +1,5 @@
 import json
 import re
-import time
 
 import dash
 import dash_bio
@@ -273,7 +272,7 @@ def test_dbsv005_mouse_selection(dash_duo):
         'end': 10
     }
 
-    WebDriverWait(dash_duo.driver, 1).until(
+    WebDriverWait(dash_duo.driver, 5).until(
         lambda _:
         output_div.get_attribute('innerHTML') == json.dumps(expected_info)
     )
@@ -301,7 +300,7 @@ def test_dbsv005_mouse_selection(dash_duo):
         'end': 58
     }
 
-    WebDriverWait(dash_duo.driver, 1).until(
+    WebDriverWait(dash_duo.driver, 5).until(
         lambda _:
         output_div.get_attribute('innerHTML') == json.dumps(expected_info)
     )
