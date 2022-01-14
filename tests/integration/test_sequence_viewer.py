@@ -280,17 +280,13 @@ def test_dbsv005_mouse_selection(dash_duo):
     assert output_div.get_attribute('innerHTML') == json.dumps(expected_info)
     # select something else
 
-    output_div = dash_duo.find_element('#interaction-results')
-
-    sequence = dash_duo.find_element('.fastaSeq')
-
     ac = ActionChains(dash_duo.driver)
     ac.move_to_element(sequence)
     ac.move_by_offset(
-        -(sequence.size['width']/2 - 95), -(sequence.size['height']/2 - 20)
+        -(sequence.size['width']/2 - 100), -(sequence.size['height']/2 - 20)
     )
     ac.click_and_hold()
-    ac.move_by_offset(45, 5)
+    ac.move_by_offset(55, 0)
     ac.release()
     ac.perform()
 
