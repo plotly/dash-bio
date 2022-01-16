@@ -1,19 +1,18 @@
 import json
 
-from dash_bio_utils import pdb_parser, protein_reader, \
-    styles_parser, xyz_reader
+from dash_bio.utils import mol3dviewer_styles_creator, pdb_parser,\
+    protein_reader, xyz_reader
 
+pdb = pdb_parser.PdbParser('../dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb')
 with open('mol3d_model_data.json', 'w+') as f:
-    f.write(pdb_parser.create_data(
-        '../dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb'
-    ))
+    f.write(json.dumps(pdb.mol3d_data()))
 
 with open('mol3d_styles_data.json', 'w+') as f:
-    f.write(styles_parser.create_style(
-        '../dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb',
+    f.write(json.dumps(mol3dviewer_styles_creator.create_mol3d_style(
+        pdb.mol3d_data().get("atoms"),
         'cartoon',
         'atom'
-    ))
+    )))
 
 with open('sequence_viewer_data.json', 'w+') as f:
     f.write(json.dumps(protein_reader.read_fasta(

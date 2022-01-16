@@ -8,7 +8,7 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 
-from dash_bio_utils import protein_reader as pr
+from dash_bio.utils import protein_reader as pr
 import dash_bio
 
 from layout_helper import run_standalone_app

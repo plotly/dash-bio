@@ -18,7 +18,7 @@ setup(
     url='http://github.com/plotly/{}'.format(package_name.replace('_', '-')),
     author=package['author'],
     author_email='dashbio@plotly.com',
-    packages=[package_name, '{}/component_factory'.format(package_name)],
+    packages=[package_name, '{}/component_factory'.format(package_name), '{}/utils'.format(package_name)],
     include_package_data=True,
     description=package['description'] if 'description' in package else package_name,
     long_description=long_description,
@@ -27,7 +27,15 @@ setup(
         'dash>=1.6.1',
         'pandas',
         'scipy',
-        'scikit-learn>=0.20.1'
+        'scikit-learn>=0.20.1',
+        'biopython>=1.77;python_version>="3.0"',
+        'biopython==1.76;python_version=="2.7"',
+        'colour',
+        'GEOparse>=1.1.0',
+        'jsonschema',
+        'parmed',
+        'periodictable',
+        'requests'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
