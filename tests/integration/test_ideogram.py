@@ -32,10 +32,9 @@ def test_dbid001_displayed_chromosomes(dash_duo):
         validation_fn=lambda x: json.dumps(x) == json.dumps(chromosome_set_new)
     )
 
-    WebDriverWait(dash_duo.driver, 1).until(
+    WebDriverWait(dash_duo.driver, 5).until(
         lambda _:
-        len(dash_duo.find_elements('g.chromosome-set')) == 5,
-        5
+        len(dash_duo.find_elements('g.chromosome-set')) == 5
     )
 
 
@@ -60,7 +59,7 @@ def test_dbid002_click_rotation(dash_duo):
     )
 
     # ensure that it loads un-rotated
-    WebDriverWait(dash_duo.driver, 1).until(
+    WebDriverWait(dash_duo.driver, 5).until(
         lambda _: 'rotate(90)' in dash_duo.find_element(
             '#chr1-9606-chromosome-set').get_attribute('transform'))
 
@@ -68,9 +67,9 @@ def test_dbid002_click_rotation(dash_duo):
     dash_duo.find_element('#chr1-9606-chromosome-set').click()
 
     # rotation shouldn't take more than 1-2 seconds
-    WebDriverWait(dash_duo.driver, 1).until(
+    WebDriverWait(dash_duo.driver, 5).until(
         lambda _: 'rotate(0)' in dash_duo.find_element(
-            '#chr1-9606-chromosome-set').get_attribute('transform'), 5)
+            '#chr1-9606-chromosome-set').get_attribute('transform'))
 
 
 def test_dbid003_click_rotation_disabled(dash_duo):
@@ -92,14 +91,15 @@ def test_dbid003_click_rotation_disabled(dash_duo):
         validation_fn=lambda x: x is False
     )
 
-    WebDriverWait(dash_duo.driver, 1).until(
+    dash_duo.wait_for_element('#chr1-9606-chromosome-set', 5)
+    WebDriverWait(dash_duo.driver, 5).until(
         lambda _: 'rotate(90)' in dash_duo.find_element(
-            '#chr1-9606-chromosome-set').get_attribute('transform'), 5)
+            '#chr1-9606-chromosome-set').get_attribute('transform'))
 
     # click to rotate and ensure that the correct chromosome is rotated
     dash_duo.find_element('#chr1-9606-chromosome-set').click()
 
-    WebDriverWait(dash_duo.driver, 1)
+    WebDriverWait(dash_duo.driver, 5)
 
     assert 'rotate(90)' in dash_duo.find_element(
         '#chr1-9606-chromosome-set').get_attribute('transform')
@@ -126,10 +126,9 @@ def test_dbid004_remote_annotations_path(dash_duo):
         take_snapshot=True,
     )
 
-    WebDriverWait(dash_duo.driver, 1).until(
+    WebDriverWait(dash_duo.driver, 5).until(
         lambda _:
-        len(dash_duo.find_elements('g.annot')) == 10,
-        5
+        len(dash_duo.find_elements('g.annot')) == 10
     )
 
 
@@ -171,8 +170,7 @@ def test_dbid005_local_annotations(dash_duo):
         take_snapshot=True,
     )
 
-    WebDriverWait(dash_duo.driver, 1).until(
+    WebDriverWait(dash_duo.driver, 5).until(
         lambda _:
-        len(dash_duo.find_elements('g.annot')) == 10,
-        5
+        len(dash_duo.find_elements('g.annot')) == 10
     )

@@ -16,3 +16,6 @@ cycler==0.10.0
 dash[testing,dev]
 ipdb==0.11
 tables>=3.6.1
+GEOparse>=1.1.0
+parmed
+periodictable

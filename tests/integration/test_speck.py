@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 import dash
 import dash_bio
 import dash_html_components as html
-from dash_bio_utils import xyz_reader
+from dash_bio.utils import xyz_reader
 
 from common_features import simple_app_layout, simple_app_callback
 

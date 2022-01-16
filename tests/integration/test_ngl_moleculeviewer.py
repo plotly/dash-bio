@@ -13,8 +13,6 @@ import dash_html_components as html
 import dash_core_components as dcc
 import dash_bio
 
-# from dash_bio_utils import pdb_parser as parser
-
 from common_features import simple_app_layout, simple_app_callback
 
 _COMPONENT_ID = "test-ngl"

@@ -5,8 +5,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 
-from dash_bio_utils.uniprot_database_tools import UniprotQueryBuilder
-from dash_bio_utils.mutation_data_parser import EMPTY_MUT_DATA, \
+from dash_bio.utils.uniprot_database_tools import UniprotQueryBuilder
+from dash_bio.utils.mutation_data_parser import EMPTY_MUT_DATA, \
     load_protein_domains, parse_mutation_upload_file, \
     parse_domain_upload_file, parse_mutations_uniprot_data, load_mutation_data
 import dash_bio
