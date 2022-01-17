@@ -6,7 +6,7 @@ dash-daq==0.2.2
 gunicorn==19.9.0
 jsonschema==2.6.0
 matplotlib==3.0.2
-numpy==1.15.4
+numpy==1.21.0
 pandas>=0.24.2
 plotly>=3.5.0
 PubChemPy==1.0.4

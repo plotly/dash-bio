@@ -4,6 +4,7 @@ import dash_bio
 import dash_html_components as html
 
 from common_features import simple_app_layout
+from selenium.webdriver.support.ui import WebDriverWait
 
 _COMPONENT_ID = 'myigv'
 
@@ -114,6 +115,12 @@ def test_dbigv002_ASM985889v3_tracks(dash_duo):
 
     # Check that the genome loaded
     dash_duo.wait_for_text_to_equal('.igv-current-genome', 'ASM985889v3')
+
+    WebDriverWait(dash_duo.driver, 5).until(
+        lambda _:
+        len(dash_duo.find_elements('.igv-track-label')) >= 2,
+        "Can't find second track"
+    )
 
     # Check that track(s) loaded
     tracks = dash_duo.find_elements('.igv-track-label')

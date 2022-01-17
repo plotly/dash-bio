@@ -5,7 +5,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import dash
 from dash.dependencies import Input, Output
 import dash_html_components as html
-from dash_bio_utils import pdb_parser as parser, styles_parser as sparser
+from dash_bio.utils import pdb_parser as parser, mol3dviewer_styles_creator as sparser
 import dash_bio
 
 from common_features import simple_app_layout, simple_app_callback
@@ -14,15 +14,14 @@ from common_features import simple_app_layout, simple_app_callback
 _model_data = None
 _styles_data = None
 
-_model_data = json.loads(parser.create_data(
-    'tests/dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb'
-))
+_pdb = parser.PdbParser('tests/dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb')
 
-_styles_data = json.loads(sparser.create_style(
-    'tests/dashbio_demos/dash-molecule-3d-viewer/data/1bna.pdb',
+_model_data = _pdb.mol3d_data()
+_styles_data = sparser.create_mol3d_style(
+    _model_data.get("atoms"),
     'cartoon',
     'atom'
-))
+)
 
 _COMPONENT_ID = 'test-mol3d'
 

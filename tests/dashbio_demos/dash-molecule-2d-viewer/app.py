@@ -7,7 +7,7 @@ import dash_core_components as dcc
 
 import pubchempy as pcp
 
-from dash_bio_utils.chem_structure_reader import read_structure
+from dash_bio.utils.chem_structure_reader import read_structure
 import dash_bio
 
 from layout_helper import run_standalone_app

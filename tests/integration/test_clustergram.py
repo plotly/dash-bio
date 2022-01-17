@@ -1,10 +1,10 @@
 import json
-import pandas as pd
 
 import dash
 import dash_html_components as html
-import dash_bio
+import pandas as pd
 
+import dash_bio
 from common_features import nested_component_layout, nested_component_app_callback
 
 _data = None
@@ -17,7 +17,6 @@ _data = _mtcars_data.values
 
 
 def test_dbcl001_colorscale(dash_duo):
-
     app = dash.Dash(__name__)
 
     app.layout = html.Div(nested_component_layout(dash_bio.Clustergram(data=_data)))
@@ -36,7 +35,6 @@ def test_dbcl001_colorscale(dash_duo):
 
 
 def test_dbcl002_cluster_by_row_or_col(dash_duo):
-
     app = dash.Dash(__name__)
 
     app.layout = html.Div(nested_component_layout(dash_bio.Clustergram(data=_data)))
@@ -76,7 +74,6 @@ def test_dbcl002_cluster_by_row_or_col(dash_duo):
 
 
 def test_dbcl003_row_col_thresholds(dash_duo):
-
     app = dash.Dash(__name__)
 
     app.layout = html.Div(nested_component_layout(dash_bio.Clustergram(data=_data)))
@@ -101,7 +98,6 @@ def test_dbcl003_row_col_thresholds(dash_duo):
 
 
 def test_dbcl004_col_annotations(dash_duo):
-
     app = dash.Dash(__name__)
 
     app.layout = html.Div(nested_component_layout(dash_bio.Clustergram(data=_data)))
@@ -130,7 +126,6 @@ def test_dbcl004_col_annotations(dash_duo):
 
 
 def test_dbcl005_row_annotations(dash_duo):
-
     app = dash.Dash(__name__)
 
     app.layout = html.Div(nested_component_layout(dash_bio.Clustergram(data=_data)))
@@ -159,7 +154,6 @@ def test_dbcl005_row_annotations(dash_duo):
 
 
 def test_dbcl006_df_input_row_cluster(dash_duo):
-
     app = dash.Dash(__name__)
 
     # run the same test as dbcl002 (row clustering) where table of
@@ -184,7 +178,6 @@ def test_dbcl006_df_input_row_cluster(dash_duo):
 
 
 def test_dbcl007_hidden_labels(dash_duo):
-
     app = dash.Dash(__name__)
 
     data = _mtcars_data
