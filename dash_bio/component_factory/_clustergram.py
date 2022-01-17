@@ -347,6 +347,8 @@ Methods:
             self._display_ratio = [self._display_ratio[0], 0]
         elif self._cluster == "col":
             self._display_ratio = [0, self._display_ratio[1]]
+        elif self._cluster is None:
+            self._display_ratio = [0, 0]
 
         self._hidden_labels = []
 
@@ -642,9 +644,11 @@ Methods:
         # the argument can be either in list form or float form
         # first is ratio for row; second is ratio for column
         if self._display_ratio[0] != 0:
-            row_ratio = 0.95 / float(1 + int(1 / self._display_ratio[0]))
+            row_ratio = 0 if len(row_dendro_traces) == 0 else 0.95 / float(
+                1 + int(1 / self._display_ratio[0]))
         if self._display_ratio[1] != 0:
-            col_ratio = 0.95 / float(1 + int(1 / self._display_ratio[1]))
+            col_ratio = 0 if len(col_dendro_traces) == 0 else 0.95 / float(
+                1 + int(1 / self._display_ratio[1]))
 
         # the row/column labels take up 0.05 of the graph, and the rest
         # is taken up by the heatmap and dendrogram for each dimension
