@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased] - ???
+## [1.0.0] - 2022-01-17
 
 ### Changed
 * [#589](https://github.com/plotly/dash-bio/pull/593) Merged dash-bio-utils into the dash bio package namespace.
