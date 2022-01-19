@@ -42,7 +42,7 @@ def _get_distance(point_1, point_2, base_distance):
     ), 2)
 
 
-def read_structure(datapath_or_datastring,
+def read_chem_structure(datapath_or_datastring,
                    is_datafile=True,
                    bond_distance=20.0):
 
