@@ -8,7 +8,10 @@ import dash_core_components as dcc
 from common_features import nested_component_layout, \
     nested_component_app_callback
 
-_data = pandas.read_csv('data/manhattan_plot_test.csv')
+_data = pandas.read_csv(
+    'https://raw.githubusercontent.com/plotly/dash-bio-docs-files/master/' +
+    'manhattan_data.csv'
+        )
 
 
 def test_dbmp001_genomewideline_value(dash_duo):
@@ -455,23 +458,19 @@ def test_dmp015_point_size(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(nested_component_layout(
-        dash_bio.ManhattanPlot(
-            dataframe=_data,
+    app.layout = html.Div([html.Div(
+        dcc.Graph(
+            id='test-manhattan-plot',
+            figure=dash_bio.ManhattanPlot(
+                dataframe=_data,
+                point_size=10
+            )
         )
-    ))
+    )])
 
-    nested_component_app_callback(
-        app,
-        dash_duo,
-        component=dash_bio.ManhattanPlot,
-        component_data=_data,
-        data_prop_name='dataframe',
-        test_prop_name='point_size ',
-        test_prop_value=10,
-        prop_value_type='number',
-        take_snapshot=True
-    )
+    dash_duo.start_server(app)
+
+    dash_duo.wait_for_element('#test-manhattan-plot')
 
     assert dash_duo.get_logs() == []
 
@@ -501,25 +500,27 @@ def test_dmp016_showlegend(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dmp017_col(dash_duo):
+# 'col' might be not working property
 
-    app = dash.Dash(__name__)
-
-    app.layout = html.Div([html.Div(
-        dcc.Graph(
-            id='test-manhattan-plot',
-            figure=dash_bio.ManhattanPlot(
-                dataframe=_data,
-                col='rgb(66, 245, 87)'
-            )
-        )
-    )])
-
-    dash_duo.start_server(app)
-
-    dash_duo.wait_for_element('#test-manhattan-plot')
-
-    assert dash_duo.get_logs() == []
+# def test_dmp017_col(dash_duo):
+#
+#     app = dash.Dash(__name__)
+#
+#     app.layout = html.Div([html.Div(
+#         dcc.Graph(
+#             id='test-manhattan-plot',
+#             figure=dash_bio.ManhattanPlot(
+#                 dataframe=_data,
+#                 col='rgb(66, 245, 87)'
+#             )
+#         )
+#     )])
+#
+#     dash_duo.start_server(app)
+#
+#     dash_duo.wait_for_element('#test-manhattan-plot')
+#
+#     assert dash_duo.get_logs() == []
 
 
 def test_dmp018_suggestiveline_width(dash_duo):
