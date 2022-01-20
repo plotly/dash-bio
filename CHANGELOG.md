@@ -3,8 +3,8 @@
 ## [1.0.1] - 2022-01-19
 
 ### Changed
-* [#652](https://github.com/plotly/dash-bio/pull/652) Added support for dash-bio-utils stub package and deprecation warning.
-* [#652](https://github.com/plotly/dash-bio/pull/652) Updated Ideogram version, props and removed support for old versions of ideogram (for more info see [#393](https://github.com/plotly/dash-bio/pull/393)).
+* [#667](https://github.com/plotly/dash-bio/pull/667) Added support for dash-bio-utils stub package and deprecation warning.
+* [#667](https://github.com/plotly/dash-bio/pull/667) Updated Ideogram version, props and removed support for old versions of ideogram (for more info see [#393](https://github.com/plotly/dash-bio/pull/393)).
 
 
 ## [1.0.0] - 2022-01-17
