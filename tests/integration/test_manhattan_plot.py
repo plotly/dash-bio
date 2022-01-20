@@ -542,3 +542,130 @@ def test_dmp018_suggestiveline_width(dash_duo):
     dash_duo.wait_for_element('#test-manhattan-plot')
 
     assert dash_duo.get_logs() == []
+
+
+# genomewideline_value is not working correctly
+
+# def test_dmp019_genomewideline_value(dash_duo):
+#
+#     app = dash.Dash(__name__)
+#
+#     app.layout = html.Div(nested_component_layout(
+#         dash_bio.ManhattanPlot(
+#             dataframe=_data,
+#         )
+#     ))
+#
+#     nested_component_app_callback(
+#         app,
+#         dash_duo,
+#         component=dash_bio.ManhattanPlot,
+#         component_data=_data,
+#         data_prop_name='dataframe',
+#         test_prop_name='genomewideline_value',
+#         test_prop_value=False,
+#         prop_value_type='bool',
+#         take_snapshot=True
+#     )
+#
+#     assert dash_duo.get_logs() == []
+
+
+def test_dmp020_genomewideline_color(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(nested_component_layout(
+        dash_bio.ManhattanPlot(
+            dataframe=_data,
+        )
+    ))
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.ManhattanPlot,
+        component_data=_data,
+        data_prop_name='dataframe',
+        test_prop_name='genomewideline_color',
+        test_prop_value='green',
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dmp021_genomewideline_width(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(nested_component_layout(
+        dash_bio.ManhattanPlot(
+            dataframe=_data,
+        )
+    ))
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.ManhattanPlot,
+        component_data=_data,
+        data_prop_name='dataframe',
+        test_prop_name='genomewideline_width',
+        test_prop_value='5',
+        prop_value_type='int',
+        take_snapshot=True
+    )
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dmp022_highlight(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(nested_component_layout(
+        dash_bio.ManhattanPlot(
+            dataframe=_data,
+        )
+    ))
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.ManhattanPlot,
+        component_data=_data,
+        data_prop_name='dataframe',
+        test_prop_name='highlight',
+        test_prop_value='False',
+        prop_value_type='bool',
+        take_snapshot=True
+    )
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dmp023_highlight_color(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(nested_component_layout(
+        dash_bio.ManhattanPlot(
+            dataframe=_data,
+        )
+    ))
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.ManhattanPlot,
+        component_data=_data,
+        data_prop_name='dataframe',
+        test_prop_name='highlight_color',
+        test_prop_value='blue',
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert dash_duo.get_logs() == []
