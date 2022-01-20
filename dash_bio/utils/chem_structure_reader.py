@@ -42,9 +42,9 @@ def _get_distance(point_1, point_2, base_distance):
     ), 2)
 
 
-def read_structure(datapath_or_datastring,
-                   is_datafile=True,
-                   bond_distance=20.0):
+def read_chem_structure(datapath_or_datastring,
+                        is_datafile=True,
+                        bond_distance=20.0):
 
     """Read molecular strucural data in JSON format, either from a file or
     from a string of raw data.

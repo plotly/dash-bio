@@ -1,12 +1,19 @@
 # Changelog
 
+## [1.0.1] - 2022-01-19
+
+### Changed
+* [#652](https://github.com/plotly/dash-bio/pull/652) Added support for dash-bio-utils stub package and deprecation warning.
+* [#652](https://github.com/plotly/dash-bio/pull/652) Updated Ideogram version, props and removed support for old versions of ideogram (for more info see [#393](https://github.com/plotly/dash-bio/pull/393)).
+
+
 ## [1.0.0] - 2022-01-17
 
 ### Changed
 * [#589](https://github.com/plotly/dash-bio/pull/593) Merged dash-bio-utils into the dash bio package namespace.
 
 ### Fixed
-* [#646](https://github.com/plotly/dash-bio/pull/646) Fixed dendrogram domain whitespaces for Clustergram when dendrogram property is not set for either axis (for more infor see [#644](https://github.com/plotly/dash-bio/issues/644)).
+* [#646](https://github.com/plotly/dash-bio/pull/646) Fixed dendrogram domain whitespaces for Clustergram when dendrogram property is not set for either axis (for more info see [#644](https://github.com/plotly/dash-bio/issues/644)).
 
 ## [0.9.0] - 2021-12-14
 

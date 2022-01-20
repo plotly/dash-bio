@@ -3,6 +3,55 @@ import {default as IdeogramJS} from 'ideogram';
 import {omit} from 'ramda';
 import {propTypes, defaultProps} from '../components/Ideogram.react';
 
+const IDEOGRAM_PROPS = [
+    'accessToken',
+    'ancestors',
+    'annotations',
+    'annotationHeight',
+    'annotationsColor',
+    'annotationsLayout',
+    'annotationsPath',
+    'annotationTracks',
+    'assembly',
+    'barWidth',
+    'brush',
+    'chrHeight',
+    'chrMargin',
+    'chrWidth',
+    'chromosomes',
+    'container',
+    'dataDir',
+    'demarcateCollinearChromosomes',
+    'geometry',
+    'histogramScaling',
+    'heatmaps',
+    'filterable',
+    'fullChromosomeLabels',
+    'legend',
+    'loading_state',
+    'onBrushMove',
+    'onDidRotate',
+    'onDrawAnnots',
+    'onLoadAnnots',
+    'onLoad',
+    'onWillShowAnnotTooltip',
+    'organism',
+    'orientation',
+    'perspective',
+    'ploidy',
+    'ploidyDesc',
+    'rangeSet',
+    'resolution',
+    'rotatable',
+    'rows',
+    'sex',
+    'showBandLabels',
+    'showChromosomeLabels',
+    'showAnnotTooltip',
+    'showFullyBanded',
+    'showNonNuclearChromosomes',
+];
+
 export default class Ideogram extends Component {
     constructor() {
         super();
@@ -10,39 +59,6 @@ export default class Ideogram extends Component {
         this.isRotated = false;
         this.tooltipData = null;
         this.tooltipDataTwo = null;
-
-        this.propKeys = [
-            'localOrganism',
-            'organism',
-            'showBandLabels',
-            'orientation',
-            'dataDir',
-            'chrHeight',
-            'chrWidth',
-            'chrMargin',
-            'resolution',
-            'ploidy',
-            'sex',
-            'annotationsColor',
-            'annotationHeight',
-            'annotationsLayout',
-            'annotationsPath',
-            'style',
-            'chromosomes',
-            'rotatable',
-            'showChromosomeLabels',
-            'showFullyBanded',
-            'showNonNuclearChromsomes',
-            'annotationTracks',
-            'annotations',
-            'assembly',
-            'barWidth',
-            'filterable',
-            'homology',
-            'perspective',
-            'fullChromosomeLabels',
-            'loading_state',
-        ];
 
         this.onBrushHandler = this.onBrushHandler.bind(this);
         this.onLoadHandler = this.onLoadHandler.bind(this);
@@ -178,7 +194,7 @@ export default class Ideogram extends Component {
     onMouseOverHandler() {
         /**
          * Event handler that activates when you hover the mouse over an annotation.
-         * This event handler allows the user to add an prop `onMouseOver` into their
+         * This event handler allows the user to add a prop `onMouseOver` into their
          * Dash application, that will return the annotation that the mouse hovers over.
          */
 
@@ -205,15 +221,11 @@ export default class Ideogram extends Component {
 
     initIdeogram() {
         // Used to pass in a local dataset
-        if (this.props.localOrganism) {
-            this.props.dataDir = null;
-            window.chrBands = this.props.localOrganism;
-        }
         this.ideogram = new IdeogramJS(this.setConfig());
     }
 
     shouldComponentUpdate(nextProps) {
-        return this.propKeys.some(currentKey => {
+        return IDEOGRAM_PROPS.some(currentKey => {
             return this.props[currentKey] !== nextProps[currentKey];
         });
     }
@@ -223,13 +235,7 @@ export default class Ideogram extends Component {
     }
 
     componentDidUpdate() {
-        // Have to remove old data, because it breaks new instances
-        delete window.chrBands;
         this.initIdeogram();
-    }
-
-    componentWillUnmount() {
-        delete window.chrBands;
     }
 
     render() {
