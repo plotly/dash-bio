@@ -283,3 +283,618 @@ def test_dbcl010_hide_dendogram_axis_when_cluster_is_none(dash_duo):
 
     assert len(dash_duo.find_elements("g.subplot.x3y3")) == 0
     assert len(dash_duo.find_elements("g.subplot.x9y9")) == 0
+
+
+# My tests
+
+def test_dbcl011_generate_curves_dict(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='generate_curves_dict',
+        test_prop_value='True',
+        prop_value_type='bool',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl012_return_computed_traces(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+                return_computed_traces=True
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl013_computed_traces(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl014_row_labels(dash_duo):
+
+    labels_list = [
+                     'Mazda RX4',
+                     'Mazda RX4 Wag',
+                     'Datsun 710',
+                     'Hornet 4 Drive',
+                     'Hornet Sportabout',
+                     'Valiant',
+                     'Duster 360',
+                     'Merc 240D',
+                     'Merc 230',
+                     'Merc 280',
+                     'Merc 280C',
+                     'Merc 450SE',
+                     'Merc 450SL',
+                     'Merc 450SLC',
+                     'Cadillac Fleetwood',
+                     'Lincoln Continental',
+                     'Chrysler Imperial',
+                     'Fiat 128',
+                     'Honda Civic',
+                     'Toyota Corolla',
+                     'Toyota Corona',
+                     'Dodge Challenger',
+                     'AMC Javelin',
+                     'Camaro Z28',
+                     'Pontiac Firebird',
+                     'Fiat X1-9',
+                     'Porsche 914-2',
+                     'Lotus Europa',
+                     'Ford Pantera L',
+                     'Ferrari Dino',
+                     'Maserati Bora',
+                     'Volvo 142E'
+    ]
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                row_labels=labels_list
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl015_column_labels(dash_duo):
+
+    labels_list = ['mpg', 'cyl', 'disp', 'hp', 'drat', 'wt', 'qsec', 'vs', 'am', 'gear', 'carb']
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                column_labels=labels_list,
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl016_optimal_leaf_order(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                optimal_leaf_order=True
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl017_standardize(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='standardize',
+        test_prop_value='row',
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='standardize',
+        test_prop_value='column',
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl018_cluster(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='cluster',
+        test_prop_value='row',
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='cluster',
+        test_prop_value='column',
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl019_row_dist(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='row_dist',
+        test_prop_value='minkowski',
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl020_col_dist(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='col_dist',
+        test_prop_value='cityblock',
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl021_optimal_leaf_order(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='optimal_leaf_order',
+        test_prop_value=True,
+        prop_value_type='bool',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl021_color_map(dash_duo):
+
+    color_map_values = [
+                        [0.0, 'blue'],
+                        [0.5, 'red'],
+                        [1.0, 'green']
+    ]
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                cluster=None,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='color_map',
+        test_prop_value=json.dumps(color_map_values),
+        prop_value_type='list',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl022_color_list(dash_duo):
+
+    color_list = {
+        'row': ['#873F30', '#28735C', '#732851'],
+        'col': ['#284B73', '#287356'],
+        'bg': '#6A7328'
+    },
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='color_list',
+        test_prop_value=json.dumps(color_list),
+        prop_value_type='dict',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl023_display_range(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                display_range=2.22
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl024_center_values(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='center_values',
+        test_prop_value=False,
+        prop_value_type='bool',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl025_display_ratio(dash_duo):
+
+    display_ratio = [0.2, 0.5]
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='display_ratio',
+        test_prop_value=json.dumps(display_ratio),
+        prop_value_type='list',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl026_paper_bg_color(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='paper_bg_color',
+        test_prop_value='rgba(245,40,145,0.8)',
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl027_plot_bg_color(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='plot_bg_color',
+        test_prop_value='rgba(102,117,50,0.3)',
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl028_height(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='height',
+        test_prop_value=900,
+        prop_value_type='int',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl029_width(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='width',
+        test_prop_value=800,
+        prop_value_type='int',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl030_line_width(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                line_width=0.7
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
