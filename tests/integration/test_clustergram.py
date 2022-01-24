@@ -323,13 +323,21 @@ def test_dbcl012_return_computed_traces(dash_duo):
         nested_component_layout(
             dash_bio.Clustergram(
                 data=_data,
-                cluster=None,
-                return_computed_traces=True
             ),
         )
     )
 
-    dash_duo.start_server(app, dev_tools_props_check=True)
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='return_computed_traces',
+        test_prop_value=True,
+        prop_value_type='bool',
+        take_snapshot=True
+    )
 
     assert len(dash_duo.get_logs()) == 0
 
