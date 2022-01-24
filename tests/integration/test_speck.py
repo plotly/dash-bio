@@ -190,3 +190,25 @@ def test_dbsp007_show_legend(dash_duo):
     )
 
     dash_duo.wait_for_element("#speck-color-legend")
+
+
+def test_dbsp008_scroll_zoom(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Speck(
+            id=_COMPONENT_ID,
+            data=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='scrollZoom',
+        test_prop_value=False,
+        prop_value_type='bool',
+        take_snapshot=True
+    )
