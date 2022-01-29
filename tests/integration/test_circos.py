@@ -111,3 +111,74 @@ def test_dbci003_tracks_config(dash_duo):
 
     # The component should be rendered instead of displaying console errors
     assert len(dash_duo.find_elements(f'#{_COMPONENT_ID}')) == 1
+
+
+def test_dbci004_enable_download_svg(dash_duo):
+    """ Test a download SVG button """
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Circos(
+            id=_COMPONENT_ID,
+            layout=_data['GRCh37'],
+            enableDownloadSVG=True
+        )
+    ))
+
+    dash_duo.start_server(app)
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+    # Should be download button
+    dash_duo.wait_for_element('.Button')
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbci005_style(dash_duo):
+    """ Test a style property is setting correctly """
+
+    div_style = {
+        'background-color': 'rgba(255, 255, 128, .5)',
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Circos(
+            id=_COMPONENT_ID,
+            layout=_data['GRCh37'],
+            style=div_style
+        )
+    ))
+
+    dash_duo.start_server(app)
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbci006_size(dash_duo):
+    """ Test a size of the SVG container has correct values """
+
+    svg_size = 1000
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Circos(
+            id=_COMPONENT_ID,
+            layout=_data['GRCh37'],
+            size=svg_size
+        )
+    ))
+
+    dash_duo.start_server(app)
+
+    circos = dash_duo.find_element('#svg-child')
+
+    assert circos.size['width'] == svg_size
+    assert circos.size['height'] == svg_size
+
+    assert len(dash_duo.get_logs()) == 0
