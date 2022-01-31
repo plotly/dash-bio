@@ -3,6 +3,8 @@ import json
 import dash
 import dash_bio
 import dash_html_components as html
+import dash_core_components as dcc
+from dash.dependencies import Input, Output, State
 
 from common_features import simple_app_layout, simple_app_callback
 
@@ -170,15 +172,125 @@ def test_dbci006_size(dash_duo):
         dash_bio.Circos(
             id=_COMPONENT_ID,
             layout=_data['GRCh37'],
-            size=svg_size
         )
     ))
 
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='size',
+        test_prop_value=svg_size,
+        prop_value_type='int',
+        validation_fn=lambda x: x == svg_size
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbci007_enable_zoom_pan(dash_duo):
+    """ Test that enableZoomPan is set correctly """
+
+    enable_zoom = True
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Circos(
+            id=_COMPONENT_ID,
+            layout=_data['GRCh37'],
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='enableZoomPan',
+        test_prop_value=enable_zoom,
+        prop_value_type='bool',
+        validation_fn=lambda x: x == enable_zoom
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbci008_event_datum(dash_duo):
+    """ Test a size of the SVG container has correct values """
+
+    text_no_event = "There are no event data. Hover over a data point to get more information."
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        [
+            dash_bio.Circos(
+                id="my-dashbio-default-circos",
+                layout=_data["GRCh37"],
+                selectEvent={"0": "hover"},
+                tracks=[
+                    {
+                        "type": "CHORDS",
+                        "data": _data["chords"],
+                        "config": {
+                            "tooltipContent": {
+                                "source": "source",
+                                "sourceID": "id",
+                                "target": "target",
+                                "targetID": "id",
+                                "targetEnd": "end",
+                            }
+                        },
+                    }
+                ],
+            ),
+            "Graph type:",
+            dcc.Dropdown(
+                id="histogram-chords-default-circos",
+                options=[{"label": x, "value": x} for x in ["histogram", "chords"]],
+                value="chords",
+            ),
+            "Event data:",
+            html.Div(id="default-circos-output"),
+        ]
+    )
+
+    @app.callback(
+        Output("default-circos-output", "children"),
+        Input("my-dashbio-default-circos", "eventDatum"),
+    )
+    def update_output(value):
+        if value is not None:
+            return [html.Div("{}: {}".format(v.title(), value[v])) for v in value.keys()]
+        return text_no_event
+
+    @app.callback(
+        Output("my-dashbio-default-circos", "tracks"),
+        Input("histogram-chords-default-circos", "value"),
+        State("my-dashbio-default-circos", "tracks"),
+    )
+    def change_graph_type(value, current):
+        if value == "histogram":
+            current[0].update(data=_data["histogram"], type="HISTOGRAM")
+
+        elif value == "chords":
+            current[0].update(
+                data=_data["chords"],
+                type="CHORDS",
+                config={
+                    "tooltipContent": {
+                        "source": "source",
+                        "sourceID": "id",
+                        "target": "target",
+                        "targetID": "id",
+                        "targetEnd": "end",
+                    }
+                },
+            )
+        return current
+
     dash_duo.start_server(app)
 
-    circos = dash_duo.find_element('#svg-child')
-
-    assert circos.size['width'] == svg_size
-    assert circos.size['height'] == svg_size
+    dash_duo.wait_for_text_to_equal('#default-circos-output', text_no_event)
 
     assert len(dash_duo.get_logs()) == 0

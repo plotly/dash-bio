@@ -131,30 +131,23 @@ def test_dbop003_padding(dash_duo):
     )
 
 
-# Not working test
+def test_dbop004_range(dash_duo):
 
-# def test_dbop004_range(dash_duo):
-#
-#     range_list = ['True', 'True']
-#
-#     app = dash.Dash(__name__)
-#
-#     app.layout = html.Div(simple_app_layout(
-#         dash_bio.OncoPrint(
-#             id=_COMPONENT_ID,
-#             data=_data
-#         )
-#     ))
-#
-#     simple_app_callback(
-#         app,
-#         dash_duo,
-#         component_id=_COMPONENT_ID,
-#         test_prop_name='range',
-#         test_prop_value=range_list,
-#         prop_value_type='list',
-#         take_snapshot=True
-#     )
+    range_list = [3, 7]
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.OncoPrint(
+            id=_COMPONENT_ID,
+            data=_data,
+            range=range_list
+        )
+    ))
+
+    dash_duo.start_server(app)
+
+    assert len(dash_duo.get_logs()) == 0
 
 
 def test_dbop005_showlegend(dash_duo):
