@@ -771,3 +771,326 @@ def test_dbid0024_organism(dash_duo):
     dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
 
     assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbid0025_orientation(dash_duo):
+    """ Test that orientation property is set correctly """
+
+    orientation = 'vertical'
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='orientation',
+        test_prop_value=orientation,
+        prop_value_type='string',
+        validation_fn=lambda x: x == orientation,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbid0026_perspective(dash_duo):
+    """ Test that perspective property is set correctly """
+
+    perspective = 'comparative'
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='perspective',
+        test_prop_value=perspective,
+        prop_value_type='string',
+        validation_fn=lambda x: x == perspective,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbid0027_ploidy(dash_duo):
+    """ Test that ploidy property is set correctly """
+
+    ploidy = 2
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='ploidy',
+        test_prop_value=ploidy,
+        prop_value_type='int',
+        validation_fn=lambda x: x == ploidy,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+    plot_ploidy_value = dash_duo.driver\
+        .find_element_by_id('ideogram-container-test-ideogram')\
+        .get_attribute('ploidy')
+
+    assert len(dash_duo.get_logs()) == 0
+    assert int(plot_ploidy_value) == ploidy
+
+
+def test_dbid0028_rotatable(dash_duo):
+    """ Test that rotatable property is set without errors """
+
+    rotatable = False
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='rotatable',
+        test_prop_value=rotatable,
+        prop_value_type='bool',
+        validation_fn=lambda x: x == rotatable,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbid0029_rotated(dash_duo):
+    """ Test that rotated property is set without errors """
+
+    rotated = False
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='rotated',
+        test_prop_value=rotated,
+        prop_value_type='bool',
+        validation_fn=lambda x: x == rotated,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbid0030_sex(dash_duo):
+    """ Test that sex property is set without errors """
+
+    sex = 'male'
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='sex',
+        test_prop_value=sex,
+        prop_value_type='string',
+        validation_fn=lambda x: x == sex,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbid0031_show_annot_tooltip(dash_duo):
+    """ Test that sex property is set without errors """
+
+    show_annot_tooltip = False
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='showAnnotTooltip',
+        test_prop_value=show_annot_tooltip,
+        prop_value_type='bool',
+        validation_fn=lambda x: x == show_annot_tooltip,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbid0032_show_band_labels(dash_duo):
+    """ Test that showBandLabels property is set without errors """
+
+    show_band_labels = True
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='showBandLabels',
+        test_prop_value=show_band_labels,
+        prop_value_type='bool',
+        validation_fn=lambda x: x == show_band_labels,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbid0033_show_chromosome_labels(dash_duo):
+    """ Test that showChromosomeLabels property is set without errors """
+
+    show_chr_labels = False
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='showChromosomeLabels',
+        test_prop_value=show_chr_labels,
+        prop_value_type='bool',
+        validation_fn=lambda x: x == show_chr_labels,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbid0034_show_fully_banded(dash_duo):
+    """ Test that showFullyBanded property is set without errors """
+
+    show_fully_banded = False
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='showFullyBanded',
+        test_prop_value=show_fully_banded,
+        prop_value_type='bool',
+        validation_fn=lambda x: x == show_fully_banded,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbid0035_show_non_nuclear_chromosomes(dash_duo):
+    """ Test that showNonNuclearChromosomes property is set without errors """
+
+    show_non_nuclear_chr = True
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Ideogram(
+            id=_COMPONENT_ID,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='showNonNuclearChromosomes',
+        test_prop_value=show_non_nuclear_chr,
+        prop_value_type='bool',
+        validation_fn=lambda x: x == show_non_nuclear_chr,
+        take_snapshot=True,
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
