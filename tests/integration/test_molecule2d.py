@@ -192,3 +192,61 @@ def test_dbm2005_zoom(dash_duo):
 
     assert len(links_transform) > 0
     assert len(nodes_transform) > 0
+
+
+def test_dbm2006_width(dash_duo):
+
+    width = 600
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule2dViewer(
+            id=_COMPONENT_ID,
+            modelData=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='width',
+        test_prop_value=width,
+        prop_value_type='int',
+        validation_fn=lambda x: x == width,
+        take_snapshot=False
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbm2007_height(dash_duo):
+
+    height = 400
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule2dViewer(
+            id=_COMPONENT_ID,
+            modelData=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='height',
+        test_prop_value=height,
+        prop_value_type='int',
+        validation_fn=lambda x: x == height,
+        take_snapshot=False
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []

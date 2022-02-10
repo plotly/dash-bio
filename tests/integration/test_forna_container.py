@@ -379,3 +379,115 @@ def check_title(dash_duo, number, title):
         'g.gnode > circle.node[node_num="{}"] > title'.format(str(number))
     )
     assert node.get_attribute('innerHTML') == title
+
+
+def test_dbfc012_height(dash_duo):
+
+    height = 600
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.FornaContainer(
+            id=_COMPONENT_ID
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='height',
+        test_prop_value=json.dumps(height),
+        prop_value_type='int',
+        validation_fn=lambda x: x == height,
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbfc013_width(dash_duo):
+
+    width = 400
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.FornaContainer(
+            id=_COMPONENT_ID
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='width',
+        test_prop_value=json.dumps(width),
+        prop_value_type='int',
+        validation_fn=lambda x: x == width,
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbfc014_node_fill_color(dash_duo):
+
+    node_fill_color = '#938F64'
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.FornaContainer(
+            id=_COMPONENT_ID
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='height',
+        test_prop_value=node_fill_color,
+        prop_value_type='string',
+        validation_fn=lambda x: x == node_fill_color,
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbfc015_allow_panning_and_zooming(dash_duo):
+
+    allow_panning_and_zooming = False
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.FornaContainer(
+            id=_COMPONENT_ID
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='allowPanningAndZooming',
+        test_prop_value=allow_panning_and_zooming,
+        prop_value_type='bool',
+        validation_fn=lambda x: x == allow_panning_and_zooming,
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
