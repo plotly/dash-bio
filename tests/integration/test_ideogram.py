@@ -265,37 +265,6 @@ def test_dbid008_annotations_color(dash_duo):
     assert annotationscolor == annotations_color
 
 
-def test_dbid009_annotations_layout(dash_duo):
-    """Test that annotationsColor property is set correctly"""
-
-    annotations_layout = 'histogram'
-
-    app = dash.Dash(__name__)
-
-    app.layout = html.Div(simple_app_layout(
-        dash_bio.Ideogram(
-            id=_COMPONENT_ID
-        )
-    ))
-
-    simple_app_callback(
-        app,
-        dash_duo,
-        component_id=_COMPONENT_ID,
-        test_prop_name='annotationsLayout',
-        test_prop_value=annotations_layout,
-        prop_value_type='string',
-        validation_fn=lambda x: x == annotations_layout,
-        take_snapshot=True,
-    )
-
-    annotationslayout = dash_duo.driver\
-        .find_element_by_id('ideogram-container-test-ideogram')\
-        .get_attribute('annotationslayout')
-
-    assert annotationslayout == annotations_layout
-
-
 def test_dbid0010_annotations_layout(dash_duo):
     """Test that annotationsLayout property is set correctly"""
 
@@ -317,7 +286,6 @@ def test_dbid0010_annotations_layout(dash_duo):
         test_prop_value=annotations_layout,
         prop_value_type='string',
         validation_fn=lambda x: x == annotations_layout,
-        take_snapshot=True,
     )
 
     annotationslayout = dash_duo.driver\
