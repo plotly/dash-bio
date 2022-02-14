@@ -139,3 +139,299 @@ def test_dbm3004_labels(dash_duo):
     dash_duo.wait_for_text_to_equal('#labels-output', 'first_text')
 
     dash_duo.percy_snapshot('test-mol3d_labels', convert_canvases=True)
+
+
+def test_dbm3005_background_color(dash_duo):
+
+    background_color = '#938F64'
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='backgroundColor',
+        test_prop_value=background_color,
+        prop_value_type='string',
+        validation_fn=lambda x: x == background_color,
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbm3005_background_opacity(dash_duo):
+
+    background_opacity = 0.3
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='backgroundOpacity',
+        test_prop_value=json.dumps(background_opacity),
+        prop_value_type='float',
+        validation_fn=lambda x: json.dumps(x) == json.dumps(background_opacity),
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbm3006_atom_labels_shown(dash_duo):
+
+    atom_labels_shown = True
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='atomLabelsShown',
+        test_prop_value=atom_labels_shown,
+        prop_value_type='bool',
+        validation_fn=lambda x: x == atom_labels_shown,
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbm3007_zoom(dash_duo):
+
+    zoom = {
+        'animationDuration': 5,
+        'factor': 3,
+        'fixedPath': True
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='zoom',
+        test_prop_value=json.dumps(zoom),
+        prop_value_type='dict',
+        validation_fn=lambda x: json.dumps(x) == json.dumps(zoom),
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbm3008_zoom_to(dash_duo):
+
+    zoom_to = {
+        'animationDuration': 5,
+        'fixedPath': True,
+        'sel': {
+            'chain': 'C',
+            'resi': 5
+        }
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='zoomTo',
+        test_prop_value=json.dumps(zoom_to),
+        prop_value_type='dict',
+        validation_fn=lambda x: json.dumps(x) == json.dumps(zoom_to),
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbm3009_shapes(dash_duo):
+
+    shapes = [
+        {
+            'type': 'Sphere',
+            'center': {'x': 0, 'y': 0, 'z': 0},
+            'radius': 3.0,
+            'color': 'blue',
+            'opacity': 1
+        },
+        {
+            'type': 'Arrow',
+            'start': {'x': 40, 'y': 20.0, 'z': 0.0},
+            'end': {'x': 20.0, 'y': 10.0, 'z': 0.0},
+            'radius': 1.0,
+            'radiusRadio': 0.5,
+            'mid': 1.0,
+            'color': 'red',
+            'opacity': 1
+        },
+        {
+            'type': 'Cylinder',
+            'start': {'x': 10.0, 'y': -30.0, 'z': 0.0},
+            'end': {'x': 20.0, 'y': -50.0, 'z': 0.0},
+            'radius': 1.0,
+            'fromCap': 1,
+            'toCap': 2,
+            'color': 'green',
+            'opacity': 1
+        }
+    ]
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data,
+            shapes=shapes
+        )
+    ))
+
+    dash_duo.start_server(app)
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbm3010_height(dash_duo):
+
+    height = 500
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='height',
+        test_prop_value=height,
+        prop_value_type='int',
+        validation_fn=lambda x: x == height,
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbm3011_width(dash_duo):
+
+    width = 500
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='width',
+        test_prop_value=width,
+        prop_value_type='int',
+        validation_fn=lambda x: x == width,
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
+
+
+def test_dbm3012_width(dash_duo):
+
+    style = {
+        'width': 300,
+        'height': 350
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data,
+            style=style
+        )
+    ))
+
+    dash_duo.start_server(app)
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []
