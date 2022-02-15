@@ -906,3 +906,122 @@ def test_dbcl030_line_width(dash_duo):
     dash_duo.start_server(app, dev_tools_props_check=True)
 
     assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl031_row_colors_label(dash_duo):
+
+    label = 'test-label'
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                row_colors_label=label
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl032_log_transform(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                log_transform=False
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl033_imputer_parameters(dash_duo):
+
+    imputer_parameters = {
+        'missing_values': 'nan',
+        'strategy': 'mean',
+        'axis': 1
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                imputer_parameters=imputer_parameters
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl034_tick_font(dash_duo):
+
+    tick_font = {
+        'color': 'green',
+        'family': 'Open Sans',
+        'size': 15
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+                tick_font=tick_font
+            ),
+        )
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl035_annotation_font(dash_duo):
+
+    annotation_font = {
+        'color': 'yellow',
+        'family': 'Courier New',
+        'size': 20
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='annotation_font',
+        test_prop_value=json.dumps(annotation_font),
+        prop_value_type='dict',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
