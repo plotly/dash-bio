@@ -503,23 +503,23 @@ def test_dmp016_showlegend(dash_duo):
 # 'col' might be not working property
 
 # def test_dmp017_col(dash_duo):
-#
+
 #     app = dash.Dash(__name__)
-#
+
 #     app.layout = html.Div([html.Div(
 #         dcc.Graph(
 #             id='test-manhattan-plot',
 #             figure=dash_bio.ManhattanPlot(
 #                 dataframe=_data,
-#                 col='rgb(66, 245, 87)'
+#                 col='cyan'
 #             )
 #         )
 #     )])
-#
+
 #     dash_duo.start_server(app)
-#
+
 #     dash_duo.wait_for_element('#test-manhattan-plot')
-#
+
 #     assert dash_duo.get_logs() == []
 
 
@@ -544,31 +544,25 @@ def test_dmp018_suggestiveline_width(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-# genomewideline_value is not working correctly
+def test_dmp019_genomewideline_value(dash_duo):
 
-# def test_dmp019_genomewideline_value(dash_duo):
-#
-#     app = dash.Dash(__name__)
-#
-#     app.layout = html.Div(nested_component_layout(
-#         dash_bio.ManhattanPlot(
-#             dataframe=_data,
-#         )
-#     ))
-#
-#     nested_component_app_callback(
-#         app,
-#         dash_duo,
-#         component=dash_bio.ManhattanPlot,
-#         component_data=_data,
-#         data_prop_name='dataframe',
-#         test_prop_name='genomewideline_value',
-#         test_prop_value=False,
-#         prop_value_type='bool',
-#         take_snapshot=True
-#     )
-#
-#     assert dash_duo.get_logs() == []
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div([html.Div(
+        dcc.Graph(
+            id='test-manhattan-plot',
+            figure=dash_bio.ManhattanPlot(
+                dataframe=_data,
+                genomewideline_value=True
+            )
+        )
+    )])
+
+    dash_duo.start_server(app)
+
+    dash_duo.wait_for_element('#test-manhattan-plot')
+
+    assert dash_duo.get_logs() == []
 
 
 def test_dmp020_genomewideline_color(dash_duo):

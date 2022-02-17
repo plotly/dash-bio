@@ -491,3 +491,29 @@ def test_dbfc015_allow_panning_and_zooming(dash_duo):
     dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
 
     assert dash_duo.get_logs() == []
+
+
+def test_dbfc016_node_fill_color(dash_duo):
+
+    node_fill_color = 'green'
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.FornaContainer(
+            id=_COMPONENT_ID
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='nodeFillColor',
+        test_prop_value=node_fill_color,
+        prop_value_type='string'
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    assert dash_duo.get_logs() == []

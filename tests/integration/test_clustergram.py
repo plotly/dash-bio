@@ -7,6 +7,9 @@ import pandas as pd
 import dash_bio
 from common_features import nested_component_layout, nested_component_app_callback
 
+from scipy.spatial.distance import pdist
+from scipy.cluster.hierarchy import linkage
+
 _data = None
 
 _mtcars_data = pd.read_csv(
@@ -1021,6 +1024,65 @@ def test_dbcl035_annotation_font(dash_duo):
         test_prop_name='annotation_font',
         test_prop_value=json.dumps(annotation_font),
         prop_value_type='dict',
+        take_snapshot=True
+    )
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl036_dist_fun(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        dash_bio.Clustergram(
+            data=_data,
+            dist_fun=pdist
+        ),
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl037_link_fun(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        dash_bio.Clustergram(
+            data=_data,
+            link_fun=linkage
+        ),
+    )
+
+    dash_duo.start_server(app, dev_tools_props_check=True)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbcl038_link_method(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        nested_component_layout(
+            dash_bio.Clustergram(
+                data=_data,
+            ),
+        )
+    )
+
+    nested_component_app_callback(
+        app,
+        dash_duo,
+        component=dash_bio.Clustergram,
+        component_data=_data,
+        data_prop_name='data',
+        test_prop_name='link_method',
+        test_prop_value='average',
+        prop_value_type='string',
         take_snapshot=True
     )
 

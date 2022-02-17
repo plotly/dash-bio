@@ -412,7 +412,7 @@ def test_dbm3011_width(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbm3012_width(dash_duo):
+def test_dbm3012_style(dash_duo):
 
     style = {
         'width': 300,
