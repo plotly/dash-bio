@@ -334,7 +334,7 @@ def test_dbsv006_show_line_numbers(dash_duo):
     )
 
     chr_num = dash_duo.find_element('.charNumbers').text
-    
+
     assert dash_duo.get_logs() == []
     assert chr_num == ''
 
@@ -364,7 +364,7 @@ def test_dbsv007_wrap_amino_acids(dash_duo):
         validation_fn=lambda x: x == wrap_amino_acids,
         take_snapshot=True
     )
-    
+
     assert dash_duo.get_logs() == []
 
 
@@ -395,7 +395,7 @@ def test_dbsv008_chars_per_line(dash_duo):
         validation_fn=lambda x: x == chars_per_line,
         take_snapshot=True
     )
-    
+
     assert dash_duo.get_logs() == []
     assert first_line in dash_duo.find_element('.fastaSeq').text.replace(' ', '')
 
@@ -432,9 +432,9 @@ def test_dbsv009_toolbar(dash_duo):
         exist = True
     except NoSuchElementException:
         exist = False
-    
+
     assert dash_duo.get_logs() == []
-    assert exist == True
+    assert exist
 
 
 def test_dbsv010_search(dash_duo):
@@ -469,9 +469,9 @@ def test_dbsv010_search(dash_duo):
         exist = True
     except NoSuchElementException:
         exist = False
-    
+
     assert dash_duo.get_logs() == []
-    assert exist == False
+    assert exist
 
 
 def test_dbsv011_title(dash_duo):
@@ -499,9 +499,11 @@ def test_dbsv011_title(dash_duo):
         validation_fn=lambda x: x == title,
         take_snapshot=True
     )
-    
+
     assert dash_duo.get_logs() == []
-    assert title == dash_duo.driver.find_element(By.XPATH, '//*[@id="test-sequence-viewer"]/div[1]/h4').text
+    assert title == dash_duo.driver.find_element(
+        By.XPATH,
+         '//*[@id="test-sequence-viewer"]/div[1]/h4').text
 
 
 def test_dbsv012_sequence_max_height(dash_duo):
@@ -529,7 +531,7 @@ def test_dbsv012_sequence_max_height(dash_duo):
         validation_fn=lambda x: x == sequence_max_height,
         take_snapshot=True
     )
-    
+
     dash_duo.wait_for_style_to_equal('.scroller', 'max-height', sequence_max_height, timeout=5)
 
     assert dash_duo.get_logs() == []
@@ -560,7 +562,7 @@ def test_dbsv013_badge(dash_duo):
         validation_fn=lambda x: x == badge,
         take_snapshot=True
     )
-    
+
     try:
         # Class of a search panel
         dash_duo.find_element('.badge')
@@ -569,7 +571,7 @@ def test_dbsv013_badge(dash_duo):
         exist = False
 
     assert dash_duo.get_logs() == []
-    assert exist == False
+    assert exist
 
 
 def test_dbsv014_badge(dash_duo):
@@ -597,7 +599,7 @@ def test_dbsv014_badge(dash_duo):
         validation_fn=lambda x: x == badge,
         take_snapshot=True
     )
-    
+
     try:
         # Class of a search panel
         dash_duo.find_element('.badge')
@@ -606,7 +608,7 @@ def test_dbsv014_badge(dash_duo):
         exist = False
 
     assert dash_duo.get_logs() == []
-    assert exist == False
+    assert exist
 
 
 def test_dbsv015_legend(dash_duo):
@@ -636,7 +638,9 @@ def test_dbsv015_legend(dash_duo):
     )
 
     assert dash_duo.get_logs() == []
-    assert legend[1]['name'] == dash_duo.driver.find_element(By.XPATH, '//*[@id="test-sequence-viewer"]/div[2]/div[2]/p[2]').text
+    assert legend[1]['name'] == dash_duo.driver.find_element(
+        By.XPATH,
+         '//*[@id="test-sequence-viewer"]/div[2]/div[2]/p[2]').text
 
 
 def test_dbsv016_(dash_duo):
@@ -666,4 +670,6 @@ def test_dbsv016_(dash_duo):
     )
 
     assert dash_duo.get_logs() == []
-    assert legend[1]['name'] == dash_duo.driver.find_element(By.XPATH, '//*[@id="test-sequence-viewer"]/div[2]/div[2]/p[2]').text
+    assert legend[1]['name'] == dash_duo.driver.find_element(
+        By.XPATH,
+         '//*[@id="test-sequence-viewer"]/div[2]/div[2]/p[2]').text
