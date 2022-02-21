@@ -503,7 +503,7 @@ def test_dbsv011_title(dash_duo):
     assert dash_duo.get_logs() == []
     assert title == dash_duo.driver.find_element(
         By.XPATH,
-         '//*[@id="test-sequence-viewer"]/div[1]/h4').text
+        '//*[@id="test-sequence-viewer"]/div[1]/h4').text
 
 
 def test_dbsv012_sequence_max_height(dash_duo):
@@ -640,7 +640,7 @@ def test_dbsv015_legend(dash_duo):
     assert dash_duo.get_logs() == []
     assert legend[1]['name'] == dash_duo.driver.find_element(
         By.XPATH,
-         '//*[@id="test-sequence-viewer"]/div[2]/div[2]/p[2]').text
+        '//*[@id="test-sequence-viewer"]/div[2]/div[2]/p[2]').text
 
 
 def test_dbsv016_(dash_duo):
@@ -672,4 +672,4 @@ def test_dbsv016_(dash_duo):
     assert dash_duo.get_logs() == []
     assert legend[1]['name'] == dash_duo.driver.find_element(
         By.XPATH,
-         '//*[@id="test-sequence-viewer"]/div[2]/div[2]/p[2]').text
+        '//*[@id="test-sequence-viewer"]/div[2]/div[2]/p[2]').text
