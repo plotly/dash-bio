@@ -212,3 +212,30 @@ def test_dbsp008_scroll_zoom(dash_duo):
         prop_value_type='bool',
         take_snapshot=True
     )
+
+
+def test_dbsp009_style(dash_duo):
+
+    styles = { 
+        'height': '700px',
+        'width': '800px',
+        'position': 'relative',
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        dash_bio.Speck(
+            id=_COMPONENT_ID,
+            data=_data,
+            style=styles
+        )
+    )
+
+    dash_duo.start_server(app)
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    for style in styles:
+        dash_duo.wait_for_style_to_equal(f'#{_COMPONENT_ID}', style, styles[style])
+
+    assert dash_duo.get_logs() == []
