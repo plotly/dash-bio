@@ -216,7 +216,7 @@ def test_dbsp008_scroll_zoom(dash_duo):
 
 def test_dbsp009_style(dash_duo):
 
-    styles = { 
+    styles = {
         'height': '700px',
         'width': '800px',
         'position': 'relative',
