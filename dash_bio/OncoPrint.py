@@ -67,8 +67,7 @@ Keyword arguments:
     5 percent). If set to 0, plot will look like a heatmap.
 
 - range (list; default [None, None]):
-    Toogles whether or not to show a legend on the right side of the
-    plot, with mutation information.
+    Reset windowing to user preset on initial range or data change.
 
 - showlegend (boolean; default True):
     Toogles whether or not to show a legend on the right side of the
