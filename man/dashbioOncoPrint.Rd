@@ -48,8 +48,7 @@ those elements have the following types:
 Value is a ratio between 0 and 1.
 Defaults to 0.05 (i.e., 5 percent). If set to 0, plot will look like a heatmap.}
 
-\item{range}{Unnamed list. .Toogles whether or not to show a legend on the right side of the plot,
-with mutation information.}
+\item{range}{Unnamed list. .Reset windowing to user preset on initial range or data change.}
 
 \item{showlegend}{Logical. .Toogles whether or not to show a legend on the right side of the plot,
 with mutation information.}
