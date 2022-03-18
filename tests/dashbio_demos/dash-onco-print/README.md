@@ -35,7 +35,7 @@ Learn more about using the Onco Print with interactive examples in the [Dash Bio
 
 - **padding** (number; default 0.05): Adjusts the padding (as a proportion of whitespace) between two tracks. Value is a ratio between 0 and 1. Defaults to 0.05 (i.e., 5 percent). If set to 0, plot will look like a heatmap. 
 
-- **range**  (list; default [None, None]): Toogles whether or not to show a legend on the right side of the plot, with mutation information.  
+- **range**  (list; default [None, None]): Reset windowing to user preset on initial range or data change.  
 
 - **showlegend** (boolean; default True): Toogles whether or not to show a legend on the right side of the plot, with mutation information.   
 
