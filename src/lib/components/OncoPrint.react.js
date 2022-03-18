@@ -75,8 +75,7 @@ OncoPrint.propTypes = {
     backgroundcolor: PropTypes.string,
 
     /**
-     *.Toogles whether or not to show a legend on the right side of the plot,
-     * with mutation information.
+     *.Reset windowing to user preset on initial range or data change.
      */
     range: PropTypes.array,
 
