@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
@@ -83,7 +83,7 @@
   "files": [
     "dash_bio/bundle.js",
     "dash_bio/dash_bio-shared.js",
-    "dash_bio/async~*.js"
+    "dash_bio/async-*.js"
   ],
   "engines": {
     "node": ">=8.11.0",
