@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2] - 2022-03-18
+
+### Fixed
+* [#675](https://github.com/plotly/dash-bio/pull/675) Fixed an issue with the JS resource files in the npm release of dash-bio. As pointed out in [this community post](https://community.plotly.com/t/unable-to-use-dash-bio-for-plotting-ideograms-due-to-incorrect-javascript-dependency/61939/5) some of the dependencies have not been resolved at their external `unpkg` URL.
+* [#671](https://github.com/plotly/dash-bio/pull/671) Fixed Onco-Print range property description.
+
+
 ## [1.0.1] - 2022-01-19
 
 ### Changed
