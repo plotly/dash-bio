@@ -2,6 +2,7 @@ import json
 import re
 
 import dash
+import pytest
 import dash_bio
 import dash_html_components as html
 
@@ -471,7 +472,7 @@ def test_dbsv010_search(dash_duo):
         exist = False
 
     assert dash_duo.get_logs() == []
-    assert exist
+    assert exist == search
 
 
 def test_dbsv011_title(dash_duo):
@@ -537,48 +538,10 @@ def test_dbsv012_sequence_max_height(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbsv013_badge(dash_duo):
+@pytest.mark.parametrize("badge", [True, False])
+def test_dbsv013_badge(badge, dash_duo):
 
-    """Test that sequenceMaxHeight is set correctly"""
-
-    badge = False
-
-    app = dash.Dash(__name__)
-
-    app.layout = html.Div(simple_app_layout(
-        dash_bio.SequenceViewer(
-            id=_COMPONENT_ID,
-            sequence=_data
-        )
-    ))
-
-    simple_app_callback(
-        app,
-        dash_duo,
-        component_id=_COMPONENT_ID,
-        test_prop_name='badge',
-        test_prop_value=badge,
-        prop_value_type='bool',
-        validation_fn=lambda x: x == badge,
-        take_snapshot=True
-    )
-
-    try:
-        # Class of a search panel
-        dash_duo.find_element('.badge')
-        exist = True
-    except NoSuchElementException:
-        exist = False
-
-    assert dash_duo.get_logs() == []
-    assert exist
-
-
-def test_dbsv014_badge(dash_duo):
-
-    """Test that sequenceMaxHeight is set correctly"""
-
-    badge = False
+    """Test that badge is set correctly"""
 
     app = dash.Dash(__name__)
 
@@ -608,10 +571,10 @@ def test_dbsv014_badge(dash_duo):
         exist = False
 
     assert dash_duo.get_logs() == []
-    assert exist
+    assert exist == badge
 
 
-def test_dbsv015_legend(dash_duo):
+def test_dbsv014_legend(dash_duo):
 
     """Test that legend is set correctly"""
 
@@ -643,7 +606,7 @@ def test_dbsv015_legend(dash_duo):
         '//*[@id="test-sequence-viewer"]/div[2]/div[2]/p[2]').text
 
 
-def test_dbsv016_(dash_duo):
+def test_dbsv015_(dash_duo):
 
     """Test that legend is set correctly"""
 
