@@ -2,6 +2,7 @@ import json
 
 import dash
 import dash_html_components as html
+import numpy as np
 import pandas as pd
 
 import dash_bio
@@ -348,19 +349,20 @@ def test_dbcl012_return_computed_traces(dash_duo):
 def test_dbcl013_computed_traces(dash_duo):
 
     app = dash.Dash(__name__)
+    traces = dash_bio.Clustergram(data=_data, return_computed_traces=True)
+    assert len(traces) > 0
 
     app.layout = html.Div(
         nested_component_layout(
-            dash_bio.Clustergram(
-                data=_data,
-                cluster=None,
-            ),
+            dash_bio.Clustergram(data=np.array([[0]]), computed_traces=traces[1])
         )
     )
 
     dash_duo.start_server(app, dev_tools_props_check=True)
-
-    assert len(dash_duo.get_logs()) == 0
+    row_labels = list(_mtcars_data.index)
+    col_labels = list(_mtcars_data.columns)
+    assert len(dash_duo.find_elements("g.xaxislayer-above g.x11tick")) == len(col_labels)
+    assert len(dash_duo.find_elements("g.yaxislayer-above g.y11tick")) == len(row_labels)
 
 
 def test_dbcl014_row_labels(dash_duo):
@@ -1034,11 +1036,11 @@ def test_dbcl036_dist_fun(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(
+    app.layout = html.Div(nested_component_layout(
         dash_bio.Clustergram(
             data=_data,
             dist_fun=pdist
-        ),
+        ))
     )
 
     dash_duo.start_server(app, dev_tools_props_check=True)
@@ -1050,11 +1052,11 @@ def test_dbcl037_link_fun(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(
+    app.layout = html.Div(nested_component_layout(
         dash_bio.Clustergram(
             data=_data,
             link_fun=linkage
-        ),
+        ))
     )
 
     dash_duo.start_server(app, dev_tools_props_check=True)
