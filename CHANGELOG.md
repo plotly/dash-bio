@@ -1,12 +1,26 @@
 # Changelog
 
+## [1.0.2] - 2022-03-18
+
+### Fixed
+* [#675](https://github.com/plotly/dash-bio/pull/675) Fixed an issue with the JS resource files in the npm release of dash-bio. As pointed out in [this community post](https://community.plotly.com/t/unable-to-use-dash-bio-for-plotting-ideograms-due-to-incorrect-javascript-dependency/61939/5) some of the dependencies have not been resolved at their external `unpkg` URL.
+* [#671](https://github.com/plotly/dash-bio/pull/671) Fixed Onco-Print range property description.
+
+
+## [1.0.1] - 2022-01-19
+
+### Changed
+* [#667](https://github.com/plotly/dash-bio/pull/667) Added support for dash-bio-utils stub package and deprecation warning.
+* [#667](https://github.com/plotly/dash-bio/pull/667) Updated Ideogram version, props and removed support for old versions of ideogram (for more info see [#393](https://github.com/plotly/dash-bio/pull/393)).
+
+
 ## [1.0.0] - 2022-01-17
 
 ### Changed
 * [#589](https://github.com/plotly/dash-bio/pull/593) Merged dash-bio-utils into the dash bio package namespace.
 
 ### Fixed
-* [#646](https://github.com/plotly/dash-bio/pull/646) Fixed dendrogram domain whitespaces for Clustergram when dendrogram property is not set for either axis (for more infor see [#644](https://github.com/plotly/dash-bio/issues/644)).
+* [#646](https://github.com/plotly/dash-bio/pull/646) Fixed dendrogram domain whitespaces for Clustergram when dendrogram property is not set for either axis (for more info see [#644](https://github.com/plotly/dash-bio/issues/644)).
 
 ## [0.9.0] - 2021-12-14
 

@@ -25,6 +25,7 @@ with open(_filepath) as f:
 package_name = package['name'].replace(' ', '_').replace('-', '_')
 __version__ = package['version']
 
+from . import utils  # noqa: F401,E402
 from ._imports_ import *  # noqa: F401, F403, E402
 from ._imports_ import __all__  # noqa: E402
 

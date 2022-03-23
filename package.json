@@ -1,6 +1,6 @@
 {
   "name": "dash-bio",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Dash components for bioinformatics",
   "repository": {
     "type": "git",
@@ -28,12 +28,12 @@
   "dependencies": {
     "circos": "git+https://github.com/plotly/circosJS.git#matthewchan15-zoom-pan-svg",
     "fast-memoize": "^2.5.1",
-    "fornac": "git://github.com/plotly/fornac.git#794ebd47766a8cff2020d83a5f9071201ef59d31",
-    "ideogram": "git+https://github.com/eweitz/ideogram.git#a63d8c0198fe0475a9b141e5aa77bb273ddb217e",
+    "fornac": "git+https://github.com/plotly/fornac.git#794ebd47766a8cff2020d83a5f9071201ef59d31",
+    "ideogram": "^1.16.0",
     "igv": "2.6.8",
     "jsme-react": "git+https://github.com/nickmelnikov82/jsme-react.git#51d3c66279848eec049e0e52f6222381c3456007",
-    "molecule-2d-for-react": "git://github.com/plotly/molecule-2d-for-react.git#b281d52610677a7c47e02911e186e9d35417e37a",
-    "molecule-3d-for-react": "git://github.com/plotly/molecule-3d-for-react.git#c0f527d9ae1156bb0932790a683c74604100cd32",
+    "molecule-2d-for-react": "git+https://github.com/plotly/molecule-2d-for-react.git#b281d52610677a7c47e02911e186e9d35417e37a",
+    "molecule-3d-for-react": "git+https://github.com/plotly/molecule-3d-for-react.git#c0f527d9ae1156bb0932790a683c74604100cd32",
     "ngl": "^0.10.4",
     "pileup": "0.7.0",
     "plotly.js": "^1.52.2",
@@ -43,8 +43,8 @@
     "react-dom": "16.13.0",
     "react-oncoprint": "^1.2.3",
     "react-plotly.js": "^2.4.0",
-    "react-sequence-viewer": "git://github.com/plotly/react-sequence-viewer.git",
-    "speck": "git://github.com/plotly/speck.git#1e4e11f59b831f295a2187637cdbb1aa1172eaae"
+    "react-sequence-viewer": "git+https://github.com/plotly/react-sequence-viewer.git",
+    "speck": "git+https://github.com/plotly/speck.git#1e4e11f59b831f295a2187637cdbb1aa1172eaae"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -83,7 +83,7 @@
   "files": [
     "dash_bio/bundle.js",
     "dash_bio/dash_bio-shared.js",
-    "dash_bio/async~*.js"
+    "dash_bio/async-*.js"
   ],
   "engines": {
     "node": ">=8.11.0",
