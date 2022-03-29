@@ -530,8 +530,8 @@ class _ManhattanPlot():
                     marker={
                         'color': col[0],
                         'size': point_size,
-                        'name': "chr%i" % data[self.chrName].unique()
                     },
+                    name="Chr%i" % data[self.chrName].unique(),
                     text=hover_text
                 )
             )

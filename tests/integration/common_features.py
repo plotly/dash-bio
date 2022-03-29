@@ -130,7 +130,9 @@ def nested_component_app_callback(
             component_props[test_prop_name] = process_value(
                 prop_value, prop_value_type
             )
-        return component(**component_props)
+            return component(**component_props)
+        else:
+            return dash.no_update
 
     @app.callback(
         Output('pass-fail-div', 'children'),
