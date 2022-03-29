@@ -435,3 +435,38 @@ def test_dbm3012_style(dash_duo):
     dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
 
     assert dash_duo.get_logs() == []
+
+
+def test_dbm3013_orbital(dash_duo):
+
+    orbital = {
+        'cube_file': '',
+        'iso_val': 0.1,
+        'opacity': 1,
+        'positiveVolumetricColor': 'red',
+        'negativeVolumetricColor': 'blue',
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Molecule3dViewer(
+            id=_COMPONENT_ID,
+            modelData=_model_data,
+            styles=_styles_data,
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='orbital',
+        test_prop_value=json.dumps(orbital),
+        validation_fn=lambda x: json.dumps(x) == json.dumps(orbital),
+        prop_value_type='dict',
+        take_snapshot=True
+    )
+
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+    assert dash_duo.get_logs() == []
