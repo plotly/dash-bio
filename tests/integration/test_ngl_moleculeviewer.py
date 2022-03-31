@@ -13,7 +13,11 @@ import dash_html_components as html
 import dash_core_components as dcc
 import dash_bio
 
-from common_features import simple_app_layout, simple_app_callback
+from common_features import (
+    simple_app_layout,
+    simple_app_callback,
+    wait_for_element_attribute_has_value,
+)
 
 _COMPONENT_ID = "test-ngl"
 data_path = "tests/dashbio_demos/dash-ngl-moleculeviewer/data/"
@@ -140,13 +144,13 @@ def modified_simple_app_layout(component):
 # simple_app_callback does not work because:
 # NglMoleculeViewer does not accept the output as a string
 def modified_simple_app_callback(
-        app,
-        dash_duo,
-        component_id,
-        test_prop_name,
-        test_prop_value,
-        take_snapshot=True,
-        additional_functions=None,
+    app,
+    dash_duo,
+    component_id,
+    test_prop_name,
+    test_prop_value,
+    take_snapshot=True,
+    additional_functions=None,
 ):
     @app.callback(
         [
@@ -165,9 +169,9 @@ def modified_simple_app_callback(
     def setup_click_callback(submit_nclicks, reset_nclicks, download_nclicks, value):
 
         if (
-                submit_nclicks is None
-                and reset_nclicks is None
-                and download_nclicks is None
+            submit_nclicks is None
+            and reset_nclicks is None
+            and download_nclicks is None
         ):
             raise PreventUpdate
 
@@ -262,15 +266,20 @@ def modified_simple_app_callback(
 
     time.sleep(5)
     if take_snapshot:
-        dash_duo.percy_snapshot(f"{component_id}_{test_prop_name}_{test_prop_value}",
-                                convert_canvases=True)
+        dash_duo.percy_snapshot(
+            f"{component_id}_{test_prop_name}_{test_prop_value}", convert_canvases=True
+        )
 
 
 def test_dbdn001_viewer_loaded(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(simple_app_layout(viewer,))
+    app.layout = html.Div(
+        simple_app_layout(
+            viewer,
+        )
+    )
 
     dash_duo.start_server(app)
 
@@ -288,7 +297,11 @@ def test_dbdn002_change_background(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(simple_app_layout(viewer,))
+    app.layout = html.Div(
+        simple_app_layout(
+            viewer,
+        )
+    )
 
     simple_app_callback(
         app,
@@ -301,14 +314,25 @@ def test_dbdn002_change_background(dash_duo):
         take_snapshot=True,
     )
 
+    wait_for_element_attribute_has_value(
+        dash_duo,
+        "#" + _COMPONENT_ID + " canvas",
+        "style",
+        "background-color: rgb(0, 0, 0);",
+    )
 
-def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
+
+def test_dbdn003_show_oneMolecule_pdb(dash_duo):
 
     test_value = "6CHG"
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -320,37 +344,7 @@ def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
     )
 
 
-# tried to implement the test bases on shammamah's
-# suggestions did not work (see comment in PR)
-# def test_dbdn_003_show_oneMolecule_pdb(dash_duo):
-
-#     fname = '1BNA.pdb'
-
-#     d = data_dict.copy() #shallow copy
-#     d['fname'] = fname
-#     d['selectedValue'] = fname.split('.')[0]
-#     d['ext'] = fname.split('.')[1]
-
-#     with open(data_path+fname, 'r') as f:
-#         d['config']['input'] = f.read()
-
-#     app = dash.Dash(__name__)
-
-#     app.layout = html.Div(simple_app_layout(
-#         viewer,
-#     ))
-
-#     simple_app_callback(
-#         app,
-#         dash_duo,
-#         component_id=_COMPONENT_ID,
-#         test_prop_name='data',
-#         test_prop_value=json.dumps(d),
-#         prop_value_type='dict'
-#     )
-
-
-def test_dbdn_004_change_molRepresentation(dash_duo):
+def test_dbdn004_change_molRepresentation(dash_duo):
 
     test_mol_value = "6CHG"
     test_repr_value = "ball+stick,axes+box"
@@ -358,7 +352,11 @@ def test_dbdn_004_change_molRepresentation(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -370,13 +368,17 @@ def test_dbdn_004_change_molRepresentation(dash_duo):
     )
 
 
-def test_dbdn_005_show_oneMolecule_cif(dash_duo):
+def test_dbdn005_show_oneMolecule_cif(dash_duo):
 
     test_value = "1PNK"
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -388,13 +390,17 @@ def test_dbdn_005_show_oneMolecule_cif(dash_duo):
     )
 
 
-def test_dbdn_006_show_oneMolecule_cif_gzipped(dash_duo):
+def test_dbdn006_show_oneMolecule_cif_gzipped(dash_duo):
 
     test_value = "1KMQ"
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -406,13 +412,17 @@ def test_dbdn_006_show_oneMolecule_cif_gzipped(dash_duo):
     )
 
 
-def test_dbdn_007_show_oneChain(dash_duo):
+def test_dbdn007_show_oneChain(dash_duo):
 
     test_value = "6CHG.A"
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -424,13 +434,17 @@ def test_dbdn_007_show_oneChain(dash_duo):
     )
 
 
-def test_dbdn_008_show_atomRange(dash_duo):
+def test_dbdn008_show_atomRange(dash_duo):
 
     test_value = "6CHG.A:1-50"
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -442,7 +456,7 @@ def test_dbdn_008_show_atomRange(dash_duo):
     )
 
 
-def test_dbdn_009_show_chosenAtoms(dash_duo):
+def test_dbdn009_show_chosenAtoms(dash_duo):
 
     test_value = "6CHG.A@a50,a100,a150"
     test_color_value = "black,1"
@@ -450,7 +464,11 @@ def test_dbdn_009_show_chosenAtoms(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -462,7 +480,7 @@ def test_dbdn_009_show_chosenAtoms(dash_duo):
     )
 
 
-def test_dbdn_010_show_chosenResidues(dash_duo):
+def test_dbdn010_show_chosenResidues(dash_duo):
 
     test_value = "6CHG.A@50,100,150"
     test_color_value = "grey,1.5"
@@ -470,7 +488,11 @@ def test_dbdn_010_show_chosenResidues(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -482,7 +504,7 @@ def test_dbdn_010_show_chosenResidues(dash_duo):
     )
 
 
-def test_dbdn_011_show_chosenAtomsResidues(dash_duo):
+def test_dbdn011_show_chosenAtomsResidues(dash_duo):
 
     # not yet working
     test_atoms_value = "a50,a100,a150"
@@ -494,7 +516,11 @@ def test_dbdn_011_show_chosenAtomsResidues(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -506,7 +532,7 @@ def test_dbdn_011_show_chosenAtomsResidues(dash_duo):
     )
 
 
-def test_dbdn_012_show_multipleMolecules(dash_duo):
+def test_dbdn012_show_multipleMolecules(dash_duo):
 
     test_mol_value = "6CHG.A:1-450@50,100,150_3K8P.D"
     test_repr_value = "cartoon,axes+box"
@@ -514,7 +540,11 @@ def test_dbdn_012_show_multipleMolecules(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -526,7 +556,7 @@ def test_dbdn_012_show_multipleMolecules(dash_duo):
     )
 
 
-def test_dbdn_013_modified_molSpacing(dash_duo):
+def test_dbdn013_modified_molSpacing(dash_duo):
 
     test_mol_value = "6CHG.A:_3K8P.D"
     test_repr_value = "cartoon,axes+box,0"
@@ -534,7 +564,11 @@ def test_dbdn_013_modified_molSpacing(dash_duo):
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -546,13 +580,17 @@ def test_dbdn_013_modified_molSpacing(dash_duo):
     )
 
 
-def test_dbn_015_rotate_stage(dash_duo):
+def test_dbdn014_rotate_stage(dash_duo):
 
     test_value = "6CHG.A_3K8P.D"
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -565,13 +603,17 @@ def test_dbn_015_rotate_stage(dash_duo):
     )
 
 
-def test_dbn_016_reset_stageView(dash_duo):
+def test_dbdn015_reset_stageView(dash_duo):
 
     test_value = "6CHG.A_3K8P.C"
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -584,13 +626,17 @@ def test_dbn_016_reset_stageView(dash_duo):
     )
 
 
-def test_dbn_017_download_image(dash_duo):
+def test_dbdn016_download_image(dash_duo):
 
     test_value = "6CHG.A_3K8P"
 
     app = dash.Dash(__name__)
 
-    app.layout = html.Div(modified_simple_app_layout(viewer,))
+    app.layout = html.Div(
+        modified_simple_app_layout(
+            viewer,
+        )
+    )
 
     modified_simple_app_callback(
         app,
@@ -600,4 +646,54 @@ def test_dbn_017_download_image(dash_duo):
         test_prop_value=test_value,
         take_snapshot=True,
         additional_functions=["download"],
+    )
+
+
+def test_dbdn017_change_width(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        simple_app_layout(
+            viewer,
+        )
+    )
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="width",
+        test_prop_value="400px",
+        prop_value_type="string",
+        take_snapshot=True,
+    )
+
+    wait_for_element_attribute_has_value(
+        dash_duo, "#" + _COMPONENT_ID + " canvas", "style", "width: 400px;", 300
+    )
+
+
+def test_dbdn018_change_height(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        simple_app_layout(
+            viewer,
+        )
+    )
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name="height",
+        test_prop_value="400px",
+        prop_value_type="string",
+        take_snapshot=True,
+    )
+
+    wait_for_element_attribute_has_value(
+        dash_duo, "#" + _COMPONENT_ID + " canvas", "style", "height: 400px;", 300
     )

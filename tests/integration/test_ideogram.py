@@ -5,10 +5,18 @@ import dash_html_components as html
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.support.ui import WebDriverWait
-from common_features import simple_app_layout, simple_app_callback
+from common_features import (
+    simple_app_layout,
+    simple_app_callback,
+    wait_for_element_attribute_equal,
+    wait_for_element_attribute_has_no_value,
+    wait_for_element_attribute_has_value,
+)
+
 from dash.dependencies import Input, Output
 
 import dash_bio
+
 
 _COMPONENT_ID = "test-ideogram"
 
@@ -56,39 +64,6 @@ annotations = {
 }
 
 
-def _wait_for_element_attribute(dash_duo, selector, attribute, value, comp_func):
-    def func(_):
-        try:
-            return comp_func(
-                value, dash_duo.find_element(selector).get_attribute(attribute)
-            )
-        except StaleElementReferenceException:
-            return False
-
-    WebDriverWait(dash_duo.driver, 5).until(func)
-
-
-def _wait_for_element_attribute_has_value(dash_duo, selector, attribute, value):
-    def func(a, b):
-        return a in b
-
-    _wait_for_element_attribute(dash_duo, selector, attribute, value, func)
-
-
-def _wait_for_element_attribute_has_no_value(dash_duo, selector, attribute, value):
-    def func(a, b):
-        return a not in b
-
-    _wait_for_element_attribute(dash_duo, selector, attribute, value, func)
-
-
-def _wait_for_element_attribute_equal(dash_duo, selector, attribute, value):
-    def func(a, b):
-        return a == b
-
-    _wait_for_element_attribute(dash_duo, selector, attribute, value, func)
-
-
 def test_dbid001_displayed_chromosomes(dash_duo):
 
     app = dash.Dash(__name__)
@@ -129,7 +104,7 @@ def test_dbid002_click_rotation(dash_duo):
     )
 
     # ensure that it loads un-rotated
-    _wait_for_element_attribute_has_value(
+    wait_for_element_attribute_has_value(
         dash_duo, "#chr1-9606-chromosome-set", "transform", "rotate(90)"
     )
 
@@ -137,7 +112,7 @@ def test_dbid002_click_rotation(dash_duo):
     dash_duo.wait_for_element("#chr1-9606-chromosome-set").click()
 
     # rotation shouldn't take more than 1-2 seconds
-    _wait_for_element_attribute_has_no_value(
+    wait_for_element_attribute_has_no_value(
         dash_duo, "#chr1-9606-chromosome-set", "transform", "rotate(90)"
     )
 
@@ -158,7 +133,7 @@ def test_dbid003_click_rotation_disabled(dash_duo):
     )
 
     dash_duo.wait_for_element("#chr1-9606-chromosome-set", 5)
-    _wait_for_element_attribute_has_value(
+    wait_for_element_attribute_has_value(
         dash_duo, "#chr1-9606-chromosome-set", "transform", "rotate(90)"
     )
 
@@ -722,7 +697,7 @@ def test_dbid0024_organism(dash_duo):
 
     dash_duo.wait_for_element(f"#{_COMPONENT_ID}")
 
-    _wait_for_element_attribute_equal(
+    wait_for_element_attribute_equal(
         dash_duo, ".chrLabel tspan:nth-child(2)", "innerHTML", "Zea mays"
     )
 
@@ -756,7 +731,7 @@ def test_dbid0025_orientation(dash_duo):
     )
 
     dash_duo.wait_for_element(f"#{_COMPONENT_ID}")
-    _wait_for_element_attribute_has_no_value(
+    wait_for_element_attribute_has_no_value(
         dash_duo, "#chr1-9606-chromosome-set", "transform", "rotate(90)"
     )
 
@@ -790,7 +765,7 @@ def test_dbid0026_perspective(dash_duo):
     )
 
     dash_duo.wait_for_element(f"#{_COMPONENT_ID}")
-    _wait_for_element_attribute_has_value(
+    wait_for_element_attribute_has_value(
         dash_duo, "#chrX-9606-chromosome-set", "transform", "translate(30, -200)"
     )
 
@@ -924,7 +899,7 @@ def test_dbid0031_show_annot_tooltip(dash_duo):
         except StaleElementReferenceException:
             pass
 
-    _wait_for_element_attribute_has_value(
+    wait_for_element_attribute_has_value(
         dash_duo, "#_ideogramTooltip", "style", "opacity: 0"
     )
 
@@ -1023,7 +998,7 @@ def test_dbid0034_show_fully_banded(dash_duo):
 
     dash_duo.wait_for_element(f"#{_COMPONENT_ID}")
     dash_duo.wait_for_element(".chromosome-border path")
-    _wait_for_element_attribute_equal(dash_duo, ".chromosome-border path", "fill", "")
+    wait_for_element_attribute_equal(dash_duo, ".chromosome-border path", "fill", "")
 
     assert dash_duo.get_logs() == []
 
