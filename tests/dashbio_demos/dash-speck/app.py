@@ -2,8 +2,8 @@ import os
 import base64
 
 from dash.dependencies import Input, Output, State
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 from dash_bio.utils.xyz_reader import read_xyz
 import dash_bio
 

@@ -5,8 +5,8 @@ from Bio.SeqUtils import seq3
 from Bio.Seq import Seq
 from Bio.Data.CodonTable import TranslationError
 from dash.dependencies import Input, Output, State
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 
 from dash_bio.utils import protein_reader as pr
 import dash_bio

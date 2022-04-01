@@ -4,9 +4,9 @@ import tempfile
 from shutil import copy2
 from textwrap import dedent as s
 
-import dash_core_components as dcc
+from dash import dcc
 import dash_daq as daq
-import dash_html_components as html
+from dash import html
 from dash.dependencies import Input, Output, State
 from dash_bio.utils import pdb_parser as parser, mol3dviewer_styles_creator as sparser
 

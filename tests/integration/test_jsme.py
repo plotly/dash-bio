@@ -1,7 +1,7 @@
 import time
 
 import dash
-import dash_html_components as html
+from dash import html
 from dash.testing.errors import TestingTimeoutError
 from selenium.webdriver.common.action_chains import ActionChains
 

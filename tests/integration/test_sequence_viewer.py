@@ -4,7 +4,7 @@ import re
 import dash
 import pytest
 import dash_bio
-import dash_html_components as html
+from dash import html
 
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys

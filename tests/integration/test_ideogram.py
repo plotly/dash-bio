@@ -1,6 +1,6 @@
 import json
 import dash
-import dash_html_components as html
+from dash import html
 
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import StaleElementReferenceException

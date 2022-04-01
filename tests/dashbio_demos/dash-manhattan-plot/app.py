@@ -1,8 +1,8 @@
 import os
 
 import pandas as pd
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 from dash.dependencies import Input, Output
 
 import dash_bio

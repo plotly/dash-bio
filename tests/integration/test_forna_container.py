@@ -1,7 +1,7 @@
 import json
 
 import dash
-import dash_html_components as html
+from dash import html
 import dash_bio
 
 from common_features import simple_app_layout, simple_app_callback
