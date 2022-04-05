@@ -131,7 +131,7 @@ def test_dbsv002_selection(dash_duo):
         _data[new_selection[0]:new_selection[1]]
 
 
-def test_dbsv003_search(dash_duo):
+def test_dbsv003_subpartSelected(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -575,38 +575,6 @@ def test_dbsv013_badge(badge, dash_duo):
 
 
 def test_dbsv014_legend(dash_duo):
-
-    """Test that legend is set correctly"""
-
-    legend = [{'color': 'red'}, {'name': 'Test name'}, {'underscore': True}]
-
-    app = dash.Dash(__name__)
-
-    app.layout = html.Div(simple_app_layout(
-        dash_bio.SequenceViewer(
-            id=_COMPONENT_ID,
-            sequence=_data
-        )
-    ))
-
-    simple_app_callback(
-        app,
-        dash_duo,
-        component_id=_COMPONENT_ID,
-        test_prop_name='legend',
-        test_prop_value=json.dumps(legend),
-        prop_value_type='list',
-        validation_fn=lambda x: x == legend,
-        take_snapshot=True
-    )
-
-    assert dash_duo.get_logs() == []
-    assert legend[1]['name'] == dash_duo.driver.find_element(
-        By.XPATH,
-        '//*[@id="test-sequence-viewer"]/div[2]/div[2]/p[2]').text
-
-
-def test_dbsv015_(dash_duo):
 
     """Test that legend is set correctly"""
 

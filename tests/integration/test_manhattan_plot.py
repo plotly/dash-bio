@@ -13,7 +13,7 @@ _data = pandas.read_csv(
 )
 
 
-def test_dbmp001_genomewideline_value(dash_duo):
+def test_dbmp001_genomewideline_value_3(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -33,6 +33,8 @@ def test_dbmp001_genomewideline_value(dash_duo):
         take_snapshot=True,
     )
 
+
+def test_dbmp002_genomewideline_value_6(dash_duo):
     app = dash.Dash(__name__)
 
     app.layout = html.Div(
@@ -52,7 +54,7 @@ def test_dbmp001_genomewideline_value(dash_duo):
     )
 
 
-def test_dbmp002_suggestiveline_value(dash_duo):
+def test_dbmp003_suggestiveline_value_5(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -72,6 +74,8 @@ def test_dbmp002_suggestiveline_value(dash_duo):
         take_snapshot=True,
     )
 
+
+def test_dbmp004_suggestiveline_value_9(dash_duo):
     app = dash.Dash(__name__)
 
     app.layout = html.Div(
@@ -91,7 +95,7 @@ def test_dbmp002_suggestiveline_value(dash_duo):
     )
 
 
-def test_dbmp003_genomewide_color(dash_duo):
+def test_dbmp005_genomewide_color(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -117,7 +121,7 @@ def test_dbmp003_genomewide_color(dash_duo):
     )
 
 
-def test_dbmp004_suggestive_color(dash_duo):
+def test_dbmp006_suggestive_color(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -143,7 +147,7 @@ def test_dbmp004_suggestive_color(dash_duo):
     )
 
 
-def test_dbmp005_highlight_color(dash_duo):
+def test_dbmp007_highlight_color(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -170,7 +174,7 @@ def test_dbmp005_highlight_color(dash_duo):
     )
 
 
-def test_dbmp006_chrm(dash_duo):
+def test_dbmp008_chrm(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -198,7 +202,7 @@ def test_dbmp006_chrm(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp007_bp(dash_duo):
+def test_dbmp009_bp(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -226,7 +230,7 @@ def test_dbmp007_bp(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp008_p(dash_duo):
+def test_dbmp010_p(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -254,7 +258,7 @@ def test_dbmp008_p(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp009_snp(dash_duo):
+def test_dbmp011_snp(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -282,7 +286,7 @@ def test_dbmp009_snp(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp009_gene(dash_duo):
+def test_dbmp012_gene(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -310,7 +314,7 @@ def test_dbmp009_gene(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp009_annotation(dash_duo):
+def test_dbmp013_annotation(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -338,7 +342,7 @@ def test_dbmp009_annotation(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp010_logp(dash_duo):
+def test_dbmp014_logp(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -370,7 +374,7 @@ def test_dbmp010_logp(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp011_title(dash_duo):
+def test_dbmp015_title(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -398,7 +402,7 @@ def test_dbmp011_title(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp012_showgrid(dash_duo):
+def test_dbmp016_showgrid(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -425,7 +429,7 @@ def test_dbmp012_showgrid(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp013_xlabel(dash_duo):
+def test_dbmp017_xlabel(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -453,7 +457,7 @@ def test_dbmp013_xlabel(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp014_ylabel(dash_duo):
+def test_dbmp018_ylabel(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -481,7 +485,7 @@ def test_dbmp014_ylabel(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp015_point_size(dash_duo):
+def test_dbmp019_point_size(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -515,7 +519,7 @@ def test_dbmp015_point_size(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp016_showlegend(dash_duo):
+def test_dbmp020_showlegend(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -547,7 +551,7 @@ def test_dbmp016_showlegend(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp017_col(dash_duo):
+def test_dbmp021_col(dash_duo):
     app = dash.Dash(__name__)
 
     app.layout = html.Div(
@@ -580,7 +584,7 @@ def test_dbmp017_col(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp018_suggestiveline_width(dash_duo):
+def test_dbmp022_suggestiveline_width(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -607,7 +611,7 @@ def test_dbmp018_suggestiveline_width(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp019_genomewideline_value(dash_duo):
+def test_dbmp023_genomewideline_value(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -634,7 +638,7 @@ def test_dbmp019_genomewideline_value(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp020_genomewideline_color(dash_duo):
+def test_dbmp024_genomewideline_color(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -661,7 +665,7 @@ def test_dbmp020_genomewideline_color(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp021_genomewideline_width(dash_duo):
+def test_dbmp025_genomewideline_width(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -688,7 +692,7 @@ def test_dbmp021_genomewideline_width(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp022_highlight(dash_duo):
+def test_dbmp026_highlight(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -721,7 +725,7 @@ def test_dbmp022_highlight(dash_duo):
     assert dash_duo.get_logs() == []
 
 
-def test_dbmp023_highlight_color(dash_duo):
+def test_dbmp027_highlight_color(dash_duo):
 
     app = dash.Dash(__name__)
 

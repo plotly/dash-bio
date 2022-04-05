@@ -80,7 +80,7 @@ def test_dbvp003_point_size(dash_duo):
         component=dash_bio.VolcanoPlot,
         component_data=_data,
         test_prop_name='point_size',
-        test_prop_value=10,
+        test_prop_value=11,
         prop_value_type='int',
         data_prop_name='dataframe',
         take_snapshot=True

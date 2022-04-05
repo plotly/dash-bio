@@ -26,7 +26,7 @@ annotations = {
         {
             "chr": "1",
             "annots": [
-                ["virtual1", 30000000, 6000000, "rgba(255, 0, 0, 0.65)"],
+                ["virtual1", 30, 6, "rgba(255, 0, 0, 0.65)"],
                 ["virtual2", 40000000, 5000000, "rgba(0, 255, 0, 0.65)"],
             ],
         },
@@ -1095,7 +1095,7 @@ def test_dbid0037_annotations_data(dash_duo):
         ac.perform()
 
     dash_duo.wait_for_text_to_equal(
-        "#prop-value", "chr1:30&nbsp;000&nbsp;000-36&nbsp;000&nbsp;000"
+        "#prop-value", "chr1:30-36"
     )
 
     assert len(dash_duo.get_logs()) == 0
