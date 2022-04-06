@@ -1,5 +1,8 @@
 # Changelog
 
+### Added
+* [#670](https://github.com/plotly/dash-bio/pull/670) Added additional integration tests for each component.
+
 ## [1.0.2] - 2022-03-18
 
 ### Fixed
