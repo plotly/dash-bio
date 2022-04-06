@@ -2,8 +2,7 @@ import base64
 import os
 
 import dash
-from dash import dcc
-from dash import html
+from dash import dcc, html
 
 
 def run_standalone_app(

@@ -2,8 +2,7 @@ import json
 import base64
 import os
 
-from dash import html
-from dash import dcc
+from dash import html, dcc
 from dash.dependencies import Input, Output
 import dash_bio
 
@@ -292,11 +291,11 @@ def layout():
                                                 max=12,
                                                 step=1,
                                                 marks={
-                                                    '8': 8,
-                                                    '9': 9,
-                                                    '10': 10,
-                                                    '11': 11,
-                                                    '12': 12,
+                                                    8: '8',
+                                                    9: '9',
+                                                    10: '10',
+                                                    11: '11',
+                                                    12: '12',
                                                 },
                                             ),
 

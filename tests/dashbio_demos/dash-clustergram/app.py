@@ -1,10 +1,8 @@
 import base64
 import os
 
-import dash
 from dash.dependencies import Input, Output, State
-from dash import dcc
-from dash import html
+from dash import dcc, html, callback_context
 import dash_daq as daq
 
 from dash_bio.utils import gene_expression_reader
@@ -621,7 +619,7 @@ def callbacks(_app):
     ):
         # remove all group markers, if necessary, or
         # initialize the group markers data
-        ctx = dash.callback_context
+        ctx = callback_context
         if ctx.triggered[0]['prop_id'].split('.')[0] == 'remove-all-group-markers':
             return {'row_group_marker': [],
                     'col_group_marker': []}
@@ -703,7 +701,7 @@ def callbacks(_app):
             contents, filename,
             computed_traces
     ):
-        ctx = dash.callback_context
+        ctx = callback_context
         adding_grp_marker = ctx.triggered[0]['prop_id'].split('.')[0] == 'group-markers'
 
         wrapper_content = ''

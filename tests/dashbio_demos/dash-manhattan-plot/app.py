@@ -1,8 +1,7 @@
 import os
 
 import pandas as pd
-from dash import html
-from dash import dcc
+from dash import html, dcc
 from dash.dependencies import Input, Output
 
 import dash_bio

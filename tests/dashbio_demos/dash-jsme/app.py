@@ -1,6 +1,5 @@
 import dash_bio
-from dash import dcc
-from dash import html
+from dash import dcc, html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
@@ -151,4 +150,4 @@ app = run_standalone_app(layout, callbacks, header_colors, __file__)
 server = app.server
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8051)
+    app.run_server(debug=True, port=8050)

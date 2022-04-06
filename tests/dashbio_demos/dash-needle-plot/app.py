@@ -1,8 +1,7 @@
 import os
 import copy
 import json
-from dash import dcc
-from dash import html
+from dash import dcc, html
 from dash.dependencies import Input, Output, State
 
 from dash_bio.utils.uniprot_database_tools import UniprotQueryBuilder
@@ -661,8 +660,8 @@ def callbacks(_app):
 
     @_app.callback(
         Output('needle-domain-file-div', 'style'),
-        [Input('needle-protein-domains-select-checklist', 'values')],
-        [State('needle-domain-file-div', 'value')]
+        [Input('needle-protein-domains-select-checklist', 'value')],
+        [State('needle-domain-file-div', 'style')]
     )
     def toggle_individual_domain_loading_in_upload(domains_opt, div_style):
         """toggles the view of the domain upload div"""
@@ -679,7 +678,7 @@ def callbacks(_app):
 
     @_app.callback(
         Output('needle-domain-query-info-div', 'style'),
-        [Input('needle-protein-domains-select-checklist', 'values')],
+        [Input('needle-protein-domains-select-checklist', 'value')],
         [
             State('needle-domain-query-info-div', 'style'),
             State('needle-dataset-select-dropdown', 'value')
@@ -782,7 +781,7 @@ def callbacks(_app):
     @_app.callback(
         Output('needle-domain-query-info-div', 'children'),
         [Input('needle-store', 'data')],
-        [State('needle-protein-domains-select-checklist', 'values')]
+        [State('needle-protein-domains-select-checklist', 'value')]
     )
     def display_domain_query_info(stored_data, domains_opt):
         """display the info about the source of the protein domains data"""
@@ -870,7 +869,7 @@ def callbacks(_app):
             Input('needle-search-sequence-button', 'n_clicks'),
             Input('needle-dataset-select-dropdown', 'value'),
             Input('needle-dataset-dropdown', 'value'),
-            Input('needle-protein-domains-select-checklist', 'values'),
+            Input('needle-protein-domains-select-checklist', 'value'),
             Input('needle-mutdata-file-upload', 'contents'),
             Input('needle-domains-file-upload', 'contents'),
         ],

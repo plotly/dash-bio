@@ -206,7 +206,7 @@ def wait_for_element_attribute(
 
 
 def wait_for_element_attribute_has_value(
-    dash_duo, selector, attribute, value, timeout=5
+    dash_duo, selector, attribute, value, timeout=10
 ):
     wait_for_element_attribute(
         dash_duo, selector, attribute, value, lambda a, b: a in b, timeout
@@ -214,14 +214,14 @@ def wait_for_element_attribute_has_value(
 
 
 def wait_for_element_attribute_has_no_value(
-    dash_duo, selector, attribute, value, timeout=5
+    dash_duo, selector, attribute, value, timeout=10
 ):
     wait_for_element_attribute(
         dash_duo, selector, attribute, value, lambda a, b: a not in b, timeout
     )
 
 
-def wait_for_element_attribute_equal(dash_duo, selector, attribute, value, timeout=5):
+def wait_for_element_attribute_equal(dash_duo, selector, attribute, value, timeout=10):
     wait_for_element_attribute(
         dash_duo, selector, attribute, value, lambda a, b: a == b, timeout
     )
