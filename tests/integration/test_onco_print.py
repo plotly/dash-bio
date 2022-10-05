@@ -3,7 +3,7 @@ import re
 
 import dash
 import dash_bio
-import dash_html_components as html
+from dash import html
 
 from common_features import simple_app_layout, simple_app_callback
 
@@ -107,3 +107,165 @@ def test_dbop002_colorscale(dash_duo):
             point.get_attribute('style')
         )
         assert match.group(1) == 'rgb(10, 200, 100)'
+
+
+def test_dbop003_padding(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.OncoPrint(
+            id=_COMPONENT_ID,
+            data=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='padding',
+        test_prop_value=1,
+        prop_value_type='int',
+        take_snapshot=True
+    )
+
+
+def test_dbop004_range(dash_duo):
+
+    range_list = [3, 7]
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.OncoPrint(
+            id=_COMPONENT_ID,
+            data=_data,
+            range=range_list
+        )
+    ))
+
+    dash_duo.start_server(app)
+
+    assert len(dash_duo.get_logs()) == 0
+
+
+def test_dbop005_showlegend(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.OncoPrint(
+            id=_COMPONENT_ID,
+            data=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='showlegend',
+        test_prop_value=False,
+        prop_value_type='bool',
+        take_snapshot=True
+    )
+
+
+def test_dbop006_showlegend(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.OncoPrint(
+            id=_COMPONENT_ID,
+            data=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='showlegend',
+        test_prop_value=False,
+        prop_value_type='bool',
+    )
+
+
+def test_dbop007_showoverview(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.OncoPrint(
+            id=_COMPONENT_ID,
+            data=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='showoverview',
+        test_prop_value=False,
+        prop_value_type='bool',
+        take_snapshot=True
+    )
+
+
+def test_dbop008_width(dash_duo):
+
+    new_width = 700
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.OncoPrint(
+            id=_COMPONENT_ID,
+            data=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='width',
+        test_prop_value=new_width,
+        prop_value_type='int',
+        take_snapshot=True
+    )
+
+    plot = dash_duo.find_element('.js-plotly-plot')
+
+    assert plot.size['width'] == new_width
+
+
+def test_dbop009_height(dash_duo):
+
+    new_height = 900
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.OncoPrint(
+            id=_COMPONENT_ID,
+            data=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='height',
+        test_prop_value=new_height,
+        prop_value_type='int',
+        take_snapshot=True
+    )
+
+    plot = dash_duo.find_element('.js-plotly-plot')
+
+    assert plot.size['height'] == new_height

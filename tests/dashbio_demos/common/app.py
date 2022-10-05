@@ -1,7 +1,6 @@
 import os
 
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html, dcc, no_update
 from dash.dependencies import Input, Output
 import dash_bio
 
@@ -95,6 +94,8 @@ def callbacks(_app):
         [Input('sample-data-store', 'data')]
     )
     def update_chart(input_data):
+        if input_data is None:
+            return no_update
         return input_data
 
 

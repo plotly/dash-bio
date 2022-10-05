@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 
 import dash
 import dash_bio
-import dash_html_components as html
+from dash import html
 from dash_bio.utils import xyz_reader
 
 from common_features import simple_app_layout, simple_app_callback
@@ -190,3 +190,52 @@ def test_dbsp007_show_legend(dash_duo):
     )
 
     dash_duo.wait_for_element("#speck-color-legend")
+
+
+def test_dbsp008_scroll_zoom(dash_duo):
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.Speck(
+            id=_COMPONENT_ID,
+            data=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='scrollZoom',
+        test_prop_value=False,
+        prop_value_type='bool',
+        take_snapshot=True
+    )
+
+
+def test_dbsp009_style(dash_duo):
+
+    styles = {
+        'height': '700px',
+        'width': '800px',
+        'position': 'relative',
+    }
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(
+        dash_bio.Speck(
+            id=_COMPONENT_ID,
+            data=_data,
+            style=styles
+        )
+    )
+
+    dash_duo.start_server(app)
+    dash_duo.wait_for_element(f'#{_COMPONENT_ID}')
+
+    for style in styles:
+        dash_duo.wait_for_style_to_equal(f'#{_COMPONENT_ID}', style, styles[style])
+
+    assert dash_duo.get_logs() == []

@@ -18,8 +18,7 @@ import io
 import math
 import pandas as pd
 import dash_bio
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html, dcc
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
@@ -110,10 +109,12 @@ def layout():
                                                 dcc.Upload(
                                                     id="upload-data",
                                                     className="control-upload",
-                                                    children=html.Div([
-                                                        "Drag and drop a .h5 file or ",
-                                                        html.A("select a file."),
-                                                    ]),
+                                                    children=html.Div(
+                                                        [
+                                                            "Drag and drop a .h5 file or ",
+                                                            html.A("select a file."),
+                                                        ]
+                                                    ),
                                                     accept=".hdf5,.h5",
                                                     multiple=False,
                                                 )
@@ -149,10 +150,12 @@ def layout():
                                                 dcc.Upload(
                                                     id="upload-tsv",
                                                     className="control-upload",
-                                                    children=html.Div([
-                                                        "Drag and drop a .tsv file or ",
-                                                        html.A("select file."),
-                                                    ]),
+                                                    children=html.Div(
+                                                        [
+                                                            "Drag and drop a .tsv file or ",
+                                                            html.A("select file."),
+                                                        ]
+                                                    ),
                                                     accept=".txt,.tsv,.csv",
                                                     multiple=False,
                                                 )
@@ -280,7 +283,8 @@ def layout():
                             children=[
                                 html.Div("", style={"textAlign": "center"}),
                                 html.Div(
-                                    dcc.Slider(id="slider",), style={"display": "none"}
+                                    dcc.Slider(id="slider", min=0, max=1),
+                                    style={"display": "none"},
                                 ),
                             ],
                         ),
@@ -579,7 +583,7 @@ def callbacks(app):
                     min=1,
                     max=div,
                     value=1,
-                    marks={str(i + 1): str(i + 1) for i in range(div)},
+                    marks={i + 1: str(i + 1) for i in range(div)},
                     step=None,
                 )
             ),
@@ -760,7 +764,7 @@ def callbacks(app):
                 batch_number=selected_batch,
                 sample_order=sample_sortlist,
                 sample_names=names_dict,
-                width=1100
+                width=1100,
             )
 
         else:
@@ -792,7 +796,7 @@ def callbacks(app):
                 filter_file=custom_config["filter_file"],
                 sample_order=sample_sortlist,
                 sample_names=names_dict,
-                width=1100
+                width=1100,
             )
 
         # Children for variantmap-fig
@@ -826,5 +830,5 @@ def callbacks(app):
 app = run_standalone_app(layout, callbacks, header_colors, __file__)
 server = app.server
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run_server(debug=True, port=8050)

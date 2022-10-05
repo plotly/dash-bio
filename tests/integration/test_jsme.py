@@ -1,8 +1,9 @@
 import time
 
 import dash
-import dash_html_components as html
+from dash import html
 from dash.testing.errors import TestingTimeoutError
+from selenium.webdriver.common.action_chains import ActionChains
 
 import dash_bio
 from common_features import simple_app_layout
@@ -40,6 +41,7 @@ _REACTION_COORD = (0.5, 0.25)
 _UNDO_COORD = (0.54, 0.25)
 _REDO_COORD = (0.61, 0.25)
 _SPIRO_RING_COORD = (0.68, 0.25)
+_ATOM_MOVE_COORD = (0.75, 0.25)
 _INFO_FORM_COORD = (0.83, 0.25)
 
 # Second instrument line
@@ -72,11 +74,8 @@ _X_ATOM_COORD = (0.5, 0.63)
 _R_ATOM_COORD = (0.5, 0.7)
 
 """
-    This options need mouse move method or mouse wheel method:
-        - atomMoveButton/NOatomMoveButton
+    This options need mouse wheel method:
         - zoom/NOzoom
-    This buttons need mouse move method:
-        - Chain bond instrument
 
     Also can't check options keepHs/removeHs/removeHsC, jsme always remove hydrogens
 """
@@ -235,11 +234,15 @@ def test_dbj008_chain_bond(dash_duo):
         options="oldLook"
     ))
 
-    # TODO: Chain bond instrument continuously draw bonds, so we need mouse press,
-    # mouse move and mouse release methods, but we have only 'click'
     _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _CHAIN_BOND_COORD)
     _click_at_draw_board(dash_duo)
-    _check_smile(dash_duo, 'CC')
+
+    board = dash_duo.wait_for_element(_DRAW_BOARD_SELECTOR)
+    ac = ActionChains(dash_duo.driver)
+    ac.move_by_offset(200, 200)
+    ac.drag_and_drop_by_offset(board, -50, 0).perform()
+
+    _check_smile(dash_duo, 'CCCC')
 
 
 def test_dbj009_delete_group_mode(dash_duo):
@@ -782,6 +785,31 @@ def test_dbj038_check_style(dash_duo):
     react_div = dash_duo.wait_for_element('#' + _COMPONENT_ID)
     assert 'background-color: black;' in react_div.get_attribute('style'), \
         "Option style not working"
+
+
+def test_dbj039_move_atom(dash_duo):
+    _prepare_app(dash_duo, dash_bio.Jsme(
+        id=_COMPONENT_ID,
+        options='atomMoveButton oldLook',
+        height="400px",
+        width="400px",
+        smiles='CC',
+    ))
+
+    _click_selector_at_coordinates(dash_duo, _HORIZONTAL_INSTRUMENT_SELECTOR, _ATOM_MOVE_COORD)
+    ac = ActionChains(dash_duo.driver)
+    board = dash_duo.wait_for_element(_DRAW_BOARD_SELECTOR)
+    line = dash_duo.wait_for_element(_FIRST_LINE_SELECTOR)
+    old_x1 = line.get_attribute('x1')
+    x = int(old_x1) / int(board.get_attribute('width'))
+    y = int(line.get_attribute('y1')) / int(board.get_attribute('height'))
+    ac.move_to_element_with_offset(line, x, y)
+    ac.click_and_hold()
+    ac.move_by_offset(-50, 0)
+    ac.perform()
+
+    line = dash_duo.wait_for_element(_FIRST_LINE_SELECTOR)
+    assert old_x1 != line.get_attribute('x1')
 
 
 def _popup_decorator(dash_duo, selector):

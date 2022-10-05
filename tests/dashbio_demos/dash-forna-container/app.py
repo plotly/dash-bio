@@ -1,7 +1,6 @@
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html, dcc
 import dash_daq as daq
 import dash_bio
 

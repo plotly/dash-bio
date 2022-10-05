@@ -2,7 +2,7 @@ import pandas as pd
 
 import dash
 import dash_bio
-import dash_core_components as dcc
+from dash import dcc
 
 
 def test_dbvm001_basic(dash_duo):

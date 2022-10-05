@@ -3,11 +3,8 @@ import glob
 import gzip
 import zlib
 
-from dash import callback_context
-from dash.dash import no_update
 from dash.dependencies import Input, Output, State
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html, dcc, no_update, callback_context
 import dash_bio
 
 from layout_helper import run_standalone_app

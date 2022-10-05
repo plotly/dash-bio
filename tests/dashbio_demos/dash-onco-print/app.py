@@ -1,7 +1,6 @@
 import os
 import json
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html, dcc
 from dash.dependencies import Input, Output, State
 import dash_daq as daq
 import dash_bio

@@ -3,7 +3,7 @@ import re
 
 import dash
 import dash_bio
-import dash_html_components as html
+from dash import html
 
 from common_features import simple_app_layout, simple_app_callback
 
@@ -81,7 +81,7 @@ def test_dbnp001_needle_style(dash_duo):
         assert match.group(1) == '4px'
 
 
-def test_dbnp002_domainStyle(dash_duo):
+def test_dbnp002_domain_style(dash_duo):
 
     app = dash.Dash(__name__)
 
@@ -123,8 +123,10 @@ def test_dbnp002_domainStyle(dash_duo):
         assert match.group(1) in new_domain_style['domainColor']
 
 
+# My tests
+
 def test_dbnp003_height(dash_duo):
-    """ Test that check if height property is setting correctly """
+    """ Test that checks if a height property is set correctly """
     app = dash.Dash(__name__)
 
     app.layout = html.Div(simple_app_layout(
@@ -153,7 +155,7 @@ def test_dbnp003_height(dash_duo):
 
 
 def test_dbnp004_width(dash_duo):
-    """ Test that check if width property is setting correctly """
+    """ Test that checks if a width property is set correctly """
     app = dash.Dash(__name__)
 
     app.layout = html.Div(simple_app_layout(
@@ -179,3 +181,111 @@ def test_dbnp004_width(dash_duo):
     main = dash_duo.find_element(f'#{_COMPONENT_ID}')
 
     assert int(main.size['width']) == new_width
+
+
+def test_dbnp005_xlabel(dash_duo):
+    """ Test that checks if xlabel property is work correctly """
+
+    x_label = 'Test X title'
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.NeedlePlot(
+            id=_COMPONENT_ID,
+            mutationData=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='xlabel',
+        test_prop_value=x_label,
+        validation_fn=lambda x: x == x_label,
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert dash_duo.find_element('.xtitle').text == x_label
+
+
+def test_dbnp006_ylabel(dash_duo):
+    """ Test that checks if ylabel property is work correctly """
+
+    y_label = 'Test Y title'
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.NeedlePlot(
+            id=_COMPONENT_ID,
+            mutationData=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='ylabel',
+        test_prop_value=y_label,
+        validation_fn=lambda x: x == y_label,
+        prop_value_type='string',
+        take_snapshot=True
+    )
+
+    assert dash_duo.find_element('.ytitle').text == y_label
+
+
+def test_dbnp007_range_slider(dash_duo):
+    """ Test that checks if rangeSlider property is work correctly """
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.NeedlePlot(
+            id=_COMPONENT_ID,
+            mutationData=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='rangeSlider',
+        test_prop_value=True,
+        prop_value_type='bool',
+        take_snapshot=True
+    )
+
+
+def test_dbnp008_click_data(dash_duo):
+    """ Test that checks if clickData property is work correctly """
+
+    click_data = ["271.0-279.0", "808.0-825.0", "661.0-672.0", "1016.0-1025.0",
+                  "513.0-515.0", "609.0-622.0", "489.0-492.0", "237.0-242.0",
+                  "134.0-142.0", "1032.0-1047.0", "160.0-166.0", "306.0-309.0",
+                  "890.0-911.0", "65.0-67.0", "508.0-512.0", "625.0-638.0"]
+
+    app = dash.Dash(__name__)
+
+    app.layout = html.Div(simple_app_layout(
+        dash_bio.NeedlePlot(
+            id=_COMPONENT_ID,
+            mutationData=_data
+        )
+    ))
+
+    simple_app_callback(
+        app,
+        dash_duo,
+        component_id=_COMPONENT_ID,
+        test_prop_name='click_data',
+        test_prop_value=json.dumps(click_data),
+        prop_value_type='list',
+        validation_fn=lambda x: x == click_data,
+        take_snapshot=True
+    )

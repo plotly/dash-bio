@@ -4,10 +4,8 @@ import json
 import os
 
 import pandas as pd
-import dash_core_components as dcc
+from dash import dcc, html, dash_table as dt
 from dash.dependencies import Input, Output, State
-import dash_html_components as html
-import dash_table as dt
 
 from dash_bio.utils import circos_parser as cp
 import dash_bio

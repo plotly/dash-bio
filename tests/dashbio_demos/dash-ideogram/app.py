@@ -1,6 +1,5 @@
-import dash_core_components as dcc
+from dash import dcc, html
 from dash.dependencies import Input, Output, State
-import dash_html_components as html
 import dash_daq as daq
 import dash_bio
 
@@ -202,7 +201,7 @@ options = {
             dcc.Slider(
                 id='chr-margin-input',
                 className='ideogram-slider',
-                value=10
+                value=10, min=5, max=30,
             ),
             html.Div(className='app-controls-name', children='Height'),
             dcc.Slider(
@@ -531,7 +530,7 @@ def callbacks(_app):
          Input('ideo-homology-data', 'data'),
          Input('brush-ideo-data', 'data'),
          Input('ideo-annotations-data', 'data')],
-        state=[State('ideogram-feature-dropdown', 'value')]
+        [State('ideogram-feature-dropdown', 'value')]
     )
     def update_ideogram(
             ideo_custom,
@@ -577,7 +576,7 @@ def callbacks(_app):
          Input('resolution-select', 'value'),
          Input('sex-switch', 'value'),
          Input('fullband-switch', 'value')],
-        state=[State('ideo-custom-data', 'data')]
+        [State('ideo-custom-data', 'data')]
     )
     def change_custom_ideogram(
             organism_sel,
@@ -612,7 +611,7 @@ def callbacks(_app):
     @_app.callback(
         Output('chr-select-2', 'options'),
         [Input('chr-select-1', 'value')],
-        state=[State('chr-select-1', 'options')]
+        [State('chr-select-1', 'options')]
     )
     def update_homology_options(chr_1, all_chromosomes):
         return [option for option in all_chromosomes
@@ -630,7 +629,7 @@ def callbacks(_app):
          Input('chrtwo-stopone', 'value'),
          Input('chrtwo-starttwo', 'value'),
          Input('chrtwo-stoptwo', 'value')],
-        state=[State('ideo-homology-data', 'data')]
+        [State('ideo-homology-data', 'data')]
     )
     def change_homology_ideogram(
             chr_selected_1,
@@ -668,7 +667,7 @@ def callbacks(_app):
     @_app.callback(
         Output('brush-ideo-data', 'data'),
         [Input('chr-brush', 'value')],
-        state=[State('brush-ideo-data', 'data')]
+        [State('brush-ideo-data', 'data')]
     )
     def change_brush_ideogram(brush_value, current):
         if current is None:
@@ -688,7 +687,7 @@ def callbacks(_app):
          Input('orientation-anote', 'value'),
          Input('color-input', 'value'),
          Input('height-input', 'value')],
-        state=[State('ideo-annotations-data', 'data')]
+        [State('ideo-annotations-data', 'data')]
     )
     def change_annotation_ideogram(
             annotation_select,

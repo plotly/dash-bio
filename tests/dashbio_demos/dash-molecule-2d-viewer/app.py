@@ -2,12 +2,11 @@ import os
 import json
 
 from dash.dependencies import Input, Output, State
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html, dcc
 
 import pubchempy as pcp
 
-from dash_bio.utils.chem_structure_reader import read_structure
+from dash_bio.utils.chem_structure_reader import read_chem_structure
 import dash_bio
 
 from layout_helper import run_standalone_app
@@ -191,7 +190,7 @@ def callbacks(_app):
             error_message = 'Displaying: {}'.format(
                 list(stored_compounds.keys())[0]
             )
-            model_data = read_structure(
+            model_data = read_chem_structure(
                 json.dumps(stored_compounds[list(stored_compounds.keys())[0]]),
                 is_datafile=False,
                 bond_distance=bond_length
@@ -200,7 +199,7 @@ def callbacks(_app):
             error_message = 'Displaying: {}'.format(
                 selected_compound
             )
-            model_data = read_structure(
+            model_data = read_chem_structure(
                 json.dumps(stored_compounds[selected_compound]),
                 is_datafile=False,
                 bond_distance=bond_length
