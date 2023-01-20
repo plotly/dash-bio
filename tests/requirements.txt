@@ -14,6 +14,7 @@ colour==0.1.5
 cryptography<3.4;python_version<"3.7"
 cycler==0.10.0
 dash[testing,dev]
+importlib-metadata==4.8.3;python_version<"3.7"
 ipdb==0.11
 tables>=3.6.1
 GEOparse>=1.1.0
