@@ -1,5 +1,6 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
+#' @export
 dashbioSpeck <- function(id=NULL, data=NULL, loading_state=NULL, presetView=NULL, scrollZoom=NULL, showLegend=NULL, style=NULL, view=NULL) {
     
     props <- list(id=id, data=data, loading_state=loading_state, presetView=presetView, scrollZoom=scrollZoom, showLegend=showLegend, style=style, view=view)

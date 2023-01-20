@@ -32,7 +32,7 @@ function isNumeric(n) {
  * @return {Array}       An array with only numbers.
  */
 function filterNanArray(test_array) {
-    return test_array.filter(el => Number(isNumeric(el)));
+    return test_array.filter((el) => Number(isNumeric(el)));
 }
 
 /**
@@ -90,7 +90,7 @@ function extractSmallDomains(protein_pos_array) {
 function createHorizontalLine(xi, xf, y, n) {
     const dx = (xf - xi) / n;
     const N = Math.max(2, n);
-    const x = range(0, N).map(i => xi + i * dx);
+    const x = range(0, N).map((i) => xi + i * dx);
     return [x, repeat(y, N)];
 }
 
@@ -125,7 +125,7 @@ const filterEventData = (gd, eventData, event) => {
 
         for (let i = 0; i < eventData.points.length; i++) {
             const fullPoint = eventData.points[i];
-            const pointData = filter(function(o) {
+            const pointData = filter(function (o) {
                 return !includes(type(o), ['Object', 'Array']);
             }, fullPoint);
             if (
@@ -214,11 +214,8 @@ export default class NeedlePlot extends Component {
 
     render() {
         const {id, width, height, loading_state} = this.props;
-        const {
-            data,
-            globalAnnotation,
-            domainAnnotations,
-        } = this.prepareTraces();
+        const {data, globalAnnotation, domainAnnotations} =
+            this.prepareTraces();
 
         const layout = this.prepareLayout({
             data,
@@ -268,11 +265,8 @@ export default class NeedlePlot extends Component {
         } = mergeDeepRight(NeedlePlot.defaultProps, this.props);
 
         // Apply filtering on protein positions
-        const [
-            x_single_site,
-            small_domains,
-            idx_old_positions_array,
-        ] = extractSmallDomains(x);
+        const [x_single_site, small_domains, idx_old_positions_array] =
+            extractSmallDomains(x);
 
         // manage whether headColor is an array or a string
         const fixed_mutation_colors = Array.isArray(headColor)
@@ -307,7 +301,7 @@ export default class NeedlePlot extends Component {
         let hoverlabels = [];
         // contains the height of each stem
         let stemsY = [];
-        idx_old_positions_array.forEach(idx => {
+        idx_old_positions_array.forEach((idx) => {
             if (stemConstHeight) {
                 stemsY = stemsY.concat([1]);
             } else {
@@ -382,7 +376,7 @@ export default class NeedlePlot extends Component {
 
         if (displayMinorDomains === true) {
             // build the different protein small domains
-            small_domains.forEach(dom => {
+            small_domains.forEach((dom) => {
                 const x0 = Number(dom.split('-')[0]);
                 const x1 = Number(dom.split('-')[1]);
                 const gname = mutationGroups[x.indexOf(dom)];
@@ -410,10 +404,9 @@ export default class NeedlePlot extends Component {
                     text: `[${x0}->${x1}] `,
                     showlegend: false,
                     marker: {
-                        color:
-                            fixed_mutation_colors[
-                                [...new Set(mutationGroups)].indexOf(gname)
-                            ],
+                        color: fixed_mutation_colors[
+                            [...new Set(mutationGroups)].indexOf(gname)
+                        ],
                     },
                     line: {width: DOMAIN_WIDTH},
                 });
@@ -422,8 +415,9 @@ export default class NeedlePlot extends Component {
 
         const globalAnnotation = [
             {
-                text: `<b>${x_single_site.length +
-                    small_domains.length} Mutations</b>`,
+                text: `<b>${
+                    x_single_site.length + small_domains.length
+                } Mutations</b>`,
                 x: 0.01,
                 xref: 'paper',
                 y: 1.1,
@@ -489,7 +483,7 @@ export default class NeedlePlot extends Component {
         // initialize the range based on input data
         if (Boolean(!xStart) || Boolean(!xEnd)) {
             first_init = true;
-            data.forEach(trace => {
+            data.forEach((trace) => {
                 const X_DATA_MIN = Math.min.apply(null, trace.x);
                 const X_DATA_MAX = Math.max.apply(null, trace.x);
                 if (xStart > X_DATA_MIN || Boolean(!xStart)) {

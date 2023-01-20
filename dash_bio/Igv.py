@@ -61,20 +61,19 @@ Keyword arguments:
     Array of configuration objects defining tracks initially displayed
     when app launches.     see
     https://github.com/igvteam/igv.js/wiki/Tracks-2.0."""
+    _children_props = []
+    _base_nodes = ['children']
+    _namespace = 'dash_bio'
+    _type = 'Igv'
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, style=Component.UNDEFINED, className=Component.UNDEFINED, genome=Component.UNDEFINED, reference=Component.UNDEFINED, locus=Component.UNDEFINED, minimumBases=Component.UNDEFINED, tracks=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'className', 'genome', 'loading_state', 'locus', 'minimumBases', 'reference', 'style', 'tracks']
-        self._type = 'Igv'
-        self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'className', 'genome', 'loading_state', 'locus', 'minimumBases', 'reference', 'style', 'tracks']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
-        _locals.update(kwargs)  # For wildcard attrs
-        args = {k: _locals[k] for k in _explicit_args if k != 'children'}
-        for k in []:
-            if k not in args:
-                raise TypeError(
-                    'Required argument `' + k + '` was not specified.')
+        _locals.update(kwargs)  # For wildcard attrs and excess named props
+        args = {k: _locals[k] for k in _explicit_args}
+
         super(Igv, self).__init__(**args)

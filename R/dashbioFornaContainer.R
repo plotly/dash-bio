@@ -1,5 +1,6 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
+#' @export
 dashbioFornaContainer <- function(id=NULL, allowPanningAndZooming=NULL, colorScheme=NULL, customColors=NULL, height=NULL, hoverPattern=NULL, loading_state=NULL, nodeFillColor=NULL, sequences=NULL, width=NULL) {
     
     props <- list(id=id, allowPanningAndZooming=allowPanningAndZooming, colorScheme=colorScheme, customColors=customColors, height=height, hoverPattern=hoverPattern, loading_state=loading_state, nodeFillColor=nodeFillColor, sequences=sequences, width=width)

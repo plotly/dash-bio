@@ -44,12 +44,12 @@ export default class Circos extends Component {
         if (typeof this.props.selectEvent !== 'undefined') {
             if (this.props.selectEvent[index] === 'both') {
                 return {
-                    'click.alert': datum => {
+                    'click.alert': (datum) => {
                         setProps({
                             eventDatum: datum,
                         });
                     },
-                    'mouseover.alert': datum => {
+                    'mouseover.alert': (datum) => {
                         setProps({
                             eventDatum: datum,
                         });
@@ -57,7 +57,7 @@ export default class Circos extends Component {
                 };
             } else if (this.props.selectEvent[index] === 'hover') {
                 return {
-                    'mouseover.alert': datum => {
+                    'mouseover.alert': (datum) => {
                         setProps({
                             eventDatum: datum,
                         });
@@ -65,7 +65,7 @@ export default class Circos extends Component {
                 };
             } else if (this.props.selectEvent[index] === 'click') {
                 return {
-                    'click.alert': datum => {
+                    'click.alert': (datum) => {
                         setProps({
                             eventDatum: datum,
                         });
@@ -85,10 +85,10 @@ export default class Circos extends Component {
         if (typeof configApply.color !== 'undefined') {
             if (typeof configApply.color.name !== 'undefined') {
                 var colorName = configApply.color.name;
-                configApply.color = d => d[colorName];
+                configApply.color = (d) => d[colorName];
             } else if (typeof configApply.color.conditional !== 'undefined') {
                 var condColor = configApply.color.conditional;
-                configApply.color = d => {
+                configApply.color = (d) => {
                     let returnedColor;
                     for (var i = 0; i < condColor.value.length; i++) {
                         if (
@@ -116,7 +116,7 @@ export default class Circos extends Component {
         ) {
             if (typeof configApply.tooltipContent.name !== 'undefined') {
                 if (configApply.tooltipContent.name === 'all') {
-                    configApply.tooltipContent = d => {
+                    configApply.tooltipContent = (d) => {
                         var contents = '';
                         for (var key in d) {
                             var keyUpper =
@@ -133,7 +133,7 @@ export default class Circos extends Component {
                     };
                 } else {
                     var toolName = configApply.tooltipContent.name;
-                    configApply.tooltipContent = d => d[toolName];
+                    configApply.tooltipContent = (d) => d[toolName];
                 }
             } else if (
                 typeof configApply.tooltipContent.source !== 'undefined'
@@ -144,7 +144,7 @@ export default class Circos extends Component {
                     typeof tooltipData.sourceID !== 'undefined' &&
                     typeof tooltipData.targetID !== 'undefined'
                 ) {
-                    configApply.tooltipContent = function(d) {
+                    configApply.tooltipContent = function (d) {
                         return (
                             '<h3>' +
                             d[tooltipData.source][tooltipData.sourceID] +
@@ -156,7 +156,7 @@ export default class Circos extends Component {
                         );
                     };
                 } else {
-                    configApply.tooltipContent = function(d) {
+                    configApply.tooltipContent = function (d) {
                         return (
                             '<h3>' +
                             d[tooltipData.source] +
@@ -280,7 +280,7 @@ export default class Circos extends Component {
             >
                 <div
                     id="Circos-container"
-                    ref={ref => {
+                    ref={(ref) => {
                         this.ref = ref;
                     }}
                     config={config}

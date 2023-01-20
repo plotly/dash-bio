@@ -198,9 +198,8 @@ export default class Ideogram extends Component {
          * Dash application, that will return the annotation that the mouse hovers over.
          */
 
-        this.tooltipData = document.getElementById(
-            '_ideogramTooltip'
-        ).innerHTML;
+        this.tooltipData =
+            document.getElementById('_ideogramTooltip').innerHTML;
         this.tooltipDataTwo =
             this.tooltipData !== this.tooltipDataTwo
                 ? this.onToolTipHandler()
@@ -225,7 +224,7 @@ export default class Ideogram extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return IDEOGRAM_PROPS.some(currentKey => {
+        return IDEOGRAM_PROPS.some((currentKey) => {
             return this.props[currentKey] !== nextProps[currentKey];
         });
     }

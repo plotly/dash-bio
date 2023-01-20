@@ -23,7 +23,7 @@ const PROPS_RECONCILE_DEBOUNCE_TIME = 500;
 
 const MAX_COLOR_INDEX = 255;
 
-const generateSystem = memoize(data => {
+const generateSystem = memoize((data) => {
     const system = speckSystem.new();
 
     for (let i = 0; i < data.length; i++) {
@@ -38,7 +38,7 @@ const generateSystem = memoize(data => {
     return system;
 });
 
-const viewClone = view =>
+const viewClone = (view) =>
     mergeAll([
         view,
         {
@@ -49,7 +49,7 @@ const viewClone = view =>
 
 const viewAssign = (view1 = {}, view2 = {}) => Object.assign(view1, view2);
 
-const viewHasEqual = function(view1) {
+const viewHasEqual = function (view1) {
     const view1Str = JSON.stringify(view1);
     for (let i = 1; i < arguments.length; i++) {
         if (view1Str === JSON.stringify(arguments[i])) {
@@ -89,10 +89,10 @@ export default class Speck extends Component {
 
         // setting refs in this way to allow for easier updating to
         // react 16
-        this.setCanvasRef = e => {
+        this.setCanvasRef = (e) => {
             this.canvas = e;
         };
-        this.setContainerRef = e => {
+        this.setContainerRef = (e) => {
             this.container = e;
         };
 
@@ -122,13 +122,13 @@ export default class Speck extends Component {
             container,
 
             getRotation: () => this.view.rotation,
-            setRotation: rotationObj => {
+            setRotation: (rotationObj) => {
                 this.view = viewAssign(this.view, {rotation: rotationObj});
                 this.propsReconcileSchedule();
             },
 
             getTranslation: () => this.view.translation,
-            setTranslation: translationObj => {
+            setTranslation: (translationObj) => {
                 this.view = viewAssign(this.view, {
                     translation: translationObj,
                 });
@@ -136,7 +136,7 @@ export default class Speck extends Component {
             },
 
             getZoom: () => this.view.zoom,
-            setZoom: zoomVal => {
+            setZoom: (zoomVal) => {
                 this.view = viewAssign(this.view, {zoom: zoomVal});
                 this.propsReconcileSchedule();
             },
@@ -258,7 +258,7 @@ export default class Speck extends Component {
             new Set(this.props.data.map(({symbol}) => symbol))
         );
         const displayedElements = displayedSymbols.map(
-            symbol => speckElements[symbol]
+            (symbol) => speckElements[symbol]
         );
 
         const containerStyle = {
@@ -273,7 +273,7 @@ export default class Speck extends Component {
 
         return (
             <div style={containerStyle} id="speck-color-legend">
-                {displayedElements.map(element => {
+                {displayedElements.map((element) => {
                     const colorBlockStyle = {
                         backgroundColor: this.colorToRgb(element.color),
                         width: '16px',
@@ -302,8 +302,8 @@ export default class Speck extends Component {
 
     colorToRgb(colors) {
         const newColors = colors
-            .map(color => color * MAX_COLOR_INDEX)
-            .map(color => this.lightenColor(color))
+            .map((color) => color * MAX_COLOR_INDEX)
+            .map((color) => this.lightenColor(color))
             .join(', ');
 
         return `rgb(${newColors})`;

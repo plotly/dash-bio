@@ -8,6 +8,7 @@ const dashLibraryName = packagejson.name.replace(/-/g, '_');
 
 module.exports = {
     entry: { main: './src/lib/index.js' },
+    target: ['web', 'es5'],
     output: {
         path: path.resolve(__dirname, dashLibraryName),
         chunkFilename: '[name].js',
@@ -44,7 +45,7 @@ module.exports = {
     },
     optimization: {
         splitChunks: {
-            name: true,
+            name: '[name].js',
             cacheGroups: {
                 async: {
                     chunks: 'async',

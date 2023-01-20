@@ -1,5 +1,6 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
+#' @export
 dashbioJsme <- function(id=NULL, eventSmiles=NULL, height=NULL, loading_state=NULL, options=NULL, smiles=NULL, style=NULL, width=NULL) {
     
     props <- list(id=id, eventSmiles=eventSmiles, height=height, loading_state=loading_state, options=options, smiles=smiles, style=style, width=width)

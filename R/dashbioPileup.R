@@ -1,5 +1,6 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
+#' @export
 dashbioPileup <- function(id=NULL, className=NULL, loading_state=NULL, range=NULL, reference=NULL, style=NULL, tracks=NULL) {
     
     props <- list(id=id, className=className, loading_state=loading_state, range=range, reference=reference, style=style, tracks=tracks)

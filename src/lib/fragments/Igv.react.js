@@ -24,7 +24,7 @@ export default class Igv extends Component {
         };
         return igv
             .createBrowser(igvContainer, igvOptions)
-            .then(function(browser) {
+            .then(function (browser) {
                 igv.browser = browser;
             });
     }

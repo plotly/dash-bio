@@ -156,20 +156,24 @@ Keyword arguments:
 
     - type (a value equal to: 'CHORDS', 'HEATMAP', 'HIGHLIGHT', 'HISTOGRAM', 'LINE', 'SCATTER', 'STACK', 'TEXT'; optional):
         The type of the track."""
+    _children_props = []
+    _base_nodes = ['children']
+    _namespace = 'dash_bio'
+    _type = 'Circos'
     @_explicitize_args
     def __init__(self, enableDownloadSVG=Component.UNDEFINED, enableZoomPan=Component.UNDEFINED, id=Component.UNDEFINED, style=Component.UNDEFINED, eventDatum=Component.UNDEFINED, selectEvent=Component.UNDEFINED, layout=Component.REQUIRED, config=Component.UNDEFINED, size=Component.UNDEFINED, tracks=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'config', 'enableDownloadSVG', 'enableZoomPan', 'eventDatum', 'layout', 'loading_state', 'selectEvent', 'size', 'style', 'tracks']
-        self._type = 'Circos'
-        self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'config', 'enableDownloadSVG', 'enableZoomPan', 'eventDatum', 'layout', 'loading_state', 'selectEvent', 'size', 'style', 'tracks']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
-        _locals.update(kwargs)  # For wildcard attrs
-        args = {k: _locals[k] for k in _explicit_args if k != 'children'}
+        _locals.update(kwargs)  # For wildcard attrs and excess named props
+        args = {k: _locals[k] for k in _explicit_args}
+
         for k in ['layout']:
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
+
         super(Circos, self).__init__(**args)

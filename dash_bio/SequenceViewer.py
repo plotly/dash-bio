@@ -141,20 +141,19 @@ Keyword arguments:
     The option of whether or not to display the list of amino acids as
     broken up into separate lines of a fixed length set by
     charsPerLine."""
+    _children_props = []
+    _base_nodes = ['children']
+    _namespace = 'dash_bio'
+    _type = 'SequenceViewer'
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, sequence=Component.UNDEFINED, showLineNumbers=Component.UNDEFINED, wrapAminoAcids=Component.UNDEFINED, charsPerLine=Component.UNDEFINED, toolbar=Component.UNDEFINED, search=Component.UNDEFINED, title=Component.UNDEFINED, sequenceMaxHeight=Component.UNDEFINED, badge=Component.UNDEFINED, selection=Component.UNDEFINED, coverage=Component.UNDEFINED, legend=Component.UNDEFINED, coverageClicked=Component.UNDEFINED, mouseSelection=Component.UNDEFINED, subpartSelected=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'badge', 'charsPerLine', 'coverage', 'coverageClicked', 'legend', 'loading_state', 'mouseSelection', 'search', 'selection', 'sequence', 'sequenceMaxHeight', 'showLineNumbers', 'subpartSelected', 'title', 'toolbar', 'wrapAminoAcids']
-        self._type = 'SequenceViewer'
-        self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'badge', 'charsPerLine', 'coverage', 'coverageClicked', 'legend', 'loading_state', 'mouseSelection', 'search', 'selection', 'sequence', 'sequenceMaxHeight', 'showLineNumbers', 'subpartSelected', 'title', 'toolbar', 'wrapAminoAcids']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
-        _locals.update(kwargs)  # For wildcard attrs
-        args = {k: _locals[k] for k in _explicit_args if k != 'children'}
-        for k in []:
-            if k not in args:
-                raise TypeError(
-                    'Required argument `' + k + '` was not specified.')
+        _locals.update(kwargs)  # For wildcard attrs and excess named props
+        args = {k: _locals[k] for k in _explicit_args}
+
         super(SequenceViewer, self).__init__(**args)
