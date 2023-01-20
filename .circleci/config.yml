@@ -5,87 +5,88 @@ jobs:
         docker:
             - image: percyio/agent
               auth:
-                username: dashautomation
-                password: $DASH_PAT_DOCKERHUB
+                  username: dashautomation
+                  password: $DASH_PAT_DOCKERHUB
         steps:
             - run: percy finalize --all
 
     node:
+        resource_class: medium+
         docker:
             - image: circleci/python:3.7.5-stretch-node
               auth:
-                username: dashautomation
-                password: $DASH_PAT_DOCKERHUB
+                  username: dashautomation
+                  password: $DASH_PAT_DOCKERHUB
         steps:
             - checkout
             - run: echo $PYTHON_VERSION > ver.txt
             - restore_cache:
-                key: dep-{{ checksum ".circleci/config.yml" }}-{{ checksum "ver.txt" }}-{{ checksum "dev-requirements.txt" }}
+                  key: dep-{{ checksum ".circleci/config.yml" }}-{{ checksum "ver.txt" }}-{{ checksum "dev-requirements.txt" }}
             - run:
-                name: 🐍 pip dev requirements
-                command: |
-                    sudo pip install virtualenv --upgrade
-                    python -m venv venv || virtualenv venv && . venv/bin/activate
-                    python -m pip install --upgrade pip
-                    pip install --progress-bar off --no-cache-dir -r dev-requirements.txt
+                  name: 🐍 pip dev requirements
+                  command: |
+                      sudo pip install virtualenv --upgrade
+                      python -m venv venv || virtualenv venv && . venv/bin/activate
+                      python -m pip install --upgrade pip
+                      pip install --progress-bar off --no-cache-dir -r dev-requirements.txt
             - save_cache:
-                key: dep-{{ checksum ".circleci/config.yml" }}-{{ checksum "ver.txt" }}-{{ checksum "dev-requirements.txt" }}
-                paths:
-                    - venv
+                  key: dep-{{ checksum ".circleci/config.yml" }}-{{ checksum "ver.txt" }}-{{ checksum "dev-requirements.txt" }}
+                  paths:
+                      - venv
             - run:
-                name: Check current version of node
-                command: node -v
+                  name: Check current version of node
+                  command: node -v
             - restore_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+                  key: deps1-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
             - run:
-                name: Install package.json
-                command: npm ci
+                  name: Install package.json
+                  command: npm ci
 
             - save_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-                paths:
-                    - node_modules
+                  key: deps1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+                  paths:
+                      - node_modules
 
             - run:
-                name: Run eslint
-                command: ./node_modules/.bin/eslint src
-                when: always
+                  name: Run eslint
+                  command: ./node_modules/.bin/eslint src
+                  when: always
 
             - run:
-                name: Install Dash for package build and build package
-                command: |
-                    python -m venv venv
-                    . venv/bin/activate
-                    pip install --upgrade pip
-                    git clone --depth 1 https://github.com/plotly/dash.git dash-main
-                    cd dash-main && pip install -e .[dev,testing] --progress-bar off && renderer build && cd ../
-                    npm run build
+                  name: Install Dash for package build and build package
+                  command: |
+                      python -m venv venv
+                      . venv/bin/activate
+                      pip install --upgrade pip
+                      git clone --depth 1 https://github.com/plotly/dash.git dash-main
+                      cd dash-main && pip install -e .[dev,testing] --progress-bar off && renderer build && cd ../
+                      npm run build
 
             - run:
-                name: Install Dash Bio for using dash_bio.utils
-                command: |
-                    . venv/bin/activate
-                    python setup.py sdist
-                    cd dist
-                    find . -name "*.gz" | xargs pip install --progress-bar off --no-cache-dir --ignore-installed --quiet && cd ..
-                no_output_timeout: 20m
+                  name: Install Dash Bio for using dash_bio.utils
+                  command: |
+                      . venv/bin/activate
+                      python setup.py sdist
+                      cd dist
+                      find . -name "*.gz" | xargs pip install --progress-bar off --no-cache-dir --ignore-installed --quiet && cd ..
+                  no_output_timeout: 20m
 
             - run:
-                name: Run unit tests
-                command: |
-                    . venv/bin/activate
-                    cd tests/unit
-                    python unit_test_data_setup.py
-                    cd ../../
-                    npm run test
+                  name: Run unit tests
+                  command: |
+                      . venv/bin/activate
+                      cd tests/unit
+                      python unit_test_data_setup.py
+                      cd ../../
+                      npm run test
 
     python-3.6: &test-template
         docker:
             - image: circleci/python:3.6.9-stretch-node-browsers
               auth:
-                username: dashautomation
-                password: $DASH_PAT_DOCKERHUB
+                  username: dashautomation
+                  password: $DASH_PAT_DOCKERHUB
         environment:
             PYTHON_VERSION: py36
             PERCY_ENABLE: 0
@@ -95,85 +96,85 @@ jobs:
             - run: echo $PYVERSION > ver.txt
 
             - restore_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "dev-requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}-{{ checksum ".circleci/config.yml" }}
+                  key: deps1-{{ .Branch }}-{{ checksum "dev-requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}-{{ checksum ".circleci/config.yml" }}
 
             - run:
-                name: Create virtualenv
-                command: |
-                    python3 -m venv venv
+                  name: Create virtualenv
+                  command: |
+                      python3 -m venv venv
 
             - run:
-                name: Install requirements
-                command: |
-                    . venv/bin/activate
-                    pip install --upgrade pip
-                    pip install --progress-bar off -r tests/requirements.txt --quiet
-                no_output_timeout: 20m
+                  name: Install requirements
+                  command: |
+                      . venv/bin/activate
+                      pip install --upgrade pip
+                      pip install --progress-bar off -r tests/requirements.txt --quiet
+                  no_output_timeout: 20m
 
             - save_cache:
-                key: deps1-{{ .Branch }}-{{ checksum "dev-requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}-{{ checksum ".circleci/config.yml" }}
-                paths:
-                    - venv
+                  key: deps1-{{ .Branch }}-{{ checksum "dev-requirements.txt" }}-{{ checksum "tests/requirements.txt" }}-{{ checksum "ver.txt" }}-{{ checksum ".circleci/config.yml" }}
+                  paths:
+                      - venv
 
             - run:
-                name: Install Dash
-                command: |
-                    . venv/bin/activate
-                    git clone --depth 1 https://github.com/plotly/dash.git dash-main
-                    cd dash-main && pip install -e .[dev,testing] --progress-bar off && renderer build && cd ../
+                  name: Install Dash
+                  command: |
+                      . venv/bin/activate
+                      git clone --depth 1 https://github.com/plotly/dash.git dash-main
+                      cd dash-main && pip install -e .[dev,testing] --progress-bar off && renderer build && cd ../
 
             - run:
-                name: Run pylint
-                command: |
-                    . venv/bin/activate
-                    pylint tests/ dash_bio/component_factory/ dash_bio/utils/
-                when: always
+                  name: Run pylint
+                  command: |
+                      . venv/bin/activate
+                      pylint tests/ dash_bio/component_factory/ dash_bio/utils/
+                  when: always
 
             - run:
-                name: Run flake8
-                command: |
-                    . venv/bin/activate
-                    flake8 --max-line-length=100 tests/ dash_bio/component_factory/ dash_bio/utils/
-                when: always
+                  name: Run flake8
+                  command: |
+                      . venv/bin/activate
+                      flake8 --max-line-length=100 tests/ dash_bio/component_factory/ dash_bio/utils/
+                  when: always
 
             - run:
-                name: Run integration tests
-                command: |
-                    . venv/bin/activate
-                    npm ci
-                    npm run build
-                    python setup.py sdist
-                    cd dist
-                    find . -name "*.gz" | xargs pip install --progress-bar off --no-cache-dir --ignore-installed --quiet && cd ..
-                    pytest --nopercyfinalize tests/integration
-                no_output_timeout: 20m
+                  name: Run integration tests
+                  command: |
+                      . venv/bin/activate
+                      npm ci
+                      npm run build
+                      python setup.py sdist
+                      cd dist
+                      find . -name "*.gz" | xargs pip install --progress-bar off --no-cache-dir --ignore-installed --quiet && cd ..
+                      pytest --nopercyfinalize tests/integration
+                  no_output_timeout: 20m
 
             - run:
-                name: Run unit tests
-                command: |
-                    python -m venv venv
-                    . venv/bin/activate
-                    pytest tests/unit
+                  name: Run unit tests
+                  command: |
+                      python -m venv venv
+                      . venv/bin/activate
+                      pytest tests/unit
 
     python-3.7:
         <<: *test-template
         docker:
             - image: circleci/python:3.7.5-stretch-node-browsers
               auth:
-                username: dashautomation
-                password: $DASH_PAT_DOCKERHUB
+                  username: dashautomation
+                  password: $DASH_PAT_DOCKERHUB
         environment:
             PYTHON_VERSION: py37
             PERCY_ENABLE: 1
             PERCY_PARALLEL_TOTAL: -1
 
 workflows:
-  version: 2
-  build:
-    jobs:
-      - python-3.6
-      - python-3.7
-      - node
-      - percy-finalize:
-          requires:
+    version: 2
+    build:
+        jobs:
+            - python-3.6
             - python-3.7
+            - node
+            - percy-finalize:
+                  requires:
+                      - python-3.7
