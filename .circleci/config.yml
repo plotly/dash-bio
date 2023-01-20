@@ -82,6 +82,7 @@ jobs:
                       npm run test
 
     python-3.6: &test-template
+        resource_class: medium+
         docker:
             - image: circleci/python:3.6.9-stretch-node-browsers
               auth:
@@ -158,6 +159,7 @@ jobs:
 
     python-3.7:
         <<: *test-template
+        resource_class: medium+
         docker:
             - image: circleci/python:3.7.5-stretch-node-browsers
               auth:
