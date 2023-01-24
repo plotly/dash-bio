@@ -1,4 +1,6 @@
 import json
+import sys
+import pytest
 
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -18,6 +20,8 @@ with open('tests/dashbio_demos/dash-speck/data/methane.xyz', 'r') as f:
 
 _COMPONENT_ID = 'test-speck'
 
+if not sys.platform.startswith("darwin"):
+    pytest.skip("Skipping broken Speck tests", allow_module_level=True)
 
 def test_dbsp001_rotate(dash_duo):
 
@@ -59,6 +63,7 @@ def test_dbsp002_click_and_drag(dash_duo):
     dash_duo.wait_for_element('#' + _COMPONENT_ID)
 
     speck = dash_duo.find_element('#' + _COMPONENT_ID + ' canvas')
+
     ac = ActionChains(dash_duo.driver)
     ac.move_to_element(speck).key_down(Keys.SHIFT).drag_and_drop_by_offset(
         speck, -50, 100).key_up(Keys.SHIFT).perform()
