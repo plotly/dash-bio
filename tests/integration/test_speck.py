@@ -23,6 +23,7 @@ _COMPONENT_ID = 'test-speck'
 if not sys.platform.startswith("darwin"):
     pytest.skip("Skipping broken Speck tests", allow_module_level=True)
 
+
 def test_dbsp001_rotate(dash_duo):
 
     app = dash.Dash(__name__)
