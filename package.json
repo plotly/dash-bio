@@ -20,7 +20,7 @@
     "build:js": "npm run lint && webpack --mode production",
     "build:backends": "dash-generate-components ./src/lib/components dash_bio -p package-info.json --r-prefix='dashbio' --r-imports='dash' --r-depends='manhattanly'",
     "build": "npm run build:js && npm run build:backends",
-    "postbuild": "es-check es5 dash_bio/*.js"
+    "postbuild": "es-check es2015 dash_bio/*.js"
   },
   "author": "The Plotly Team <dashbio@plotly.com>",
   "maintainer": "Hammad Khan <hammadkhan@plot.ly>",
@@ -85,6 +85,9 @@
     "dash_bio/bundle.js",
     "dash_bio/dash_bio-shared.js",
     "dash_bio/async-*.js"
+  ],
+  "browserslist": [
+    "last 7 years and not dead"
   ],
   "engines": {
     "node": ">=8.11.0",
