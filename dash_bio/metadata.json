@@ -3428,7 +3428,7 @@
       "selection": {
         "type": {
           "name": "custom",
-          "raw": "function(props, propName, componentName) {\n    if (\n        props[propName] !== undefined &&\n        ((typeof props[propName][0] !== 'undefined' &&\n            typeof props[propName][0] !== 'number') ||\n            (typeof props[propName][1] !== 'undefined' &&\n                typeof props[propName][1] !== 'number') ||\n            (typeof props[propName][2] !== 'undefined' &&\n                typeof props[propName][2] !== 'string'))\n    ) {\n        return new Error(\n            'Invalid prop value. Selection should be an array with type [number, number, string].'\n        );\n    }\n}"
+          "raw": "function (props, propName, componentName) {\n    if (\n        props[propName] !== undefined &&\n        ((typeof props[propName][0] !== 'undefined' &&\n            typeof props[propName][0] !== 'number') ||\n            (typeof props[propName][1] !== 'undefined' &&\n                typeof props[propName][1] !== 'number') ||\n            (typeof props[propName][2] !== 'undefined' &&\n                typeof props[propName][2] !== 'string'))\n    ) {\n        return new Error(\n            'Invalid prop value. Selection should be an array with type [number, number, string].'\n        );\n    }\n}"
         },
         "required": false,
         "description": "A highlighted section of the sequence; the color of the highlight\ncan also be defined. Takes a list of format [min, max, color] where\nmin is a number that represents the starting index of the selection,\nmax is a number that represents the stopping index of the selection,\nand color is a string that defines the highlight color.\nCannot be used at the same time as coverage.",

@@ -1,5 +1,6 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
+#' @export
 dashbioIgv <- function(id=NULL, className=NULL, genome=NULL, loading_state=NULL, locus=NULL, minimumBases=NULL, reference=NULL, style=NULL, tracks=NULL) {
     
     props <- list(id=id, className=className, genome=genome, loading_state=loading_state, locus=locus, minimumBases=minimumBases, reference=reference, style=style, tracks=tracks)

@@ -1,5 +1,6 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
+#' @export
 dashbioOncoPrint <- function(id=NULL, backgroundcolor=NULL, colorscale=NULL, data=NULL, eventDatum=NULL, height=NULL, loading_state=NULL, padding=NULL, range=NULL, showlegend=NULL, showoverview=NULL, width=NULL) {
     
     props <- list(id=id, backgroundcolor=backgroundcolor, colorscale=colorscale, data=data, eventDatum=eventDatum, height=height, loading_state=loading_state, padding=padding, range=range, showlegend=showlegend, showoverview=showoverview, width=width)

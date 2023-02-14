@@ -136,20 +136,19 @@ Keyword arguments:
 - width (number; default 300):
     The width (in px) of the container in which the molecules will be
     displayed."""
+    _children_props = []
+    _base_nodes = ['children']
+    _namespace = 'dash_bio'
+    _type = 'FornaContainer'
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, sequences=Component.UNDEFINED, nodeFillColor=Component.UNDEFINED, colorScheme=Component.UNDEFINED, customColors=Component.UNDEFINED, allowPanningAndZooming=Component.UNDEFINED, hoverPattern=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'hoverPattern', 'loading_state', 'nodeFillColor', 'sequences', 'width']
-        self._type = 'FornaContainer'
-        self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'allowPanningAndZooming', 'colorScheme', 'customColors', 'height', 'hoverPattern', 'loading_state', 'nodeFillColor', 'sequences', 'width']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
-        _locals.update(kwargs)  # For wildcard attrs
-        args = {k: _locals[k] for k in _explicit_args if k != 'children'}
-        for k in []:
-            if k not in args:
-                raise TypeError(
-                    'Required argument `' + k + '` was not specified.')
+        _locals.update(kwargs)  # For wildcard attrs and excess named props
+        args = {k: _locals[k] for k in _explicit_args}
+
         super(FornaContainer, self).__init__(**args)

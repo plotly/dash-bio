@@ -33,7 +33,7 @@ setup(
         'colour',
         'GEOparse>=1.1.0',
         'jsonschema',
-        'parmed',
+        'parmed<=3.4.3',
         'periodictable',
         'requests'
     ],

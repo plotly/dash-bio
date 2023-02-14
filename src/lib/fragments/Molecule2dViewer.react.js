@@ -28,10 +28,10 @@ export default class Molecule2dViewer extends Component {
             (this.props.selectedAtomIds &&
                 nextProps.selectedAtomIds &&
                 (this.props.selectedAtomIds.some(
-                    atomId => !(atomId in nextProps.selectedAtomIds)
+                    (atomId) => !(atomId in nextProps.selectedAtomIds)
                 ) ||
                     nextProps.selectedAtomIds.some(
-                        atomId => !(atomId in this.props.selectedAtomIds)
+                        (atomId) => !(atomId in this.props.selectedAtomIds)
                     )))
         ) {
             return true;
@@ -46,7 +46,7 @@ export default class Molecule2dViewer extends Component {
             modelData &&
             prevProps.modelData &&
             Object.keys(modelData).some(
-                propertyName =>
+                (propertyName) =>
                     modelData[propertyName].length !==
                     prevProps.modelData[propertyName].length
             )

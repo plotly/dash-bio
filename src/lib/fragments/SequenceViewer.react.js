@@ -63,7 +63,7 @@ export default class SequenceViewer extends Component {
         }
         if (
             Object.keys(selection).some(
-                propertyName =>
+                (propertyName) =>
                     selection[propertyName] !==
                     nextProps.selection[propertyName]
             )
@@ -76,7 +76,7 @@ export default class SequenceViewer extends Component {
             coverage.length !== nextProps.coverage.length ||
             coverage.some((cov, i) =>
                 Object.keys(cov).some(
-                    propertyName =>
+                    (propertyName) =>
                         coverage[i][propertyName] !==
                         nextProps.coverage[i][propertyName]
                 )
@@ -90,7 +90,7 @@ export default class SequenceViewer extends Component {
     }
 
     getOnClick(i) {
-        return _ => {
+        return (_) => {
             this.props.setProps({
                 coverageClicked: i,
             });

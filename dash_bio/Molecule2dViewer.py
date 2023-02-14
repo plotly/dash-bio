@@ -71,20 +71,19 @@ Keyword arguments:
 
 - width (number; default 500):
     The width of the SVG element."""
+    _children_props = []
+    _base_nodes = ['children']
+    _namespace = 'dash_bio'
+    _type = 'Molecule2dViewer'
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, modelData=Component.UNDEFINED, loading_state=Component.UNDEFINED, scrollZoom=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'height', 'loading_state', 'modelData', 'scrollZoom', 'selectedAtomIds', 'width']
-        self._type = 'Molecule2dViewer'
-        self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'height', 'loading_state', 'modelData', 'scrollZoom', 'selectedAtomIds', 'width']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
-        _locals.update(kwargs)  # For wildcard attrs
-        args = {k: _locals[k] for k in _explicit_args if k != 'children'}
-        for k in []:
-            if k not in args:
-                raise TypeError(
-                    'Required argument `' + k + '` was not specified.')
+        _locals.update(kwargs)  # For wildcard attrs and excess named props
+        args = {k: _locals[k] for k in _explicit_args}
+
         super(Molecule2dViewer, self).__init__(**args)

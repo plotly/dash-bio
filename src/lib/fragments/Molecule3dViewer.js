@@ -58,10 +58,10 @@ export default class Molecule3dViewer extends Component {
             (this.props.selectedAtomIds &&
                 nextProps.selectedAtomIds &&
                 (this.props.selectedAtomIds.some(
-                    atomId => !(atomId in nextProps.selectedAtomIds)
+                    (atomId) => !(atomId in nextProps.selectedAtomIds)
                 ) ||
                     nextProps.selectedAtomIds.some(
-                        atomId => !(atomId in this.props.selectedAtomIds)
+                        (atomId) => !(atomId in this.props.selectedAtomIds)
                     )))
         ) {
             return true;

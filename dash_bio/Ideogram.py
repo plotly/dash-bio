@@ -319,20 +319,24 @@ Keyword arguments:
 
 - style (dict; optional):
     The component's inline styles."""
+    _children_props = []
+    _base_nodes = ['children']
+    _namespace = 'dash_bio'
+    _type = 'Ideogram'
     @_explicitize_args
     def __init__(self, id=Component.REQUIRED, style=Component.UNDEFINED, className=Component.UNDEFINED, accessToken=Component.UNDEFINED, ancestors=Component.UNDEFINED, annotations=Component.UNDEFINED, annotationHeight=Component.UNDEFINED, annotationsColor=Component.UNDEFINED, annotationsLayout=Component.UNDEFINED, annotationsPath=Component.UNDEFINED, annotationsData=Component.UNDEFINED, annotationTracks=Component.UNDEFINED, assembly=Component.UNDEFINED, barWidth=Component.UNDEFINED, brush=Component.UNDEFINED, brushData=Component.UNDEFINED, chrHeight=Component.UNDEFINED, chrMargin=Component.UNDEFINED, chrWidth=Component.UNDEFINED, chromosomes=Component.UNDEFINED, chromosomeScale=Component.UNDEFINED, container=Component.UNDEFINED, dataDir=Component.UNDEFINED, demarcateCollinearChromosomes=Component.UNDEFINED, geometry=Component.UNDEFINED, heatmaps=Component.UNDEFINED, histogramScaling=Component.UNDEFINED, homology=Component.UNDEFINED, filterable=Component.UNDEFINED, fullChromosomeLabels=Component.UNDEFINED, legend=Component.UNDEFINED, organism=Component.UNDEFINED, orientation=Component.UNDEFINED, perspective=Component.UNDEFINED, ploidy=Component.UNDEFINED, ploidyDesc=Component.UNDEFINED, rangeSet=Component.UNDEFINED, resolution=Component.UNDEFINED, rotatable=Component.UNDEFINED, rotated=Component.UNDEFINED, rows=Component.UNDEFINED, sex=Component.UNDEFINED, showAnnotTooltip=Component.UNDEFINED, showBandLabels=Component.UNDEFINED, showChromosomeLabels=Component.UNDEFINED, showFullyBanded=Component.UNDEFINED, showNonNuclearChromosomes=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'accessToken', 'ancestors', 'annotationHeight', 'annotationTracks', 'annotations', 'annotationsColor', 'annotationsData', 'annotationsLayout', 'annotationsPath', 'assembly', 'barWidth', 'brush', 'brushData', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomeScale', 'chromosomes', 'className', 'container', 'dataDir', 'demarcateCollinearChromosomes', 'filterable', 'fullChromosomeLabels', 'geometry', 'heatmaps', 'histogramScaling', 'homology', 'legend', 'loading_state', 'organism', 'orientation', 'perspective', 'ploidy', 'ploidyDesc', 'rangeSet', 'resolution', 'rotatable', 'rotated', 'rows', 'sex', 'showAnnotTooltip', 'showBandLabels', 'showChromosomeLabels', 'showFullyBanded', 'showNonNuclearChromosomes', 'style']
-        self._type = 'Ideogram'
-        self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'accessToken', 'ancestors', 'annotationHeight', 'annotationTracks', 'annotations', 'annotationsColor', 'annotationsData', 'annotationsLayout', 'annotationsPath', 'assembly', 'barWidth', 'brush', 'brushData', 'chrHeight', 'chrMargin', 'chrWidth', 'chromosomeScale', 'chromosomes', 'className', 'container', 'dataDir', 'demarcateCollinearChromosomes', 'filterable', 'fullChromosomeLabels', 'geometry', 'heatmaps', 'histogramScaling', 'homology', 'legend', 'loading_state', 'organism', 'orientation', 'perspective', 'ploidy', 'ploidyDesc', 'rangeSet', 'resolution', 'rotatable', 'rotated', 'rows', 'sex', 'showAnnotTooltip', 'showBandLabels', 'showChromosomeLabels', 'showFullyBanded', 'showNonNuclearChromosomes', 'style']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
-        _locals.update(kwargs)  # For wildcard attrs
-        args = {k: _locals[k] for k in _explicit_args if k != 'children'}
+        _locals.update(kwargs)  # For wildcard attrs and excess named props
+        args = {k: _locals[k] for k in _explicit_args}
+
         for k in ['id']:
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
+
         super(Ideogram, self).__init__(**args)

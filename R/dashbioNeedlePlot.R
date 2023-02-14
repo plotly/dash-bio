@@ -1,5 +1,6 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
+#' @export
 dashbioNeedlePlot <- function(id=NULL, clickData=NULL, domainStyle=NULL, height=NULL, loading_state=NULL, margin=NULL, mutationData=NULL, needleStyle=NULL, rangeSlider=NULL, width=NULL, xlabel=NULL, ylabel=NULL) {
     
     props <- list(id=id, clickData=clickData, domainStyle=domainStyle, height=height, loading_state=loading_state, margin=margin, mutationData=mutationData, needleStyle=needleStyle, rangeSlider=rangeSlider, width=width, xlabel=xlabel, ylabel=ylabel)

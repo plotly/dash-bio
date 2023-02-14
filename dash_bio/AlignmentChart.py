@@ -174,20 +174,19 @@ Keyword arguments:
 - width (number | string; optional):
     Width of the Viewer. Property takes precedence over tileswidth and
     numtiles if either of them is set."""
+    _children_props = []
+    _base_nodes = ['children']
+    _namespace = 'dash_bio'
+    _type = 'AlignmentChart'
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, eventDatum=Component.UNDEFINED, data=Component.UNDEFINED, extension=Component.UNDEFINED, colorscale=Component.UNDEFINED, opacity=Component.UNDEFINED, textcolor=Component.UNDEFINED, textsize=Component.UNDEFINED, showlabel=Component.UNDEFINED, showid=Component.UNDEFINED, showconservation=Component.UNDEFINED, conservationcolor=Component.UNDEFINED, conservationcolorscale=Component.UNDEFINED, conservationopacity=Component.UNDEFINED, conservationmethod=Component.UNDEFINED, correctgap=Component.UNDEFINED, showgap=Component.UNDEFINED, gapcolor=Component.UNDEFINED, gapcolorscale=Component.UNDEFINED, gapopacity=Component.UNDEFINED, groupbars=Component.UNDEFINED, showconsensus=Component.UNDEFINED, tilewidth=Component.UNDEFINED, tileheight=Component.UNDEFINED, overview=Component.UNDEFINED, numtiles=Component.UNDEFINED, scrollskip=Component.UNDEFINED, tickstart=Component.UNDEFINED, ticksteps=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, sequenceIds=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'colorscale', 'conservationcolor', 'conservationcolorscale', 'conservationmethod', 'conservationopacity', 'correctgap', 'data', 'eventDatum', 'extension', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'height', 'loading_state', 'numtiles', 'opacity', 'overview', 'scrollskip', 'sequenceIds', 'showconsensus', 'showconservation', 'showgap', 'showid', 'showlabel', 'textcolor', 'textsize', 'tickstart', 'ticksteps', 'tileheight', 'tilewidth', 'width']
-        self._type = 'AlignmentChart'
-        self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'colorscale', 'conservationcolor', 'conservationcolorscale', 'conservationmethod', 'conservationopacity', 'correctgap', 'data', 'eventDatum', 'extension', 'gapcolor', 'gapcolorscale', 'gapopacity', 'groupbars', 'height', 'loading_state', 'numtiles', 'opacity', 'overview', 'scrollskip', 'sequenceIds', 'showconsensus', 'showconservation', 'showgap', 'showid', 'showlabel', 'textcolor', 'textsize', 'tickstart', 'ticksteps', 'tileheight', 'tilewidth', 'width']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
-        _locals.update(kwargs)  # For wildcard attrs
-        args = {k: _locals[k] for k in _explicit_args if k != 'children'}
-        for k in []:
-            if k not in args:
-                raise TypeError(
-                    'Required argument `' + k + '` was not specified.')
+        _locals.update(kwargs)  # For wildcard attrs and excess named props
+        args = {k: _locals[k] for k in _explicit_args}
+
         super(AlignmentChart, self).__init__(**args)

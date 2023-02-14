@@ -1,5 +1,6 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
+#' @export
 dashbioCircos <- function(id=NULL, config=NULL, enableDownloadSVG=NULL, enableZoomPan=NULL, eventDatum=NULL, layout=NULL, loading_state=NULL, selectEvent=NULL, size=NULL, style=NULL, tracks=NULL) {
     
     props <- list(id=id, config=config, enableDownloadSVG=enableDownloadSVG, enableZoomPan=enableZoomPan, eventDatum=eventDatum, layout=layout, loading_state=loading_state, selectEvent=selectEvent, size=size, style=style, tracks=tracks)

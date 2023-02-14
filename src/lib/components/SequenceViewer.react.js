@@ -108,7 +108,7 @@ SequenceViewer.propTypes = {
      * and color is a string that defines the highlight color.
      * Cannot be used at the same time as coverage.
      */
-    selection: function(props, propName, componentName) {
+    selection: function (props, propName, componentName) {
         if (
             props[propName] !== undefined &&
             ((typeof props[propName][0] !== 'undefined' &&

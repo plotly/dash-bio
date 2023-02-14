@@ -152,20 +152,19 @@ Keyword arguments:
         - resi (number; optional):
             The index value used to identify the residue; residues are
             numbered sequentially starting from 1."""
+    _children_props = []
+    _base_nodes = ['children']
+    _namespace = 'dash_bio'
+    _type = 'Molecule3dViewer'
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, selectionType=Component.UNDEFINED, backgroundColor=Component.UNDEFINED, backgroundOpacity=Component.UNDEFINED, styles=Component.UNDEFINED, modelData=Component.UNDEFINED, atomLabelsShown=Component.UNDEFINED, selectedAtomIds=Component.UNDEFINED, labels=Component.UNDEFINED, orbital=Component.UNDEFINED, zoom=Component.UNDEFINED, zoomTo=Component.UNDEFINED, shapes=Component.UNDEFINED, height=Component.UNDEFINED, width=Component.UNDEFINED, style=Component.UNDEFINED, onRenderNewData=Component.UNDEFINED, onChangeSelection=Component.UNDEFINED, loading_state=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'height', 'labels', 'loading_state', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'style', 'styles', 'width', 'zoom', 'zoomTo']
-        self._type = 'Molecule3dViewer'
-        self._namespace = 'dash_bio'
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'atomLabelsShown', 'backgroundColor', 'backgroundOpacity', 'height', 'labels', 'loading_state', 'modelData', 'orbital', 'selectedAtomIds', 'selectionType', 'shapes', 'style', 'styles', 'width', 'zoom', 'zoomTo']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
-        _locals.update(kwargs)  # For wildcard attrs
-        args = {k: _locals[k] for k in _explicit_args if k != 'children'}
-        for k in []:
-            if k not in args:
-                raise TypeError(
-                    'Required argument `' + k + '` was not specified.')
+        _locals.update(kwargs)  # For wildcard attrs and excess named props
+        args = {k: _locals[k] for k in _explicit_args}
+
         super(Molecule3dViewer, self).__init__(**args)

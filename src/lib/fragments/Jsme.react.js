@@ -22,7 +22,7 @@ export default class Jsme extends Component {
             preventWheelAction(this.props.id)
         );
         function preventWheelAction(div_name) {
-            return function(event) {
+            return function (event) {
                 if (
                     !event.target.matches(
                         '#' +
@@ -36,9 +36,9 @@ export default class Jsme extends Component {
             };
         }
 
-        document.addEventListener('mouseup', function() {
+        document.addEventListener('mouseup', function () {
             endMovePopup();
-            setTimeout(function() {
+            setTimeout(function () {
                 const popupWindows = document.getElementsByClassName(
                     'mosaic-Caption dragdrop-handle'
                 );
@@ -57,9 +57,8 @@ export default class Jsme extends Component {
 
         function endMovePopup() {
             document.removeEventListener('mousemove', movePopup);
-            const currentPopupWindow = document.getElementById(
-                'PopupDraggable'
-            );
+            const currentPopupWindow =
+                document.getElementById('PopupDraggable');
             if (currentPopupWindow) {
                 currentPopupWindow.removeAttribute('id');
                 currentPopupWindow.removeAttribute('posX');
@@ -83,9 +82,8 @@ export default class Jsme extends Component {
 
         function movePopup(event) {
             event.preventDefault();
-            const currentPopupWindow = document.getElementById(
-                'PopupDraggable'
-            );
+            const currentPopupWindow =
+                document.getElementById('PopupDraggable');
             if (currentPopupWindow) {
                 currentPopupWindow.style.left =
                     currentPopupWindow.offsetLeft -
@@ -102,15 +100,8 @@ export default class Jsme extends Component {
     }
 
     render() {
-        const {
-            id,
-            style,
-            options,
-            height,
-            width,
-            smiles,
-            loading_state,
-        } = this.props;
+        const {id, style, options, height, width, smiles, loading_state} =
+            this.props;
 
         return (
             <div

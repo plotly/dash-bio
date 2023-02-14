@@ -55,7 +55,7 @@ export default class FornaContainer extends Component {
         if (this._fornaContainer) {
             this._fornaContainer.clearNodes();
 
-            sequences.forEach(seq => {
+            sequences.forEach((seq) => {
                 const unpackedOptions = Object.assign({}, seq.options, {
                     sequence: seq.sequence,
                     structure: seq.structure,
@@ -66,12 +66,8 @@ export default class FornaContainer extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        const {
-            sequences,
-            colorScheme,
-            hoverPattern,
-            loading_state,
-        } = this.props;
+        const {sequences, colorScheme, hoverPattern, loading_state} =
+            this.props;
 
         if (!R.equals(sequences, nextProps.sequences)) {
             return true;

@@ -1,0 +1,40 @@
+/*!
+	     * The buffer module from node.js, for the browser.
+	     *
+	     * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+	     * @license  MIT
+	     */
+
+/*!
+	   * Determine if an object is a Buffer
+	   *
+	   * @author   Feross Aboukhadijeh <https://feross.org>
+	   * @license  MIT
+	   */
+
+/*!
+	 * jQuery JavaScript Library v3.3.1 -ajax,-ajax/jsonp,-ajax/load,-ajax/parseXML,-ajax/script,-ajax/var/location,-ajax/var/nonce,-ajax/var/rquery,-ajax/xhr,-manipulation/_evalUrl,-event/ajax,-effects,-effects/Tween,-effects/animatedSelector
+	 * https://jquery.com/
+	 *
+	 * Includes Sizzle.js
+	 * https://sizzlejs.com/
+	 *
+	 * Copyright JS Foundation and other contributors
+	 * Released under the MIT license
+	 * https://jquery.org/license
+	 *
+	 * Date: 2018-01-20T17:24Z
+	 */
+
+/*!
+	* Sizzle CSS Selector Engine v2.3.3
+	* https://sizzlejs.com/
+	*
+	* Copyright jQuery Foundation and other contributors
+	* Released under the MIT license
+	* http://jquery.org/license
+	*
+	* Date: 2016-08-08
+	*/
+
+/*! https://mths.be/punycode v1.4.1 by @mathias */

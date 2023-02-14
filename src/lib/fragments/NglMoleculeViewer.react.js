@@ -44,14 +44,8 @@ export default class NglMoleculeViewer extends Component {
     }
 
     shouldComponentUpdate(prevProps, nextProps) {
-        const {
-            stageParameters,
-            data,
-            downloadImage,
-            molStyles,
-            height,
-            width,
-        } = this.props;
+        const {stageParameters, data, downloadImage, molStyles, height, width} =
+            this.props;
 
         // check if data has changed
         if (data !== null && prevProps.data !== null) {
@@ -136,7 +130,7 @@ export default class NglMoleculeViewer extends Component {
             downloadImage === undefined ||
             (downloadImage === false && data[0].selectedValue !== 'placeholder')
         ) {
-            stage.eachComponent(function(e) {
+            stage.eachComponent(function (e) {
                 e.removeAllRepresentations();
             });
             this.processDataFromBackend(data, structuresList, sideByside);
@@ -181,7 +175,7 @@ export default class NglMoleculeViewer extends Component {
             args.color = color;
         }
 
-        reprs.forEach(e => {
+        reprs.forEach((e) => {
             let repr = e;
             if (repr === 'axes+box') {
                 // This is not a ngl provided moleculuar representation
@@ -305,7 +299,7 @@ export default class NglMoleculeViewer extends Component {
 
         stage
             .loadFile(stringBlob, {ext: data.ext, defaultRepresentation: false})
-            .then(stageObj => {
+            .then((stageObj) => {
                 stageObj.name = data.filename;
                 this.showStructure(
                     stageObj,
@@ -317,7 +311,7 @@ export default class NglMoleculeViewer extends Component {
                     sideByside
                 );
 
-                this.setState(state => ({
+                this.setState((state) => ({
                     structuresList: state.structuresList.concat([
                         data.filename,
                     ]),
@@ -337,7 +331,7 @@ export default class NglMoleculeViewer extends Component {
                 trim: imageParameters.trim,
                 transparent: imageParameters.transparent,
             })
-            .then(function(blob) {
+            .then(function (blob) {
                 download(blob, imageParameters.defaultFilename + '.png');
             });
     }
