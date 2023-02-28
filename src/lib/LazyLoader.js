@@ -6,6 +6,10 @@ export default {
         ),
     circos: () =>
         import(/* webpackChunkName: "circos" */ './fragments/Circos.react'),
+    fornacontainer: () =>
+        import(
+            /* webpackChunkName: "fornacontainer" */ './fragments/FornaContainer.react'
+        ),
     ideogram: () =>
         import(/* webpackChunkName: "ideogram" */ './fragments/Ideogram.react'),
     igv: () => import(/* webpackChunkName: "igv" */ './fragments/Igv.react'),

@@ -32,6 +32,7 @@ from ._imports_ import __all__  # noqa: E402
 async_resources = [
     'alignment',
     'circos',
+    'fornacontainer',
     'ideogram',
     'igv',
     'pileup',
