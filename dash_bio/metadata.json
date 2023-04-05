@@ -807,15 +807,7 @@
   "src/lib/components/FornaContainer.react.js": {
     "description": "FornaContainer is a force-directed graph that is used to visualize\nthe secondary structure of biomolecules. It is based on the fornac\nlibrary (https://github.com/ViennaRNA/fornac).",
     "displayName": "FornaContainer",
-    "methods": [
-      {
-        "name": "renderNewSequences",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "id": {
         "type": {
