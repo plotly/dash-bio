@@ -10,6 +10,6 @@ numpy>=1.16.5
 pandas>=0.24.2
 plotly>=3.5.0
 PubChemPy==1.0.4
-requests==2.21.0
+requests==2.31.0
 scikit-learn==0.20.2
 scipy>=1.1.0
