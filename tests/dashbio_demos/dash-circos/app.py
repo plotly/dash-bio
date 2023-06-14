@@ -952,7 +952,7 @@ def layout():
                         html.Div([
                             'For a look into Circos and the Circos API, please visit the '
                             'original repository ',
-                            html.A('here', href='https://github.com/nicgirault/circosJS)'),
+                            html.A('here', href='https://github.com/nicgirault/circosJS'),
                             '.'
                         ]),
 
