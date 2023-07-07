@@ -566,7 +566,7 @@ class _ManhattanPlot():
                 chromo = tmp[self.chrName].unique()  # Get chromosome name
 
                 hover_text = _get_hover_text(
-                    data,
+                    tmp,
                     snpname=self.snpName,
                     genename=self.geneName,
                     annotationname=self.annotationName
