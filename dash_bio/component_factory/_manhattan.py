@@ -527,10 +527,10 @@ class _ManhattanPlot():
                     else data[self.pName].values,
                     mode="markers",
                     showlegend=showlegend,
+                    name="chr%i" % data[self.chrName].unique(),
                     marker={
                         'color': col[0],
-                        'size': point_size,
-                        'name': "chr%i" % data[self.chrName].unique()
+                        'size': point_size
                     },
                     text=hover_text
                 )

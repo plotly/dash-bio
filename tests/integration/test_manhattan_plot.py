@@ -176,3 +176,11 @@ def test_dbmp005_highlight_color(dash_duo):
         prop_value_type='string',
         take_snapshot=True
     )
+
+
+def test_single_chromosome_use_case():
+    df = _data.copy()
+    one_chromosome_data = df[df['CHR'] == 1]
+    dash_bio.ManhattanPlot(
+            dataframe=one_chromosome_data
+    )
