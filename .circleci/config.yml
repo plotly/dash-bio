@@ -81,7 +81,7 @@ jobs:
                       cd ../../
                       npm run test
 
-    python-3.6: &test-template
+    python-36: &test-template
         resource_class: medium+
         docker:
             - image: circleci/python:3.6.9-stretch-node-browsers
@@ -157,7 +157,7 @@ jobs:
                       . venv/bin/activate
                       pytest tests/unit
 
-    python-3.8:
+    python-38:
         <<: *test-template
         resource_class: medium+
         docker:
@@ -174,9 +174,9 @@ workflows:
     version: 2
     build:
         jobs:
-            - python-3.6
-            - python-3.8
+            - python-36
+            - python-38
             - node
             - percy-finalize:
                   requires:
-                      - python-3.8
+                      - python-38
