@@ -10,7 +10,7 @@ flake8==3.9.2
 GEOparse>=1.1.0
 gunicorn==19.9.0
 jsonschema==2.6.0
-matplotlib==3.0.2
+matplotlib==3.7.4
 numpy
 pandas>=0.24.2
 parmed<=3.4.3
@@ -19,6 +19,6 @@ plotly>=4.1.0
 PubChemPy==1.0.4
 pylint==2.10.2
 requests==2.21.0
-scikit-learn==0.23.2
+scikit-learn==1.3.2
 scipy>=1.1.0
 six
