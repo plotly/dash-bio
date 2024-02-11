@@ -33,7 +33,7 @@
     "igv": "2.6.8",
     "jsme-react": "git+https://github.com/nickmelnikov82/jsme-react.git#51d3c66279848eec049e0e52f6222381c3456007",
     "molecule-2d-for-react": "git+https://github.com/plotly/molecule-2d-for-react.git#07f73c63e7c89309ea8accd18b6f1c1df0d72705",
-    "molecule-3d-for-react": "git+https://github.com/plotly/molecule-3d-for-react.git#cf0d6e3f8b71d9938433b5b96c7a2d13463a8558",
+    "molecule-3d-for-react": "git+https://github.com/plotly/molecule-3d-for-react.git#5401501cd2e92e4c79beacafd1bdcf059ea6ecd0",
     "ngl": "^0.10.4",
     "pileup": "0.7.0",
     "plotly.js": "^1.52.2",
