@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 jobs:
     percy-finalize:
@@ -13,7 +13,7 @@ jobs:
     node:
         resource_class: medium+
         docker:
-            - image: circleci/python:3.7.5-stretch-node
+            - image: cimg/python:3.8.18-node
               auth:
                   username: dashautomation
                   password: $DASH_PAT_DOCKERHUB
@@ -157,16 +157,16 @@ jobs:
                       . venv/bin/activate
                       pytest tests/unit
 
-    python-3.7:
+    python-3.8:
         <<: *test-template
         resource_class: medium+
         docker:
-            - image: circleci/python:3.7.5-stretch-node-browsers
+            - image: cimg/python:3.8.18-node-browsers
               auth:
                   username: dashautomation
                   password: $DASH_PAT_DOCKERHUB
         environment:
-            PYTHON_VERSION: py37
+            PYTHON_VERSION: py38
             PERCY_ENABLE: 1
             PERCY_PARALLEL_TOTAL: -1
 
@@ -175,8 +175,8 @@ workflows:
     build:
         jobs:
             - python-3.6
-            - python-3.7
+            - python-3.8
             - node
             - percy-finalize:
                   requires:
-                      - python-3.7
+                      - python-3.8
