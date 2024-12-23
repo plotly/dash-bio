@@ -345,7 +345,7 @@ Methods:
             self._display_ratio = [display_ratio, display_ratio]
         if self._cluster == "row":
             self._display_ratio = [self._display_ratio[0], 0]
-        elif self._cluster == "col":
+        elif self._cluster in ["col", "column"]:
             self._display_ratio = [0, self._display_ratio[1]]
         elif self._cluster is None:
             self._display_ratio = [0, 0]
