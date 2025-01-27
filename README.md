@@ -55,7 +55,7 @@ The Dash Bio components each fall into one of three categories:
 ## Using Dash Bio
 
 It's easy to add a fully interactive chromosomal, molecular or genomic visualization to your Dash app by simply
-including the Dash Bio component into your app layout as follows:
+including the Dash Bio component into your app layout as follows:/
 
 ```python
 import urllib.request as urlreq
