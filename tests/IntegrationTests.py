@@ -77,7 +77,7 @@ class IntegrationTests(unittest.TestCase):
         def run():
             app.scripts.config.serve_locally = True
             app.css.config.serve_locally = True
-            app.run_server(
+            app.run(
                 port=8050,
                 debug=False,
                 processes=processes
@@ -93,7 +93,7 @@ class IntegrationTests(unittest.TestCase):
                 stopper()
                 return 'stop'
 
-            app.run_server(
+            app.run(
                 port=8050,
                 debug=False,
                 threaded=True
