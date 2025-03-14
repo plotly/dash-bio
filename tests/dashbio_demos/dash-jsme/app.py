@@ -151,4 +151,4 @@ app = run_standalone_app(layout, callbacks, header_colors, __file__)
 server = app.server
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8051)
+    app.run(debug=True, port=8051)

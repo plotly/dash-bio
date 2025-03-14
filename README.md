@@ -75,7 +75,7 @@ app.layout = html.Div([
 ])
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
 ```
 
 See the [Dash Bio documentation](https://dash.plotly.com/dash-bio) for more components and examples.
