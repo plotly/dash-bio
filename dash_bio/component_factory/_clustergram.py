@@ -558,11 +558,11 @@ Methods:
             col_dendro_traces_max_y = np.concatenate(col_dendro_traces_y).max()
 
         # ensure that everything is aligned properly
-        # with the heatmap
+        # with the heatmap and dendrograms zoom synchronously
         yaxis9 = fig["layout"]["yaxis9"]  # pylint: disable=invalid-sequence-index
-        yaxis9.update(scaleanchor="y11")
+        yaxis9.update(scaleanchor="y11", matches="y11")
         xaxis3 = fig["layout"]["xaxis3"]  # pylint: disable=invalid-sequence-index
-        xaxis3.update(scaleanchor="x11")
+        xaxis3.update(scaleanchor="x11", matches="x11")
 
         if len(tickvals_col) == 0:
             tickvals_col = [10 * i + 5 for i in range(len(self._column_ids))]
