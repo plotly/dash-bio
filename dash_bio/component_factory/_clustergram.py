@@ -560,9 +560,9 @@ Methods:
         # ensure that everything is aligned properly
         # with the heatmap and dendrograms zoom synchronously
         yaxis9 = fig["layout"]["yaxis9"]  # pylint: disable=invalid-sequence-index
-        yaxis9.update(scaleanchor="y11", matches="y11")
+        yaxis9.update(matches="y11")
         xaxis3 = fig["layout"]["xaxis3"]  # pylint: disable=invalid-sequence-index
-        xaxis3.update(scaleanchor="x11", matches="x11")
+        xaxis3.update(matches="x11")
 
         if len(tickvals_col) == 0:
             tickvals_col = [10 * i + 5 for i in range(len(self._column_ids))]
@@ -592,10 +592,7 @@ Methods:
             tickfont=self._tick_font,
             showticklabels=True,
             side="right",
-            showline=False,
-            ticks="",
-            showgrid=False,
-            fixedrange=False
+            showline=False
         )
 
         # hide labels, if necessary
@@ -723,31 +720,15 @@ Methods:
             fig["layout"]["yaxis10"].update(
                 matches="y11",
                 range=[min(tickvals_row), max(tickvals_row)],
-                showticklabels=False,
-                ticks="",
-                showgrid=False,
                 tickmode="array",
                 tickvals=[],
                 ticktext=[]
             )
-        # Similar setup for column colors: (xaxis7 and xaxis6) match main heatmap x-axis (xaxis11)
+        # Similar setup for column colors: xaxis7 matches main heatmap x-axis (xaxis11)
         if len(tickvals_col) > 0:
             fig["layout"]["xaxis7"].update(
                 matches="x11",
                 range=[min(tickvals_col), max(tickvals_col)],
-                showticklabels=False,
-                ticks="",
-                showgrid=False,
-                tickmode="array",
-                tickvals=[],
-                ticktext=[]
-            )
-            fig["layout"]["xaxis6"].update(
-                matches="x11",
-                range=[min(tickvals_col), max(tickvals_col)],
-                showticklabels=False,
-                ticks="",
-                showgrid=False,
                 tickmode="array",
                 tickvals=[],
                 ticktext=[]
