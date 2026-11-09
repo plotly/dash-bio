@@ -8,6 +8,13 @@ import plotly.graph_objects as go
 
 from .utils import _get_hover_text
 
+# Canonical chromosome sort order for string chromosome columns.
+# Chromosomes not in this list are sorted lexicographically after the known ones.
+_CHR_SORT_ORDER = (
+    [str(i) for i in range(1, 23)]
+    + ["X", "Y", "MT", "M"]
+)
+
 SUGGESTIVE_LINE_LABEL = "suggestive line"
 GENOMEWIDE_LINE_LABEL = "genomewide line"
 
@@ -46,9 +53,11 @@ Keyword arguments:
             - genomic base-pair position
             - a numeric quantity to plot such as a p-value or zscore
 - chrm (string; default 'CHR'): A string denoting the column name for
-    the chromosome. This column must be float or integer. Minimum
-    number of chromosomes required is 1. If you have X, Y, or MT
-    chromosomes, be sure to renumber these 23, 24, 25, etc.
+    the chromosome. This column may be numeric or string. Minimum
+    number of chromosomes required is 1. String columns (e.g. '1',
+    '2', 'X', 'Y', 'MT') are supported and sorted in standard genomic
+    order (1-22, X, Y, MT) with any remaining labels sorted
+    lexicographically.
 - bp (string; default 'BP'): A string denoting the column name for the
     chromosomal position.
 - p (string; default 'P'): A string denoting the column name for the
@@ -175,9 +184,9 @@ class _ManhattanPlot():
             - genomic base-pair position
             - a numeric quantity to plot such as a p-value or zscore
         - chrm (string; default 'CHR'): A string denoting the column name for the
-        chromosome.  This column must be float or integer.  Minimum number
-        of chromosomes required is 1. If you have X, Y, or MT chromosomes,
-        be sure to renumber these 23, 24, 25, etc.
+        chromosome. This column may be numeric or string. String chromosome
+        labels (e.g. '1', 'X', 'Y', 'MT') are sorted in standard genomic order
+        (1-22, X, Y, MT). Minimum number of chromosomes required is 1.
         - bp (string; default 'BP'): A string denoting the column name for the
         chromosomal position.
         - p (string; default 'P'): A string denoting the column name for the
@@ -216,11 +225,7 @@ class _ManhattanPlot():
         # numeric type
         if chrm not in x.columns.values:
             raise KeyError("Column %s not found in 'x' data.frame" % chrm)
-        else:
-            if not is_numeric_dtype(x[chrm].dtype):
-                raise TypeError("%s column should be numeric. Do you have "
-                                "'X', 'Y', 'MT', etc? If so change to "
-                                "numbers and try again." % chrm)
+        # chrm column may be numeric or string; both are supported.
 
         if bp not in x.columns.values:
             raise KeyError("Column %s not found in 'x' data.frame" % bp)
@@ -287,15 +292,26 @@ class _ManhattanPlot():
         self.index = 'INDEX'
         self.pos = 'POSITION'
 
+        # Build a canonical ordering for the chromosome values so that
+        # string chromosomes (e.g. '1', '2', 'X', 'Y', 'MT') are sorted
+        # in standard genomic order rather than lexicographically.
+        def _chr_sort_key(c):
+            s = str(c)
+            try:
+                return (_CHR_SORT_ORDER.index(s), s)
+            except ValueError:
+                return (len(_CHR_SORT_ORDER), s)
+
+        # unique chromosomes in sorted order
+        sorted_chrs = sorted(self.data[chrm].unique(), key=_chr_sort_key)
+
         # Fixes the bug where one chromosome is missing by adding a sequential
         # index column.
-        idx = 0
-        for i in self.data[chrm].unique():
-            idx = idx + 1
-            self.data.loc[self.data[chrm] == i, self.index] = int(idx)
-        # Set the type to be the same as provided for chrm column
-        self.data[self.index] = \
-            self.data[self.index].astype(self.data[chrm].dtype)
+        for idx, chrom_val in enumerate(sorted_chrs, start=1):
+            self.data.loc[self.data[chrm] == chrom_val, self.index] = int(idx)
+        # Always keep INDEX as integer regardless of the chrm column dtype so
+        # that positional arithmetic below is well-defined for string chrm columns.
+        self.data[self.index] = self.data[self.index].astype(int)
 
         # This section sets up positions and ticks. Ticks should be placed in
         # the middle of a chromosome. The new pos column is added that keeps
@@ -339,14 +355,17 @@ class _ManhattanPlot():
             self.data[self.pos] = self.data[self.pos].astype(
                 self.data[bp].dtype)
 
+            # Build tick labels using sorted chromosome order so that labels
+            # align with the ticks produced above. For crowded plots (>10 chrs)
+            # suppress every other label; this works for both numeric and string
+            # chromosome identifiers.
             if self.nChr > 10:  # To avoid crowded labels
                 self.ticksLabels = [
-                    t if np.mod(int(t), 2)  # Only every two ticks
-                    else ''
-                    for t in self.data[chrm].unique()
+                    chrom_val if idx % 2 != 0 else ''
+                    for idx, chrom_val in enumerate(sorted_chrs, start=1)
                 ]
             else:
-                self.ticksLabels = self.data[chrm].unique()  # All the ticks
+                self.ticksLabels = sorted_chrs  # All the ticks
 
     def figure(
             self,
@@ -527,7 +546,7 @@ class _ManhattanPlot():
                     else data[self.pName].values,
                     mode="markers",
                     showlegend=showlegend,
-                    name="chr%i" % data[self.chrName].unique(),
+                    name="chr%s" % data[self.chrName].unique()[0],
                     marker={
                         'color': col[0],
                         'size': point_size
@@ -564,6 +583,7 @@ class _ManhattanPlot():
                 tmp = data[data[self.index] == i]
 
                 chromo = tmp[self.chrName].unique()  # Get chromosome name
+                chromo_label = chromo[0]  # scalar for trace name
 
                 hover_text = _get_hover_text(
                     tmp,
@@ -579,7 +599,7 @@ class _ManhattanPlot():
                         else tmp[self.pName].values,
                         mode="markers",
                         showlegend=showlegend,
-                        name="Chr%i" % chromo,
+                        name="Chr%s" % chromo_label,
                         marker={
                             'color': col[icol],
                             'size': point_size
