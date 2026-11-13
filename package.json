@@ -43,7 +43,6 @@
     "react-dom": "16.13.0",
     "react-oncoprint": "^1.2.3",
     "react-plotly.js": "^2.4.0",
-    "react-sequence-viewer": "git+https://github.com/plotly/react-sequence-viewer.git",
     "speck": "git+https://github.com/plotly/speck.git#1e4e11f59b831f295a2187637cdbb1aa1172eaae"
   },
   "devDependencies": {

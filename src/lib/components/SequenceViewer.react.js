@@ -13,9 +13,7 @@ const RealSequenceViewer = lazy(LazyLoader.sequenceViewer);
  * search through the sequence for specific regex, capture
  * mouse selection events of subparts of the sequence, display a
  * count of the number of nucleotides or amino acids in the
- * sequence,
- * Read more about the component here:
- * https://github.com/FlyBase/react-sequence-viewer
+ * sequence.
  */
 export default class SequenceViewer extends Component {
     render() {
