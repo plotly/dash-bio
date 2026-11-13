@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+- [#781](https://github.com/plotly/dash-bio/pull/781) Fixed Clustergram zoom and pan, with thanks to @JTL-lab for the contribution!
+  - The heatmap, dendrograms, and `row_colors` and `column_colors` tracks now move together
+
+### Changed
+- [#783](https://github.com/plotly/dash-bio/issues/783) `SequenceViewer` now renders with its own React code
+  - The GPL-licensed `sequence-viewer` library and the archived `react-sequence-viewer` wrapper are no longer dependencies
+
 ## [1.0.2] - 2022-03-18
 
 ### Fixed
